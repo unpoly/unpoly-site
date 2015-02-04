@@ -4,31 +4,36 @@
   <%= markdown(klass.guide_markdown) %>
 </div>
 
-<div class="api">
 
-  <div class="api__title">Unobtrusive selectors</div>
-
-  <div class="api__symbols">
-
-    <% klass.ujs_functions.each do |function| %>
-      <%= partial "symbol", locals: { symbol: function } %>
-    <% end %>
-
+<% if klass.ujs_functions.present? %>
+  <div class="api">
+  
+    <div class="api__title">Unobtrusive selectors</div>
+  
+    <div class="api__symbols">
+  
+      <% klass.ujs_functions.each do |function| %>
+        <%= partial "symbol", locals: { symbol: function } %>
+      <% end %>
+  
+    </div>
+  
   </div>
+<% end %>
 
-</div>
-
-<div class="api">
-
-  <div class="api__title">Javascript methods</div>
-
-  <div class="api__symbols">
-
-    <% klass.js_functions.each do |function| %>
-      <%= partial "symbol", locals: { symbol: function } %>
-    <% end %>
-
+<% if klass.js_functions.present? %>
+  <div class="api">
+  
+    <div class="api__title">Javascript methods</div>
+  
+    <div class="api__symbols">
+  
+      <% klass.js_functions.each do |function| %>
+        <%= partial "symbol", locals: { symbol: function } %>
+      <% end %>
+  
+    </div>
+  
   </div>
-
-</div>
+<% end %>
 

@@ -39,6 +39,20 @@ module Upjs
         [\ \t]*  # whitespace
       }x
 
+      RESPONSE_PATTERN = %r{
+        (^[ \t]*)      # first line indent ($1)
+        \@return       # @return
+        (              # response spec ($2)
+          .+$          # .. remainder of first line
+          (?:          # .. subsequent lines that are indented further than the first line
+            \n
+            \1[\ \t]+
+            .*
+            $
+          )*
+        )
+      }x
+
       PARAM_PATTERN = %r{
         (^[ \t]*)      # first line indent ($1)
         \@param        # @param
@@ -124,6 +138,9 @@ module Upjs
           while param = parse_param!(block)
             function.params << param
           end
+          if response = parse_response!(block)
+            function.response = response
+          end
           # while example = parse_example(block)
           #   function.examples << example
           # end
@@ -160,12 +177,20 @@ module Upjs
             param.default = name_props[:default] if name_props.has_key?(:default)
           end
 
-          if param.name.include?('options.history')
-            log("remaining spec", param_spec, unindent_hanging(param_spec))
-          end
-
           param.guide_markdown = unindent_hanging(param_spec)
           param
+        end
+      end
+
+      def parse_response!(block)
+        if block.sub!(RESPONSE_PATTERN, '')
+          response_spec = unindent($2)
+          response = Response.new
+          if types = parse_types!(response_spec)
+            response.types = types
+          end
+          response.guide_markdown = unindent_hanging(response_spec)
+          response
         end
       end
 
