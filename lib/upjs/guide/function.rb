@@ -26,9 +26,24 @@ module Upjs
         signature = ""
         signature << name
         signature << '('
-        signature << params.collect { |param|
-          param.optional? ? "[#{param.name}]" : param.name
-        }.join(", ")
+
+        option_params = params.select(&:option?)
+
+        compressed_params = params.collect { |param|
+          if param.option?
+            if option_params.all?(&:optional?)
+              '[options]'
+            else
+              'options'
+            end
+          elsif param.optional?
+            "[xx#{param.name}xx]"
+          else
+            param.name
+          end
+        }.uniq
+
+        signature << compressed_params.join(', ')
         signature << ')'
         signature
       end

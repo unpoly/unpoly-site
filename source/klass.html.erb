@@ -11,22 +11,7 @@
   <div class="api__symbols">
 
     <% klass.ujs_functions.each do |function| %>
-
-      <div class="symbol">
-
-        <div class="symbol__signature">
-          <%=h function.name %>
-          <%=h function.params.inspect %>
-        </div>
-
-        <div class="symbol__prose">
-          <div class="article">
-            <%= markdown(function.guide_markdown) %>
-          </div>
-        </div>
-
-      </div>
-
+      <%= partial "symbol", locals: { symbol: function } %>
     <% end %>
 
   </div>
@@ -40,21 +25,7 @@
   <div class="api__symbols">
 
     <% klass.js_functions.each do |function| %>
-
-      <div class="symbol">
-
-        <div class="symbol__signature">
-          <%=h function.signature %>
-        </div>
-
-        <div class="symbol__prose">
-          <div class="article">
-            <%= markdown(function.guide_markdown) %>
-          </div>
-        </div>
-
-      </div>
-
+      <%= partial "symbol", locals: { symbol: function } %>
     <% end %>
 
   </div>

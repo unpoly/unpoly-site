@@ -1,0 +1,37 @@
+<div class="symbol">
+
+  <div class="symbol__signature">
+    <%=h symbol.signature %>
+    <% if symbol.visibility.present? && symbol.visibility != 'public' %>
+      <span class="symbol__tag">
+        <%= symbol.visibility %>
+      </span>
+    <% end %>
+  </div>
+
+  <div class="symbol__prose">
+    <div class="article">
+      <%= markdown(symbol.guide_markdown) %>
+    </div>
+  </div>
+
+  <% symbol.params.each do |param| %>
+    <div class="symbol__param">
+      <div class="symbol__param_name">
+        <%= param.name %>
+        <span class="symbol__type">
+          <%= param.types.join(" or ") %>
+        </span>
+        <% if param.optional? %>
+          <span class="symbol__tag">
+            optional
+          </span>
+        <% end %>
+      </div>
+      <div class="symbol__param_prose">
+        <%= markdown(param.guide_markdown) %>
+      </div>
+    </div>
+  <% end %>
+
+</div>

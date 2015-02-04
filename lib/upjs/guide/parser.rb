@@ -43,28 +43,32 @@ module Upjs
         (^[ \t]*)      # first line indent ($1)
         \@param        # @param
         (              # param spec ($2)
-          .+\n         # .. remainder of first line
+          .+$          # .. remainder of first line
           (?:          # .. subsequent lines that are indented further than the first line
+            \n
             \1[\ \t]+
-            .*$
+            .*
+            $
           )*
         )
       }x
 
       PARAM_NAME_PATTERN = %r{
-        ([^\ \t]+)      # required param name ($1)
-        |
         (?:
-          \[
-            ([^\ \t]+)  # optional param name ($2)
-            (?:
-              [\ \t]*   # .. whitespace around equals symbol
-              \=        # .. equals symbol
-              [\ \t]*   # .. whitespace around equals symbol
-              (.*?)     # .. default value ($3)
-            )?
-          \]
+          \[           # opening bracket
+          [\ \t]*      # whitespace
+          ([^\ \t\=]+?)  # optional param name ($1)
+          (?:
+            [\ \t]*    # .. whitespace before equals symbol
+            \=         # .. equals symbol
+            [\ \t]*    # .. whitespace after equals symbol
+            (.+?)      # .. default value ($2)
+          )?
+          [\ \t]*      # whitespace
+          \]           # closing bracket
         )
+        |
+        ([^\ \t]+)      # required param name ($3)
       }x
 
       UJS_PATTERN = %r{
@@ -86,21 +90,16 @@ module Upjs
       end
 
       def parse(path)
-        log("Block pattern", BLOCK_PATTERN)
-        log("try", "###*\nfoo\n###\n".match(BLOCK_PATTERN))
         code = File.read(path)
         blocks = find_blocks(code)
-        log("Found blocks", blocks)
         blocks.each do |block|
-          puts block
           parse_klass!(block) || parse_function!(block)
         end
       end
 
       def parse_klass!(block)
-        log("Trying to parse klass", block)
         if block.sub!(KLASS_PATTERN, '')
-          klass_name = $1
+          klass_name = $1.strip
           log("Parsed klass name", klass_name)
           klass = Klass.new(klass_name)
           if visibility = parse_visibility!(block)
@@ -158,6 +157,11 @@ module Upjs
             param.optional = name_props[:optional] if name_props.has_key?(:optional)
             param.default = name_props[:default] if name_props.has_key?(:default)
           end
+
+          if param.name.include?('options.history')
+            log("remaining spec", param_spec, unindent_hanging(param_spec))
+          end
+
           param.guide_markdown = unindent_hanging(param_spec)
           param
         end
@@ -168,9 +172,13 @@ module Upjs
       # that we parse all three with a single function.
       def parse_param_name_and_optionality!(param_spec)
         if param_spec.sub!(PARAM_NAME_PATTERN, '')
-          required_param_name = $1
-          optional_param_name = $2
+          optional_param_name = $1
           default_value = $2
+          required_param_name = $3
+
+          # raise "WTF" if optional_param_name && optional_param_name.include?('=')
+          # log("param name", optional_param_name, default_value, required_param_name)
+
           if required_param_name
             { name: required_param_name,
               optional: false }
@@ -199,10 +207,10 @@ module Upjs
 
       def find_blocks(code)
         code.scan(BLOCK_PATTERN).collect do |match|
-          log("match", match[0])
           unindent(match[0])
         end
       end
+      
 
       # Takes a multi-line string (or an Array of single lines)
       # and unindents all lines by the first line's indent.
@@ -212,7 +220,7 @@ module Upjs
         if lines.size > 0
           first_indent = lines.first.match(/^[ \t]*/)[0]
           lines.collect { |line|
-            line.gsub(/^[ \t]{0, #{first_indent.size}}/, '')
+            line.gsub(/^[\ \t]{0,#{first_indent.size}}/, '')
           }.join("\n")
         else
           ''
@@ -225,8 +233,6 @@ module Upjs
         first_line, other_lines = first_and_other_lines(block)
         first_line.sub!(/^[\ \t]+/, '')
         unindented_other_lines = unindent(other_lines)
-        log("first_line", first_line)
-        log("other_lines", other_lines)
         [first_line, unindented_other_lines].join("\n")
       end
 

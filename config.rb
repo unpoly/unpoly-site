@@ -59,7 +59,13 @@ helpers do
   end
 
   def markdown(text)
-    doc = Kramdown::Document.new(text, input: 'GFM', remove_span_html_tags: true, enable_coderay: false)
+    doc = Kramdown::Document.new(text,
+      input: 'GFM',
+      remove_span_html_tags: true,
+      enable_coderay: false,
+      smart_quotes: ["apos", "apos", "quot", "quot"],
+      hard_wrap: false
+    )
     # Blindly remove any HTML tag from the document, including "span" elements
     # (see option above). This will NOT remove HTML tags from code examples.
     doc.to_remove_html_tags
