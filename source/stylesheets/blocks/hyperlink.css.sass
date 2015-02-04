@@ -1,0 +1,42 @@
+@import environment
+
+.hyperlink
+
+  =tint_hyperlink($color)
+    color: $color
+    border-bottom: 0.1em solid transparentize($color, 0.7)
+
+  $margin: 0.05em
+  +horizontal_margin($margin)
+  +tint_hyperlink($COLOR_BELIZE_HOLE)
+//  +tint_hyperlink($COLOR_ALIZARIN)
+
+  +hover
+    text-shadow: none
+    background-color: #fe9
+    +tint_hyperlink($COLOR_ALIZARIN)
+
+  //&.is_blue
+  //  +tint_hyperlink($COLOR_PETER_RIVER)
+  //
+  //
+  &.is_white
+    +tint_hyperlink(#eee)
+    +hover
+      background-color: transparent
+      +tint_hyperlink($COLOR_SUN_FLOWER)
+  //
+  //&.is_gray
+  //  +tint_hyperlink(#aaa)
+  //  +hover
+  //    background-color: transparent
+  //    +tint_hyperlink($COLOR_SUN_FLOWER)
+  //
+  //&.is_light_gray
+  //  +tint_hyperlink(#ccc)
+  //  +hover
+  //    background-color: transparent
+  //    +tint_hyperlink($COLOR_SUN_FLOWER)
+  //
+  //&.has_no_decoration
+  //  border-bottom: none

@@ -1,0 +1,78 @@
+
+=hover
+  &:hover, &:focus
+    @content
+
+=vertical_margin($margin)
+  margin-top: $margin
+  margin-bottom: $margin
+
+=horizontal_margin($margin)
+  margin-left: $margin
+  margin-right: $margin
+
+=horizontal_padding($amount)
+  padding-left: $amount
+  padding-right: $amount
+
+=vertical_padding($amount)
+  padding-top: $amount
+  padding-bottom: $amount
+
+=truncate_text
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+=box_sizing($sizing)
+  box-sizing: $sizing
+  -moz-box-sizing: $sizing
+  -webkit-box-sizing: $sizing
+
+=border_box
+  +box_sizing(border-box)
+
+=clear_after
+  &:before, &:after
+    content: ""
+    display: table
+  &:after
+    clear: both
+  zoom: 1
+
+=gradient($first, $second)
+  background: $first * 0.5 + $second * 0.5
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$first}', endColorstr='#{$second}')
+  background: -webkit-gradient(linear, left top, left bottom, from(#{$first}), to(#{$second}))
+  background: -moz-linear-gradient(top, #{$first}, #{$second})
+
+=no_gradient
+  background: none
+  filter: none
+
+=shiny_gradient($color, $diff)
+  +gradient($color + $diff, $color - $diff)
+
+
+=opacity($opacity)
+  filter: "alpha(opacity=#{$opacity * 100})"
+  -moz-opacity: $opacity
+  -khtml-opacity: $opacity
+  opacity: $opacity
+
+=font_size($size, $line_height_padding: 2px)
+  font-size: $size
+  line-height: $size + (2 * $line_height_padding)
+
+=steal_horizontal_space($amount)
+  +horizontal_margin(-$amount)
+  +horizontal_padding($amount)
+
+=wider_than($width)
+  @media (min-width: $width)
+    @content
+
+=tighter_than($width)
+  @media (max-width: $width - 1)
+    @content
+
