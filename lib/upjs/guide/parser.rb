@@ -154,7 +154,7 @@ module Upjs
           param = Param.new
           param.types = parse_types!(param_spec)
           if name_props = parse_param_name_and_optionality!(param_spec)
-            param.name = name_props[:name]
+            param.name = name_props[:name].strip
             param.optional = name_props[:optional] if name_props.has_key?(:optional)
             param.default = name_props[:default] if name_props.has_key?(:default)
           end

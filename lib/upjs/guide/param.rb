@@ -15,6 +15,8 @@ module Upjs
       attr_accessor :types
       attr_accessor :guide_markdown
 
+      alias_method :optional?, :optional
+
     end
   end
 end

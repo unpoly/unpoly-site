@@ -22,6 +22,17 @@ module Upjs
       attr_accessor :params
       attr_accessor :ujs
 
+      def signature
+        signature = ""
+        signature << name
+        signature << '('
+        signature << params.collect { |param|
+          param.optional? ? "[#{param.name}]" : param.name
+        }.join(", ")
+        signature << ')'
+        signature
+      end
+
       def ujs?
         @ujs
       end

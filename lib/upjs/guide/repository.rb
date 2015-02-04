@@ -11,9 +11,14 @@ module Upjs
       def reload
         @klasses = []
         parse
+        self
       end
 
       attr_reader :klasses
+
+      def klass_for_name(name)
+        klasses.detect { |klass| klass.name == name } or raise "No such Klass: #{name}"
+      end
 
       def source_paths
         log("Input pattern", File.join(@input_path, "**/*.coffee"))

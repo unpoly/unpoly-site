@@ -1,5 +1,63 @@
-<div class="article">
+<% klass = guide.reload.klass_for_name(klass_name) %>
 
+<div class="article">
   <%= markdown(klass.guide_markdown) %>
+</div>
+
+<div class="api">
+
+  <div class="api__title">Unobtrusive selectors</div>
+
+  <div class="api__symbols">
+
+    <% klass.ujs_functions.each do |function| %>
+
+      <div class="symbol">
+
+        <div class="symbol__signature">
+          <%=h function.name %>
+          <%=h function.params.inspect %>
+        </div>
+
+        <div class="symbol__prose">
+          <div class="article">
+            <%= markdown(function.guide_markdown) %>
+          </div>
+        </div>
+
+      </div>
+
+    <% end %>
+
+  </div>
 
 </div>
+
+<div class="api">
+
+  <div class="api__title">Javascript methods</div>
+
+  <div class="api__symbols">
+
+    <% klass.js_functions.each do |function| %>
+
+      <div class="symbol">
+
+        <div class="symbol__signature">
+          <%=h function.signature %>
+        </div>
+
+        <div class="symbol__prose">
+          <div class="article">
+            <%= markdown(function.guide_markdown) %>
+          </div>
+        </div>
+
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>
+

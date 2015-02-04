@@ -31,7 +31,7 @@ require 'lib/upjs/guide'
 Upjs::Guide.current.klasses.each do |klass|
   path = "/#{klass.guide_filename('.html')}"
   puts "Proxy: #{path}"
-  proxy path, "/klass.html", locals: { klass: klass }, ignore: true
+  proxy path, "/klass.html", locals: { klass_name: klass.name }, ignore: true
 end
 
 # proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
