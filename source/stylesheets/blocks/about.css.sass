@@ -5,17 +5,14 @@ $breakpoint_minimal_info: 300px
 
 .about
 
-  padding: 15px 0 15px 0
-  color: white
-  $color: (desaturate($COLOR_MIDNIGHT_BLUE, 10%))
-  +background(linear-gradient($color - 30, $color))
-  text-shadow: 0 1px 0 rgba(0,0,0,0.6)
-  +box-shadow(inset 0 10px 10px rgba(0,0,0,0.3))
-  //border-top: 10px solid (desaturate($COLOR_WISTERIA, 30%) - 40)
+  padding: 25px 0 25px 0
+  //text-shadow: 0 1px 0 rgba(0,0,0,0.6)
   +font_size(26px)
-  font-weight: 700
+  font-weight: 400
   text-transform: uppercase
-
+  border-bottom: 1px dashed #ddd
+  border-top: 7px solid $COLOR_PETER_RIVER
+  
 
 //.about__welcome
 //  text-transform: uppercase
@@ -25,16 +22,20 @@ $breakpoint_minimal_info: 300px
 //  font-weight: 700
 //  +tighter_than($breakpoint_minimal_info)
 //    display: none    text-transform: uppercase
-
 //
 
+.about__logo
+  width: 48px
+  height: 48px
+  
+
 .about__product
-  color: #eee
+  color: $COLOR_PETER_RIVER
   display: inline
   margin-right: 10px
 
 .about__claim
-  color: #aaa
+  color: #bbb
   display: inline
   //+tighter_than($breakpoint_minimal_info)
   //  display: none

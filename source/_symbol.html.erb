@@ -18,9 +18,9 @@
   <% symbol.params.each do |param| %>
     <div class="symbol__param">
       <div class="symbol__param_name">
-        <%= param.name %>
+        <%= param.optional? ? "[#{param.name}]" : param.name %><span class="symbol__or">:</span>
         <span class="symbol__type">
-          <%= param.types.join(" or ") %>
+          <%= param.types.join(' <span class="symbol__or">or</span> ') %>
         </span>
         <% if param.optional? %>
           <span class="symbol__tag">

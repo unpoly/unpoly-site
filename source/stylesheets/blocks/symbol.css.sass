@@ -1,14 +1,10 @@
 @import environment
 
 .symbol
-  padding-bottom: $BLOCK_SPACING
-  margin-bottom: $BLOCK_SPACING
-  border-bottom: 4px solid #aaa
+  margin-bottom: 30px
 
   &:last-child
     margin-bottom: 0
-    padding-bottom: 0
-    border-bottom: none
 
 .symbol__signature
   font-family: 'Ubuntu Mono'
@@ -17,8 +13,7 @@
   color: $COLOR_BELIZE_HOLE
 
 .symbol__param
-  margin-top: 10px
-
+  margin-top: 14px
 
 .symbol__param_name
   font-family: 'Ubuntu Mono'
@@ -31,7 +26,16 @@
   font-size: 20px
   font-weight: bold
   color: #999
+  
+.symbol__param_prose
+  margin-top: 4px
+  margin-left: 20px
+  
 
+.symbol__or
+  color: #b2b2b2
+  font-weight: normal
+  
 .symbol__tag
   display: inline-block
   background-color: rgba(0,0,0,0.2)
