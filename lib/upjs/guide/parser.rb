@@ -52,11 +52,15 @@ module Upjs
         (^[ \t]*)      # first line indent ($1)
         \@return       # @return
         (              # response spec ($2)
-          .+$          # .. remainder of first line
-          (?:          # .. subsequent lines that are indented further than the first line
+          .*$          # .. remainder of first line
+          (?:
             \n
-            \1[\ \t]+
-            .*
+            (?:
+              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
+              .*
+              |
+              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
+            )
             $
           )*
         )
@@ -67,10 +71,14 @@ module Upjs
         \@param        # @param
         (              # param spec ($2)
           .+$          # .. remainder of first line
-          (?:          # .. subsequent lines that are indented further than the first line
+          (?:
             \n
-            \1[\ \t]+
-            .*
+            (?:
+              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
+              .*
+              |
+              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
+            )
             $
           )*
         )
@@ -123,7 +131,6 @@ module Upjs
       def parse_klass!(block)
         if block.sub!(KLASS_PATTERN, '')
           klass_name = $1.strip
-          log("Parsed klass name", klass_name)
           klass = Klass.new(klass_name)
           if visibility = parse_visibility!(block)
             klass.visibility = visibility
@@ -141,8 +148,7 @@ module Upjs
 
       def parse_function!(block)
         if block.sub!(FUNCTION_PATTERN, '')
-          function_name = $1
-          log("Parsed function name", function_name)
+          function_name = $1.strip
           function = Function.new(function_name)
           if visibility = parse_visibility!(block)
             function.visibility = visibility
@@ -164,6 +170,7 @@ module Upjs
           end
           # All the remaining text is guide prose
           function.guide_markdown = block
+          function.klass = @last_klass
           @last_klass.functions << function
           function
         end

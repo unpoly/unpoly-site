@@ -14,7 +14,7 @@ module Upjs
       attr_accessor :visibility
       attr_accessor :name
       attr_accessor :guide_markdown
-      attr_accessor :functions
+      attr_reader :functions
       attr_accessor :title
 
       def guide_filename(extension)
@@ -29,6 +29,10 @@ module Upjs
 
       def ujs_functions
         functions.select(&:ujs?)
+      end
+
+      def guide_path
+        "/#{name}"
       end
 
     end

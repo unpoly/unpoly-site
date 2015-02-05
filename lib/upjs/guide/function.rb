@@ -13,6 +13,7 @@ module Upjs
         @response = nil
         @default = nil
         @optional = false
+        @klass = nil
       end
 
       attr_accessor :response
@@ -21,35 +22,50 @@ module Upjs
       attr_accessor :guide_markdown
       attr_accessor :params
       attr_accessor :ujs
+      attr_accessor :klass
 
       def signature
-        signature = ""
-        signature << name
-        signature << '('
+        if ujs?
+          name
+        else
 
-        option_params = params.select(&:option?)
+          signature = ""
+          signature << name
+          signature << '('
 
-        compressed_params = params.collect { |param|
-          if param.option?
-            if option_params.all?(&:optional?)
-              '[options]'
+          option_params = params.select(&:option?)
+
+          compressed_params = params.collect { |param|
+            if param.option?
+              if option_params.all?(&:optional?)
+                '[options]'
+              else
+                'options'
+              end
+            elsif param.optional?
+              "[#{param.name}]"
             else
-              'options'
+              param.name
             end
-          elsif param.optional?
-            "[xx#{param.name}xx]"
-          else
-            param.name
-          end
-        }.uniq
+          }.uniq
 
-        signature << compressed_params.join(', ')
-        signature << ')'
-        signature
+          signature << compressed_params.join(', ')
+          signature << ')'
+          signature
+        end
       end
 
       def ujs?
         @ujs
+      end
+
+      def guide_path
+        "#{@klass.guide_path}##{guide_anchor}"
+      end
+
+      def guide_anchor
+        anchor = name.gsub(/[^a-zA-Z0-9\-\_\.]/, '.')
+        anchor.gsub(/\.{2,}/, '.')
       end
 
     end

@@ -1,0 +1,23 @@
+@import environment
+
+$side-width: 300px
+$spacing: 40px
+
+.panel
+  position: relative
+
+  .panel__main
+    padding-right: $side-width + $spacing
+
+  .panel__side
+    width: $side-width
+    height: $side-width
+    //background-color: rgba(255,0,0,0.3)
+    position: absolute
+    right: 0
+    top: 0
+
+  .panel__side_inner
+    position: fixed
+    width: $side-width
+    //background-color: rgba(255,0,0,0.3)

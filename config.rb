@@ -29,7 +29,7 @@ require 'lib/upjs/guide'
 
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 Upjs::Guide.current.klasses.each do |klass|
-  path = "/#{klass.guide_filename('.html')}"
+  path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   proxy path, "/klass.html", locals: { klass_name: klass.name }, ignore: true
 end
@@ -77,7 +77,7 @@ helpers do
   end
 
   def window_title
-    page_title = current_page.data.title
+    page_title = @page_title || current_page.data.title
 
     if page_title.present?
       "#{page_title} - Up.js Guide"
