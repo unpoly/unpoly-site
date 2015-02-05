@@ -11,15 +11,21 @@
 
 <%= markdown_prose(klass.guide_markdown) %>
 
-<% if klass.ujs_functions.present? %>
+<% ujs_behaviors = klass.ujs_functions.reject(&:private?) %>
+<% if ujs_behaviors.present? %>
   <div class="api">
 
-    <div class="api__title">Unobtrusive selectors</div>
+    <div class="api__title">Unobtrusive behavior</div>
+
+    <div class="api__explanation">
+      Elements matching these CSS selectors will automatically
+      gain useful behavior when Up.js is loaded.
+    </div>
 
     <div class="api__symbols">
 
-      <% klass.ujs_functions.each do |function| %>
-        <%= partial "symbol", locals: { symbol: function } %>
+      <% ujs_behaviors.each do |behavior| %>
+        <%= partial "symbol", locals: { symbol: behavior } %>
       <% end %>
 
     </div>
@@ -27,14 +33,20 @@
   </div>
 <% end %>
 
-<% if klass.js_functions.present? %>
+<% js_functions = klass.js_functions.reject(&:private?) %>
+<% if js_functions.present? %>
   <div class="api">
 
     <div class="api__title">Javascript methods</div>
 
+    <div class="api__explanation">
+      Use these methods to programmatically interact
+      with Up.js from your own Javascript code.
+    </div>
+
     <div class="api__symbols">
 
-      <% klass.js_functions.each do |function| %>
+      <% js_functions.each do |function| %>
         <%= partial "symbol", locals: { symbol: function } %>
       <% end %>
 

@@ -59,6 +59,10 @@ module Upjs
         @ujs
       end
 
+      def private?
+        visibility == 'private'
+      end
+
       def guide_path
         "#{@klass.guide_path}##{guide_anchor}"
       end
