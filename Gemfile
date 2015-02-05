@@ -9,6 +9,8 @@ gem "middleman-livereload", "~> 3.1.0"
 
 gem 'therubyracer'
 
+gem 'middleman-bower'
+
 # gem 'require_all'
 
 group :deploy do
