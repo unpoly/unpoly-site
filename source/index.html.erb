@@ -36,13 +36,13 @@
   <h3>Client-side code is a complexity driver</h3>
 
   <ul>
-    <li>...</li>
+    <li>Our technology stacks have vastly increased in complexity</li>
+    <li>We like the simplicity of classic server-side MVC development</li>
   </ul>
 
   <h3>Server-side code should stay the same</h3>
 
   <ul>
-    <li>We like the simplicity of classic server-side MVC development</li>
     <li>It should not require extra controller actions to update a page part via AJAX</li>
   </ul>
 
@@ -77,7 +77,7 @@
   <h3>Be small</h3>
 
   <ul>
-    <li>XY KB gzipped</li>
+    <li>8 KB gzipped</li>
     <li>jQuery as the only dependency</li>
   </ul>
 
@@ -90,10 +90,35 @@
   <h2>Installation</h2>
 
   <p>
-    During the alpha phase, Up.js is only available as a Rubygem, for use in the Ruby on Rails asset pipeline.
-    We will make builds available through Bower and as downloads very soon.
+    The framework consists of two files:
   </p>
-
+  
+  <ul>
+    <li><a href="up.js"><code>up.js</code></a> (<a href="up.min.js">minified</a>)</li>
+    <li><a href="up.css"><code>up.css</code></a> (<a href="up.min.css">minified</a>)</li>
+  </ul>
+  
+  <p>
+    Download the files and include them in your page using <code>&lt;script&gt;</code>
+    and <code>&lt;style&gt;</code> tags.
+  </p>
+  
+  <h3>Bower</h3>
+  
+  <p>
+    You can also download the files using Bower:
+  </p>
+  
+  <pre><code class="nohighlight">bower install upjs</code></pre>
+  
+  <p>
+    This will download the files to
+    <code>bower_components/upjs/dist/up.js</code> and <code>bower_components/upjs/dist/up.css</code>. 
+  </p>
+  
+  
+  <h3>Ruby on Rails</h3>
+  
   <p>
     To install Up.js in Rails, add the following line to your `Gemfile`:
   </p>

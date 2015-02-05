@@ -25,20 +25,24 @@ $meta_width: 170px
 
   a
     @extend .hyperlink
+    code
+      color: $COLOR_BELIZE_HOLE
 
   p, ul, ol, dl
     +vertical_margin($BLOCK_SPACING)
 
   pre
-    +vertical_margin($BLOCK_SPACING * 1.2)
+    +vertical_margin($BLOCK_SPACING * 1.3)
 
   pre
     line-height: 22px
-
+    margin-left: 12px
+  
     code
       margin: 0
 
     .hljs
+      padding: 0
       overflow: hidden
       background-color: transparent
 
