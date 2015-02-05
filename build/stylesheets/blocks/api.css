@@ -1,0 +1,20 @@
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+.api {
+  background-color: #f1f1f1;
+  padding: 20px;
+  margin-top: 40px;
+  margin-bottom: 40px; }
+
+/* line 9, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+.api__title {
+  font-size: 26px;
+  line-height: 30px;
+  color: #888;
+  margin-bottom: 10px;
+  font-weight: 400;
+  text-transform: uppercase; }
+
+/* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+.api__explanation {
+  margin-bottom: 30px;
+  color: #888; }

@@ -1,0 +1,74 @@
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol {
+  margin-bottom: 40px;
+  border-top: 2px solid #ddd;
+  padding-top: 15px; }
+  /* line 8, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol:last-child {
+    margin-bottom: 0; }
+
+/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__signature {
+  font-family: "Ubuntu Mono";
+  font-weight: 700;
+  font-size: 22px;
+  color: #2980B9; }
+  /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol.is_protected .symbol__signature {
+    color: #E74C3C; }
+
+/* line 20, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__param {
+  margin-top: 14px; }
+
+/* line 23, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__param_name {
+  font-family: "Ubuntu Mono";
+  font-size: 18px;
+  font-weight: bold;
+  color: #777; }
+
+/* line 29, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__type {
+  font-family: "Ubuntu Mono";
+  font-size: 18px;
+  font-weight: bold;
+  color: #999; }
+
+/* line 35, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__param_prose {
+  margin-top: 4px;
+  margin-left: 20px; }
+
+/* line 39, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__subtitle {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 22px;
+  color: #333;
+  font-weight: 700; }
+
+/* line 46, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__or {
+  color: #b2b2b2;
+  font-weight: normal; }
+
+/* line 50, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__tag {
+  display: inline-block;
+  background-color: #888;
+  color: white;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 16px;
+  vertical-align: middle;
+  padding-left: 4px;
+  padding-right: 4px; }
+  /* line 60, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol__tag.is_visibility {
+    background-color: #E74C3C; }
+  /* line 63, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol__tag.is_optional {
+    background-color: #16A085; }
