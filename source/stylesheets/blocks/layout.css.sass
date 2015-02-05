@@ -1,29 +1,46 @@
 @import environment
 
+$side-width: 300px
+$side-spacing: 0
+
 .layout
   overflow-x: hidden
   width: 100%
   background-color: #fff
 
+
 .layout__head
-  position: relative
+  height: 7px
+  background-color: $COLOR_PETER_RIVER
+  position: fixed
+  left: 0
+  top: 0
+  width: 100%
+  z-index: 100
 
 .layout__body
-  padding-top: 25px
-  padding-bottom: 25px
-  min-height: 600px
+  padding-top: 45px
+  padding-bottom: 45px
 
-.layout__tail
-  +font_size(14px, 2px)
-  
-  background-color: $TAIL_BOTTOM_COLOR
+.layout__content
 
-  //$color: desaturate($COLOR_BELIZE_HOLE - 45, 40%)
-  // $color: $TAIL_BOTTOM_COLOR
-  // background(linear-gradient($color - 15, $color))
 
-  color: #999
-  padding-top: 17px
-  //padding-bottom: 30px
-  //text-shadow: 0 0 1px rgba(0,0,0,0.8)
-  +clear_after
+.layout__side
+  margin-bottom: 45px
+
+.layout__fineprint
+  color: #666
+  margin-top: 30px
+  border-top: 2px solid #eee
+  width: 220px
+  padding-top: 10px
+  +font-size(16px)
+
+@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
+  .layout__content
+    padding-left: $side-width + $side-spacing
+
+  .layout__side
+    width: $side-width
+    position: fixed
+    margin-bottom: 0

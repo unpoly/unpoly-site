@@ -1,125 +1,75 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
-  <meta name="format-detection" content="telephone=no"> <%# Mobile safari styles phone numbers differently ... %>
-  <link href='<%= image_path('favicon.png') %>' rel='shortcut icon' type='image/png'>
+  <head>
+    <meta charset="utf-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
+    <meta name="format-detection" content="telephone=no"> <%# Mobile safari styles phone numbers differently ... %>
+    <link href='<%= image_path('favicon.png') %>' rel='shortcut icon' type='image/png'>
 
-  <title><%= window_title %></title>
+    <title><%= window_title %></title>
 
-  <%= stylesheet_link_tag 'application.css' %>
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Source+Sans+Pro:200,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <%= stylesheet_link_tag 'application.css' %>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Source+Sans+Pro:200,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <%= javascript_include_tag 'application.js' %>
-  <script>hljs.initHighlightingOnLoad();</script>
+    <%= javascript_include_tag 'application.js' %>
+    <script>hljs.initHighlightingOnLoad();</script>
 
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    /*
-     ga('create', 'UA-8114576-5', 'makandra.com');
-     ga('set', 'anonymizeIp', true);
-     ga('send', 'pageview');
-     */
+      /*
+       ga('create', 'UA-8114576-5', 'makandra.com');
+       ga('set', 'anonymizeIp', true);
+       ga('send', 'pageview');
+       */
 
-    console.log("Add GA!");
+      console.log("Add GA!");
 
-  </script>
+    </script>
 
-</head>
-<body>
+  </head>
+  <body>
 
-<div class="layout">
+    <div class="layout">
 
-  <div class="layout__head">
+      <div class="layout__head"></div>
 
-    <div class="about">
-      <div class="viewport">
-        
-        <img class="about__logo" src="/images/logo.gif" alt="" />
-        
-        <div class="about__product">
-          Up.js
-        </div>
-        <div class="about__claim">
-          Snappy UI for server-side web apps
-        </div>
-      </div>
-    </div>
+      <div class="layout__body">
+        <div class="viewport">
+          <div class="layout__side">
 
-  </div>
+            <a href="/" class="logo">
+              <img class="logo__glyph" src="/images/logo.gif" alt="" />
+              <span class="logo__name">
+                Up.js
+              </span>
+            </a>
 
-  <div class="layout__body">
-    <div class="viewport">
-      <%= yield %>
-    </div>
-  </div>
+            <div class="menu">
+              <% %w[up.link up.modal up.popup up.motion up.navigation up.magic up.flow up.form up.tooltip up.history up.bus].each do |klass_name| %>
+                <% klass = guide.klass_for_name(klass_name) %>
+                <%= link_to klass.title, "/#{klass.name}", class: 'menu__item' %>
+              <% end %>
+            </div>
 
-  <div class="layout__tail">
+            <div class="layout__fineprint">
+              A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
+              (<a href="/imprint" class="hyperlink is_gray">imprint</a>)
+            </div>
 
-    <div class="viewport">
-
-      <div class="social">
-        <a href="https://makandra.com"><i class="fa fa-home"></i><span>About makandra</span></a>
-        <a href="/articles.atom"><i class="fa fa-rss-square"></i><span>Feed</span></a>
-        <a href="https://twitter.com/makandra_com"><i class="fa fa-twitter"></i><span>Twitter</span></a>
-        <a href="https://www.facebook.com/makandra.de"><i class="fa fa-facebook"></i><span>Facebook</span></a>
-      </div>
-
-      <div class="imprint">
-
-        <div class="imprint__column">
-          <div class="imprint__blob">
-            <b>Our address:</b><br />
-            makandra GmbH <br>
-            Werner-von-Siemens-Str. 6 <br>
-            86159 Augsburg <br>
-            Germany
           </div>
-          <div class="imprint__blob">
-            <b>Contact us:</b><br />
-            +49 821 58866 180 <br>
-            <%= mail_to 'info@makandra.de', "info@makandra.de", :class => 'hyperlink is_gray' %>
+
+          <div class="layout__content">
+            <%= yield %>
           </div>
         </div>
-
-        <div class="imprint__column">
-          <div class="imprint__blob">
-            <b>Commercial register court:</b><br>
-            Augsburg Municipal Court
-          </div>
-          <div class="imprint__blob">
-            <b>Register number:</b><br>
-            HRB 24202
-          </div>
-          <div class="imprint__blob">
-            <b>Sales tax identification number:</b><br>DE243555898
-          </div>
-        </div>
-
-        <div class="imprint__column">
-          <div class="imprint__blob">
-            <b>Chief executive officers:</b><br>
-            Henning Koch <br>
-            Thomas Eisenbarth
-          </div>
-          <div class="imprint__blob">
-            <%= link_to  'Privacy policy', 'http://www.makandra.com/privacy-policy', :class => 'hyperlink is_gray' %>
-          </div>
-        </div>
-
       </div>
 
     </div>
 
-  </div>
-
-</div>
-
-</body>
+  </body>
 </html>

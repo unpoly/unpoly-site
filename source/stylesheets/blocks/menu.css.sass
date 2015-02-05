@@ -4,5 +4,10 @@
 
 .menu__item
   display: block
-  margin-bottom: 10px
   color: $COLOR_BELIZE_HOLE
+
+  @media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 750px)
+    margin-bottom: 15px
+
+  +hover
+    color: $COLOR_ALIZARIN

@@ -76,3 +76,12 @@
   @media (max-width: $width - 1)
     @content
 
+=pretty-scrollbars($width: 10px)
+  &::-webkit-scrollbar
+    background-color: #eee
+    width: $width
+  &::-webkit-scrollbar-thumb
+    background-color: rgba(0, 0, 0, 0.2)
+    &:hover
+      background-color: rgba(0, 0, 0, 0.3)
+

@@ -34,22 +34,13 @@ $meta_width: 170px
 
   pre
     line-height: 22px
-    //+vertical_margin($BLOCK_SPACING * 1.5)
-    //+steal-horizontal-space(5000px)
-    //overflow: hidden
+
     code
       margin: 0
-      background-color: transparent // highlight.js theme has a white background :(
-    //border-top: 0.1em solid rgba(0,0,0,0.09)
-    //border-bottom: 0.1em solid rgba(0,0,0,0.01)
 
-
-
-  //pre, pre code.hljs
-  //  text-shadow: 0 1px 1px rgba(255,255,255,0.8)
-  //  $start_color: desaturate($COLOR_WISTERIA, 45%) + 110
-  //  $end_color: #f0f0f0
-  //  +background-image(linear-gradient($start_color, $end_color 200px))
+    .hljs
+      overflow: hidden
+      background-color: transparent
 
   ul
     @extend .bullets
@@ -104,7 +95,7 @@ $meta_width: 170px
 
   h3
     +font-size(20px)
-    //color: #333
+    color: #444
     margin-top: $BLOCK_SPACING * 1.6
     margin-bottom: $BLOCK_SPACING * 0.6
     font-weight: 700

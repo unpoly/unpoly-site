@@ -4,58 +4,41 @@
  @page_title = klass.title
 %>
 
-<div class="panel">
 
-  <div class="panel__side">
-    <div class="panel__side_inner">
-      <div class="menu">
-      <% guide.klasses.each do |klass| %>
-        <%= link_to klass.title, "/#{klass.name}", class: 'menu__item' %>
+<h1 class="title">
+  <%= klass.title %>
+</h1>
+
+<%= markdown_prose(klass.guide_markdown) %>
+
+<% if klass.ujs_functions.present? %>
+  <div class="api">
+
+    <div class="api__title">Unobtrusive selectors</div>
+
+    <div class="api__symbols">
+
+      <% klass.ujs_functions.each do |function| %>
+        <%= partial "symbol", locals: { symbol: function } %>
       <% end %>
-      </div>
+
     </div>
-  </div>
-
-  <div class="panel__main">
-
-    <h1 class="title">
-      <%= klass.title %>
-    </h1>
-
-    <%= markdown_prose(klass.guide_markdown) %>
-
-    <% if klass.ujs_functions.present? %>
-      <div class="api">
-
-        <div class="api__title">Unobtrusive selectors</div>
-
-        <div class="api__symbols">
-
-          <% klass.ujs_functions.each do |function| %>
-            <%= partial "symbol", locals: { symbol: function } %>
-          <% end %>
-
-        </div>
-
-      </div>
-    <% end %>
-
-    <% if klass.js_functions.present? %>
-      <div class="api">
-
-        <div class="api__title">Javascript methods</div>
-
-        <div class="api__symbols">
-
-          <% klass.js_functions.each do |function| %>
-            <%= partial "symbol", locals: { symbol: function } %>
-          <% end %>
-
-        </div>
-
-      </div>
-    <% end %>
 
   </div>
+<% end %>
 
-</div>
+<% if klass.js_functions.present? %>
+  <div class="api">
+
+    <div class="api__title">Javascript methods</div>
+
+    <div class="api__symbols">
+
+      <% klass.js_functions.each do |function| %>
+        <%= partial "symbol", locals: { symbol: function } %>
+      <% end %>
+
+    </div>
+
+  </div>
+<% end %>
