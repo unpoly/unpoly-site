@@ -8,12 +8,14 @@ module Upjs
         @visibility = 'public'
         @functions = []
         @guide_markdown = ''
+        @title
       end
 
       attr_accessor :visibility
       attr_accessor :name
       attr_accessor :guide_markdown
       attr_accessor :functions
+      attr_accessor :title
 
       def guide_filename(extension)
         "#{@name}#{extension}"

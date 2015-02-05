@@ -1,9 +1,13 @@
-<% klass = guide.reload.klass_for_name(klass_name) %>
+<%
+ guide.reload if development?
+ klass = guide.klass_for_name(klass_name)
+%>
 
-<div class="article">
-  <%= markdown(klass.guide_markdown) %>
-</div>
+<h1 class="title">
+  <%= klass.title %>
+</h1>
 
+<%= markdown_prose(klass.guide_markdown) %>
 
 <% if klass.ujs_functions.present? %>
   <div class="api">
@@ -36,4 +40,3 @@
   
   </div>
 <% end %>
-

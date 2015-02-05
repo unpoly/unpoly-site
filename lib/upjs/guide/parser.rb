@@ -17,6 +17,15 @@ module Upjs
         (.+)     # class name ($1)
       }x
 
+      TITLE_PATTERN = %r{
+        \A         # beginning of text
+        [\ \t\n]*  # whitespace and line breaks
+        (.+)       # title ($1)
+        \n         # line break
+        \={3,}     # markdown h1 underline
+        \n         # line break
+      }x
+
       FUNCTION_PATTERN = %r{
         \@method  # @function
         \         # space
@@ -119,6 +128,9 @@ module Upjs
           if visibility = parse_visibility!(block)
             klass.visibility = visibility
           end
+          if title = parse_title!(block)
+            klass.title = title
+          end
           # All the remaining text is guide prose
           klass.guide_markdown = block
           @repository.klasses << klass
@@ -161,6 +173,13 @@ module Upjs
         if block.sub!(VISIBILITY_PATTERN, '')
           visibility = $1
           visibility
+        end
+      end
+
+      def parse_title!(block)
+        if block.sub!(TITLE_PATTERN, '')
+          title = $1
+          title
         end
       end
 

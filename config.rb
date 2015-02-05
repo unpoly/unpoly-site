@@ -72,6 +72,10 @@ helpers do
     doc.to_html
   end
 
+  def markdown_prose(text)
+    "<div class='prose'>#{markdown(text)}</div>"
+  end
+
   def window_title
     page_title = current_page.data.title
 

@@ -10,9 +10,7 @@
   </div>
 
   <div class="symbol__prose">
-    <div class="article">
-      <%= markdown(symbol.guide_markdown) %>
-    </div>
+    <%= markdown_prose(symbol.guide_markdown) %>
   </div>
 
   <% symbol.params.each do |param| %>
@@ -29,7 +27,7 @@
         <% end %>
       </div>
       <div class="symbol__param_prose">
-        <%= markdown(param.guide_markdown) %>
+        <%= markdown_prose(param.guide_markdown) %>
       </div>
     </div>
   <% end %>
@@ -43,7 +41,7 @@
         </span>
       </div>
       <div class="symbol__param_prose">
-        <%= markdown(symbol.response.guide_markdown) %>
+        <%= markdown_prose(symbol.response.guide_markdown) %>
       </div>
     </div>
   <% end %>
