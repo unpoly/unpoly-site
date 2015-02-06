@@ -9220,6 +9220,10 @@ return{aliases:["styl"],cI:!1,i:"("+l.join("|")+")",k:"if else for in",c:[e.QSM,
     }
   });
 
+  up.awaken('pre code', function($fragment) {
+    return hljs.highlightBlock($fragment.get(0));
+  });
+
 }).call(this);
 
 

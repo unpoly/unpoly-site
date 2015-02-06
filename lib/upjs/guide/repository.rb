@@ -21,6 +21,7 @@ module Upjs
       end
 
       def source_paths
+        File.directory?(@input_path) or raise "Input path not found: #{@input_path}"
         log("Input pattern", File.join(@input_path, "**/*.coffee"))
         Dir[File.join(@input_path, "**/*.coffee")]
       end
