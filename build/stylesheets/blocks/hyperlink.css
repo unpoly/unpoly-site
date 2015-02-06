@@ -4,12 +4,15 @@
   margin-right: 0.05em;
   color: #2980B9;
   border-bottom: 0.1em solid rgba(41, 128, 185, 0.3); }
-  /* line 13, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink:hover {
+    color: #E74C3C;
+    border-bottom: 0.1em solid rgba(231, 76, 60, 0.3); }
+  /* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
   .hyperlink.is_gray {
     color: #888;
     border-bottom: 0.1em solid rgba(136, 136, 136, 0.3); }
-    /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
-    .hyperlink.is_gray:hover, .hyperlink.is_gray:focus {
-      background-color: transparent;
+    /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink.is_gray:hover {
       color: #F1C40F;
       border-bottom: 0.1em solid rgba(241, 196, 15, 0.3); }

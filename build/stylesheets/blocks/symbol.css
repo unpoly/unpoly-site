@@ -1,8 +1,6 @@
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol {
-  margin-bottom: 40px;
-  border-top: 2px solid #ddd;
-  padding-top: 15px; }
+  margin-bottom: 40px; }
   /* line 8, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
   .symbol:last-child {
     margin-bottom: 0; }

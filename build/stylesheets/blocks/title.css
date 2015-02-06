@@ -5,3 +5,14 @@
   font-size: 46px;
   line-height: 50px;
   margin-bottom: 30px; }
+
+/* line 9, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.subtitle {
+  font-size: 26px;
+  line-height: 30px;
+  color: #777;
+  margin-top: 1.44em;
+  margin-bottom: 0.64em;
+  text-transform: uppercase;
+  font-weight: 400;
+  position: relative; }

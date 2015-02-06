@@ -1,20 +1,28 @@
-/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.title {
+  font-weight: 200;
+  text-transform: uppercase;
+  font-size: 46px;
+  line-height: 50px;
+  margin-bottom: 30px; }
+
+/* line 9, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.subtitle, .api__title {
+  font-size: 26px;
+  line-height: 30px;
+  color: #777;
+  margin-top: 1.44em;
+  margin-bottom: 0.64em;
+  text-transform: uppercase;
+  font-weight: 400;
+  position: relative; }
+
+/* line 4, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
 .api {
-  background-color: #f1f1f1;
-  padding: 20px;
   margin-top: 40px;
   margin-bottom: 40px; }
 
-/* line 9, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
-.api__title {
-  font-size: 26px;
-  line-height: 30px;
-  color: #888;
-  margin-bottom: 10px;
-  font-weight: 400;
-  text-transform: uppercase; }
-
-/* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+/* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
 .api__explanation {
   margin-bottom: 30px;
   color: #888; }
