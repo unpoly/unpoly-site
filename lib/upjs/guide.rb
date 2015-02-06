@@ -10,7 +10,7 @@ module Upjs
   module Guide
 
     def self.current
-      @current ||= Repository.new('../upjs-rails/lib/assets/javascripts')
+      @current ||= Repository.new('../upjs/lib/assets/javascripts')
     end
 
   end

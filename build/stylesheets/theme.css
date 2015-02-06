@@ -75,8 +75,9 @@ body {
 
 /* line 15, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
 a {
-  text-decoration: none; }
+  text-decoration: none;
+  outline: 0; }
 
-/* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
+/* line 19, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
 b {
   font-weight: 700; }

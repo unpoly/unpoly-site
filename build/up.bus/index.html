@@ -41,6 +41,9 @@
               <span class="logo__name">
                 Up.js
               </span>
+              <span class="logo__alpha">
+                Alpha
+              </span>
             </a>
 
             <div class="menu">
@@ -95,15 +98,26 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation  </p>
+<p>This class is kind-of internal and in constant flux.</p>
 
-<p>This class is kind-of internal and in flux.
-This might eventually be rolled into regular document events.</p>
+<p>The framework event bus might eventually be rolled
+into regular document events.</p>
+
+<h3 id="available-events">Available events</h3>
 
 <ul>
   <li><code>app:ready</code></li>
   <li><code>fragment:ready</code> with arguments <code>($fragment)</code></li>
   <li><code>fragment:destroy</code> with arguments <code>($fragment)</code></li>
+</ul>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Decide whether to refactor this into document events</li>
+  <li>Document events</li>
 </ul>
 
 </div>
@@ -167,7 +181,7 @@ event is triggered.</p>
         <div class="symbol is_public" id="up.bus.emit">
 
   <div class="symbol__signature">
-    up.bus.emit(eventName, args)
+    up.bus.emit(eventName, args...)
   </div>
 
     <div class="symbol__prose">
@@ -194,8 +208,8 @@ event is triggered.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          args          <span class="symbol__type">
-            Anything...
+          args...          <span class="symbol__type">
+            
           </span>
         </div>
         <div class="symbol__param_prose">

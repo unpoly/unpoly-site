@@ -41,6 +41,9 @@
               <span class="logo__name">
                 Up.js
               </span>
+              <span class="logo__alpha">
+                Alpha
+              </span>
             </a>
 
             <div class="menu">
@@ -95,7 +98,22 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation</p>
+<p>Up.js comes with functionality to submit forms without
+leaving the current page. This means you can replace page fragments,
+open dialogs with sub-forms, etc. all without losing form state.</p>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Explain how to display form errors</li>
+  <li>Explain that the server needs to send 2xx or 5xx status codes so
+Up.js can decide whether the form submission was successful</li>
+  <li>Explain that the server needs to send an <code>X-Up-Previous-Redirect-Location</code> header
+if an successful form submission resulted in a redirect</li>
+  <li>Examples</li>
+</ul>
 
 </div>
 
