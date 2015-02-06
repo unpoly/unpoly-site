@@ -9,12 +9,13 @@
   $margin: 0.05em
   +horizontal_margin($margin)
   +tint_hyperlink($COLOR_BELIZE_HOLE)
-
+  &:hover
+    +tint_hyperlink($COLOR_ALIZARIN)
+    
 
   &.is_gray
     +tint_hyperlink(#888)
-    +hover
-      background-color: transparent
+    &:hover
       +tint_hyperlink($COLOR_SUN_FLOWER)
   
 //  +tint_hyperlink($COLOR_ALIZARIN)

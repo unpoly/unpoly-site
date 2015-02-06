@@ -1,0 +1,739 @@
+/*
+
+Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
+
+*/
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #fdf6e3;
+  color: #657b83;
+  -webkit-text-size-adjust: none;
+}
+
+.hljs-comment,
+.diff .hljs-header,
+.hljs-doctype,
+.hljs-pi,
+.lisp .hljs-string,
+.hljs-javadoc {
+  color: #93a1a1;
+}
+
+/* Solarized Green */
+.hljs-keyword,
+.hljs-winutils,
+.method,
+.hljs-addition,
+.css .hljs-tag,
+.hljs-request,
+.hljs-status,
+.nginx .hljs-title {
+  color: #859900;
+}
+
+/* Solarized Cyan */
+.hljs-number,
+.hljs-command,
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-rules .hljs-value,
+.hljs-phpdoc,
+.hljs-dartdoc,
+.tex .hljs-formula,
+.hljs-regexp,
+.hljs-hexcolor,
+.hljs-link_url {
+  color: #2aa198;
+}
+
+/* Solarized Blue */
+.hljs-title,
+.hljs-localvars,
+.hljs-chunk,
+.hljs-decorator,
+.hljs-built_in,
+.hljs-identifier,
+.vhdl .hljs-literal,
+.hljs-id,
+.css .hljs-function {
+  color: #268bd2;
+}
+
+/* Solarized Yellow */
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body,
+.smalltalk .hljs-number,
+.hljs-constant,
+.hljs-class .hljs-title,
+.hljs-parent,
+.hljs-type,
+.hljs-link_reference {
+  color: #b58900;
+}
+
+/* Solarized Orange */
+.hljs-preprocessor,
+.hljs-preprocessor .hljs-keyword,
+.hljs-pragma,
+.hljs-shebang,
+.hljs-symbol,
+.hljs-symbol .hljs-string,
+.diff .hljs-change,
+.hljs-special,
+.hljs-attr_selector,
+.hljs-subst,
+.hljs-cdata,
+.css .hljs-pseudo,
+.hljs-header {
+  color: #cb4b16;
+}
+
+/* Solarized Red */
+.hljs-deletion,
+.hljs-important {
+  color: #dc322f;
+}
+
+/* Solarized Violet */
+.hljs-link_label {
+  color: #6c71c4;
+}
+
+.tex .hljs-formula {
+  background: #eee8d5;
+}
+[up-close] {
+  cursor: pointer; }
+[up-follow] {
+  cursor: pointer; }
+.up-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 10000;
+  background-color: rgba(90, 90, 90, 0.4); }
+
+.up-modal-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box; }
+
+.up-modal-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 36px;
+  text-align: center;
+  line-height: 24px;
+  height: 24px;
+  background-color: #999;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: translateY(-100%); }
+
+.up-modal-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box; }
+.up-popup {
+  z-index: 10000;
+  position: fixed;
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); }
+
+.up-modal .up-popup {
+  z-index: 15000; }
+.up-tooltip {
+  z-index: 30000;
+  position: fixed;
+  background-color: rgba(30, 30, 30, 0.8);
+  color: white;
+  padding: 6px 8px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); }
+  .up-tooltip[up-origin=top] {
+    margin-top: -6px; }
+  .up-tooltip[up-origin=bottom] {
+    margin-bottom: -6px; }
+/*
+
+ */
+
+/* line 5, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline; }
+
+/* line 22, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1; }
+
+/* line 24, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none; }
+
+/* line 26, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/* line 28, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle; }
+
+/* line 30, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none; }
+  /* line 103, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+  q:before, q:after, blockquote:before, blockquote:after {
+    content: "";
+    content: none; }
+
+/* line 32, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none; }
+
+/* line 116, /home/henning/.rvm/gems/ruby-2.1.2/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block; }
+
+/* line 6, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
+body {
+  font-family: "Source Sans Pro";
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+  color: #444;
+  overflow-y: scroll; }
+  /* line 80, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
+  body::-webkit-scrollbar {
+    background-color: #eee;
+    width: 10px; }
+  /* line 83, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
+  body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); }
+    /* line 85, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
+    body::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.3); }
+
+/* line 15, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
+a {
+  text-decoration: none;
+  outline: 0; }
+
+/* line 19, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
+b {
+  font-weight: 700; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.title {
+  font-weight: 300;
+  font-size: 46px;
+  line-height: 50px;
+  margin-bottom: 30px;
+  color: #444; }
+
+/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.subtitle, .api__title {
+  font-size: 30px;
+  line-height: 34px;
+  color: #555;
+  margin-top: 1.44em;
+  margin-bottom: 0.64em;
+  font-weight: 300;
+  position: relative; }
+
+/* line 4, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+.api {
+  margin-top: 40px;
+  margin-bottom: 40px; }
+
+/* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/api.css.sass */
+.api__explanation {
+  margin-bottom: 30px;
+  color: #888; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
+ul.bullets {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em; }
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
+  ul.bullets li {
+    padding-left: 1em;
+    margin-top: 0.24em;
+    margin-bottom: 0.24em;
+    position: relative; }
+    /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
+    ul.bullets li:before {
+      content: "#";
+      position: absolute;
+      height: 100%;
+      left: 0;
+      top: 0em;
+      font-weight: 400;
+      font-size: 16px;
+      color: #4c93c3; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+.hyperlink {
+  margin-left: 0.05em;
+  margin-right: 0.05em;
+  color: #2980B9;
+  border-bottom: 0.1em solid rgba(41, 128, 185, 0.3); }
+  /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink:hover {
+    color: #E74C3C;
+    border-bottom: 0.1em solid rgba(231, 76, 60, 0.3); }
+  /* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink.is_gray {
+    color: #888;
+    border-bottom: 0.1em solid rgba(136, 136, 136, 0.3); }
+    /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink.is_gray:hover {
+      color: #F1C40F;
+      border-bottom: 0.1em solid rgba(241, 196, 15, 0.3); }
+/* line 6, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+.layout {
+  overflow-x: hidden;
+  width: 100%;
+  background-color: #fff; }
+
+/* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+.layout__head {
+  height: 7px;
+  background-color: #3498DB;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 100; }
+
+/* line 21, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+.layout__body {
+  padding-top: 45px;
+  padding-bottom: 45px; }
+
+/* line 28, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+.layout__side {
+  margin-bottom: 45px; }
+
+/* line 31, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+.layout__fineprint {
+  color: #666;
+  margin-top: 30px;
+  border-top: 2px solid #eee;
+  width: 220px;
+  padding-top: 10px;
+  font-size: 16px;
+  line-height: 20px; }
+
+@media (min-width: 900px) and (min-height: 580px) {
+  /* line 40, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+  .layout__content {
+    padding-left: 300px; }
+
+  /* line 43, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+  .layout__side {
+    width: 300px;
+    position: fixed;
+    margin-bottom: 0; } }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/logo.css.sass */
+.logo {
+  display: block;
+  margin-bottom: 34px; }
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/logo.css.sass */
+  .logo .logo__glyph {
+    width: 52px;
+    height: 52px;
+    margin-bottom: -11px;
+    margin-right: 5px; }
+  /* line 13, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/logo.css.sass */
+  .logo .logo__name {
+    color: #3498DB;
+    font-size: 28px;
+    line-height: 32px;
+    text-transform: uppercase; }
+  /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/logo.css.sass */
+  .logo .logo__alpha {
+    font-size: 14px;
+    line-height: 18px;
+    text-transform: uppercase;
+    display: inline-block;
+    color: #e65f51;
+    margin-left: 2px;
+    margin-top: 10px;
+    vertical-align: top;
+    font-weight: 700; }
+/* line 5, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/menu.css.sass */
+.menu__item {
+  display: block;
+  color: #2980B9;
+  margin-bottom: 6px;
+  font-size: 18px;
+  line-height: 22px; }
+  @media (min-width: 900px) and (min-height: 750px) {
+    /* line 5, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/menu.css.sass */
+    .menu__item {
+      margin-bottom: 15px; } }
+  /* line 14, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/menu.css.sass */
+  .menu__item:hover {
+    color: #E74C3C; }
+  /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/menu.css.sass */
+  .menu__item.up-current, .menu__item.up-active {
+    font-weight: 700; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+.hyperlink, .prose a {
+  margin-left: 0.05em;
+  margin-right: 0.05em;
+  color: #2980B9;
+  border-bottom: 0.1em solid rgba(41, 128, 185, 0.3); }
+  /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink:hover, .prose a:hover {
+    color: #E74C3C;
+    border-bottom: 0.1em solid rgba(231, 76, 60, 0.3); }
+  /* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink.is_gray, .prose a.is_gray {
+    color: #888;
+    border-bottom: 0.1em solid rgba(136, 136, 136, 0.3); }
+    /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink.is_gray:hover, .prose a.is_gray:hover {
+      color: #F1C40F;
+      border-bottom: 0.1em solid rgba(241, 196, 15, 0.3); }
+
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
+ul.bullets, .prose ul {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em; }
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
+  ul.bullets li, .prose ul li {
+    padding-left: 1em;
+    margin-top: 0.24em;
+    margin-bottom: 0.24em;
+    position: relative; }
+    /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
+    ul.bullets li:before, .prose ul li:before {
+      content: "#";
+      position: absolute;
+      height: 100%;
+      left: 0;
+      top: 0em;
+      font-weight: 400;
+      font-size: 16px;
+      color: #4c93c3; }
+
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.title, .prose h1 {
+  font-weight: 300;
+  font-size: 46px;
+  line-height: 50px;
+  margin-bottom: 30px;
+  color: #444; }
+
+/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.subtitle, .prose h2 {
+  font-size: 30px;
+  line-height: 34px;
+  color: #555;
+  margin-top: 1.44em;
+  margin-bottom: 0.64em;
+  font-weight: 300;
+  position: relative; }
+
+/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+.prose {
+  position: relative; }
+  /* line 14, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose code {
+    color: #777;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-family: "Ubuntu Mono";
+    font-size: 18px;
+    font-weight: normal; }
+  /* line 24, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose a code {
+    color: #2980B9; }
+  /* line 27, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose p, .prose ul, .prose ol, .prose dl {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em; }
+  /* line 30, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose pre {
+    margin-top: 1.04em;
+    margin-bottom: 1.04em; }
+  /* line 33, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose pre {
+    line-height: 22px;
+    margin-left: 12px; }
+    /* line 37, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    .prose pre code {
+      margin: 0; }
+    /* line 40, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    .prose pre .hljs {
+      padding: 0;
+      overflow: hidden;
+      background-color: transparent; }
+  /* line 49, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose dl dt {
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top: 0.24em; }
+  /* line 53, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose dl dd {
+    margin-bottom: 0.24em; }
+  /* line 56, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose ol {
+    list-style-type: decimal;
+    padding-left: 1.6em; }
+    /* line 59, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    .prose ol li {
+      margin-top: 0.24em;
+      margin-bottom: 0.24em; }
+  /* line 63, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose ul ul, .prose ul ol, .prose ul dl, .prose ol ul, .prose ol ol, .prose ol dl, .prose dl ul, .prose dl ol, .prose dl dl {
+    margin-bottom: 0; }
+  /* line 66, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose hr {
+    color: #ddd;
+    background-color: #ddd;
+    border: none;
+    height: 4px;
+    margin-top: 1.28em;
+    margin-bottom: 1.28em; }
+  /* line 73, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose img {
+    border: 2px solid #666;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    max-width: 100%; }
+  /* line 78, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose strong, .prose b {
+    font-weight: 700; }
+  /* line 81, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose i, .prose em {
+    font-style: italic; }
+  /* line 91, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose h3 {
+    font-size: 20px;
+    line-height: 24px;
+    color: #444;
+    margin-top: 1.28em;
+    margin-bottom: 0.48em;
+    font-weight: 700; }
+  /* line 98, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  .prose table {
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+    margin-left: -20px;
+    margin-right: -20px;
+    border-collapse: collapse; }
+    /* line 103, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    .prose table td, .prose table th {
+      border-bottom: 0.08em solid #bbb;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 0.2em;
+      padding-bottom: 0.2em; }
+      /* line 107, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+      .prose table td:first-child, .prose table th:first-child {
+        padding-left: 20px; }
+      /* line 109, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+      .prose table td:last-child, .prose table th:last-child {
+        padding-right: 20px; }
+    /* line 112, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    .prose table th {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 16px;
+      line-height: 24px;
+      color: #666; }
+    /* line 119, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    .prose table tr:last-child td {
+      border-bottom: none;
+      padding-bottom: 0; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/separator.css.sass */
+.separator {
+  background-color: #ddd;
+  height: 4px;
+  margin: 50px auto;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px; }
+/* line 4, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/social.css.sass */
+.social {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #999;
+  margin-bottom: 19px;
+  zoom: 1; }
+  /* line 36, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
+  .social:before, .social:after {
+    content: "";
+    display: table; }
+  /* line 39, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
+  .social:after {
+    clear: both; }
+  /* line 13, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/social.css.sass */
+  .social i {
+    margin-right: 6px;
+    color: #aaa;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 18px; }
+  /* line 20, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/social.css.sass */
+  .social span {
+    font-size: 16px;
+    line-height: 20px;
+    display: inline-block;
+    vertical-align: middle; }
+  /* line 26, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/social.css.sass */
+  .social a {
+    white-space: nowrap;
+    color: #E74C3C;
+    color: #aaa;
+    margin-right: 12px; }
+    /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/_helpers.css.sass */
+    .social a:hover, .social a:focus {
+      color: #F39C12; }
+      /* line 33, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/social.css.sass */
+      .social a:hover i, .social a:focus i {
+        color: #E74C3C; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol {
+  margin-bottom: 40px; }
+  /* line 8, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol:last-child {
+    margin-bottom: 0; }
+
+/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__signature {
+  font-family: "Ubuntu Mono";
+  font-weight: 700;
+  font-size: 22px;
+  color: #2980B9; }
+  /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol.is_protected .symbol__signature {
+    color: #E74C3C; }
+
+/* line 20, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__param {
+  margin-top: 14px; }
+
+/* line 23, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__param_name {
+  font-family: "Ubuntu Mono";
+  font-size: 18px;
+  font-weight: bold;
+  color: #777; }
+
+/* line 29, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__type {
+  font-family: "Ubuntu Mono";
+  font-size: 18px;
+  font-weight: bold;
+  color: #999; }
+
+/* line 35, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__param_prose {
+  margin-top: 4px;
+  margin-left: 20px; }
+
+/* line 39, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__subtitle {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 22px;
+  color: #333;
+  font-weight: 700; }
+
+/* line 46, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__or {
+  color: #b2b2b2;
+  font-weight: normal; }
+
+/* line 50, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+.symbol__tag {
+  display: inline-block;
+  background-color: #888;
+  color: white;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 16px;
+  vertical-align: middle;
+  padding-left: 4px;
+  padding-right: 4px; }
+  /* line 60, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol__tag.is_visibility {
+    background-color: #E74C3C; }
+  /* line 63, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol__tag.is_optional {
+    background-color: #16A085; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.title {
+  font-weight: 300;
+  font-size: 46px;
+  line-height: 50px;
+  margin-bottom: 30px;
+  color: #444; }
+
+/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
+.subtitle {
+  font-size: 30px;
+  line-height: 34px;
+  color: #555;
+  margin-top: 1.44em;
+  margin-bottom: 0.64em;
+  font-weight: 300;
+  position: relative; }
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/viewport.css.sass */
+.viewport {
+  position: relative;
+  max-width: 1100px;
+  padding-left: 4%;
+  padding-right: 4%;
+  margin-left: auto;
+  margin-right: auto; }
+/*
+
+
+
+
+ */
+

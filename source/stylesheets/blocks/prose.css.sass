@@ -13,32 +13,32 @@ $meta_width: 170px
 
   code
     color: #777
-    margin-left: 4px
-    &:first-child
-      margin-left: 0
-    margin-right: 5px
-    &:last-child
-      margin-right: 0
+    margin-left: 2px
+    margin-right: 2px
     font-family: 'Ubuntu Mono'
     font-size: 18px
     font-weight: normal
 
   a
     @extend .hyperlink
+    code
+      color: $COLOR_BELIZE_HOLE
 
   p, ul, ol, dl
     +vertical_margin($BLOCK_SPACING)
 
   pre
-    +vertical_margin($BLOCK_SPACING * 1.2)
+    +vertical_margin($BLOCK_SPACING * 1.3)
 
   pre
     line-height: 22px
-
+    margin-left: 12px
+  
     code
       margin: 0
 
     .hljs
+      padding: 0
       overflow: hidden
       background-color: transparent
 
@@ -86,12 +86,7 @@ $meta_width: 170px
     
 
   h2
-    +font-size(26px)
-    color: #777
-    margin-top: $BLOCK_SPACING * 1.8
-    margin-bottom: $BLOCK_SPACING * 0.8
-    text-transform: uppercase
-    font-weight: 400
+    @extend .subtitle
 
   h3
     +font-size(20px)

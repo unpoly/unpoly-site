@@ -139,7 +139,7 @@ module Upjs
             klass.title = title
           end
           # All the remaining text is guide prose
-          klass.guide_markdown = block
+          klass.guide_markdown = process_markdown(block)
           @repository.klasses << klass
           @last_klass = klass
           klass
@@ -169,7 +169,7 @@ module Upjs
             function.ujs = true
           end
           # All the remaining text is guide prose
-          function.guide_markdown = block
+          function.guide_markdown = process_markdown(block)
           function.klass = @last_klass
           @last_klass.functions << function
           function
@@ -203,7 +203,7 @@ module Upjs
             param.default = name_props[:default] if name_props.has_key?(:default)
           end
 
-          param.guide_markdown = unindent_hanging(param_spec)
+          param.guide_markdown = process_markdown(unindent_hanging(param_spec))
           param
         end
       end
@@ -215,7 +215,7 @@ module Upjs
           if types = parse_types!(response_spec)
             response.types = types
           end
-          response.guide_markdown = unindent_hanging(response_spec)
+          response.guide_markdown = process_markdown(unindent_hanging(response_spec))
           response
         end
       end
@@ -254,6 +254,12 @@ module Upjs
           types = $1.split(TYPES_SEPARATOR)
           types
         end
+      end
+      
+      def process_markdown(markdown)
+        # We cannot use triple-hashes for h3 since
+        # that would close CS block comments
+        markdown.gsub('\#\#\#', '###')
       end
 
       private
