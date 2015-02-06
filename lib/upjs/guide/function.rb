@@ -68,8 +68,12 @@ module Upjs
       end
 
       def guide_anchor
-        anchor = name.gsub(/[^a-zA-Z0-9\-\_\.]/, '.')
-        anchor.gsub(/\.{2,}/, '.')
+        anchor = name.dup
+        anchor.gsub(/[^a-zA-Z0-9\-\_\.]/, '.')
+        anchor.gsub!(/\.{2,}/, '.')
+        anchor.gsub!(/^\.+/, '')
+        anchor.gsub!(/\.+$/, '')
+        anchor
       end
 
     end
