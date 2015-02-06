@@ -466,60 +466,54 @@ ul.bullets, .prose ul {
   /* line 14, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose code {
     color: #777;
-    margin-left: 4px;
-    margin-right: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
     font-family: "Ubuntu Mono";
     font-size: 18px;
     font-weight: normal; }
-    /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
-    .prose code:first-child {
-      margin-left: 0; }
-    /* line 20, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
-    .prose code:last-child {
-      margin-right: 0; }
-  /* line 28, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 24, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose a code {
     color: #2980B9; }
-  /* line 31, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 27, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose p, .prose ul, .prose ol, .prose dl {
     margin-top: 0.8em;
     margin-bottom: 0.8em; }
-  /* line 34, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 30, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose pre {
     margin-top: 1.04em;
     margin-bottom: 1.04em; }
-  /* line 37, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 33, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose pre {
     line-height: 22px;
     margin-left: 12px; }
-    /* line 41, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 37, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose pre code {
       margin: 0; }
-    /* line 44, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 40, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose pre .hljs {
       padding: 0;
       overflow: hidden;
       background-color: transparent; }
-  /* line 53, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 49, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose dl dt {
     font-weight: 700;
     margin-bottom: 0;
     margin-top: 0.24em; }
-  /* line 57, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 53, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose dl dd {
     margin-bottom: 0.24em; }
-  /* line 60, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 56, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose ol {
     list-style-type: decimal;
     padding-left: 1.6em; }
-    /* line 63, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 59, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose ol li {
       margin-top: 0.24em;
       margin-bottom: 0.24em; }
-  /* line 67, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 63, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose ul ul, .prose ul ol, .prose ul dl, .prose ol ul, .prose ol ol, .prose ol dl, .prose dl ul, .prose dl ol, .prose dl dl {
     margin-bottom: 0; }
-  /* line 70, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 66, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose hr {
     color: #ddd;
     background-color: #ddd;
@@ -527,20 +521,20 @@ ul.bullets, .prose ul {
     height: 4px;
     margin-top: 1.28em;
     margin-bottom: 1.28em; }
-  /* line 77, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 73, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose img {
     border: 2px solid #666;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     max-width: 100%; }
-  /* line 82, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 78, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose strong, .prose b {
     font-weight: 700; }
-  /* line 85, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 81, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose i, .prose em {
     font-style: italic; }
-  /* line 95, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 91, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose h3 {
     font-size: 20px;
     line-height: 24px;
@@ -548,34 +542,34 @@ ul.bullets, .prose ul {
     margin-top: 1.28em;
     margin-bottom: 0.48em;
     font-weight: 700; }
-  /* line 102, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 98, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose table {
     margin-top: 1.2em;
     margin-bottom: 1.2em;
     margin-left: -20px;
     margin-right: -20px;
     border-collapse: collapse; }
-    /* line 107, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 103, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose table td, .prose table th {
       border-bottom: 0.08em solid #bbb;
       padding-left: 10px;
       padding-right: 10px;
       padding-top: 0.2em;
       padding-bottom: 0.2em; }
-      /* line 111, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+      /* line 107, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
       .prose table td:first-child, .prose table th:first-child {
         padding-left: 20px; }
-      /* line 113, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+      /* line 109, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
       .prose table td:last-child, .prose table th:last-child {
         padding-right: 20px; }
-    /* line 116, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 112, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose table th {
       font-weight: bold;
       text-transform: uppercase;
       font-size: 16px;
       line-height: 24px;
       color: #666; }
-    /* line 123, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 119, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose table tr:last-child td {
       border-bottom: none;
       padding-bottom: 0; }

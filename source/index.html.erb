@@ -13,21 +13,15 @@
     Up.js can be a solution for you.
   </p>
 
-  <h2>How it works</h2>
-
-  <p>
-    See <a href="/up.link">Linking to page fragments</a> and other documentation pages.
-  </p>
-
-  <p>
-    All Up.js functionality is available as both unobtrusive behavior (through HTML attributes
-    like <code>up-target</code>)
-    and Javascript functions for programmatic access and integration with your code.
-  </p>
-
   <h2>
-    Design goals
+    Philosophy
   </h2>
+  
+  <p>
+    Up.js is an opinionated Javascript library. 
+    You should understand our philosophy to see if Up.js
+    is for you. 
+  </p>
 
   <h3>Client-side MVC is a complexity driver</h3>
 
@@ -41,56 +35,109 @@
   
   <p>
     We would like to reclaim some of the simplicity of
-    classic server-side MVC development.
+    classic server-side MVC development, while making your app
+    feel more responsive and while enabling the most
+    popular UI patterns you see on the web.
   </p>
-  
-  <h3>Server-side code should stay the same</h3>
-
-  <ul>
-    <li>It should not require extra controller actions to update a page part via AJAX</li>
-  </ul>
 
   <h3>Batteries included</h3>
 
-  <ul>
-    <li>We will ship a basic implementation for the most established UI patterns like navigation bars, infinite scrolling, drop-down menus, modals</li>
-    <li>We will split this out into a plugin architecture eventually, but not now</li>
-  </ul>
+  <p>
+    We will ship a basic implementation for the most established UI patterns like
+    <a href="/up.navigation">navigation bars</a>, infinite scrolling,
+    <a href="/up.popup">drop-down menus</a>, <a href="/up.modal">modals dialogs</a>,
+    etc.
+  </p>
+  <p>
+    We will split this out into a plugin architecture eventually, but not now.
+  </p>
+
+  <p>
+    Our built-in UI patterns ship with commonly seen options.
+    We don’t want to compromise their ease of use by providing a million hooks and switches.
+    If you are missing an option, you can always roll your own code or integrate
+    an existing Javascript library.
+  </p>
 
   <h3>Not for ambitious UIs</h3>
+  
+  <p>
+    While Up.js pushes limits of what's traditionally been possible
+    with server-side web development, the paradigm <i>does</i> have limits which we
+    recognize. If you want to create a very ambitious user interface,
+    Up.js is probably not the best approach.
+  </p>
 
-  <ul>
-    <li>We don’t want to compromise ease of use for simple patterns by providing a million hooks and options</li>
-    <li>Limits in configurability</li>
-    <li>You can always roll your own code</li>
-    <li>Probably the wrong choice if you want to create something very ambitious</li>
-  </ul>
-
-  <h3>(Sort of) plays nice with existing JS code</h3>
-  <ul>
-    <li>If you're ready to clean up your event binding with the <a href="/up.magic">mechanisms that Up.js provides</a></li>
-  </ul>
+  <h3>Plays nice with existing JS code</h3>
+  <p>
+    You can <a href="/up.magic">wire</a> your existing JS code
+    into the <a href="/up.link">Up.js page flow</a>.
+  </p>
 
   <h3>URLs are important</h3>
 
-  <ul>
-    <li>Every page has an URL</li>
-    <li>Works nice with Google Works with browsers that don’t speak Up.js (e. g. IE9 doesn’t speak pushState)</li>
-  </ul>
+  <p>
+    In Up.js every page or screen state has a URL
+    which you can bookmark and share.
+    This also means you get all the SEO love from Google.
+  </p>
+    
+  <h3>Server-side code should stay the same</h3>
+
+  <p>
+    We want to push progressive enhancement and unobtrusive Javascript
+    to new extremes. For this we want to limit the amount of change
+    required to your server-side code.
+    E. g. it should not require extra controllers or views to update a page
+    fragment via AJAX.
+  </p>
 
   <h3>Be small</h3>
 
-  <ul>
-    <li>8 KB gzipped</li>
-    <li>jQuery as the only dependency</li>
-  </ul>
-
+  <p>
+    Up.js is <%= upjs_library_size %> KB gzipped.
+    <br />
+    The only dependency is jQuery.
+  </p>
+  
   <h3>Both UJS and programmatic interfaces</h3>
 
-  <ul>
-    <li>...</li>
-  </ul>
+  <p>
+    All Up.js functionality is available as both unobtrusive behavior
+    (through HTML attributes like <code>up-target</code>)
+    and Javascript functions for programmatic access and integration
+    with your code.
+  </p>
 
+
+  <h2>
+    Project status
+  </h2>
+  
+  <p>
+    Up.js is a very advanced proof-of-concept.
+    
+    We're quiet far in terms of the features we want to include,
+    but the library lacks
+    <a href="https://github.com/makandra/upjs/tree/master/spec_app/spec/javascripts/up">test coverage</a>
+    and prolonged exposure to the real world.
+    We're currently building a few apps with to improve the public API.
+  </p>
+
+  <p>
+    Don't use this in production yet unless you're ready to get involved with testing
+    and bugfixing.
+  </p>
+  
+  
+  <h2>Browser support</h2>
+  
+  <p>
+    Up.js supports all modern browsers and Internet Explorer 10+.<br />
+    The library should not load in older IEs, but that isn't implemented yet.
+  </p>
+
+  
   <h2>Installation</h2>
 
   <p>
@@ -98,8 +145,14 @@
   </p>
   
   <ul>
-    <li><a href="up.js"><code>up.js</code></a> (<a href="up.min.js">minified</a>)</li>
-    <li><a href="up.css"><code>up.css</code></a> (<a href="up.min.css">minified</a>)</li>
+    <li>
+      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up.js"><code>up.js</code></a>
+      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up.min.js">minified</a>)
+    </li>
+    <li>
+      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up.css"><code>up.css</code></a>
+      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up.min.css">minified</a>)
+    </li>
   </ul>
   
   <p>
@@ -124,7 +177,9 @@
   <h3>Ruby on Rails</h3>
   
   <p>
-    To install Up.js in Rails, add the following line to your `Gemfile`:
+    Up.js is available as a Ruby gem that makes the library's Javascript and CSS sources
+    available to the asset pipeline. To install Up.js in Rails,
+    add the following line to your <code>Gemfile</code>:
   </p>
 
   <pre><code class="ruby">gem 'upjs-rails'</code></pre>
@@ -148,21 +203,6 @@
   <p>
     This is the best place to start with the documentation:<br />
     <a href="/up.link">Linking to page fragments</a>
-  </p>
-
-  <h2>
-    Project status
-  </h2>
-
-  <p>
-    Up.js is very far in terms of the features we want to include,
-    but it lacks proper tests and prolonged exposure to the real world.
-    We're currently building a few apps with to improve the public API.
-  </p>
-
-  <p>
-    Don't use this in production yet unless you're ready to get involved with testing
-    and bugfixing.
   </p>
 
 </div>
