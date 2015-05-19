@@ -101,7 +101,9 @@
 
 <div class='prose'>
 <p>All HTTP requests go through the Up.js proxy.
-It caches a limited number</p>
+It caches a <a href="/up.proxy#up.proxy.defaults">limited</a> number of server responses
+  for a <a href="/up.proxy#up.proxy.defaults">limited</a> amount of time,
+making requests to these URLs return instly.</p>
 
 <p>The cache is cleared whenever the user makes a non-<code>GET</code> request
 (like <code>POST</code>, <code>PUT</code>, <code>DELETE</code>).</p>
@@ -244,9 +246,20 @@ but will also make the interaction feel less instant.</p>
         <div class="symbol is_public" id="up.proxy.ajax">
 
   <div class="symbol__signature">
-    up.proxy.ajax(options)
+    up.proxy.ajax(request.url, [request.method], [request.selector])
   </div>
 
+    <div class="symbol__prose">
+      <div class='prose'><p>Makes a request to the given URL and caches the response.
+If the response was already cached, returns the HTML instantly.</p>
+
+<p>If requesting a URL that is not read-only, the response will
+not be cached and the entire cache will be cleared.
+Only requests with a method of <code>GET</code>, <code>OPTIONS</code> and <code>HEAD</code>
+are considered to be read-only.</p>
+
+</div>
+    </div>
 
 
     <div class="symbol__subtitle">
@@ -255,7 +268,7 @@ but will also make the interaction feel less instant.</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.url          <span class="symbol__type">
+          request.url          <span class="symbol__type">
             String
           </span>
         </div>
@@ -266,7 +279,7 @@ but will also make the interaction feel less instant.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.method]          <span class="symbol__type">
+          [request.method]          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -280,7 +293,7 @@ but will also make the interaction feel less instant.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.selector]          <span class="symbol__type">
+          [request.selector]          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
