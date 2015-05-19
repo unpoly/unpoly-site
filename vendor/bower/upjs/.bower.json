@@ -16,20 +16,25 @@
     "doc",
     "lib",
     "pkg",
-    "spec_app"
+    "spec_app",
+    "Gemfile",
+    "Gemfile.lock",
+    "Rakefile",
+    ".ruby-version",
+    "upjs-rails.gemspec"
   ],
   "dependencies": {
     "jquery": ">= 1.9.1"
   },
-  "version": "0.2.1",
-  "_release": "0.2.1",
+  "version": "0.4.1",
+  "_release": "0.4.1",
   "_resolution": {
     "type": "version",
-    "tag": "v0.2.1",
-    "commit": "36a8406814d58fc251913b5ecc636f0ec3421a93"
+    "tag": "v0.4.1",
+    "commit": "88d7144b3b91b92e2fd645f4e1bf2280383ef079"
   },
   "_source": "git://github.com/makandra/upjs.git",
-  "_target": "~0.2.1",
+  "_target": "~0.4.1",
   "_originalSource": "upjs",
   "_direct": true
 }

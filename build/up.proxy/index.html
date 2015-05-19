@@ -6,7 +6,7 @@
     <meta name="format-detection" content="telephone=no"> 
     <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-    <title>Pop-up overlays - Up.js Guide</title>
+    <title>Caching and preloading - Up.js Guide</title>
 
     <link href="/stylesheets/application.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -96,27 +96,20 @@
               
 
 <h1 class="title">
-  Pop-up overlays
+  Caching and preloading
 </h1>
 
 <div class='prose'>
-<p>Instead of linking to another page fragment, you can also choose
-to "roll up" any target CSS selector in a popup overlay. 
-Popup overlays close themselves if the user clicks somewhere outside the
-popup area. </p>
+<p>All HTTP requests go through the Up.js proxy.
+It caches a limited number</p>
 
-<p>For modal dialogs see <a href="/up.modal">up.modal</a> instead.</p>
+<p>The cache is cleared whenever the user makes a non-<code>GET</code> request
+(like <code>POST</code>, <code>PUT</code>, <code>DELETE</code>).</p>
 
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
-
-<p>We need to work on this page:</p>
-
-<ul>
-  <li>Show the HTML structure of the popup elements, and how to style them via CSS</li>
-  <li>Explain how to position popup using <code>up-origin</code></li>
-  <li>Explain how dialogs auto-close themselves when a fragment changes behind the popup layer</li>
-  <li>Document method parameters</li>
-</ul>
+<p>The proxy can also used to speed up reaction times by preloading
+links when the user hovers over the click area (or puts the mouse/finger
+down before releasing). This way the
+response will already be cached when the user performs the click.   </p>
 
 </div>
 
@@ -131,24 +124,18 @@ popup area. </p>
 
     <div class="api__symbols">
 
-        <div class="symbol is_public" id="a[up-popup]">
+        <div class="symbol is_public" id="[up-preload]">
 
   <div class="symbol__signature">
-    a[up-popup]
+    [up-preload]
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Opens the target of this link in a popup overlay:</p>
-
-<pre><code>&lt;a href="/decks" up-modal=".deck_list"&gt;Switch deck&lt;/a&gt;
-</code></pre>
-
-<p>If the <code>up-sticky</code> attribute is set, the dialog does not auto-close
-if a page fragment below the popup overlay updates:</p>
-
-<pre><code>&lt;a href="/decks" up-popup=".deck_list"&gt;Switch deck&lt;/a&gt;
-&lt;a href="/settings" up-popup=".options" up-sticky&gt;Settings&lt;/a&gt;
-</code></pre>
+      <div class='prose'><p>Links with an <code>up-preload</code> attribute will silently fetch their target
+when the user hovers over the click area, or when the user puts her
+mouse/finger down (before releasing). This way the
+response will already be cached when the user performs the click,
+making the interaction feel instant.   </p>
 
 </div>
     </div>
@@ -160,7 +147,7 @@ if a page fragment below the popup overlay updates:</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [up-sticky]          <span class="symbol__type">
+          [[up-delay]]          <span class="symbol__type">
             
           </span>
             <span class="symbol__tag is_optional">
@@ -169,40 +156,12 @@ if a page fragment below the popup overlay updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The number of milliseconds to wait between hovering
+and preloading. Increasing this will lower the load in your server,
+but will also make the interaction feel less instant.</p>
 </div>
         </div>
       </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [up-origin]          <span class="symbol__type">
-            
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-
-  
-</div>
-
-        <div class="symbol is_public" id="[up-close]">
-
-  <div class="symbol__signature">
-    [up-close]
-  </div>
-
-    <div class="symbol__prose">
-      <div class='prose'><p>When an element with this attribute is clicked,
-a currently open popup is closed. </p>
-
-</div>
-    </div>
-
 
   
 </div>
@@ -223,10 +182,10 @@ a currently open popup is closed. </p>
 
     <div class="api__symbols">
 
-        <div class="symbol is_public" id="up.popup.defaults">
+        <div class="symbol is_public" id="up.proxy.defaults">
 
   <div class="symbol__signature">
-    up.popup.defaults(options)
+    up.proxy.defaults([options])
   </div>
 
 
@@ -237,9 +196,12 @@ a currently open popup is closed. </p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.animation          <span class="symbol__type">
-            String
+          [options.preloadDelay]          <span class="symbol__type">
+            Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -248,12 +210,30 @@ a currently open popup is closed. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.origin          <span class="symbol__type">
-            String
+          [options.cacheSize]          <span class="symbol__type">
+            Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.cacheExpiry]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The number of milliseconds until a cache entry expires.</p>
 </div>
         </div>
       </div>
@@ -261,17 +241,12 @@ a currently open popup is closed. </p>
   
 </div>
 
-        <div class="symbol is_public" id="up.popup.open">
+        <div class="symbol is_public" id="up.proxy.ajax">
 
   <div class="symbol__signature">
-    up.popup.open(elementOrSelector, [options])
+    up.proxy.ajax(options)
   </div>
 
-    <div class="symbol__prose">
-      <div class='prose'><p>Opens a popup overlay.</p>
-
-</div>
-    </div>
 
 
     <div class="symbol__subtitle">
@@ -280,8 +255,8 @@ a currently open popup is closed. </p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          elementOrSelector          <span class="symbol__type">
-            Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
+          options.url          <span class="symbol__type">
+            String
           </span>
         </div>
         <div class="symbol__param_prose">
@@ -291,7 +266,7 @@ a currently open popup is closed. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.origin]          <span class="symbol__type">
+          [options.method]          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -305,7 +280,7 @@ a currently open popup is closed. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.animation]          <span class="symbol__type">
+          [options.selector]          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -314,101 +289,6 @@ a currently open popup is closed. </p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.sticky]          <span class="symbol__type">
-            Boolean
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-<p>If set to <code>true</code>, the popup remains
-open even if the page changes in the background.</p>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.history]          <span class="symbol__type">
-            Object
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-
-  
-</div>
-
-        <div class="symbol is_public" id="up.popup.source">
-
-  <div class="symbol__signature">
-    up.popup.source()
-  </div>
-
-    <div class="symbol__prose">
-      <div class='prose'><p>Returns the source URL for the fragment displayed
-in the current popup overlay, or <code>undefined</code> if no
-popup is open.</p>
-
-</div>
-    </div>
-
-
-
-    <div class="symbol__subtitle">
-      Return value
-    </div>
-
-      <div class="symbol__type">
-        String
-      </div>
-
-    <div class="symbol__response">
-      <div class='prose'>
-<p>the source URL</p>
-</div>
-    </div>
-  
-</div>
-
-        <div class="symbol is_public" id="up.popup.close">
-
-  <div class="symbol__signature">
-    up.popup.close(options)
-  </div>
-
-    <div class="symbol__prose">
-      <div class='prose'><p>Closes a currently opened popup overlay.
-Does nothing if no popup is currently open.</p>
-
-</div>
-    </div>
-
-
-    <div class="symbol__subtitle">
-      Parameters
-    </div>
-
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          options          <span class="symbol__type">
-            Object
-          </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'><p>See options for <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
 </div>
         </div>
       </div>

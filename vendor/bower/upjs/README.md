@@ -1,47 +1,49 @@
-# Up + Rails bindings (WIP)
+# Up.js: Snappy UI for server-side web applications
 
-Up.js is a solution for Rails apps that need fast-responding UI
-but don't want to pay the Javascript MVC complexity tax.
+Up.js gives your traditional web application fast-responding views with minimal changes to your code and development style. If you require modern UX but don't want to pay the Javascript MVC complexity tax, Up.js can be a solution for you.
 
-## Design manifesto
-
-### Client-side code is a complexity driver
-
-### Server-side code should stay the same
-- We like the simplicity of classic Rails development
-- It should not require extra controller actions to update a page part via AJAX
-
-### Batteries included
-- We will ship a basic implementation for the most established UI patterns like navigation bars, infinite scrolling, drop-down menus, modals
-- We will split this out into a plugin architecture eventually, but not now
-
-### Ruby on Rails first
-- We will leverage the assumptions that Rails is underneath
-- Other frameworks once we’re happy with Rails
-
-### Not for ambitious UIs
-- We don’t want to compromise ease of use for simple patterns by providing a million hooks and options
-- Limits in configurability
-- You can always roll your own code
-- Probably the wrong choice if you want to create something very ambitious
-
-### (Sort of) Plays nice with existing JS code
-- If you're ready to go into our event binding
-
-### URLs are important
-- Every page has an URL
-- Works nice with Google
- Works with browsers that don’t speak Up.js (e. g. IE9 doesn’t speak pushState)
-
-### Be small
-
-### Few dependencies
-- jQuery
-
-### Convention over configuration
-
-### Interface: Both UJS and programmatic
+See [upjs.io](http://upjs.io) for more information and API documentation.
 
 
+## Running tests
+
+Overview:
+
+- This currently requires Ruby
+- There's a Rails app in `spec_app`
+- Jasmine tests live in `spec_app/spec/javascripts`
+- There are also some Cucumber integration tests left in `spec_app/features`, but this is legacy code.
+  Testing with Jasmine works so well that we want the entire test suite to become pure-JS Jasmine specs.
+ 
+To run Jasmine tests:
+ 
+- Install Ruby 2.1.2
+- `cd` into `spec_app`
+- Install dependencies by running `bundle install`
+- Start the Rails server
+- Access `http://localhost:3000/specs`
 
 
+## Making a new release
+
+We are currently feeding three release channels:
+
+- Manual download from Github
+- Bower
+- Rubygems (as the `upjs-rails` gem)
+
+To make a new Release, start with the gem:
+
+- Edit `lib/upjs/rails/version.rb` and bump the version number. Use [semantic versioning](http://semver.org/).
+- Commit and push the version bump
+- From the project root, type `rake release`. This will publish a new gem version to Rubygems.org.
+  It will also push a tag for this version, which Bower requires for its own versioning scheme.
+  
+Now make the release for manual download and bower:
+
+- From the project root, type `rake assets:compile`
+- This will output minified JS and CSS files to the `dist` folder
+- Commit and push the generated files
+
+  
+  

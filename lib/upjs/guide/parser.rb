@@ -88,7 +88,7 @@ module Upjs
         (?:
           \[           # opening bracket
           [\ \t]*      # whitespace
-          ([^\ \t\=]+?)  # optional param name ($1)
+          ([^\ \t\=]+)   # optional param name ($1)
           (?:
             [\ \t]*    # .. whitespace before equals symbol
             \=         # .. equals symbol

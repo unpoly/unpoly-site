@@ -35,7 +35,7 @@
         <div class="viewport">
           <div class="layout__side">
 
-            <a href="/" class="logo" up-target="#content" up-transition="cross-fade">
+            <a href="/" class="logo" up-dash="#content" up-transition="cross-fade">
               <img class="logo__glyph" src="/images/logo.gif" alt="" />
               <span class="logo__name">
                 Up.js
@@ -46,44 +46,47 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.form" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Caching and preloading
+                </a>
+                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.bus" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
 
             <div class="layout__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-target="#content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-dash="#content" up-transition="cross-fade">imprint</a>)
             </div>
 
           </div>
@@ -97,7 +100,20 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation.</p>
+<p>Any fragment change in Up.js can be animated.
+Up.js ships with a number of predefined animations and transitions,
+and you can easily define your own using Javascript or CSS. </p>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Explain the difference between transitions and animations</li>
+  <li>Demo the built-in animations and transitions</li>
+  <li>Examples for defining your own animations and transitions</li>
+  <li>Explain ghosting</li>
+</ul>
 
 </div>
 
@@ -113,6 +129,55 @@
 
     <div class="api__symbols">
 
+        <div class="symbol is_public" id="up.modal.defaults">
+
+  <div class="symbol__signature">
+    up.modal.defaults(options)
+  </div>
+
+
+
+    <div class="symbol__subtitle">
+      Parameters
+    </div>
+
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          options.duration          <span class="symbol__type">
+            Number
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          options.delay          <span class="symbol__type">
+            Number
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          options.easing          <span class="symbol__type">
+            String
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+
+  
+</div>
+
         <div class="symbol is_public" id="up.animate">
 
   <div class="symbol__signature">
@@ -121,6 +186,9 @@
 
     <div class="symbol__prose">
       <div class='prose'><p>Animates an element.</p>
+
+<p>If the element is already being animated, the previous animation
+will instantly jump to its last frame before the new animation begins. </p>
 
 <p>The following animations are pre-registered:</p>
 
@@ -228,6 +296,42 @@
   
 </div>
 
+        <div class="symbol is_public" id="up.motion.finish">
+
+  <div class="symbol__signature">
+    up.motion.finish(elementOrSelector)
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Completes all animations and transitions for the given element
+by jumping to the last animation frame instantly. All callbacks chained to
+the original animation's promise will be called.</p>
+
+<p>Does nothing if the given element is not currently animating.</p>
+
+</div>
+    </div>
+
+
+    <div class="symbol__subtitle">
+      Parameters
+    </div>
+
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          elementOrSelector          <span class="symbol__type">
+            Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+
+  
+</div>
+
         <div class="symbol is_public" id="up.morph">
 
   <div class="symbol__signature">
@@ -241,8 +345,8 @@
 
 <ul>
   <li><code>cross-fade</code></li>
-  <li><code>move-top</code></li>
-  <li><code>move-bottom</code></li>
+  <li><code>move-up</code></li>
+  <li><code>move-down</code></li>
   <li><code>move-left</code></li>
   <li><code>move-right</code></li>
   <li><code>none</code></li>
@@ -443,6 +547,39 @@ separated by a slash character (<code>/</code>):</p>
   
 </div>
 
+        <div class="symbol is_public" id="up.motion.when">
+
+  <div class="symbol__signature">
+    up.motion.when(promises...)
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Returns a new promise that resolves once all promises in the given array resolve.
+Other then e.g. <code>$.then</code>, the combined promise will have a <code>resolve</code> method.</p>
+
+</div>
+    </div>
+
+
+    <div class="symbol__subtitle">
+      Parameters
+    </div>
+
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          promises...          <span class="symbol__type">
+            
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+
+  
+</div>
+
         <div class="symbol is_public" id="up.motion.none">
 
   <div class="symbol__signature">
@@ -468,7 +605,7 @@ and completes instantly.</p>
 
     <div class="symbol__response">
       <div class='prose'>
-<p>A resolved promise  </p>
+<p>A resolved promise</p>
 </div>
     </div>
   

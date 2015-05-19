@@ -35,7 +35,7 @@
         <div class="viewport">
           <div class="layout__side">
 
-            <a href="/" class="logo" up-target="#content" up-transition="cross-fade">
+            <a href="/" class="logo" up-dash="#content" up-transition="cross-fade">
               <img class="logo__glyph" src="/images/logo.gif" alt="" />
               <span class="logo__name">
                 Up.js
@@ -46,44 +46,47 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.form" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Caching and preloading
+                </a>
+                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.bus" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
 
             <div class="layout__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-target="#content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-dash="#content" up-transition="cross-fade">imprint</a>)
             </div>
 
           </div>
@@ -97,15 +100,26 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation  </p>
+<p>This class is kind-of internal and in constant flux.</p>
 
-<p>This class is kind-of internal and in flux.
-This might eventually be rolled into regular document events.</p>
+<p>The framework event bus might eventually be rolled
+into regular document events.</p>
+
+<h3 id="available-events">Available events</h3>
 
 <ul>
   <li><code>app:ready</code></li>
   <li><code>fragment:ready</code> with arguments <code>($fragment)</code></li>
   <li><code>fragment:destroy</code> with arguments <code>($fragment)</code></li>
+</ul>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Decide whether to refactor this into document events</li>
+  <li>Document events</li>
 </ul>
 
 </div>
@@ -122,10 +136,10 @@ This might eventually be rolled into regular document events.</p>
 
     <div class="api__symbols">
 
-        <div class="symbol is_public" id="up.bus.listen">
+        <div class="symbol is_public" id="up.bus.on">
 
   <div class="symbol__signature">
-    up.bus.listen(eventName, handler)
+    up.bus.on(eventName, handler)
   </div>
 
     <div class="symbol__prose">
@@ -169,7 +183,7 @@ event is triggered.</p>
         <div class="symbol is_public" id="up.bus.emit">
 
   <div class="symbol__signature">
-    up.bus.emit(eventName, args)
+    up.bus.emit(eventName, args...)
   </div>
 
     <div class="symbol__prose">
@@ -196,8 +210,8 @@ event is triggered.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          args          <span class="symbol__type">
-            Anything...
+          args...          <span class="symbol__type">
+            
           </span>
         </div>
         <div class="symbol__param_prose">

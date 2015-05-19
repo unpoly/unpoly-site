@@ -35,7 +35,7 @@
         <div class="viewport">
           <div class="layout__side">
 
-            <a href="/" class="logo" up-target="#content" up-transition="cross-fade">
+            <a href="/" class="logo" up-dash="#content" up-transition="cross-fade">
               <img class="logo__glyph" src="/images/logo.gif" alt="" />
               <span class="logo__name">
                 Up.js
@@ -46,44 +46,47 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.form" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Caching and preloading
+                </a>
+                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.bus" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
 
             <div class="layout__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-target="#content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-dash="#content" up-transition="cross-fade">imprint</a>)
             </div>
 
           </div>
@@ -97,7 +100,20 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation</p>
+<p>Instead of linking to another page fragment, you can also choose
+to open any target CSS selector in a modal dialog.</p>
+
+<p>For popup overlays see <a href="/up.popup">up.popup</a> instead.</p>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Show the HTML structure of the dialog elements, and how to style them via CSS</li>
+  <li>Explain how dialogs auto-close themselves when a fragment changes behind the modal layer</li>
+  <li>Document method parameters</li>
+</ul>
 
 </div>
 
@@ -138,17 +154,6 @@ if a page fragment below the dialog updates:</p>
       Parameters
     </div>
 
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          up-target          <span class="symbol__type">
-            
-          </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
           [up-sticky]          <span class="symbol__type">
@@ -202,7 +207,7 @@ if a page fragment below the dialog updates:</p>
         <div class="symbol is_public" id="up.modal.defaults">
 
   <div class="symbol__signature">
-    up.modal.defaults(options)
+    up.modal.defaults([options])
   </div>
 
 
@@ -213,9 +218,12 @@ if a page fragment below the dialog updates:</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.width          <span class="symbol__type">
+          [options.width]          <span class="symbol__type">
             Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -224,9 +232,12 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.height          <span class="symbol__type">
+          [options.height]          <span class="symbol__type">
             Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -235,9 +246,12 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.template          <span class="symbol__type">
+          [options.template]          <span class="symbol__type">
             String <span class="symbol__or">or</span> Function(config)
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -246,9 +260,12 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.closeLabel          <span class="symbol__type">
+          [options.closeLabel]          <span class="symbol__type">
             String
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -257,9 +274,12 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.openAnimation          <span class="symbol__type">
+          [options.openAnimation]          <span class="symbol__type">
             String
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -268,9 +288,12 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.closeAnimation          <span class="symbol__type">
+          [options.closeAnimation]          <span class="symbol__type">
             String
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>

@@ -35,7 +35,7 @@
         <div class="viewport">
           <div class="layout__side">
 
-            <a href="/" class="logo" up-target="#content" up-transition="cross-fade">
+            <a href="/" class="logo" up-dash="#content" up-transition="cross-fade">
               <img class="logo__glyph" src="/images/logo.gif" alt="" />
               <span class="logo__name">
                 Up.js
@@ -46,44 +46,47 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.form" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Caching and preloading
+                </a>
+                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.bus" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
 
             <div class="layout__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-target="#content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-dash="#content" up-transition="cross-fade">imprint</a>)
             </div>
 
           </div>
@@ -97,7 +100,21 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation  </p>
+<p>Up.js keeps a persistent Javascript environment during page transitions.
+To prevent memory leaks it is important to cleanly set up and tear down
+event handlers and custom elements.</p>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Explain when to use <code>up.on</code> and when to use <code>up.awaken</code></li>
+  <li>Example for integrating an external JS lib that is not aware of Up.js</li>
+  <li>Example for defining a custom element</li>
+  <li>Tell more about memory leaks and why they don't matter
+so much when you have full page loads.</li>
+</ul>
 
 </div>
 
@@ -157,11 +174,14 @@ is triggered on the given selector.</p>
       <div class="symbol__param">
         <div class="symbol__param_name">
           behavior          <span class="symbol__type">
-            Function
+            Function(event, $element, data)
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>The handler that should be called.</p>
+          <div class='prose'><p>The handler that should be called.
+The function takes the affected element as the first argument (as a jQuery object).
+If the element has an <code>up-data</code> attribute, its value is parsed as JSON
+and passed as a second argument.</p>
 </div>
         </div>
       </div>
@@ -172,7 +192,7 @@ is triggered on the given selector.</p>
         <div class="symbol is_public" id="up.awaken">
 
   <div class="symbol__signature">
-    up.awaken(selector, awakener)
+    up.awaken(selector, [options], awakener)
   </div>
 
     <div class="symbol__prose">
@@ -200,17 +220,77 @@ the given selector is inserted into the DOM through Up.js.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
+          [options.batch]          <span class="symbol__type">
+            Boolean
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>If set to <code>true</code> and a fragment insertion contains multiple
+elements matching the selector, <code>awakener</code> is only called once
+with a jQuery collection containing all matching elements. </p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
           awakener          <span class="symbol__type">
-            Function($element)
+            Function($element, data)
           </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'><p>The function to call when a matching element is inserted.
-The function takes the new element as the first argument (as a jQuery object).</p>
+The function takes the new element as the first argument (as a jQuery object).
+If the element has an <code>up-data</code> attribute, its value is parsed as JSON
+and passed as a second argument.</p>
 
 <p>The function may return another function that destroys the awakened
 object when it is removed from the DOM, by clearing global state such as
 time-outs and event handlers bound to the document.</p>
+</div>
+        </div>
+      </div>
+
+  
+</div>
+
+        <div class="symbol is_protected" id="up.magic.data">
+
+  <div class="symbol__signature">
+    up.magic.data(elementOrSelector)
+      <span class="symbol__tag is_visibility">
+        protected
+      </span>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Checks if the given element has an <code>up-data</code> attribute.
+If yes, parses the attribute value as JSON and returns the parsed object.</p>
+
+<p>Returns an empty object if the element has no <code>up-data</code> attribute.</p>
+
+<p>The API of this method is likely to change in the future, so
+we can support getting or setting individual keys.</p>
+
+</div>
+    </div>
+
+
+    <div class="symbol__subtitle">
+      Parameters
+    </div>
+
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          elementOrSelector          <span class="symbol__type">
+            String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
 </div>
         </div>
       </div>

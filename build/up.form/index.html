@@ -35,7 +35,7 @@
         <div class="viewport">
           <div class="layout__side">
 
-            <a href="/" class="logo" up-target="#content" up-transition="cross-fade">
+            <a href="/" class="logo" up-dash="#content" up-transition="cross-fade">
               <img class="logo__glyph" src="/images/logo.gif" alt="" />
               <span class="logo__name">
                 Up.js
@@ -46,44 +46,47 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.form" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Caching and preloading
+                </a>
+                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.bus" class="menu__item" up-target="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
 
             <div class="layout__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-target="#content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-dash="#content" up-transition="cross-fade">imprint</a>)
             </div>
 
           </div>
@@ -97,7 +100,22 @@
 </h1>
 
 <div class='prose'>
-<p>TODO: Write some documentation</p>
+<p>Up.js comes with functionality to submit forms without
+leaving the current page. This means you can replace page fragments,
+open dialogs with sub-forms, etc. all without losing form state.</p>
+
+<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+
+<p>We need to work on this page:</p>
+
+<ul>
+  <li>Explain how to display form errors</li>
+  <li>Explain that the server needs to send 2xx or 5xx status codes so
+Up.js can decide whether the form submission was successful</li>
+  <li>Explain that the server needs to send <code>X-Up-Location</code> and <code>X-Up-Method</code> headers
+if an successful form submission resulted in a redirect</li>
+  <li>Examples</li>
+</ul>
 
 </div>
 
@@ -122,7 +140,7 @@
       <div class='prose'><p>Submits the form through AJAX, searches the response for the selector
 given in <code>up-target</code> and replaces the selector content in the current page:</p>
 
-<pre><code>&lt;form method="POST" action="/users" up-target=".main"&gt;
+<pre><code>&lt;form method="post" action="/users" up-target=".main"&gt;
   ...
 &lt;/form&gt;
 </code></pre>
@@ -162,20 +180,6 @@ given in <code>up-target</code> and replaces the selector content in the current
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [up-history]          <span class="symbol__type">
-            String
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
           [up-transition]          <span class="symbol__type">
             String
           </span>
@@ -199,6 +203,38 @@ given in <code>up-target</code> and replaces the selector content in the current
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-history]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-method]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The HTTP method to be used to submit the form
+(<code>get</code>, <code>post</code>, <code>put</code>, <code>delete</code>, <code>patch</code>).
+Alternately you can use an attribute <code>data-method</code> (Rails UJS)
+or <code>method</code> (vanilla HTML) for the same purpose.  </p>
 </div>
         </div>
       </div>
@@ -276,6 +312,10 @@ blurs the text field.</p>
 <pre><code>up.submit('form.new_user')
 </code></pre>
 
+<p>Instead of loading a new page, the form is submitted via AJAX.
+The response is parsed for a CSS selector and the matching elements will
+replace corresponding elements on the current page.</p>
+
 </div>
     </div>
 
@@ -294,6 +334,34 @@ blurs the text field.</p>
           <div class='prose'><p>A reference or selector for the form to submit.
 If the argument points to an element that is not a form,
 Up.js will search its ancestors for the closest form.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.url]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.method]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
 </div>
         </div>
       </div>
@@ -397,8 +465,7 @@ If you pass a <code>String</code>, it is used as the URL for the browser history
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Observes an input field by periodic polling its value.
-Executes code when the value changes.</p>
+      <div class='prose'><p>Observes an input field and executes code when its value changes.</p>
 
 <pre><code>up.observe('input', { change: function(value, $input) {
   up.submit($input)
@@ -444,7 +511,7 @@ If given as a string, it will be evaled as Javascript code in a context where
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.frequency]          <span class="symbol__type">
+          [options.delay]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -453,6 +520,9 @@ If given as a string, it will be evaled as Javascript code in a context where
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The number of miliseconds to wait before executing the callback
+after the input value changes. Use this to limit how often the callback
+will be invoked for a fast typist.</p>
 </div>
         </div>
       </div>
