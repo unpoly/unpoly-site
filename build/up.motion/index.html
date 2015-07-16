@@ -79,6 +79,9 @@
                 <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Viewport scrolling
+                </a>
                 <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
@@ -132,7 +135,7 @@ and you can easily define your own using Javascript or CSS. </p>
         <div class="symbol is_public" id="up.modal.defaults">
 
   <div class="symbol__signature">
-    up.modal.defaults(options)
+    up.modal.defaults([options])
   </div>
 
 
@@ -143,9 +146,12 @@ and you can easily define your own using Javascript or CSS. </p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.duration          <span class="symbol__type">
+          [options.duration]          <span class="symbol__type">
             Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -154,9 +160,12 @@ and you can easily define your own using Javascript or CSS. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.delay          <span class="symbol__type">
+          [options.delay]          <span class="symbol__type">
             Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -165,9 +174,12 @@ and you can easily define your own using Javascript or CSS. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options.easing          <span class="symbol__type">
+          [options.easing]          <span class="symbol__type">
             String
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>

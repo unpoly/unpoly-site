@@ -79,6 +79,9 @@
                 <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Viewport scrolling
+                </a>
                 <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
@@ -103,10 +106,10 @@
 <p>All HTTP requests go through the Up.js proxy.
 It caches a <a href="/up.proxy#up.proxy.defaults">limited</a> number of server responses
   for a <a href="/up.proxy#up.proxy.defaults">limited</a> amount of time,
-making requests to these URLs return instly.</p>
+making requests to these URLs return insantly.</p>
 
 <p>The cache is cleared whenever the user makes a non-<code>GET</code> request
-(like <code>POST</code>, <code>PUT</code>, <code>DELETE</code>).</p>
+(like <code>POST</code>, <code>PUT</code> or <code>DELETE</code>).</p>
 
 <p>The proxy can also used to speed up reaction times by preloading
 links when the user hovers over the click area (or puts the mouse/finger

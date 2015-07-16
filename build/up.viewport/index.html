@@ -6,7 +6,7 @@
     <meta name="format-detection" content="telephone=no"> 
     <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-    <title>Tooltips - Up.js Guide</title>
+    <title>Viewport scrolling - Up.js Guide</title>
 
     <link href="/stylesheets/application.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -99,64 +99,16 @@
               
 
 <h1 class="title">
-  Tooltips
+  Viewport scrolling
 </h1>
 
 <div class='prose'>
-<p>Elements that have an <code>up-tooltip</code> attribute will show the attribute
-value in a tooltip when a user hovers over the element. </p>
+<p>This modules contains functions to scroll the viewport and reveal contained elements.</p>
 
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
-
-<p>We need to work on this page:</p>
-
-<ul>
-  <li>Show the tooltip's HTML structure and how to style the elements</li>
-  <li>Explain how to position tooltips using <code>up-origin</code></li>
-  <li>We should have a position about tooltips that contain HTML.</li>
-</ul>
+<p>By default Up.js will always scroll to an element before updating it.</p>
 
 </div>
 
-  <div class="api">
-
-    <div class="api__title">Unobtrusive behavior</div>
-
-    <div class="api__explanation">
-      Elements matching these CSS selectors will automatically
-      gain useful behavior when Up.js is loaded.
-    </div>
-
-    <div class="api__symbols">
-
-        <div class="symbol is_public" id="up-tooltip">
-
-  <div class="symbol__signature">
-    [up-tooltip]
-  </div>
-
-    <div class="symbol__prose">
-      <div class='prose'><p>Displays a tooltip when hovering the mouse over this element:</p>
-
-<pre><code>&lt;a href="/decks" up-tooltip="Show all decks"&gt;Decks&lt;/a&gt;
-</code></pre>
-
-<p>You can also make an existing <code>title</code> attribute appear as a tooltip:</p>
-
-<pre><code>&lt;a href="/decks" title="Show all decks" up-tooltip&gt;Decks&lt;/a&gt;
-</code></pre>
-
-</div>
-    </div>
-
-
-  
-</div>
-
-
-    </div>
-
-  </div>
 
   <div class="api">
 
@@ -169,17 +121,12 @@ value in a tooltip when a user hovers over the element. </p>
 
     <div class="api__symbols">
 
-        <div class="symbol is_public" id="up.tooltip.open">
+        <div class="symbol is_public" id="up.viewport.defaults">
 
   <div class="symbol__signature">
-    up.tooltip.open(elementOrSelector, html, [options])
+    up.viewport.defaults([options])
   </div>
 
-    <div class="symbol__prose">
-      <div class='prose'><p>Opens a tooltip.</p>
-
-</div>
-    </div>
 
 
     <div class="symbol__subtitle">
@@ -188,9 +135,12 @@ value in a tooltip when a user hovers over the element. </p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          elementOrSelector          <span class="symbol__type">
-            Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
+          [options.duration]          <span class="symbol__type">
+            Number
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -199,18 +149,7 @@ value in a tooltip when a user hovers over the element. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          html          <span class="symbol__type">
-            String
-          </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.origin]          <span class="symbol__type">
+          [options.easing]          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -224,8 +163,22 @@ value in a tooltip when a user hovers over the element. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.animation]          <span class="symbol__type">
-            String
+          [options.padding]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.view]          <span class="symbol__type">
+            String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
           </span>
             <span class="symbol__tag is_optional">
               optional
@@ -240,18 +193,15 @@ value in a tooltip when a user hovers over the element. </p>
   
 </div>
 
-        <div class="symbol is_public" id="up.tooltip.close">
+        <div class="symbol is_protected" id="up.scroll">
 
   <div class="symbol__signature">
-    up.tooltip.close(options)
+    up.scroll(viewOrSelector, scrollPos, [options])
+      <span class="symbol__tag is_visibility">
+        protected
+      </span>
   </div>
 
-    <div class="symbol__prose">
-      <div class='prose'><p>Closes a currently shown tooltip.
-Does nothing if no tooltip is currently shown.</p>
-
-</div>
-    </div>
 
 
     <div class="symbol__subtitle">
@@ -260,16 +210,167 @@ Does nothing if no tooltip is currently shown.</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          options          <span class="symbol__type">
-            Object
+          viewOrSelector          <span class="symbol__type">
+            String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>See options for See options for <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          scrollPos          <span class="symbol__type">
+            Number
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.duration]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.easing]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
 </div>
         </div>
       </div>
 
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Deferred
+      </div>
+
+    <div class="symbol__response">
+      <div class='prose'>
+</div>
+    </div>
+  
+</div>
+
+        <div class="symbol is_protected" id="up.reveal">
+
+  <div class="symbol__signature">
+    up.reveal(element, [options])
+      <span class="symbol__tag is_visibility">
+        protected
+      </span>
+  </div>
+
+
+
+    <div class="symbol__subtitle">
+      Parameters
+    </div>
+
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          element          <span class="symbol__type">
+            String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.view]          <span class="symbol__type">
+            String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.duration]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.easing]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.padding]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Deferred
+      </div>
+
+    <div class="symbol__response">
+      <div class='prose'>
+</div>
+    </div>
   
 </div>
 

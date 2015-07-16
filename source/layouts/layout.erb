@@ -46,7 +46,7 @@
             </a>
 
             <div class="menu">
-              <% %w[up.link up.modal up.popup up.motion up.navigation up.magic up.flow up.proxy up.form up.tooltip up.history up.bus].each do |klass_name| %>
+              <% %w[up.link up.modal up.popup up.motion up.navigation up.magic up.flow up.proxy up.form up.tooltip up.history up.viewport up.bus].each do |klass_name| %>
                 <% klass = guide.klass_for_name(klass_name) %>
                 <a href="<%= klass.guide_path %>" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   <%= klass.title %>

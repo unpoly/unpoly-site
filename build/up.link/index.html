@@ -79,6 +79,9 @@
                 <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Viewport scrolling
+                </a>
                 <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
@@ -375,8 +378,11 @@ in order to enlarge the link's click area:</p>
 This is done by fetching <code>url</code> through an AJAX request
 and replacing the current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element.</p>
 
-<p>@example
-    up.visit('/users')</p>
+<p>For example, this would fetch the <code>/users</code> URL:</p>
+
+<pre><code>up.visit('/users')
+</code></pre>
+
 </div>
     </div>
 
@@ -414,12 +420,23 @@ and replacing the current <code>&lt;body&gt;</code> element with the response's 
         <div class="symbol is_public" id="up.follow">
 
   <div class="symbol__signature">
-    up.follow(link, [options])
+    up.follow(link, [options], scroll)
   </div>
 
     <div class="symbol__prose">
       <div class='prose'><p>Follows the given link via AJAX and replaces a CSS selector in the current page
 with corresponding elements from a new page fetched from the server.</p>
+
+<p>Any Up.js UJS attributes on the given link will be honored. E. g. you have this link:</p>
+
+<pre><code>&lt;a href="/users" up-target=".main"&gt;Users&lt;/a&gt;
+</code></pre>
+
+<p>You can update the page's <code>.main</code> selector with the <code>.main</code> from <code>/users</code> like this:</p>
+
+<pre><code>var $link = $('a:first'); // select link with jQuery
+up.follow($link);
+</code></pre>
 
 </div>
     </div>
@@ -470,6 +487,18 @@ or to <code>body</code> if such an attribute does not exist.</p>
         <div class="symbol__param_prose">
           <div class='prose'>
 <p>A transition function or name.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          scroll          <span class="symbol__type">
+            Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'><p>An element or selector that will be scrolled to the top in
+case the replaced element is not visible in the viewport.</p>
 </div>
         </div>
       </div>

@@ -79,6 +79,9 @@
                 <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Viewport scrolling
+                </a>
                 <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
@@ -100,18 +103,35 @@
 </h1>
 
 <div class='prose'>
-<p>This class is kind-of internal and in constant flux.</p>
+<p>Up.js uses an internal event bus that you can use to hook into lifecycle events like "an HTML fragment into the DOM".</p>
 
-<p>The framework event bus might eventually be rolled
-into regular document events.</p>
+<p>This internal event bus might eventually be rolled into regular events that we trigger on <code>document</code>.</p>
 
-<h3 id="available-events">Available events</h3>
+<h3 id="fragmentready-event"><code>fragment:ready</code> event</h3>
 
-<ul>
-  <li><code>app:ready</code></li>
-  <li><code>fragment:ready</code> with arguments <code>($fragment)</code></li>
-  <li><code>fragment:destroy</code> with arguments <code>($fragment)</code></li>
-</ul>
+<p>This event is triggered after Up.js has inserted an HTML fragment into the DOM through mechanisms like <a href="/up.flow#up-target"><code>[up-target]</code></a> or <a href="/up.flow#up.replace"><code>up.replace</code></a>:</p>
+
+<pre><code>up.bus.on('fragment:ready', function($fragment) {
+  console.log("Looks like we have a new %o!", $fragment);
+});
+</code></pre>
+
+<p>The event is triggered <em>before</em> Up has compiled the fragment with your <a href="/up.magic">custom behavior</a>.
+Upon receiving the event, Up.js will start compilation.</p>
+
+<h3 id="fragmentdestroy-event"><code>fragment:destroy</code> event</h3>
+
+<p>This event is triggered when Up.js is destroying an HTML fragment, e.g. because it's being replaced
+with a new version or because someone explicitly called <a href="/up.flow#up.destroy"><code>up.destroy</code></a>:</p>
+
+<pre><code>up.bus.on('fragment:destroy', function($fragment) {
+  console.log("Looks like we lost %o!", $fragment);
+});
+</code></pre>
+
+<p>After triggering this event, Up.js will remove the fragment from the DOM.
+In case the fragment destruction is animated, Up.js will complete the
+animation before removing the fragment from the DOM.</p>
 
 <h3 id="incomplete-documentation">Incomplete documentation!</h3>
 
@@ -119,7 +139,7 @@ into regular document events.</p>
 
 <ul>
   <li>Decide whether to refactor this into document events</li>
-  <li>Document events</li>
+  <li>Decide whether <code>fragment:enter</code> and <code>fragment:leave</code> would be better names</li>
 </ul>
 
 </div>
@@ -187,7 +207,22 @@ event is triggered.</p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Triggers an event.</p>
+      <div class='prose'><p>Triggers an event over the framework bus.</p>
+
+<p>All arguments will be passed as arguments to event listeners:</p>
+
+<pre><code>up.bus.on('foo:bar', function(x, y) {
+  console.log("Value of x is " + x);
+  console.log("Value of y is " + y);
+});
+
+up.bus.emit('foo:bar', 'arg1', 'arg2')
+
+// This prints to the console:
+//
+//   Value of x is arg1
+//   Value of y is arg2
+</code></pre>
 
 </div>
     </div>

@@ -79,6 +79,9 @@
                 <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                  Viewport scrolling
+                </a>
                 <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
                   Framework events
                 </a>
@@ -109,11 +112,7 @@ event handlers and custom elements.</p>
 <p>We need to work on this page:</p>
 
 <ul>
-  <li>Explain when to use <code>up.on</code> and when to use <code>up.awaken</code></li>
-  <li>Example for integrating an external JS lib that is not aware of Up.js</li>
-  <li>Example for defining a custom element</li>
-  <li>Tell more about memory leaks and why they don't matter
-so much when you have full page loads.</li>
+  <li>Better class-level introduction for this module</li>
 </ul>
 
 </div>
@@ -137,9 +136,51 @@ so much when you have full page loads.</li>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Binds an event handler to the document,
-which will be executed whenever the given event
-is triggered on the given selector.</p>
+      <div class='prose'><p>Binds an event handler to the document, which will be executed whenever the
+given event is triggered on the given selector:</p>
+
+<pre><code>up.on('click', '.button', function(event, $element) {
+  console.log("Someone clicked the button %o", $element);
+});
+</code></pre>
+
+<p>This is roughly equivalent to binding a jQuery element to <code>document</code>.</p>
+
+<h4 id="attaching-structured-data">Attaching structured data</h4>
+
+<p>In case you want to attach structured data to the event you're observing,
+you can serialize the data to JSON and put it into an <code>[up-data]</code> attribute:</p>
+
+<pre><code>&lt;span class="person" up-data="{ age: 18, name: 'Bob' }"&gt;Bob&lt;/span&gt;
+&lt;span class="person" up-data="{ age: 22, name: 'Jim' }"&gt;Jim&lt;/span&gt;
+</code></pre>
+
+<p>The JSON will parsed and handed to your event handler as a third argument:</p>
+
+<pre><code>up.on('click', '.person', function(event, $element, data) {
+  console.log("This is %o who is %o years old", data.name, data.age);
+});
+</code></pre>
+
+<h4 id="migrating-jquery-event-handlers-to-upon">Migrating jQuery event handlers to <code>up.on</code></h4>
+
+<p>Within the event handler, Up.js will bind <code>this</code> to the
+native DOM element to help you migrate your existing jQuery code to
+this new syntax.</p>
+
+<p>So if you had this before:</p>
+
+<pre><code>$(document).on('click', '.button', function() {
+  $(this).something();
+});
+</code></pre>
+
+<p>… you can simply copy the event handler to <code>up.on</code>:</p>
+
+<pre><code>up.on('click', '.button', function() {
+  $(this).something();
+});
+</code></pre>
 
 </div>
     </div>
@@ -198,6 +239,112 @@ and passed as a second argument.</p>
     <div class="symbol__prose">
       <div class='prose'><p>Registers a function to be called whenever an element with
 the given selector is inserted into the DOM through Up.js.</p>
+
+<p>This is a great way to integrate jQuery plugins.
+Let's say your Javascript plugin wants you to call <code>lightboxify()</code>
+on links that should open a lightbox. You decide to
+do this for all links with an <code>[rel=lightbox]</code> attribute:</p>
+
+<pre><code>&lt;a href="river.png" rel="lightbox"&gt;River&lt;/a&gt;
+&lt;a href="ocean.png" rel="lightbox"&gt;Ocean&lt;/a&gt;
+</code></pre>
+
+<p>This Javascript will do exactly that:</p>
+
+<pre><code>up.awaken('a[rel=lightbox]', function($element) {
+  $element.lightboxify();
+});
+</code></pre>
+
+<p>Note that within the awakener, Up.js will bind <code>this</code> to the
+native DOM element to help you migrate your existing jQuery code to
+this new syntax.</p>
+
+<h4 id="custom-elements">Custom elements</h4>
+
+<p>You can also use <code>up.awaken</code> to implement custom elements like this:</p>
+
+<pre><code>&lt;current-time&gt;&lt;/current-time&gt;
+</code></pre>
+
+<p>Here is the Javascript that inserts the current time into to these elements:</p>
+
+<pre><code>up.awaken('current-time', function($element) {
+  var now = new Date();
+  $element.text(now.toString()));
+});
+</code></pre>
+
+<h4 id="cleaning-up-after-yourself">Cleaning up after yourself</h4>
+
+<p>If your awakener returns a function, Up.js will use this as a <em>destructor</em> to
+clean up if the element leaves the DOM. Note that in Up.js the same DOM ad Javascript environment
+will persist through many page loads, so it's important to not create
+<a href="https://makandracards.com/makandra/31325-how-to-create-memory-leaks-in-jquery">memory leaks</a>.</p>
+
+<p>You should clean up after yourself whenever your awakeners have global
+side effects, like a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval"><code>setInterval</code></a>
+or event handlers bound to the document root.</p>
+
+<p>Here is a version of <code>&lt;current-time&gt;</code> that updates
+the time every second, and cleans up once it's done:</p>
+
+<pre><code>up.awaken('current-time', function($element) {
+
+  function update() {
+    var now = new Date();
+    $element.text(now.toString()));
+  }
+
+  setInterval(update, 1000);
+
+  return function() {
+    clearInterval(update);
+  };
+
+});
+</code></pre>
+
+<p>If we didn't clean up after ourselves, we would have many ticking intervals
+operating on detached DOM elements after we have created and removed a couple
+of <code>&lt;current-time&gt;</code> elements.</p>
+
+<h4 id="attaching-structured-data">Attaching structured data</h4>
+
+<p>In case you want to attach structured data to the event you're observing,
+you can serialize the data to JSON and put it into an <code>[up-data]</code> attribute.
+For instance, a container for a <a href="https://developers.google.com/maps/documentation/javascript/tutorial">Google Map</a>
+might attach the location and names of its marker pins:</p>
+
+<pre><code>&lt;div class="google-map" up-data="[
+  { lat: 48.36, lng: 10.99, title: 'Friedberg' },
+  { lat: 48.75, lng: 11.45, title: 'Ingolstadt' }
+]"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>The JSON will parsed and handed to your event handler as a second argument:</p>
+
+<pre><code>up.awaken('.google-map', function($element, pins) {
+
+  var map = new google.maps.Map($element);
+
+  pins.forEach(function(pin) {
+    var position = new google.maps.LatLng(pin.lat, pin.lng);
+    new google.maps.Marker({
+      position: position,
+      map: map,
+      title: pin.title
+    });
+  });
+
+});
+</code></pre>
+
+<h4 id="migrating-jquery-event-handlers-to-upon">Migrating jQuery event handlers to <code>up.on</code></h4>
+
+<p>Within the awakener, Up.js will bind <code>this</code> to the
+native DOM element to help you migrate your existing jQuery code to
+this new syntax.</p>
 
 </div>
     </div>
