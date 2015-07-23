@@ -129,7 +129,7 @@ popup area. </p>
 
     <div class="api__explanation">
       Elements matching these CSS selectors will automatically
-      gain useful behavior when Up.js is loaded.
+      gain useful behavior when they are added to the DOM tree.
     </div>
 
     <div class="api__symbols">
@@ -137,7 +137,7 @@ popup area. </p>
         <div class="symbol is_public" id="a.up-popup">
 
   <div class="symbol__signature">
-    a[up-popup]
+    <a href="#a.up-popup">a[up-popup]</a>
   </div>
 
     <div class="symbol__prose">
@@ -155,6 +155,7 @@ if a page fragment below the popup overlay updates:</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -196,7 +197,7 @@ if a page fragment below the popup overlay updates:</p>
         <div class="symbol is_public" id="up-close">
 
   <div class="symbol__signature">
-    [up-close]
+    <a href="#up-close">[up-close]</a>
   </div>
 
     <div class="symbol__prose">
@@ -205,6 +206,7 @@ a currently open popup is closed. </p>
 
 </div>
     </div>
+
 
 
   
@@ -229,8 +231,9 @@ a currently open popup is closed. </p>
         <div class="symbol is_public" id="up.popup.defaults">
 
   <div class="symbol__signature">
-    up.popup.defaults(options)
+    <a href="#up.popup.defaults">up.popup.defaults(options)</a>
   </div>
+
 
 
 
@@ -267,7 +270,7 @@ a currently open popup is closed. </p>
         <div class="symbol is_public" id="up.popup.open">
 
   <div class="symbol__signature">
-    up.popup.open(elementOrSelector, [options])
+    <a href="#up.popup.open">up.popup.open(elementOrSelector, [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -275,6 +278,7 @@ a currently open popup is closed. </p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -294,7 +298,21 @@ a currently open popup is closed. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.origin]          <span class="symbol__type">
+          [options.url]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.origin='bottom-right']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -322,7 +340,7 @@ a currently open popup is closed. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.sticky]          <span class="symbol__type">
+          [options.sticky=false]          <span class="symbol__type">
             Boolean
           </span>
             <span class="symbol__tag is_optional">
@@ -338,7 +356,7 @@ open even if the page changes in the background.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.history]          <span class="symbol__type">
+          [options.history=false]          <span class="symbol__type">
             Object
           </span>
             <span class="symbol__tag is_optional">
@@ -357,7 +375,7 @@ open even if the page changes in the background.</p>
         <div class="symbol is_public" id="up.popup.source">
 
   <div class="symbol__signature">
-    up.popup.source()
+    <a href="#up.popup.source">up.popup.source()</a>
   </div>
 
     <div class="symbol__prose">
@@ -367,6 +385,7 @@ popup is open.</p>
 
 </div>
     </div>
+
 
 
 
@@ -389,7 +408,7 @@ popup is open.</p>
         <div class="symbol is_public" id="up.popup.close">
 
   <div class="symbol__signature">
-    up.popup.close(options)
+    <a href="#up.popup.close">up.popup.close(options)</a>
   </div>
 
     <div class="symbol__prose">
@@ -398,6 +417,7 @@ Does nothing if no popup is currently open.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">

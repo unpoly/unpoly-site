@@ -36,7 +36,7 @@ ul.bullets, .prose ul {
       top: 0em;
       font-weight: 400;
       font-size: 16px;
-      color: #4c93c3; }
+      color: #999; }
 
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
 .title, .prose h1 {
@@ -64,7 +64,7 @@ ul.bullets, .prose ul {
     color: #777;
     margin-left: 2px;
     margin-right: 2px;
-    font-family: "Ubuntu Mono";
+    font-family: "Ubuntu Mono", monospace;
     font-size: 18px;
     font-weight: normal; }
   /* line 24, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */

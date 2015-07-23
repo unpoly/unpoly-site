@@ -128,7 +128,7 @@ if an successful form submission resulted in a redirect</li>
 
     <div class="api__explanation">
       Elements matching these CSS selectors will automatically
-      gain useful behavior when Up.js is loaded.
+      gain useful behavior when they are added to the DOM tree.
     </div>
 
     <div class="api__symbols">
@@ -136,7 +136,7 @@ if an successful form submission resulted in a redirect</li>
         <div class="symbol is_public" id="form.up-target">
 
   <div class="symbol__signature">
-    form[up-target]
+    <a href="#form.up-target">form[up-target]</a>
   </div>
 
     <div class="symbol__prose">
@@ -150,6 +150,7 @@ given in <code>up-target</code> and replaces the selector content in the current
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -248,7 +249,7 @@ or <code>method</code> (vanilla HTML) for the same purpose.  </p>
         <div class="symbol is_public" id="input.up-observe">
 
   <div class="symbol__signature">
-    input[up-observe]
+    <a href="#input.up-observe">input[up-observe]</a>
   </div>
 
     <div class="symbol__prose">
@@ -266,6 +267,7 @@ blurs the text field.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -306,7 +308,7 @@ blurs the text field.</p>
         <div class="symbol is_public" id="up.submit">
 
   <div class="symbol__signature">
-    up.submit(formOrSelector, [options])
+    <a href="#up.submit">up.submit(formOrSelector, [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -321,6 +323,7 @@ replace corresponding elements on the current page.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -398,7 +401,7 @@ Up.js will search its ancestors for the closest form.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.history]          <span class="symbol__type">
+          [options.history=true]          <span class="symbol__type">
             Boolean <span class="symbol__or">or</span> String
           </span>
             <span class="symbol__tag is_optional">
@@ -464,7 +467,7 @@ If you pass a <code>String</code>, it is used as the URL for the browser history
         <div class="symbol is_public" id="up.observe">
 
   <div class="symbol__signature">
-    up.observe(fieldOrSelector, options)
+    <a href="#up.observe">up.observe(fieldOrSelector, options)</a>
   </div>
 
     <div class="symbol__prose">
@@ -481,6 +484,7 @@ blurs the text field.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -514,7 +518,7 @@ If given as a string, it will be evaled as Javascript code in a context where
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.delay]          <span class="symbol__type">
+          [options.delay=0]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">

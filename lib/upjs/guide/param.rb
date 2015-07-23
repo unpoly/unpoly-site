@@ -19,8 +19,20 @@ module Upjs
 
       alias_method :optional?, :optional
 
+      def default?
+        @default.present?
+      end
+
       def option?
         name =~ /^options\./
+      end
+
+      def signature
+        signature = ""
+        signature << name
+        signature << "=#{default}" if default?
+        signature = "[#{signature}]" if optional?
+        signature
       end
 
     end

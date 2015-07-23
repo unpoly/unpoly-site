@@ -1,44 +1,52 @@
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol {
-  margin-bottom: 40px; }
-  /* line 8, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  margin-bottom: 25px;
+  border-top: 2px solid #dbe0e3;
+  padding-top: 25px;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 10px;
+  padding-right: 10px; }
+  /* line 9, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
   .symbol:last-child {
     margin-bottom: 0; }
 
-/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__signature {
   font-family: "Ubuntu Mono";
   font-weight: 700;
-  font-size: 22px;
-  color: #2980B9; }
+  font-size: 22px; }
   /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
-  .symbol.is_protected .symbol__signature {
+  .symbol__signature, .symbol__signature a {
+    color: #2980B9; }
+  /* line 20, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  .symbol.is_protected .symbol__signature, .symbol.is_protected .symbol__signature a {
     color: #E74C3C; }
 
-/* line 20, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 24, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__param {
   margin-top: 14px; }
 
-/* line 23, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 27, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__param_name {
   font-family: "Ubuntu Mono";
   font-size: 18px;
   font-weight: bold;
   color: #777; }
 
-/* line 29, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 33, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__type {
   font-family: "Ubuntu Mono";
   font-size: 18px;
   font-weight: bold;
   color: #999; }
 
-/* line 35, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 39, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__param_prose {
   margin-top: 4px;
   margin-left: 20px; }
 
-/* line 39, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 43, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__subtitle {
   margin-top: 22px;
   margin-bottom: 10px;
@@ -47,12 +55,12 @@
   color: #333;
   font-weight: 700; }
 
-/* line 46, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 50, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__or {
   color: #b2b2b2;
   font-weight: normal; }
 
-/* line 50, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+/* line 54, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__tag {
   display: inline-block;
   background-color: #888;
@@ -64,9 +72,9 @@
   vertical-align: middle;
   padding-left: 4px;
   padding-right: 4px; }
-  /* line 60, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  /* line 64, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
   .symbol__tag.is_visibility {
     background-color: #E74C3C; }
-  /* line 63, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
+  /* line 67, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
   .symbol__tag.is_optional {
     background-color: #16A085; }

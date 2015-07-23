@@ -124,7 +124,7 @@ response will already be cached when the user performs the click.   </p>
 
     <div class="api__explanation">
       Elements matching these CSS selectors will automatically
-      gain useful behavior when Up.js is loaded.
+      gain useful behavior when they are added to the DOM tree.
     </div>
 
     <div class="api__symbols">
@@ -132,7 +132,7 @@ response will already be cached when the user performs the click.   </p>
         <div class="symbol is_public" id="up-preload">
 
   <div class="symbol__signature">
-    [up-preload]
+    <a href="#up-preload">[up-preload]</a>
   </div>
 
     <div class="symbol__prose">
@@ -146,13 +146,14 @@ making the interaction feel instant.   </p>
     </div>
 
 
+
     <div class="symbol__subtitle">
       Parameters
     </div>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [[up-delay]]          <span class="symbol__type">
+          [[up-delay]=50]          <span class="symbol__type">
             
           </span>
             <span class="symbol__tag is_optional">
@@ -190,8 +191,9 @@ but will also make the interaction feel less instant.</p>
         <div class="symbol is_public" id="up.proxy.defaults">
 
   <div class="symbol__signature">
-    up.proxy.defaults([options])
+    <a href="#up.proxy.defaults">up.proxy.defaults([options])</a>
   </div>
+
 
 
 
@@ -249,7 +251,7 @@ but will also make the interaction feel less instant.</p>
         <div class="symbol is_public" id="up.proxy.ajax">
 
   <div class="symbol__signature">
-    up.proxy.ajax(request.url, [request.method], [request.selector])
+    <a href="#up.proxy.ajax">up.proxy.ajax(request.url, [request.method], [request.selector])</a>
   </div>
 
     <div class="symbol__prose">
@@ -263,6 +265,7 @@ are considered to be read-only.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -282,7 +285,7 @@ are considered to be read-only.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [request.method]          <span class="symbol__type">
+          [request.method='GET']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">

@@ -172,7 +172,7 @@ Javascript will not be reloaded, no white flash during a full page reload.</p>
 
     <div class="api__explanation">
       Elements matching these CSS selectors will automatically
-      gain useful behavior when Up.js is loaded.
+      gain useful behavior when they are added to the DOM tree.
     </div>
 
     <div class="api__symbols">
@@ -180,7 +180,7 @@ Javascript will not be reloaded, no white flash during a full page reload.</p>
         <div class="symbol is_public" id="a.up-target">
 
   <div class="symbol__signature">
-    a[up-target]
+    <a href="#a.up-target">a[up-target]</a>
   </div>
 
     <div class="symbol__prose">
@@ -203,6 +203,7 @@ systems switch tabs on <code>mousedown</code>.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -239,7 +240,7 @@ This makes the interaction faster.</p>
         <div class="symbol is_public" id="up-follow">
 
   <div class="symbol__signature">
-    [up-follow]
+    <a href="#up-follow">[up-follow]</a>
   </div>
 
     <div class="symbol__prose">
@@ -274,6 +275,7 @@ would follow the <code>Close</code> link.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -312,7 +314,7 @@ would follow the <code>Close</code> link.</p>
         <div class="symbol is_public" id="up-dash">
 
   <div class="symbol__signature">
-    [up-dash]
+    <a href="#up-dash">[up-dash]</a>
   </div>
 
     <div class="symbol__prose">
@@ -348,6 +350,7 @@ in order to enlarge the link's click area:</p>
     </div>
 
 
+
   
 </div>
 
@@ -370,7 +373,7 @@ in order to enlarge the link's click area:</p>
         <div class="symbol is_public" id="up.visit">
 
   <div class="symbol__signature">
-    up.visit(url, options)
+    <a href="#up.visit">up.visit(url, options)</a>
   </div>
 
     <div class="symbol__prose">
@@ -385,6 +388,7 @@ and replacing the current <code>&lt;body&gt;</code> element with the response's 
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -420,7 +424,7 @@ and replacing the current <code>&lt;body&gt;</code> element with the response's 
         <div class="symbol is_public" id="up.follow">
 
   <div class="symbol__signature">
-    up.follow(link, [options], scroll)
+    <a href="#up.follow">up.follow(link, [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -440,6 +444,7 @@ up.follow($link);
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -492,12 +497,16 @@ or to <code>body</code> if such an attribute does not exist.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          scroll          <span class="symbol__type">
+          [options.scroll]          <span class="symbol__type">
             Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>An element or selector that will be scrolled to the top in
+          <div class='prose'>
+<p>An element or selector that will be scrolled to the top in
 case the replaced element is not visible in the viewport.</p>
 </div>
         </div>

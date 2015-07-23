@@ -106,17 +106,7 @@
 <p>Instead of linking to another page fragment, you can also choose
 to open any target CSS selector in a modal dialog.</p>
 
-<p>For popup overlays see <a href="/up.popup">up.popup</a> instead.</p>
-
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
-
-<p>We need to work on this page:</p>
-
-<ul>
-  <li>Show the HTML structure of the dialog elements, and how to style them via CSS</li>
-  <li>Explain how dialogs auto-close themselves when a fragment changes behind the modal layer</li>
-  <li>Document method parameters</li>
-</ul>
+<p>For small popup overlays ("dropdowns") see <a href="/up.popup">up.popup</a> instead.</p>
 
 </div>
 
@@ -126,7 +116,7 @@ to open any target CSS selector in a modal dialog.</p>
 
     <div class="api__explanation">
       Elements matching these CSS selectors will automatically
-      gain useful behavior when Up.js is loaded.
+      gain useful behavior when they are added to the DOM tree.
     </div>
 
     <div class="api__symbols">
@@ -134,23 +124,70 @@ to open any target CSS selector in a modal dialog.</p>
         <div class="symbol is_public" id="a.up-modal">
 
   <div class="symbol__signature">
-    a[up-modal]
+    <a href="#a.up-modal">a[up-modal]</a>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Opens the target of this link in a modal dialog:</p>
+      <div class='prose'><p>Clicking this link will load the destination via AJAX and open
+the given selector in a modal dialog.</p>
 
-<pre><code>&lt;a href="/decks" up-modal=".deck_list"&gt;Switch deck&lt;/a&gt;
+<p>Example:</p>
+
+<pre><code>&lt;a href="/blogs" up-modal=".blog-list"&gt;Switch blog&lt;/a&gt;
 </code></pre>
 
-<p>If the <code>up-sticky</code> attribute is set, the dialog does not auto-close
-if a page fragment below the dialog updates:</p>
+<p>Clicking would request the path <code>/blog</code> and select <code>.blog-list</code> from
+the HTML response. Up.js will dim the page with an overlay
+and place the matching <code>.blog_list</code> tag will be placed in
+a modal dialog.</p>
+
+<h4 id="customizing-the-dialog-design">Customizing the dialog design</h4>
+
+<p>Loading the Up.js stylesheet will give you a minimal dialog design:</p>
+
+<ul>
+  <li>Dialog contents are displayed in a white box that is centered vertically and horizontally.</li>
+  <li>There is a a subtle box shadow around the dialog</li>
+  <li>The box will grow to fit the dialog contents, but never grow larger than the screen</li>
+  <li>The box is placed over a semi-transparent background to dim the rest of the page</li>
+  <li>There is a button to close the dialog in the top-right corner</li>
+</ul>
+
+<p>The easiest way to change how the dialog looks is by overriding the <a href="https://github.com/makandra/upjs/blob/master/lib/assets/stylesheets/up/modal.css.sass">default CSS styles</a>.</p>
+
+<p>By default the dialog uses the following DOM structure (continuing the blog-switcher example from above):</p>
+
+<pre><code>&lt;div class="up-modal"&gt;
+  &lt;div class="up-modal-dialog"&gt;
+    &lt;div class="up-modal-close" up-close&gt;X&lt;/div&gt;
+    &lt;div class="up-modal-content"&gt;
+      &lt;ul class="blog-list"&gt;
+        ...
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>If you want to change the design beyond CSS, you can
+configure Up.js to <a href="#up.modal.defaults">use a different HTML structure</a>.</p>
+
+<h4 id="closing-behavior">Closing behavior</h4>
+
+<p>By default the dialog automatically closes
+<em>whenever a page fragment below the dialog is updated</em>.
+This is useful to have the dialog interact with the page that
+opened it, e.g. by updating parts of a larger form or by signing in a user
+and revealing additional information.</p>
+
+<p>To disable this behavior, give the opening link an <code>up-sticky</code> attribute:</p>
 
 <pre><code>&lt;a href="/settings" up-modal=".options" up-sticky&gt;Settings&lt;/a&gt;
 </code></pre>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -171,6 +208,62 @@ if a page fragment below the dialog updates:</p>
 </div>
         </div>
       </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-animation]          <span class="symbol__type">
+            
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-height]          <span class="symbol__type">
+            
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-width]          <span class="symbol__type">
+            
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-history]          <span class="symbol__type">
+            
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
 
   
 </div>
@@ -178,7 +271,7 @@ if a page fragment below the dialog updates:</p>
         <div class="symbol is_public" id="up-close">
 
   <div class="symbol__signature">
-    [up-close]
+    <a href="#up-close">[up-close]</a>
   </div>
 
     <div class="symbol__prose">
@@ -186,6 +279,7 @@ if a page fragment below the dialog updates:</p>
 
 </div>
     </div>
+
 
 
   
@@ -210,8 +304,14 @@ if a page fragment below the dialog updates:</p>
         <div class="symbol is_public" id="up.modal.defaults">
 
   <div class="symbol__signature">
-    up.modal.defaults([options])
+    <a href="#up.modal.defaults">up.modal.defaults([options])</a>
   </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Sets default options for future modals.</p>
+
+</div>
+    </div>
 
 
 
@@ -221,7 +321,7 @@ if a page fragment below the dialog updates:</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.width]          <span class="symbol__type">
+          [options.width='auto']          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -230,12 +330,14 @@ if a page fragment below the dialog updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The width of the dialog.
+Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its contents.</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.height]          <span class="symbol__type">
+          [options.height='auto']          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -244,6 +346,8 @@ if a page fragment below the dialog updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The height of the dialog.
+Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its contents.</p>
 </div>
         </div>
       </div>
@@ -258,12 +362,19 @@ if a page fragment below the dialog updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>A string containing the HTML structure of the modal.
+You can supply an alternative template string, but make sure that it
+contains tags with the classes <code>up-modal</code>, <code>up-modal-dialog</code> and <code>up-modal-content</code>.</p>
+
+<p>You can also supply a function that returns a HTML string.
+The function will be called with the modal options (merged from these defaults
+and any per-open overrides) whenever a modal opens.</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.closeLabel]          <span class="symbol__type">
+          [options.closeLabel='X']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -272,12 +383,13 @@ if a page fragment below the dialog updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The label of the button that closes the dialog.</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.openAnimation]          <span class="symbol__type">
+          [options.openAnimation='fade-in']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -286,12 +398,14 @@ if a page fragment below the dialog updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The animation used to open the modal. The animation will be applied
+to both the dialog box and the overlay dimming the page.</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.closeAnimation]          <span class="symbol__type">
+          [options.closeAnimation='fade-out']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -300,6 +414,8 @@ if a page fragment below the dialog updates:</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The animation used to close the modal. The animation will be applied
+to both the dialog box and the overlay dimming the page.</p>
 </div>
         </div>
       </div>
@@ -310,14 +426,26 @@ if a page fragment below the dialog updates:</p>
         <div class="symbol is_public" id="up.modal.open">
 
   <div class="symbol__signature">
-    up.modal.open(elementOrSelector, [options])
+    <a href="#up.modal.open">up.modal.open(elementOrSelector, [options])</a>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Opens a modal overlay.</p>
+      <div class='prose'><p>Opens the given link's destination in a modal overlay:</p>
+
+<pre><code>var $link = $('...');
+up.modal.open($link);
+</code></pre>
+
+<p>Any option attributes for <a href="#a.up-modal"><code>a[up-modal]</code></a> will be honored.</p>
+
+<p>You can also open a URL directly like this:</p>
+
+<pre><code>up.modal.open({ url: '/foo' })
+</code></pre>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -337,6 +465,20 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
+          [options.url]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
           [options.width]          <span class="symbol__type">
             Number
           </span>
@@ -353,20 +495,6 @@ if a page fragment below the dialog updates:</p>
         <div class="symbol__param_name">
           [options.height]          <span class="symbol__type">
             Number
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.origin]          <span class="symbol__type">
-            String
           </span>
             <span class="symbol__tag is_optional">
               optional
@@ -393,7 +521,7 @@ if a page fragment below the dialog updates:</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.sticky]          <span class="symbol__type">
+          [options.sticky=false]          <span class="symbol__type">
             Boolean
           </span>
             <span class="symbol__tag is_optional">
@@ -409,7 +537,7 @@ open even if the page changes in the background.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.history]          <span class="symbol__type">
+          [options.history=true]          <span class="symbol__type">
             Object
           </span>
             <span class="symbol__tag is_optional">
@@ -422,13 +550,27 @@ open even if the page changes in the background.</p>
         </div>
       </div>
 
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Promise
+      </div>
+
+    <div class="symbol__response">
+      <div class='prose'>
+<p>A promise that will be resolved when the modal has finished loading.</p>
+</div>
+    </div>
   
 </div>
 
         <div class="symbol is_public" id="up.modal.source">
 
   <div class="symbol__signature">
-    up.modal.source()
+    <a href="#up.modal.source">up.modal.source()</a>
   </div>
 
     <div class="symbol__prose">
@@ -438,6 +580,7 @@ modal is open.</p>
 
 </div>
     </div>
+
 
 
 
@@ -460,7 +603,7 @@ modal is open.</p>
         <div class="symbol is_public" id="up.modal.close">
 
   <div class="symbol__signature">
-    up.modal.close(options)
+    <a href="#up.modal.close">up.modal.close(options)</a>
   </div>
 
     <div class="symbol__prose">
@@ -469,6 +612,7 @@ Does nothing if no modal is currently open.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">

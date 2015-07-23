@@ -132,7 +132,7 @@ or destroy page fragments.</p>
         <div class="symbol is_public" id="up.replace">
 
   <div class="symbol__signature">
-    up.replace(selectorOrElement, url, [options])
+    <a href="#up.replace">up.replace(selectorOrElement, url, [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -143,6 +143,7 @@ from a new page fetched from the server.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -188,7 +189,7 @@ here, in which case a selector will be inferred from the element's class and ID.
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.method]          <span class="symbol__type">
+          [options.method='get']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -202,7 +203,7 @@ here, in which case a selector will be inferred from the element's class and ID.
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.history]          <span class="symbol__type">
+          [options.history=true]          <span class="symbol__type">
             String <span class="symbol__or">or</span> Boolean
           </span>
             <span class="symbol__tag is_optional">
@@ -219,7 +220,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.source]          <span class="symbol__type">
+          [options.source=true]          <span class="symbol__type">
             String <span class="symbol__or">or</span> Boolean
           </span>
             <span class="symbol__tag is_optional">
@@ -247,7 +248,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.scroll]          <span class="symbol__type">
+          [options.scroll='body']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -261,7 +262,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.historyMethod]          <span class="symbol__type">
+          [options.historyMethod='push']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -274,13 +275,27 @@ If set to <code>false</code>, the history will remain unchanged.</p>
         </div>
       </div>
 
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Promise
+      </div>
+
+    <div class="symbol__response">
+      <div class='prose'>
+<p>A promise that will be resolved when the page has been updated.</p>
+</div>
+    </div>
   
 </div>
 
         <div class="symbol is_protected" id="up.flow.implant">
 
   <div class="symbol__signature">
-    up.flow.implant(selector, html, [options])
+    <a href="#up.flow.implant">up.flow.implant(selector, html, [options])</a>
       <span class="symbol__tag is_visibility">
         protected
       </span>
@@ -291,6 +306,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -363,7 +379,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.scroll]          <span class="symbol__type">
+          [options.scroll='body']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -391,7 +407,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.historyMethod]          <span class="symbol__type">
+          [options.historyMethod='push']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -410,7 +426,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
         <div class="symbol is_public" id="up.destroy">
 
   <div class="symbol__signature">
-    up.destroy(selectorOrElement, [options])
+    <a href="#up.destroy">up.destroy(selectorOrElement, [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -419,6 +435,7 @@ Takes care that all destructors, if any, are called.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -485,7 +502,7 @@ Takes care that all destructors, if any, are called.</p>
         <div class="symbol is_public" id="up.reload">
 
   <div class="symbol__signature">
-    up.reload(selectorOrElement)
+    <a href="#up.reload">up.reload(selectorOrElement)</a>
   </div>
 
     <div class="symbol__prose">
@@ -494,6 +511,7 @@ fetched from the server.</p>
 
 </div>
     </div>
+
 
 
     <div class="symbol__subtitle">
@@ -518,7 +536,7 @@ fetched from the server.</p>
         <div class="symbol is_protected" id="up.reset">
 
   <div class="symbol__signature">
-    up.reset()
+    <a href="#up.reset">up.reset()</a>
       <span class="symbol__tag is_visibility">
         protected
       </span>
@@ -534,6 +552,7 @@ Don't use this in production.</p>
 
 </div>
     </div>
+
 
 
   

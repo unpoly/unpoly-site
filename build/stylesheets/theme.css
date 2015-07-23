@@ -56,7 +56,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 /* line 6, /home/henning/Projects/upjs-guide/source/stylesheets/theme.css.sass */
 body {
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 26px;
   font-weight: 400;

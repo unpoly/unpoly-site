@@ -1,9 +1,10 @@
 @import environment
 
 .symbol
-  margin-bottom: 40px
-  //border-top: 2px solid #ddd
-  //padding-top: 15px
+  margin-bottom: 25px
+  border-top: 2px solid desaturate($COLOR_BELIZE_HOLE, 60%) + 110
+  padding-top: 25px
+  +steal-horizontal_space(10px)
 
   &:last-child
     margin-bottom: 0
@@ -12,9 +13,12 @@
   font-family: 'Ubuntu Mono'
   font-weight: 700
   font-size: 22px
-  color: $COLOR_BELIZE_HOLE
 
-  .symbol.is_protected &
+  &, & a
+    color: $COLOR_BELIZE_HOLE
+
+  .symbol.is_protected &,
+  .symbol.is_protected & a
     color: $COLOR_ALIZARIN
 
 .symbol__param

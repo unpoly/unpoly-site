@@ -9221,6 +9221,10 @@ return c=up.util,t="up-active",n="up-current",r="a[href], a[up-target], [up-foll
     }
   });
 
+  hljs.configure({
+    languages: ['javascript', 'html']
+  });
+
   up.awaken('pre code', function($fragment) {
     return hljs.highlightBlock($fragment.get(0));
   });
