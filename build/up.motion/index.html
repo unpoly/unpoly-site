@@ -116,6 +116,7 @@ and you can easily define your own using Javascript or CSS. </p>
   <li>Demo the built-in animations and transitions</li>
   <li>Examples for defining your own animations and transitions</li>
   <li>Explain ghosting</li>
+  <li>Explain how many elements accept arguments for animation.</li>
 </ul>
 
 </div>
@@ -198,26 +199,92 @@ and you can easily define your own using Javascript or CSS. </p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Animates an element.</p>
+      <div class='prose'><p>Applies the given animation to the given element:</p>
 
-<p>If the element is already being animated, the previous animation
-will instantly jump to its last frame before the new animation begins. </p>
+<pre><code>up.animate('.warning', 'fade-in');
+</code></pre>
 
-<p>The following animations are pre-registered:</p>
+<p>You can pass additional options:</p>
 
-<ul>
-  <li><code>fade-in</code></li>
-  <li><code>fade-out</code></li>
-  <li><code>move-to-top</code></li>
-  <li><code>move-from-top</code></li>
-  <li><code>move-to-bottom</code></li>
-  <li><code>move-from-bottom</code></li>
-  <li><code>move-to-left</code></li>
-  <li><code>move-from-left</code></li>
-  <li><code>move-to-right</code></li>
-  <li><code>move-from-right</code></li>
-  <li><code>none</code></li>
-</ul>
+<pre><code>up.animate('warning', '.fade-in', {
+  delay: 1000,
+  duration: 250,
+  easing: 'linear'
+});
+</code></pre>
+
+<h4 id="named-animations">Named animations</h4>
+
+<p>The following animations are pre-defined:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><code>fade-in</code></td>
+      <td>Changes the element's opacity from 0% to 100%</td>
+    </tr>
+    <tr>
+      <td><code>fade-out</code></td>
+      <td>Changes the element's opacity from 100% to 0%</td>
+    </tr>
+    <tr>
+      <td><code>move-to-top</code></td>
+      <td>Moves the element upwards until it exits the screen at the top edge</td>
+    </tr>
+    <tr>
+      <td><code>move-from-top</code></td>
+      <td>Moves the element downwards from beyond the top edge of the screen until it reaches its current position</td>
+    </tr>
+    <tr>
+      <td><code>move-to-bottom</code></td>
+      <td>Moves the element downwards until it exits the screen at the bottom edge</td>
+    </tr>
+    <tr>
+      <td><code>move-from-bottom</code></td>
+      <td>Moves the element upwards from beyond the bottom edge of the screen until it reaches its current position</td>
+    </tr>
+    <tr>
+      <td><code>move-to-left</code></td>
+      <td>Moves the element leftwards until it exists the screen at the left edge</td>
+    </tr>
+    <tr>
+      <td><code>move-from-left</code></td>
+      <td>Moves the element rightwards from beyond the left edge of the screen until it reaches its current position</td>
+    </tr>
+    <tr>
+      <td><code>move-to-right</code></td>
+      <td>Moves the element rightwards until it exists the screen at the right edge</td>
+    </tr>
+    <tr>
+      <td><code>move-from-right</code></td>
+      <td>Moves the element leftwards from beyond the right  edge of the screen until it reaches its current position</td>
+    </tr>
+    <tr>
+      <td><code>none</code></td>
+      <td>An animation that has no visible effect. Sounds useless at first, but can save you a lot of <code>if</code> statements.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can define additional named animations using <a href="#up.animation"><code>up.animation</code></a>.</p>
+
+<h4 id="animating-css-properties-directly">Animating CSS properties directly</h4>
+
+<p>By passing an object instead of an animation name, you can animate
+the CSS properties of the given element:</p>
+
+<pre><code>var $warning = $('.warning');
+$warning.css({ opacity: 0 });
+up.animate($warning, { opacity: 1 });
+</code></pre>
+
+<h4 id="multiple-animations-on-the-same-element">Multiple animations on the same element</h4>
+
+<p>Up.js doesn't allow more than one concurrent animation on the same element.</p>
+
+<p>If you attempt to animate an element that is already being animated,
+the previous animation will instantly jump to its last frame before
+the new animation begins.</p>
 
 </div>
     </div>
@@ -354,20 +421,46 @@ the original animation's promise will be called.</p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Performs a transition between two elements.</p>
+      <div class='prose'><p>Performs an animated transition between two elements.
+Transitions are implement by performing two animations in parallel,
+causing one element to disappear and the other to appear.</p>
 
-<p>The following transitions  are pre-registered:</p>
+<h4 id="named-transitions">Named transitions</h4>
 
-<ul>
-  <li><code>cross-fade</code></li>
-  <li><code>move-up</code></li>
-  <li><code>move-down</code></li>
-  <li><code>move-left</code></li>
-  <li><code>move-right</code></li>
-  <li><code>none</code></li>
-</ul>
+<p>The following transitions are pre-defined:</p>
 
-<p>You can also compose a transition from two animation names
+<table>
+  <tbody>
+    <tr>
+      <td><code>cross-fade</code></td>
+      <td>Fades out the first element. Simultaneously fades in the second element.</td>
+    </tr>
+    <tr>
+      <td><code>move-up</code></td>
+      <td>Moves the first element upwards until it exits the screen at the top edge. Simultaneously moves the second element upwards from beyond the bottom edge of the screen until it reaches its current position.</td>
+    </tr>
+    <tr>
+      <td><code>move-down</code></td>
+      <td>Moves the first element downwards until it exits the screen at the bottom edge. Simultaneously moves the second element downwards from beyond the top edge of the screen until it reaches its current position.</td>
+    </tr>
+    <tr>
+      <td><code>move-left</code></td>
+      <td>Moves the first element leftwards until it exists the screen at the left edge. Simultaneously moves the second element leftwards from beyond the right  edge of the screen until it reaches its current position.</td>
+    </tr>
+    <tr>
+      <td><code>move-right</code></td>
+      <td>Moves the first element rightwards until it exists the screen at the right edge. Simultaneously moves the second element rightwards from beyond the left edge of the screen until it reaches its current position.</td>
+    </tr>
+    <tr>
+      <td><code>none</code></td>
+      <td>A transition that has no visible effect. Sounds useless at first, but can save you a lot of <code>if</code> statements.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can define additional named transitions using <a href="#up.transition"><code>up.transition</code></a>.</p>
+
+<p>You can also compose a transition from two <a href="#named-animations">named animations</a>.
 separated by a slash character (<code>/</code>):</p>
 
 <ul>
@@ -529,6 +622,32 @@ separated by a slash character (<code>/</code>):</p>
 
     <div class="symbol__prose">
       <div class='prose'><p>Defines a named animation.</p>
+
+<p>Here is the definition of the pre-defined <code>fade-in</code> animation:</p>
+
+<pre><code>animation('fade-in', ($ghost, options) -&gt;
+  $ghost.css(opacity: 0)
+  animate($ghost, { opacity: 1 }, options)
+)
+</code></pre>
+
+<p>It is recommended that your definitions always end by calling
+calling <a href="#up.animate"><code>up.animate</code></a> with an object argument, passing along
+the <code>options</code> that were passed to you.</p>
+
+<p>If you choose to <em>not</em> use <code>up.animate</code> and roll your own
+animation code instead, your code must honor the following contract:</p>
+
+<ol>
+  <li>It must honor the passed options.</li>
+  <li>It must not remove the passed element from the DOM.</li>
+  <li>It returns a promise that is resolved when the animation ends</li>
+  <li>The returned promise responds to a <code>resolve()</code> function that
+instantly jumps to the last animation frame and resolves the promise.</li>
+</ol>
+
+<p>Calling <a href="#up.animate"><code>up.animate</code></a> with an object argument
+will take care of all these points.</p>
 
 </div>
     </div>

@@ -26,3 +26,12 @@ projects/
 ```
 
 This way you can make changes to the documentation and see its HTML output immediately.
+
+
+## Deploying
+
+- In the `upjs-guide` repo, call `middleman build`. This will generate/update the static HTML files.
+- Commit and push changes in `upjs-guide`, including the static HTML files you just generated.
+- Commit and push changes in `upjs`, which you probably changed as well.
+- Run `cap deploy` to push the changes to <http://upjs.io>.
+

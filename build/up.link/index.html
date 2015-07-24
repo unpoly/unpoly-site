@@ -131,7 +131,18 @@
 &lt;/article&gt;
 </code></pre>
 
-<p>Slow, full page loads. White flash during loading.</p>
+<p>Using this document-oriented way of navigating between pages
+is not a good fit for modern applications, for a multitude of reasons:</p>
+
+<ul>
+  <li>State changes caused by AJAX updates get lost during the page transition.</li>
+  <li>Unsaved form changes get lost during the page transition.</li>
+  <li>The Javascript VM is reset during the page transition.</li>
+  <li>If the page layout is composed from multiple srollable containers
+(e.g. a pane view), the scroll positions get lost during the page transition.</li>
+  <li>The user sees a "flash" as the browser loads and renders the new page,
+even if large portions of the old and new page are the same (navigation, layout, etc.).</li>
+</ul>
 
 <h2 id="smoother-flow-by-updating-fragments">Smoother flow by updating fragments</h2>
 
@@ -187,8 +198,43 @@ Javascript will not be reloaded, no white flash during a full page reload.</p>
       <div class='prose'><p>Follows this link via AJAX and replaces a CSS selector in the current page
 with corresponding elements from a new page fetched from the server:</p>
 
-<pre><code>&lt;a href="/users" up-target=".main"&gt;User list&lt;/a&gt;
+<pre><code>&lt;a href="/posts/5" up-target=".main"&gt;Read post&lt;/a&gt;
 </code></pre>
+
+<h4 id="updating-multiple-fragments">Updating multiple fragments</h4>
+
+<p>You can update multiple fragments from a single request by separating
+separators with a comma (like in CSS). E.g. if opening a post should
+also update a bubble showing the number of unread posts, you might
+do this:</p>
+
+<pre><code>&lt;a href="/posts/5" up-target=".main, .unread-count"&gt;Read post&lt;/a&gt;
+</code></pre>
+
+<h4 id="appending-or-prepending-instead-of-replacing">Appending or prepending instead of replacing</h4>
+
+<p>By default Up.js will replace the given selector with the same
+selector from a freshly fetched page. Instead of replacing you
+can <em>append</em> the loaded content to the existing content by using the
+<code>:after</code> pseudo selector. In the same fashion, you can use <code>:before</code>
+to indicate that you would like the <em>prepend</em> the loaded content.</p>
+
+<p>A practical example would be a paginated list of items. Below the list is
+a button to load the next page. You can append to the existing list
+by using <code>:after</code> in the <code>up-target</code> selector like this:</p>
+
+<pre><code>&lt;ul class="tasks"&gt;
+  &lt;li&gt;Wash car&lt;/li&gt;
+  &lt;li&gt;Purchase supplies&lt;/li&gt;
+  &lt;li&gt;Fix tent&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;a href="/page/2" class="next-page" up-target=".tasks:after, .next-page"&gt;
+  Load more tasks
+&lt;/a&gt;
+</code></pre>
+
+<h4 id="following-on-mousedown">Following on mousedown</h4>
 
 <p>By also adding an <code>up-instant</code> attribute, the page will be fetched
 on <code>mousedown</code> instead of <code>click</code>, making the interaction even faster:</p>
@@ -250,6 +296,8 @@ current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;
 <pre><code>&lt;a href="/users" up-follow&gt;User list&lt;/a&gt;
 </code></pre>
 
+<h4 id="following-on-mousedown">Following on mousedown</h4>
+
 <p>By also adding an <code>up-instant</code> attribute, the page will be fetched
 on <code>mousedown</code> instead of <code>click</code>, making the interaction even faster:</p>
 
@@ -261,6 +309,8 @@ click by moving the mouse away from the interaction area. However, for
 navigation actions this isn't needed. E.g. popular operation
 systems switch tabs on <code>mousedown</code>.</p>
 
+<h4 id="enlarging-the-click-area">Enlarging the click area</h4>
+
 <p>You can also apply <code>[up-follow]</code> to any element that contains a link
 in order to enlarge the link's click area:</p>
 
@@ -271,7 +321,7 @@ in order to enlarge the link's click area:</p>
 </code></pre>
 
 <p>In the example above, clicking anywhere within <code>.notification</code> element
-would follow the <code>Close</code> link.</p>
+would follow the <em>Close</em> link.</p>
 
 </div>
     </div>

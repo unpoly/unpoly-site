@@ -1,4 +1,4 @@
-/*
+@charset "UTF-8";/*
 
 Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
 
@@ -329,44 +329,52 @@ b {
 .api__explanation {
   margin-bottom: 25px;
   color: #888; }
+
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
 ul.bullets {
   margin-top: 0.8em;
   margin-bottom: 0.8em; }
   /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
   ul.bullets li {
-    padding-left: 1em;
+    padding-left: 0.9em;
     margin-top: 0.24em;
     margin-bottom: 0.24em;
     position: relative; }
     /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
     ul.bullets li:before {
-      content: "#";
+      content: "▪";
       position: absolute;
       height: 100%;
       left: 0;
       top: 0em;
-      font-weight: 400;
-      font-size: 16px;
-      color: #999; }
+      font-weight: 700;
+      color: #4c93c3; }
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
 .hyperlink {
   margin-left: 0.05em;
   margin-right: 0.05em;
-  color: #2980B9;
   border-bottom: 0.1em solid rgba(41, 128, 185, 0.3); }
-  /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink, .hyperlink code {
+    color: #2980B9; }
+  /* line 13, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
   .hyperlink:hover {
-    color: #E74C3C;
     border-bottom: 0.1em solid rgba(231, 76, 60, 0.3); }
-  /* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink:hover, .hyperlink:hover code {
+      color: #E74C3C; }
+  /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
   .hyperlink.is_gray {
-    color: #888;
     border-bottom: 0.1em solid rgba(136, 136, 136, 0.3); }
-    /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink.is_gray, .hyperlink.is_gray code {
+      color: #888; }
+    /* line 19, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
     .hyperlink.is_gray:hover {
-      color: #F1C40F;
       border-bottom: 0.1em solid rgba(241, 196, 15, 0.3); }
+      /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+      .hyperlink.is_gray:hover, .hyperlink.is_gray:hover code {
+        color: #F1C40F; }
 /* line 6, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
 .layout {
   overflow-x: hidden;
@@ -456,24 +464,33 @@ ul.bullets {
   /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/menu.css.sass */
   .menu__item.up-current, .menu__item.up-active {
     font-weight: 700; }
+
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
 .hyperlink, .prose a {
   margin-left: 0.05em;
   margin-right: 0.05em;
-  color: #2980B9;
   border-bottom: 0.1em solid rgba(41, 128, 185, 0.3); }
-  /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+  .hyperlink, .prose a, .hyperlink code, .prose a code {
+    color: #2980B9; }
+  /* line 13, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
   .hyperlink:hover, .prose a:hover {
-    color: #E74C3C;
     border-bottom: 0.1em solid rgba(231, 76, 60, 0.3); }
-  /* line 16, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink:hover, .prose a:hover, .hyperlink:hover code, .prose a:hover code {
+      color: #E74C3C; }
+  /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
   .hyperlink.is_gray, .prose a.is_gray {
-    color: #888;
     border-bottom: 0.1em solid rgba(136, 136, 136, 0.3); }
-    /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+    .hyperlink.is_gray, .prose a.is_gray, .hyperlink.is_gray code, .prose a.is_gray code {
+      color: #888; }
+    /* line 19, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
     .hyperlink.is_gray:hover, .prose a.is_gray:hover {
-      color: #F1C40F;
       border-bottom: 0.1em solid rgba(241, 196, 15, 0.3); }
+      /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/hyperlink.css.sass */
+      .hyperlink.is_gray:hover, .prose a.is_gray:hover, .hyperlink.is_gray:hover code, .prose a.is_gray:hover code {
+        color: #F1C40F; }
 
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
 ul.bullets, .prose ul {
@@ -481,20 +498,19 @@ ul.bullets, .prose ul {
   margin-bottom: 0.8em; }
   /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
   ul.bullets li, .prose ul li {
-    padding-left: 1em;
+    padding-left: 0.9em;
     margin-top: 0.24em;
     margin-bottom: 0.24em;
     position: relative; }
     /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
     ul.bullets li:before, .prose ul li:before {
-      content: "#";
+      content: "▪";
       position: absolute;
       height: 100%;
       left: 0;
       top: 0em;
-      font-weight: 400;
-      font-size: 16px;
-      color: #999; }
+      font-weight: 700;
+      color: #4c93c3; }
 
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/title.css.sass */
 .title, .prose h1 {
@@ -524,25 +540,24 @@ ul.bullets, .prose ul {
     margin-right: 2px;
     font-family: "Ubuntu Mono", monospace;
     font-size: 18px;
-    font-weight: normal; }
-  /* line 24, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
-  .prose a code {
-    color: #2980B9; }
-  /* line 27, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    font-weight: normal;
+    white-space: nowrap; }
+  /* line 26, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose p, .prose ul, .prose ol, .prose dl {
     margin-top: 0.8em;
     margin-bottom: 0.8em; }
-  /* line 30, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 29, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose pre {
     margin-top: 1.04em;
     margin-bottom: 1.04em; }
-  /* line 33, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+  /* line 32, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose pre {
     line-height: 22px;
     margin-left: 12px; }
-    /* line 37, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 36, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose pre code {
-      margin: 0; }
+      margin: 0;
+      white-space: pre-wrap; }
     /* line 40, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose pre .hljs {
       padding: 0;
@@ -620,33 +635,22 @@ ul.bullets, .prose ul {
   .prose table {
     margin-top: 1.2em;
     margin-bottom: 1.2em;
-    margin-left: -20px;
-    margin-right: -20px;
     border-collapse: collapse; }
-    /* line 121, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 120, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose table td, .prose table th {
-      border-bottom: 0.08em solid #bbb;
-      padding-left: 10px;
-      padding-right: 10px;
+      vertical-align: top;
+      border: 0.08em solid #bbb;
+      padding-left: 0.4em;
+      padding-right: 0.4em;
       padding-top: 0.2em;
       padding-bottom: 0.2em; }
-      /* line 125, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
-      .prose table td:first-child, .prose table th:first-child {
-        padding-left: 20px; }
-      /* line 127, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
-      .prose table td:last-child, .prose table th:last-child {
-        padding-right: 20px; }
-    /* line 130, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
+    /* line 126, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose table th {
       font-weight: bold;
       text-transform: uppercase;
       font-size: 16px;
       line-height: 24px;
       color: #666; }
-    /* line 137, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
-    .prose table tr:last-child td {
-      border-bottom: none;
-      padding-bottom: 0; }
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/separator.css.sass */
 .separator {
   background-color: #ddd;

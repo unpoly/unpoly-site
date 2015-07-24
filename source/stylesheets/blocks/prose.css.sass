@@ -18,11 +18,10 @@ $meta_width: 170px
     font-family: 'Ubuntu Mono', monospace
     font-size: 18px
     font-weight: normal
+    white-space: nowrap
 
   a
     @extend .hyperlink
-    code
-      color: $COLOR_BELIZE_HOLE
 
   p, ul, ol, dl
     +vertical_margin($BLOCK_SPACING)
@@ -33,9 +32,10 @@ $meta_width: 170px
   pre
     line-height: 22px
     margin-left: 12px
-  
+
     code
       margin: 0
+      white-space: pre-wrap
 
     .hljs
       padding: 0
@@ -115,25 +115,16 @@ $meta_width: 170px
 
   table
     +vertical_margin($BLOCK_SPACING * 1.5)
-    +horizontal-margin(-20px)
     border-collapse: collapse
 
     td, th
-      border-bottom: 0.08em solid #bbb
-      +horizontal-padding(10px)
+      vertical-align: top
+      border: 0.08em solid #bbb
+      +horizontal-padding(0.4em)
       +vertical-padding(0.2em)
-      &:first-child
-        padding-left: 20px
-      &:last-child
-        padding-right: 20px
 
     th
       font-weight: bold
       text-transform: uppercase
       +font-size(16px, 4px)
       color: #666
-
-    tr:last-child
-      td
-        border-bottom: none
-        padding-bottom: 0

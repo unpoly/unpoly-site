@@ -3,8 +3,9 @@
 .hyperlink
 
   =tint_hyperlink($color)
-    color: $color
     border-bottom: 0.1em solid transparentize($color, 0.7)
+    &, & code
+      color: $color
 
   $margin: 0.05em
   +horizontal_margin($margin)

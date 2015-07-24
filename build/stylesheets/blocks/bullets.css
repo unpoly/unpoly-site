@@ -1,20 +1,20 @@
+@charset "UTF-8";
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
 ul.bullets {
   margin-top: 0.8em;
   margin-bottom: 0.8em; }
   /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
   ul.bullets li {
-    padding-left: 1em;
+    padding-left: 0.9em;
     margin-top: 0.24em;
     margin-bottom: 0.24em;
     position: relative; }
     /* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/bullets.css.sass */
     ul.bullets li:before {
-      content: "#";
+      content: "▪";
       position: absolute;
       height: 100%;
       left: 0;
       top: 0em;
-      font-weight: 400;
-      font-size: 16px;
-      color: #999; }
+      font-weight: 700;
+      color: #4c93c3; }
