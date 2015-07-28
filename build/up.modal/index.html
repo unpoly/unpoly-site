@@ -46,43 +46,46 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Caching and preloading
                 </a>
-                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.form" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.slot" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
+                  Content slots
+                </a>
+                <a href="/up.history" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Viewport scrolling
                 </a>
-                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
@@ -138,7 +141,7 @@ the given selector in a modal dialog.</p>
 
 <p>Clicking would request the path <code>/blog</code> and select <code>.blog-list</code> from
 the HTML response. Up.js will dim the page with an overlay
-and place the matching <code>.blog_list</code> tag will be placed in
+and place the matching <code>.blog-list</code> tag will be placed in
 a modal dialog.</p>
 
 <h4 id="customizing-the-dialog-design">Customizing the dialog design</h4>
@@ -275,7 +278,8 @@ and revealing additional information.</p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>When this element is clicked, closes a currently open dialog.</p>
+      <div class='prose'><p>When this element is clicked, closes a currently open dialog.
+Does nothing if no modal is currently open.</p>
 
 </div>
     </div>
@@ -330,7 +334,7 @@ and revealing additional information.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-<p>The width of the dialog.
+<p>The width of the dialog in pixels.
 Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its contents.</p>
 </div>
         </div>
@@ -346,7 +350,7 @@ Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its co
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-<p>The height of the dialog.
+<p>The height of the dialog in pixels.
 Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its contents.</p>
 </div>
         </div>
@@ -426,7 +430,7 @@ to both the dialog box and the overlay dimming the page.</p>
         <div class="symbol is_public" id="up.modal.open">
 
   <div class="symbol__signature">
-    <a href="#up.modal.open">up.modal.open(elementOrSelector, [options])</a>
+    <a href="#up.modal.open">up.modal.open([elementOrSelector], [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -440,8 +444,11 @@ up.modal.open($link);
 
 <p>You can also open a URL directly like this:</p>
 
-<pre><code>up.modal.open({ url: '/foo' })
+<pre><code>up.modal.open({ url: '/foo', target: '.list' })
 </code></pre>
+
+<p>This will request <code>/foo</code>, extract the <code>.list</code> selector from the response
+and open the selected container in a modal dialog.</p>
 
 </div>
     </div>
@@ -454,12 +461,17 @@ up.modal.open($link);
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          elementOrSelector          <span class="symbol__type">
+          [elementOrSelector]          <span class="symbol__type">
             Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The link to follow.
+Can be omitted if you give <code>options.url</code> instead.</p>
 </div>
         </div>
       </div>
@@ -474,6 +486,23 @@ up.modal.open($link);
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The URL to open.
+Can be omitted if you give <code>elementOrSelector</code> instead.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.target]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The selector to extract from the response and open in a modal dialog.</p>
 </div>
         </div>
       </div>
@@ -488,6 +517,8 @@ up.modal.open($link);
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The width of the dialog in pixels.
+By <a href="#up.modal.defaults">default</a> the dialog will grow to fit its contents.</p>
 </div>
         </div>
       </div>
@@ -502,20 +533,8 @@ up.modal.open($link);
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.animation]          <span class="symbol__type">
-            String
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
+<p>The width of the dialog in pixels.
+By <a href="#up.modal.defaults">default</a> the dialog will grow to fit its contents.</p>
 </div>
         </div>
       </div>
@@ -546,6 +565,67 @@ open even if the page changes in the background.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>Whether to add a browser history entry for the modal's source URL.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.animation]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The animation to use when opening the modal.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.duration]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The duration of the animation. See <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.delay]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The delay before the animation starts. See <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.easing]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The timing function that controls the animation's acceleration. <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
 </div>
         </div>
       </div>
@@ -559,7 +639,7 @@ open even if the page changes in the background.</p>
         Promise
       </div>
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'>
 <p>A promise that will be resolved when the modal has finished loading.</p>
 </div>
@@ -574,9 +654,8 @@ open even if the page changes in the background.</p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Returns the source URL for the fragment displayed
-in the current modal overlay, or <code>undefined</code> if no
-modal is open.</p>
+      <div class='prose'><p>Returns the source URL for the fragment displayed in the current modal overlay,
+or <code>undefined</code> if no modal is currently open.</p>
 
 </div>
     </div>
@@ -592,7 +671,7 @@ modal is open.</p>
         String
       </div>
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'>
 <p>the source URL</p>
 </div>

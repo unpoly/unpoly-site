@@ -25,7 +25,7 @@ If you use them in your own code, you will get hurt.
   var __slice = [].slice;
 
   up.util = (function() {
-    var $createElementFromSelector, ANIMATION_PROMISE_KEY, CONSOLE_PLACEHOLDERS, ajax, castsToFalse, castsToTrue, clientSize, contains, copy, copyAttributes, createElement, createElementFromHtml, createSelectorFromElement, cssAnimate, debug, detect, each, error, escapePressed, extend, findWithSelf, finishCssAnimate, forceCompositing, get, ifGiven, isArray, isBlank, isDeferred, isDefined, isFunction, isGiven, isHash, isJQuery, isMissing, isNull, isObject, isPresent, isPromise, isStandardPort, isString, isUndefined, keys, last, locationFromXhr, measure, merge, methodFromXhr, nextFrame, normalizeMethod, normalizeUrl, only, option, options, prependGhost, presence, presentAttr, resolvableWhen, resolvedDeferred, resolvedPromise, select, setMissingAttrs, stringSet, stringifyConsoleArgs, temporaryCss, toArray, trim, unwrap;
+    var $createElementFromSelector, ANIMATION_PROMISE_KEY, CONSOLE_PLACEHOLDERS, ajax, castsToFalse, castsToTrue, clientSize, contains, copy, copyAttributes, createElement, createElementFromHtml, createSelectorFromElement, cssAnimate, debug, detect, each, error, escapePressed, extend, findWithSelf, finishCssAnimate, forceCompositing, get, ifGiven, isArray, isBlank, isDeferred, isDefined, isElement, isFunction, isGiven, isHash, isJQuery, isMissing, isNull, isObject, isPresent, isPromise, isStandardPort, isString, isUndefined, isUnmodifiedKeyEvent, isUnmodifiedMouseEvent, keys, last, locationFromXhr, measure, merge, methodFromXhr, nextFrame, normalizeMethod, normalizeUrl, nullJquery, only, option, options, prependGhost, presence, presentAttr, resolvableWhen, resolvedDeferred, resolvedPromise, select, setMissingAttrs, stringSet, stringifyConsoleArgs, temporaryCss, toArray, trim, unwrap;
     get = function(url, options) {
       options = options || {};
       options.url = url;
@@ -61,14 +61,25 @@ If you use them in your own code, you will get hurt.
      */
     normalizeUrl = function(urlOrAnchor, options) {
       var anchor, normalized, pathname;
-      anchor = isString(urlOrAnchor) ? $('<a>').attr({
-        href: urlOrAnchor
-      }).get(0) : unwrap(urlOrAnchor);
+      anchor = null;
+      if (isString(urlOrAnchor)) {
+        anchor = $('<a>').attr({
+          href: urlOrAnchor
+        }).get(0);
+        if (isBlank(anchor.hostname)) {
+          anchor.href = anchor.href;
+        }
+      } else {
+        anchor = unwrap(urlOrAnchor);
+      }
       normalized = anchor.protocol + "//" + anchor.hostname;
       if (!isStandardPort(anchor.protocol, anchor.port)) {
         normalized += ":" + anchor.port;
       }
       pathname = anchor.pathname;
+      if (pathname[0] !== '/') {
+        pathname = "/" + pathname;
+      }
       if ((options != null ? options.stripTrailingSlash : void 0) === true) {
         pathname = pathname.replace(/\/$/, '');
       }
@@ -82,7 +93,7 @@ If you use them in your own code, you will get hurt.
       return normalized;
     };
 
-    /*
+    /**
     @method up.util.normalizeMethod
     @protected
      */
@@ -307,6 +318,9 @@ If you use them in your own code, you will get hurt.
     };
     isObject = function(object) {
       return isHash(object) || (typeof object === 'function');
+    };
+    isElement = function(object) {
+      return !!(object && object.nodeType === 1);
     };
     isJQuery = function(object) {
       return object instanceof jQuery;
@@ -535,13 +549,17 @@ If you use them in your own code, you will get hurt.
     };
     ANIMATION_PROMISE_KEY = 'up-animation-promise';
 
-    /*
+    /**
     Completes the animation for  the given element by jumping
     to the last frame instantly. All callbacks chained to
     the original animation's promise will be called.
     
     Does nothing if the given element is not currently animating.
     
+    Also see [`up.motion.finish`](/up.motion#up.motion.finish).
+    
+    @method up.util.finishCssAnimate
+    @protected
     @param {Element|jQuery|String} elementOrSelector
      */
     finishCssAnimate = function(elementOrSelector) {
@@ -637,6 +655,12 @@ If you use them in your own code, you will get hurt.
       }
       return filtered;
     };
+    isUnmodifiedKeyEvent = function(event) {
+      return !(event.metaKey || event.shiftKey || event.ctrlKey);
+    };
+    isUnmodifiedMouseEvent = function(event) {
+      return event.button === 0 && isUnmodifiedKeyEvent(event);
+    };
     resolvedDeferred = function() {
       var deferred;
       deferred = $.Deferred();
@@ -645,6 +669,17 @@ If you use them in your own code, you will get hurt.
     };
     resolvedPromise = function() {
       return resolvedDeferred().promise();
+    };
+    nullJquery = function() {
+      return {
+        is: function() {
+          return false;
+        },
+        attr: function() {},
+        find: function() {
+          return [];
+        }
+      };
     };
     resolvableWhen = function() {
       var deferreds, joined;
@@ -727,11 +762,15 @@ If you use them in your own code, you will get hurt.
       isObject: isObject,
       isFunction: isFunction,
       isString: isString,
+      isElement: isElement,
       isJQuery: isJQuery,
       isPromise: isPromise,
       isDeferred: isDeferred,
       isHash: isHash,
       ifGiven: ifGiven,
+      isUnmodifiedKeyEvent: isUnmodifiedKeyEvent,
+      isUnmodifiedMouseEvent: isUnmodifiedMouseEvent,
+      nullJquery: nullJquery,
       unwrap: unwrap,
       nextFrame: nextFrame,
       measure: measure,
@@ -767,7 +806,10 @@ If you use them in your own code, you will get hurt.
 /**
 Browser interface
 =================
-  
+
+Some browser-interfacing methods and switches that we can't currently get rid off.
+
+@protected
 @class up.browser
  */
 
@@ -871,25 +913,44 @@ Browser interface
 /**
 Framework events
 ================
-  
-This class is kind-of internal and in constant flux.
-  
-The framework event bus might eventually be rolled
-into regular document events.
 
-\#\#\# Available events
+Up.js uses an internal event bus that you can use to hook into lifecycle events like "an HTML fragment into the DOM".
   
-- `app:ready`
-- `fragment:ready` with arguments `($fragment)`
-- `fragment:destroy` with arguments `($fragment)`
+This internal event bus might eventually be rolled into regular events that we trigger on `document`.
+
+\#\#\# `fragment:ready` event
+
+This event is triggered after Up.js has inserted an HTML fragment into the DOM through mechanisms like [`[up-target]`](/up.flow#up-target) or [`up.replace`](/up.flow#up.replace):
+
+    up.bus.on('fragment:ready', function($fragment) {
+      console.log("Looks like we have a new %o!", $fragment);
+    });
+
+The event is triggered *before* Up has compiled the fragment with your [custom behavior](/up.magic).
+Upon receiving the event, Up.js will start compilation.
+
+
+\#\#\# `fragment:destroy` event
+
+This event is triggered when Up.js is destroying an HTML fragment, e.g. because it's being replaced
+with a new version or because someone explicitly called [`up.destroy`](/up.flow#up.destroy):
+
+    up.bus.on('fragment:destroy', function($fragment) {
+      console.log("Looks like we lost %o!", $fragment);
+    });
+
+After triggering this event, Up.js will remove the fragment from the DOM.
+In case the fragment destruction is animated, Up.js will complete the
+animation before removing the fragment from the DOM.
+
 
 \#\#\# Incomplete documentation!
   
 We need to work on this page:
 
 - Decide whether to refactor this into document events
-- Document events
-  
+- Decide whether `fragment:enter` and `fragment:leave` would be better names
+
   
 @class up.bus
  */
@@ -950,7 +1011,21 @@ We need to work on this page:
     };
 
     /**
-    Triggers an event.
+    Triggers an event over the framework bus.
+    
+    All arguments will be passed as arguments to event listeners:
+    
+        up.bus.on('foo:bar', function(x, y) {
+          console.log("Value of x is " + x);
+          console.log("Value of y is " + y);
+        });
+    
+        up.bus.emit('foo:bar', 'arg1', 'arg2')
+    
+        // This prints to the console:
+        //
+        //   Value of x is arg1
+        //   Value of y is arg2
     
     @method up.bus.emit
     @param {String} eventName
@@ -978,6 +1053,139 @@ We need to work on this page:
 }).call(this);
 
 /**
+Viewport scrolling
+==================
+
+This modules contains functions to scroll the viewport and reveal contained elements.
+
+By default Up.js will always scroll to an element before updating it.
+
+@class up.viewport
+ */
+
+(function() {
+  up.viewport = (function() {
+    var SCROLL_PROMISE_KEY, config, defaults, finishScrolling, reveal, scroll, u;
+    u = up.util;
+    config = {
+      duration: 0,
+      view: 'body',
+      easing: 'swing'
+    };
+
+    /**
+    @method up.viewport.defaults
+    @param {Number} [options.duration]
+    @param {String} [options.easing]
+    @param {Number} [options.padding]
+    @param {String|Element|jQuery} [options.view]
+     */
+    defaults = function(options) {
+      return u.extend(config, options);
+    };
+    SCROLL_PROMISE_KEY = 'up-scroll-promise';
+
+    /**
+    @method up.scroll
+    @param {String|Element|jQuery} viewOrSelector
+    @param {Number} scrollPos
+    @param {String}[options.duration]
+    @param {String}[options.easing]
+    @return {Deferred}
+    @protected
+     */
+    scroll = function(viewOrSelector, scrollPos, options) {
+      var $view, deferred, duration, easing, targetProps;
+      $view = $(viewOrSelector);
+      options = u.options(options);
+      duration = u.option(options.duration, config.duration);
+      easing = u.option(options.easing, config.easing);
+      finishScrolling($view);
+      if (duration > 0) {
+        deferred = $.Deferred();
+        $view.data(SCROLL_PROMISE_KEY, deferred);
+        deferred.then(function() {
+          $view.removeData(SCROLL_PROMISE_KEY);
+          return $view.finish();
+        });
+        targetProps = {
+          scrollTop: scrollPos
+        };
+        $view.animate(targetProps, {
+          duration: duration,
+          easing: easing,
+          complete: function() {
+            return deferred.resolve();
+          }
+        });
+        return deferred;
+      } else {
+        $view.scrollTop(scrollPos);
+        return u.resolvedDeferred();
+      }
+    };
+
+    /**
+    @method up.viewport.finishScrolling
+    @private
+     */
+    finishScrolling = function(elementOrSelector) {
+      return $(elementOrSelector).each(function() {
+        var existingScrolling;
+        if (existingScrolling = $(this).data(SCROLL_PROMISE_KEY)) {
+          return existingScrolling.resolve();
+        }
+      });
+    };
+
+    /**
+    @method up.reveal
+    @param {String|Element|jQuery} element
+    @param {String|Element|jQuery} [options.view]
+    @param {Number} [options.duration]
+    @param {String} [options.easing]
+    @param {Number} [options.padding]
+    @return {Deferred}
+    @protected
+     */
+    reveal = function(elementOrSelector, options) {
+      var $element, $view, elementTooHigh, elementTooLow, elementTop, firstVisibleRow, lastVisibleRow, padding, scrollPos, view, viewHeight;
+      options = u.options(options);
+      view = u.option(options.view, config.view);
+      padding = u.option(options.padding, config.padding);
+      $element = $(elementOrSelector);
+      $view = $(view);
+      viewHeight = $view.height();
+      scrollPos = $view.scrollTop();
+      firstVisibleRow = scrollPos;
+      lastVisibleRow = scrollPos + viewHeight;
+      elementTop = $element.position().top;
+      elementTooHigh = elementTop - padding < firstVisibleRow;
+      elementTooLow = elementTop > lastVisibleRow - padding;
+      if (elementTooHigh || elementTooLow) {
+        scrollPos = elementTop - padding;
+        scrollPos = Math.max(scrollPos, 0);
+        scrollPos = Math.min(scrollPos, viewHeight - 1);
+        return scroll($view, scrollPos, options);
+      } else {
+        return u.resolvedDeferred();
+      }
+    };
+    return {
+      reveal: reveal,
+      scroll: scroll,
+      finishScrolling: finishScrolling,
+      defaults: defaults
+    };
+  })();
+
+  up.scroll = up.viewport.scroll;
+
+  up.reveal = up.viewport.reveal;
+
+}).call(this);
+
+/**
 Changing page fragments programmatically
 ========================================
   
@@ -997,7 +1205,7 @@ We need to work on this page:
 
 (function() {
   up.flow = (function() {
-    var autofocus, destroy, elementsInserted, implant, implantSteps, reload, replace, reset, setSource, source, swapElements, u;
+    var autofocus, destroy, elementsInserted, findOldFragment, implant, parseImplantSteps, parseResponse, prepareForReplacement, reload, replace, reset, reveal, setSource, source, swapElements, u;
     u = up.util;
     setSource = function(element, sourceUrl) {
       var $element;
@@ -1033,7 +1241,10 @@ We need to work on this page:
       If set to `false`, the history will remain unchanged.
     @param {String|Boolean} [options.source=true]
     @param {String} [options.transition]
+    @param {String} [options.scroll='body']
     @param {String} [options.historyMethod='push']
+    @return {Promise}
+      A promise that will be resolved when the page has been updated.
      */
     replace = function(selectorOrElement, url, options) {
       var promise, request, selector;
@@ -1087,34 +1298,69 @@ We need to work on this page:
     @param {String} [options.title]
     @param {String} [options.source]
     @param {Object} [options.transition]
+    @param {String} [options.scroll='body']
     @param {String} [options.history]
     @param {String} [options.historyMethod='push']
      */
     implant = function(selector, html, options) {
-      var $new, $old, fragment, htmlElement, step, _i, _len, _ref, _ref1, _results;
+      var $new, $old, response, step, _i, _len, _ref, _results;
       options = u.options(options, {
         historyMethod: 'push'
       });
-      if (options.history === 'false') {
+      if (u.castsToFalse(options.history)) {
         options.history = null;
       }
+      if (u.castsToFalse(options.scroll)) {
+        options.scroll = null;
+      }
       options.source = u.option(options.source, options.history);
-      htmlElement = u.createElementFromHtml(html);
-      options.title || (options.title = (_ref = htmlElement.querySelector("title")) != null ? _ref.textContent : void 0);
-      _ref1 = implantSteps(selector, options);
+      response = parseResponse(html);
+      options.title || (options.title = response.title());
+      _ref = parseImplantSteps(selector, options);
       _results = [];
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        step = _ref1[_i];
-        up.motion.finish(step.selector);
-        $old = u.presence($(".up-popup " + step.selector)) || u.presence($(".up-modal " + step.selector)) || u.presence($(step.selector)) || u.error('Could not find selector %o in current body HTML', step.selector);
-        if (fragment = htmlElement.querySelector(step.selector)) {
-          $new = $(fragment);
-          _results.push(swapElements($old, $new, step.pseudoClass, step.transition, options));
-        } else {
-          _results.push(u.error("Could not find selector %o in response %o", step.selector, html));
-        }
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        step = _ref[_i];
+        $old = findOldFragment(step.selector);
+        $new = response.find(step.selector);
+        _results.push(prepareForReplacement($old, options).then(function() {
+          return swapElements($old, $new, step.pseudoClass, step.transition, options);
+        }));
       }
       return _results;
+    };
+    findOldFragment = function(selector) {
+      return u.presence($(".up-popup " + selector)) || u.presence($(".up-modal " + selector)) || u.presence($(selector)) || u.error('Could not find selector %o in current body HTML', selector);
+    };
+    parseResponse = function(html) {
+      var htmlElement;
+      htmlElement = u.createElementFromHtml(html);
+      return {
+        title: function() {
+          var _ref;
+          return (_ref = htmlElement.querySelector("title")) != null ? _ref.textContent : void 0;
+        },
+        find: function(selector) {
+          var child;
+          if (child = htmlElement.querySelector(selector)) {
+            return $(child);
+          } else {
+            return u.error("Could not find selector %o in response %o", selector, html);
+          }
+        }
+      };
+    };
+    prepareForReplacement = function($element, options) {
+      up.motion.finish($element);
+      return reveal($element, options.scroll);
+    };
+    reveal = function($element, view) {
+      if (view) {
+        return up.reveal($element, {
+          view: view
+        });
+      } else {
+        return u.resolvedDeferred();
+      }
     };
     elementsInserted = function($new, options) {
       if (typeof options.insert === "function") {
@@ -1139,21 +1385,21 @@ We need to work on this page:
         $old[insertionMethod]($new.contents());
         u.copyAttributes($new, $old);
         elementsInserted($addedChildren, options);
-        return up.animate($new, transition);
+        return up.animate($new, transition, options);
       } else {
         return destroy($old, {
           animation: function() {
-            $new.insertAfter($old);
+            $new.insertBefore($old);
             elementsInserted($new, options);
             if ($old.is('body') && transition !== 'none') {
               u.error('Cannot apply transitions to body-elements (%o)', transition);
             }
-            return up.morph($old, $new, transition);
+            return up.morph($old, $new, transition, options);
           }
         });
       }
     };
-    implantSteps = function(selector, options) {
+    parseImplantSteps = function(selector, options) {
       var comma, disjunction, i, selectorAtom, selectorParts, transition, transitionString, transitions, _i, _len, _results;
       transitionString = options.transition || options.animation || 'none';
       comma = /\ *,\ */;
@@ -1269,17 +1515,13 @@ Registering behavior and custom elements
 Up.js keeps a persistent Javascript environment during page transitions.
 To prevent memory leaks it is important to cleanly set up and tear down
 event handlers and custom elements.
-    
+
 \#\#\# Incomplete documentation!
-  
+
 We need to work on this page:
-  
-- Explain when to use `up.on` and when to use `up.awaken`
-- Example for integrating an external JS lib that is not aware of Up.js
-- Example for defining a custom element
-- Tell more about memory leaks and why they don't matter
-  so much when you have full page loads.
-  
+
+- Better class-level introduction for this module
+
 @class up.magic
  */
 
@@ -1293,9 +1535,49 @@ We need to work on this page:
     DESTROYER_KEY = 'up-destroyer';
 
     /**
-    Binds an event handler to the document,
-    which will be executed whenever the given event
-    is triggered on the given selector.
+    Binds an event handler to the document, which will be executed whenever the
+    given event is triggered on the given selector:
+    
+        up.on('click', '.button', function(event, $element) {
+          console.log("Someone clicked the button %o", $element);
+        });
+    
+    This is roughly equivalent to binding a jQuery element to `document`.
+    
+    
+    \#\#\#\# Attaching structured data
+    
+    In case you want to attach structured data to the event you're observing,
+    you can serialize the data to JSON and put it into an `[up-data]` attribute:
+    
+        <span class="person" up-data="{ age: 18, name: 'Bob' }">Bob</span>
+        <span class="person" up-data="{ age: 22, name: 'Jim' }">Jim</span>
+    
+    The JSON will parsed and handed to your event handler as a third argument:
+    
+        up.on('click', '.person', function(event, $element, data) {
+          console.log("This is %o who is %o years old", data.name, data.age);
+        });
+    
+    
+    \#\#\#\# Migrating jQuery event handlers to `up.on`
+    
+    Within the event handler, Up.js will bind `this` to the
+    native DOM element to help you migrate your existing jQuery code to
+    this new syntax.
+    
+    So if you had this before:
+    
+        $(document).on('click', '.button', function() {
+          $(this).something();
+        });
+    
+    ... you can simply copy the event handler to `up.on`:
+    
+        up.on('click', '.button', function() {
+          $(this).something();
+        });
+    
     
     @method up.on
     @param {String} events
@@ -1327,6 +1609,110 @@ We need to work on this page:
     /**
     Registers a function to be called whenever an element with
     the given selector is inserted into the DOM through Up.js.
+    
+    This is a great way to integrate jQuery plugins.
+    Let's say your Javascript plugin wants you to call `lightboxify()`
+    on links that should open a lightbox. You decide to
+    do this for all links with an `[rel=lightbox]` attribute:
+    
+        <a href="river.png" rel="lightbox">River</a>
+        <a href="ocean.png" rel="lightbox">Ocean</a>
+    
+    This Javascript will do exactly that:
+    
+        up.awaken('a[rel=lightbox]', function($element) {
+          $element.lightboxify();
+        });
+    
+    Note that within the awakener, Up.js will bind `this` to the
+    native DOM element to help you migrate your existing jQuery code to
+    this new syntax.
+    
+    
+    \#\#\#\# Custom elements
+    
+    You can also use `up.awaken` to implement custom elements like this:
+    
+        <current-time></current-time>
+    
+    Here is the Javascript that inserts the current time into to these elements:
+    
+        up.awaken('current-time', function($element) {
+          var now = new Date();
+          $element.text(now.toString()));
+        });
+    
+    
+    \#\#\#\# Cleaning up after yourself
+    
+    If your awakener returns a function, Up.js will use this as a *destructor* to
+    clean up if the element leaves the DOM. Note that in Up.js the same DOM ad Javascript environment
+    will persist through many page loads, so it's important to not create
+    [memory leaks](https://makandracards.com/makandra/31325-how-to-create-memory-leaks-in-jquery).
+    
+    You should clean up after yourself whenever your awakeners have global
+    side effects, like a [`setInterval`](https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval)
+    or event handlers bound to the document root.
+    
+    Here is a version of `<current-time>` that updates
+    the time every second, and cleans up once it's done:
+    
+        up.awaken('current-time', function($element) {
+    
+          function update() {
+            var now = new Date();
+            $element.text(now.toString()));
+          }
+    
+          setInterval(update, 1000);
+    
+          return function() {
+            clearInterval(update);
+          };
+    
+        });
+    
+    If we didn't clean up after ourselves, we would have many ticking intervals
+    operating on detached DOM elements after we have created and removed a couple
+    of `<current-time>` elements.
+    
+    
+    \#\#\#\# Attaching structured data
+    
+    In case you want to attach structured data to the event you're observing,
+    you can serialize the data to JSON and put it into an `[up-data]` attribute.
+    For instance, a container for a [Google Map](https://developers.google.com/maps/documentation/javascript/tutorial)
+    might attach the location and names of its marker pins:
+    
+        <div class="google-map" up-data="[
+          { lat: 48.36, lng: 10.99, title: 'Friedberg' },
+          { lat: 48.75, lng: 11.45, title: 'Ingolstadt' }
+        ]"></div>
+    
+    The JSON will parsed and handed to your event handler as a second argument:
+    
+        up.awaken('.google-map', function($element, pins) {
+    
+          var map = new google.maps.Map($element);
+    
+          pins.forEach(function(pin) {
+            var position = new google.maps.LatLng(pin.lat, pin.lng);
+            new google.maps.Marker({
+              position: position,
+              map: map,
+              title: pin.title
+            });
+          });
+    
+        });
+    
+    
+    \#\#\#\# Migrating jQuery event handlers to `up.on`
+    
+    Within the awakener, Up.js will bind `this` to the
+    native DOM element to help you migrate your existing jQuery code to
+    this new syntax.
+    
     
     @method up.awaken
     @param {String} selector
@@ -1402,7 +1788,7 @@ We need to work on this page:
       });
     };
 
-    /*
+    /**
     Checks if the given element has an `up-data` attribute.
     If yes, parses the attribute value as JSON and returns the parsed object.
     
@@ -1414,6 +1800,22 @@ We need to work on this page:
     @protected
     @method up.magic.data
     @param {String|Element|jQuery} elementOrSelector
+     */
+
+    /*
+    Stores a JSON-string with the element.
+    
+    If an element annotated with [`up-data`] is inserted into the DOM,
+    Up will parse the JSON and pass the resulting object to any matching
+    [`up.awaken`](/up.magic#up.magic.awaken) handlers.
+    
+    Similarly, when an event is triggered on an element annotated with
+    [`up-data`], the parsed object will be passed to any matching
+    [`up.on`](/up.magic#up.on) handlers.
+    
+    @ujs
+    @method [up-data]
+    @param {JSON} [up-data]
      */
     data = function(elementOrSelector) {
       var $element, json;
@@ -1613,6 +2015,7 @@ We need to work on this page:
 - Demo the built-in animations and transitions
 - Examples for defining your own animations and transitions
 - Explain ghosting
+- Explain how many elements accept arguments for animation.
 
   
 @class up.motion
@@ -1620,54 +2023,92 @@ We need to work on this page:
 
 (function() {
   up.motion = (function() {
-    var GHOSTING_PROMISE_KEY, animate, animation, animations, assertIsDeferred, config, defaultAnimations, defaultTransitions, defaults, findAnimation, finish, finishGhosting, morph, none, reset, resolvableWhen, snapshot, transition, transitions, u, withGhosts;
+    var GHOSTING_PROMISE_KEY, animate, animateOptions, animation, animations, assertIsDeferred, config, defaultAnimations, defaultTransitions, defaults, findAnimation, finish, finishGhosting, morph, none, reset, resolvableWhen, snapshot, transition, transitions, u, withGhosts;
     u = up.util;
+    animations = {};
+    defaultAnimations = {};
+    transitions = {};
+    defaultTransitions = {};
     config = {
       duration: 300,
       delay: 0,
       easing: 'ease'
     };
-    animations = {};
-    defaultAnimations = {};
-    transitions = {};
-    defaultTransitions = {};
 
     /**
     @method up.modal.defaults
-    @param {Number} options.duration
-    @param {Number} options.delay
-    @param {String} options.easing
+    @param {Number} [options.duration]
+    @param {Number} [options.delay]
+    @param {String} [options.easing]
      */
     defaults = function(options) {
       return u.extend(config, options);
     };
 
     /**
-    Animates an element.
+    Applies the given animation to the given element:
     
-    If the element is already being animated, the previous animation
-    will instantly jump to its last frame before the new animation begins. 
+        up.animate('.warning', 'fade-in');
     
-    The following animations are pre-registered:
+    You can pass additional options:
     
-    - `fade-in`
-    - `fade-out`
-    - `move-to-top`
-    - `move-from-top`
-    - `move-to-bottom`
-    - `move-from-bottom`
-    - `move-to-left`
-    - `move-from-left`
-    - `move-to-right`
-    - `move-from-right`
-    - `none`
+        up.animate('warning', '.fade-in', {
+          delay: 1000,
+          duration: 250,
+          easing: 'linear'
+        });
+    
+    \#\#\#\# Named animations
+    
+    The following animations are pre-defined:
+    
+    | `fade-in`          | Changes the element's opacity from 0% to 100% |
+    | `fade-out`         | Changes the element's opacity from 100% to 0% |
+    | `move-to-top`      | Moves the element upwards until it exits the screen at the top edge |
+    | `move-from-top`    | Moves the element downwards from beyond the top edge of the screen until it reaches its current position |
+    | `move-to-bottom`   | Moves the element downwards until it exits the screen at the bottom edge |
+    | `move-from-bottom` | Moves the element upwards from beyond the bottom edge of the screen until it reaches its current position |
+    | `move-to-left`     | Moves the element leftwards until it exists the screen at the left edge  |
+    | `move-from-left`   | Moves the element rightwards from beyond the left edge of the screen until it reaches its current position |
+    | `move-to-right`    | Moves the element rightwards until it exists the screen at the right edge  |
+    | `move-from-right`  | Moves the element leftwards from beyond the right  edge of the screen until it reaches its current position |
+    | `none`             | An animation that has no visible effect. Sounds useless at first, but can save you a lot of `if` statements. |
+    
+    You can define additional named animations using [`up.animation`](#up.animation).
+    
+    \#\#\#\# Animating CSS properties directly
+    
+    By passing an object instead of an animation name, you can animate
+    the CSS properties of the given element:
+    
+        var $warning = $('.warning');
+        $warning.css({ opacity: 0 });
+        up.animate($warning, { opacity: 1 });
+    
+    \#\#\#\# Multiple animations on the same element
+    
+    Up.js doesn't allow more than one concurrent animation on the same element.
+    
+    If you attempt to animate an element that is already being animated,
+    the previous animation will instantly jump to its last frame before
+    the new animation begins.
     
     @method up.animate
     @param {Element|jQuery|String} elementOrSelector
+      The element to animate.
     @param {String|Function|Object} animation
-    @param {Number} [options.duration]
-    @param {String} [options.easing]
-    @param {Number} [options.delay]
+      Can either be:
+      - The animation's name
+      - A function performing the animation
+      - An object of CSS attributes describing the last frame of the animation
+    @param {Number} [opts.duration=300]
+      The duration of the animation, in milliseconds.
+    @param {Number} [opts.delay=0]
+      The delay before the animation starts, in milliseconds.
+    @param {String} [opts.easing='ease']
+      The timing function that controls the animation's acceleration.
+      See [W3C documentation](http://www.w3.org/TR/css3-transitions/#transition-timing-function)
+      for a list of pre-defined timing functions.
     @return {Promise}
       A promise for the animation's end.
      */
@@ -1675,7 +2116,7 @@ We need to work on this page:
       var $element;
       $element = $(elementOrSelector);
       finish($element);
-      options = u.options(options, config);
+      options = animateOptions(options);
       if (u.isFunction(animation)) {
         return assertIsDeferred(animation($element, options), animation);
       } else if (u.isString(animation)) {
@@ -1685,6 +2126,27 @@ We need to work on this page:
       } else {
         return u.error("Unknown animation type %o", animation);
       }
+    };
+
+    /**
+    Extracts animation-related options from the given options hash.
+    If `$element` is given, also inspects the element for animation-related
+    attributes like `up-easing` or `up-duration`.
+    
+    @protected
+    @method up.motion.animateOptions
+     */
+    animateOptions = function(allOptions, $element) {
+      var options;
+      if ($element == null) {
+        $element = null;
+      }
+      allOptions = u.options(allOptions);
+      options = {};
+      options.easing = u.option(allOptions.easing, $element != null ? $element.attr('up-easing') : void 0, config.easing);
+      options.duration = Number(u.option(allOptions.duration, $element != null ? $element.attr('up-duration') : void 0, config.duration));
+      options.delay = Number(u.option(allOptions.delay, $element != null ? $element.attr('up-delay') : void 0, config.delay));
+      return options;
     };
     findAnimation = function(name) {
       return animations[name] || u.error("Unknown animation %o", animation);
@@ -1726,13 +2188,14 @@ We need to work on this page:
       return promise;
     };
 
-    /*
+    /**
     Completes all animations and transitions for the given element
     by jumping to the last animation frame instantly. All callbacks chained to
     the original animation's promise will be called.
     
     Does nothing if the given element is not currently animating.
     
+    @method up.motion.finish
     @param {Element|jQuery|String} elementOrSelector
      */
     finish = function(elementOrSelector) {
@@ -1759,18 +2222,24 @@ We need to work on this page:
     };
 
     /**
-    Performs a transition between two elements.
+    Performs an animated transition between two elements.
+    Transitions are implement by performing two animations in parallel,
+    causing one element to disappear and the other to appear.
     
-    The following transitions  are pre-registered:
+    \#\#\#\# Named transitions
     
-    - `cross-fade`
-    - `move-up`
-    - `move-down`
-    - `move-left`
-    - `move-right`
-    - `none`
+    The following transitions are pre-defined:
     
-    You can also compose a transition from two animation names
+    | `cross-fade` | Fades out the first element. Simultaneously fades in the second element. |
+    | `move-up`    | Moves the first element upwards until it exits the screen at the top edge. Simultaneously moves the second element upwards from beyond the bottom edge of the screen until it reaches its current position. |
+    | `move-down`  | Moves the first element downwards until it exits the screen at the bottom edge. Simultaneously moves the second element downwards from beyond the top edge of the screen until it reaches its current position. |
+    | `move-left`  | Moves the first element leftwards until it exists the screen at the left edge. Simultaneously moves the second element leftwards from beyond the right  edge of the screen until it reaches its current position. |
+    | `move-right` | Moves the first element rightwards until it exists the screen at the right edge. Simultaneously moves the second element rightwards from beyond the left edge of the screen until it reaches its current position. |
+    | `none`       | A transition that has no visible effect. Sounds useless at first, but can save you a lot of `if` statements. |
+    
+    You can define additional named transitions using [`up.transition`](#up.transition).
+    
+    You can also compose a transition from two [named animations](#named-animations).
     separated by a slash character (`/`):
     
     - `move-to-bottom/fade-in`
@@ -1780,9 +2249,14 @@ We need to work on this page:
     @param {Element|jQuery|String} source
     @param {Element|jQuery|String} target
     @param {Function|String} transitionOrName
-    @param {Number} [options.duration]
-    @param {String} [options.easing]
-    @param {Number} [options.delay]
+    @param {Number} [opts.duration=300]
+      The duration of the animation, in milliseconds.
+    @param {Number} [opts.delay=0]
+      The delay before the animation starts, in milliseconds.
+    @param {String} [opts.easing='ease']
+      The timing function that controls the transition's acceleration.
+      See [W3C documentation](http://www.w3.org/TR/css3-transitions/#transition-timing-function)
+      for a list of pre-defined timing functions.
     @return {Promise}
       A promise for the transition's end.
      */
@@ -1830,6 +2304,29 @@ We need to work on this page:
 
     /**
     Defines a named animation.
+    
+    Here is the definition of the pre-defined `fade-in` animation:
+    
+        animation('fade-in', ($ghost, options) ->
+          $ghost.css(opacity: 0)
+          animate($ghost, { opacity: 1 }, options)
+        )
+    
+    It is recommended that your definitions always end by calling
+    calling [`up.animate`](#up.animate) with an object argument, passing along
+    the `options` that were passed to you.
+    
+    If you choose to *not* use `up.animate` and roll your own
+    animation code instead, your code must honor the following contract:
+    
+    1. It must honor the passed options.
+    2. It must not remove the passed element from the DOM.
+    3. It returns a promise that is resolved when the animation ends
+    4. The returned promise responds to a `resolve()` function that
+       instantly jumps to the last animation frame and resolves the promise.
+    
+    Calling [`up.animate`](#up.animate) with an object argument
+    will take care of all these points.
     
     @method up.animation
     @param {String} name
@@ -2002,6 +2499,7 @@ We need to work on this page:
     return {
       morph: morph,
       animate: animate,
+      animateOptions: animateOptions,
       finish: finish,
       transition: transition,
       animation: animation,
@@ -2026,10 +2524,12 @@ Caching and preloading
 ======================
 
 All HTTP requests go through the Up.js proxy.
-It caches a limited number
+It caches a [limited](/up.proxy#up.proxy.defaults) number of server responses
+  for a [limited](/up.proxy#up.proxy.defaults) amount of time,
+making requests to these URLs return insantly.
   
-The cache is cleared whenever the user makes a non-´GET` request
-(like `POST`, `PUT`, `DELETE`).
+The cache is cleared whenever the user makes a non-`GET` request
+(like `POST`, `PUT` or `DELETE`).
 
 The proxy can also used to speed up reaction times by preloading
 links when the user hovers over the click area (or puts the mouse/finger
@@ -2043,16 +2543,16 @@ response will already be cached when the user performs the click.
   up.proxy = (function() {
     var $waitingLink, SAFE_HTTP_METHODS, ajax, alias, cache, cacheKey, cancelDelay, checkPreload, clear, config, defaults, delayTimer, ensureIsIdempotent, get, isFresh, isIdempotent, normalizeRequest, preload, remove, reset, set, startDelay, timestamp, touch, trim, u;
     config = {
-      preloadDelay: 50,
+      preloadDelay: 75,
       cacheSize: 70,
       cacheExpiry: 1000 * 60 * 5
     };
 
     /**
     @method up.proxy.defaults
-    @param {Number} [preloadDelay]
-    @param {Number} [cacheSize]
-    @param {Number} [cacheExpiry]
+    @param {Number} [options.preloadDelay]
+    @param {Number} [options.cacheSize]
+    @param {Number} [options.cacheExpiry]
       The number of milliseconds until a cache entry expires.
      */
     defaults = function(options) {
@@ -2111,11 +2611,19 @@ response will already be cached when the user performs the click.
       }
     };
 
-    /*
+    /**
+    Makes a request to the given URL and caches the response.
+    If the response was already cached, returns the HTML instantly.
+    
+    If requesting a URL that is not read-only, the response will
+    not be cached and the entire cache will be cleared.
+    Only requests with a method of `GET`, `OPTIONS` and `HEAD`
+    are considered to be read-only.
+    
     @method up.proxy.ajax
-    @param {String} options.url
-    @param {String} [options.method='GET']
-    @param {String} [options.selector]
+    @param {String} request.url
+    @param {String} [request.method='GET']
+    @param {String} [request.selector]
      */
     ajax = function(request) {
       var promise;
@@ -2211,7 +2719,7 @@ response will already be cached when the user performs the click.
     };
     up.bus.on('framework:reset', reset);
 
-    /*
+    /**
     Links with an `up-preload` attribute will silently fetch their target
     when the user hovers over the click area, or when the user puts her
     mouse/finger down (before releasing). This way the
@@ -2219,6 +2727,10 @@ response will already be cached when the user performs the click.
     making the interaction feel instant.   
     
     @method [up-preload]
+    @param [[up-delay]=50]
+      The number of milliseconds to wait between hovering
+      and preloading. Increasing this will lower the load in your server,
+      but will also make the interaction feel less instant.
     @ujs
      */
     up.on('mouseover mousedown touchstart', '[up-preload]', function(event, $element) {
@@ -2273,7 +2785,16 @@ Your HTML could look like this:
 </article>
 ```
 
-Slow, full page loads. White flash during loading.
+Using this document-oriented way of navigating between pages
+is not a good fit for modern applications, for a multitude of reasons:
+
+- State changes caused by AJAX updates get lost during the page transition.
+- Unsaved form changes get lost during the page transition.
+- The Javascript VM is reset during the page transition.
+- If the page layout is composed from multiple srollable containers
+  (e.g. a pane view), the scroll positions get lost during the page transition.
+- The user sees a "flash" as the browser loads and renders the new page,
+  even if large portions of the old and new page are the same (navigation, layout, etc.).
 
 
 Smoother flow by updating fragments
@@ -2316,7 +2837,7 @@ Read on
 
 (function() {
   up.link = (function() {
-    var childClicked, follow, resolve, u, visit;
+    var activeInstantLink, childClicked, follow, resolve, u, visit;
     u = up.util;
 
     /**
@@ -2324,13 +2845,15 @@ Read on
     This is done by fetching `url` through an AJAX request
     and replacing the current `<body>` element with the response's `<body>` element.
     
+    For example, this would fetch the `/users` URL:
+    
+        up.visit('/users')
+    
     @method up.visit
     @param {String} url
       The URL to visit.
     @param {Object} options
       See options for [`up.replace`](/up.flow#up.replace)
-    @example
-        up.visit('/users')
      */
     visit = function(url, options) {
       u.debug("Visiting " + url);
@@ -2340,6 +2863,15 @@ Read on
     /**
     Follows the given link via AJAX and replaces a CSS selector in the current page
     with corresponding elements from a new page fetched from the server.
+    
+    Any Up.js UJS attributes on the given link will be honored. E. g. you have this link:
+    
+        <a href="/users" up-target=".main">Users</a>
+    
+    You can update the page's `.main` selector with the `.main` from `/users` like this:
+    
+        var $link = $('a:first'); // select link with jQuery
+        up.follow($link);
     
     @method up.follow
     @param {Element|jQuery|String} link
@@ -2351,6 +2883,15 @@ Read on
       or to `body` if such an attribute does not exist.
     @param {Function|String} [options.transition]
       A transition function or name.
+    @param {Element|jQuery|String} [options.scroll]
+      An element or selector that will be scrolled to the top in
+      case the replaced element is not visible in the viewport.
+    @param {Number} [opts.duration]
+      The duration of the transition. See [`up.morph`](/up.motion#up.morph).
+    @param {Number} [opts.delay]
+      The delay before the transition starts. See [`up.morph`](/up.motion#up.morph).
+    @param {String} [opts.easing]
+      The timing function that controls the transition's acceleration. [`up.morph`](/up.motion#up.morph).
      */
     follow = function(link, options) {
       var $link, selector, url;
@@ -2360,6 +2901,8 @@ Read on
       selector = u.option(options.target, $link.attr('up-target'), 'body');
       options.transition = u.option(options.transition, $link.attr('up-transition'), $link.attr('up-animation'));
       options.history = u.option(options.history, $link.attr('up-history'));
+      options.scroll = u.option(options.scroll, $link.attr('up-scroll'), 'body');
+      options = u.merge(options, up.motion.animateOptions(options, $link));
       return up.replace(selector, url, options);
     };
     resolve = function(element) {
@@ -2377,7 +2920,40 @@ Read on
     Follows this link via AJAX and replaces a CSS selector in the current page
     with corresponding elements from a new page fetched from the server:
     
-        <a href="/users" up-target=".main">User list</a>
+        <a href="/posts/5" up-target=".main">Read post</a>
+    
+    \#\#\#\# Updating multiple fragments
+    
+    You can update multiple fragments from a single request by separating
+    separators with a comma (like in CSS). E.g. if opening a post should
+    also update a bubble showing the number of unread posts, you might
+    do this:
+    
+        <a href="/posts/5" up-target=".main, .unread-count">Read post</a>
+    
+    \#\#\#\# Appending or prepending instead of replacing
+    
+    By default Up.js will replace the given selector with the same
+    selector from a freshly fetched page. Instead of replacing you
+    can *append* the loaded content to the existing content by using the
+    `:after` pseudo selector. In the same fashion, you can use `:before`
+    to indicate that you would like the *prepend* the loaded content.
+    
+    A practical example would be a paginated list of items. Below the list is
+    a button to load the next page. You can append to the existing list
+    by using `:after` in the `up-target` selector like this:
+    
+        <ul class="tasks">
+          <li>Wash car</li>
+          <li>Purchase supplies</li>
+          <li>Fix tent</li>
+        </ul>
+    
+        <a href="/page/2" class="next-page" up-target=".tasks:after, .next-page">
+          Load more tasks
+        </a>
+    
+    \#\#\#\# Following on mousedown
     
     By also adding an `up-instant` attribute, the page will be fetched
     on `mousedown` instead of `click`, making the interaction even faster:
@@ -2404,13 +2980,13 @@ Read on
       }
     });
     up.on('mousedown', 'a[up-target][up-instant]', function(event, $link) {
-      if (event.which === 1) {
+      if (activeInstantLink(event, $link)) {
         event.preventDefault();
-        return follow($link);
+        return up.follow($link);
       }
     });
 
-    /*
+    /**
     @method up.link.childClicked
     @private
      */
@@ -2420,12 +2996,17 @@ Read on
       $targetLink = $target.closest('a, [up-follow]');
       return $targetLink.length && $link.find($targetLink).length;
     };
+    activeInstantLink = function(event, $link) {
+      return u.isUnmodifiedMouseEvent(event) && !childClicked(event, $link);
+    };
 
     /**
     If applied on a link, Follows this link via AJAX and replaces the
     current `<body>` element with the response's `<body>` element
     
         <a href="/users" up-follow>User list</a>
+    
+    \#\#\#\# Following on mousedown
     
     By also adding an `up-instant` attribute, the page will be fetched
     on `mousedown` instead of `click`, making the interaction even faster:
@@ -2437,6 +3018,8 @@ Read on
     navigation actions this isn't needed. E.g. popular operation
     systems switch tabs on `mousedown`.
     
+    \#\#\#\# Enlarging the click area
+    
     You can also apply `[up-follow]` to any element that contains a link
     in order to enlarge the link's click area:
     
@@ -2446,7 +3029,7 @@ Read on
         </div>
     
     In the example above, clicking anywhere within `.notification` element
-    would follow the `Close` link.
+    would follow the *Close* link.
     
     @method [up-follow]
     @ujs
@@ -2454,22 +3037,22 @@ Read on
     @param up-instant
       If set, fetches the element on `mousedown` instead of `click`.
      */
-    up.on('click', '[up-follow]', function(event, $element) {
-      if (!childClicked(event, $element)) {
+    up.on('click', '[up-follow]', function(event, $link) {
+      if (!childClicked(event, $link)) {
         event.preventDefault();
-        if (!$element.is('[up-instant]')) {
-          return follow(resolve($element));
+        if (!$link.is('[up-instant]')) {
+          return follow(resolve($link));
         }
       }
     });
-    up.on('mousedown', '[up-follow][up-instant]', function(event, $element) {
-      if (!childClicked(event, $element) && event.which === 1) {
+    up.on('mousedown', '[up-follow][up-instant]', function(event, $link) {
+      if (activeInstantLink(event, $link)) {
         event.preventDefault();
-        return follow(resolve($element));
+        return up.follow(resolve($link));
       }
     });
 
-    /*
+    /**
     Marks up the current link to be followed *as fast as possible*.
     This is done by:
     
@@ -2483,7 +3066,7 @@ Read on
     
     Note that this is shorthand for:
     
-      <a href="/users" up-target=".main" up-instant up-preload>User list</a>  
+        <a href="/users" up-target=".main" up-instant up-preload>User list</a>  
     
     You can also apply `[up-dash]` to any element that contains a link
     in order to enlarge the link's click area:
@@ -2569,22 +3152,42 @@ We need to work on this page:
       If the argument points to an element that is not a form,
       Up.js will search its ancestors for the closest form.
     @param {String} [options.url]
+      The URL where to submit the form.
+      Defaults to the form's `action` attribute, or to the current URL of the browser window.
     @param {String} [options.method]
+      The HTTP method used for the form submission.
+      Defaults to the form's `up-method`, `data-method` or `method` attribute, or to `'post'`
+      if none of these attributes are given.
     @param {String} [options.target]
+      The selector to update when the form submission succeeds.
+      Defaults to the form's `up-target` attribute, or to `'body'`.
     @param {String} [options.failTarget]
+      The selector to update when the form submission succeeds.
+      Defaults to the form's `up-fail-target` attribute, or to an auto-generated
+      selector that matches the form itself.
     @param {Boolean|String} [options.history=true]
       Successful form submissions will add a history entry and change the browser's
       location bar if the form either uses the `GET` method or the response redirected
       to another page (this requires the `upjs-rails` gem).
       If want to prevent history changes in any case, set this to `false`.
       If you pass a `String`, it is used as the URL for the browser history.
-    @param {String} [options.transition]
-    @param {String} [options.failTransition]
+    @param {String} [options.transition='none']
+      The transition to use when a successful form submission updates the `options.target` selector.
+      Defaults to the form's `up-transition` attribute, or to `'none'`.
+    @param {String} [options.failTransition='none']
+      The transition to use when a failed form submission updates the `options.failTarget` selector.
+      Defaults to the form's `up-fail-transition` attribute, or to `options.transition`, or to `'none'`.
+    @param {Number} [opts.duration]
+      The duration of the transition. See [`up.morph`](/up.motion#up.morph).
+    @param {Number} [opts.delay]
+      The delay before the transition starts. See [`up.morph`](/up.motion#up.morph).
+    @param {String} [opts.easing]
+      The timing function that controls the transition's acceleration. [`up.morph`](/up.motion#up.morph).
     @return {Promise}
       A promise for the AJAX response
      */
     submit = function(formOrSelector, options) {
-      var $form, failureSelector, failureTransition, historyOption, httpMethod, request, successSelector, successTransition, successUrl, url;
+      var $form, animateOptions, failureSelector, failureTransition, historyOption, httpMethod, request, successSelector, successTransition, successUrl, url;
       $form = $(formOrSelector).closest('form');
       options = u.options(options);
       successSelector = u.option(options.target, $form.attr('up-target'), 'body');
@@ -2593,8 +3196,9 @@ We need to work on this page:
       });
       historyOption = u.option(options.history, $form.attr('up-history'), true);
       successTransition = u.option(options.transition, $form.attr('up-transition'));
-      failureTransition = u.option(options.failTransition, $form.attr('up-fail-transition'));
+      failureTransition = u.option(options.failTransition, $form.attr('up-fail-transition'), successTransition);
       httpMethod = u.option(options.method, $form.attr('up-method'), $form.attr('data-method'), $form.attr('method'), 'post').toUpperCase();
+      animateOptions = up.motion.animateOptions(options, $form);
       url = u.option(options.url, $form.attr('action'), up.browser.url());
       $form.addClass('up-active');
       if (!up.browser.canPushState() && !u.castsToFalse(historyOption)) {
@@ -2609,22 +3213,25 @@ We need to work on this page:
       };
       successUrl = function(xhr) {
         var currentLocation;
-        url = historyOption ? historyOption === 'false' ? false : u.isString(historyOption) ? historyOption : (currentLocation = u.locationFromXhr(xhr)) ? currentLocation : request.type === 'GET' ? request.url + '?' + request.data : void 0 : void 0;
+        url = historyOption ? u.castsToFalse(historyOption) ? false : u.isString(historyOption) ? historyOption : (currentLocation = u.locationFromXhr(xhr)) ? currentLocation : request.type === 'GET' ? request.url + '?' + request.data : void 0 : void 0;
         return u.option(url, false);
       };
       return u.ajax(request).always(function() {
         return $form.removeClass('up-active');
       }).done(function(html, textStatus, xhr) {
-        return up.flow.implant(successSelector, html, {
+        var successOptions;
+        successOptions = u.merge(animateOptions, {
           history: successUrl(xhr),
           transition: successTransition
         });
+        return up.flow.implant(successSelector, html, successOptions);
       }).fail(function(xhr, textStatus, errorThrown) {
-        var html;
+        var failureOptions, html;
         html = xhr.responseText;
-        return up.flow.implant(failureSelector, html, {
+        failureOptions = u.merge(animateOptions, {
           transition: failureTransition
         });
+        return up.flow.implant(failureSelector, html, failureOptions);
       });
     };
 
@@ -2682,7 +3289,7 @@ We need to work on this page:
       check = function() {
         var skipCallback, value;
         value = $field.val();
-        skipCallback = _.isNull(knownValue);
+        skipCallback = u.isNull(knownValue);
         if (knownValue !== value) {
           knownValue = value;
           if (!skipCallback) {
@@ -2796,7 +3403,7 @@ We need to work on this page:
 
 (function() {
   up.popup = (function() {
-    var autoclose, close, config, createHiddenPopup, defaults, ensureInViewport, open, position, source, u, updated;
+    var autoclose, close, config, createHiddenPopup, defaults, discardHistory, ensureInViewport, open, position, rememberHistory, source, u, updated;
     u = up.util;
     config = {
       openAnimation: 'fade-in',
@@ -2881,24 +3488,35 @@ We need to work on this page:
         }
       }
     };
+    rememberHistory = function() {
+      var $popup;
+      $popup = $('.up-popup');
+      $popup.attr('up-previous-url', up.browser.url());
+      return $popup.attr('up-previous-title', document.title);
+    };
+    discardHistory = function() {
+      var $popup;
+      $popup = $('.up-popup');
+      $popup.removeAttr('up-previous-url');
+      return $popup.removeAttr('up-previous-title');
+    };
     createHiddenPopup = function($link, selector, sticky) {
       var $placeholder, $popup;
       $popup = u.$createElementFromSelector('.up-popup');
       if (sticky) {
         $popup.attr('up-sticky', '');
       }
-      $popup.attr('up-previous-url', up.browser.url());
-      $popup.attr('up-previous-title', document.title);
       $placeholder = u.$createElementFromSelector(selector);
       $placeholder.appendTo($popup);
       $popup.appendTo(document.body);
+      rememberHistory();
       $popup.hide();
       return $popup;
     };
-    updated = function($link, $popup, origin, animation) {
+    updated = function($link, $popup, origin, animation, animateOptions) {
       $popup.show();
       position($link, $popup, origin);
-      return up.animate($popup, animation);
+      return up.animate($popup, animation, animateOptions);
     };
 
     /**
@@ -2906,29 +3524,38 @@ We need to work on this page:
     
     @method up.popup.open
     @param {Element|jQuery|String} elementOrSelector
+    @param {String} [options.url]
     @param {String} [options.origin='bottom-right']
     @param {String} [options.animation]
+      The animation to use when opening the popup.
+    @param {Number} [opts.duration]
+      The duration of the animation. See [`up.animate`](/up.motion#up.animate).
+    @param {Number} [opts.delay]
+      The delay before the animation starts. See [`up.animate`](/up.motion#up.animate).
+    @param {String} [opts.easing]
+      The timing function that controls the animation's acceleration. [`up.animate`](/up.motion#up.animate).
     @param {Boolean} [options.sticky=false]
       If set to `true`, the popup remains
       open even if the page changes in the background.
     @param {Object} [options.history=false]
      */
     open = function(linkOrSelector, options) {
-      var $link, $popup, animation, history, origin, selector, sticky, url;
+      var $link, $popup, animateOptions, animation, history, origin, selector, sticky, url;
       $link = $(linkOrSelector);
       options = u.options(options);
-      url = u.option($link.attr('href'));
+      url = u.option(options.url, $link.attr('href'));
       selector = u.option(options.target, $link.attr('up-popup'), 'body');
       origin = u.option(options.origin, $link.attr('up-origin'), config.origin);
       animation = u.option(options.animation, $link.attr('up-animation'), config.openAnimation);
       sticky = u.option(options.sticky, $link.is('[up-sticky]'));
       history = up.browser.canPushState() ? u.option(options.history, $link.attr('up-history'), false) : false;
+      animateOptions = up.motion.animateOptions(options, $link);
       close();
       $popup = createHiddenPopup($link, selector, sticky);
       return up.replace(selector, url, {
         history: history,
         insert: function() {
-          return updated($link, $popup, origin, animation);
+          return updated($link, $popup, origin, animation, animateOptions);
         }
       });
     };
@@ -3009,6 +3636,7 @@ We need to work on this page:
     });
     up.bus.on('fragment:ready', function($fragment) {
       if (!$fragment.closest('.up-popup').length) {
+        discardHistory();
         return autoclose();
       }
     });
@@ -3046,22 +3674,16 @@ Modal dialogs
 Instead of linking to another page fragment, you can also choose
 to open any target CSS selector in a modal dialog.
   
-For popup overlays see [up.popup](/up.popup) instead.
-  
-\#\#\# Incomplete documentation!
-  
-We need to work on this page:
-
-- Show the HTML structure of the dialog elements, and how to style them via CSS
-- Explain how dialogs auto-close themselves when a fragment changes behind the modal layer
-- Document method parameters
+For small popup overlays ("dropdowns") see [up.popup](/up.popup) instead.
 
 @class up.modal
  */
 
 (function() {
+  var __slice = [].slice;
+
   up.modal = (function() {
-    var autoclose, close, config, createHiddenModal, defaults, open, source, templateHtml, u, updated;
+    var autoclose, close, config, createHiddenModal, defaults, discardHistory, open, rememberHistory, source, templateHtml, u, updated;
     u = up.util;
     config = {
       width: 'auto',
@@ -3075,13 +3697,31 @@ We need to work on this page:
     };
 
     /**
+    Sets default options for future modals.
+    
     @method up.modal.defaults
-    @param {Number} [options.width]
-    @param {Number} [options.height]
+    @param {Number} [options.width='auto']
+      The width of the dialog.
+      Defaults to `'auto'`, meaning that the dialog will grow to fit its contents.
+    @param {Number} [options.height='auto']
+      The height of the dialog.
+      Defaults to `'auto'`, meaning that the dialog will grow to fit its contents.
     @param {String|Function(config)} [options.template]
-    @param {String} [options.closeLabel]
-    @param {String} [options.openAnimation]
-    @param {String} [options.closeAnimation]
+      A string containing the HTML structure of the modal.
+      You can supply an alternative template string, but make sure that it
+      contains tags with the classes `up-modal`, `up-modal-dialog` and `up-modal-content`.
+    
+      You can also supply a function that returns a HTML string.
+      The function will be called with the modal options (merged from these defaults
+      and any per-open overrides) whenever a modal opens.
+    @param {String} [options.closeLabel='X']
+      The label of the button that closes the dialog.
+    @param {String} [options.openAnimation='fade-in']
+      The animation used to open the modal. The animation will be applied
+      to both the dialog box and the overlay dimming the page.
+    @param {String} [options.closeAnimation='fade-out']
+      The animation used to close the modal. The animation will be applied
+      to both the dialog box and the overlay dimming the page.
      */
     defaults = function(options) {
       return u.extend(config, options);
@@ -3094,6 +3734,18 @@ We need to work on this page:
       } else {
         return template;
       }
+    };
+    rememberHistory = function() {
+      var $popup;
+      $popup = $('.up-modal');
+      $popup.attr('up-previous-url', up.browser.url());
+      return $popup.attr('up-previous-title', document.title);
+    };
+    discardHistory = function() {
+      var $popup;
+      $popup = $('.up-modal');
+      $popup.removeAttr('up-previous-url');
+      return $popup.removeAttr('up-previous-title');
     };
     createHiddenModal = function(selector, width, height, sticky) {
       var $content, $dialog, $modal, $placeholder;
@@ -3114,45 +3766,72 @@ We need to work on this page:
       $placeholder = u.$createElementFromSelector(selector);
       $placeholder.appendTo($content);
       $modal.appendTo(document.body);
+      rememberHistory();
       $modal.hide();
       return $modal;
     };
-    updated = function($modal, animation) {
+    updated = function($modal, animation, animateOptions) {
       $modal.show();
-      return up.animate($modal, animation);
+      return up.animate($modal, animation, animateOptions);
     };
 
     /**
-    Opens a modal overlay.
+    Opens the given link's destination in a modal overlay:
+    
+        var $link = $('...');
+        up.modal.open($link);
+    
+    Any option attributes for [`a[up-modal]`](#a.up-modal) will be honored.
+    
+    You can also open a URL directly like this:
+    
+        up.modal.open({ url: '/foo' })
     
     @method up.modal.open
     @param {Element|jQuery|String} elementOrSelector
+    @param {String} [options.url]
     @param {Number} [options.width]
     @param {Number} [options.height]
-    @param {String} [options.origin='bottom-right']
-    @param {String} [options.animation]
     @param {Boolean} [options.sticky=false]
       If set to `true`, the modal remains
       open even if the page changes in the background.
     @param {Object} [options.history=true]
+    @param {String} [options.animation]
+      The animation to use when opening the modal.
+    @param {Number} [opts.duration]
+      The duration of the animation. See [`up.animate`](/up.motion#up.animate).
+    @param {Number} [opts.delay]
+      The delay before the animation starts. See [`up.animate`](/up.motion#up.animate).
+    @param {String} [opts.easing]
+      The timing function that controls the animation's acceleration. [`up.animate`](/up.motion#up.animate).
+    @return {Promise}
+      A promise that will be resolved when the modal has finished loading.
      */
-    open = function(linkOrSelector, options) {
-      var $link, $modal, animation, height, history, selector, sticky, url, width;
-      $link = $(linkOrSelector);
+    open = function() {
+      var $link, $modal, animateOptions, animation, args, height, history, options, selector, sticky, url, width;
+      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      if (u.isObject(args[0]) && !u.isElement(args[0]) && !u.isJQuery(args[0])) {
+        $link = u.nullJquery();
+        options = args[0];
+      } else {
+        $link = $(args[0]);
+        options = args[1];
+      }
       options = u.options(options);
-      url = u.option($link.attr('href'));
+      url = u.option(options.url, $link.attr('href'), $link.attr('up-href'));
       selector = u.option(options.target, $link.attr('up-modal'), 'body');
       width = u.option(options.width, $link.attr('up-width'), config.width);
       height = u.option(options.height, $link.attr('up-height'), config.height);
       animation = u.option(options.animation, $link.attr('up-animation'), config.openAnimation);
       sticky = u.option(options.sticky, $link.is('[up-sticky]'));
       history = up.browser.canPushState() ? u.option(options.history, $link.attr('up-history'), true) : false;
+      animateOptions = up.motion.animateOptions(options, $link);
       close();
       $modal = createHiddenModal(selector, width, height, sticky);
       return up.replace(selector, url, {
         history: history,
         insert: function() {
-          return updated($modal, animation);
+          return updated($modal, animation, animateOptions);
         }
       });
     };
@@ -3196,23 +3875,74 @@ We need to work on this page:
     };
     autoclose = function() {
       if (!$('.up-modal').is('[up-sticky]')) {
+        discardHistory();
         return close();
       }
     };
 
     /**
-    Opens the target of this link in a modal dialog:
+    Clicking this link will load the destination via AJAX and open
+    the given selector in a modal dialog.
     
-        <a href="/decks" up-modal=".deck_list">Switch deck</a>
+    Example:
     
-    If the `up-sticky` attribute is set, the dialog does not auto-close
-    if a page fragment below the dialog updates:
+        <a href="/blogs" up-modal=".blog-list">Switch blog</a>
+    
+    Clicking would request the path `/blog` and select `.blog-list` from
+    the HTML response. Up.js will dim the page with an overlay
+    and place the matching `.blog_list` tag will be placed in
+    a modal dialog.
+    
+    
+    \#\#\#\# Customizing the dialog design
+    
+    Loading the Up.js stylesheet will give you a minimal dialog design:
+    
+    - Dialog contents are displayed in a white box that is centered vertically and horizontally.
+    - There is a a subtle box shadow around the dialog
+    - The box will grow to fit the dialog contents, but never grow larger than the screen
+    - The box is placed over a semi-transparent background to dim the rest of the page
+    - There is a button to close the dialog in the top-right corner
+    
+    The easiest way to change how the dialog looks is by overriding the [default CSS styles](https://github.com/makandra/upjs/blob/master/lib/assets/stylesheets/up/modal.css.sass).
+    
+    By default the dialog uses the following DOM structure (continuing the blog-switcher example from above):
+    
+        <div class="up-modal">
+          <div class="up-modal-dialog">
+            <div class="up-modal-close" up-close>X</div>
+            <div class="up-modal-content">
+              <ul class="blog-list">
+                ...
+              </ul>
+            </div>
+          </div>
+        </div>
+    
+    If you want to change the design beyond CSS, you can
+    configure Up.js to [use a different HTML structure](#up.modal.defaults).
+    
+    
+    \#\#\#\# Closing behavior
+    
+    By default the dialog automatically closes
+    *whenever a page fragment below the dialog is updated*.
+    This is useful to have the dialog interact with the page that
+    opened it, e.g. by updating parts of a larger form or by signing in a user
+    and revealing additional information.
+    
+    To disable this behavior, give the opening link an `up-sticky` attribute:
     
         <a href="/settings" up-modal=".options" up-sticky>Settings</a>
+    
     
     @method a[up-modal]
     @ujs
     @param [up-sticky]
+    @param [up-animation]
+    @param [up-height]
+    @param [up-width]
+    @param [up-history]
      */
     up.on('click', 'a[up-modal]', function(event, $link) {
       event.preventDefault();
@@ -3416,11 +4146,21 @@ From Up's point of view the "current" location is either:
 
 (function() {
   up.navigation = (function() {
-    var CLASS_ACTIVE, CLASS_CURRENT, SELECTOR_ACTIVE, SELECTOR_SECTION, enlargeClickArea, locationChanged, normalizeUrl, sectionClicked, sectionUrls, u, unmarkActive;
+    var CLASS_ACTIVE, CLASS_CURRENT, SELECTORS_SECTION, SELECTOR_ACTIVE, SELECTOR_SECTION, SELECTOR_SECTION_INSTANT, enlargeClickArea, locationChanged, normalizeUrl, sectionClicked, sectionUrls, selector, u, unmarkActive;
     u = up.util;
     CLASS_ACTIVE = 'up-active';
     CLASS_CURRENT = 'up-current';
-    SELECTOR_SECTION = 'a[href], a[up-target], [up-follow], [up-modal], [up-popup], [up-source]';
+    SELECTORS_SECTION = ['a[href]', 'a[up-target]', '[up-follow]', '[up-modal]', '[up-popup]', '[up-href]'];
+    SELECTOR_SECTION = SELECTORS_SECTION.join(', ');
+    SELECTOR_SECTION_INSTANT = ((function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = SELECTORS_SECTION.length; _i < _len; _i++) {
+        selector = SELECTORS_SECTION[_i];
+        _results.push(selector + "[up-instant]");
+      }
+      return _results;
+    })()).join(', ');
     SELECTOR_ACTIVE = "." + CLASS_ACTIVE;
     normalizeUrl = function(url) {
       if (u.isPresent(url)) {
@@ -3434,7 +4174,7 @@ From Up's point of view the "current" location is either:
       var $link, attr, url, urls, _i, _len, _ref;
       urls = [];
       if ($link = up.link.resolve($section)) {
-        _ref = ['href', 'up-follow', 'up-source'];
+        _ref = ['href', 'up-follow', 'up-href'];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           attr = _ref[_i];
           if (url = u.presentAttr($link, attr)) {
@@ -3471,7 +4211,14 @@ From Up's point of view the "current" location is either:
       return $(SELECTOR_ACTIVE).removeClass(CLASS_ACTIVE);
     };
     up.on('click', SELECTOR_SECTION, function(event, $section) {
-      return sectionClicked($section);
+      if (!$section.is('[up-instant]')) {
+        return sectionClicked($section);
+      }
+    });
+    up.on('mousedown', SELECTOR_SECTION_INSTANT, function(event, $section) {
+      if (u.isUnmodifiedMouseEvent(event)) {
+        return sectionClicked($section);
+      }
     });
     up.bus.on('fragment:ready', function() {
       unmarkActive();

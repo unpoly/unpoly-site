@@ -46,43 +46,46 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Caching and preloading
                 </a>
-                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.form" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.slot" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
+                  Content slots
+                </a>
+                <a href="/up.history" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Viewport scrolling
                 </a>
-                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
@@ -234,7 +237,7 @@ In that case you cannot change the sources with a <code>||</code> operator
         <div class="symbol is_public" id="up.util.cssAnimate">
 
   <div class="symbol__signature">
-    <a href="#up.util.cssAnimate">up.util.cssAnimate(elementOrSelector, lastFrame, [opts.duration], [opts.delay], [opts.easing])</a>
+    <a href="#up.util.cssAnimate">up.util.cssAnimate(elementOrSelector, lastFrame, [options])</a>
   </div>
 
     <div class="symbol__prose">
@@ -279,7 +282,7 @@ the duration of the animation.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [opts.duration=300]          <span class="symbol__type">
+          [options.duration=300]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -294,7 +297,7 @@ the duration of the animation.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [opts.delay=0]          <span class="symbol__type">
+          [options.delay=0]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -309,7 +312,7 @@ the duration of the animation.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [opts.easing='ease']          <span class="symbol__type">
+          [options.easing='ease']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -331,7 +334,7 @@ for a list of pre-defined timing functions.</p>
     </div>
 
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'><p>A promise for the animation's end.</p>
 </div>
     </div>

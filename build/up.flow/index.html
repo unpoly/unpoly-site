@@ -46,43 +46,46 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Caching and preloading
                 </a>
-                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.form" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.slot" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
+                  Content slots
+                </a>
+                <a href="/up.history" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Viewport scrolling
                 </a>
-                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
@@ -175,6 +178,20 @@ here, in which case a selector will be inferred from the element's class and ID.
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
+          [options.method='get']          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
           [options.title]          <span class="symbol__type">
             String
           </span>
@@ -189,7 +206,7 @@ here, in which case a selector will be inferred from the element's class and ID.
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.method='get']          <span class="symbol__type">
+          [options.transition='none']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -234,7 +251,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.transition]          <span class="symbol__type">
+          [options.scroll='body']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -248,8 +265,8 @@ If set to <code>false</code>, the history will remain unchanged.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.scroll='body']          <span class="symbol__type">
-            String
+          [options.cache]          <span class="symbol__type">
+            Boolean
           </span>
             <span class="symbol__tag is_optional">
               optional
@@ -257,6 +274,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>Whether to use a <a href="/up.proxy">cached response</a> if available.</p>
 </div>
         </div>
       </div>
@@ -284,7 +302,7 @@ If set to <code>false</code>, the history will remain unchanged.</p>
         Promise
       </div>
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'>
 <p>A promise that will be resolved when the page has been updated.</p>
 </div>
@@ -431,7 +449,8 @@ If set to <code>false</code>, the history will remain unchanged.</p>
 
     <div class="symbol__prose">
       <div class='prose'><p>Destroys the given element or selector.
-Takes care that all destructors, if any, are called.</p>
+Takes care that all destructors, if any, are called.
+The element is removed from the DOM.</p>
 
 </div>
     </div>
@@ -447,20 +466,6 @@ Takes care that all destructors, if any, are called.</p>
           selectorOrElement          <span class="symbol__type">
             String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
           </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.animation]          <span class="symbol__type">
-            String <span class="symbol__or">or</span> Function <span class="symbol__or">or</span> Object
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
@@ -495,6 +500,66 @@ Takes care that all destructors, if any, are called.</p>
 </div>
         </div>
       </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.animation='none']          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The animation to use before the element is removed from the DOM.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.duration]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The duration of the animation. See <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.delay]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The delay before the animation starts. See <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.easing]          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The timing function that controls the animation's acceleration. <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+</div>
+        </div>
+      </div>
 
   
 </div>
@@ -502,12 +567,15 @@ Takes care that all destructors, if any, are called.</p>
         <div class="symbol is_public" id="up.reload">
 
   <div class="symbol__signature">
-    <a href="#up.reload">up.reload(selectorOrElement)</a>
+    <a href="#up.reload">up.reload(selectorOrElement, [options])</a>
   </div>
 
     <div class="symbol__prose">
       <div class='prose'><p>Replaces the given selector or element with a fresh copy
 fetched from the server.</p>
+
+<p>Up.js remembers the URL from which a fragment was loaded, so you
+don't usually need to give an URL when reloading.</p>
 
 </div>
     </div>
@@ -526,6 +594,21 @@ fetched from the server.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options]          <span class="symbol__type">
+            Object
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>See options for <a href="#up.replace"><code>up.replace</code></a></p>
 </div>
         </div>
       </div>

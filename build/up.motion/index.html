@@ -46,43 +46,46 @@
             </a>
 
             <div class="menu">
-                <a href="/up.link" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.link" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Linking to page fragments
                 </a>
-                <a href="/up.modal" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.modal" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Modal dialogs
                 </a>
-                <a href="/up.popup" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.popup" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Pop-up overlays
                 </a>
-                <a href="/up.motion" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.motion" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Animation and transitions
                 </a>
-                <a href="/up.navigation" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.navigation" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.magic" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Registering behavior and custom elements
                 </a>
-                <a href="/up.flow" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.flow" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Changing page fragments programmatically
                 </a>
-                <a href="/up.proxy" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.proxy" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Caching and preloading
                 </a>
-                <a href="/up.form" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.form" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Forms and controls
                 </a>
-                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.tooltip" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Tooltips
                 </a>
-                <a href="/up.history" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.slot" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
+                  Content slots
+                </a>
+                <a href="/up.history" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Manipulating the browser history
                 </a>
-                <a href="/up.viewport" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.viewport" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Viewport scrolling
                 </a>
-                <a href="/up.bus" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="/up.bus" class="menu__item" up-dash="#content" up-duration="5000" up-transition="cross-fade">
                   Framework events
                 </a>
             </div>
@@ -103,8 +106,17 @@
 </h1>
 
 <div class='prose'>
-<p>Any fragment change in Up.js can be animated.
-Up.js ships with a number of predefined animations and transitions,
+<p>Any fragment change in Up.js can be animated.</p>
+
+<pre><code>&lt;a href="/users" data-target=".list" up-transition="cross-fade"&gt;Show users&lt;/a&gt;
+</code></pre>
+
+<p>Or a dialog open:</p>
+
+<pre><code>&lt;a href="/users" up-modal=".list" up-animation="move-from-top"&gt;Show users&lt;/a&gt;
+</code></pre>
+
+<p>Up.js ships with a number of predefined animations and transitions,
 and you can easily define your own using Javascript or CSS. </p>
 
 <h3 id="incomplete-documentation">Incomplete documentation!</h3>
@@ -114,9 +126,7 @@ and you can easily define your own using Javascript or CSS. </p>
 <ul>
   <li>Explain the difference between transitions and animations</li>
   <li>Demo the built-in animations and transitions</li>
-  <li>Examples for defining your own animations and transitions</li>
   <li>Explain ghosting</li>
-  <li>Explain how many elements accept arguments for animation.</li>
 </ul>
 
 </div>
@@ -133,10 +143,10 @@ and you can easily define your own using Javascript or CSS. </p>
 
     <div class="api__symbols">
 
-        <div class="symbol is_public" id="up.modal.defaults">
+        <div class="symbol is_public" id="up.motion.defaults">
 
   <div class="symbol__signature">
-    <a href="#up.modal.defaults">up.modal.defaults([options])</a>
+    <a href="#up.motion.defaults">up.motion.defaults([options])</a>
   </div>
 
 
@@ -148,7 +158,7 @@ and you can easily define your own using Javascript or CSS. </p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.duration]          <span class="symbol__type">
+          [options.duration=300]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -162,7 +172,7 @@ and you can easily define your own using Javascript or CSS. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.delay]          <span class="symbol__type">
+          [options.delay=0]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -176,7 +186,7 @@ and you can easily define your own using Javascript or CSS. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.easing]          <span class="symbol__type">
+          [options.easing='ease']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -302,7 +312,7 @@ the new animation begins.</p>
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'>
+          <div class='prose'><p>The element to animate.</p>
 </div>
         </div>
       </div>
@@ -313,13 +323,16 @@ the new animation begins.</p>
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'>
+          <div class='prose'><p>Can either be:
+- The animation's name
+- A function performing the animation
+- An object of CSS attributes describing the last frame of the animation</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.duration]          <span class="symbol__type">
+          [options.duration=300]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -328,12 +341,28 @@ the new animation begins.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The duration of the animation, in milliseconds.</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.easing]          <span class="symbol__type">
+          [options.delay=0]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The delay before the animation starts, in milliseconds.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.easing='ease']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -342,20 +371,9 @@ the new animation begins.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.delay]          <span class="symbol__type">
-            Number
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
+<p>The timing function that controls the animation's acceleration.
+See <a href="http://www.w3.org/TR/css3-transitions/#transition-timing-function">W3C documentation</a>
+for a list of pre-defined timing functions.</p>
 </div>
         </div>
       </div>
@@ -369,11 +387,33 @@ the new animation begins.</p>
         Promise
       </div>
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'>
 <p>A promise for the animation's end.</p>
 </div>
     </div>
+  
+</div>
+
+        <div class="symbol is_protected" id="up.motion.animateOptions">
+
+  <div class="symbol__signature">
+    <a href="#up.motion.animateOptions">up.motion.animateOptions()</a>
+      <span class="symbol__tag is_visibility">
+        protected
+      </span>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Extracts animation-related options from the given options hash.
+If <code>$element</code> is given, also inspects the element for animation-related
+attributes like <code>up-easing</code> or <code>up-duration</code>.</p>
+
+</div>
+    </div>
+
+
+
   
 </div>
 
@@ -424,6 +464,9 @@ the original animation's promise will be called.</p>
       <div class='prose'><p>Performs an animated transition between two elements.
 Transitions are implement by performing two animations in parallel,
 causing one element to disappear and the other to appear.</p>
+
+<p>Note that the transition does not remove any elements from the DOM.
+The first element will remain in the DOM, albeit hidden using <code>display: none</code>.</p>
 
 <h4 id="named-transitions">Named transitions</h4>
 
@@ -512,7 +555,7 @@ separated by a slash character (<code>/</code>):</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.duration]          <span class="symbol__type">
+          [options.duration=300]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -521,12 +564,28 @@ separated by a slash character (<code>/</code>):</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The duration of the animation, in milliseconds.</p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.easing]          <span class="symbol__type">
+          [options.delay=0]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The delay before the animation starts, in milliseconds.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.easing='ease']          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -535,20 +594,9 @@ separated by a slash character (<code>/</code>):</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.delay]          <span class="symbol__type">
-            Number
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
+<p>The timing function that controls the transition's acceleration.
+See <a href="http://www.w3.org/TR/css3-transitions/#transition-timing-function">W3C documentation</a>
+for a list of pre-defined timing functions.</p>
 </div>
         </div>
       </div>
@@ -562,7 +610,7 @@ separated by a slash character (<code>/</code>):</p>
         Promise
       </div>
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'>
 <p>A promise for the transition's end.</p>
 </div>
@@ -578,6 +626,33 @@ separated by a slash character (<code>/</code>):</p>
 
     <div class="symbol__prose">
       <div class='prose'><p>Defines a named transition.</p>
+
+<p>Here is the definition of the pre-defined <code>cross-fade</code> animation:</p>
+
+<pre><code>up.transition('cross-fade', ($old, $new, options) -&gt;
+  up.motion.when(
+    animate($old, 'fade-out', options),
+    animate($new, 'fade-in', options)
+  )
+)
+</code></pre>
+
+<p>It is recommended that your transitions use <a href="#up.animate"><code>up.animate</code></a>,
+passing along the <code>options</code> that were passed to you.</p>
+
+<p>If you choose to <em>not</em> use <code>up.animate</code> and roll your own
+logic instead, your code must honor the following contract:</p>
+
+<ol>
+  <li>It must honor the passed options.</li>
+  <li>It must <em>not</em> remove any of the given elements from the DOM.</li>
+  <li>It returns a promise that is resolved when the transition ends</li>
+  <li>The returned promise responds to a <code>resolve()</code> function that
+instantly jumps to the last transition frame and resolves the promise.</li>
+</ol>
+
+<p>Calling <a href="#up.animate"><code>up.animate</code></a> with an object argument
+will take care of all these points.</p>
 
 </div>
     </div>
@@ -625,7 +700,7 @@ separated by a slash character (<code>/</code>):</p>
 
 <p>Here is the definition of the pre-defined <code>fade-in</code> animation:</p>
 
-<pre><code>animation('fade-in', ($ghost, options) -&gt;
+<pre><code>up.animation('fade-in', ($ghost, options) -&gt;
   $ghost.css(opacity: 0)
   animate($ghost, { opacity: 1 }, options)
 )
@@ -640,7 +715,7 @@ animation code instead, your code must honor the following contract:</p>
 
 <ol>
   <li>It must honor the passed options.</li>
-  <li>It must not remove the passed element from the DOM.</li>
+  <li>It must <em>not</em> remove the passed element from the DOM.</li>
   <li>It returns a promise that is resolved when the animation ends</li>
   <li>The returned promise responds to a <code>resolve()</code> function that
 instantly jumps to the last animation frame and resolves the promise.</li>
@@ -691,8 +766,10 @@ will take care of all these points.</p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Returns a new promise that resolves once all promises in the given array resolve.
-Other then e.g. <code>$.then</code>, the combined promise will have a <code>resolve</code> method.</p>
+      <div class='prose'><p>Returns a new promise that resolves once all promises in arguments resolve.</p>
+
+<p>Other then <a href="https://api.jquery.com/jquery.when/"><code>$.when</code> from jQuery</a>,
+the combined promise will have a <code>resolve</code> method.</p>
 
 </div>
     </div>
@@ -715,6 +792,16 @@ Other then e.g. <code>$.then</code>, the combined promise will have a <code>reso
         </div>
       </div>
 
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+
+    <div class="symbol__param_prose">
+      <div class='prose'><p>A new promise.</p>
+</div>
+    </div>
   
 </div>
 
@@ -742,7 +829,7 @@ and completes instantly.</p>
         Promise
       </div>
 
-    <div class="symbol__response">
+    <div class="symbol__param_prose">
       <div class='prose'>
 <p>A resolved promise</p>
 </div>

@@ -553,7 +553,7 @@ ul.bullets, .prose ul {
   /* line 32, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
   .prose pre {
     line-height: 22px;
-    margin-left: 12px; }
+    margin-left: 20px; }
     /* line 36, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/prose.css.sass */
     .prose pre code {
       margin: 0;
@@ -744,7 +744,6 @@ ul.bullets, .prose ul {
 
 /* line 39, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol__param_prose {
-  margin-top: 4px;
   margin-left: 20px; }
 
 /* line 43, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
