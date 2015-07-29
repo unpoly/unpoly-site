@@ -1,0 +1,28 @@
+{
+  "name": "upjs-guide",
+  "version": "0.0.0",
+  "homepage": "http://upjs.io",
+  "authors": [
+    "Henning Koch <henning.koch@makandra.de>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "highlightjs": "~8.4.0",
+    "jquery": "2.1.3",
+    "upjs": "~0.6.0"
+  },
+  "resolutions": {
+    "jquery": "2.1.3"
+  }
+}
