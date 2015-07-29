@@ -26,12 +26,12 @@
   "dependencies": {
     "jquery": ">= 1.9.1"
   },
-  "version": "0.6.1",
-  "_release": "0.6.1",
+  "version": "0.6.2",
+  "_release": "0.6.2",
   "_resolution": {
     "type": "version",
-    "tag": "v0.6.1",
-    "commit": "fde897bdf59dcadfb3a38eb59b3ded204fc4b5a7"
+    "tag": "v0.6.2",
+    "commit": "7db3779fb5b38b99cdc23f550e7e80f835f9424b"
   },
   "_source": "git://github.com/makandra/upjs.git",
   "_target": "~0.6.0",
