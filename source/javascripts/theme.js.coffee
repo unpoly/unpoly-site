@@ -8,5 +8,5 @@ up.bus.on 'fragment:ready', ($fragment) ->
 hljs.configure
   languages: ['javascript', 'html']
 
-up.awaken 'pre code', ($fragment) ->
+up.compiler 'pre code', ($fragment) ->
   hljs.highlightBlock($fragment.get(0));
