@@ -9,7 +9,7 @@
     languages: ['javascript', 'html']
   });
 
-  up.awaken('pre code', function($fragment) {
+  up.compiler('pre code', function($fragment) {
     return hljs.highlightBlock($fragment.get(0));
   });
 

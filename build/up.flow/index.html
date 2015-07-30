@@ -320,7 +320,17 @@ If set to <code>false</code>, the history will remain unchanged.</p>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Replaces the given selector with the same CSS selector from the given HTML string.</p>
+      <div class='prose'><p>Updates a selector on the current page with the
+same selector from the given HTML string.</p>
+
+<p>Example:</p>
+
+<pre><code>html = '&lt;div class="before"&gt;new-before&lt;/div&gt;' +
+       '&lt;div class="middle"&gt;new-middle&lt;/div&gt;' +
+        '&lt;div class="after"&gt;new-after&lt;/div&gt;';
+
+up.flow.implant('.middle', html):
+</code></pre>
 
 </div>
     </div>

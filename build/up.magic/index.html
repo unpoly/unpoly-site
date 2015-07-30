@@ -234,10 +234,10 @@ and passed as a second argument.</p>
   
 </div>
 
-        <div class="symbol is_public" id="up.awaken">
+        <div class="symbol is_public" id="up.compiler">
 
   <div class="symbol__signature">
-    <a href="#up.awaken">up.awaken(selector, [options], awakener)</a>
+    <a href="#up.compiler">up.compiler(selector, [options], compiler)</a>
   </div>
 
     <div class="symbol__prose">
@@ -255,25 +255,25 @@ do this for all links with an <code>[rel=lightbox]</code> attribute:</p>
 
 <p>This Javascript will do exactly that:</p>
 
-<pre><code>up.awaken('a[rel=lightbox]', function($element) {
+<pre><code>up.compiler('a[rel=lightbox]', function($element) {
   $element.lightboxify();
 });
 </code></pre>
 
-<p>Note that within the awakener, Up.js will bind <code>this</code> to the
+<p>Note that within the compiler, Up.js will bind <code>this</code> to the
 native DOM element to help you migrate your existing jQuery code to
 this new syntax.</p>
 
 <h4 id="custom-elements">Custom elements</h4>
 
-<p>You can also use <code>up.awaken</code> to implement custom elements like this:</p>
+<p>You can also use <code>up.compiler</code> to implement custom elements like this:</p>
 
 <pre><code>&lt;current-time&gt;&lt;/current-time&gt;
 </code></pre>
 
 <p>Here is the Javascript that inserts the current time into to these elements:</p>
 
-<pre><code>up.awaken('current-time', function($element) {
+<pre><code>up.compiler('current-time', function($element) {
   var now = new Date();
   $element.text(now.toString()));
 });
@@ -281,19 +281,19 @@ this new syntax.</p>
 
 <h4 id="cleaning-up-after-yourself">Cleaning up after yourself</h4>
 
-<p>If your awakener returns a function, Up.js will use this as a <em>destructor</em> to
+<p>If your compiler returns a function, Up.js will use this as a <em>destructor</em> to
 clean up if the element leaves the DOM. Note that in Up.js the same DOM ad Javascript environment
 will persist through many page loads, so it's important to not create
 <a href="https://makandracards.com/makandra/31325-how-to-create-memory-leaks-in-jquery">memory leaks</a>.</p>
 
-<p>You should clean up after yourself whenever your awakeners have global
+<p>You should clean up after yourself whenever your compilers have global
 side effects, like a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval"><code>setInterval</code></a>
 or event handlers bound to the document root.</p>
 
 <p>Here is a version of <code>&lt;current-time&gt;</code> that updates
 the time every second, and cleans up once it's done:</p>
 
-<pre><code>up.awaken('current-time', function($element) {
+<pre><code>up.compiler('current-time', function($element) {
 
   function update() {
     var now = new Date();
@@ -328,7 +328,7 @@ might attach the location and names of its marker pins:</p>
 
 <p>The JSON will parsed and handed to your event handler as a second argument:</p>
 
-<pre><code>up.awaken('.google-map', function($element, pins) {
+<pre><code>up.compiler('.google-map', function($element, pins) {
 
   var map = new google.maps.Map($element);
 
@@ -346,7 +346,7 @@ might attach the location and names of its marker pins:</p>
 
 <h4 id="migrating-jquery-event-handlers-to-upon">Migrating jQuery event handlers to <code>up.on</code></h4>
 
-<p>Within the awakener, Up.js will bind <code>this</code> to the
+<p>Within the compiler, Up.js will bind <code>this</code> to the
 native DOM element to help you migrate your existing jQuery code to
 this new syntax.</p>
 
@@ -382,14 +382,14 @@ this new syntax.</p>
         <div class="symbol__param_prose">
           <div class='prose'>
 <p>If set to <code>true</code> and a fragment insertion contains multiple
-elements matching the selector, <code>awakener</code> is only called once
+elements matching the selector, <code>compiler</code> is only called once
 with a jQuery collection containing all matching elements. </p>
 </div>
         </div>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          awakener          <span class="symbol__type">
+          compiler          <span class="symbol__type">
             Function($element, data)
           </span>
         </div>
@@ -399,9 +399,11 @@ The function takes the new element as the first argument (as a jQuery object).
 If the element has an <code>up-data</code> attribute, its value is parsed as JSON
 and passed as a second argument.</p>
 
-<p>The function may return another function that destroys the awakened
-object when it is removed from the DOM, by clearing global state such as
-time-outs and event handlers bound to the document.</p>
+<p>The function may return a destructor function that destroys the compiled
+object before it is removed from the DOM. The destructor is supposed to
+clear global state such as time-outs and event handlers bound to the document.
+The destructor is <em>not</em> expected to remove the element from the DOM, which
+is already handled by <a href="/up.flow#up.destroy"><code>up.destroy</code></a>.</p>
 </div>
         </div>
       </div>

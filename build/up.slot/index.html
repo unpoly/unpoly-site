@@ -114,10 +114,7 @@ content to appear in the future.</p>
 <pre><code>&lt;div up-slot class="alerts"&gt;&lt;/div&gt;
 
 &lt;script&gt;
-  up.awaken('.alerts', function ($element) {
-
-    RELOAD SHOULD NOT CACHE
-
+  up.compiler('.alerts', function ($element) {
     setInterval(3000, function() { up.reload('.alerts') });
   });
 &lt;/script&gt;
