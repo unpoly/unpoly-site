@@ -35,7 +35,7 @@
         <div class="viewport">
           <div class="layout__side">
 
-            <a href="/" class="logo" up-dash="#content" up-transition="cross-fade">
+            <a href="/" class="logo" up-dash=".content" up-transition="cross-fade">
               <img class="logo__glyph" src="/images/logo.gif" alt="" />
               <span class="logo__name">
                 Up.js
@@ -48,7 +48,7 @@
             <div class="menu">
               <% %w[up.link up.modal up.popup up.motion up.navigation up.magic up.flow up.proxy up.form up.tooltip up.slot up.history up.viewport up.bus].each do |klass_name| %>
                 <% klass = guide.klass_for_name(klass_name) %>
-                <a href="<%= klass.guide_path %>" class="menu__item" up-dash="#content" up-transition="cross-fade">
+                <a href="<%= klass.guide_path %>" class="menu__item" up-dash=".content" up-transition="cross-fade">
                   <%= klass.title %>
                 </a>
               <% end %>
@@ -56,13 +56,13 @@
 
             <div class="layout__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-dash="#content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-dash=".content" up-transition="cross-fade">imprint</a>)
             </div>
 
           </div>
 
           <div class="layout__content">
-            <div id="content">
+            <div class="content">
               <%= yield %>
             </div>
           </div>

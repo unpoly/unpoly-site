@@ -1,5 +1,5 @@
 up.bus.on 'fragment:ready', ($fragment) ->
-  if $fragment.is('#content')
+  if $fragment.is('.content')
     $('body').scrollTop(0)
 
 # The default highlight.js package from bower comes

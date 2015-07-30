@@ -377,11 +377,10 @@ ul.bullets {
         color: #F1C40F; }
 /* line 6, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
 .layout {
-  overflow-x: hidden;
   width: 100%;
   background-color: #fff; }
 
-/* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+/* line 10, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
 .layout__head {
   height: 7px;
   background-color: #3498DB;
@@ -391,16 +390,16 @@ ul.bullets {
   width: 100%;
   z-index: 100; }
 
-/* line 21, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+/* line 19, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
 .layout__body {
   padding-top: 45px;
   padding-bottom: 45px; }
 
-/* line 28, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+/* line 26, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
 .layout__side {
   margin-bottom: 45px; }
 
-/* line 31, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+/* line 29, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
 .layout__fineprint {
   color: #666;
   margin-top: 30px;
@@ -411,11 +410,11 @@ ul.bullets {
   line-height: 20px; }
 
 @media (min-width: 900px) and (min-height: 580px) {
-  /* line 40, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+  /* line 38, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
   .layout__content {
     padding-left: 300px; }
 
-  /* line 43, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
+  /* line 41, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/layout.css.sass */
   .layout__side {
     width: 300px;
     position: fixed;
