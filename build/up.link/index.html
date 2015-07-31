@@ -41,7 +41,7 @@
                 Up.js
               </span>
               <span class="logo__alpha">
-                Alpha
+                Beta
               </span>
             </a>
 
@@ -191,10 +191,10 @@ Javascript will not be reloaded, no white flash during a full page reload.</p>
 
     <div class="api__symbols">
 
-        <div class="symbol is_public" id="a.up-target">
+        <div class="symbol is_public" id="up-target">
 
   <div class="symbol__signature">
-    <a href="#a.up-target">a[up-target]</a>
+    <a href="#up-target">[up-target]</a>
   </div>
 
     <div class="symbol__prose">
@@ -237,19 +237,6 @@ by using <code>:after</code> in the <code>up-target</code> selector like this:</
 &lt;/a&gt;
 </code></pre>
 
-<h4 id="following-on-mousedown">Following on mousedown</h4>
-
-<p>By also adding an <code>up-instant</code> attribute, the page will be fetched
-on <code>mousedown</code> instead of <code>click</code>, making the interaction even faster:</p>
-
-<pre><code>&lt;a href="/users" up-target=".main" up-instant&gt;User list&lt;/a&gt;
-</code></pre>
-
-<p>Note that using <code>[up-instant]</code> will prevent a user from canceling a link
-click by moving the mouse away from the interaction area. However, for
-navigation actions this isn't needed. E.g. popular operation
-systems switch tabs on <code>mousedown</code>.</p>
-
 <h4 id="following-elements-that-are-no-links">Following elements that are no links</h4>
 
 <p>You can also use <code>[up-target]</code> to turn an arbitrary element into a link.
@@ -283,22 +270,6 @@ opening the destination in a new tab.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [up-instant]          <span class="symbol__type">
-            
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-<p>If set, fetches the element on <code>mousedown</code> instead of <code>click</code>.
-This makes the interaction faster.</p>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
           [up-href]          <span class="symbol__type">
             
           </span>
@@ -317,6 +288,37 @@ If omitted, the the link's <code>href</code> attribute will be used.</p>
   
 </div>
 
+        <div class="symbol is_public" id="up-instant">
+
+  <div class="symbol__signature">
+    <a href="#up-instant">[up-instant]</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>By adding an <code>up-instant</code> attribute to a link, the destination will be
+fetched on <code>mousedown</code> instead of <code>click</code> (<code>mouseup</code>).</p>
+
+<pre><code>&lt;a href="/users" up-target=".main" up-instant&gt;User list&lt;/a&gt;
+</code></pre>
+
+<p>This will save precious milliseconds that otherwise spent
+on waiting for the user to release the mouse button. Since an
+AJAX request will be triggered right way, the interaction will
+appear faster.</p>
+
+<p>Note that using <code>[up-instant]</code> will prevent a user from canceling a link
+click by moving the mouse away from the interaction area. However, for
+navigation actions this isn't needed. E.g. popular operation
+systems switch tabs on <code>mousedown</code> instead of <code>click</code>.</p>
+
+</div>
+    </div>
+
+
+
+  
+</div>
+
         <div class="symbol is_public" id="up-follow">
 
   <div class="symbol__signature">
@@ -325,42 +327,15 @@ If omitted, the the link's <code>href</code> attribute will be used.</p>
 
     <div class="symbol__prose">
       <div class='prose'><p>If applied on a link, Follows this link via AJAX and replaces the
-current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element</p>
+current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element.</p>
+
+<p>Example:</p>
 
 <pre><code>&lt;a href="/users" up-follow&gt;User list&lt;/a&gt;
 </code></pre>
 
-<p>Note that this is equivalent to the following:</p>
-
-<pre><code>&lt;a href="/users" up-target="body"&gt;User list&lt;/a&gt;
-</code></pre>
-
-<h4 id="following-on-mousedown">Following on mousedown</h4>
-
-<p>By also adding an <code>up-instant</code> attribute, the page will be fetched
-on <code>mousedown</code> instead of <code>click</code>, making the interaction even faster:</p>
-
-<pre><code>&lt;a href="/users" up-follow up-instant&gt;User list&lt;/a&gt;
-</code></pre>
-
-<p>Note that using <code>[up-instant]</code> will prevent a user from canceling a link
-click by moving the mouse away from the interaction area. However, for
-navigation actions this isn't needed. E.g. popular operation
-systems switch tabs on <code>mousedown</code>.</p>
-
-<h4 id="enlarging-the-click-area">Enlarging the click area</h4>
-
-<p>You can also apply <code>[up-follow]</code> to any element that contains a link
-in order to enlarge the link's click area:</p>
-
-<pre><code>&lt;div class="notification" up-follow&gt;
-   Record was saved!
-   &lt;a href="/records"&gt;Close&lt;/a&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>In the example above, clicking anywhere within <code>.notification</code> element
-would follow the <em>Close</em> link.</p>
+<p>To only update a fragment instead of the entire page,
+see <a href="#up-target"><code>up-target</code></a>.</p>
 
 <h4 id="turn-any-element-into-a-link">Turn any element into a link</h4>
 
@@ -398,21 +373,6 @@ opening the destination in a new tab.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [up-instant]          <span class="symbol__type">
-            
-          </span>
-            <span class="symbol__tag is_optional">
-              optional
-            </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-<p>If set, fetches the element on <code>mousedown</code> instead of <code>click</code>.</p>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
           [up-href]          <span class="symbol__type">
             
           </span>
@@ -427,6 +387,36 @@ If omitted, the the link's <code>href</code> attribute will be used.</p>
 </div>
         </div>
       </div>
+
+  
+</div>
+
+        <div class="symbol is_public" id="up-expand">
+
+  <div class="symbol__signature">
+    <a href="#up-expand">[up-expand]</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Add an <code>up-expand</code> class to any element that contains a link
+in order to enlarge the link's click area:</p>
+
+<pre><code>&lt;div class="notification" up-expand&gt;
+  Record was saved!
+  &lt;a href="/records"&gt;Close&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>In the example above, clicking anywhere within <code>.notification</code> element
+would <a href="#up-follow">follow</a> the <em>Close</em> link.</p>
+
+<p><code>up-expand</code> honors all the UJS behavior in expanded links
+(<code>up-target</code>, <code>up-instant</code>, <code>up-preload</code>, etc.).</p>
+
+</div>
+    </div>
+
+
 
   
 </div>
@@ -455,15 +445,6 @@ This is done by:</p>
 <p>Note that this is shorthand for:</p>
 
 <pre><code>&lt;a href="/users" up-target=".main" up-instant up-preload&gt;User list&lt;/a&gt;  
-</code></pre>
-
-<p>You can also apply <code>[up-dash]</code> to any element that contains a link
-in order to enlarge the link's click area:</p>
-
-<pre><code>&lt;div class="notification" up-dash&gt;
-   Record was saved!
-   &lt;a href="/records" up-dash='.main'&gt;Close&lt;/a&gt;
-&lt;/div&gt;
 </code></pre>
 
 </div>
