@@ -250,6 +250,17 @@ click by moving the mouse away from the interaction area. However, for
 navigation actions this isn't needed. E.g. popular operation
 systems switch tabs on <code>mousedown</code>.</p>
 
+<h4 id="following-elements-that-are-no-links">Following elements that are no links</h4>
+
+<p>You can also use <code>[up-target]</code> to turn an arbitrary element into a link.
+In this case, put the link's destination into the <code>up-href</code> attribute:</p>
+
+<pre><code>&lt;button up-target=".main" up-href="/foo/bar"&gt;Go&lt;/button&gt;
+</code></pre>
+
+<p>Note that using any element other than <code>&lt;a&gt;</code> will prevent users from
+opening the destination in a new tab.</p>
+
 </div>
     </div>
 
@@ -272,13 +283,33 @@ systems switch tabs on <code>mousedown</code>.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          up-instant          <span class="symbol__type">
+          [up-instant]          <span class="symbol__type">
             
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>If set, fetches the element on <code>mousedown</code> instead of <code>click</code>.
+          <div class='prose'>
+<p>If set, fetches the element on <code>mousedown</code> instead of <code>click</code>.
 This makes the interaction faster.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-href]          <span class="symbol__type">
+            
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The destination URL to follow.
+If omitted, the the link's <code>href</code> attribute will be used.</p>
 </div>
         </div>
       </div>
@@ -297,6 +328,11 @@ This makes the interaction faster.</p>
 current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element</p>
 
 <pre><code>&lt;a href="/users" up-follow&gt;User list&lt;/a&gt;
+</code></pre>
+
+<p>Note that this is equivalent to the following:</p>
+
+<pre><code>&lt;a href="/users" up-target="body"&gt;User list&lt;/a&gt;
 </code></pre>
 
 <h4 id="following-on-mousedown">Following on mousedown</h4>
@@ -326,6 +362,17 @@ in order to enlarge the link's click area:</p>
 <p>In the example above, clicking anywhere within <code>.notification</code> element
 would follow the <em>Close</em> link.</p>
 
+<h4 id="turn-any-element-into-a-link">Turn any element into a link</h4>
+
+<p>You can also use <code>[up-follow]</code> to turn an arbitrary element into a link.
+In this case, put the link's destination into the <code>up-href</code> attribute:</p>
+
+<pre><code>&lt;span up-follow up-href="/foo/bar"&gt;Go&lt;/span&gt;
+</code></pre>
+
+<p>Note that using any element other than <code>&lt;a&gt;</code> will prevent users from
+opening the destination in a new tab.</p>
+
 </div>
     </div>
 
@@ -351,12 +398,32 @@ would follow the <em>Close</em> link.</p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          up-instant          <span class="symbol__type">
+          [up-instant]          <span class="symbol__type">
             
           </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>If set, fetches the element on <code>mousedown</code> instead of <code>click</code>.</p>
+          <div class='prose'>
+<p>If set, fetches the element on <code>mousedown</code> instead of <code>click</code>.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [up-href]          <span class="symbol__type">
+            
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The destination URL to follow.
+If omitted, the the link's <code>href</code> attribute will be used.</p>
 </div>
         </div>
       </div>

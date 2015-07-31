@@ -700,9 +700,8 @@ ul.bullets, .prose ul {
         color: #E74C3C; }
 /* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/blocks/symbol.css.sass */
 .symbol {
-  margin-bottom: 25px;
-  border-top: 2px solid #dbe0e3;
-  padding-top: 25px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   margin-left: -10px;
   margin-right: -10px;
   padding-left: 10px;

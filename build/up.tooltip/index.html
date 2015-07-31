@@ -115,7 +115,7 @@ value in a tooltip when a user hovers over the element. </p>
 
 <ul>
   <li>Show the tooltip's HTML structure and how to style the elements</li>
-  <li>Explain how to position tooltips using <code>up-origin</code></li>
+  <li>Explain how to position tooltips using <code>up-position</code></li>
   <li>We should have a position about tooltips that contain HTML.</li>
 </ul>
 
@@ -176,11 +176,16 @@ value in a tooltip when a user hovers over the element. </p>
         <div class="symbol is_public" id="up.tooltip.open">
 
   <div class="symbol__signature">
-    <a href="#up.tooltip.open">up.tooltip.open(elementOrSelector, html, [options])</a>
+    <a href="#up.tooltip.open">up.tooltip.open(elementOrSelector, [options])</a>
   </div>
 
     <div class="symbol__prose">
-      <div class='prose'><p>Opens a tooltip.</p>
+      <div class='prose'><p>Opens a tooltip over the given element.</p>
+
+<pre><code>up.tooltip.open('.help', {
+  html: 'Enter multiple words or phrases'
+});
+</code></pre>
 
 </div>
     </div>
@@ -204,18 +209,7 @@ value in a tooltip when a user hovers over the element. </p>
       </div>
       <div class="symbol__param">
         <div class="symbol__param_name">
-          html          <span class="symbol__type">
-            String
-          </span>
-        </div>
-        <div class="symbol__param_prose">
-          <div class='prose'>
-</div>
-        </div>
-      </div>
-      <div class="symbol__param">
-        <div class="symbol__param_name">
-          [options.origin='top']          <span class="symbol__type">
+          [options.html]          <span class="symbol__type">
             String
           </span>
             <span class="symbol__tag is_optional">
@@ -224,6 +218,22 @@ value in a tooltip when a user hovers over the element. </p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The HTML to display in the tooltip.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.position='top']          <span class="symbol__type">
+            String
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The position of the tooltip. Known values are <code>top</code> and <code>bottom</code>.</p>
 </div>
         </div>
       </div>
@@ -238,6 +248,7 @@ value in a tooltip when a user hovers over the element. </p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
+<p>The animation to use when opening the tooltip.</p>
 </div>
         </div>
       </div>
@@ -271,7 +282,7 @@ Does nothing if no tooltip is currently shown.</p>
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>See options for See options for <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
+          <div class='prose'><p>See options for <a href="/up.motion#up.animate"><code>up.animate</code></a>.</p>
 </div>
         </div>
       </div>

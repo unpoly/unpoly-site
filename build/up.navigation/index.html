@@ -113,12 +113,89 @@ to the current location (class <code>up-current</code>).</p>
 <p>This dramatically improves the perceived speed of your user interface
 by providing instant feedback for user interactions.</p>
 
-<p>The classes are added and removed automatically whenever
-a page fragment is added, changed or destroyed through Up.js.</p>
+</div>
 
-<h2 id="how-upjs-computes-the-current-location">How Up.js computes the current location</h2>
+  <div class="api">
 
-<p>From Up's point of view the "current" location is either:</p>
+    <div class="api__title">Unobtrusive behavior</div>
+
+    <div class="api__explanation">
+      Elements matching these CSS selectors will automatically
+      gain useful behavior when they are added to the DOM tree.
+    </div>
+
+    <div class="api__symbols">
+
+        <div class="symbol is_public" id="up-active">
+
+  <div class="symbol__signature">
+    <a href="#up-active">[up-active]</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Links that are currently loading are assigned the <code>up-active</code>
+class automatically. Style <code>.up-active</code> in your CSS to improve the
+perceived responsiveness of your user interface.</p>
+
+<p>The <code>up-active</code> class will be removed as soon as another
+page fragment is added or updated through Up.js.</p>
+
+<h4 id="example">Example</h4>
+
+<p>We have a link:</p>
+
+<pre><code>&lt;a href="/foo" up-follow&gt;Foo&lt;/a&gt;
+</code></pre>
+
+<p>The user clicks on the link. While the request is loading,
+the link has the <code>up-active</code> class:</p>
+
+<pre><code>&lt;a href="/foo" up-follow up-active&gt;Foo&lt;/a&gt;
+</code></pre>
+
+<p>Once the fragment is loaded the browser's location bar is updated
+to <code>http://yourhost/foo</code> via <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries"><code>history.pushState</code></a>:</p>
+
+<pre><code>&lt;a href="/foo" up-follow up-current&gt;Foo&lt;/a&gt;
+</code></pre>
+
+</div>
+    </div>
+
+
+
+  
+</div>
+
+        <div class="symbol is_public" id="up-current">
+
+  <div class="symbol__signature">
+    <a href="#up-current">[up-current]</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Links that point to the current location are assigned
+the <code>up-current</code> class automatically.</p>
+
+<p>The use case for this is navigation bars:</p>
+
+<pre><code>&lt;nav&gt;
+  &lt;a href="/foo"&gt;Foo&lt;/a&gt;
+  &lt;a href="/bar"&gt;Bar&lt;/a&gt;
+&lt;/nav&gt;
+</code></pre>
+
+<p>If the browser location changes to <code>/foo</code>, the markup changes to this:</p>
+
+<pre><code>&lt;nav&gt;
+  &lt;a href="/foo" up-current&gt;Foo&lt;/a&gt;
+  &lt;a href="/bar"&gt;Bar&lt;/a&gt;
+&lt;/nav&gt;
+</code></pre>
+
+<h4 id="whats-considered-to-be-current">What's considered to be "current"?</h4>
+
+<p>The current location is considered to be either:</p>
 
 <ul>
   <li>the URL displayed in the browser window's location bar</li>
@@ -126,8 +203,25 @@ a page fragment is added, changed or destroyed through Up.js.</p>
   <li>the source URL of a currently opened <a href="/up.popup">popup overlay</a></li>
 </ul>
 
+<p>A link matches the current location (and is marked as <code>.up-current</code>) if it matches either:</p>
+
+<ul>
+  <li>the link's <code>href</code> attribute</li>
+  <li>the link's <a href="/up.link#turn-any-element-into-a-link"><code>up-href</code></a> attribute</li>
+</ul>
+
+</div>
+    </div>
+
+
+
+  
 </div>
 
+
+    </div>
+
+  </div>
 
 
             </div>
