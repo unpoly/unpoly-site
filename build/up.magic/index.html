@@ -268,12 +268,12 @@ this new syntax.</p>
 
 <p>You can also use <code>up.compiler</code> to implement custom elements like this:</p>
 
-<pre><code>&lt;current-time&gt;&lt;/current-time&gt;
+<pre><code>&lt;clock&gt;&lt;/clock&gt;
 </code></pre>
 
 <p>Here is the Javascript that inserts the current time into to these elements:</p>
 
-<pre><code>up.compiler('current-time', function($element) {
+<pre><code>up.compiler('clock', function($element) {
   var now = new Date();
   $element.text(now.toString()));
 });
@@ -290,10 +290,10 @@ will persist through many page loads, so it's important to not create
 side effects, like a <a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setInterval"><code>setInterval</code></a>
 or event handlers bound to the document root.</p>
 
-<p>Here is a version of <code>&lt;current-time&gt;</code> that updates
+<p>Here is a version of <code>&lt;clock&gt;</code> that updates
 the time every second, and cleans up once it's done:</p>
 
-<pre><code>up.compiler('current-time', function($element) {
+<pre><code>up.compiler('clock', function($element) {
 
   function update() {
     var now = new Date();
@@ -311,7 +311,7 @@ the time every second, and cleans up once it's done:</p>
 
 <p>If we didn't clean up after ourselves, we would have many ticking intervals
 operating on detached DOM elements after we have created and removed a couple
-of <code>&lt;current-time&gt;</code> elements.</p>
+of <code>&lt;clock&gt;</code> elements.</p>
 
 <h4 id="attaching-structured-data">Attaching structured data</h4>
 
