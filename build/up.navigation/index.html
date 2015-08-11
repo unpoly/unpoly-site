@@ -211,6 +211,16 @@ the <code>up-current</code> class automatically.</p>
   <li>a space-separated list of URLs in the link's <code>up-alias</code> attribute</li>
 </ul>
 
+<h4 id="matching-url-by-prefix">Matching URL by prefix</h4>
+
+<p>You can mark a link as <code>.up-current</code> whenever the current URL matches a prefix.
+To do so, end the <code>up-alias</code> attribute in an asterisk (<code>*</code>).</p>
+
+<p>For instance, the following link is highlighted for both <code>/reports</code> and <code>/reports/123</code>:</p>
+
+<pre><code>&lt;a href="/reports" up-alias="/reports/*"&gt;Reports&lt;/a&gt;
+</code></pre>
+
 </div>
     </div>
 
