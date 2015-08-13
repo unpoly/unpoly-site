@@ -143,6 +143,7 @@ animation before removing the fragment from the DOM.</p>
 <ul>
   <li>Decide whether to refactor this into document events</li>
   <li>Decide whether <code>fragment:enter</code> and <code>fragment:leave</code> would be better names</li>
+  <li>Decide if we wouldn't rather document events in the respective module (e.g. proxy).</li>
 </ul>
 
 </div>
@@ -162,7 +163,7 @@ animation before removing the fragment from the DOM.</p>
         <div class="symbol is_public" id="up.bus.on">
 
   <div class="symbol__signature">
-    <a href="#up.bus.on">up.bus.on(eventName, handler)</a>
+    <a href="#up.bus.on">up.bus.on(eventNames, handler)</a>
   </div>
 
     <div class="symbol__prose">
@@ -180,12 +181,12 @@ event is triggered.</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          eventName          <span class="symbol__type">
+          eventNames          <span class="symbol__type">
             String
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>The event name to match.</p>
+          <div class='prose'><p>A space-separated list of event names to match.</p>
 </div>
         </div>
       </div>
@@ -196,7 +197,65 @@ event is triggered.</p>
           </span>
         </div>
         <div class="symbol__param_prose">
-          <div class='prose'><p>The event handler to be called with the event arguments.  </p>
+          <div class='prose'><p>The event handler to be called with the event arguments.</p>
+</div>
+        </div>
+      </div>
+
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Function
+      </div>
+
+    <div class="symbol__param_prose">
+      <div class='prose'>
+<p>A function that unregisters the given handlers</p>
+</div>
+    </div>
+  
+</div>
+
+        <div class="symbol is_public" id="up.bus.off">
+
+  <div class="symbol__signature">
+    <a href="#up.bus.off">up.bus.off(eventNames, handler)</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Unregisters the given handler from the given events.</p>
+
+</div>
+    </div>
+
+
+
+    <div class="symbol__subtitle">
+      Parameters
+    </div>
+
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          eventNames          <span class="symbol__type">
+            String
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'><p>A space-separated list of event names .</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          handler          <span class="symbol__type">
+            Function
+          </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'><p>The event handler that should stop listening.</p>
 </div>
         </div>
       </div>

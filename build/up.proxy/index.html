@@ -108,7 +108,7 @@
 <div class='prose'>
 <p>All HTTP requests go through the Up.js proxy.
 It caches a <a href="/up.proxy#up.proxy.defaults">limited</a> number of server responses
-  for a <a href="/up.proxy#up.proxy.defaults">limited</a> amount of time,
+for a <a href="/up.proxy#up.proxy.defaults">limited</a> amount of time,
 making requests to these URLs return insantly.</p>
 
 <p>The cache is cleared whenever the user makes a non-<code>GET</code> request
@@ -117,7 +117,41 @@ making requests to these URLs return insantly.</p>
 <p>The proxy can also used to speed up reaction times by preloading
 links when the user hovers over the click area (or puts the mouse/finger
 down before releasing). This way the
-response will already be cached when the user performs the click.   </p>
+response will already be cached when the user performs the click.</p>
+
+<h2 id="spinners">Spinners</h2>
+
+<p>You can listen to <a href="/up.bus">framework events</a> to implement a spinner
+(progress indicator) that appears during a long-running request,
+and disappears once the response has been received:</p>
+
+<pre><code>&lt;div class="spinner"&gt;Please wait!&lt;/div&gt;
+</code></pre>
+
+<p>Here is the Javascript to make it alive:</p>
+
+<pre><code>up.compiler('.spinner', function($element) {
+
+  show = function() { $element.show() };
+  hide = function() { $element.hide() };
+
+  up.bus.on('proxy:busy', show);
+  up.bus.on('proxy:idle', hide);
+
+  return function() {
+    up.bus.off('proxy:busy', show);
+    up.bus.off('proxy:idle', hide);
+  };
+
+});
+</code></pre>
+
+<p>The <code>proxy:busy</code> event will be emitted after a delay of 300 ms
+to prevent the spinner from flickering on and off.
+You can change (or remove) this delay like this:</p>
+
+<pre><code>up.proxy.defaults({ busyDelay: 150 });
+</code></pre>
 
 </div>
 
@@ -252,6 +286,22 @@ Defaults to 5 minutes.</p>
 </div>
         </div>
       </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.busyDelay=300]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>How long the proxy waits until emitting the <code>proxy:busy</code> <a href="/up.bus">event</a>.
+Use this to prevent flickering of spinners.</p>
+</div>
+        </div>
+      </div>
 
   
 </div>
@@ -270,6 +320,11 @@ If the response was already cached, returns the HTML instantly.</p>
 not be cached and the entire cache will be cleared.
 Only requests with a method of <code>GET</code>, <code>OPTIONS</code> and <code>HEAD</code>
 are considered to be read-only.</p>
+
+<p>If a network connection is attempted, the proxy will emit
+a <code>proxy:load</code> event with the <code>request</code> as its argument.
+Once the response is received, a <code>proxy:receive</code> event will
+be emitted.</p>
 
 </div>
     </div>
@@ -336,6 +391,74 @@ If set to <code>false</code> a network connection will always be attempted.</p>
         </div>
       </div>
 
+  
+</div>
+
+        <div class="symbol is_public" id="up.proxy.idle">
+
+  <div class="symbol__signature">
+    <a href="#up.proxy.idle">up.proxy.idle()</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Returns <code>true</code> if the proxy is not currently waiting
+for a request to finish. Returns <code>false</code> otherwise.</p>
+
+<p>The proxy will also emit an <code>proxy:idle</code> <a href="/up.bus">event</a> if it
+used to busy, but is now idle.</p>
+
+</div>
+    </div>
+
+
+
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Boolean
+      </div>
+
+    <div class="symbol__param_prose">
+      <div class='prose'><p>Whether the proxy is idle</p>
+</div>
+    </div>
+  
+</div>
+
+        <div class="symbol is_public" id="up.proxy.busy">
+
+  <div class="symbol__signature">
+    <a href="#up.proxy.busy">up.proxy.busy()</a>
+  </div>
+
+    <div class="symbol__prose">
+      <div class='prose'><p>Returns <code>true</code> if the proxy is currently waiting
+for a request to finish. Returns <code>false</code> otherwise.</p>
+
+<p>The proxy will also emit an <code>proxy:busy</code> <a href="/up.bus">event</a> if it
+used to idle, but is now busy.</p>
+
+</div>
+    </div>
+
+
+
+
+    <div class="symbol__subtitle">
+      Return value
+    </div>
+
+      <div class="symbol__type">
+        Boolean
+      </div>
+
+    <div class="symbol__param_prose">
+      <div class='prose'><p>Whether the proxy is busy</p>
+</div>
+    </div>
   
 </div>
 
