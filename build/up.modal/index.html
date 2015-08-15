@@ -325,7 +325,7 @@ Does nothing if no modal is currently open.</p>
 
       <div class="symbol__param">
         <div class="symbol__param_name">
-          [options.width='auto']          <span class="symbol__type">
+          [options.width]          <span class="symbol__type">
             Number
           </span>
             <span class="symbol__tag is_optional">
@@ -334,8 +334,30 @@ Does nothing if no modal is currently open.</p>
         </div>
         <div class="symbol__param_prose">
           <div class='prose'>
-<p>The width of the dialog in pixels.
-Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its contents.</p>
+<p>The width of the dialog as a CSS value like <code>'400px'</code> or <code>50%</code>.</p>
+
+<p>Defaults to <code>undefined</code>, meaning that the dialog will grow to fit its contents
+until it reaches <code>options.maxWidth</code>. Leaving this as <code>undefined</code> will
+also allow you to control the width using CSS.</p>
+</div>
+        </div>
+      </div>
+      <div class="symbol__param">
+        <div class="symbol__param_name">
+          [options.maxWidth]          <span class="symbol__type">
+            Number
+          </span>
+            <span class="symbol__tag is_optional">
+              optional
+            </span>
+        </div>
+        <div class="symbol__param_prose">
+          <div class='prose'>
+<p>The width of the dialog as a CSS value like <code>'400px'</code> or <code>50%</code>.
+You can set this to <code>undefined</code> to make the dialog fit its contents.
+Be aware however, that e.g. Bootstrap stretches input elements
+to <code>width: 100%</code>, meaning the dialog will also stretch to the full
+width of the screen.</p>
 </div>
         </div>
       </div>
@@ -351,7 +373,7 @@ Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its co
         <div class="symbol__param_prose">
           <div class='prose'>
 <p>The height of the dialog in pixels.
-Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its contents.</p>
+Defaults to <code>undefined</code>, meaning that the dialog will grow to fit its contents.</p>
 </div>
         </div>
       </div>
@@ -368,7 +390,7 @@ Defaults to <code>'auto'</code>, meaning that the dialog will grow to fit its co
           <div class='prose'>
 <p>A string containing the HTML structure of the modal.
 You can supply an alternative template string, but make sure that it
-contains tags with the classes <code>up-modal</code>, <code>up-modal-dialog</code> and <code>up-modal-content</code>.</p>
+defines tag with the classes <code>up-modal</code>, <code>up-modal-dialog</code> and  <code>up-modal-content</code>.</p>
 
 <p>You can also supply a function that returns a HTML string.
 The function will be called with the modal options (merged from these defaults
@@ -449,6 +471,15 @@ up.modal.open($link);
 
 <p>This will request <code>/foo</code>, extract the <code>.list</code> selector from the response
 and open the selected container in a modal dialog.</p>
+
+<h4 id="events">Events</h4>
+
+<ul>
+  <li>Emits an <a href="/up.bus">event</a> <code>modal:open</code> when the modal
+is starting to open.</li>
+  <li>Emits an <a href="/up.bus">event</a> <code>modal:opened</code> when the opening
+animation has finished and the modal contents are fully visible.</li>
+</ul>
 
 </div>
     </div>
@@ -688,6 +719,15 @@ or <code>undefined</code> if no modal is currently open.</p>
     <div class="symbol__prose">
       <div class='prose'><p>Closes a currently opened modal overlay.
 Does nothing if no modal is currently open.</p>
+
+<h4 id="events">Events</h4>
+
+<ul>
+  <li>Emits an <a href="/up.bus">event</a> <code>modal:close</code> when the modal
+is starting to close.</li>
+  <li>Emits an <a href="/up.bus">event</a> <code>modal:closed</code> when the closing
+animation has finished and the modal has been removed from the DOM.</li>
+</ul>
 
 </div>
     </div>
