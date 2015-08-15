@@ -137,7 +137,7 @@
   <h2>Installation</h2>
 
   <p>
-    The framework consists of two files:
+    The base framework consists of two files:
   </p>
   
   <ul>
@@ -150,12 +150,28 @@
       (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up.min.css">minified</a>)
     </li>
   </ul>
-  
+
   <p>
     Download the files and include them in your page using <code>&lt;script&gt;</code>
     and <code>&lt;style&gt;</code> tags.
   </p>
-  
+
+  <p>
+    If you're using <a href="http://getbootstrap.com/">Bootstrap 3</a> you also want to include
+    the following files:
+  </p>
+
+  <ul>
+    <li>
+      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up-bootstrap.js"><code>up-bootstrap.js</code></a>
+      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up-bootstrap.min.js">minified</a>)
+    </li>
+    <li>
+      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up-bootstrap.css"><code>up-bootstrap.css</code></a>
+      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/up-bootstrap.min.css">minified</a>)
+    </li>
+  </ul>
+
   <h3>Bower</h3>
   
   <p>
@@ -166,7 +182,7 @@
   
   <p>
     This will download the files to
-    <code>bower_components/upjs/dist/up.js</code> and <code>bower_components/upjs/dist/up.css</code>. 
+    <code>bower_components/upjs/dist</code>.
   </p>
   
   
@@ -193,6 +209,12 @@
   <pre><code class="scss">/*
  *= require up
  */</code></pre>
+
+  <p>
+    If you're using <a href="http://getbootstrap.com/">Bootstrap 3</a> you also want to
+    <code>require up-bootstrap</code> in both your <code>application.js</code> and
+    <code>application.css</code> manifests.
+  </p>
 
   <h2>Getting started</h2>
 

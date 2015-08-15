@@ -23,6 +23,7 @@
     "upjs": "~0.6.0"
   },
   "resolutions": {
-    "jquery": "2.1.3"
+    "jquery": "2.1.3",
+    "upjs": "~0.8.1"
   }
 }
