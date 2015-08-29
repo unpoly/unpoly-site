@@ -3,8 +3,8 @@
 <div class="prose">
 
   <h1>
-    Snappy UI<br />
-    for server-side web apps</h1>
+    Progressive enhancement, reloaded
+  </h1>
 
   <p>
     Up.js gives your traditional web application fast-responding views
@@ -13,14 +13,31 @@
     Up.js can be a solution for you.
   </p>
 
+  <h2>Examples</h2>
+
+  <h3>Update a page fragment via AJAX</h3>
+
+  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('update-fragment') } %>
+
+  <h3>Animate a page transition</h3>
+
+  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('transition') } %>
+
+  <h3>Custom tags</h3>
+
+  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('timestamp-tag') } %>
+
+  <h3>Modal dialogs</h3>
+
+  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('modal') } %>
+
   <h2>
     Project status
   </h2>
 
   <p>
     <a href="http://www.makandra.com">We</a>'ve started to use Up.js in production.
-    We're planning to build a few more apps with it in order
-    to improve the public API.
+    We're currently building a few more apps with it in order to improve the public API.
   </p>
 
   <p>
@@ -127,11 +144,33 @@
 
   
   <h2>Browser support</h2>
-  
+
   <p>
-    Up.js supports all modern browsers and Internet Explorer 10+.<br />
-    The library should not load in older IEs, but that isn't implemented yet.
+    Up.js supports all modern browsers.
   </p>
+
+  <p>
+    Up.js gracefully degrades with old versions of Internet Explorer:
+  </p>
+
+  <table>
+    <tr>
+      <th>Edge</th>
+      <td>Full support</td>
+    </tr>
+    <tr>
+      <th>IE 10</th>
+      <td>Full support</td>
+    </tr>
+    <tr>
+      <th>IE 9</th>
+      <td>Page updates that change browser history fall back to a classic page load</td>
+    </tr>
+    <tr>
+      <th>IE 8</th>
+      <td>Up.js prevents itself from booting itself, leaving you with a classic server-side application</td>
+    </tr>
+  </table>
 
   
   <h2>Installation</h2>

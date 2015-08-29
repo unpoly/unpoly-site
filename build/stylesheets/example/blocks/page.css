@@ -1,0 +1,9 @@
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/example/blocks/page.css.sass */
+.page {
+  font-size: 20px;
+  line-height: 24px;
+  margin: 15px 20px; }
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/example/blocks/page.css.sass */
+  .page a {
+    color: #3498DB;
+    font-weight: bold; }

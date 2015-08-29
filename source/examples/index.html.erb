@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+  <% example.reload if development? %>
+
+  <head>
+    <%= partial 'layouts/meta' %>
+    <title><%= window_title %></title>
+    <%= partial 'layouts/fonts' %>
+    <%= stylesheet_link_tag 'example/all' %>
+    <%= javascript_include_tag 'example.js' %>
+    <%= partial 'layouts/analytics' %>
+  </head>
+
+  <body>
+
+    <div class="example">
+      <div class="example__files">
+        <% (example.pages + example.javascripts).each do |asset| %>
+          <div class="example__title"><%= asset.name %></div>
+          <pre class="example__code"><code><%= h asset.text %></code></pre>
+        <% end %>
+      </div>
+      <iframe class="example__demo" src="<%= example.demo_path %>"></iframe>
+    </div>
+
+  </body>
+
+</html>

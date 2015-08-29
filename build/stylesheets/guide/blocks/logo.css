@@ -1,0 +1,27 @@
+/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/logo.css.sass */
+.logo {
+  display: block;
+  margin-bottom: 34px; }
+  /* line 7, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/logo.css.sass */
+  .logo .logo__glyph {
+    width: 52px;
+    height: 52px;
+    margin-bottom: -11px;
+    margin-right: 5px; }
+  /* line 13, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/logo.css.sass */
+  .logo .logo__name {
+    color: #3498DB;
+    font-size: 28px;
+    line-height: 32px;
+    text-transform: uppercase; }
+  /* line 18, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/logo.css.sass */
+  .logo .logo__alpha {
+    font-size: 14px;
+    line-height: 18px;
+    text-transform: uppercase;
+    display: inline-block;
+    color: #e65f51;
+    margin-left: 2px;
+    margin-top: 10px;
+    vertical-align: top;
+    font-weight: 700; }

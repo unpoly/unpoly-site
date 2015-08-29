@@ -1,0 +1,22 @@
+/* line 1, /home/henning/Projects/upjs-guide/source/stylesheets/example/theme.css.sass */
+html, body {
+  height: 100%; }
+
+/* line 4, /home/henning/Projects/upjs-guide/source/stylesheets/example/theme.css.sass */
+body {
+  font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
+  background-color: #bbb;
+  font-weight: 400;
+  color: #444;
+  overflow: hidden;
+  margin: 0; }
+
+/* line 12, /home/henning/Projects/upjs-guide/source/stylesheets/example/theme.css.sass */
+p {
+  margin: 0 0 1em 0; }
+
+/* line 15, /home/henning/Projects/upjs-guide/source/stylesheets/example/theme.css.sass */
+.hljs {
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent; }

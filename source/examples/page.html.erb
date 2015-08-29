@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <%= partial 'layouts/meta' %>
+    <base href="<%= asset.base %>" />
+    <%= partial 'layouts/fonts' %>
+    <%= stylesheet_link_tag 'example/all' %>
+    <% asset.example.stylesheets.each do |stylesheet| %>
+      <link rel="stylesheet" type="text/css" href="<%= stylesheet.css %>" />
+    <% end %>
+    <%= javascript_include_tag 'example' %>
+    <% asset.example.javascripts.each do |javascript| %>
+      <script type="text/javascript" src="<%= javascript.name %>"></script>
+    <% end %>
+  </head>
+  <body>
+    <div class="page">
+      <%= asset.text %>
+    </div>
+  </body>
+</html>

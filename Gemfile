@@ -11,6 +11,8 @@ gem 'therubyracer'
 
 gem 'middleman-bower'
 
+gem 'memoizer'
+
 # gem 'require_all'
 
 group :deploy do

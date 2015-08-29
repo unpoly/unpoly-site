@@ -1,0 +1,9 @@
+---
+explanation: |
+  Give a link an `up-target` attribute to update a CSS selector with the
+  same selector from the link's destination. No server-side changes required.
+highlight:
+  - 'up-target'
+order:
+  - 'preview.html'
+  - 'full.html'

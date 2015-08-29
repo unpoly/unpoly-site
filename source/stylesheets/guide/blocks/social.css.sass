@@ -1,0 +1,33 @@
+@import environment
+
+.social
+  text-transform: uppercase
+  font-weight: 700
+
+  color: #999
+  margin-bottom: 19px
+  +clear_after
+
+
+  i
+    margin-right: 6px
+    color: #aaa
+    display: inline-block
+    vertical-align: middle
+    font-size: 18px
+
+  span
+    +font-size(16px)
+    display: inline-block
+    vertical-align: middle
+    //text-decoration: underline
+
+  a
+    white-space: nowrap
+    color: $COLOR_ALIZARIN
+    color: #aaa
+    margin-right: 12px
+    +hover
+      color: $COLOR_ORANGE
+      i
+        color: $COLOR_ALIZARIN

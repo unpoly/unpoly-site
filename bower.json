@@ -20,10 +20,10 @@
   "dependencies": {
     "highlightjs": "~8.4.0",
     "jquery": "2.1.3",
-    "upjs": "~0.6.0"
+    "upjs": "~0.9.1"
   },
   "resolutions": {
     "jquery": "2.1.3",
-    "upjs": "~0.8.1"
+    "upjs": "~0.9.1"
   }
 }

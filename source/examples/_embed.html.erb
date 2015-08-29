@@ -1,0 +1,17 @@
+<% example.reload if development? %>
+
+<div class="example">
+
+  <a class="example__run" href="<%= example.index_path %>" target="_blank">
+    <i class="fa fa-play-circle"></i> Run
+  </a>
+  <% if example.explanation.present? %>
+    <div class="example--explanation">
+      <%= example.highlight markdown(example.explanation) %>
+    </div>
+  <% end %>
+  <% (example.pages + example.javascripts).each do |asset| %>
+    <div class="example__title"><%= asset.name %></div>
+    <pre class="example__code"><code><%= example.highlight(h asset.text) %></code></pre>
+  <% end %>
+</div>

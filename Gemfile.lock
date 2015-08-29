@@ -56,6 +56,7 @@ GEM
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    memoizer (1.0.1)
     middleman (3.3.7)
       coffee-script (~> 2.2)
       compass (>= 1.0.0, < 2.0.0)
@@ -148,6 +149,7 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   capistrano_colors
+  memoizer
   middleman (~> 3.3.7)
   middleman-bower
   middleman-livereload (~> 3.1.0)

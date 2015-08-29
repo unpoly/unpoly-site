@@ -1,4 +1,5 @@
 require 'lib/upjs/guide'
+require 'lib/upjs/example'
 
 ###
 # Compass
@@ -26,12 +27,34 @@ require 'lib/upjs/guide'
 #   page "/admin/*"
 # end
 
+# page '/examples/*', layout: 'example'
 
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 Upjs::Guide.current.klasses.each do |klass|
   path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   proxy path, "/klass.html", locals: { klass_name: klass.name }, ignore: true
+end
+
+Upjs::Example.all.each do |example|
+
+  proxy example.index_path, "examples/index.html", locals: { example: example }, layout: false, ignore: true, directory_index: false
+
+  example.stylesheets.each do |asset|
+    puts "Example stylesheet: #{asset.path}"
+    proxy asset.path, "/examples/stylesheet.css", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+  end
+
+  example.javascripts.each do |asset|
+    puts "Example javascripts: #{asset.path}"
+    proxy asset.path, "/examples/javascript.js", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+  end
+
+  example.pages.each do |asset|
+    puts "Example pages: #{asset.path}"
+    proxy asset.path, "/examples/page.html", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+  end
+
 end
 
 # ignore '/klass.html.erb'
