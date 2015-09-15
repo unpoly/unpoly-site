@@ -3,6 +3,8 @@ module Upjs
     class Param
       include Logger
 
+      OPTION_PREFIX = /^(options|opts|request|config)\./
+
       def initialize(name = nil)
         @name = name
         @types = []
@@ -24,7 +26,7 @@ module Upjs
       end
 
       def option?
-        name =~ /^options\./
+        name =~ OPTION_PREFIX
       end
 
       def signature
@@ -33,6 +35,11 @@ module Upjs
         signature << "=#{default}" if default?
         signature = "[#{signature}]" if optional?
         signature
+      end
+
+      def option_hash_name
+        name =~ OPTION_PREFIX
+        $1
       end
 
     end
