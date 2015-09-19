@@ -1,6 +1,6 @@
 #= require jquery/dist/jquery
 #= require highlightjs/highlight.pack
-#= require upjs/dist/up
+#= require up
 
 # The default highlight.js package from bower comes
 # with way too many languages, which makes auto-detection

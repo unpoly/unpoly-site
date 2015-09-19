@@ -3,11 +3,11 @@
 $side-width: 300px
 $side-spacing: 0
 
-.layout
+.guide
   width: 100%
   background-color: #fff
 
-.layout__head
+.guide__head
   height: 7px
   background-color: $COLOR_PETER_RIVER
   position: fixed
@@ -16,17 +16,17 @@ $side-spacing: 0
   width: 100%
   z-index: 100
 
-.layout__body
+.guide__body
   padding-top: 45px
   padding-bottom: 45px
 
-.layout__content
+.guide__content
 
 
-.layout__side
+.guide__side
   margin-bottom: 45px
 
-.layout__fineprint
+.guide__fineprint
   color: #666
   margin-top: 30px
   border-top: 2px solid #eee
@@ -35,10 +35,10 @@ $side-spacing: 0
   +font-size(16px)
 
 @media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
-  .layout__content
+  .guide__content
     padding-left: $side-width + $side-spacing
 
-  .layout__side
+  .guide__side
     width: $side-width
     position: fixed
     margin-bottom: 0

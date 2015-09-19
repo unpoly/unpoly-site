@@ -1,21 +1,31 @@
 @import compass/reset
 @import environment
 
+html
+  height: 100%
+  overflow-y: scroll
+
 body
   font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif
   font-size: 18px
   line-height: 26px
   font-weight: 400
   color: #444
-  overflow-y: scroll
-  +pretty-scrollbars
-
-a
+  // +pretty-scrollbars
+  height: 100%
   text-decoration: none
   outline: 0 // firefox dotted outline
 
+.screen
+  height: 100%
+
+
 b
   font-weight: 700
+
+a
+  text-decoration: none
+
 
 i.fa
   font-style: normal !important

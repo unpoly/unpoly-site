@@ -29,6 +29,9 @@ require 'lib/upjs/example'
 
 # page '/examples/*', layout: 'example'
 
+
+page '*', layout: 'guide'
+
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 Upjs::Guide.current.klasses.each do |klass|
   path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
@@ -133,15 +136,18 @@ ready do
     puts "APPENDING SPROCKET PATH: #{path}"
     sprockets.append_path File.expand_path(path)
   end
+  sprockets.append_path File.expand_path('vendor/upjs-local/lib/assets/javascripts')
+  sprockets.append_path File.expand_path('vendor/upjs-local/lib/assets/stylesheets')
+  # sprockets.append_path File.expand_path('../upjs/lib/assets/styless')
 end
 
 # Build-specific configuration
 configure :build do
   # For example, change the Compass output style for deployment
-  # activate :minify_css
+  activate :minify_css
 
   # Minify Javascript on build
-  # activate :minify_javascript
+  activate :minify_javascript
 
   # Enable cache buster
   # activate :asset_hash

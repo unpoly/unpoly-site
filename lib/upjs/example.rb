@@ -63,6 +63,10 @@ module Upjs
       config['explanation']
     end
 
+    def title
+      config['title']
+    end
+
     def reload
       unmemoize :config
     end

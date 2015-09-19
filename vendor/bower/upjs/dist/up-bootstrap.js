@@ -1,24 +1,21 @@
 (function() {
-  var defaults;
+  up.layout.config.fixedTop.push('.navbar-fixed-top');
 
-  defaults = up.layout.defaults();
+  up.layout.config.fixedBottom.push('.navbar-fixed-bottom');
 
-  up.layout.defaults({
-    fixedTop: defaults.fixedTop + ", .navbar-fixed-top",
-    fixedBottom: defaults.fixedBottom + ", .navbar-fixed-bottom"
-  });
+  up.layout.config.anchoredRight.push('.navbar-fixed-top');
 
-}).call(this);
-(function() {
-  up.modal.defaults({
-    template: "<div class=\"up-modal\">\n  <div class=\"up-modal-dialog modal-dialog\">\n    <div class=\"up-modal-content modal-content\"></div>\n  </div>\n</div>"
-  });
+  up.layout.config.anchoredRight.push('.navbar-fixed-bottom');
+
+  up.layout.config.anchoredRight.push('.footer');
 
 }).call(this);
 (function() {
-  up.navigation.defaults({
-    currentClass: 'active'
-  });
+  up.modal.config.template = "<div class=\"up-modal\">\n  <div class=\"up-modal-dialog modal-dialog\">\n    <div class=\"up-modal-content modal-content\"></div>\n  </div>\n</div>";
+
+}).call(this);
+(function() {
+  up.navigation.config.currentClasses.push('active');
 
 }).call(this);
 (function() {

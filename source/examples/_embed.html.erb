@@ -1,17 +1,20 @@
 <% example.reload if development? %>
 
-<div class="example">
+<div class="example_embed">
 
-  <a class="example__run" href="<%= example.index_path %>" target="_blank">
-    <i class="fa fa-play-circle"></i> Run
-  </a>
+  <div class="example_embed__run">
+    <a class="action" href="<%= example.index_path %>" up-target=".screen" up-transition="fade-out/move-from-bottom" up-duration="500">
+      <i class="fa fa-play-circle"></i> Run
+    </a>
+  </div>
+
   <% if example.explanation.present? %>
-    <div class="example--explanation">
+    <div class="example_embed__explanation">
       <%= example.highlight markdown(example.explanation) %>
     </div>
   <% end %>
   <% (example.pages + example.javascripts).each do |asset| %>
-    <div class="example__title"><%= asset.name %></div>
-    <pre class="example__code"><code><%= example.highlight(h asset.text) %></code></pre>
+    <div class="example_embed__title"><%= asset.name %></div>
+    <pre class="example_embed__code"><code><%= example.highlight(h asset.text) %></code></pre>
   <% end %>
 </div>

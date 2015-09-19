@@ -3,25 +3,35 @@
 
   <% example.reload if development? %>
 
-  <head>
-    <%= partial 'layouts/meta' %>
-    <title><%= window_title %></title>
-    <%= partial 'layouts/fonts' %>
-    <%= stylesheet_link_tag 'example/all' %>
-    <%= javascript_include_tag 'example.js' %>
-    <%= partial 'layouts/analytics' %>
-  </head>
+  <%= partial 'layouts/head' %>
 
   <body>
+    <div class="screen">
 
-    <div class="example">
-      <div class="example__files">
-        <% (example.pages + example.javascripts).each do |asset| %>
-          <div class="example__title"><%= asset.name %></div>
-          <pre class="example__code"><code><%= h asset.text %></code></pre>
-        <% end %>
+      <div class="example">
+
+        <div class="example__info">
+
+          <div class="example__back">
+            <a href="/" up-back up-target=".screen" up-transition="cross-fade" up-duration="300" class="action">Back</a>
+          </div>
+          <div class="example__title"><%= example.title %></div>
+
+          <% if example.explanation.present? %>
+            <div class="example__explanation">
+              <%= example.highlight markdown(example.explanation) %>
+            </div>
+          <% end %>
+
+          <% (example.pages + example.javascripts).each do |asset| %>
+            <div class="example__file">
+              <div class="example__filename"><%= asset.name %></div>
+              <pre class="example__code"><code><%= example.highlight(h asset.text) %></code></pre>
+            </div>
+          <% end %>
+        </div>
+        <iframe class="example__demo" src="<%= example.demo_path %>"></iframe>
       </div>
-      <iframe class="example__demo" src="<%= example.demo_path %>"></iframe>
     </div>
 
   </body>
