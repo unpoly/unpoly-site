@@ -90,10 +90,10 @@ module Upjs
           [\ \t]*      # whitespace
           ([^\ \t\=]+)   # optional param name ($1)
           (?:
-            [\ \t]*    # .. whitespace before equals symbol
-            \=         # .. equals symbol
-            [\ \t]*    # .. whitespace after equals symbol
-            (.+?)      # .. default value ($2)
+            [\ \t]*        # .. whitespace before equals symbol
+            \=             # .. equals symbol
+            [\ \t]*        # .. whitespace after equals symbol
+            (\[.*?\]|.+?)  # .. default value which might be an array with square brackets ($2)
           )?
           [\ \t]*      # whitespace
           \]           # closing bracket

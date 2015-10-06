@@ -19,7 +19,11 @@
   <% if symbol.params.present? %>
 
     <div class="symbol__subtitle">
-      Parameters
+      <% if symbol.ujs? %>
+        Modifying attributes
+      <% else %>
+        Parameters
+      <% end %>
     </div>
 
     <% symbol.params.each do |param| %>
