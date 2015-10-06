@@ -38,9 +38,9 @@ module Upjs
           compressed_params = params.collect { |param|
             if param.option?
               if option_params.all?(&:optional?)
-                '[options]'
+                "[#{param.name}]"
               else
-                'options'
+                param.name
               end
             elsif param.optional?
               "[#{param.name}]"

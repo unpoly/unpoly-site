@@ -24,7 +24,7 @@ module Upjs
       end
 
       def option?
-        name =~ /^options\./
+        name =~ /^(options|opts|request)\./
       end
 
       def signature
