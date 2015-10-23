@@ -69,7 +69,7 @@
   @media (min-width: $width)
     @content
 
-=tighter_than($width)
+=narrower_than($width)
   @media (max-width: $width - 1)
     @content
 
@@ -87,6 +87,10 @@
 
 =monospace-font
   font-family: 'Ubuntu Mono', monospace
+
+=title-font
+  font-family: 'Orbitron', sans-serif
+  font-weight: 400 // we only have one font weight loaded
 
 = inline-code
   color: #666
