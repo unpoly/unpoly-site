@@ -95,6 +95,17 @@ module Upjs
         anchor
       end
 
+      def <=>(other)
+        sort_name <=> other.sort_name
+      end
+
+      def sort_name
+        sort_name = name.dup
+        sort_name.gsub!(/[^A-Za-z0-9\-]/, '-')
+        sort_name =~ /(^|\-)up\-(.*)$/
+        $2 || sort_name
+      end
+
     end
 
   end

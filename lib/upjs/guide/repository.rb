@@ -22,6 +22,10 @@ module Upjs
         end
       end
 
+      def all_functions
+        klasses.collect(&:functions).flatten
+      end
+
       attr_reader :klasses
 
       def klass_for_name(name)

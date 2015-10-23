@@ -1,6 +1,6 @@
 @import environment
 
-$side-width: 300px
+$side-width: 270px
 $side-spacing: 0
 
 .guide
@@ -17,14 +17,25 @@ $side-spacing: 0
   z-index: 100
 
 .guide__body
-  padding-top: 45px
-  padding-bottom: 45px
+  +clear_after
 
 .guide__content
+  +horizontal-margin($side-width)
+  padding: 45px 30px
 
+.guide__left
+  float: left
+  width: $side-width
+  overflow: hidden
+  +border-box
+  padding: 45px 30px
 
-.guide__side
-  margin-bottom: 45px
+.guide__right
+  float: right
+  width: $side-width
+  overflow: hidden
+  +border-box
+  padding: 45px 30px
 
 .guide__fineprint
   color: #666
@@ -34,11 +45,11 @@ $side-spacing: 0
   padding-top: 10px
   +font-size(16px)
 
-@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
-  .guide__content
-    padding-left: $side-width + $side-spacing
-
-  .guide__side
-    width: $side-width
-    position: fixed
-    margin-bottom: 0
+//@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
+//  .guide__content
+//    padding-left: $side-width + $side-spacing
+//
+//  .guide__side
+//    width: $side-width
+//    position: fixed
+//    margin-bottom: 0
