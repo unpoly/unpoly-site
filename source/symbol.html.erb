@@ -1,4 +1,10 @@
-<% guide.functions_for_guide_id(guide_id).each do |symbol| %>
+<%
+   guide.reload if development?
+%>
+
+<% guide.functions_for_guide_id(guide_id).each_with_index do |symbol, i| %>
+
+  <% @page_title = symbol.signature if i == 0 %>
 
   <div class="symbol is_<%= symbol.visibility %>">
 

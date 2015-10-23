@@ -31,7 +31,8 @@ module Upjs
           name
 
         elsif property?
-          signature = name
+          signature = ''
+          signature << name
           signature << ' = '
           signature << params[0].option_hash_name || params[0].name
           signature
