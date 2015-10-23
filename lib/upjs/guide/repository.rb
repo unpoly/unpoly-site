@@ -26,6 +26,17 @@ module Upjs
         klasses.collect(&:functions).flatten
       end
 
+      def all_function_guide_ids
+        # We have multiple functions called [up-close]
+        all_functions.collect(&:guide_id).uniq
+      end
+
+      def functions_for_guide_id(guide_id)
+        all_functions.select { |function|
+          function.guide_id == guide_id
+        }
+      end
+
       attr_reader :klasses
 
       def klass_for_name(name)

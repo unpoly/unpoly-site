@@ -1,3 +1,4 @@
+require_relative 'guide/util'
 require_relative 'guide/logger'
 require_relative 'guide/function'
 require_relative 'guide/klass'

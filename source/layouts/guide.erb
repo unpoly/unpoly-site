@@ -44,7 +44,7 @@
 
               <div class="search__matches">
                 <% guide.all_functions.reject(&:private?).sort.each do |function| %>
-                  <a href="<%= function.guide_path %>" class="search__symbol is-<%= function.visibility %>" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" data-search-text="<%= function.search_text %>">
+                  <a href="<%= function.guide_path %>" up-modal=".content" class="search__symbol is-<%= function.visibility %>" data-search-text="<%= function.search_text %>">
                     <%= function.name %>
                   </a>
                 <% end %>
@@ -61,7 +61,7 @@
 
             <div class="guide__fineprint">
               A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-dash=".content" up-transition="cross-fade">imprint</a>)
+              (<a href="/imprint" class="hyperlink is_gray" up-modal=".content">imprint</a>)
             </div>
 
           </div>

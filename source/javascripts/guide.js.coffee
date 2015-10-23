@@ -2,6 +2,8 @@
 
 u = up.util
 
+up.modal.config.maxWidth = 950
+
 up.compiler '.search', ($search, data) ->
 
   $query = $search.find('.search__query')

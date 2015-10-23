@@ -1,0 +1,18 @@
+<div class="api__symbol is_<%= symbol.visibility %>">
+
+  <a href="<%= symbol.guide_path %>" up-modal=".content" class="api__symbol_signature">
+    <%= h(symbol.signature) %>
+    <% if symbol.visibility.present? && symbol.visibility != 'public' %>
+      <span class="tag is_protected">
+        <%= symbol.visibility %>
+      </span>
+    <% end %>
+  </a>
+
+  <% if symbol.summary_markdown.present? %>
+    <div class="api__symbol_summary">
+      <%= markdown_prose(symbol.summary_markdown) %>
+    </div>
+  <% end %>
+
+</div>

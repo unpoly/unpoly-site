@@ -116,6 +116,18 @@ module Upjs
         parts.join(' ')
       end
 
+      def summary_markdown
+        @guide_markdown.strip.split(/\n\n/).first
+      end
+
+      def guide_id
+        Util.slugify(name)
+      end
+
+      def guide_path
+        "/#{guide_id}"
+      end
+
     end
 
   end

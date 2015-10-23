@@ -31,8 +31,12 @@ module Upjs
         functions.select(&:ujs?)
       end
 
+      def guide_id
+        Util.slugify(name)
+      end
+
       def guide_path
-        "/#{name}"
+        "/#{guide_id}"
       end
 
     end

@@ -25,7 +25,7 @@
     <div class="api__symbols">
 
       <% ujs_behaviors.each do |behavior| %>
-        <%= partial "symbol", locals: { symbol: behavior } %>
+        <%= partial 'api_symbol', locals: { symbol: behavior } %>
       <% end %>
 
     </div>
@@ -47,7 +47,7 @@
     <div class="api__symbols">
 
       <% js_functions.each do |function| %>
-        <%= partial "symbol", locals: { symbol: function } %>
+        <%= partial 'api_symbol', locals: { symbol: function } %>
       <% end %>
 
     </div>

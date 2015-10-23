@@ -16,6 +16,27 @@
   //text-transform: uppercase
 
 .api__explanation
-  margin-bottom: 25px
+  +vertical-margin(20px)
   color: #888
 
+.api__symbols
+
+.api__symbol
+  +vertical-margin(20px)
+
+.api__symbol_signature
+  font-family: 'Ubuntu Mono'
+  font-weight: 700
+  +font-size(20px)
+
+  &, & a
+    color: $COLOR_BELIZE_HOLE
+
+  .api__symbol.is_protected &,
+  .api__symbol.is_protected & a
+    color: $COLOR_PROTECTED
+
+.api__symbol_summary
+
+  p
+    margin: 0 !important
