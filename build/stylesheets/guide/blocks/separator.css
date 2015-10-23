@@ -1,9 +1,1 @@
-/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/separator.css.sass */
-.separator {
-  background-color: #ddd;
-  height: 4px;
-  margin: 50px auto;
-  margin-left: -20px;
-  margin-right: -20px;
-  padding-left: 20px;
-  padding-right: 20px; }
+.separator{background-color:#ddd;height:4px;margin:50px auto;margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}

@@ -1,9 +1,1 @@
-/* line 1, /home/henning/Projects/upjs-guide/source/stylesheets/example/blocks/story.css.sass */
-.story {
-  padding: 15px 20px;
-  background-color: white;
-  min-height: 200px; }
-
-/* line 6, /home/henning/Projects/upjs-guide/source/stylesheets/example/blocks/story.css.sass */
-.up-modal .story {
-  padding: 0; }
+.story{padding:15px 20px;background-color:white;min-height:200px}.up-modal .story{padding:0}

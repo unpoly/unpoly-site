@@ -1,17 +1,1 @@
-/* line 3, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/title.css.sass */
-.title {
-  font-weight: 300;
-  font-size: 46px;
-  line-height: 50px;
-  margin-bottom: 30px;
-  color: #444; }
-
-/* line 11, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/title.css.sass */
-.subtitle {
-  font-size: 30px;
-  line-height: 34px;
-  color: #555;
-  margin-top: 1.44em;
-  margin-bottom: 0.64em;
-  font-weight: 300;
-  position: relative; }
+.title{font-weight:300;xmargin-top:12px;font-family:"Orbitron", sans-serif;font-weight:400;font-size:36px;line-height:40px;margin-bottom:30px;color:#555}.subtitle{font-size:24px;line-height:28px;font-family:"Orbitron", sans-serif;font-weight:400;color:#555;margin-top:1.44em;margin-bottom:0.64em;font-weight:300;position:relative}

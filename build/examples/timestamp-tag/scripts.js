@@ -1,4 +1,1 @@
-up.compiler('timestamp', function($element) {
-  now = new Date();
-  $element.text(now);
-});
+up.compiler("timestamp",function(e){var t=new Date;e.text(t)});

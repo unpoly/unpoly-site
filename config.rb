@@ -122,8 +122,8 @@ helpers do
   def upjs_library_size
     require 'active_support/gzip'
     source = ''
-    source << File.read('vendor/bower/upjs/dist/up.min.js') + 
-    source << File.read('vendor/bower/upjs/dist/up.min.css')
+    source << File.read('vendor/upjs-local/dist/up.min.js') +
+    source << File.read('vendor/upjs-local/dist/up.min.css')
     (ActiveSupport::Gzip.compress(source).length / 1024).round
   end
 

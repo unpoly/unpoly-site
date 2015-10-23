@@ -1,17 +1,1 @@
-/* line 5, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/menu.css.sass */
-.menu__item {
-  display: block;
-  color: #2980B9;
-  margin-bottom: 6px;
-  font-size: 18px;
-  line-height: 22px; }
-  @media (min-width: 900px) and (min-height: 750px) {
-    /* line 5, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/menu.css.sass */
-    .menu__item {
-      margin-bottom: 15px; } }
-  /* line 14, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/menu.css.sass */
-  .menu__item:hover {
-    color: #E74C3C; }
-  /* line 17, /home/henning/Projects/upjs-guide/source/stylesheets/guide/blocks/menu.css.sass */
-  .menu__item.up-current, .menu__item.up-active {
-    font-weight: 700; }
+.menu__item{display:block;margin-bottom:10px;font-size:18px;line-height:22px;color:#CC293C}.menu__item:hover{color:#E74C3C}.menu__item.up-current,.menu__item.up-active{font-weight:700}
