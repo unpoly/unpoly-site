@@ -9,7 +9,7 @@ $side-spacing: 0
 
 .guide__head
   height: 7px
-  background-color: $COLOR_PETER_RIVER
+  background-color: $COLOR_SECONDARY
   position: fixed
   left: 0
   top: 0
@@ -21,21 +21,21 @@ $side-spacing: 0
 
 .guide__content
   +horizontal-margin($side-width)
-  padding: 45px 30px
+  padding: 55px 30px
 
 .guide__left
   float: left
   width: $side-width
   overflow: hidden
   +border-box
-  padding: 45px 30px
+  padding: 55px 30px
 
 .guide__right
   float: right
   width: $side-width
   overflow: hidden
   +border-box
-  padding: 45px 30px
+  padding: 55px 30px
 
 +narrower-than(1300px)
   .guide__right
@@ -43,13 +43,11 @@ $side-spacing: 0
   .guide__content
     margin-right: 0
 
-
-
 .guide__fineprint
   color: #666
-  margin-top: 30px
+  margin-top: 50px
   border-top: 2px solid #eee
-  width: 220px
+  max-width: 400px
   padding-top: 10px
   +font-size(16px)
 
