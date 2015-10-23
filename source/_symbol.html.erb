@@ -21,6 +21,8 @@
     <div class="symbol__subtitle">
       <% if symbol.ujs? %>
         Modifying attributes
+      <% elsif symbol.property? %>
+        Value
       <% else %>
         Parameters
       <% end %>

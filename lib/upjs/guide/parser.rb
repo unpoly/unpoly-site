@@ -106,6 +106,14 @@ module Upjs
         \@ujs
       }x
 
+      PROPERTY_PATTERN = %r{
+        \@property
+      }x
+
+      EVENT_PATTERN = %r{
+        \@event
+      }x
+
       # EXAMPLE_PATTERN = %r{
       #   (^[ \t]*)     # first line indent ($1)
       #   \@example     # @example
@@ -167,6 +175,12 @@ module Upjs
           # end
           if parse_ujs!(block)
             function.ujs = true
+          end
+          if parse_property!(block)
+            function.property = true
+          end
+          if parse_event!(block)
+            function.event = true
           end
           # All the remaining text is guide prose
           function.guide_markdown = process_markdown(block)
@@ -245,6 +259,18 @@ module Upjs
 
       def parse_ujs!(block)
         if block.sub!(UJS_PATTERN, '')
+          true
+        end
+      end
+
+      def parse_property!(block)
+        if block.sub!(PROPERTY_PATTERN, '')
+          true
+        end
+      end
+
+      def parse_event!(block)
+        if block.sub!(EVENT_PATTERN, '')
           true
         end
       end

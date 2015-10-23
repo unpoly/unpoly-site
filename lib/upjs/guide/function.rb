@@ -22,11 +22,20 @@ module Upjs
       attr_accessor :guide_markdown
       attr_accessor :params
       attr_accessor :ujs
+      attr_accessor :property
+      attr_accessor :event
       attr_accessor :klass
 
       def signature
         if ujs?
           name
+
+        elsif property?
+          signature = name
+          signature << ' = '
+          signature << params[0].option_hash_name || params[0].name
+          signature
+
         else
 
           signature = ""
@@ -39,6 +48,8 @@ module Upjs
             if param.option?
               if option_params.all?(&:optional?)
                 "[#{param.option_hash_name}]"
+              elsif option_params.all?(&:required?)
+                param.option_hash_name
               else
                 param.name
               end
@@ -57,6 +68,14 @@ module Upjs
 
       def ujs?
         @ujs
+      end
+
+      def property?
+        @property
+      end
+
+      def event?
+        @event
       end
 
       def private?

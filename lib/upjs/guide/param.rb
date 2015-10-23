@@ -21,6 +21,10 @@ module Upjs
 
       alias_method :optional?, :optional
 
+      def required?
+        not optional?
+      end
+
       def default?
         @default.present?
       end
