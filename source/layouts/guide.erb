@@ -37,13 +37,21 @@
           </div>
 
           <div class="guide__right">
-            <div class="menu">
-              <% guide.all_functions.reject(&:private?).sort.each do |function| %>
-                <a href="<%= function.guide_path %>" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  <%= function.name %>
-                </a>
-              <% end %>
-            </div>
+
+            <form class="search">
+
+              <input type="text" class="search__query" placeholder="Search API …">
+
+              <div class="search__matches">
+                <% guide.all_functions.reject(&:private?).sort.each do |function| %>
+                  <a href="<%= function.guide_path %>" class="search__symbol is-<%= function.visibility %>" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" data-search-text="<%= function.search_text %>">
+                    <%= function.name %>
+                  </a>
+                <% end %>
+              </div>
+
+            </form>
+
           </div>
 
           <div class="guide__content">

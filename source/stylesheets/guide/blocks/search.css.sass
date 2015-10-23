@@ -1,0 +1,29 @@
+@import environment
+
+.search
+
+.search__query
+  border: 1px solid #999
+  padding: 5px
+  +default-font
+  +font-size(16px)
+  margin-bottom: 15px
+  +border-box
+  width: 100%
+
+.search__symbol
+  display: block
+  margin-bottom: 2px
+  +monospace-font
+  color: $COLOR_BELIZE_HOLE
+
+  &.is-protected
+    color: #888
+
+  &:hover
+    color: $COLOR_ALIZARIN
+
+  // Styling .up-current has weird effects since
+  // "random" entries in the sorted list belong to a single URL
+  .up-active
+    font-weight: 700

@@ -106,6 +106,16 @@ module Upjs
         $2 || sort_name
       end
 
+      def search_text
+        parts = []
+        [name, klass.name].each do |string|
+           unless parts.any? { |part| part.include?(string) }
+             parts << string.downcase
+           end
+        end
+        parts.join(' ')
+      end
+
     end
 
   end
