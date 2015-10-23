@@ -536,7 +536,7 @@ not trigger a new request after the cache expired</li>
 
 <ul>
   <li>While following links and submitting forms will still reveal elements by default,
-direct calls of <a href="http://upjs.io/up.flow#up.replace"><code>up.replace</code></a> no longer do.
+direct calls of <a href="/up.replace"><code>up.replace</code></a> no longer do.
 This behavior can be activated using the <code>{ reveal: true }</code> option.</li>
 </ul>
 
@@ -544,11 +544,11 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 
 <ul>
   <li>Options to control scrolling and cache use for
-<a href="http://upjs.io/up.form#up.submit"><code>up.submit</code></a>,
-<a href="http://upjs.io/up.link#up.follow"><code>up.follow</code></a>,
-<a href="http://upjs.io/up.link#up.visit"><code>up.visit</code></a>,
-<a href="http://upjs.io/up.form#form-up-target"><code>form[up-target]</code></a> and
-<a href="http://upjs.io/up.link#a-up-target"><code>a[up-target]</code></a>.</li>
+<a href="/up.submit"><code>up.submit</code></a>,
+<a href="/up.follow"><code>up.follow</code></a>,
+<a href="/up.visit"><code>up.visit</code></a>,
+<a href="/form-up-target"><code>form[up-target]</code></a> and
+<a href="/a-up-target"><code>a[up-target]</code></a>.</li>
 </ul>
 
 <h2 id="section-8">0.10.1</h2>
@@ -556,7 +556,7 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 <h3 id="breaking-changes-1">Breaking changes</h3>
 
 <ul>
-  <li><a href="http://upjs.io/up.layout#up.reveal"><code>up.reveal</code></a> now only reveals the first 150 pixels of an element.</li>
+  <li><a href="/up.reveal"><code>up.reveal</code></a> now only reveals the first 150 pixels of an element.</li>
 </ul>
 
 <h2 id="section-9">0.10.0</h2>
@@ -565,8 +565,8 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 
 <ul>
   <li>Viewport scroll positions are saved when the URL changes and restored when the user hits the back/forward button</li>
-  <li>Allow to link to the previous page using <a href="http://upjs.io/up.history#up-back"><code>[up-back]</code></a></li>
-  <li>Allow to restore previous scroll state using <a href="http://upjs.io/up.link#a-up-target"><code>[up-restore-scroll]</code></a></li>
+  <li>Allow to link to the previous page using <a href="/up-back"><code>[up-back]</code></a></li>
+  <li>Allow to restore previous scroll state using <a href="/a-up-target"><code>[up-restore-scroll]</code></a></li>
   <li>Instead of saying <code>&lt;tag up-something="true"&gt;</code> you can now simply say <code>&lt;tag up-something&gt;</code>.</li>
   <li>Create this Changelog.</li>
 </ul>
@@ -593,10 +593,10 @@ within the viewport before replacement.</li>
 <h3 id="compatible-changes-10">Compatible changes</h3>
 
 <ul>
-  <li>Elements are now being <a href="http://upjs.io/up.layout#up.reveal">revealed</a> within their viewport before they are updated</li>
+  <li>Elements are now being <a href="/up.reveal">revealed</a> within their viewport before they are updated</li>
   <li>Elements that are prepended or appended using <code>:before</code> or <code>:after</code> pseudo-selectors are now scrolled into view after insertion.</li>
   <li>New option <code>up.layout.defaults('snap')</code> lets you define a number of pixels under which Up.js will snap to the top edge of the viewport when revealing an element</li>
-  <li>You can now make [<code>up.reveal</code>]((http://upjs.io/up.layout#up.reveal) aware of fixed navigation bars blocking the viewport by setting new options <code>up.layout.defaults('fixedTop')</code> and <code>up.layout.defaults('fixedBottom')</code>.</li>
+  <li>You can now make <a href="/up.reveal"><code>up.reveal</code></a> aware of fixed navigation bars blocking the viewport by setting new options <code>up.layout.defaults('fixedTop')</code> and <code>up.layout.defaults('fixedBottom')</code>.</li>
 </ul>
 
 <h2 id="section-12">0.8.2</h2>
@@ -604,7 +604,7 @@ within the viewport before replacement.</li>
 <h3 id="compatible-changes-11">Compatible changes</h3>
 
 <ul>
-  <li><a href="http://upjs.io/up.layout#up.reveal"><code>up.reveal</code></a> can now reveal content in modals and containers with <code>overflow-y: scroll</code>.</li>
+  <li><a href="/up.reveal"><code>up.reveal</code></a> can now reveal content in modals and containers with <code>overflow-y: scroll</code>.</li>
   <li>Changing the default configuration of an Up.js module now raises an error if a config key is unknown.</li>
   <li>Links linking to <code>"#"</code> are now never marked as <code>.up-current</code>.</li>
 </ul>

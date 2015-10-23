@@ -397,7 +397,7 @@
 
 <h3 id="fragmentinserted-event"><code>fragment:inserted</code> event</h3>
 
-<p>This event is triggered after Up.js has inserted an HTML fragment into the DOM through mechanisms like <a href="/up.flow#up-target"><code>[up-target]</code></a> or <a href="/up.flow#up.replace"><code>up.replace</code></a>:</p>
+<p>This event is triggered after Up.js has inserted an HTML fragment into the DOM through mechanisms like <a href="/a-up-target"><code>[up-target]</code></a> or <a href="/up.replace"><code>up.replace</code></a>:</p>
 
 <pre><code>up.on('up:fragment:inserted', function($fragment) {
   console.log("Looks like we have a new %o!", $fragment);
@@ -410,7 +410,7 @@ Upon receiving the event, Up.js will start compilation.</p>
 <h3 id="fragmentdestroyed-event"><code>fragment:destroyed</code> event</h3>
 
 <p>This event is triggered when Up.js is destroying an HTML fragment, e.g. because it's being replaced
-with a new version or because someone explicitly called <a href="/up.flow#up.destroy"><code>up.destroy</code></a>:</p>
+with a new version or because someone explicitly called <a href="/up.destroy"><code>up.destroy</code></a>:</p>
 
 <pre><code>up.on('up:fragment:destroyed', function($fragment) {
   console.log("Looks like we lost %o!", $fragment);
