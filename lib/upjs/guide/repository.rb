@@ -10,8 +10,16 @@ module Upjs
 
       def reload
         @klasses = []
+        @changelog = nil
         parse
         self
+      end
+
+      def changelog
+        @changelog ||= begin
+          path = File.join(@input_path, 'CHANGELOG.md')
+          File.read(path)
+        end
       end
 
       attr_reader :klasses

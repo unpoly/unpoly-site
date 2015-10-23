@@ -9,8 +9,10 @@ require_relative 'guide/response'
 module Upjs
   module Guide
 
+    UPJS_PATH = 'vendor/upjs-local'
+
     def self.current
-      @current ||= Repository.new('../upjs/lib/assets/javascripts')
+      @current ||= Repository.new(UPJS_PATH)
     end
 
   end

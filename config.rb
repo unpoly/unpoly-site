@@ -29,7 +29,6 @@ require 'lib/upjs/example'
 
 # page '/examples/*', layout: 'example'
 
-
 page '*', layout: 'guide'
 
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
