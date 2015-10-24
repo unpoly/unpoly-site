@@ -1,10 +1,17 @@
 @import environment
 
+
+=tint-action($color)
+  background-color: $COLOR_MAIN
+  +hover
+    background-color: $COLOR_MAIN + 20
+
+
 .action
   border-radius: 2px
-  background-color: $COLOR_MAIN
   color: white !important
   text-transform: uppercase
   font-weight: bold
-  padding: 8px 12px
+  padding: 6px 14px
   display: inline-block
+  +tint-action($COLOR_MAIN)

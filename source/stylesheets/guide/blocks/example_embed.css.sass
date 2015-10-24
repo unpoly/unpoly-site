@@ -1,28 +1,44 @@
 @import environment
 
 .example_embed
-  xbackground-color: #f2f2f2
-  xborder-radius: 2px
   position: relative
-  xpadding: 12px 16px
+
+.example_embed__asset
+  position: relative
+  +vertical-margin(25px)
+  &:before
+    z-index: 1
+    content: ''
+    position: absolute
+    height: 1px
+    background-color: #ddd
+    left: -12px
+    top: 13px
+    right: -12px
 
 .example_embed__title
   color: #999
   text-shadow: 0 1px 0 rgba(255,255,255,0.8)
-  // +font-size(16px)
-  //font-weight: bold
+  +steal-horizontal_space(4px)
+  background-color: #fff
+  display: inline-block
+  position: relative
+  z-index: 2
 
-.example_embed__code code
-  font-size: 16px !important
-  line-height: 18px !important
+
+// +font-size(16px)
+  //font-weight: bold
+.example_embed__code
+  margin-left: 0 !important
+
+  code
+    font-size: 16px !important
+    line-height: 18px !important
 
 .example_embed__run
   float: right
   margin-bottom: 10px
   margin-left: 10px
-
-.example_embed__code+.example_embed__title
-  margin-top: 30px
 
 .example_embed__highlight
   background: $BACKGROUND_HIGHLIGHT

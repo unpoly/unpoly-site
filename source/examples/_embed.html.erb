@@ -4,7 +4,7 @@
 
   <div class="example_embed__run">
     <a class="action" href="<%= example.index_path %>" up-target=".screen" up-transition="fade-out/move-from-bottom" up-duration="500">
-      <i class="fa fa-play-circle"></i> Run
+      <i class="fa fa-play"></i> Run
     </a>
   </div>
 
@@ -14,7 +14,9 @@
     </div>
   <% end %>
   <% (example.pages + example.javascripts).each do |asset| %>
-    <div class="example_embed__title"><%= asset.name %></div>
-    <pre class="example_embed__code"><code><%= example.highlight(h asset.text) %></code></pre>
+    <div class="example_embed__asset">
+      <div class="example_embed__title"><%= asset.name %></div>
+      <pre class="example_embed__code"><code><%= example.highlight(h asset.text) %></code></pre>
+    </div>
   <% end %>
 </div>
