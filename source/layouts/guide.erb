@@ -15,15 +15,14 @@
 
           <div class="guide__left">
 
-            <a href="/" class="logo" up-dash=".content" up-transition="cross-fade">
-              <img class="logo__glyph" src="/images/logo.gif" alt="" />
-                <span class="logo__name">
-                  Up▲js
-                </span>
-                <span class="logo__alpha">
-                  Beta
-                </span>
-            </a>
+            <div class="logo">
+              <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
+                Up▲js
+              </a>
+              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade">
+                <%= guide.version %>
+              </a>
+            </div>
 
             <div class="menu">
               <% %w[up.link up.modal up.popup up.motion up.navigation up.magic up.flow up.proxy up.form up.tooltip up.history up.layout up.bus].each do |klass_name| %>

@@ -37,6 +37,11 @@ module Upjs
         }
       end
 
+      def version
+        require File.join(@input_path, 'lib/upjs/rails/version')
+        Upjs::Rails::VERSION
+      end
+
       attr_reader :klasses
 
       def klass_for_name(name)
