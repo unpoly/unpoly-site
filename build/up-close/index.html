@@ -36,15 +36,14 @@
 
           <div class="guide__left">
 
-            <a href="/" class="logo" up-dash=".content" up-transition="cross-fade">
-              <img class="logo__glyph" src="/images/logo.gif" alt="" />
-                <span class="logo__name">
-                  Up▲js
-                </span>
-                <span class="logo__alpha">
-                  Beta
-                </span>
-            </a>
+            <div class="logo">
+              <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
+                Up▲js
+              </a>
+              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade">
+                0.12.1
+              </a>
+            </div>
 
             <div class="menu">
                 <a href="/up.link" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
@@ -118,10 +117,10 @@
                   <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.nobodyprevents">
                     up.bus.nobodyPrevents
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
                     [up-close]
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
                   <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
@@ -328,11 +327,11 @@
                   <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
                     up.submit
                   </a>
-                  <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
-                    form[up-target]
-                  </a>
                   <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
                     a[up-target]
+                  </a>
+                  <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
+                    form[up-target]
                   </a>
                   <a href="/up-tooltip" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip] up.tooltip">
                     [up-tooltip]
@@ -389,9 +388,9 @@
 
   <div class="symbol is_public">
 
-    <a class="symbol__klass" href="/up.modal">
+    <a class="symbol__klass" href="/up.popup">
       Module
-      <span class="symbol__klass_name">up.modal</span>
+      <span class="symbol__klass_name">up.popup</span>
     </a>
 
     <div class="symbol__signature">
@@ -399,8 +398,8 @@
     </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>When this element is clicked, closes a currently open dialog.
-Does nothing if no modal is currently open.</p>
+        <div class='prose'><p>When an element with this attribute is clicked,
+a currently open popup is closed. </p>
 
 </div>
       </div>
@@ -414,9 +413,9 @@ Does nothing if no modal is currently open.</p>
 
   <div class="symbol is_public">
 
-    <a class="symbol__klass" href="/up.popup">
+    <a class="symbol__klass" href="/up.modal">
       Module
-      <span class="symbol__klass_name">up.popup</span>
+      <span class="symbol__klass_name">up.modal</span>
     </a>
 
     <div class="symbol__signature">
@@ -424,8 +423,8 @@ Does nothing if no modal is currently open.</p>
     </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>When an element with this attribute is clicked,
-a currently open popup is closed. </p>
+        <div class='prose'><p>When this element is clicked, closes a currently open dialog.
+Does nothing if no modal is currently open.</p>
 
 </div>
       </div>

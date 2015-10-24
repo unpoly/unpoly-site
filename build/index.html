@@ -36,15 +36,14 @@
 
           <div class="guide__left">
 
-            <a href="/" class="logo" up-dash=".content" up-transition="cross-fade">
-              <img class="logo__glyph" src="/images/logo.gif" alt="" />
-                <span class="logo__name">
-                  Up▲js
-                </span>
-                <span class="logo__alpha">
-                  Beta
-                </span>
-            </a>
+            <div class="logo">
+              <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
+                Up▲js
+              </a>
+              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade">
+                0.12.1
+              </a>
+            </div>
 
             <div class="menu">
                 <a href="/up.link" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
@@ -118,10 +117,10 @@
                   <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.nobodyprevents">
                     up.bus.nobodyPrevents
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
                     [up-close]
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
                   <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
@@ -328,11 +327,11 @@
                   <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
                     up.submit
                   </a>
-                  <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
-                    form[up-target]
-                  </a>
                   <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
                     a[up-target]
+                  </a>
+                  <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
+                    form[up-target]
                   </a>
                   <a href="/up-tooltip" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip] up.tooltip">
                     [up-tooltip]
@@ -406,7 +405,7 @@
 
   <div class="example_embed__run">
     <a class="action" href="examples/update-fragment/index.html" up-target=".screen" up-transition="fade-out/move-from-bottom" up-duration="500">
-      <i class="fa fa-play-circle"></i> Run
+      <i class="fa fa-play"></i> Run
     </a>
   </div>
 
@@ -415,8 +414,9 @@
 same selector from the link's destination. No server-side changes required.</p>
 
     </div>
-    <div class="example_embed__title">preview.html</div>
-    <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
+    <div class="example_embed__asset">
+      <div class="example_embed__title">preview.html</div>
+      <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
 
   &lt;p&gt;Story summary&lt;&#x2F;p&gt;
 
@@ -425,8 +425,10 @@ same selector from the link's destination. No server-side changes required.</p>
   &lt;&#x2F;a&gt;
 &lt;&#x2F;div&gt;
 </code></pre>
-    <div class="example_embed__title">full.html</div>
-    <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
+    </div>
+    <div class="example_embed__asset">
+      <div class="example_embed__title">full.html</div>
+      <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
 
   &lt;h1&gt;Full story&lt;&#x2F;h1&gt;
   &lt;p&gt;Lorem ipsum dolor sit amet.&lt;&#x2F;p&gt;
@@ -436,6 +438,7 @@ same selector from the link's destination. No server-side changes required.</p>
   &lt;&#x2F;a&gt;
 &lt;&#x2F;div&gt;
 </code></pre>
+    </div>
 </div>
 
 
@@ -446,7 +449,7 @@ same selector from the link's destination. No server-side changes required.</p>
 
   <div class="example_embed__run">
     <a class="action" href="examples/transition/index.html" up-target=".screen" up-transition="fade-out/move-from-bottom" up-duration="500">
-      <i class="fa fa-play-circle"></i> Run
+      <i class="fa fa-play"></i> Run
     </a>
   </div>
 
@@ -455,8 +458,9 @@ same selector from the link's destination. No server-side changes required.</p>
 the old and new fragment.</p>
 
     </div>
-    <div class="example_embed__title">story1.html</div>
-    <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
+    <div class="example_embed__asset">
+      <div class="example_embed__title">story1.html</div>
+      <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
 
   &lt;h1&gt;The first story&lt;&#x2F;h1&gt;
 
@@ -466,8 +470,10 @@ the old and new fragment.</p>
 
 &lt;&#x2F;div&gt;
 </code></pre>
-    <div class="example_embed__title">story2.html</div>
-    <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
+    </div>
+    <div class="example_embed__asset">
+      <div class="example_embed__title">story2.html</div>
+      <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
 
   &lt;h1&gt;The second story&lt;&#x2F;h1&gt;
 
@@ -477,6 +483,7 @@ the old and new fragment.</p>
 
 &lt;&#x2F;div&gt;
 </code></pre>
+    </div>
 </div>
 
 
@@ -487,7 +494,7 @@ the old and new fragment.</p>
 
   <div class="example_embed__run">
     <a class="action" href="examples/timestamp-tag/index.html" up-target=".screen" up-transition="fade-out/move-from-bottom" up-duration="500">
-      <i class="fa fa-play-circle"></i> Run
+      <i class="fa fa-play"></i> Run
     </a>
   </div>
 
@@ -496,17 +503,21 @@ the old and new fragment.</p>
 Your tags will automatically be compiled whenever a page fragment is updated.</p>
 
     </div>
-    <div class="example_embed__title">page.html</div>
-    <pre class="example_embed__code"><code>&lt;p&gt;
+    <div class="example_embed__asset">
+      <div class="example_embed__title">page.html</div>
+      <pre class="example_embed__code"><code>&lt;p&gt;
   The time is &lt;<span class="example__highlight">timestamp</span> &#x2F;&gt;
 &lt;&#x2F;p&gt;
 </code></pre>
-    <div class="example_embed__title">scripts.js</div>
-    <pre class="example_embed__code"><code>up.compiler(&#x27;<span class="example__highlight">timestamp</span>&#x27;, function($element) {
+    </div>
+    <div class="example_embed__asset">
+      <div class="example_embed__title">scripts.js</div>
+      <pre class="example_embed__code"><code>up.compiler(&#x27;<span class="example__highlight">timestamp</span>&#x27;, function($element) {
   var now = new Date();
   $element.text(now);
 });
 </code></pre>
+    </div>
 </div>
 
 
@@ -517,7 +528,7 @@ Your tags will automatically be compiled whenever a page fragment is updated.</p
 
   <div class="example_embed__run">
     <a class="action" href="examples/modal/index.html" up-target=".screen" up-transition="fade-out/move-from-bottom" up-duration="500">
-      <i class="fa fa-play-circle"></i> Run
+      <i class="fa fa-play"></i> Run
     </a>
   </div>
 
@@ -527,8 +538,9 @@ and open the fragment in a modal dialog.
 No server-side changes required.</p>
 
     </div>
-    <div class="example_embed__title">preview.html</div>
-    <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
+    <div class="example_embed__asset">
+      <div class="example_embed__title">preview.html</div>
+      <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
 
   &lt;p&gt;Story summary&lt;&#x2F;p&gt;
 
@@ -537,14 +549,17 @@ No server-side changes required.</p>
   &lt;&#x2F;a&gt;
 &lt;&#x2F;div&gt;
 </code></pre>
-    <div class="example_embed__title">full.html</div>
-    <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
+    </div>
+    <div class="example_embed__asset">
+      <div class="example_embed__title">full.html</div>
+      <pre class="example_embed__code"><code>&lt;div class=&quot;story&quot;&gt;
 
   &lt;h1&gt;Full story&lt;&#x2F;h1&gt;
   &lt;p&gt;Lorem ipsum dolor sit amet.&lt;&#x2F;p&gt;
 
 &lt;&#x2F;div&gt;
 </code></pre>
+    </div>
 </div>
 
 
