@@ -80,7 +80,7 @@
                   Manipulating the browser history
                 </a>
                 <a href="/up.layout" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Viewport scrolling
+                  Application layout
                 </a>
                 <a href="/up.bus" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Framework events
@@ -111,16 +111,13 @@
                   <a href="/up.browser.puts" up-modal=".content" class="search__symbol is-protected" data-search-text="up.browser.puts">
                     up.browser.puts
                   </a>
-                  <a href="/up.bus.emit" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.emit">
-                    up.bus.emit
-                  </a>
                   <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.nobodyprevents">
                     up.bus.nobodyPrevents
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
                     [up-close]
                   </a>
                   <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
@@ -137,6 +134,9 @@
                   </a>
                   <a href="/up.destroy" up-modal=".content" class="search__symbol is-public" data-search-text="up.destroy up.flow">
                     up.destroy
+                  </a>
+                  <a href="/up.emit" up-modal=".content" class="search__symbol is-protected" data-search-text="up.emit up.bus">
+                    up.emit
                   </a>
                   <a href="/up.error" up-modal=".content" class="search__symbol is-public" data-search-text="up.error up.util">
                     up.error
@@ -225,11 +225,14 @@
                   <a href="/up.modal.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.config">
                     up.modal.config
                   </a>
+                  <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.modal.coveredurl">
+                    up.modal.coveredUrl
+                  </a>
                   <a href="/up.modal.follow" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.follow">
                     up.modal.follow
                   </a>
-                  <a href="/up.modal.source" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.source">
-                    up.modal.source
+                  <a href="/up.modal.url" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.url">
+                    up.modal.url
                   </a>
                   <a href="/up.modal.visit" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.visit">
                     up.modal.visit
@@ -276,8 +279,11 @@
                   <a href="/up.popup.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.config">
                     up.popup.config
                   </a>
-                  <a href="/up.popup.source" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.source">
-                    up.popup.source
+                  <a href="/up.popup.coveredUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.popup.coveredurl">
+                    up.popup.coveredUrl
+                  </a>
+                  <a href="/up.popup.url" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.url">
+                    up.popup.url
                   </a>
                   <a href="/up-preload" up-modal=".content" class="search__symbol is-public" data-search-text="[up-preload] up.proxy">
                     [up-preload]
@@ -327,11 +333,11 @@
                   <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
                     up.submit
                   </a>
-                  <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
-                    a[up-target]
-                  </a>
                   <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
                     form[up-target]
+                  </a>
+                  <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
+                    a[up-target]
                   </a>
                   <a href="/up-tooltip" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip] up.tooltip">
                     [up-tooltip]
@@ -398,9 +404,13 @@
     </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Destroys the given element or selector.
-Takes care that all destructors, if any, are called.
-The element is removed from the DOM.</p>
+        <div class='prose'><p>Destroys the given element or selector.</p>
+
+<p>Takes care that all <a href="/up.compiler"><code>up.compiler</code></a> destructors, if any, are called.</p>
+
+<p>The element is removed from the DOM.
+Note that if you choose to animate the element removal using <code>options.animate</code>,
+the element won't be removed until after the animation has completed.</p>
 
 </div>
       </div>
@@ -453,7 +463,7 @@ The element is removed from the DOM.</p>
         <div class="symbol__param">
           <div class="symbol__param_name">
             [options.animation='none']            <span class="symbol__type">
-              String
+              String <span class="symbol__or">or</span> Function
             </span>
               <span class="tag is_teal">
                 optional
@@ -522,7 +532,7 @@ The element is removed from the DOM.</p>
 
       <div class="symbol__param_prose">
         <div class='prose'>
-<p>A promise for the destroying animation's end</p>
+<p>A promise that will be resolved once the element has been removed from the DOM.</p>
 </div>
       </div>
 

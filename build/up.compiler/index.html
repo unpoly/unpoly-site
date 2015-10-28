@@ -80,7 +80,7 @@
                   Manipulating the browser history
                 </a>
                 <a href="/up.layout" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Viewport scrolling
+                  Application layout
                 </a>
                 <a href="/up.bus" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Framework events
@@ -111,16 +111,13 @@
                   <a href="/up.browser.puts" up-modal=".content" class="search__symbol is-protected" data-search-text="up.browser.puts">
                     up.browser.puts
                   </a>
-                  <a href="/up.bus.emit" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.emit">
-                    up.bus.emit
-                  </a>
                   <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.nobodyprevents">
                     up.bus.nobodyPrevents
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
                     [up-close]
                   </a>
                   <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
@@ -137,6 +134,9 @@
                   </a>
                   <a href="/up.destroy" up-modal=".content" class="search__symbol is-public" data-search-text="up.destroy up.flow">
                     up.destroy
+                  </a>
+                  <a href="/up.emit" up-modal=".content" class="search__symbol is-protected" data-search-text="up.emit up.bus">
+                    up.emit
                   </a>
                   <a href="/up.error" up-modal=".content" class="search__symbol is-public" data-search-text="up.error up.util">
                     up.error
@@ -225,11 +225,14 @@
                   <a href="/up.modal.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.config">
                     up.modal.config
                   </a>
+                  <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.modal.coveredurl">
+                    up.modal.coveredUrl
+                  </a>
                   <a href="/up.modal.follow" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.follow">
                     up.modal.follow
                   </a>
-                  <a href="/up.modal.source" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.source">
-                    up.modal.source
+                  <a href="/up.modal.url" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.url">
+                    up.modal.url
                   </a>
                   <a href="/up.modal.visit" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.visit">
                     up.modal.visit
@@ -276,8 +279,11 @@
                   <a href="/up.popup.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.config">
                     up.popup.config
                   </a>
-                  <a href="/up.popup.source" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.source">
-                    up.popup.source
+                  <a href="/up.popup.coveredUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.popup.coveredurl">
+                    up.popup.coveredUrl
+                  </a>
+                  <a href="/up.popup.url" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.url">
+                    up.popup.url
                   </a>
                   <a href="/up-preload" up-modal=".content" class="search__symbol is-public" data-search-text="[up-preload] up.proxy">
                     [up-preload]
@@ -327,11 +333,11 @@
                   <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
                     up.submit
                   </a>
-                  <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
-                    a[up-target]
-                  </a>
                   <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
                     form[up-target]
+                  </a>
+                  <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
+                    a[up-target]
                   </a>
                   <a href="/up-tooltip" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip] up.tooltip">
                     [up-tooltip]
@@ -399,9 +405,22 @@
 
       <div class="symbol__prose">
         <div class='prose'><p>Registers a function to be called whenever an element with
-the given selector is inserted into the DOM through Up.js.</p>
+the given selector is inserted into the DOM.</p>
 
-<p>This is a great way to integrate jQuery plugins.
+<pre><code>$('.action').compiler(function($element) {
+  // your code here
+});
+</code></pre>
+
+<p>Compiler functions will be called on matching elements when
+the page loads, or whenever a matching fragment is <a href="/up.replace">updated through Up.js</a>
+later.</p>
+
+<p>If you have used Angular.js before, this resembles <a href="https://docs.angularjs.org/guide/directive">Angular directives</a>.</p>
+
+<h4 id="integrating-jquery-plugins">Integrating jQuery plugins</h4>
+
+<p><code>up.compiler</code> is a great way to integrate jQuery plugins.
 Let's say your Javascript plugin wants you to call <code>lightboxify()</code>
 on links that should open a lightbox. You decide to
 do this for all links with an <code>[rel=lightbox]</code> attribute:</p>
@@ -417,13 +436,9 @@ do this for all links with an <code>[rel=lightbox]</code> attribute:</p>
 });
 </code></pre>
 
-<p>Note that within the compiler, Up.js will bind <code>this</code> to the
-native DOM element to help you migrate your existing jQuery code to
-this new syntax.</p>
-
 <h4 id="custom-elements">Custom elements</h4>
 
-<p>You can also use <code>up.compiler</code> to implement custom elements like this:</p>
+<p>You can use <code>up.compiler</code> to implement custom elements like this:</p>
 
 <pre><code>&lt;clock&gt;&lt;/clock&gt;
 </code></pre>
@@ -501,11 +516,29 @@ might attach the location and names of its marker pins:</p>
 });
 </code></pre>
 
-<h4 id="migrating-jquery-event-handlers-to-upon">Migrating jQuery event handlers to <code>up.on</code></h4>
+<h4 id="migrating-jquery-event-handlers-to-upcompiler">Migrating jQuery event handlers to <code>up.compiler</code></h4>
 
 <p>Within the compiler, Up.js will bind <code>this</code> to the
 native DOM element to help you migrate your existing jQuery code to
 this new syntax.</p>
+
+<p>So if you had this before:</p>
+
+<pre><code>$(function() {
+  $('.action').on('click', function() {
+    $(this).something();
+  });
+});
+</code></pre>
+
+<p>… you can reuse the event handler like this:</p>
+
+<pre><code>$('.action').compiler(function($element) {
+  $element.on('click', function() {
+    $(this).something();
+  });
+});
+</code></pre>
 
 </div>
       </div>
