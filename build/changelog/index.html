@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade">
-                0.12.1
+                0.12.2
               </a>
             </div>
 
@@ -114,10 +114,10 @@
                   <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.nobodyprevents">
                     up.bus.nobodyPrevents
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
                     [up-close]
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
                   <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
@@ -395,9 +395,25 @@
 <p>All notable changes to this project will be documented in this file.
 This project mostly adheres to <a href="http://semver.org/">Semantic Versioning</a>.</p>
 
-<h2 id="section">0.12.1</h2>
+<h2 id="section">0.12.2</h2>
 
 <h3 id="compatible-changes">Compatible changes</h3>
+
+<ul>
+  <li>When marking links as <code>.up-current</code>, also consider the URL behind a current modal or popup to
+be the "current" URL.</li>
+</ul>
+
+<h3 id="incompatible-changes">Incompatible changes</h3>
+
+<ul>
+  <li><code>up.bus.emit</code> is now <a href="http://upjs.io/up.emit/"><code>up.emit</code></a></li>
+  <li>When <code>up.first</code> finds no match, return <code>undefined</code> instead of <code>null</code>.</li>
+</ul>
+
+<h2 id="section-1">0.12.1</h2>
+
+<h3 id="compatible-changes-1">Compatible changes</h3>
 
 <ul>
   <li><code>up.on</code> now returns a function that unbinds the events when called</li>
@@ -406,15 +422,15 @@ in situations where the same operation would also reveal the replaced element.</
   <li>Various bugfixes</li>
 </ul>
 
-<h2 id="section-1">0.12.0</h2>
+<h2 id="section-2">0.12.0</h2>
 
-<h3 id="compatible-changes-1">Compatible changes</h3>
+<h3 id="compatible-changes-2">Compatible changes</h3>
 
 <ul>
   <li>Up.js can now be used with <a href="https://api.jquery.com/jquery.noconflict/"><code>jQuery.noConflict()</code></a>.</li>
 </ul>
 
-<h3 id="incompatible-changes">Incompatible changes</h3>
+<h3 id="incompatible-changes-1">Incompatible changes</h3>
 
 <ul>
   <li>Remove <code>up.slot</code>, which was poorly implemented, untested, and not much better than the <code>:empty</code> pseudo-selector
@@ -466,9 +482,9 @@ causing it to be compiled etc.</li>
   </li>
 </ul>
 
-<h2 id="section-2">0.11.1</h2>
+<h2 id="section-3">0.11.1</h2>
 
-<h3 id="compatible-changes-2">Compatible changes</h3>
+<h3 id="compatible-changes-3">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where browsers without CSS animation support would crash after an animation call</li>
@@ -476,9 +492,9 @@ causing it to be compiled etc.</li>
   <li>Fix a million bugs related to compatibility with IE9 and IE10</li>
 </ul>
 
-<h2 id="section-3">0.11.0</h2>
+<h2 id="section-4">0.11.0</h2>
 
-<h3 id="compatible-changes-3">Compatible changes</h3>
+<h3 id="compatible-changes-4">Compatible changes</h3>
 
 <ul>
   <li>Rework the scrolling implementation so we don't need to scroll elements to the top before replacing them.</li>
@@ -497,7 +513,7 @@ around. If you're using <code>up-bootstrap.js</code>, this will default to <code
 of Ruby and Rails.</li>
 </ul>
 
-<h3 id="incompatible-changes-1">Incompatible changes</h3>
+<h3 id="incompatible-changes-2">Incompatible changes</h3>
 
 <ul>
   <li>
@@ -510,32 +526,32 @@ set an <code>_up_request_method</code> cookie with the current request method on
   </li>
 </ul>
 
-<h2 id="section-4">0.10.5</h2>
+<h2 id="section-5">0.10.5</h2>
 
-<h3 id="compatible-changes-4">Compatible changes</h3>
+<h3 id="compatible-changes-5">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where the proxy would remain busy forever if a response failed.</li>
 </ul>
 
-<h2 id="section-5">0.10.4</h2>
+<h2 id="section-6">0.10.4</h2>
 
-<h3 id="compatible-changes-5">Compatible changes</h3>
+<h3 id="compatible-changes-6">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where hovering multiple times over the same [up-preload] link would
 not trigger a new request after the cache expired</li>
 </ul>
 
-<h2 id="section-6">0.10.3</h2>
+<h2 id="section-7">0.10.3</h2>
 
-<h3 id="compatible-changes-6">Compatible changes</h3>
+<h3 id="compatible-changes-7">Compatible changes</h3>
 
 <ul>
   <li>The default viewport is now <code>document</code> instead of the <code>&lt;body&gt;</code> element.</li>
 </ul>
 
-<h2 id="section-7">0.10.2</h2>
+<h2 id="section-8">0.10.2</h2>
 
 <h3 id="breaking-changes">Breaking changes</h3>
 
@@ -545,7 +561,7 @@ direct calls of <a href="/up.replace"><code>up.replace</code></a> no longer do.
 This behavior can be activated using the <code>{ reveal: true }</code> option.</li>
 </ul>
 
-<h3 id="compatible-changes-7">Compatible changes</h3>
+<h3 id="compatible-changes-8">Compatible changes</h3>
 
 <ul>
   <li>Options to control scrolling and cache use for
@@ -556,7 +572,7 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 <a href="/a-up-target"><code>a[up-target]</code></a>.</li>
 </ul>
 
-<h2 id="section-8">0.10.1</h2>
+<h2 id="section-9">0.10.1</h2>
 
 <h3 id="breaking-changes-1">Breaking changes</h3>
 
@@ -564,9 +580,9 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
   <li><a href="/up.reveal"><code>up.reveal</code></a> now only reveals the first 150 pixels of an element.</li>
 </ul>
 
-<h2 id="section-9">0.10.0</h2>
+<h2 id="section-10">0.10.0</h2>
 
-<h3 id="compatible-changes-8">Compatible changes</h3>
+<h3 id="compatible-changes-9">Compatible changes</h3>
 
 <ul>
   <li>Viewport scroll positions are saved when the URL changes and restored when the user hits the back/forward button</li>
@@ -585,17 +601,17 @@ within the viewport before replacement.</li>
   <li>The string <code>up.history.defaults('popTarget')</code> is now an array of selectors <code>up.history.defaults('popTargets')</code></li>
 </ul>
 
-<h2 id="section-10">0.9.1</h2>
+<h2 id="section-11">0.9.1</h2>
 
-<h3 id="compatible-changes-9">Compatible changes</h3>
+<h3 id="compatible-changes-10">Compatible changes</h3>
 
 <ul>
   <li>Change transition implementation so child elements with collapsing margins don't reposition within the animated element</li>
 </ul>
 
-<h2 id="section-11">0.9.0</h2>
+<h2 id="section-12">0.9.0</h2>
 
-<h3 id="compatible-changes-10">Compatible changes</h3>
+<h3 id="compatible-changes-11">Compatible changes</h3>
 
 <ul>
   <li>Elements are now being <a href="/up.reveal">revealed</a> within their viewport before they are updated</li>
@@ -604,9 +620,9 @@ within the viewport before replacement.</li>
   <li>You can now make <a href="/up.reveal"><code>up.reveal</code></a> aware of fixed navigation bars blocking the viewport by setting new options <code>up.layout.defaults('fixedTop')</code> and <code>up.layout.defaults('fixedBottom')</code>.</li>
 </ul>
 
-<h2 id="section-12">0.8.2</h2>
+<h2 id="section-13">0.8.2</h2>
 
-<h3 id="compatible-changes-11">Compatible changes</h3>
+<h3 id="compatible-changes-12">Compatible changes</h3>
 
 <ul>
   <li><a href="/up.reveal"><code>up.reveal</code></a> can now reveal content in modals and containers with <code>overflow-y: scroll</code>.</li>
@@ -614,7 +630,7 @@ within the viewport before replacement.</li>
   <li>Links linking to <code>"#"</code> are now never marked as <code>.up-current</code>.</li>
 </ul>
 
-<h2 id="section-13">0.8.1</h2>
+<h2 id="section-14">0.8.1</h2>
 
 <h3 id="compatible-chanes">Compatible chanes</h3>
 
@@ -628,76 +644,76 @@ within the viewport before replacement.</li>
   <li>Like Bootstrap, the Up.js modal will now scroll the main document viewport instead of the modal dialog box.</li>
 </ul>
 
-<h2 id="section-14">0.8.0</h2>
+<h2 id="section-15">0.8.0</h2>
 
-<h3 id="compatible-changes-12">Compatible changes</h3>
+<h3 id="compatible-changes-13">Compatible changes</h3>
 
 <ul>
   <li>Up.js will now emit <a href="http://upjs.io/up.bus">events</a> <code>proxy:busy</code> and <code>proxy:idle</code> whenever it is loading or is done loading content over HTTP.</li>
   <li>Add an option <code>up.proxy.defaults('busyDelay')</code> to delay the <code>proxy:busy</code> event in order to prevent flickering of loading spinners.</li>
 </ul>
 
-<h2 id="section-15">0.7.8</h2>
+<h2 id="section-16">0.7.8</h2>
 
-<h3 id="compatible-changes-13">Compatible changes</h3>
+<h3 id="compatible-changes-14">Compatible changes</h3>
 
 <ul>
   <li>Now longer throws an error if the current location does not match an <code>up-alias</code> wildcard (bugfix).</li>
 </ul>
 
-<h2 id="section-16">0.7.7</h2>
+<h2 id="section-17">0.7.7</h2>
 
-<h3 id="compatible-changes-14">Compatible changes</h3>
+<h3 id="compatible-changes-15">Compatible changes</h3>
 
 <ul>
   <li>Allow <code>up-alias</code> to match URLs by prefix (<code>up-alias="prefix*"</code>).</li>
 </ul>
 
-<h2 id="section-17">0.7.6</h2>
+<h2 id="section-18">0.7.6</h2>
 
-<h3 id="compatible-changes-15">Compatible changes</h3>
+<h3 id="compatible-changes-16">Compatible changes</h3>
 
 <ul>
   <li>Fix what Up.js considers the current URL of a modal or popup if multiple updates change different parts of the modal or popup.</li>
   <li>Don't replace elements within a container that matches <code>.up-destroying</code> or <code>.up-ghost</code> (which are cloned elements for animation purposes).</li>
 </ul>
 
-<h2 id="section-18">0.7.5</h2>
+<h2 id="section-19">0.7.5</h2>
 
-<h3 id="compatible-changes-16">Compatible changes</h3>
+<h3 id="compatible-changes-17">Compatible changes</h3>
 
 <ul>
   <li>Make sure that an expanded link will be considered a link by adding an <code>up-follow</code> attribute if it doesn't already have an <code>up-target</code> attribute.</li>
 </ul>
 
-<h2 id="section-19">0.7.4</h2>
+<h2 id="section-20">0.7.4</h2>
 
-<h3 id="compatible-changes-17">Compatible changes</h3>
+<h3 id="compatible-changes-18">Compatible changes</h3>
 
 <ul>
   <li>Correctly position tooltips when the user has scrolled the main document viewports.</li>
   <li>Allow popups within modal dialogs.</li>
 </ul>
 
-<h2 id="section-20">0.7.3</h2>
+<h2 id="section-21">0.7.3</h2>
 
-<h3 id="compatible-changes-18">Compatible changes</h3>
+<h3 id="compatible-changes-19">Compatible changes</h3>
 
 <ul>
   <li>Use <a href="http://upjs.io/up.proxy">up.proxy</a> when submitting a form.</li>
 </ul>
 
-<h2 id="section-21">0.7.2</h2>
+<h2 id="section-22">0.7.2</h2>
 
-<h3 id="compatible-changes-19">Compatible changes</h3>
+<h3 id="compatible-changes-20">Compatible changes</h3>
 
 <ul>
   <li>When marking links as <code>.up-current</code>, allow to additionally match on a space-separated list of URLs in an  <code>up-alias</code> attribute.</li>
 </ul>
 
-<h2 id="section-22">0.7.1</h2>
+<h2 id="section-23">0.7.1</h2>
 
-<h3 id="compatible-changes-20">Compatible changes</h3>
+<h3 id="compatible-changes-21">Compatible changes</h3>
 
 <ul>
   <li>Bugfix: Don't consider forms with an <code>up-target</code> attribute to be a link.</li>
