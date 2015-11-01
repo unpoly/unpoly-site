@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>Animation and transitions - Up.js Guide</title>
+  <title>Animation - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" type="text/css" />
@@ -56,13 +56,13 @@
                   Pop-up overlays
                 </a>
                 <a href="/up.motion" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Animation and transitions
+                  Animation
                 </a>
                 <a href="/up.navigation" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Registering behavior and custom elements
+                <a href="/up.syntax" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
+                  Custom elements
                 </a>
                 <a href="/up.flow" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Changing page fragments programmatically
@@ -77,7 +77,7 @@
                   Tooltips
                 </a>
                 <a href="/up.history" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Manipulating the browser history
+                  Browser history
                 </a>
                 <a href="/up.layout" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Application layout
@@ -108,6 +108,9 @@
                   <a href="/up-back" up-modal=".content" class="search__symbol is-public" data-search-text="[up-back] up.history">
                     [up-back]
                   </a>
+                  <a href="/up.browser.isSupported" up-modal=".content" class="search__symbol is-public" data-search-text="up.browser.issupported">
+                    up.browser.isSupported
+                  </a>
                   <a href="/up.browser.puts" up-modal=".content" class="search__symbol is-protected" data-search-text="up.browser.puts">
                     up.browser.puts
                   </a>
@@ -120,7 +123,7 @@
                   <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
-                  <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
+                  <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.syntax">
                     up.compiler
                   </a>
                   <a href="/up-current" up-modal=".content" class="search__symbol is-public" data-search-text="[up-current] up.navigation">
@@ -162,7 +165,7 @@
                   <a href="/a-up-follow" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-follow] up.link">
                     a[up-follow]
                   </a>
-                  <a href="/up.hello" up-modal=".content" class="search__symbol is-public" data-search-text="up.hello up.magic">
+                  <a href="/up.hello" up-modal=".content" class="search__symbol is-public" data-search-text="up.hello up.syntax">
                     up.hello
                   </a>
                   <a href="/up.history.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.history.config">
@@ -213,9 +216,6 @@
                   <a href="/up.link.makeFollowable" up-modal=".content" class="search__symbol is-protected" data-search-text="up.link.makefollowable">
                     up.link.makeFollowable
                   </a>
-                  <a href="/up.magic.data" up-modal=".content" class="search__symbol is-protected" data-search-text="up.magic.data">
-                    up.magic.data
-                  </a>
                   <a href="/a-up-modal" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-modal] up.modal">
                     a[up-modal]
                   </a>
@@ -264,7 +264,7 @@
                   <a href="/input-up-observe" up-modal=".content" class="search__symbol is-public" data-search-text="input[up-observe] up.form">
                     input[up-observe]
                   </a>
-                  <a href="/up.on" up-modal=".content" class="search__symbol is-public" data-search-text="up.on up.magic">
+                  <a href="/up.on" up-modal=".content" class="search__symbol is-public" data-search-text="up.on up.bus">
                     up.on
                   </a>
                   <a href="/a-up-popup" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-popup] up.popup">
@@ -333,6 +333,9 @@
                   <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
                     up.submit
                   </a>
+                  <a href="/up.syntax.data" up-modal=".content" class="search__symbol is-protected" data-search-text="up.syntax.data">
+                    up.syntax.data
+                  </a>
                   <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
                     form[up-target]
                   </a>
@@ -347,6 +350,9 @@
                   </a>
                   <a href="/up.tooltip.close" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.close">
                     up.tooltip.close
+                  </a>
+                  <a href="/up.tooltip.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.config">
+                    up.tooltip.config
                   </a>
                   <a href="/up-tooltip-html" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip-html] up.tooltip">
                     [up-tooltip-html]
@@ -392,32 +398,35 @@
               
 
 <h1 class="title">
-  Animation and transitions
+  Animation
 </h1>
 
 <div class='prose'>
-<p>Any fragment change in Up.js can be animated.</p>
+<p>Whenever you change a page fragment (through methods like
+<a href="/up.replace"><code>up.replace</code></a> or UJS attributes like <a href="/up-target"><code>up-target</code></a>)
+you can animate the change.</p>
 
-<pre><code>&lt;a href="/users" data-target=".list" up-transition="cross-fade"&gt;Show users&lt;/a&gt;
+<p>For instance, when you replace a selector <code>.list</code> with a new <code>.list</code>
+from the server, you can add an <code>up-transition="cross-fade"</code> attribute
+to smoothly fade out the old <code>.list</code> while fading in the new <code>.list</code>:</p>
+
+<pre><code>&lt;a href="/users" up-target=".list" up-transition="cross-fade"&gt;Show users&lt;/a&gt;
 </code></pre>
 
-<p>Or a dialog open:</p>
+<p>When we morph between an old an new element, we call it a <em>transition</em>.
+In contrast, when we animate a new element without simultaneously removing an
+old element, we call it an <em>animation</em>.</p>
+
+<p>An example for an animation is opening a new dialog, which we can animate
+using the <code>up-animation</code> attribute:</p>
 
 <pre><code>&lt;a href="/users" up-modal=".list" up-animation="move-from-top"&gt;Show users&lt;/a&gt;
 </code></pre>
 
-<p>Up.js ships with a number of predefined animations and transitions,
-and you can easily define your own using Javascript or CSS. </p>
-
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
-
-<p>We need to work on this page:</p>
-
-<ul>
-  <li>Explain the difference between transitions and animations</li>
-  <li>Demo the built-in animations and transitions</li>
-  <li>Explain ghosting</li>
-</ul>
+<p>Up.js ships with a number of predefined <a href="/up.animate#named-animation">animations</a>
+and <a href="/up.morph#named-animation">transitions</a>.
+You can also easily <a href="/up.animation">define your own animations</a>
+or <a href="/up.transition">transitions</a> using Javascript or CSS.</p>
 
 </div>
 

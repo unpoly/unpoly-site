@@ -56,13 +56,13 @@
                   Pop-up overlays
                 </a>
                 <a href="/up.motion" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Animation and transitions
+                  Animation
                 </a>
                 <a href="/up.navigation" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Fast interaction feedback
                 </a>
-                <a href="/up.magic" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Registering behavior and custom elements
+                <a href="/up.syntax" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
+                  Custom elements
                 </a>
                 <a href="/up.flow" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Changing page fragments programmatically
@@ -77,7 +77,7 @@
                   Tooltips
                 </a>
                 <a href="/up.history" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Manipulating the browser history
+                  Browser history
                 </a>
                 <a href="/up.layout" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Application layout
@@ -108,6 +108,9 @@
                   <a href="/up-back" up-modal=".content" class="search__symbol is-public" data-search-text="[up-back] up.history">
                     [up-back]
                   </a>
+                  <a href="/up.browser.isSupported" up-modal=".content" class="search__symbol is-public" data-search-text="up.browser.issupported">
+                    up.browser.isSupported
+                  </a>
                   <a href="/up.browser.puts" up-modal=".content" class="search__symbol is-protected" data-search-text="up.browser.puts">
                     up.browser.puts
                   </a>
@@ -120,7 +123,7 @@
                   <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
                     [up-close]
                   </a>
-                  <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.magic">
+                  <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.syntax">
                     up.compiler
                   </a>
                   <a href="/up-current" up-modal=".content" class="search__symbol is-public" data-search-text="[up-current] up.navigation">
@@ -162,7 +165,7 @@
                   <a href="/a-up-follow" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-follow] up.link">
                     a[up-follow]
                   </a>
-                  <a href="/up.hello" up-modal=".content" class="search__symbol is-public" data-search-text="up.hello up.magic">
+                  <a href="/up.hello" up-modal=".content" class="search__symbol is-public" data-search-text="up.hello up.syntax">
                     up.hello
                   </a>
                   <a href="/up.history.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.history.config">
@@ -213,9 +216,6 @@
                   <a href="/up.link.makeFollowable" up-modal=".content" class="search__symbol is-protected" data-search-text="up.link.makefollowable">
                     up.link.makeFollowable
                   </a>
-                  <a href="/up.magic.data" up-modal=".content" class="search__symbol is-protected" data-search-text="up.magic.data">
-                    up.magic.data
-                  </a>
                   <a href="/a-up-modal" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-modal] up.modal">
                     a[up-modal]
                   </a>
@@ -264,7 +264,7 @@
                   <a href="/input-up-observe" up-modal=".content" class="search__symbol is-public" data-search-text="input[up-observe] up.form">
                     input[up-observe]
                   </a>
-                  <a href="/up.on" up-modal=".content" class="search__symbol is-public" data-search-text="up.on up.magic">
+                  <a href="/up.on" up-modal=".content" class="search__symbol is-public" data-search-text="up.on up.bus">
                     up.on
                   </a>
                   <a href="/a-up-popup" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-popup] up.popup">
@@ -333,6 +333,9 @@
                   <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
                     up.submit
                   </a>
+                  <a href="/up.syntax.data" up-modal=".content" class="search__symbol is-protected" data-search-text="up.syntax.data">
+                    up.syntax.data
+                  </a>
                   <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
                     form[up-target]
                   </a>
@@ -347,6 +350,9 @@
                   </a>
                   <a href="/up.tooltip.close" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.close">
                     up.tooltip.close
+                  </a>
+                  <a href="/up.tooltip.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.config">
+                    up.tooltip.config
                   </a>
                   <a href="/up-tooltip-html" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip-html] up.tooltip">
                     [up-tooltip-html]
@@ -396,17 +402,11 @@
 </h1>
 
 <div class='prose'>
-<p>This module contains Up's core functions to insert, change
-or destroy page fragments.</p>
+<p>This module contains Up.js's core functions to <a href="/up.replace">change</a> or <a href="/up.destroy">destroy</a>
+  page fragments via Javascript.</p>
 
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
-
-<p>We need to work on this page:</p>
-
-<ul>
-  <li>Explain the UJS approach vs. pragmatic approach</li>
-  <li>Examples</li>
-</ul>
+<p>All the other Up.js modules (like <a href="/up.link"><code>up.link</code></a> or <a href="/up.modal"><code>up.modal</code></a>)
+are based on this module.</p>
 
 </div>
 
