@@ -15,16 +15,34 @@
 .search__symbol
   display: block
   margin-bottom: 2px
+  white-space: nowrap
   +monospace-font
   color: $COLOR_MAIN
 
-  &.is-protected
+  &.is_protected
     color: $COLOR_PROTECTED
-
-  &:hover
-    color: $COLOR_ALIZARIN
 
   // Styling .up-current has weird effects since
   // "random" entries in the sorted list belong to a single URL
   .up-active
     font-weight: 700
+
+.search__symbol_kind
+  display: inline-block
+  width: 40px
+  text-align: center
+  background-color: $COLOR_MAIN
+  color: white
+  font-size: 12px
+  line-height: 18px
+  border-radius: 2px
+  font-weight: bold
+
+  .search__symbol.is_protected &
+    background-color: $COLOR_PROTECTED
+
+.search__symbol:hover
+  color: $COLOR_ALIZARIN
+  .search__symbol_kind
+    background-color: $COLOR_ALIZARIN
+  

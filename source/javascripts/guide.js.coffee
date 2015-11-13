@@ -10,10 +10,16 @@ up.compiler '.search', ($search, data) ->
   $symbols = $search.find('.search__symbol')
 
   matchSymbol = ($symbol, query) ->
-    $symbol.data('search-text').indexOf(query) >= 0
+    isMatch = true
+    searchText = $symbol.data('search-text')
+    for word in query
+      if searchText.indexOf(word) == -1
+        isMatch = false
+        break
+    isMatch
 
   find = ->
-    query = u.trim($query.val()).toLowerCase()
+    query = u.trim($query.val()).toLowerCase().split(/\s+/)
     for symbol in $symbols
       $symbol = $(symbol)
       isMatch = matchSymbol($symbol, query)

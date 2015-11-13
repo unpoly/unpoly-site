@@ -24,6 +24,7 @@ module Upjs
       attr_accessor :params
       attr_accessor :event
       attr_accessor :klass
+      attr_accessor :kind
       # attr_accessor :preventable
 
       def signature
@@ -91,6 +92,19 @@ module Upjs
         visibility == 'private'
       end
 
+      def short_kind
+        case kind
+        when 'selector'
+          'CSS'
+        when 'function'
+          'JS'
+        when 'event'
+          'EVENT'
+        when 'property'
+          'PROP'
+        end
+      end
+
       # def preventable?
       #   @preventable
       # end
@@ -121,7 +135,7 @@ module Upjs
 
       def search_text
         parts = []
-        [name, klass.name].each do |string|
+        [name, klass.name, short_kind].each do |string|
            unless parts.any? { |part| part.include?(string) }
              parts << string.downcase
            end

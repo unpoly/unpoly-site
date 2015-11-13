@@ -10,6 +10,7 @@ module Upjs
 
       def reload
         @klasses = []
+        @feature_index = nil
         @changelog = nil
         parse
         self
@@ -23,20 +24,18 @@ module Upjs
       end
 
       def all_features
-        klasses.collect(&:features).flatten
+        @feature_index.all
       end
 
       def all_feature_guide_ids
         # We have multiple selectors called [up-close]
-        all_features.collect(&:guide_id).uniq
+        @feature_index.guide_ids
       end
 
       # Since we (e.g.) have multiple selectors called [up-close],
       # we display all of them on the same guide page.
       def features_for_guide_id(guide_id)
-        all_features.select { |feature|
-          feature.guide_id == guide_id
-        }
+        @feature_index.find_guide_id(guide_id)
       end
 
       def version
@@ -45,6 +44,8 @@ module Upjs
       end
 
       attr_reader :klasses
+
+      attr_reader :feature_index
 
       def klass_for_name(name)
         klasses.detect { |klass| klass.name == name } or raise "No such Klass: #{name}"
@@ -62,6 +63,7 @@ module Upjs
         source_paths.each do |source_path|
           parser.parse(source_path)
         end
+        @feature_index = Feature::Index.new(klasses.collect(&:features).flatten)
       end
 
     end
