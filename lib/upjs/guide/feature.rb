@@ -1,19 +1,20 @@
 module Upjs
   module Guide
 
-    class Function
+    class Feature
       include Logger
 
-      def initialize(name)
+      def initialize(kind, name)
         @name = name
         @visibility = 'public'
-        @ujs = false
+        @kind = kind
         @params = []
         @guide_markdown = ''
         @response = nil
         @default = nil
         @optional = false
         @klass = nil
+        # @preventable = false
       end
 
       attr_accessor :response
@@ -21,13 +22,12 @@ module Upjs
       attr_accessor :visibility
       attr_accessor :guide_markdown
       attr_accessor :params
-      attr_accessor :ujs
-      attr_accessor :property
       attr_accessor :event
       attr_accessor :klass
+      # attr_accessor :preventable
 
       def signature
-        if ujs?
+        if selector? || event?
           name
 
         elsif property?
@@ -67,21 +67,33 @@ module Upjs
         end
       end
 
-      def ujs?
-        @ujs
+      def protected?
+        visibility == 'protected'
+      end
+
+      def function?
+        @kind == 'function'
+      end
+
+      def selector?
+        @kind == 'selector'
       end
 
       def property?
-        @property
+        @kind == 'property'
       end
 
       def event?
-        @event
+        @kind == 'event'
       end
 
       def private?
         visibility == 'private'
       end
+
+      # def preventable?
+      #   @preventable
+      # end
 
       def guide_path
         "#{@klass.guide_path}##{guide_anchor}"

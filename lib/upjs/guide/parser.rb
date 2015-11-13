@@ -26,10 +26,10 @@ module Upjs
         \n         # line break
       }x
 
-      FUNCTION_PATTERN = %r{
-        \@method  # @function
-        \         # space
-        (.+)      # function name ($1)
+      FEATURE_PATTERN = %r{
+        \@(function|selector|event|property)  # @function or @selector or ... ($1)
+        \                                     # space
+        (.+)                                  # feature name ($2)
       }x
 
       VISIBILITY_PATTERN = %r{
@@ -102,18 +102,6 @@ module Upjs
         ([^\ \t]+)      # required param name ($3)
       }x
 
-      UJS_PATTERN = %r{
-        \@ujs
-      }x
-
-      PROPERTY_PATTERN = %r{
-        \@property
-      }x
-
-      EVENT_PATTERN = %r{
-        \@event
-      }x
-
       # EXAMPLE_PATTERN = %r{
       #   (^[ \t]*)     # first line indent ($1)
       #   \@example     # @example
@@ -155,38 +143,27 @@ module Upjs
       end
 
       def parse_function!(block)
-        if block.sub!(FUNCTION_PATTERN, '')
-          function_name = $1.strip
-          function = Function.new(function_name)
+        if block.sub!(FEATURE_PATTERN, '')
+          feature_kind = $1.strip
+          feature_name = $2.strip
+          feature = Feature.new(feature_kind, feature_name)
           if visibility = parse_visibility!(block)
-            function.visibility = visibility
+            feature.visibility = visibility
           end
           while param = parse_param!(block)
-            function.params << param
+            feature.params << param
           end
           if response = parse_response!(block)
-            function.response = response
+            feature.response = response
           end
           # while example = parse_example(block)
-          #   function.examples << example
+          #   feature.examples << example
           # end
-          # if response = parse_response!(block)
-          #   function.response = response
-          # end
-          if parse_ujs!(block)
-            function.ujs = true
-          end
-          if parse_property!(block)
-            function.property = true
-          end
-          if parse_event!(block)
-            function.event = true
-          end
           # All the remaining text is guide prose
-          function.guide_markdown = process_markdown(block)
-          function.klass = @last_klass
-          @last_klass.functions << function
-          function
+          feature.guide_markdown = process_markdown(block)
+          feature.klass = @last_klass
+          @last_klass.features << feature
+          feature
         end
       end
 
@@ -236,7 +213,7 @@ module Upjs
 
       # A param's name, optional/required property and
       # eventual default value are so interwoven syntax-wise
-      # that we parse all three with a single function.
+      # that we parse all three with a single method.
       def parse_param_name_and_optionality!(param_spec)
         if param_spec.sub!(PARAM_NAME_PATTERN, '')
           optional_param_name = $1

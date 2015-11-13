@@ -42,9 +42,9 @@
               <input type="text" class="search__query" placeholder="Search API …">
 
               <div class="search__matches">
-                <% guide.all_functions.reject(&:private?).sort.each do |function| %>
-                  <a href="<%= function.guide_path %>" up-modal=".content" class="search__symbol is-<%= function.visibility %>" data-search-text="<%= function.search_text %>">
-                    <%= function.name %>
+                <% guide.all_features.reject(&:private?).sort.each do |feature| %>
+                  <a href="<%= feature.guide_path %>" up-modal=".content" class="search__symbol is-<%= feature.visibility %>" data-search-text="<%= feature.search_text %>">
+                    <%= feature.name %>
                   </a>
                 <% end %>
               </div>

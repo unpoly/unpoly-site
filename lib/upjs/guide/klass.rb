@@ -6,7 +6,7 @@ module Upjs
       def initialize(name)
         @name = name
         @visibility = 'public'
-        @functions = []
+        @features = []
         @guide_markdown = ''
         @title
       end
@@ -14,7 +14,7 @@ module Upjs
       attr_accessor :visibility
       attr_accessor :name
       attr_accessor :guide_markdown
-      attr_reader :functions
+      attr_reader :features
       attr_accessor :title
 
       def guide_filename(extension)
@@ -23,12 +23,20 @@ module Upjs
 
       attr_accessor :guide_markdown
 
-      def js_functions
-        functions.reject(&:ujs?)
+      def functions
+        features.select(&:function?)
       end
 
-      def ujs_functions
-        functions.select(&:ujs?)
+      def properties
+        features.select(&:property?)
+      end
+
+      def events
+        features.select(&:event?)
+      end
+
+      def selectors
+        features.select(&:selector?)
       end
 
       def guide_id

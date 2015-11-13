@@ -38,7 +38,7 @@ Upjs::Guide.current.klasses.each do |klass|
   proxy path, "/klass.html", locals: { klass_name: klass.name }, ignore: true
 end
 
-Upjs::Guide.current.all_function_guide_ids.each do |guide_id|
+Upjs::Guide.current.all_feature_guide_ids.each do |guide_id|
   path = "/#{guide_id}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   proxy path, "/symbol.html", locals: { guide_id: guide_id }, ignore: true

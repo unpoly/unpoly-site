@@ -22,18 +22,20 @@ module Upjs
         end
       end
 
-      def all_functions
-        klasses.collect(&:functions).flatten
+      def all_features
+        klasses.collect(&:features).flatten
       end
 
-      def all_function_guide_ids
-        # We have multiple functions called [up-close]
-        all_functions.collect(&:guide_id).uniq
+      def all_feature_guide_ids
+        # We have multiple selectors called [up-close]
+        all_features.collect(&:guide_id).uniq
       end
 
-      def functions_for_guide_id(guide_id)
-        all_functions.select { |function|
-          function.guide_id == guide_id
+      # Since we (e.g.) have multiple selectors called [up-close],
+      # we display all of them on the same guide page.
+      def features_for_guide_id(guide_id)
+        all_features.select { |feature|
+          feature.guide_id == guide_id
         }
       end
 
