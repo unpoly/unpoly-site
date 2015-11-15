@@ -1,4 +1,4 @@
-<!doctype html>
+<!xdoctype html>
 <html>
 
   <head>
@@ -40,8 +40,8 @@
               <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
                 Up▲js
               </a>
-              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade">
-                0.12.2
+              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
+                0.12.4
               </a>
             </div>
 
@@ -83,7 +83,7 @@
                   Application layout
                 </a>
                 <a href="/up.bus" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Framework events
+                  Events
                 </a>
             </div>
 
@@ -96,296 +96,477 @@
               <input type="text" class="search__query" placeholder="Search API …">
 
               <div class="search__matches">
-                  <a href="/up-active" up-modal=".content" class="search__symbol is-public" data-search-text="[up-active] up.navigation">
-                    [up-active]
-                  </a>
-                  <a href="/up.animate" up-modal=".content" class="search__symbol is-public" data-search-text="up.animate up.motion">
-                    up.animate
-                  </a>
-                  <a href="/up.animation" up-modal=".content" class="search__symbol is-public" data-search-text="up.animation up.motion">
-                    up.animation
-                  </a>
-                  <a href="/up-back" up-modal=".content" class="search__symbol is-public" data-search-text="[up-back] up.history">
-                    [up-back]
-                  </a>
-                  <a href="/up.browser.isSupported" up-modal=".content" class="search__symbol is-public" data-search-text="up.browser.issupported">
-                    up.browser.isSupported
-                  </a>
-                  <a href="/up.browser.puts" up-modal=".content" class="search__symbol is-protected" data-search-text="up.browser.puts">
-                    up.browser.puts
-                  </a>
-                  <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is-protected" data-search-text="up.bus.nobodyprevents">
-                    up.bus.nobodyPrevents
-                  </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.modal">
-                    [up-close]
-                  </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is-public" data-search-text="[up-close] up.popup">
-                    [up-close]
-                  </a>
-                  <a href="/up.compiler" up-modal=".content" class="search__symbol is-public" data-search-text="up.compiler up.syntax">
-                    up.compiler
-                  </a>
-                  <a href="/up-current" up-modal=".content" class="search__symbol is-public" data-search-text="[up-current] up.navigation">
-                    [up-current]
-                  </a>
-                  <a href="/up-dash" up-modal=".content" class="search__symbol is-public" data-search-text="[up-dash] up.link">
-                    [up-dash]
-                  </a>
-                  <a href="/up.debug" up-modal=".content" class="search__symbol is-protected" data-search-text="up.debug up.util">
-                    up.debug
-                  </a>
-                  <a href="/up.destroy" up-modal=".content" class="search__symbol is-public" data-search-text="up.destroy up.flow">
-                    up.destroy
-                  </a>
-                  <a href="/up.emit" up-modal=".content" class="search__symbol is-protected" data-search-text="up.emit up.bus">
-                    up.emit
-                  </a>
-                  <a href="/up.error" up-modal=".content" class="search__symbol is-public" data-search-text="up.error up.util">
-                    up.error
-                  </a>
-                  <a href="/up-expand" up-modal=".content" class="search__symbol is-public" data-search-text="[up-expand] up.link">
-                    [up-expand]
-                  </a>
-                  <a href="/up.first" up-modal=".content" class="search__symbol is-protected" data-search-text="up.first up.flow">
-                    up.first
-                  </a>
-                  <a href="/up-fixed-bottom" up-modal=".content" class="search__symbol is-public" data-search-text="[up-fixed=bottom] up.layout">
-                    [up-fixed=bottom]
-                  </a>
-                  <a href="/up-fixed-top" up-modal=".content" class="search__symbol is-public" data-search-text="[up-fixed=top] up.layout">
-                    [up-fixed=top]
-                  </a>
-                  <a href="/up.flow.implant" up-modal=".content" class="search__symbol is-protected" data-search-text="up.flow.implant">
-                    up.flow.implant
-                  </a>
-                  <a href="/up.follow" up-modal=".content" class="search__symbol is-public" data-search-text="up.follow up.link">
-                    up.follow
-                  </a>
-                  <a href="/a-up-follow" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-follow] up.link">
-                    a[up-follow]
-                  </a>
-                  <a href="/up.hello" up-modal=".content" class="search__symbol is-public" data-search-text="up.hello up.syntax">
-                    up.hello
-                  </a>
-                  <a href="/up.history.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.history.config">
-                    up.history.config
-                  </a>
-                  <a href="/up.history.previousUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.history.previousurl">
-                    up.history.previousUrl
-                  </a>
-                  <a href="/up.history.push" up-modal=".content" class="search__symbol is-protected" data-search-text="up.history.push">
-                    up.history.push
-                  </a>
-                  <a href="/up.history.url" up-modal=".content" class="search__symbol is-protected" data-search-text="up.history.url">
-                    up.history.url
-                  </a>
-                  <a href="/a-up-instant" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-instant] up.link">
-                    a[up-instant]
-                  </a>
-                  <a href="/up.layout.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.layout.config">
-                    up.layout.config
-                  </a>
-                  <a href="/up.layout.fixedChildren" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.fixedchildren">
-                    up.layout.fixedChildren
-                  </a>
-                  <a href="/up.layout.restoreScroll" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.restorescroll">
-                    up.layout.restoreScroll
-                  </a>
-                  <a href="/up.layout.revealOrRestoreScroll" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.revealorrestorescroll">
-                    up.layout.revealOrRestoreScroll
-                  </a>
-                  <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.savescroll">
-                    up.layout.saveScroll
-                  </a>
-                  <a href="/up.layout.scrollTops" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.scrolltops">
-                    up.layout.scrollTops
-                  </a>
-                  <a href="/up.layout.viewportOf" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.viewportof">
-                    up.layout.viewportOf
-                  </a>
-                  <a href="/up.layout.viewports" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.viewports">
-                    up.layout.viewports
-                  </a>
-                  <a href="/up.layout.viewportsWithin" up-modal=".content" class="search__symbol is-protected" data-search-text="up.layout.viewportswithin">
-                    up.layout.viewportsWithin
-                  </a>
-                  <a href="/up.link.followMethod" up-modal=".content" class="search__symbol is-protected" data-search-text="up.link.followmethod">
-                    up.link.followMethod
-                  </a>
-                  <a href="/up.link.makeFollowable" up-modal=".content" class="search__symbol is-protected" data-search-text="up.link.makefollowable">
-                    up.link.makeFollowable
-                  </a>
-                  <a href="/a-up-modal" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-modal] up.modal">
-                    a[up-modal]
-                  </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.close">
-                    up.modal.close
-                  </a>
-                  <a href="/up.modal.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.config">
-                    up.modal.config
-                  </a>
-                  <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.modal.coveredurl">
-                    up.modal.coveredUrl
-                  </a>
-                  <a href="/up.modal.follow" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.follow">
-                    up.modal.follow
-                  </a>
-                  <a href="/up.modal.url" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.url">
-                    up.modal.url
-                  </a>
-                  <a href="/up.modal.visit" up-modal=".content" class="search__symbol is-public" data-search-text="up.modal.visit">
-                    up.modal.visit
-                  </a>
-                  <a href="/up.morph" up-modal=".content" class="search__symbol is-public" data-search-text="up.morph up.motion">
-                    up.morph
-                  </a>
-                  <a href="/up.motion.animateOptions" up-modal=".content" class="search__symbol is-protected" data-search-text="up.motion.animateoptions">
-                    up.motion.animateOptions
-                  </a>
-                  <a href="/up.motion.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.motion.config">
-                    up.motion.config
-                  </a>
-                  <a href="/up.motion.finish" up-modal=".content" class="search__symbol is-public" data-search-text="up.motion.finish">
-                    up.motion.finish
-                  </a>
-                  <a href="/up.motion.none" up-modal=".content" class="search__symbol is-public" data-search-text="up.motion.none">
-                    up.motion.none
-                  </a>
-                  <a href="/up.motion.when" up-modal=".content" class="search__symbol is-public" data-search-text="up.motion.when">
-                    up.motion.when
-                  </a>
-                  <a href="/up.navigation.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.navigation.config">
-                    up.navigation.config
-                  </a>
-                  <a href="/up.observe" up-modal=".content" class="search__symbol is-public" data-search-text="up.observe up.form">
-                    up.observe
-                  </a>
-                  <a href="/input-up-observe" up-modal=".content" class="search__symbol is-public" data-search-text="input[up-observe] up.form">
-                    input[up-observe]
-                  </a>
-                  <a href="/up.on" up-modal=".content" class="search__symbol is-public" data-search-text="up.on up.bus">
-                    up.on
-                  </a>
-                  <a href="/a-up-popup" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-popup] up.popup">
-                    a[up-popup]
-                  </a>
-                  <a href="/up.popup.attach" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.attach">
-                    up.popup.attach
-                  </a>
-                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.close">
-                    up.popup.close
-                  </a>
-                  <a href="/up.popup.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.config">
-                    up.popup.config
-                  </a>
-                  <a href="/up.popup.coveredUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.popup.coveredurl">
-                    up.popup.coveredUrl
-                  </a>
-                  <a href="/up.popup.url" up-modal=".content" class="search__symbol is-public" data-search-text="up.popup.url">
-                    up.popup.url
-                  </a>
-                  <a href="/up-preload" up-modal=".content" class="search__symbol is-public" data-search-text="[up-preload] up.proxy">
-                    [up-preload]
-                  </a>
-                  <a href="/up.proxy.ajax" up-modal=".content" class="search__symbol is-public" data-search-text="up.proxy.ajax">
-                    up.proxy.ajax
-                  </a>
-                  <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is-public" data-search-text="up.proxy.busy">
-                    up.proxy.busy
-                  </a>
-                  <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is-protected" data-search-text="up.proxy.clear">
-                    up.proxy.clear
-                  </a>
-                  <a href="/up.proxy.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.proxy.config">
-                    up.proxy.config
-                  </a>
-                  <a href="/up.proxy.get" up-modal=".content" class="search__symbol is-protected" data-search-text="up.proxy.get">
-                    up.proxy.get
-                  </a>
-                  <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is-public" data-search-text="up.proxy.idle">
-                    up.proxy.idle
-                  </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is-protected" data-search-text="up.proxy.preload">
-                    up.proxy.preload
-                  </a>
-                  <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is-protected" data-search-text="up.proxy.remove">
-                    up.proxy.remove
-                  </a>
-                  <a href="/up.proxy.set" up-modal=".content" class="search__symbol is-protected" data-search-text="up.proxy.set">
-                    up.proxy.set
-                  </a>
-                  <a href="/up.reload" up-modal=".content" class="search__symbol is-public" data-search-text="up.reload up.flow">
-                    up.reload
-                  </a>
-                  <a href="/up.replace" up-modal=".content" class="search__symbol is-public" data-search-text="up.replace up.flow">
-                    up.replace
-                  </a>
-                  <a href="/up.reset" up-modal=".content" class="search__symbol is-protected" data-search-text="up.reset up.bus">
-                    up.reset
-                  </a>
-                  <a href="/up.reveal" up-modal=".content" class="search__symbol is-public" data-search-text="up.reveal up.layout">
-                    up.reveal
-                  </a>
-                  <a href="/up.scroll" up-modal=".content" class="search__symbol is-protected" data-search-text="up.scroll up.layout">
-                    up.scroll
-                  </a>
-                  <a href="/up.submit" up-modal=".content" class="search__symbol is-public" data-search-text="up.submit up.form">
-                    up.submit
-                  </a>
-                  <a href="/up.syntax.data" up-modal=".content" class="search__symbol is-protected" data-search-text="up.syntax.data">
-                    up.syntax.data
-                  </a>
-                  <a href="/form-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="form[up-target] up.form">
-                    form[up-target]
-                  </a>
-                  <a href="/a-up-target" up-modal=".content" class="search__symbol is-public" data-search-text="a[up-target] up.link">
-                    a[up-target]
-                  </a>
-                  <a href="/up-tooltip" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip] up.tooltip">
-                    [up-tooltip]
-                  </a>
-                  <a href="/up.tooltip.attach" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.attach">
-                    up.tooltip.attach
-                  </a>
-                  <a href="/up.tooltip.close" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.close">
-                    up.tooltip.close
-                  </a>
-                  <a href="/up.tooltip.config" up-modal=".content" class="search__symbol is-public" data-search-text="up.tooltip.config">
-                    up.tooltip.config
-                  </a>
-                  <a href="/up-tooltip-html" up-modal=".content" class="search__symbol is-public" data-search-text="[up-tooltip-html] up.tooltip">
-                    [up-tooltip-html]
-                  </a>
-                  <a href="/up.transition" up-modal=".content" class="search__symbol is-public" data-search-text="up.transition up.motion">
-                    up.transition
-                  </a>
-                  <a href="/up.util.cache" up-modal=".content" class="search__symbol is-public" data-search-text="up.util.cache">
-                    up.util.cache
-                  </a>
-                  <a href="/up.util.cssAnimate" up-modal=".content" class="search__symbol is-public" data-search-text="up.util.cssanimate">
-                    up.util.cssAnimate
-                  </a>
-                  <a href="/up.util.finishCssAnimate" up-modal=".content" class="search__symbol is-protected" data-search-text="up.util.finishcssanimate">
-                    up.util.finishCssAnimate
-                  </a>
-                  <a href="/up.util.normalizeMethod" up-modal=".content" class="search__symbol is-protected" data-search-text="up.util.normalizemethod">
-                    up.util.normalizeMethod
-                  </a>
-                  <a href="/up.util.normalizeUrl" up-modal=".content" class="search__symbol is-protected" data-search-text="up.util.normalizeurl">
-                    up.util.normalizeUrl
-                  </a>
-                  <a href="/up.util.option" up-modal=".content" class="search__symbol is-public" data-search-text="up.util.option">
-                    up.util.option
-                  </a>
-                  <a href="/up-viewport" up-modal=".content" class="search__symbol is-public" data-search-text="[up-viewport] up.layout">
-                    [up-viewport]
-                  </a>
-                  <a href="/up.visit" up-modal=".content" class="search__symbol is-public" data-search-text="up.visit up.link">
-                    up.visit
-                  </a>
-                  <a href="/up.warn" up-modal=".content" class="search__symbol is-protected" data-search-text="up.warn up.util">
-                    up.warn
+                  <a href="/up-active" up-modal=".content" class="search__symbol is_public" data-search-text="[up-active] up.navigation css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-active]</span>
+                  </a>
+                  <a href="/up.animate" up-modal=".content" class="search__symbol is_public" data-search-text="up.animate up.motion js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.animate</span>
+                  </a>
+                  <a href="/up.animation" up-modal=".content" class="search__symbol is_public" data-search-text="up.animation up.motion js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.animation</span>
+                  </a>
+                  <a href="/up-back" up-modal=".content" class="search__symbol is_public" data-search-text="[up-back] up.history css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-back]</span>
+                  </a>
+                  <a href="/up.boot" up-modal=".content" class="search__symbol is_protected" data-search-text="up.boot up.bus js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.boot</span>
+                  </a>
+                  <a href="/up.browser.isSupported" up-modal=".content" class="search__symbol is_public" data-search-text="up.browser.issupported js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.browser.isSupported</span>
+                  </a>
+                  <a href="/up.browser.puts" up-modal=".content" class="search__symbol is_protected" data-search-text="up.browser.puts js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.browser.puts</span>
+                  </a>
+                  <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is_protected" data-search-text="up.bus.nobodyprevents js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.bus.nobodyPrevents</span>
+                  </a>
+                  <a href="/up.bus.onEscape" up-modal=".content" class="search__symbol is_protected" data-search-text="up.bus.onescape js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.bus.onEscape</span>
+                  </a>
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_public" data-search-text="[up-close] up.popup css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-close]</span>
+                  </a>
+                  <a href="/up.compiler" up-modal=".content" class="search__symbol is_public" data-search-text="up.compiler up.syntax js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.compiler</span>
+                  </a>
+                  <a href="/up-current" up-modal=".content" class="search__symbol is_public" data-search-text="[up-current] up.navigation css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-current]</span>
+                  </a>
+                  <a href="/up-dash" up-modal=".content" class="search__symbol is_public" data-search-text="[up-dash] up.link css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-dash]</span>
+                  </a>
+                  <a href="/up.debug" up-modal=".content" class="search__symbol is_protected" data-search-text="up.debug up.util js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.debug</span>
+                  </a>
+                  <a href="/up.destroy" up-modal=".content" class="search__symbol is_public" data-search-text="up.destroy up.flow js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.destroy</span>
+                  </a>
+                  <a href="/up.emit" up-modal=".content" class="search__symbol is_protected" data-search-text="up.emit up.bus js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.emit</span>
+                  </a>
+                  <a href="/up.error" up-modal=".content" class="search__symbol is_public" data-search-text="up.error up.util js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.error</span>
+                  </a>
+                  <a href="/up-expand" up-modal=".content" class="search__symbol is_public" data-search-text="[up-expand] up.link css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-expand]</span>
+                  </a>
+                  <a href="/up.first" up-modal=".content" class="search__symbol is_protected" data-search-text="up.first up.flow js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.first</span>
+                  </a>
+                  <a href="/up-fixed-bottom" up-modal=".content" class="search__symbol is_public" data-search-text="[up-fixed=bottom] up.layout css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-fixed=bottom]</span>
+                  </a>
+                  <a href="/up-fixed-top" up-modal=".content" class="search__symbol is_public" data-search-text="[up-fixed=top] up.layout css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-fixed=top]</span>
+                  </a>
+                  <a href="/up.flow.implant" up-modal=".content" class="search__symbol is_protected" data-search-text="up.flow.implant js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.flow.implant</span>
+                  </a>
+                  <a href="/up.follow" up-modal=".content" class="search__symbol is_public" data-search-text="up.follow up.link js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.follow</span>
+                  </a>
+                  <a href="/a-up-follow" up-modal=".content" class="search__symbol is_public" data-search-text="a[up-follow] up.link css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">a[up-follow]</span>
+                  </a>
+                  <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:destroy up.flow event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:fragment:destroy</span>
+                  </a>
+                  <a href="/up:fragment:destroyed" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:destroyed up.flow event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:fragment:destroyed</span>
+                  </a>
+                  <a href="/up:fragment:inserted" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:inserted up.syntax event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:fragment:inserted</span>
+                  </a>
+                  <a href="/up:framework:boot" up-modal=".content" class="search__symbol is_protected" data-search-text="up:framework:boot up.bus event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:framework:boot</span>
+                  </a>
+                  <a href="/up:framework:reset" up-modal=".content" class="search__symbol is_protected" data-search-text="up:framework:reset up.bus event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:framework:reset</span>
+                  </a>
+                  <a href="/up.hello" up-modal=".content" class="search__symbol is_public" data-search-text="up.hello up.syntax js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.hello</span>
+                  </a>
+                  <a href="/up.history.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.history.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.history.config</span>
+                  </a>
+                  <a href="/up.history.previousUrl" up-modal=".content" class="search__symbol is_protected" data-search-text="up.history.previousurl js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.history.previousUrl</span>
+                  </a>
+                  <a href="/up.history.push" up-modal=".content" class="search__symbol is_protected" data-search-text="up.history.push js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.history.push</span>
+                  </a>
+                  <a href="/up.history.url" up-modal=".content" class="search__symbol is_protected" data-search-text="up.history.url js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.history.url</span>
+                  </a>
+                  <a href="/a-up-instant" up-modal=".content" class="search__symbol is_public" data-search-text="a[up-instant] up.link css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">a[up-instant]</span>
+                  </a>
+                  <a href="/up.layout.anchoredRight" up-modal=".content" class="search__symbol is_private" data-search-text="up.layout.anchoredright js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.anchoredRight</span>
+                  </a>
+                  <a href="/up.layout.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.layout.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.layout.config</span>
+                  </a>
+                  <a href="/up.layout.finishScrolling" up-modal=".content" class="search__symbol is_private" data-search-text="up.layout.finishscrolling js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.finishScrolling</span>
+                  </a>
+                  <a href="/up.layout.fixedChildren" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.fixedchildren js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.fixedChildren</span>
+                  </a>
+                  <a href="/up.layout.restoreScroll" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.restorescroll js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.restoreScroll</span>
+                  </a>
+                  <a href="/up.layout.revealOrRestoreScroll" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.revealorrestorescroll js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.revealOrRestoreScroll</span>
+                  </a>
+                  <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.savescroll js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.saveScroll</span>
+                  </a>
+                  <a href="/up.layout.scrollTops" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.scrolltops js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.scrollTops</span>
+                  </a>
+                  <a href="/up.layout.viewportOf" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.viewportof js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.viewportOf</span>
+                  </a>
+                  <a href="/up.layout.viewports" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.viewports js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.viewports</span>
+                  </a>
+                  <a href="/up.layout.viewportsWithin" up-modal=".content" class="search__symbol is_protected" data-search-text="up.layout.viewportswithin js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.layout.viewportsWithin</span>
+                  </a>
+                  <a href="/up.link.childClicked" up-modal=".content" class="search__symbol is_private" data-search-text="up.link.childclicked js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.link.childClicked</span>
+                  </a>
+                  <a href="/up.link.followMethod" up-modal=".content" class="search__symbol is_protected" data-search-text="up.link.followmethod js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.link.followMethod</span>
+                  </a>
+                  <a href="/up.link.makeFollowable" up-modal=".content" class="search__symbol is_protected" data-search-text="up.link.makefollowable js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.link.makeFollowable</span>
+                  </a>
+                  <a href="/a-up-modal" up-modal=".content" class="search__symbol is_public" data-search-text="a[up-modal] up.modal css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">a[up-modal]</span>
+                  </a>
+                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:close up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:close</span>
+                  </a>
+                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.close</span>
+                  </a>
+                  <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:closed up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:closed</span>
+                  </a>
+                  <a href="/up.modal.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.modal.config</span>
+                  </a>
+                  <a href="/up.modal.contains" up-modal=".content" class="search__symbol is_protected" data-search-text="up.modal.contains js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.contains</span>
+                  </a>
+                  <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is_protected" data-search-text="up.modal.coveredurl js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.coveredUrl</span>
+                  </a>
+                  <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.follow js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.follow</span>
+                  </a>
+                  <a href="/up.modal.open" up-modal=".content" class="search__symbol is_private" data-search-text="up.modal.open js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.open</span>
+                  </a>
+                  <a href="/up:modal:open" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:open up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:open</span>
+                  </a>
+                  <a href="/up:modal:opened" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:opened up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:opened</span>
+                  </a>
+                  <a href="/up.modal.url" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.url js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.url</span>
+                  </a>
+                  <a href="/up.modal.visit" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.visit js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.visit</span>
+                  </a>
+                  <a href="/up.morph" up-modal=".content" class="search__symbol is_public" data-search-text="up.morph up.motion js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.morph</span>
+                  </a>
+                  <a href="/up.motion.animateOptions" up-modal=".content" class="search__symbol is_protected" data-search-text="up.motion.animateoptions js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.motion.animateOptions</span>
+                  </a>
+                  <a href="/up.motion.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.motion.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.motion.config</span>
+                  </a>
+                  <a href="/up.motion.finish" up-modal=".content" class="search__symbol is_public" data-search-text="up.motion.finish js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.motion.finish</span>
+                  </a>
+                  <a href="/up.motion.none" up-modal=".content" class="search__symbol is_public" data-search-text="up.motion.none js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.motion.none</span>
+                  </a>
+                  <a href="/up.motion.when" up-modal=".content" class="search__symbol is_public" data-search-text="up.motion.when js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.motion.when</span>
+                  </a>
+                  <a href="/up.navigation.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.navigation.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.navigation.config</span>
+                  </a>
+                  <a href="/up.observe" up-modal=".content" class="search__symbol is_public" data-search-text="up.observe up.form js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.observe</span>
+                  </a>
+                  <a href="/input-up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="input[up-observe] up.form css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">input[up-observe]</span>
+                  </a>
+                  <a href="/up.on" up-modal=".content" class="search__symbol is_public" data-search-text="up.on up.bus js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.on</span>
+                  </a>
+                  <a href="/a-up-popup" up-modal=".content" class="search__symbol is_public" data-search-text="a[up-popup] up.popup css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">a[up-popup]</span>
+                  </a>
+                  <a href="/up.popup.attach" up-modal=".content" class="search__symbol is_public" data-search-text="up.popup.attach js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.popup.attach</span>
+                  </a>
+                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.popup.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.popup.close</span>
+                  </a>
+                  <a href="/up.popup.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.popup.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.popup.config</span>
+                  </a>
+                  <a href="/up.popup.coveredUrl" up-modal=".content" class="search__symbol is_protected" data-search-text="up.popup.coveredurl js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.popup.coveredUrl</span>
+                  </a>
+                  <a href="/up.popup.url" up-modal=".content" class="search__symbol is_public" data-search-text="up.popup.url js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.popup.url</span>
+                  </a>
+                  <a href="/up-preload" up-modal=".content" class="search__symbol is_public" data-search-text="[up-preload] up.proxy css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-preload]</span>
+                  </a>
+                  <a href="/up.proxy.ajax" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.ajax js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.ajax</span>
+                  </a>
+                  <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.busy js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.busy</span>
+                  </a>
+                  <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_public" data-search-text="up:proxy:busy up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:busy</span>
+                  </a>
+                  <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.clear js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.clear</span>
+                  </a>
+                  <a href="/up.proxy.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.proxy.config</span>
+                  </a>
+                  <a href="/up.proxy.get" up-modal=".content" class="search__symbol is_protected" data-search-text="up.proxy.get js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.get</span>
+                  </a>
+                  <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.idle js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_protected" data-search-text="up:proxy:load up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:load</span>
+                  </a>
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_protected" data-search-text="up.proxy.preload js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.preload</span>
+                  </a>
+                  <a href="/up:proxy:received" up-modal=".content" class="search__symbol is_protected" data-search-text="up:proxy:received up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:received</span>
+                  </a>
+                  <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_protected" data-search-text="up.proxy.remove js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.remove</span>
+                  </a>
+                  <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_protected" data-search-text="up.proxy.set js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.set</span>
+                  </a>
+                  <a href="/up.reload" up-modal=".content" class="search__symbol is_public" data-search-text="up.reload up.flow js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.reload</span>
+                  </a>
+                  <a href="/up.replace" up-modal=".content" class="search__symbol is_public" data-search-text="up.replace up.flow js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.replace</span>
+                  </a>
+                  <a href="/up.reset" up-modal=".content" class="search__symbol is_protected" data-search-text="up.reset up.bus js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.reset</span>
+                  </a>
+                  <a href="/up.reveal" up-modal=".content" class="search__symbol is_public" data-search-text="up.reveal up.layout js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.reveal</span>
+                  </a>
+                  <a href="/up.scroll" up-modal=".content" class="search__symbol is_protected" data-search-text="up.scroll up.layout js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.scroll</span>
+                  </a>
+                  <a href="/up.submit" up-modal=".content" class="search__symbol is_public" data-search-text="up.submit up.form js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.submit</span>
+                  </a>
+                  <a href="/up.syntax.data" up-modal=".content" class="search__symbol is_protected" data-search-text="up.syntax.data js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.syntax.data</span>
+                  </a>
+                  <a href="/a-up-target" up-modal=".content" class="search__symbol is_public" data-search-text="a[up-target] up.link css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">a[up-target]</span>
+                  </a>
+                  <a href="/form-up-target" up-modal=".content" class="search__symbol is_public" data-search-text="form[up-target] up.form css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">form[up-target]</span>
+                  </a>
+                  <a href="/up-tooltip" up-modal=".content" class="search__symbol is_public" data-search-text="[up-tooltip] up.tooltip css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-tooltip]</span>
+                  </a>
+                  <a href="/up.tooltip.attach" up-modal=".content" class="search__symbol is_public" data-search-text="up.tooltip.attach js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.tooltip.attach</span>
+                  </a>
+                  <a href="/up.tooltip.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.tooltip.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.tooltip.close</span>
+                  </a>
+                  <a href="/up.tooltip.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.tooltip.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.tooltip.config</span>
+                  </a>
+                  <a href="/up-tooltip-html" up-modal=".content" class="search__symbol is_public" data-search-text="[up-tooltip-html] up.tooltip css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-tooltip-html]</span>
+                  </a>
+                  <a href="/up.transition" up-modal=".content" class="search__symbol is_public" data-search-text="up.transition up.motion js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.transition</span>
+                  </a>
+                  <a href="/up.util.cache" up-modal=".content" class="search__symbol is_public" data-search-text="up.util.cache js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.cache</span>
+                  </a>
+                  <a href="/up.util.cssAnimate" up-modal=".content" class="search__symbol is_public" data-search-text="up.util.cssanimate js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.cssAnimate</span>
+                  </a>
+                  <a href="/up.util.finishCssAnimate" up-modal=".content" class="search__symbol is_protected" data-search-text="up.util.finishcssanimate js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.finishCssAnimate</span>
+                  </a>
+                  <a href="/up.util.isStandardPort" up-modal=".content" class="search__symbol is_private" data-search-text="up.util.isstandardport js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.isStandardPort</span>
+                  </a>
+                  <a href="/up.util.normalizeMethod" up-modal=".content" class="search__symbol is_protected" data-search-text="up.util.normalizemethod js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.normalizeMethod</span>
+                  </a>
+                  <a href="/up.util.normalizeUrl" up-modal=".content" class="search__symbol is_protected" data-search-text="up.util.normalizeurl js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.normalizeUrl</span>
+                  </a>
+                  <a href="/up.util.once" up-modal=".content" class="search__symbol is_private" data-search-text="up.util.once js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.once</span>
+                  </a>
+                  <a href="/up.util.option" up-modal=".content" class="search__symbol is_public" data-search-text="up.util.option js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.option</span>
+                  </a>
+                  <a href="/up.util.temporaryCss" up-modal=".content" class="search__symbol is_private" data-search-text="up.util.temporarycss js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.util.temporaryCss</span>
+                  </a>
+                  <a href="/up-viewport" up-modal=".content" class="search__symbol is_public" data-search-text="[up-viewport] up.layout css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-viewport]</span>
+                  </a>
+                  <a href="/up.visit" up-modal=".content" class="search__symbol is_public" data-search-text="up.visit up.link js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.visit</span>
+                  </a>
+                  <a href="/up.warn" up-modal=".content" class="search__symbol is_protected" data-search-text="up.warn up.util js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.warn</span>
                   </a>
               </div>
 
@@ -401,9 +582,23 @@
 <p>All notable changes to this project will be documented in this file.
 This project mostly adheres to <a href="http://semver.org/">Semantic Versioning</a>.</p>
 
-<h2 id="section">0.12.2</h2>
+<h2 id="section">0.12.4</h2>
 
 <h3 id="compatible-changes">Compatible changes</h3>
+
+<ul>
+  <li>When <a href="/up.morph">morphing</a>, prevent flickering caused by long repaint frames</li>
+  <li>When <a href="/up.morph">morphing</a> don't un-highlight current navigation sections in the element that is being destroyed. This makes for a smoother transition.</li>
+  <li>Fix a bug where compositing wasn't forced properly during an animation</li>
+</ul>
+
+<h2 id="section-1">0.12.3</h2>
+
+<p>Refactored internals. No API changes.</p>
+
+<h2 id="section-2">0.12.2</h2>
+
+<h3 id="compatible-changes-1">Compatible changes</h3>
 
 <ul>
   <li>When marking links as <code>.up-current</code>, also consider the URL behind a current modal or popup to
@@ -417,9 +612,9 @@ be the "current" URL.</li>
   <li>When <code>up.first</code> finds no match, return <code>undefined</code> instead of <code>null</code>.</li>
 </ul>
 
-<h2 id="section-1">0.12.1</h2>
+<h2 id="section-3">0.12.1</h2>
 
-<h3 id="compatible-changes-1">Compatible changes</h3>
+<h3 id="compatible-changes-2">Compatible changes</h3>
 
 <ul>
   <li><code>up.on</code> now returns a function that unbinds the events when called</li>
@@ -428,9 +623,9 @@ in situations where the same operation would also reveal the replaced element.</
   <li>Various bugfixes</li>
 </ul>
 
-<h2 id="section-2">0.12.0</h2>
+<h2 id="section-4">0.12.0</h2>
 
-<h3 id="compatible-changes-2">Compatible changes</h3>
+<h3 id="compatible-changes-3">Compatible changes</h3>
 
 <ul>
   <li>Up.js can now be used with <a href="https://api.jquery.com/jquery.noconflict/"><code>jQuery.noConflict()</code></a>.</li>
@@ -488,9 +683,9 @@ causing it to be compiled etc.</li>
   </li>
 </ul>
 
-<h2 id="section-3">0.11.1</h2>
+<h2 id="section-5">0.11.1</h2>
 
-<h3 id="compatible-changes-3">Compatible changes</h3>
+<h3 id="compatible-changes-4">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where browsers without CSS animation support would crash after an animation call</li>
@@ -498,9 +693,9 @@ causing it to be compiled etc.</li>
   <li>Fix a million bugs related to compatibility with IE9 and IE10</li>
 </ul>
 
-<h2 id="section-4">0.11.0</h2>
+<h2 id="section-6">0.11.0</h2>
 
-<h3 id="compatible-changes-4">Compatible changes</h3>
+<h3 id="compatible-changes-5">Compatible changes</h3>
 
 <ul>
   <li>Rework the scrolling implementation so we don't need to scroll elements to the top before replacing them.</li>
@@ -532,32 +727,32 @@ set an <code>_up_request_method</code> cookie with the current request method on
   </li>
 </ul>
 
-<h2 id="section-5">0.10.5</h2>
+<h2 id="section-7">0.10.5</h2>
 
-<h3 id="compatible-changes-5">Compatible changes</h3>
+<h3 id="compatible-changes-6">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where the proxy would remain busy forever if a response failed.</li>
 </ul>
 
-<h2 id="section-6">0.10.4</h2>
+<h2 id="section-8">0.10.4</h2>
 
-<h3 id="compatible-changes-6">Compatible changes</h3>
+<h3 id="compatible-changes-7">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where hovering multiple times over the same [up-preload] link would
 not trigger a new request after the cache expired</li>
 </ul>
 
-<h2 id="section-7">0.10.3</h2>
+<h2 id="section-9">0.10.3</h2>
 
-<h3 id="compatible-changes-7">Compatible changes</h3>
+<h3 id="compatible-changes-8">Compatible changes</h3>
 
 <ul>
   <li>The default viewport is now <code>document</code> instead of the <code>&lt;body&gt;</code> element.</li>
 </ul>
 
-<h2 id="section-8">0.10.2</h2>
+<h2 id="section-10">0.10.2</h2>
 
 <h3 id="breaking-changes">Breaking changes</h3>
 
@@ -567,7 +762,7 @@ direct calls of <a href="/up.replace"><code>up.replace</code></a> no longer do.
 This behavior can be activated using the <code>{ reveal: true }</code> option.</li>
 </ul>
 
-<h3 id="compatible-changes-8">Compatible changes</h3>
+<h3 id="compatible-changes-9">Compatible changes</h3>
 
 <ul>
   <li>Options to control scrolling and cache use for
@@ -578,7 +773,7 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 <a href="/a-up-target"><code>a[up-target]</code></a>.</li>
 </ul>
 
-<h2 id="section-9">0.10.1</h2>
+<h2 id="section-11">0.10.1</h2>
 
 <h3 id="breaking-changes-1">Breaking changes</h3>
 
@@ -586,9 +781,9 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
   <li><a href="/up.reveal"><code>up.reveal</code></a> now only reveals the first 150 pixels of an element.</li>
 </ul>
 
-<h2 id="section-10">0.10.0</h2>
+<h2 id="section-12">0.10.0</h2>
 
-<h3 id="compatible-changes-9">Compatible changes</h3>
+<h3 id="compatible-changes-10">Compatible changes</h3>
 
 <ul>
   <li>Viewport scroll positions are saved when the URL changes and restored when the user hits the back/forward button</li>
@@ -607,17 +802,17 @@ within the viewport before replacement.</li>
   <li>The string <code>up.history.defaults('popTarget')</code> is now an array of selectors <code>up.history.defaults('popTargets')</code></li>
 </ul>
 
-<h2 id="section-11">0.9.1</h2>
+<h2 id="section-13">0.9.1</h2>
 
-<h3 id="compatible-changes-10">Compatible changes</h3>
+<h3 id="compatible-changes-11">Compatible changes</h3>
 
 <ul>
   <li>Change transition implementation so child elements with collapsing margins don't reposition within the animated element</li>
 </ul>
 
-<h2 id="section-12">0.9.0</h2>
+<h2 id="section-14">0.9.0</h2>
 
-<h3 id="compatible-changes-11">Compatible changes</h3>
+<h3 id="compatible-changes-12">Compatible changes</h3>
 
 <ul>
   <li>Elements are now being <a href="/up.reveal">revealed</a> within their viewport before they are updated</li>
@@ -626,9 +821,9 @@ within the viewport before replacement.</li>
   <li>You can now make <a href="/up.reveal"><code>up.reveal</code></a> aware of fixed navigation bars blocking the viewport by setting new options <code>up.layout.defaults('fixedTop')</code> and <code>up.layout.defaults('fixedBottom')</code>.</li>
 </ul>
 
-<h2 id="section-13">0.8.2</h2>
+<h2 id="section-15">0.8.2</h2>
 
-<h3 id="compatible-changes-12">Compatible changes</h3>
+<h3 id="compatible-changes-13">Compatible changes</h3>
 
 <ul>
   <li><a href="/up.reveal"><code>up.reveal</code></a> can now reveal content in modals and containers with <code>overflow-y: scroll</code>.</li>
@@ -636,7 +831,7 @@ within the viewport before replacement.</li>
   <li>Links linking to <code>"#"</code> are now never marked as <code>.up-current</code>.</li>
 </ul>
 
-<h2 id="section-14">0.8.1</h2>
+<h2 id="section-16">0.8.1</h2>
 
 <h3 id="compatible-chanes">Compatible chanes</h3>
 
@@ -650,76 +845,76 @@ within the viewport before replacement.</li>
   <li>Like Bootstrap, the Up.js modal will now scroll the main document viewport instead of the modal dialog box.</li>
 </ul>
 
-<h2 id="section-15">0.8.0</h2>
+<h2 id="section-17">0.8.0</h2>
 
-<h3 id="compatible-changes-13">Compatible changes</h3>
+<h3 id="compatible-changes-14">Compatible changes</h3>
 
 <ul>
   <li>Up.js will now emit <a href="http://upjs.io/up.bus">events</a> <code>proxy:busy</code> and <code>proxy:idle</code> whenever it is loading or is done loading content over HTTP.</li>
   <li>Add an option <code>up.proxy.defaults('busyDelay')</code> to delay the <code>proxy:busy</code> event in order to prevent flickering of loading spinners.</li>
 </ul>
 
-<h2 id="section-16">0.7.8</h2>
+<h2 id="section-18">0.7.8</h2>
 
-<h3 id="compatible-changes-14">Compatible changes</h3>
+<h3 id="compatible-changes-15">Compatible changes</h3>
 
 <ul>
   <li>Now longer throws an error if the current location does not match an <code>up-alias</code> wildcard (bugfix).</li>
 </ul>
 
-<h2 id="section-17">0.7.7</h2>
+<h2 id="section-19">0.7.7</h2>
 
-<h3 id="compatible-changes-15">Compatible changes</h3>
+<h3 id="compatible-changes-16">Compatible changes</h3>
 
 <ul>
   <li>Allow <code>up-alias</code> to match URLs by prefix (<code>up-alias="prefix*"</code>).</li>
 </ul>
 
-<h2 id="section-18">0.7.6</h2>
+<h2 id="section-20">0.7.6</h2>
 
-<h3 id="compatible-changes-16">Compatible changes</h3>
+<h3 id="compatible-changes-17">Compatible changes</h3>
 
 <ul>
   <li>Fix what Up.js considers the current URL of a modal or popup if multiple updates change different parts of the modal or popup.</li>
   <li>Don't replace elements within a container that matches <code>.up-destroying</code> or <code>.up-ghost</code> (which are cloned elements for animation purposes).</li>
 </ul>
 
-<h2 id="section-19">0.7.5</h2>
+<h2 id="section-21">0.7.5</h2>
 
-<h3 id="compatible-changes-17">Compatible changes</h3>
+<h3 id="compatible-changes-18">Compatible changes</h3>
 
 <ul>
   <li>Make sure that an expanded link will be considered a link by adding an <code>up-follow</code> attribute if it doesn't already have an <code>up-target</code> attribute.</li>
 </ul>
 
-<h2 id="section-20">0.7.4</h2>
+<h2 id="section-22">0.7.4</h2>
 
-<h3 id="compatible-changes-18">Compatible changes</h3>
+<h3 id="compatible-changes-19">Compatible changes</h3>
 
 <ul>
   <li>Correctly position tooltips when the user has scrolled the main document viewports.</li>
   <li>Allow popups within modal dialogs.</li>
 </ul>
 
-<h2 id="section-21">0.7.3</h2>
+<h2 id="section-23">0.7.3</h2>
 
-<h3 id="compatible-changes-19">Compatible changes</h3>
+<h3 id="compatible-changes-20">Compatible changes</h3>
 
 <ul>
   <li>Use <a href="http://upjs.io/up.proxy">up.proxy</a> when submitting a form.</li>
 </ul>
 
-<h2 id="section-22">0.7.2</h2>
+<h2 id="section-24">0.7.2</h2>
 
-<h3 id="compatible-changes-20">Compatible changes</h3>
+<h3 id="compatible-changes-21">Compatible changes</h3>
 
 <ul>
   <li>When marking links as <code>.up-current</code>, allow to additionally match on a space-separated list of URLs in an  <code>up-alias</code> attribute.</li>
 </ul>
 
-<h2 id="section-23">0.7.1</h2>
+<h2 id="section-25">0.7.1</h2>
 
-<h3 id="compatible-changes-21">Compatible changes</h3>
+<h3 id="compatible-changes-22">Compatible changes</h3>
 
 <ul>
   <li>Bugfix: Don't consider forms with an <code>up-target</code> attribute to be a link.</li>

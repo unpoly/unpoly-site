@@ -7,6 +7,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    andand (1.3.3)
     capistrano (2.12.0)
       highline
       net-scp (>= 1.0.0)
@@ -147,6 +148,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  andand
   capistrano
   capistrano_colors
   memoizer

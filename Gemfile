@@ -13,6 +13,8 @@ gem 'middleman-bower'
 
 gem 'memoizer'
 
+gem 'andand'
+
 # gem 'require_all'
 
 group :deploy do

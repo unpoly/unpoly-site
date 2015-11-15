@@ -1,3 +1,4 @@
+require 'lib/ext/rack-test/support_colons_in_path'
 require 'lib/upjs/guide'
 require 'lib/upjs/example'
 
