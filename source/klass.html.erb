@@ -33,23 +33,6 @@
   </div>
 <% end %>
 
-<% properties = klass.properties.reject(&:private?) %>
-<% if properties.present? %>
-  <div class="api">
-
-    <div class="api__title">Javascript properties</div>
-
-    <div class="api__symbols">
-
-      <% properties.each do |property| %>
-        <%= partial 'api_symbol', locals: { symbol: property } %>
-      <% end %>
-
-    </div>
-
-  </div>
-<% end %>
-
 <% functions = klass.functions.reject(&:private?) %>
 <% if functions.present? %>
   <div class="api">
@@ -60,6 +43,23 @@
 
       <% functions.each do |function| %>
         <%= partial 'api_symbol', locals: { symbol: function } %>
+      <% end %>
+
+    </div>
+
+  </div>
+<% end %>
+
+<% properties = klass.properties.reject(&:private?) %>
+<% if properties.present? %>
+  <div class="api">
+
+    <div class="api__title">Javascript properties</div>
+
+    <div class="api__symbols">
+
+      <% properties.each do |property| %>
+        <%= partial 'api_symbol', locals: { symbol: property } %>
       <% end %>
 
     </div>
