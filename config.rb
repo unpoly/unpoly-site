@@ -51,7 +51,7 @@ Upjs::Example.all.each do |example|
 
   example.stylesheets.each do |asset|
     puts "Example stylesheet: #{asset.path}"
-    proxy asset.path, "/examples/stylesheet.css", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+    proxy asset.path, "/examples/stylesheet", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 
   example.javascripts.each do |asset|
