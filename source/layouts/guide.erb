@@ -42,7 +42,7 @@
               <input type="text" class="search__query" placeholder="Search API …">
 
               <div class="search__matches">
-                <% guide.feature_index.entries.each do |entry| %>
+                <% guide.feature_index.entries.reject(&:private?).each do |entry| %>
                   <a href="<%= entry.guide_path %>" up-modal=".content" class="search__symbol is_<%= entry.visibility %>" data-search-text="<%= entry.search_text %>">
                     <span class="search__symbol_kind"><%= entry.short_kind %></span>
                     <span class="search__symbol_name"><%= entry.name %></span>

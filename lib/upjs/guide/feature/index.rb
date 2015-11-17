@@ -9,7 +9,7 @@ module Upjs
             @features = features
           end
 
-          delegate :guide_id, :guide_path, :name, :search_text, :visibility, :kind, :short_kind, :<=>, :sort_name, to: :first_feature
+          delegate :guide_id, :guide_path, :name, :search_text, :visibility, :kind, :short_kind, :<=>, :sort_name, :private?, to: :first_feature
 
           private
 
