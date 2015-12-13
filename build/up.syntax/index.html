@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>Custom elements - Up.js Guide</title>
+  <title>Enhancing elements - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -62,7 +62,7 @@
                   Fast interaction feedback
                 </a>
                 <a href="/up.syntax" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Custom elements
+                  Enhancing elements
                 </a>
                 <a href="/up.flow" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Changing page fragments programmatically
@@ -551,21 +551,40 @@
               
 
 <h1 class="title">
-  Custom elements
+  Enhancing elements
 </h1>
 
 <div class='prose'>
 <p>Up.js keeps a persistent Javascript environment during page transitions.
-To prevent memory leaks it is important to cleanly set up and tear down
-event handlers and custom elements.</p>
+If you wire Javascript to run on <code>ready</code> or <code>onload</code> events, those scripts will
+only run during the initial page load. Subsequently <a href="/up.replace">inserted</a>
+page fragments will not be compiled.</p>
 
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
+<p>Let's say your Javascript plugin wants you to call <code>lightboxify()</code>
+on links that should open a lightbox. You decide to
+do this for all links with an <code>lightbox</code> class:</p>
 
-<p>We need to work on this page:</p>
+<pre><code>&lt;a href="river.png" class="lightbox"&gt;River&lt;/a&gt;
+&lt;a href="ocean.png" class="lightbox"&gt;Ocean&lt;/a&gt;
+</code></pre>
 
-<ul>
-  <li>Better class-level introduction for this module</li>
-</ul>
+<p>You should <strong>avoid</strong> doing this on page load:</p>
+
+<pre><code>$(document).on('ready', function() {
+  $('a.lightbox').lightboxify();
+});
+</code></pre>
+
+<p>Instead you should register a <a href="/up.compiler"><code>compiler</code></a> for the <code>a.lightbox</code> selector:</p>
+
+<pre><code>up.compiler('a.lightbox', function($element) {
+  $element.lightboxify();
+});
+</code></pre>
+
+<p>The compiler function will be called on matching elements when
+the page loads, or whenever a matching fragment is <a href="/up.replace">updated through Up.js</a>
+later.</p>
 
 </div>
 
@@ -614,9 +633,8 @@ If yes, parses the attribute value as JSON and returns the parsed object.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Sends a notification that the given element has been inserted
-into the DOM. This causes Up.js to compile the fragment (apply
-event listeners, etc.).</p>
+      <div class='prose'><p>Compiles a page fragment that has been inserted into the DOM
+without Up.js.</p>
 </div>
     </div>
 

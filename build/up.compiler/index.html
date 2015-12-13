@@ -62,7 +62,7 @@
                   Fast interaction feedback
                 </a>
                 <a href="/up.syntax" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Custom elements
+                  Enhancing elements
                 </a>
                 <a href="/up.flow" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Changing page fragments programmatically
@@ -576,22 +576,23 @@ the given selector is inserted into the DOM.</p>
 the page loads, or whenever a matching fragment is <a href="/up.replace">updated through Up.js</a>
 later.</p>
 
-<p>If you have used Angular.js before, this resembles <a href="https://docs.angularjs.org/guide/directive">Angular directives</a>.</p>
+<p>If you have used Angular.js before, this resembles
+<a href="https://docs.angularjs.org/guide/directive">Angular directives</a>.</p>
 
 <h4 id="integrating-jquery-plugins">Integrating jQuery plugins</h4>
 
 <p><code>up.compiler</code> is a great way to integrate jQuery plugins.
 Let's say your Javascript plugin wants you to call <code>lightboxify()</code>
 on links that should open a lightbox. You decide to
-do this for all links with an <code>[rel=lightbox]</code> attribute:</p>
+do this for all links with an <code>lightbox</code> class:</p>
 
-<pre><code>&lt;a href="river.png" rel="lightbox"&gt;River&lt;/a&gt;
-&lt;a href="ocean.png" rel="lightbox"&gt;Ocean&lt;/a&gt;
+<pre><code>&lt;a href="river.png" class="lightbox"&gt;River&lt;/a&gt;
+&lt;a href="ocean.png" class="lightbox"&gt;Ocean&lt;/a&gt;
 </code></pre>
 
 <p>This Javascript will do exactly that:</p>
 
-<pre><code>up.compiler('a[rel=lightbox]', function($element) {
+<pre><code>up.compiler('a.lightbox', function($element) {
   $element.lightboxify();
 });
 </code></pre>

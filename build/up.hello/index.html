@@ -62,7 +62,7 @@
                   Fast interaction feedback
                 </a>
                 <a href="/up.syntax" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Custom elements
+                  Enhancing elements
                 </a>
                 <a href="/up.flow" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Changing page fragments programmatically
@@ -564,17 +564,17 @@
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Sends a notification that the given element has been inserted
-into the DOM. This causes Up.js to compile the fragment (apply
-event listeners, etc.).</p>
+        <div class='prose'><p>Compiles a page fragment that has been inserted into the DOM
+without Up.js.</p>
 
 <p><strong>As long as you manipulate the DOM using Up.js, you will never
 need to call this method.</strong> You only need to use <code>up.hello</code> if the
-DOM is manipulated without Up.js' involvement, e.g. by plugin code that
-is not aware of Up.js:</p>
+DOM is manipulated without Up.js' involvement, e.g. by setting
+the <code>innerHTML</code> property or calling jQuery methods like
+<code>html</code>, <code>insertAfter</code> or <code>appendTo</code>:</p>
 
-<pre><code>// Add an element with naked jQuery, without going through Upjs:
-$element = $('&lt;div&gt;...&lt;/div&gt;').appendTo(document.body);
+<pre><code>$element = $('.element');
+$element.html('&lt;div&gt;...&lt;/div&gt;');
 up.hello($element);
 </code></pre>
 
