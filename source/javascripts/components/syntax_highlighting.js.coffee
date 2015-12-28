@@ -4,7 +4,7 @@
 # with way too many languages, which makes auto-detection
 # go horribly wrong.
 hljs.configure
-  languages: ['javascript', 'html']
+  languages: ['javascript', 'html', 'ruby']
 
 up.compiler 'pre code', ($fragment) ->
   hljs.highlightBlock($fragment.get(0));
