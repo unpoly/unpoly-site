@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.12.5
+                0.13.0
               </a>
             </div>
 
@@ -71,7 +71,7 @@
                   Caching and preloading
                 </a>
                 <a href="/up.form" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Forms and controls
+                  Forms
                 </a>
                 <a href="/up.tooltip" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Tooltips
@@ -192,6 +192,10 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-follow]</span>
                   </a>
+                  <a href="/up.form.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.form.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.form.config</span>
+                  </a>
                   <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:destroy up.flow event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:fragment:destroy</span>
@@ -284,13 +288,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.close</span>
-                  </a>
                   <a href="/up:modal:close" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:close up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:modal:close</span>
+                  </a>
+                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -360,9 +364,9 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.observe</span>
                   </a>
-                  <a href="/input-up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="input[up-observe] up.form css">
+                  <a href="/up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="[up-observe] up.form css">
                     <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">input[up-observe]</span>
+                    <span class="search__symbol_name">[up-observe]</span>
                   </a>
                   <a href="/up.on" up-modal=".content" class="search__symbol is_public" data-search-text="up.on up.bus js">
                     <span class="search__symbol_kind">JS</span>
@@ -423,6 +427,10 @@
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_public" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_protected" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -528,6 +536,14 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.util.option</span>
                   </a>
+                  <a href="/up.validate" up-modal=".content" class="search__symbol is_public" data-search-text="up.validate up.form js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.validate</span>
+                  </a>
+                  <a href="/up-validate" up-modal=".content" class="search__symbol is_public" data-search-text="[up-validate] up.form css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-validate]</span>
+                  </a>
                   <a href="/up-viewport" up-modal=".content" class="search__symbol is_public" data-search-text="[up-viewport] up.layout css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-viewport]</span>
@@ -564,13 +580,73 @@
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Submits the form through AJAX, searches the response for the selector
-given in <code>up-target</code> and <a href="/up.replace">replaces</a> the selector content in the current page:</p>
+        <div class='prose'><p>Forms with an <code>up-target</code> attribute are <a href="/up.submit">submitted via AJAX</a>
+instead of triggering a full page reload.</p>
 
 <pre><code>&lt;form method="post" action="/users" up-target=".main"&gt;
   ...
 &lt;/form&gt;
 </code></pre>
+
+<p>The server response is searched for the selector given in <code>up-target</code>.
+The selector content is then <a href="/up.replace">replaced</a> in the current page.</p>
+
+<p>The programmatic variant of this is the <a href="/up.submit"><code>up.submit</code></a> function.</p>
+
+<h4 id="validation-errors">Validation errors</h4>
+
+<p>When the server was unable to save the form due to invalid data,
+it will usually re-render an updated copy of the form with
+validation messages.</p>
+
+<p>For Up.js to be able to pick up a validation failure,
+the form must be re-rendered with a non-200 HTTP status code.
+We recommend to use either 400 (bad request) or
+422 (unprocessable entity).</p>
+
+<p>In Ruby on Rails, you can pass a
+<a href="http://guides.rubyonrails.org/layouts_and_rendering.html#the-status-option"><code>:status</code> option to <code>render</code></a>
+for this:</p>
+
+<pre><code>class UsersController &lt; ApplicationController
+
+  def create
+    user_params = params[:user].permit(:email, :password)
+    @user = User.new(user_params)
+    if @user.save?
+      sign_in @user
+    else
+      render 'form', status: :bad_request
+    end
+  end
+
+end
+</code></pre>
+
+<p>Note that you can also use the
+<a href="/up-validate"><code>up-validate</code></a> attribute to perform server-side
+validations while the user is completing fields.</p>
+
+<h4 id="redirects">Redirects</h4>
+
+<p>Up.js requires two additional response headers to detect redirects,
+which are otherwise undetectable for an AJAX client.</p>
+
+<p>When the form's action performs a redirect, the server should echo
+the new request's URL as a response header <code>X-Up-Location</code>
+and the request's HTTP method as <code>X-Up-Method</code>.</p>
+
+<p>If you are using Up.js via the <code>upjs-rails</code> gem, these headers
+are set automatically for every request.</p>
+
+<h4 id="giving-feedback-while-the-form-is-processing">Giving feedback while the form is processing</h4>
+
+<p>The <code>&lt;form&gt;</code> element will be assigned a CSS class <code>up-active</code> while
+the submission is loading.</p>
+
+<p>You can also <a href="/up.proxy/#spinners">implement a spinner</a>
+by <a href="/up.on">listening</a> to the <a href="/up:proxy:busy"><code>up:proxy:busy</code></a>
+and <a href="/up:proxy:idle"><code>up:proxy:idle</code></a> events.</p>
 
 </div>
       </div>

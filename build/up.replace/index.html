@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.12.5
+                0.13.0
               </a>
             </div>
 
@@ -71,7 +71,7 @@
                   Caching and preloading
                 </a>
                 <a href="/up.form" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Forms and controls
+                  Forms
                 </a>
                 <a href="/up.tooltip" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Tooltips
@@ -192,6 +192,10 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-follow]</span>
                   </a>
+                  <a href="/up.form.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.form.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.form.config</span>
+                  </a>
                   <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:destroy up.flow event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:fragment:destroy</span>
@@ -284,13 +288,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.close</span>
-                  </a>
                   <a href="/up:modal:close" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:close up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:modal:close</span>
+                  </a>
+                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -360,9 +364,9 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.observe</span>
                   </a>
-                  <a href="/input-up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="input[up-observe] up.form css">
+                  <a href="/up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="[up-observe] up.form css">
                     <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">input[up-observe]</span>
+                    <span class="search__symbol_name">[up-observe]</span>
                   </a>
                   <a href="/up.on" up-modal=".content" class="search__symbol is_public" data-search-text="up.on up.bus js">
                     <span class="search__symbol_kind">JS</span>
@@ -423,6 +427,10 @@
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_public" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_protected" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -528,6 +536,14 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.util.option</span>
                   </a>
+                  <a href="/up.validate" up-modal=".content" class="search__symbol is_public" data-search-text="up.validate up.form js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.validate</span>
+                  </a>
+                  <a href="/up-validate" up-modal=".content" class="search__symbol is_public" data-search-text="[up-validate] up.form css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-validate]</span>
+                  </a>
                   <a href="/up-viewport" up-modal=".content" class="search__symbol is_public" data-search-text="[up-viewport] up.layout css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-viewport]</span>
@@ -597,6 +613,43 @@ the current page. The current page now looks like this:</p>
 
 <p>Note how only <code>.two</code> has changed. The update for <code>.one</code> was
 discarded, since it didn't match the selector.</p>
+
+<h4 id="appending-or-prepending-instead-of-replacing">Appending or prepending instead of replacing</h4>
+
+<p>By default Up.js will replace the given selector with the same
+selector from a freshly fetched page. Instead of replacing you
+can <em>append</em> the loaded content to the existing content by using the
+<code>:after</code> pseudo selector. In the same fashion, you can use <code>:before</code>
+to indicate that you would like the <em>prepend</em> the loaded content.</p>
+
+<p>A practical example would be a paginated list of items:</p>
+
+<pre><code>&lt;ul class="tasks"&gt;
+  &lt;li&gt;Wash car&lt;/li&gt;
+  &lt;li&gt;Purchase supplies&lt;/li&gt;
+  &lt;li&gt;Fix tent&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>In order to append more items from a URL, replace into
+the <code>.tasks:after</code> selector:</p>
+
+<pre><code>up.replace('.tasks:after', '/page/2')
+</code></pre>
+
+<h4 id="setting-the-window-title-from-the-server">Setting the window title from the server</h4>
+
+<p>If the <code>replace</code> call changes history, the document title will be set
+to the contents of a <code>&lt;title&gt;</code> tag in the response.</p>
+
+<p>The server can also change the document title by setting
+an <code>X-Up-Title</code> header in the response.</p>
+
+<h4 id="optimizing-response-rendering">Optimizing response rendering</h4>
+
+<p>The server is free to optimize Up.js requests by only rendering the HTML fragment
+that is being updated. The request's <code>X-Up-Selector</code> header will contain
+the CSS selector for the updating fragment.</p>
 
 <h4 id="events">Events</h4>
 
@@ -760,6 +813,22 @@ history change for the current URL.</p>
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
+            [options.origin]            <span class="symbol__type">
+              Element <span class="symbol__or">or</span> jQuery
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The element that triggered the replacement. The element's selector will
+be substituted for the <code>&amp;</code> shorthand in the target selector.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
             [options.historyMethod='push']            <span class="symbol__type">
               String
             </span>
@@ -769,6 +838,22 @@ history change for the current URL.</p>
           </div>
           <div class="symbol__param_prose">
             <div class='prose'>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [options.headers={}]            <span class="symbol__type">
+              Object
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>An object of additional header key/value pairs to send along
+with the request.</p>
 </div>
           </div>
         </div>

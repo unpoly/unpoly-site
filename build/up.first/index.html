@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.first(selector) - Up.js Guide</title>
+  <title>up.first(selectorOrElement) - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.12.5
+                0.13.0
               </a>
             </div>
 
@@ -71,7 +71,7 @@
                   Caching and preloading
                 </a>
                 <a href="/up.form" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Forms and controls
+                  Forms
                 </a>
                 <a href="/up.tooltip" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Tooltips
@@ -192,6 +192,10 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-follow]</span>
                   </a>
+                  <a href="/up.form.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.form.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.form.config</span>
+                  </a>
                   <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:destroy up.flow event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:fragment:destroy</span>
@@ -284,13 +288,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.close</span>
-                  </a>
                   <a href="/up:modal:close" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:close up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:modal:close</span>
+                  </a>
+                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -360,9 +364,9 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.observe</span>
                   </a>
-                  <a href="/input-up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="input[up-observe] up.form css">
+                  <a href="/up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="[up-observe] up.form css">
                     <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">input[up-observe]</span>
+                    <span class="search__symbol_name">[up-observe]</span>
                   </a>
                   <a href="/up.on" up-modal=".content" class="search__symbol is_public" data-search-text="up.on up.bus js">
                     <span class="search__symbol_kind">JS</span>
@@ -423,6 +427,10 @@
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_public" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_protected" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -528,6 +536,14 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.util.option</span>
                   </a>
+                  <a href="/up.validate" up-modal=".content" class="search__symbol is_public" data-search-text="up.validate up.form js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.validate</span>
+                  </a>
+                  <a href="/up-validate" up-modal=".content" class="search__symbol is_public" data-search-text="[up-validate] up.form css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-validate]</span>
+                  </a>
                   <a href="/up-viewport" up-modal=".content" class="search__symbol is_public" data-search-text="[up-viewport] up.layout css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-viewport]</span>
@@ -559,14 +575,14 @@
     </a>
 
     <div class="symbol__signature">
-      up.first(selector)
+      up.first(selectorOrElement)
         <span class="tag is_protected">
           protected
         </span>
     </div>
 
       <div class="symbol__warning">
-        This feature is experimental and not part of the Up.js' stable API.
+        This feature is experimental and not part of Up.js' stable API.
         It may be removed or changed without prior notice or deprecation.
       </div>
 
@@ -575,6 +591,10 @@
 
 <p>Excludes elements that also match <code>.up-ghost</code> or <code>.up-destroying</code>
 or that are children of elements with these selectors.</p>
+
+<p>If the given argument is already a jQuery collection (or an array
+of DOM elements), the first element  matching these conditions
+is returned.</p>
 
 <p>Returns <code>undefined</code> if no element matches these conditions.</p>
 
@@ -589,8 +609,8 @@ or that are children of elements with these selectors.</p>
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            selector            <span class="symbol__type">
-              String
+            selectorOrElement            <span class="symbol__type">
+              String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
             </span>
           </div>
           <div class="symbol__param_prose">
@@ -599,6 +619,21 @@ or that are children of elements with these selectors.</p>
           </div>
         </div>
 
+
+      <div class="symbol__subtitle">
+        Return value
+      </div>
+
+        <div class="symbol__type">
+          jQuery
+        </div>
+
+      <div class="symbol__param_prose">
+        <div class='prose'>
+<p>The first element that is neither a ghost or being destroyed,
+or <code>undefined</code> if no such element was given.</p>
+</div>
+      </div>
 
   </div>
 

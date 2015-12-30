@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>Forms and controls - Up.js Guide</title>
+  <title>Forms - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.12.5
+                0.13.0
               </a>
             </div>
 
@@ -71,7 +71,7 @@
                   Caching and preloading
                 </a>
                 <a href="/up.form" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Forms and controls
+                  Forms
                 </a>
                 <a href="/up.tooltip" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   Tooltips
@@ -192,6 +192,10 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-follow]</span>
                   </a>
+                  <a href="/up.form.config" up-modal=".content" class="search__symbol is_public" data-search-text="up.form.config prop">
+                    <span class="search__symbol_kind">PROP</span>
+                    <span class="search__symbol_name">up.form.config</span>
+                  </a>
                   <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_public" data-search-text="up:fragment:destroy up.flow event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:fragment:destroy</span>
@@ -284,13 +288,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.close</span>
-                  </a>
                   <a href="/up:modal:close" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:close up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:modal:close</span>
+                  </a>
+                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_public" data-search-text="up.modal.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_public" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -360,9 +364,9 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.observe</span>
                   </a>
-                  <a href="/input-up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="input[up-observe] up.form css">
+                  <a href="/up-observe" up-modal=".content" class="search__symbol is_public" data-search-text="[up-observe] up.form css">
                     <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">input[up-observe]</span>
+                    <span class="search__symbol_name">[up-observe]</span>
                   </a>
                   <a href="/up.on" up-modal=".content" class="search__symbol is_public" data-search-text="up.on up.bus js">
                     <span class="search__symbol_kind">JS</span>
@@ -423,6 +427,10 @@
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_public" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_public" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_protected" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -528,6 +536,14 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.util.option</span>
                   </a>
+                  <a href="/up.validate" up-modal=".content" class="search__symbol is_public" data-search-text="up.validate up.form js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.validate</span>
+                  </a>
+                  <a href="/up-validate" up-modal=".content" class="search__symbol is_public" data-search-text="[up-validate] up.form css">
+                    <span class="search__symbol_kind">CSS</span>
+                    <span class="search__symbol_name">[up-validate]</span>
+                  </a>
                   <a href="/up-viewport" up-modal=".content" class="search__symbol is_public" data-search-text="[up-viewport] up.layout css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-viewport]</span>
@@ -551,26 +567,13 @@
               
 
 <h1 class="title">
-  Forms and controls
+  Forms
 </h1>
 
 <div class='prose'>
-<p>Up.js comes with functionality to submit forms without
-leaving the current page. This means you can replace page fragments,
+<p>Up.js comes with functionality to <a href="/form-up-target">submit</a> and <a href="/up-validate">validate</a>
+forms without leaving the current page. This means you can replace page fragments,
 open dialogs with sub-forms, etc. all without losing form state.</p>
-
-<h3 id="incomplete-documentation">Incomplete documentation!</h3>
-
-<p>We need to work on this page:</p>
-
-<ul>
-  <li>Explain how to display form errors</li>
-  <li>Explain that the server needs to send 2xx or 5xx status codes so
-Up.js can decide whether the form submission was successful</li>
-  <li>Explain that the server needs to send <code>X-Up-Location</code> and <code>X-Up-Method</code> headers
-if an successful form submission resulted in a redirect</li>
-  <li>Examples</li>
-</ul>
 
 </div>
 
@@ -592,8 +595,8 @@ if an successful form submission resulted in a redirect</li>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Submits the form through AJAX, searches the response for the selector
-given in <code>up-target</code> and <a href="/up.replace">replaces</a> the selector content in the current page:</p>
+      <div class='prose'><p>Forms with an <code>up-target</code> attribute are <a href="/up.submit">submitted via AJAX</a>
+instead of triggering a full page reload.</p>
 </div>
     </div>
 
@@ -601,8 +604,23 @@ given in <code>up-target</code> and <a href="/up.replace">replaces</a> the selec
 
         <div class="api__symbol is_public">
 
-  <a href="/input-up-observe" up-modal=".content" class="api__symbol_signature">
-    input[up-observe]
+  <a href="/up-validate" up-modal=".content" class="api__symbol_signature">
+    [up-validate]
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>When a form field with this attribute is changed,
+the form is validated on the server and is updated with
+validation messages.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_public">
+
+  <a href="/up-observe" up-modal=".content" class="api__symbol_signature">
+    [up-observe]
   </a>
 
     <div class="api__symbol_summary">
@@ -632,7 +650,7 @@ while the user is typing.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Submits a form using the Up.js flow:</p>
+      <div class='prose'><p>Submits a form via AJAX and updates a page fragment with the response.</p>
 </div>
     </div>
 
@@ -652,11 +670,48 @@ This is useful for observing text fields while the user is typing.</p>
 
 </div>
 
+        <div class="api__symbol is_public">
+
+  <a href="/up.validate" up-modal=".content" class="api__symbol_signature">
+    up.validate(fieldOrSelector, [options])
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Performs a server-side validation of a form and update the form
+with validation messages.</p>
+</div>
+    </div>
+
+</div>
+
 
     </div>
 
   </div>
 
+  <div class="api">
+
+    <div class="api__title">Javascript properties</div>
+
+    <div class="api__symbols">
+
+        <div class="api__symbol is_public">
+
+  <a href="/up.form.config" up-modal=".content" class="api__symbol_signature">
+    up.form.config = config
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Sets default options for form submission and validation.</p>
+</div>
+    </div>
+
+</div>
+
+
+    </div>
+
+  </div>
 
 
             </div>
