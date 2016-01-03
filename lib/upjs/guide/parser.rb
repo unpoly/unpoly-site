@@ -33,7 +33,7 @@ module Upjs
       }x
 
       VISIBILITY_PATTERN = %r{
-        \@(public|protected|private)
+        \@(stable|experimental|internal)
       }x
 
       TYPES_PATTERN = %r{
@@ -128,9 +128,9 @@ module Upjs
         if block.sub!(KLASS_PATTERN, '')
           klass_name = $1.strip
           klass = Klass.new(klass_name)
-          if visibility = parse_visibility!(block)
-            klass.visibility = visibility
-          end
+          # if visibility = parse_visibility!(block)
+          #   klass.visibility = visibility
+          # end
           if title = parse_title!(block)
             klass.title = title
           end

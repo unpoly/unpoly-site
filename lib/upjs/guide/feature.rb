@@ -6,7 +6,7 @@ module Upjs
 
       def initialize(kind, name)
         @name = name
-        @visibility = 'public'
+        @visibility = 'internal'
         @kind = kind
         @params = []
         @guide_markdown = ''
@@ -68,8 +68,16 @@ module Upjs
         end
       end
 
-      def protected?
-        visibility == 'protected'
+      def stable?
+        visibility == 'stable'
+      end
+
+      def internal?
+        visibility == 'internal'
+      end
+
+      def experimental?
+        visibility == 'experimental'
       end
 
       def function?
@@ -86,10 +94,6 @@ module Upjs
 
       def event?
         @kind == 'event'
-      end
-
-      def private?
-        visibility == 'private'
       end
 
       def short_kind

@@ -25,7 +25,7 @@
             </div>
 
             <div class="menu">
-              <% %w[up.link up.modal up.popup up.motion up.navigation up.syntax up.flow up.proxy up.form up.tooltip up.history up.layout up.bus].each do |klass_name| %>
+              <% %w[up.link up.modal up.popup up.motion up.navigation up.syntax up.flow up.proxy up.form up.tooltip up.history up.layout up.bus up.util].each do |klass_name| %>
                 <% klass = guide.klass_for_name(klass_name) %>
                 <a href="<%= klass.guide_path %>" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
                   <%= klass.title %>
@@ -42,7 +42,7 @@
               <input type="text" class="search__query" placeholder="Search API …">
 
               <div class="search__matches">
-                <% guide.feature_index.entries.reject(&:private?).each do |entry| %>
+                <% guide.feature_index.entries.reject(&:internal?).each do |entry| %>
                   <a href="<%= entry.guide_path %>" up-modal=".content" class="search__symbol is_<%= entry.visibility %>" data-search-text="<%= entry.search_text %>">
                     <span class="search__symbol_kind"><%= entry.short_kind %></span>
                     <span class="search__symbol_name"><%= entry.name %></span>

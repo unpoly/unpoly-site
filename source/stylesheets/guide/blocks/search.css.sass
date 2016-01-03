@@ -1,12 +1,12 @@
 @import environment
 
 .search
+  +font-size(16px)
 
 .search__query
   border: 1px solid #aaa
   padding: 5px 7px
   +default-font
-  +font-size(16px)
   margin-bottom: 15px
   +border-box
   width: 100%
@@ -14,12 +14,12 @@
 
 .search__symbol
   display: block
-  margin-bottom: 2px
+  margin-bottom: 1px
   white-space: nowrap
   +monospace-font
   color: $COLOR_MAIN
 
-  &.is_protected
+  &.isnt_stable
     color: $COLOR_PROTECTED
 
   // Styling .up-current has weird effects since
@@ -38,7 +38,7 @@
   border-radius: 2px
   font-weight: bold
 
-  .search__symbol.is_protected &
+  .search__symbol.is_experimental &
     background-color: $COLOR_PROTECTED
 
 .search__symbol:hover

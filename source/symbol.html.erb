@@ -15,14 +15,14 @@
 
     <div class="symbol__signature">
       <%= h(feature.signature) %>
-      <% if feature.visibility.present? && feature.visibility != 'public' %>
-        <span class="tag is_protected">
+      <% if feature.visibility.present? && feature.visibility != 'stable' %>
+        <span class="tag isnt_stable">
           <%= feature.visibility %>
         </span>
       <% end %>
     </div>
 
-    <% if feature.protected? %>
+    <% if feature.experimental? %>
       <div class="symbol__warning">
         This feature is experimental and not part of Up.js' stable API.
         It may be removed or changed without prior notice or deprecation.

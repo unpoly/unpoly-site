@@ -11,7 +11,7 @@
 
 <%= markdown_prose(klass.guide_markdown) %>
 
-<% selectors = klass.selectors.reject(&:private?) %>
+<% selectors = klass.selectors.reject(&:internal?) %>
 <% if selectors.present? %>
   <div class="api">
 
@@ -33,7 +33,7 @@
   </div>
 <% end %>
 
-<% functions = klass.functions.reject(&:private?) %>
+<% functions = klass.functions.reject(&:internal?) %>
 <% if functions.present? %>
   <div class="api">
 
@@ -50,7 +50,7 @@
   </div>
 <% end %>
 
-<% properties = klass.properties.reject(&:private?) %>
+<% properties = klass.properties.reject(&:internal?) %>
 <% if properties.present? %>
   <div class="api">
 
@@ -67,7 +67,7 @@
   </div>
 <% end %>
 
-<% events = klass.events.reject(&:private?) %>
+<% events = klass.events.reject(&:internal?) %>
 <% if events.present? %>
   <div class="api">
 

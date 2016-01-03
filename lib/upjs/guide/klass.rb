@@ -5,13 +5,13 @@ module Upjs
 
       def initialize(name)
         @name = name
-        @visibility = 'public'
+        # @visibility = 'internal'
         @features = []
         @guide_markdown = ''
         @title
       end
 
-      attr_accessor :visibility
+      # attr_accessor :visibility
       attr_accessor :name
       attr_accessor :guide_markdown
       attr_reader :features
