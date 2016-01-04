@@ -3,21 +3,29 @@
 $background-color: #eee
 
 .example
-  min-height: 100%
   height: 100%
   background-color: $background-color
   +border-box
   position: relative
 
 .example__info
-  overflow-y: scroll
   +border-box
   position: absolute
+  padding: 20px 15px
+  top: 0
+  right: 0
+  width: 40%
+  // don't give it a height so it will stretch to the full height
+  background-color: $background-color
+
+.example__demo
+  position: fixed
+  overflow: hidden
+  border: 0
   top: 0
   left: 0
-  width: 40%
+  width: 60%
   height: 100%
-  padding: 20px 15px
 
 .example__title
   +font-size(24px)
@@ -34,15 +42,6 @@ $background-color: #eee
   +vertical-margin(20px)
   code
     +inline-code
-
-.example__demo
-  position: absolute
-  top: 0
-  right: 0
-  width: 60%
-  height: 100%
-  border: 0
-  overflow-y: scroll
 
 .example__file
   +vertical-margin(30px)
