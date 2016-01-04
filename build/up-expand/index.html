@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -628,7 +628,12 @@
 
       <div class="symbol__prose">
         <div class='prose'><p>Add an <code>up-expand</code> class to any element that contains a link
-in order to enlarge the link's click area:</p>
+in order to enlarge the link's click area.</p>
+
+<p><code>up-expand</code> honors all the UJS behavior in expanded links
+(<a href="/up-target"><code>up-target</code></a>, <a href="/up-instant"><code>up-instant</code></a>, <a href="/up-preload"><code>up-preload</code></a>, etc.).</p>
+
+<h4 id="example">Example</h4>
 
 <pre><code>&lt;div class="notification" up-expand&gt;
   Record was saved!
@@ -638,9 +643,6 @@ in order to enlarge the link's click area:</p>
 
 <p>In the example above, clicking anywhere within <code>.notification</code> element
 would <a href="/up.follow">follow</a> the <em>Close</em> link.</p>
-
-<p><code>up-expand</code> honors all the UJS behavior in expanded links
-(<code>up-target</code>, <code>up-instant</code>, <code>up-preload</code>, etc.).</p>
 
 </div>
       </div>

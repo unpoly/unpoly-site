@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -640,6 +640,8 @@ with corresponding elements from a new page fetched from the server.</p>
 <pre><code>var $link = $('a:first'); // select link with jQuery
 up.follow($link);
 </code></pre>
+
+<p>The UJS variant of this are the <a href="/a-up-target"><code>a[up-target]</code></a> and <a href="/a-up-follow"><code>a[up-follow]</code></a> selectors.</p>
 
 </div>
       </div>

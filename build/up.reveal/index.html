@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -651,7 +651,9 @@ is the closest parent of the element that is either:</p>
 <p>Many applications have a navigation bar fixed to the top or bottom,
 obstructing the view on an element.</p>
 
-<p>To make <code>up.aware</code> of these fixed elements you can either:</p>
+<p>You can make <code>up.reveal</code> aware of these fixed elements
+so it can scroll the viewport far enough so the revealed element is fully visible.
+To make <code>up.reveal</code> aware fixed elements you can either:</p>
 
 <ul>
   <li>give the element an attribute <a href="/up-fixed-top"><code>up-fixed="top"</code></a> or <a href="up-fixed-bottom"><code>up-fixed="bottom"</code></a></li>

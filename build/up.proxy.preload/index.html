@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -614,7 +614,7 @@
               
 
 
-  <div class="symbol is_stable">
+  <div class="symbol is_experimental">
 
     <a class="symbol__klass" href="/up.proxy">
       Module
@@ -623,8 +623,15 @@
 
     <div class="symbol__signature">
       up.proxy.preload()
+        <span class="tag isnt_stable">
+          experimental
+        </span>
     </div>
 
+      <div class="symbol__warning">
+        This feature is experimental and not part of Up.js' stable API.
+        It may be removed or changed without prior notice or deprecation.
+      </div>
 
 
 
@@ -652,7 +659,8 @@
 
 
       <div class="symbol__param_prose">
-        <div class='prose'><p>A promise that will be resolved when the request was loaded and cached</p>
+        <div class='prose'>
+<p>A promise that will be resolved when the request was loaded and cached</p>
 </div>
       </div>
 

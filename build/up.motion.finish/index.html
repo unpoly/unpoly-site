@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -627,9 +627,10 @@
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Completes all animations and transitions for the given element
-by jumping to the last animation frame instantly. All callbacks chained to
-the original animation's promise will be called.</p>
+        <div class='prose'><p>Completes all <a href="/up.animate">animations</a> and <a href="/up.morph">transitions</a>
+for the given element by jumping to the last animation frame instantly.</p>
+
+<p>All callbacks chained to the original animation's promise will be called.</p>
 
 <p>Does nothing if the given element is not currently animating.</p>
 

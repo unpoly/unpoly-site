@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.visit(url, [options], options) - Up.js Guide</title>
+  <title>up.visit(url, [options]) - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -622,7 +622,7 @@
     </a>
 
     <div class="symbol__signature">
-      up.visit(url, [options], options)
+      up.visit(url, [options])
     </div>
 
 
@@ -673,12 +673,16 @@ and replacing the current <code>&lt;body&gt;</code> element with the response's 
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
-            options            <span class="symbol__type">
+            [options]            <span class="symbol__type">
               Object
             </span>
+              <span class="tag is_teal">
+                optional
+              </span>
           </div>
           <div class="symbol__param_prose">
-            <div class='prose'><p>See options for <a href="/up.replace"><code>up.replace</code></a></p>
+            <div class='prose'>
+<p>See options for <a href="/up.replace"><code>up.replace</code></a></p>
 </div>
           </div>
         </div>

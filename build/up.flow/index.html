@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -674,7 +674,8 @@ same selector from the given HTML string.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Returns the first element matching the given selector.</p>
+      <div class='prose'><p>Returns the first element matching the given selector, but
+ignores elements that are being <a href="/up.destroy">destroyed</a> or <a href="/up.morph">transitioned</a>.</p>
 </div>
     </div>
 

@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -634,13 +634,11 @@
       </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns the first element matching the given selector.</p>
-
-<p>Excludes elements that also match <code>.up-ghost</code> or <code>.up-destroying</code>
-or that are children of elements with these selectors.</p>
+        <div class='prose'><p>Returns the first element matching the given selector, but
+ignores elements that are being <a href="/up.destroy">destroyed</a> or <a href="/up.morph">transitioned</a>.</p>
 
 <p>If the given argument is already a jQuery collection (or an array
-of DOM elements), the first element  matching these conditions
+of DOM elements), the first element matching these conditions
 is returned.</p>
 
 <p>Returns <code>undefined</code> if no element matches these conditions.</p>

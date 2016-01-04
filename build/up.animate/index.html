@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -627,7 +627,9 @@
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Applies the given animation to the given element:</p>
+        <div class='prose'><p>Applies the given animation to the given element.</p>
+
+<h4 id="example">Example</h4>
 
 <pre><code>up.animate('.warning', 'fade-in');
 </code></pre>
@@ -741,10 +743,13 @@ the new animation begins.</p>
             </span>
           </div>
           <div class="symbol__param_prose">
-            <div class='prose'><p>Can either be:
-- The animation's name
-- A function performing the animation
-- An object of CSS attributes describing the last frame of the animation</p>
+            <div class='prose'><p>Can either be:</p>
+
+<ul>
+  <li>The animation's name</li>
+  <li>A function performing the animation</li>
+  <li>An object of CSS attributes describing the last frame of the animation</li>
+</ul>
 </div>
           </div>
         </div>

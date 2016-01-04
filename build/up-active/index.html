@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -647,8 +647,8 @@ the link has the <code>up-active</code> class:</p>
 <pre><code>&lt;a href="/foo" up-follow up-active&gt;Foo&lt;/a&gt;
 </code></pre>
 
-<p>Once the fragment is loaded the browser's location bar is updated
-to <code>http://yourhost/foo</code> via <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history#Adding_and_modifying_history_entries"><code>history.pushState</code></a>:</p>
+<p>Once the link destination has loaded and rendered, the <code>up-active</code> class
+is removed and the <a href="/up-current"><code>up-current</code></a> class is added:</p>
 
 <pre><code>&lt;a href="/foo" up-follow up-current&gt;Foo&lt;/a&gt;
 </code></pre>

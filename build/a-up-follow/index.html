@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -630,12 +630,13 @@
         <div class='prose'><p>If applied on a link, Follows this link via AJAX and replaces the
 current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element.</p>
 
-<p>Example:</p>
+<p>To only update a fragment instead of the entire page, see
+<a href="/a-up-target"><code>a[up-target]</code></a>.</p>
+
+<h4 id="example">Example</h4>
 
 <pre><code>&lt;a href="/users" up-follow&gt;User list&lt;/a&gt;
 </code></pre>
-
-<p>To only update a fragment instead of the entire page, see <a href="/up-target"><code>up-target</code></a>.</p>
 
 <h4 id="turn-any-element-into-a-link">Turn any element into a link</h4>
 

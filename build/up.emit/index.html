@@ -359,7 +359,7 @@
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:load</span>
                   </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.preload js">
+                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.preload</span>
                   </a>
@@ -634,7 +634,12 @@
       </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Emits an event with the given name and properties.</p>
+        <div class='prose'><p>Emits a event with the given name and properties.</p>
+
+<p>The event will be triggered as a jQuery event on <code>document</code>.</p>
+
+<p>Other code can subscribe to events with that name using
+<a href="/up.on"><code>up.on</code></a> or by <a href="http://api.jquery.com/on/">binding a jQuery event listener</a> to <code>document</code>.</p>
 
 <h4 id="example">Example</h4>
 
