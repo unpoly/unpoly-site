@@ -705,41 +705,13 @@ Javascript will not be reloaded, no white flash during a full page reload.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/a-up-target" up-modal=".content" class="api__symbol_signature">
-    a[up-target]
+  <a href="/up-dash" up-modal=".content" class="api__symbol_signature">
+    [up-dash]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Follows this link via AJAX and replaces a CSS selector in the current page
-with corresponding elements from a new page fetched from the server:</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/a-up-instant" up-modal=".content" class="api__symbol_signature">
-    a[up-instant]
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>By adding an <code>up-instant</code> attribute to a link, the destination will be
-fetched on <code>mousedown</code> instead of <code>click</code> (<code>mouseup</code>).</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/a-up-follow" up-modal=".content" class="api__symbol_signature">
-    a[up-follow]
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>If applied on a link, Follows this link via AJAX and replaces the
-current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element.</p>
+      <div class='prose'><p>Marks up the current link to be followed <em>as fast as possible</em>.
+This is done by:</p>
 </div>
     </div>
 
@@ -761,13 +733,41 @@ in order to enlarge the link's click area.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up-dash" up-modal=".content" class="api__symbol_signature">
-    [up-dash]
+  <a href="/a-up-follow" up-modal=".content" class="api__symbol_signature">
+    a[up-follow]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Marks up the current link to be followed <em>as fast as possible</em>.
-This is done by:</p>
+      <div class='prose'><p>If applied on a link, Follows this link via AJAX and replaces the
+current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/a-up-instant" up-modal=".content" class="api__symbol_signature">
+    a[up-instant]
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>By adding an <code>up-instant</code> attribute to a link, the destination will be
+fetched on <code>mousedown</code> instead of <code>click</code> (<code>mouseup</code>).</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/a-up-target" up-modal=".content" class="api__symbol_signature">
+    a[up-target]
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Follows this link via AJAX and replaces a CSS selector in the current page
+with corresponding elements from a new page fetched from the server:</p>
 </div>
     </div>
 
@@ -786,6 +786,20 @@ This is done by:</p>
 
         <div class="api__symbol is_stable">
 
+  <a href="/up.follow" up-modal=".content" class="api__symbol_signature">
+    up.follow(linkOrSelector, [options])
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Follows the given link via AJAX and <a href="/up.replace">replaces</a> a CSS selector in the current page
+with corresponding elements from a new page fetched from the server.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
   <a href="/up.visit" up-modal=".content" class="api__symbol_signature">
     up.visit(url, [options])
   </a>
@@ -794,20 +808,6 @@ This is done by:</p>
       <div class='prose'><p>Visits the given URL without a full page load.
 This is done by fetching <code>url</code> through an AJAX request
 and replacing the current <code>&lt;body&gt;</code> element with the response's <code>&lt;body&gt;</code> element.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.follow" up-modal=".content" class="api__symbol_signature">
-    up.follow(linkOrSelector, [options])
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Follows the given link via AJAX and <a href="/up.replace">replaces</a> a CSS selector in the current page
-with corresponding elements from a new page fetched from the server.</p>
 </div>
     </div>
 

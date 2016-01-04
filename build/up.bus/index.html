@@ -666,30 +666,18 @@ and call <code>preventDefault()</code> on the <code>event</code> object:</p>
 
     <div class="api__symbols">
 
-        <div class="api__symbol is_stable">
-
-  <a href="/up.on" up-modal=".content" class="api__symbol_signature">
-    up.on(events, [selector], behavior)
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Listens to an event on <code>document</code>.</p>
-</div>
-    </div>
-
-</div>
-
         <div class="api__symbol is_experimental">
 
-  <a href="/up.emit" up-modal=".content" class="api__symbol_signature">
-    up.emit(eventName, [eventProps], [eventProps.$element])
+  <a href="/up.boot" up-modal=".content" class="api__symbol_signature">
+    up.boot()
       <span class="tag isnt_stable">
         experimental
       </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Emits a event with the given name and properties.</p>
+      <div class='prose'><p>Boots the Up.js framework.
+This is done automatically by including the Up.js Javascript.</p>
 </div>
     </div>
 
@@ -731,6 +719,35 @@ presses the <code>Escape</code> key.</p>
 
         <div class="api__symbol is_experimental">
 
+  <a href="/up.emit" up-modal=".content" class="api__symbol_signature">
+    up.emit(eventName, [eventProps], [eventProps.$element])
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Emits a event with the given name and properties.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up.on" up-modal=".content" class="api__symbol_signature">
+    up.on(events, [selector], behavior)
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Listens to an event on <code>document</code>.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
   <a href="/up.reset" up-modal=".content" class="api__symbol_signature">
     up.reset()
       <span class="tag isnt_stable">
@@ -742,23 +759,6 @@ presses the <code>Escape</code> key.</p>
       <div class='prose'><p>Resets Up.js to the state when it was booted.
 All custom event handlers, animations, etc. that have been registered
 will be discarded.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_experimental">
-
-  <a href="/up.boot" up-modal=".content" class="api__symbol_signature">
-    up.boot()
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Boots the Up.js framework.
-This is done automatically by including the Up.js Javascript.</p>
 </div>
     </div>
 
@@ -778,22 +778,6 @@ This is done automatically by including the Up.js Javascript.</p>
 
         <div class="api__symbol is_experimental">
 
-  <a href="/up:framework:reset" up-modal=".content" class="api__symbol_signature">
-    up:framework:reset
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when Up.js is <a href="/up.reset">reset</a> during unit tests.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_experimental">
-
   <a href="/up:framework:boot" up-modal=".content" class="api__symbol_signature">
     up:framework:boot
       <span class="tag isnt_stable">
@@ -803,6 +787,22 @@ This is done automatically by including the Up.js Javascript.</p>
 
     <div class="api__symbol_summary">
       <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when Up.js <a href="/up.boot">boots</a>.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
+  <a href="/up:framework:reset" up-modal=".content" class="api__symbol_signature">
+    up:framework:reset
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when Up.js is <a href="/up.reset">reset</a> during unit tests.</p>
 </div>
     </div>
 

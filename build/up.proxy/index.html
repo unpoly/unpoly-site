@@ -710,17 +710,15 @@ making the interaction feel instant.</p>
 
     <div class="api__symbols">
 
-        <div class="api__symbol is_experimental">
+        <div class="api__symbol is_stable">
 
-  <a href="/up.proxy.get" up-modal=".content" class="api__symbol_signature">
-    up.proxy.get()
-      <span class="tag isnt_stable">
-        experimental
-      </span>
+  <a href="/up.proxy.ajax" up-modal=".content" class="api__symbol_signature">
+    up.proxy.ajax(request.url, request.method, request.selector, request.cache, request.headers)
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Returns a cached response for the given request.</p>
+      <div class='prose'><p>Makes a request to the given URL and caches the response.
+If the response was already cached, returns the HTML instantly.</p>
 </div>
     </div>
 
@@ -728,31 +726,16 @@ making the interaction feel instant.</p>
 
         <div class="api__symbol is_experimental">
 
-  <a href="/up.proxy.set" up-modal=".content" class="api__symbol_signature">
-    up.proxy.set(request.url, request.method, request.selector, response)
+  <a href="/up.proxy.busy" up-modal=".content" class="api__symbol_signature">
+    up.proxy.busy()
       <span class="tag isnt_stable">
         experimental
       </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Manually stores a promise for the response to the given request.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_experimental">
-
-  <a href="/up.proxy.remove" up-modal=".content" class="api__symbol_signature">
-    up.proxy.remove(request.url, request.method, request.selector)
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Manually removes the given request from the cache.</p>
+      <div class='prose'><p>Returns <code>true</code> if the proxy is currently waiting
+for a request to finish. Returns <code>false</code> otherwise.</p>
 </div>
     </div>
 
@@ -771,15 +754,17 @@ making the interaction feel instant.</p>
 
 </div>
 
-        <div class="api__symbol is_stable">
+        <div class="api__symbol is_experimental">
 
-  <a href="/up.proxy.ajax" up-modal=".content" class="api__symbol_signature">
-    up.proxy.ajax(request.url, request.method, request.selector, request.cache, request.headers)
+  <a href="/up.proxy.get" up-modal=".content" class="api__symbol_signature">
+    up.proxy.get()
+      <span class="tag isnt_stable">
+        experimental
+      </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Makes a request to the given URL and caches the response.
-If the response was already cached, returns the HTML instantly.</p>
+      <div class='prose'><p>Returns a cached response for the given request.</p>
 </div>
     </div>
 
@@ -804,23 +789,6 @@ for a request to finish. Returns <code>false</code> otherwise.</p>
 
         <div class="api__symbol is_experimental">
 
-  <a href="/up.proxy.busy" up-modal=".content" class="api__symbol_signature">
-    up.proxy.busy()
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Returns <code>true</code> if the proxy is currently waiting
-for a request to finish. Returns <code>false</code> otherwise.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_experimental">
-
   <a href="/up.proxy.preload" up-modal=".content" class="api__symbol_signature">
     up.proxy.preload()
       <span class="tag isnt_stable">
@@ -828,6 +796,38 @@ for a request to finish. Returns <code>false</code> otherwise.</p>
       </span>
   </a>
 
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
+  <a href="/up.proxy.remove" up-modal=".content" class="api__symbol_signature">
+    up.proxy.remove(request.url, request.method, request.selector)
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Manually removes the given request from the cache.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
+  <a href="/up.proxy.set" up-modal=".content" class="api__symbol_signature">
+    up.proxy.set(request.url, request.method, request.selector, response)
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Manually stores a promise for the response to the given request.</p>
+</div>
+    </div>
 
 </div>
 

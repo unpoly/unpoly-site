@@ -684,13 +684,12 @@ and revealing additional information.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/a-up-modal" up-modal=".content" class="api__symbol_signature">
-    a[up-modal]
+  <a href="/up-close" up-modal=".content" class="api__symbol_signature">
+    [up-close]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Clicking this link will load the destination via AJAX and open
-the given selector in a modal dialog.</p>
+      <div class='prose'><p>When this element is clicked, closes a currently open dialog.</p>
 </div>
     </div>
 
@@ -698,12 +697,13 @@ the given selector in a modal dialog.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up-close" up-modal=".content" class="api__symbol_signature">
-    [up-close]
+  <a href="/a-up-modal" up-modal=".content" class="api__symbol_signature">
+    a[up-modal]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>When this element is clicked, closes a currently open dialog.</p>
+      <div class='prose'><p>Clicking this link will load the destination via AJAX and open
+the given selector in a modal dialog.</p>
 </div>
     </div>
 
@@ -722,13 +722,26 @@ the given selector in a modal dialog.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up.modal.url" up-modal=".content" class="api__symbol_signature">
-    up.modal.url()
+  <a href="/up.modal.close" up-modal=".content" class="api__symbol_signature">
+    up.modal.close(options)
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Returns the source URL for the fragment displayed in the current modal overlay,
-or <code>undefined</code> if no modal is currently open.</p>
+      <div class='prose'><p>Closes a currently opened modal overlay.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up.modal.contains" up-modal=".content" class="api__symbol_signature">
+    up.modal.contains(elementOrSelector)
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Returns whether the given element or selector is contained
+within the current modal.</p>
 </div>
     </div>
 
@@ -765,39 +778,26 @@ or <code>undefined</code> if no modal is currently open.</p>
 
         <div class="api__symbol is_stable">
 
+  <a href="/up.modal.url" up-modal=".content" class="api__symbol_signature">
+    up.modal.url()
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Returns the source URL for the fragment displayed in the current modal overlay,
+or <code>undefined</code> if no modal is currently open.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
   <a href="/up.modal.visit" up-modal=".content" class="api__symbol_signature">
     up.modal.visit(url, options)
   </a>
 
     <div class="api__symbol_summary">
       <div class='prose'><p>Opens a modal for the given URL.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.close" up-modal=".content" class="api__symbol_signature">
-    up.modal.close(options)
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Closes a currently opened modal overlay.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.contains" up-modal=".content" class="api__symbol_signature">
-    up.modal.contains(elementOrSelector)
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Returns whether the given element or selector is contained
-within the current modal.</p>
 </div>
     </div>
 
@@ -814,32 +814,6 @@ within the current modal.</p>
     <div class="api__title">Events</div>
 
     <div class="api__symbols">
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:modal:open" up-modal=".content" class="api__symbol_signature">
-    up:modal:open
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog is starting to open.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:modal:opened" up-modal=".content" class="api__symbol_signature">
-    up:modal:opened
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog has finished opening.</p>
-</div>
-    </div>
-
-</div>
 
         <div class="api__symbol is_stable">
 
@@ -864,6 +838,32 @@ is starting to <a href="/up.modal.close">close</a>.</p>
     <div class="api__symbol_summary">
       <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog
 is done <a href="/up.modal.close">closing</a>.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up:modal:open" up-modal=".content" class="api__symbol_signature">
+    up:modal:open
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog is starting to open.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up:modal:opened" up-modal=".content" class="api__symbol_signature">
+    up:modal:opened
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog has finished opening.</p>
 </div>
     </div>
 

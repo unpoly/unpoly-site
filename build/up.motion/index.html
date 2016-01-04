@@ -668,13 +668,12 @@ or <a href="/up.transition">transitions</a> using Javascript or CSS.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up.motion.finish" up-modal=".content" class="api__symbol_signature">
-    up.motion.finish(elementOrSelector)
+  <a href="/up.animation" up-modal=".content" class="api__symbol_signature">
+    up.animation(name, animation)
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Completes all <a href="/up.animate">animations</a> and <a href="/up.morph">transitions</a>
-for the given element by jumping to the last animation frame instantly.</p>
+      <div class='prose'><p>Defines a named animation.</p>
 </div>
     </div>
 
@@ -697,12 +696,13 @@ causing one element to disappear and the other to appear.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up.transition" up-modal=".content" class="api__symbol_signature">
-    up.transition(name, transition)
+  <a href="/up.motion.finish" up-modal=".content" class="api__symbol_signature">
+    up.motion.finish(elementOrSelector)
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Defines a named transition.</p>
+      <div class='prose'><p>Completes all <a href="/up.animate">animations</a> and <a href="/up.morph">transitions</a>
+for the given element by jumping to the last animation frame instantly.</p>
 </div>
     </div>
 
@@ -710,12 +710,13 @@ causing one element to disappear and the other to appear.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up.animation" up-modal=".content" class="api__symbol_signature">
-    up.animation(name, animation)
+  <a href="/up.motion.none" up-modal=".content" class="api__symbol_signature">
+    up.motion.none()
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Defines a named animation.</p>
+      <div class='prose'><p>Returns a no-op animation or transition which has no visual effects
+and completes instantly.</p>
 </div>
     </div>
 
@@ -739,13 +740,12 @@ causing one element to disappear and the other to appear.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up.motion.none" up-modal=".content" class="api__symbol_signature">
-    up.motion.none()
+  <a href="/up.transition" up-modal=".content" class="api__symbol_signature">
+    up.transition(name, transition)
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Returns a no-op animation or transition which has no visual effects
-and completes instantly.</p>
+      <div class='prose'><p>Defines a named transition.</p>
 </div>
     </div>
 

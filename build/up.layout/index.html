@@ -635,12 +635,13 @@
 
         <div class="api__symbol is_stable">
 
-  <a href="/up-viewport" up-modal=".content" class="api__symbol_signature">
-    [up-viewport]
+  <a href="/up-fixed-bottom" up-modal=".content" class="api__symbol_signature">
+    [up-fixed=bottom]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Marks this element as a scrolling container ("viewport").</p>
+      <div class='prose'><p>Marks this element as a navigation fixed to the bottom edge of the screen
+using <code>position: fixed</code>.</p>
 </div>
     </div>
 
@@ -662,13 +663,12 @@ using <code>position: fixed</code>.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up-fixed-bottom" up-modal=".content" class="api__symbol_signature">
-    [up-fixed=bottom]
+  <a href="/up-viewport" up-modal=".content" class="api__symbol_signature">
+    [up-viewport]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Marks this element as a navigation fixed to the bottom edge of the screen
-using <code>position: fixed</code>.</p>
+      <div class='prose'><p>Marks this element as a scrolling container ("viewport").</p>
 </div>
     </div>
 
@@ -687,29 +687,16 @@ using <code>position: fixed</code>.</p>
 
         <div class="api__symbol is_experimental">
 
-  <a href="/up.scroll" up-modal=".content" class="api__symbol_signature">
-    up.scroll(viewport, scrollPos, [options])
+  <a href="/up.layout.restoreScroll" up-modal=".content" class="api__symbol_signature">
+    up.layout.restoreScroll([options])
       <span class="tag isnt_stable">
         experimental
       </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Scrolls the given viewport to the given Y-position.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.reveal" up-modal=".content" class="api__symbol_signature">
-    up.reveal(element, [options])
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Scroll's the given element's viewport so the first rows of the
-element are visible for the user.</p>
+      <div class='prose'><p>Restores <a href="/up.layout.saveScroll">previously saved</a> scroll positions of viewports
+viewports configured in <a href="/up.layout.config"><code>up.layout.config.viewports</code></a>.</p>
 </div>
     </div>
 
@@ -732,18 +719,31 @@ viewports configured in <a href="/up.layout.config"><code>up.layout.config.viewp
 
 </div>
 
+        <div class="api__symbol is_stable">
+
+  <a href="/up.reveal" up-modal=".content" class="api__symbol_signature">
+    up.reveal(element, [options])
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Scroll's the given element's viewport so the first rows of the
+element are visible for the user.</p>
+</div>
+    </div>
+
+</div>
+
         <div class="api__symbol is_experimental">
 
-  <a href="/up.layout.restoreScroll" up-modal=".content" class="api__symbol_signature">
-    up.layout.restoreScroll([options])
+  <a href="/up.scroll" up-modal=".content" class="api__symbol_signature">
+    up.scroll(viewport, scrollPos, [options])
       <span class="tag isnt_stable">
         experimental
       </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Restores <a href="/up.layout.saveScroll">previously saved</a> scroll positions of viewports
-viewports configured in <a href="/up.layout.config"><code>up.layout.config.viewports</code></a>.</p>
+      <div class='prose'><p>Scrolls the given viewport to the given Y-position.</p>
 </div>
     </div>
 

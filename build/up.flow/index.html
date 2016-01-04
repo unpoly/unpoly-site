@@ -635,30 +635,12 @@ are based on this module.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up.replace" up-modal=".content" class="api__symbol_signature">
-    up.replace(selectorOrElement, url, [options])
+  <a href="/up.destroy" up-modal=".content" class="api__symbol_signature">
+    up.destroy(selectorOrElement, [options])
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Replaces elements on the current page with corresponding elements
-from a new page fetched from the server.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_experimental">
-
-  <a href="/up.implant" up-modal=".content" class="api__symbol_signature">
-    up.implant(selectorOrElement, html, [options])
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Updates a selector on the current page with the
-same selector from the given HTML string.</p>
+      <div class='prose'><p>Destroys the given element or selector.</p>
 </div>
     </div>
 
@@ -681,14 +663,18 @@ ignores elements that are being <a href="/up.destroy">destroyed</a> or <a href="
 
 </div>
 
-        <div class="api__symbol is_stable">
+        <div class="api__symbol is_experimental">
 
-  <a href="/up.destroy" up-modal=".content" class="api__symbol_signature">
-    up.destroy(selectorOrElement, [options])
+  <a href="/up.implant" up-modal=".content" class="api__symbol_signature">
+    up.implant(selectorOrElement, html, [options])
+      <span class="tag isnt_stable">
+        experimental
+      </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Destroys the given element or selector.</p>
+      <div class='prose'><p>Updates a selector on the current page with the
+same selector from the given HTML string.</p>
 </div>
     </div>
 
@@ -702,6 +688,20 @@ ignores elements that are being <a href="/up.destroy">destroyed</a> or <a href="
 
     <div class="api__symbol_summary">
       <div class='prose'><p>Replaces the given element with a fresh copy fetched from the server.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up.replace" up-modal=".content" class="api__symbol_signature">
+    up.replace(selectorOrElement, url, [options])
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Replaces elements on the current page with corresponding elements
+from a new page fetched from the server.</p>
 </div>
     </div>
 
