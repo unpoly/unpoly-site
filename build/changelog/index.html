@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.15.1
+                0.16.0
               </a>
             </div>
 
@@ -323,6 +323,10 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.motion.finish</span>
                   </a>
+                  <a href="/up.motion.isEnabled" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.isenabled js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.motion.isEnabled</span>
+                  </a>
                   <a href="/up.motion.none" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.none js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.motion.none</span>
@@ -415,13 +419,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -698,7 +702,32 @@ This project mostly adheres to <a href="http://semver.org/">Semantic Versioning<
 <h3 id="compatible-changes">Compatible changes</h3>
 
 <ul>
-  <li>New options <code>up.modal.config.history</code> (defaults to <code>true</code>) and <code>up.modal.popup.history</code> (defaults to <code>false</code>).</li>
+  <li>
+    <p>You can now configure <a href="/up.proxy.config"><code>up.proxy.config.maxRequests</code></a> to limit
+the maximum number of concurrent requests. Additional
+requests are queued. This currently ignores preloading requests.</p>
+
+    <p>You might find it useful to set this to <code>1</code> in full-stack integration
+tests (e.g. Selenium).</p>
+  </li>
+  <li>Allow to disable animations globally with <code>up.motion.enabled = false</code>.
+This can be useful in full-stack integration tests like a Selenium test suite.</li>
+  <li>New function <a href="/up.motion.isEnabled"><code>up.motion.isEnabled</code></a> to check if animations will be performed.</li>
+  <li><a href="/up.popup.attach"><code>up.popup.attach</code></a> now throws a helpful error when trying to attach a popup to a non-existing element</li>
+  <li>New option <a href="/up.modal.config"><code>up.modal.config.history</code></a> to configure if modals change the browser URL (defaults to <code>true</code>)</li>
+  <li>New option <a href="/up.popup.config"><code>up.popup.config.history</code></a> to configure if popup change the browser URL (defaults to <code>false</code>).</li>
+  <li>Fix CSS for popups with a position of <code>"bottom-left"</code>.</li>
+</ul>
+
+<h3 id="breaking-changes">Breaking changes</h3>
+
+<ul>
+  <li>Popups and modals used to close automatically whenever an element behind the overlay was replaced.
+This behavior is still in effect, but only if the replacement was triggered by a link or element from
+within the popup or modal.</li>
+  <li>Popups and modals no longer raise an error if their (hidden) overlay was closed before the
+response was received.</li>
+  <li>Popups and modals are now compiled before they are animated.</li>
 </ul>
 
 <h2 id="section">0.15.1</h2>
@@ -732,7 +761,7 @@ and <a href="/up:popup:closed"><code>up:popup:closed</code></a>.</li>
 event listeners.</li>
 </ul>
 
-<h3 id="breaking-changes">Breaking changes</h3>
+<h3 id="breaking-changes-1">Breaking changes</h3>
 
 <ul>
   <li><a href="/up.observe"><code>up.observe</code></a> now takes the callback function as a last argument.
@@ -800,7 +829,7 @@ In a future release we will be able to submit file inputs via AJAX.</li>
 be the "current" URL.</li>
 </ul>
 
-<h3 id="breaking-changes-1">Breaking changes</h3>
+<h3 id="breaking-changes-2">Breaking changes</h3>
 
 <ul>
   <li><code>up.bus.emit</code> is now <a href="http://upjs.io/up.emit/"><code>up.emit</code></a></li>
@@ -826,7 +855,7 @@ in situations where the same operation would also reveal the replaced element.</
   <li>Up.js can now be used with <a href="https://api.jquery.com/jquery.noconflict/"><code>jQuery.noConflict()</code></a>.</li>
 </ul>
 
-<h3 id="breaking-changes-2">Breaking changes</h3>
+<h3 id="breaking-changes-3">Breaking changes</h3>
 
 <ul>
   <li>Remove <code>up.slot</code>, which was poorly implemented, untested, and not much better than the <code>:empty</code> pseudo-selector
@@ -909,7 +938,7 @@ around. If you're using <code>up-bootstrap.js</code>, this will default to <code
 of Ruby and Rails.</li>
 </ul>
 
-<h3 id="breaking-changes-3">Breaking changes</h3>
+<h3 id="breaking-changes-4">Breaking changes</h3>
 
 <ul>
   <li>
@@ -949,7 +978,7 @@ not trigger a new request after the cache expired</li>
 
 <h2 id="section-15">0.10.2</h2>
 
-<h3 id="breaking-changes-4">Breaking changes</h3>
+<h3 id="breaking-changes-5">Breaking changes</h3>
 
 <ul>
   <li>While following links and submitting forms will still reveal elements by default,
@@ -970,7 +999,7 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 
 <h2 id="section-16">0.10.1</h2>
 
-<h3 id="breaking-changes-5">Breaking changes</h3>
+<h3 id="breaking-changes-6">Breaking changes</h3>
 
 <ul>
   <li><a href="/up.reveal"><code>up.reveal</code></a> now only reveals the first 150 pixels of an element.</li>
@@ -988,7 +1017,7 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
   <li>Create this Changelog.</li>
 </ul>
 
-<h3 id="breaking-changes-6">Breaking changes</h3>
+<h3 id="breaking-changes-7">Breaking changes</h3>
 
 <ul>
   <li>The option <code>options.scroll</code> and attribute <code>up-scroll</code> have been removed. Instead you can use the
@@ -1034,7 +1063,7 @@ within the viewport before replacement.</li>
   <li>You can now include <code>up-bootstrap.js</code> and <code>up-bootstrap.css</code> to configure Up.js to play nice with Bootstrap 3.</li>
 </ul>
 
-<h3 id="breaking-changes-7">Breaking changes</h3>
+<h3 id="breaking-changes-8">Breaking changes</h3>
 
 <ul>
   <li>Like Bootstrap, the Up.js modal will now scroll the main document viewport instead of the modal dialog box.</li>
@@ -1132,7 +1161,7 @@ within the viewport before replacement.</li>
   <li>Consider the left mouse button clicked when <code>event.button</code> is undefined (as happens with <code>.click()</code>`)</li>
 </ul>
 
-<h3 id="breaking-changes-8">Breaking changes</h3>
+<h3 id="breaking-changes-9">Breaking changes</h3>
 
 <ul>
   <li>Rename option <code>.origin</code> to <code>.position</code> in <code>up.popup</code> and <code>up.tooltip</code></li>
@@ -1154,7 +1183,7 @@ within the viewport before replacement.</li>
   <li>Show backtraces for Up.js errors</li>
 </ul>
 
-<h3 id="breaking-changes-9">Breaking changes</h3>
+<h3 id="breaking-changes-10">Breaking changes</h3>
 
 <ul>
   <li>Rename method <code>up.awaken</code> to <code>up.compiler</code></li>

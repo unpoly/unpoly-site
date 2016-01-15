@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up:popup:close - Up.js Guide</title>
+  <title>up.motion.isEnabled() - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -696,41 +696,41 @@
 
   <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.popup">
+    <a class="symbol__klass" href="/up.motion">
       Module
-      <span class="symbol__klass_name">up.popup</span>
+      <span class="symbol__klass_name">up.motion</span>
     </a>
 
     <div class="symbol__signature">
-      up:popup:close
+      up.motion.isEnabled()
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a popup dialog
-is starting to <a href="/up.popup.close">close</a>.</p>
+        <div class='prose'><p>Returns whether Up.js will perform animations.</p>
+
+<p>Animations will be performed if the browser supports
+<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions">CSS transitions</a>
+and if <a href="/up.motion.config"><code>up.motion.config.enabled</code></a> is set to <code>true</code> (which is the default).</p>
 
 </div>
       </div>
+
 
 
 
       <div class="symbol__subtitle">
-          Properties
+        Return value
       </div>
 
-        <div class="symbol__param">
-          <div class="symbol__param_name">
-            event.preventDefault()            <span class="symbol__type">
-              
-            </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'><p>Event listeners may call this method to prevent the popup from closing.</p>
-</div>
-          </div>
+        <div class="symbol__type">
+          Boolean
         </div>
 
+      <div class="symbol__param_prose">
+        <div class='prose'>
+</div>
+      </div>
 
   </div>
 

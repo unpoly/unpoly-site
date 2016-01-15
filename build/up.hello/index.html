@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.hello(selectorOrElement) - Up.js Guide</title>
+  <title>up.hello(selectorOrElement, [options]) - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.15.1
+                0.16.0
               </a>
             </div>
 
@@ -323,6 +323,10 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.motion.finish</span>
                   </a>
+                  <a href="/up.motion.isEnabled" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.isenabled js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.motion.isEnabled</span>
+                  </a>
                   <a href="/up.motion.none" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.none js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.motion.none</span>
@@ -415,13 +419,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -698,7 +702,7 @@
     </a>
 
     <div class="symbol__signature">
-      up.hello(selectorOrElement)
+      up.hello(selectorOrElement, [options])
     </div>
 
 
@@ -734,6 +738,20 @@ event.</p>
             selectorOrElement            <span class="symbol__type">
               String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
             </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [options.origin]            <span class="symbol__type">
+              String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
           </div>
           <div class="symbol__param_prose">
             <div class='prose'>
