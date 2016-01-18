@@ -7,7 +7,7 @@ set :deploy_via, :remote_cache
 set :copy_exclude, [ '.git' ]
 set :clear_cache, :false
 
-set :repository,  "git://github.com/makandra/upjs-guide"
+set :repository,  "git@code.makandra.de:makandra/upjs-guide.git"
 set :scm, :git
 
 server "c23.makandra.makandra.de", :app, :web, :primary => true
