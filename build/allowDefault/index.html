@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>Modal dialogs - Up.js Guide</title>
+  <title>allowDefault() - Up.js Guide</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -693,290 +693,34 @@
             <div class="content">
               
 
-<h1 class="title">
-  Modal dialogs
-</h1>
 
-<div class='prose'>
-<p>Instead of <a href="/up.link">linking to a page fragment</a>, you can choose
-to show a fragment in a modal dialog. The existing page will remain
-open in the background and reappear once the modal is closed.</p>
+  <div class="symbol is_internal">
 
-<p>To open a modal, add an <a href="/a-up-modal"><code>up-modal</code> attribute</a> to a link,
-or call the Javascript functions <a href="/up.modal.follow"><code>up.modal.follow</code></a>
-and <a href="/up.modal.visit"><code>up.modal.visit</code></a>.</p>
+    <a class="symbol__klass" href="/up.link">
+      Module
+      <span class="symbol__klass_name">up.link</span>
+    </a>
 
-<p>For smaller popup overlays ("dropdowns") see <a href="/up.popup">up.popup</a> instead.</p>
-
-<h4 id="customizing-the-dialog-design">Customizing the dialog design</h4>
-
-<p>Loading the Up.js stylesheet will give you a minimal dialog design:</p>
-
-<ul>
-  <li>Dialog contents are displayed in a white box that is centered vertically and horizontally.</li>
-  <li>There is a a subtle box shadow around the dialog</li>
-  <li>The box will grow to fit the dialog contents, but never grow larger than the screen</li>
-  <li>The box is placed over a semi-transparent background to dim the rest of the page</li>
-  <li>There is a button to close the dialog in the top-right corner</li>
-</ul>
-
-<p>The easiest way to change how the dialog looks is by overriding the <a href="https://github.com/makandra/upjs/blob/master/lib/assets/stylesheets/up/modal.css.sass">default CSS styles</a>.</p>
-
-<p>By default the dialog uses the following DOM structure:</p>
-
-<pre><code>&lt;div class="up-modal"&gt;
-  &lt;div class="up-modal-dialog"&gt;
-    &lt;div class="up-modal-close" up-close&gt;X&lt;/div&gt;
-    &lt;div class="up-modal-content"&gt;
-      ...
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>If you want to change the design beyond CSS, you can
-configure Up.js to <a href="/up.modal.config">use a different HTML structure</a>.</p>
-
-<h4 id="closing-behavior">Closing behavior</h4>
-
-<p>By default the dialog automatically closes
-<em>whenever a page fragment behind the dialog is updated</em>.
-This is useful to have the dialog interact with the page that
-opened it, e.g. by updating parts of a larger form or by signing in a user
-and revealing additional information.</p>
-
-<p>To disable this behavior, give the opening link an <code>up-sticky</code> attribute:</p>
-
-<pre><code>&lt;a href="/settings" up-modal=".options" up-sticky&gt;Settings&lt;/a&gt;
-</code></pre>
-
-</div>
-
-  <div class="api">
-
-    <div class="api__title">CSS selectors</div>
-
-    <div class="api__explanation">
-      Elements matching these CSS selectors will automatically
-      gain useful behavior when they are added to the DOM tree.
+    <div class="symbol__signature">
+      allowDefault()
+        <span class="tag isnt_stable">
+          internal
+        </span>
     </div>
 
-    <div class="api__symbols">
 
-        <div class="api__symbol is_stable">
-
-  <a href="/up-close" up-modal=".content" class="api__symbol_signature">
-    [up-close]
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>When this element is clicked, closes a currently open dialog.</p>
-</div>
-    </div>
+      <div class="symbol__prose">
+        <div class='prose'><p>No-op that is called when we allow a browser's default action to go through,
+so we can spy on it in unit tests. See <code>link_spec.js</code>.</p>
 
 </div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/a-up-modal" up-modal=".content" class="api__symbol_signature">
-    a[up-modal]
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Clicking this link will load the destination via AJAX and open
-the given selector in a modal dialog.</p>
-</div>
-    </div>
-
-</div>
+      </div>
 
 
-    </div>
+
 
   </div>
 
-  <div class="api">
-
-    <div class="api__title">Javascript functions</div>
-
-    <div class="api__symbols">
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.close" up-modal=".content" class="api__symbol_signature">
-    up.modal.close(options)
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Closes a currently opened modal overlay.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.contains" up-modal=".content" class="api__symbol_signature">
-    up.modal.contains(elementOrSelector)
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Returns whether the given element or selector is contained
-within the current modal.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_experimental">
-
-  <a href="/up.modal.coveredUrl" up-modal=".content" class="api__symbol_signature">
-    up.modal.coveredUrl()
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Returns the URL of the page behind the modal overlay.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.follow" up-modal=".content" class="api__symbol_signature">
-    up.modal.follow(linkOrSelector, [options])
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Opens the given link's destination in a modal overlay:</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.url" up-modal=".content" class="api__symbol_signature">
-    up.modal.url()
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Returns the source URL for the fragment displayed in the current modal overlay,
-or <code>undefined</code> if no modal is currently open.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.visit" up-modal=".content" class="api__symbol_signature">
-    up.modal.visit(url, options)
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Opens a modal for the given URL.</p>
-</div>
-    </div>
-
-</div>
-
-
-    </div>
-
-  </div>
-
-  <div class="api">
-
-    <div class="api__title">Javascript properties</div>
-
-    <div class="api__symbols">
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up.modal.config" up-modal=".content" class="api__symbol_signature">
-    up.modal.config = config
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Sets default options for future modals.</p>
-</div>
-    </div>
-
-</div>
-
-
-    </div>
-
-  </div>
-
-  <div class="api">
-
-    <div class="api__title">Events</div>
-
-    <div class="api__symbols">
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:modal:close" up-modal=".content" class="api__symbol_signature">
-    up:modal:close
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog
-is starting to <a href="/up.modal.close">close</a>.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:modal:closed" up-modal=".content" class="api__symbol_signature">
-    up:modal:closed
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog
-is done <a href="/up.modal.close">closing</a>.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:modal:open" up-modal=".content" class="api__symbol_signature">
-    up:modal:open
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog is starting to open.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:modal:opened" up-modal=".content" class="api__symbol_signature">
-    up:modal:opened
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a modal dialog has finished opening.</p>
-</div>
-    </div>
-
-</div>
-
-
-    </div>
-
-  </div>
 
             </div>
 

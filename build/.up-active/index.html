@@ -41,7 +41,7 @@
                 Up▲js
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.16.0
+                0.17.0
               </a>
             </div>
 
@@ -151,7 +151,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -247,9 +247,9 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.implant</span>
                   </a>
-                  <a href="/a-up-instant" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-instant] up.link css">
+                  <a href="/up-instant" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-instant] up.link css">
                     <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">a[up-instant]</span>
+                    <span class="search__symbol_name">[up-instant]</span>
                   </a>
                   <a href="/up.layout.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.layout.config prop">
                     <span class="search__symbol_kind">PROP</span>
@@ -359,13 +359,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.close</span>
-                  </a>
                   <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:popup:close</span>
+                  </a>
+                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.popup.close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -724,13 +724,13 @@ page fragment is added or updated through Up.js.</p>
 <p>The user clicks on the link. While the request is loading,
 the link has the <code>up-active</code> class:</p>
 
-<pre><code>&lt;a href="/foo" up-follow up-active&gt;Foo&lt;/a&gt;
+<pre><code>&lt;a href="/foo" up-follow class="up-active"&gt;Foo&lt;/a&gt;
 </code></pre>
 
 <p>Once the link destination has loaded and rendered, the <code>up-active</code> class
 is removed and the <a href="/up-current"><code>up-current</code></a> class is added:</p>
 
-<pre><code>&lt;a href="/foo" up-follow up-current&gt;Foo&lt;/a&gt;
+<pre><code>&lt;a href="/foo" up-follow class="up-current"&gt;Foo&lt;/a&gt;
 </code></pre>
 
 </div>
