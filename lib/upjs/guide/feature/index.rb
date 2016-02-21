@@ -20,7 +20,7 @@ module Upjs
         end
 
         def initialize(features)
-          @features = features
+          @features = features.reject(&:internal?)
           @features_by_guide_id = @features.group_by(&:guide_id)
           @entries = @features_by_guide_id.values.collect { |features_with_same_guide_id|
             Entry.new(features_with_same_guide_id)
