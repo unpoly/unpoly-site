@@ -155,7 +155,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -287,13 +287,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.close</span>
-                  </a>
                   <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:modal:close</span>
+                  </a>
+                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.modal.close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -387,13 +387,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.close</span>
-                  </a>
                   <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:popup:close</span>
+                  </a>
+                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.popup.close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -447,13 +447,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.idle</span>
-                  </a>
                   <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
                     <span class="search__symbol_name">up:proxy:idle</span>
+                  </a>
+                  <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
+                    <span class="search__symbol_kind">JS</span>
+                    <span class="search__symbol_name">up.proxy.idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -758,15 +758,34 @@
         <div class='prose'><p>Elements with an <code>up-keep</code> attribute will be persisted during
 <a href="/a-up-target">fragment updates</a>.</p>
 
-<p>For example:</p>
+<p>For example, you might want to keep an <code>&lt;audio&gt;</code> element while the user is switching pages
+so music playback won't be interrupted. You can do this by adding an <code>up-keep</code> attribute
+to the element:</p>
 
 <pre><code>&lt;audio up-keep src="song.mp3"&gt;&lt;/audio&gt;
 </code></pre>
 
+<p>Now the <code>&lt;audio&gt;</code> element will remain in the page, even if a surrounding
+container is replaced through <a href="/up.replace"><code>up.replace</code></a> or <a href="/up-target"><code>[up-target]</code></a>.</p>
+
+<p>Events <a href="/up:fragment:keep"><code>up:fragment:keep</code></a> and <a href="/up:fragment:kept"><code>up:fragment:kept</code></a>
+are emitted during a fragment update. Listeners can observe these events and either
+prevent the element from being kept, or update the persistent element with new
+<a href="/up-data"><code>up-data</code></a> from the server.</p>
+
+<h4 id="how-elements-are-matched-with-their-new-version">How elements are matched with their new version</h4>
+
+<p>Up.js will derive a CSS selector from the element that should be kept, and
+look for an element with the same selector in the response's HTML. For instance,
+for this element …</p>
+
+<pre><code>&lt;audio class="player" up-keep src="song.mp3"&gt;&lt;/audio&gt;
+</code></pre>
+
+<p>… Up.js will look for <code>.player</code> in the response.</p>
+
 <p>The element you're keeping should have an umambiguous class name, ID or <code>up-id</code>
 attribute so Up.js can find its new position within the page update.</p>
-
-<p>Emits events <a href="/up:fragment:keep"><code>up:fragment:keep</code></a> and <a href="/up:fragment:kept"><code>up:fragment:kept</code></a>.</p>
 
 <h4 id="controlling-if-an-element-will-be-kept">Controlling if an element will be kept</h4>
 
