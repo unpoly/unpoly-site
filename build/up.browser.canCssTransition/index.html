@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.browser.canCssTransition() - Up.js Guide</title>
+  <title>up.browser.canCssTransition() - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -38,10 +38,10 @@
 
             <div class="logo">
               <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Up▲js
+                Unpoly
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.19.0
+                0.20.0
               </a>
             </div>
 
@@ -155,7 +155,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -287,13 +287,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:close</span>
-                  </a>
                   <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.modal.close</span>
+                  </a>
+                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -387,13 +387,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:close</span>
-                  </a>
                   <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.close</span>
+                  </a>
+                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:popup:close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -447,13 +447,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -757,7 +757,7 @@
     </div>
 
       <div class="symbol__warning">
-        This feature is experimental and not part of Up.js' stable API.
+        This feature is experimental and not part of Unpoly' stable API.
         It may be removed or changed without prior notice or deprecation.
       </div>
 
@@ -765,7 +765,7 @@
         <div class='prose'><p>Returns whether this browser supports animation using
 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions">CSS transitions</a>.</p>
 
-<p>When Up.js is asked to animate history on a browser that doesn't support
+<p>When Unpoly is asked to animate history on a browser that doesn't support
 CSS transitions (e.g. through <a href="/up.animate"><code>up.animate</code></a>), it will skip the
 animation by instantly jumping to the last frame.</p>
 

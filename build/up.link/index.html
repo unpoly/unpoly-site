@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>Linking to page fragments - Up.js Guide</title>
+  <title>Linking to page fragments - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -38,10 +38,10 @@
 
             <div class="logo">
               <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Up▲js
+                Unpoly
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.19.0
+                0.20.0
               </a>
             </div>
 
@@ -155,7 +155,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -287,13 +287,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:close</span>
-                  </a>
                   <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.modal.close</span>
+                  </a>
+                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -387,13 +387,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:close</span>
-                  </a>
                   <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.close</span>
+                  </a>
+                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:popup:close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -447,13 +447,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -746,7 +746,7 @@
 </h1>
 
 <div class='prose'>
-<p>Just like in a classical web application, an Up.js app renders a series of <em>full HTML pages</em> on the server.</p>
+<p>Just like in a classical web application, an Unpoly app renders a series of <em>full HTML pages</em> on the server.</p>
 
 <p>Let's say we are rendering three pages with a tabbed navigation to switch between screens:</p>
 
@@ -789,7 +789,7 @@ even if large portions of the old and new page are the same (navigation, layout,
 
 <h2 id="smoother-flow-by-updating-fragments">Smoother flow by updating fragments</h2>
 
-<p>In Up.js you annotate navigation links with an <code>up-target</code> attribute.
+<p>In Unpoly you annotate navigation links with an <code>up-target</code> attribute.
 The value of this attribute is a CSS selector that indicates which page
 fragment to update.</p>
 
@@ -804,17 +804,17 @@ fragment to update.</p>
 
 <p>Instead of <code>article</code> you can use any other CSS selector (e. g.  <code>#main .article</code>).</p>
 
-<p>With these <code>up-target</code> annotations Up.js only updates the targeted part of the screen.
+<p>With these <code>up-target</code> annotations Unpoly only updates the targeted part of the screen.
 Javascript will not be reloaded, no white flash during a full page reload.</p>
 
 <h2 id="read-on">Read on</h2>
 <ul>
   <li>You can <a href="/up.motion">animate page transitions</a> by definining animations for fragments as they enter or leave the screen.</li>
   <li>The <code>up-target</code> mechanism also works with <a href="/up.form">forms</a>.</li>
-  <li>As you switch through pages, Up.js will <a href="/up.history">update your browser's location bar and history</a></li>
+  <li>As you switch through pages, Unpoly will <a href="/up.history">update your browser's location bar and history</a></li>
   <li>You can <a href="/up.modal">open fragments in popups or modal dialogs</a>.</li>
   <li>You can give users <a href="/up.navigation">immediate feedback</a> when a link is clicked or becomes current, without waiting for the server.</li>
-  <li><a href="/up.flow">Controlling Up.js pragmatically through Javascript</a></li>
+  <li><a href="/up.flow">Controlling Unpoly pragmatically through Javascript</a></li>
   <li><a href="/up.syntax">Defining custom tags</a></li>
 </ul>
 

@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>[up-validate] - Up.js Guide</title>
+  <title>[up-validate] - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -38,10 +38,10 @@
 
             <div class="logo">
               <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Up▲js
+                Unpoly
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.19.0
+                0.20.0
               </a>
             </div>
 
@@ -155,7 +155,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -287,13 +287,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:close</span>
-                  </a>
                   <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.modal.close</span>
+                  </a>
+                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -387,13 +387,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:close</span>
-                  </a>
                   <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.close</span>
+                  </a>
+                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:popup:close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -447,13 +447,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -826,7 +826,7 @@ the form submission and render a new copy of the form with validation errors.</p
 end
 </code></pre>
 
-<p>Note that if you're using the <code>upjs-rails</code> gem you can simply say <code>up.validate?</code>
+<p>Note that if you're using the <code>unpoly-rails</code> gem you can simply say <code>up.validate?</code>
 instead of manually checking for <code>request.headers['X-Up-Validate']</code>.</p>
 
 <p>The server now renders an updated copy of the form with eventual validation errors:</p>
@@ -849,14 +849,14 @@ class and display the validation message.</p>
 <h4 id="how-validation-results-are-displayed">How validation results are displayed</h4>
 
 <p>Although the server will usually respond to a validation with a complete,
-fresh copy of the form, Up.js will by default not update the entire form.
+fresh copy of the form, Unpoly will by default not update the entire form.
 This is done in order to preserve volatile state such as the scroll position
 of <code>&lt;textarea&gt;</code> elements.</p>
 
-<p>By default Up.js looks for a <code>&lt;fieldset&gt;</code>, <code>&lt;label&gt;</code> or <code>&lt;form&gt;</code>
+<p>By default Unpoly looks for a <code>&lt;fieldset&gt;</code>, <code>&lt;label&gt;</code> or <code>&lt;form&gt;</code>
 around the validating input field, or any element with an
 <code>up-fieldset</code> attribute.
-With the Bootstrap bindings, Up.js will also look
+With the Bootstrap bindings, Unpoly will also look
 for a container with the <code>form-group</code> class.</p>
 
 <p>You can change this default behavior by setting <code>up.config.validateTargets</code>:</p>

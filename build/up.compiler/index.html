@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.compiler(selector, [options], compiler) - Up.js Guide</title>
+  <title>up.compiler(selector, [options], compiler) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -38,10 +38,10 @@
 
             <div class="logo">
               <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Up▲js
+                Unpoly
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.19.0
+                0.20.0
               </a>
             </div>
 
@@ -155,7 +155,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -287,13 +287,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:close</span>
-                  </a>
                   <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.modal.close</span>
+                  </a>
+                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -387,13 +387,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:close</span>
-                  </a>
                   <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.close</span>
+                  </a>
+                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:popup:close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -447,13 +447,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -764,7 +764,7 @@ the given selector is inserted into the DOM.</p>
 </code></pre>
 
 <p>Compiler functions will be called on matching elements when
-the page loads, or whenever a matching fragment is <a href="/up.replace">updated through Up.js</a>
+the page loads, or whenever a matching fragment is <a href="/up.replace">updated through Unpoly</a>
 later.</p>
 
 <p>If you have used Angular.js before, this resembles
@@ -805,8 +805,8 @@ do this for all links with an <code>lightbox</code> class:</p>
 
 <h4 id="cleaning-up-after-yourself">Cleaning up after yourself</h4>
 
-<p>If your compiler returns a function, Up.js will use this as a <em>destructor</em> to
-clean up if the element leaves the DOM. Note that in Up.js the same DOM ad Javascript environment
+<p>If your compiler returns a function, Unpoly will use this as a <em>destructor</em> to
+clean up if the element leaves the DOM. Note that in Unpoly the same DOM ad Javascript environment
 will persist through many page loads, so it's important to not create
 <a href="https://makandracards.com/makandra/31325-how-to-create-memory-leaks-in-jquery">memory leaks</a>.</p>
 
@@ -870,7 +870,7 @@ might attach the location and names of its marker pins:</p>
 
 <h4 id="migrating-jquery-event-handlers-to-upcompiler">Migrating jQuery event handlers to <code>up.compiler</code></h4>
 
-<p>Within the compiler, Up.js will bind <code>this</code> to the
+<p>Within the compiler, Unpoly will bind <code>this</code> to the
 native DOM element to help you migrate your existing jQuery code to
 this new syntax.</p>
 

@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>Up.js Guide</title>
+  <title>Unpoly: Progressive Enhancement Javascript Framework</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -38,10 +38,10 @@
 
             <div class="logo">
               <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Up▲js
+                Unpoly
               </a>
               <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.19.0
+                0.20.0
               </a>
             </div>
 
@@ -155,7 +155,7 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.bus.onEscape</span>
                   </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">[up-close]</span>
                   </a>
@@ -287,13 +287,13 @@
                     <span class="search__symbol_kind">CSS</span>
                     <span class="search__symbol_name">a[up-modal]</span>
                   </a>
-                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:close</span>
-                  </a>
                   <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.modal.close</span>
+                  </a>
+                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:modal:close</span>
                   </a>
                   <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -387,13 +387,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.attach</span>
                   </a>
-                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:close</span>
-                  </a>
                   <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.popup.close</span>
+                  </a>
+                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:popup:close</span>
                   </a>
                   <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -447,13 +447,13 @@
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.get</span>
                   </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
                   <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
                     <span class="search__symbol_kind">JS</span>
                     <span class="search__symbol_name">up.proxy.idle</span>
+                  </a>
+                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+                    <span class="search__symbol_kind">EVENT</span>
+                    <span class="search__symbol_name">up:proxy:idle</span>
                   </a>
                   <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
                     <span class="search__symbol_kind">EVENT</span>
@@ -805,7 +805,7 @@ Use it to define the selector to replace if the server responds with a non-200 s
 
 <ul>
   <li>
-    <p>By default Up.js now converts <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code> requests to <code>POST</code> requests
+    <p>By default Unpoly now converts <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code> requests to <code>POST</code> requests
 that carry their original method in a form parameter named <code>_method</code>.
 This is to <a href="https://makandracards.com/makandra/38347">prevent unexpected redirect behavior</a>.</p>
 
@@ -817,7 +817,7 @@ and <a href="/up.proxy.config"><code>up.proxy.config.wrapMethodParam</code></a>.
   </li>
   <li>
     <p>The requested selector is now sent to the server as a request header <code>X-Up-Target</code>
-(this used to be <code>X-Up-Selector</code>). If you are using <code>upjs-rails</code>, you can access it
+(this used to be <code>X-Up-Selector</code>). If you are using <code>unpoly-rails</code>, you can access it
 through <code>up.target</code> (this used to be <code>up.selector</code>).</p>
   </li>
 </ul>
@@ -828,7 +828,7 @@ through <code>up.target</code> (this used to be <code>up.selector</code>).</p>
 
 <ul>
   <li>When used with the <a href="https://github.com/rails/jquery-ujs">Ruby on Rails unobtrusive scripting adapter</a> (<code>rails_ujs.js</code>),
-now prevents duplicate form submission when Up.js attributes are mixed with <code>data-method</code> attributes.</li>
+now prevents duplicate form submission when Unpoly attributes are mixed with <code>data-method</code> attributes.</li>
   <li><a href="/up-instant"><code>[up-instant]</code></a> now works with modals and popups</li>
   <li><a href="/up-expand"><code>[up-expand]</code></a> now works with modals and popups</li>
 </ul>
@@ -878,7 +878,7 @@ response was received.</li>
 <h3 id="compatible-changes-6">Compatible changes</h3>
 
 <ul>
-  <li>Fix an error where <code>up.form.config</code> was not published. This caused <code>up-bootstrap.js</code> to throw an error.</li>
+  <li>Fix an error where <code>up.form.config</code> was not published. This caused <code>unpoly-bootstrap3.js</code> to throw an error.</li>
 </ul>
 
 <h2 id="section-6">0.15.0</h2>
@@ -975,7 +975,7 @@ be the "current" URL.</li>
 <h3 id="breaking-changes-6">Breaking changes</h3>
 
 <ul>
-  <li><code>up.bus.emit</code> is now <a href="http://upjs.io/up.emit/"><code>up.emit</code></a></li>
+  <li><code>up.bus.emit</code> is now <a href="http://unpoly.com/up.emit/"><code>up.emit</code></a></li>
   <li>When <code>up.first</code> finds no match, return <code>undefined</code> instead of <code>null</code>.</li>
 </ul>
 
@@ -995,7 +995,7 @@ in situations where the same operation would also reveal the replaced element.</
 <h3 id="compatible-changes-14">Compatible changes</h3>
 
 <ul>
-  <li>Up.js can now be used with <a href="https://api.jquery.com/jquery.noconflict/"><code>jQuery.noConflict()</code></a>.</li>
+  <li>Unpoly can now be used with <a href="https://api.jquery.com/jquery.noconflict/"><code>jQuery.noConflict()</code></a>.</li>
 </ul>
 
 <h3 id="breaking-changes-7">Breaking changes</h3>
@@ -1076,8 +1076,8 @@ the top edge of the viewport. Without this option, <code>up.reveal</code> scroll
   <li>Allow to animate scrolling when the <code>document</code> is the viewport.</li>
   <li>New <code>up.layout</code> setting <code>fixedRight</code> that contains selectors for elements that are anchored to
 the right edge of the screen. When opening a modal, these elements will be prevented from jumping
-around. If you're using <code>up-bootstrap.js</code>, this will default to <code>['.navbar-fixed-top', '.navbar-fixed-bottom', '.footer']</code>.</li>
-  <li>Fix a bug in <code>upjs-rails</code> where the gem would fail to <code>include</code> itself in some versions
+around. If you're using <code>unpoly-bootstrap3.js</code>, this will default to <code>['.navbar-fixed-top', '.navbar-fixed-bottom', '.footer']</code>.</li>
+  <li>Fix a bug in <code>unpoly-rails</code> where the gem would fail to <code>include</code> itself in some versions
 of Ruby and Rails.</li>
 </ul>
 
@@ -1086,10 +1086,10 @@ of Ruby and Rails.</li>
 <ul>
   <li>
     <p>Interactions that would result in an URL change ("pushState") now fall back to a full page load
-if Up.js was booted from a non-GET request. <a href="https://github.com/makandra/upjs/commit/d81d9007aa3bfae0fca8c55a71d180d1044acae5">More information about the reasons for this</a>.</p>
+if Unpoly was booted from a non-GET request. <a href="https://github.com/unpoly/unpoly/commit/d81d9007aa3bfae0fca8c55a71d180d1044acae5">More information about the reasons for this</a>.</p>
 
-    <p>This currently works out of the box if you're using Up.js via the <code>upjs-rails</code> Rubygem.
-If you're integrating Up.js with Bower or manually, you need to have your server app
+    <p>This currently works out of the box if you're using Unpoly via the <code>unpoly-rails</code> Rubygem.
+If you're integrating Unpoly with Bower or manually, you need to have your server app
 set an <code>_up_request_method</code> cookie with the current request method on every request.</p>
   </li>
 </ul>
@@ -1184,7 +1184,7 @@ within the viewport before replacement.</li>
 <ul>
   <li>Elements are now being <a href="/up.reveal">revealed</a> within their viewport before they are updated</li>
   <li>Elements that are prepended or appended using <code>:before</code> or <code>:after</code> pseudo-selectors are now scrolled into view after insertion.</li>
-  <li>New option <code>up.layout.defaults('snap')</code> lets you define a number of pixels under which Up.js will snap to the top edge of the viewport when revealing an element</li>
+  <li>New option <code>up.layout.defaults('snap')</code> lets you define a number of pixels under which Unpoly will snap to the top edge of the viewport when revealing an element</li>
   <li>You can now make <a href="/up.reveal"><code>up.reveal</code></a> aware of fixed navigation bars blocking the viewport by setting new options <code>up.layout.defaults('fixedTop')</code> and <code>up.layout.defaults('fixedBottom')</code>.</li>
 </ul>
 
@@ -1194,7 +1194,7 @@ within the viewport before replacement.</li>
 
 <ul>
   <li><a href="/up.reveal"><code>up.reveal</code></a> can now reveal content in modals and containers with <code>overflow-y: scroll</code>.</li>
-  <li>Changing the default configuration of an Up.js module now raises an error if a config key is unknown.</li>
+  <li>Changing the default configuration of an Unpoly module now raises an error if a config key is unknown.</li>
   <li>Links linking to <code>"#"</code> are now never marked as <code>.up-current</code>.</li>
 </ul>
 
@@ -1203,13 +1203,13 @@ within the viewport before replacement.</li>
 <h3 id="compatible-chanes">Compatible chanes</h3>
 
 <ul>
-  <li>You can now include <code>up-bootstrap.js</code> and <code>up-bootstrap.css</code> to configure Up.js to play nice with Bootstrap 3.</li>
+  <li>You can now include <code>unpoly-bootstrap3.js</code> and <code>unpoly-bootstrap3.css</code> to configure Unpoly to play nice with Bootstrap 3.</li>
 </ul>
 
 <h3 id="breaking-changes-12">Breaking changes</h3>
 
 <ul>
-  <li>Like Bootstrap, the Up.js modal will now scroll the main document viewport instead of the modal dialog box.</li>
+  <li>Like Bootstrap, the Unpoly modal will now scroll the main document viewport instead of the modal dialog box.</li>
 </ul>
 
 <h2 id="section-27">0.8.0</h2>
@@ -1217,7 +1217,7 @@ within the viewport before replacement.</li>
 <h3 id="compatible-changes-25">Compatible changes</h3>
 
 <ul>
-  <li>Up.js will now emit <a href="http://upjs.io/up.bus">events</a> <code>proxy:busy</code> and <code>proxy:idle</code> whenever it is loading or is done loading content over HTTP.</li>
+  <li>Unpoly will now emit <a href="http://unpoly.com/up.bus">events</a> <code>proxy:busy</code> and <code>proxy:idle</code> whenever it is loading or is done loading content over HTTP.</li>
   <li>Add an option <code>up.proxy.defaults('busyDelay')</code> to delay the <code>proxy:busy</code> event in order to prevent flickering of loading spinners.</li>
 </ul>
 
@@ -1242,7 +1242,7 @@ within the viewport before replacement.</li>
 <h3 id="compatible-changes-28">Compatible changes</h3>
 
 <ul>
-  <li>Fix what Up.js considers the current URL of a modal or popup if multiple updates change different parts of the modal or popup.</li>
+  <li>Fix what Unpoly considers the current URL of a modal or popup if multiple updates change different parts of the modal or popup.</li>
   <li>Don't replace elements within a container that matches <code>.up-destroying</code> or <code>.up-ghost</code> (which are cloned elements for animation purposes).</li>
 </ul>
 
@@ -1268,7 +1268,7 @@ within the viewport before replacement.</li>
 <h3 id="compatible-changes-31">Compatible changes</h3>
 
 <ul>
-  <li>Use <a href="http://upjs.io/up.proxy">up.proxy</a> when submitting a form.</li>
+  <li>Use <a href="http://unpoly.com/up.proxy">up.proxy</a> when submitting a form.</li>
 </ul>
 
 <h2 id="section-34">0.7.2</h2>
@@ -1323,7 +1323,7 @@ within the viewport before replacement.</li>
 <h3 id="compatible-changes-37">Compatible changes</h3>
 
 <ul>
-  <li>Show backtraces for Up.js errors</li>
+  <li>Show backtraces for Unpoly errors</li>
 </ul>
 
 <h3 id="breaking-changes-14">Breaking changes</h3>
