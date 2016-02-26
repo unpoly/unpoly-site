@@ -1,8 +1,8 @@
-# Up.js guide and API
+# Unpoly guide and API
 
-These are the sources for the website of Up.js, [upjs.io](http://upjs.io).
+These are the sources for the website of Unpoly, [unpoly.com](http://unpoly.com).
 
-If you are looking for Up.js itself, visit [github.com/makandra/upjs](https://github.com/makandra/upjs).
+If you are looking for Unpoly itself, visit [github.com/makandra/upjs](https://github.com/makandra/upjs).
 
 
 ## Development
@@ -17,7 +17,7 @@ Mind the block comment syntax with an additional asterisk (`*`) after the openin
     Foo
     ###
 
-The Middleman site expects you to have checked out the [Up.js repo](https://github.com/makandra/upjs) in the same folder like this:
+The Middleman site expects you to have checked out the [Unpoly repo](https://github.com/makandra/upjs) in the same folder like this:
 
 ```
 projects/
@@ -33,5 +33,5 @@ This way you can make changes to the documentation and see its HTML output immed
 - In the `upjs-guide` repo, call `middleman build`. This will generate/update the static HTML files.
 - Commit and push changes in `upjs-guide`, including the static HTML files you just generated.
 - Commit and push changes in `upjs`, which you probably changed as well.
-- Run `cap deploy` to push the changes to <http://upjs.io>.
+- Run `cap deploy` to push the changes to <http://unpoly.com>.
 

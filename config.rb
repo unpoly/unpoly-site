@@ -114,9 +114,9 @@ helpers do
     page_title = @page_title || current_page.data.title
 
     if page_title.present?
-      "#{page_title} - Up.js Guide"
+      "#{page_title} - Unpoly Guide"
     else
-      "Up.js Guide"
+      "Unpoly Guide"
     end
   end
   
