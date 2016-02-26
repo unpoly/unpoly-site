@@ -1,4 +1,4 @@
-module Upjs
+module Unpoly
   module Guide
     # This is actually "return", but that's reserved in Ruby.
     class Response

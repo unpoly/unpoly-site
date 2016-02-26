@@ -1,6 +1,6 @@
 require 'lib/ext/rack-test/support_colons_in_path'
-require 'lib/upjs/guide'
-require 'lib/upjs/example'
+require 'lib/unpoly/guide'
+require 'lib/unpoly/example'
 
 ###
 # Compass
@@ -33,19 +33,19 @@ require 'lib/upjs/example'
 page '*', layout: 'guide'
 
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
-Upjs::Guide.current.klasses.each do |klass|
+Unpoly::Guide.current.klasses.each do |klass|
   path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   proxy path, "/klass.html", locals: { klass_name: klass.name }, ignore: true
 end
 
-Upjs::Guide.current.all_feature_guide_ids.each do |guide_id|
+Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
   path = "/#{guide_id}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   proxy path, "/symbol.html", locals: { guide_id: guide_id }, ignore: true
 end
 
-Upjs::Example.all.each do |example|
+Unpoly::Example.all.each do |example|
 
   proxy example.index_path, "examples/index.html", locals: { example: example }, layout: false, ignore: true, directory_index: false
 
@@ -89,7 +89,7 @@ activate :directory_indexes
 helpers do
 
   def guide
-    @guide ||= Upjs::Guide.current
+    @guide ||= Unpoly::Guide.current
   end
 
   def markdown(text)
@@ -114,17 +114,17 @@ helpers do
     page_title = @page_title || current_page.data.title
 
     if page_title.present?
-      "#{page_title} - Unpoly Guide"
+      "#{page_title} - Unpoly"
     else
-      "Unpoly Guide"
+      "Unpoly: Progressive Enhancement Javascript Framework"
     end
   end
   
-  def upjs_library_size
+  def unpoly_library_size
     require 'active_support/gzip'
     source = ''
-    source << File.read('vendor/upjs-local/dist/up.min.js') +
-    source << File.read('vendor/upjs-local/dist/up.min.css')
+    source << File.read("#{Unpoly::Guide.current.path}/dist/unpoly.min.js") +
+    source << File.read("#{Unpoly::Guide.current.path}/dist/unpoly.min.css")
     (ActiveSupport::Gzip.compress(source).length / 1024).round
   end
 
@@ -142,9 +142,8 @@ ready do
     puts "APPENDING SPROCKET PATH: #{path}"
     sprockets.append_path File.expand_path(path)
   end
-  sprockets.append_path File.expand_path('vendor/upjs-local/lib/assets/javascripts')
-  sprockets.append_path File.expand_path('vendor/upjs-local/lib/assets/stylesheets')
-  # sprockets.append_path File.expand_path('../upjs/lib/assets/styless')
+  sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/javascripts")
+  sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/stylesheets")
 end
 
 # Build-specific configuration

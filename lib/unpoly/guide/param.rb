@@ -1,4 +1,4 @@
-module Upjs
+module Unpoly
   module Guide
     class Param
       include Logger

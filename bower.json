@@ -1,5 +1,5 @@
 {
-  "name": "upjs-guide",
+  "name": "unpoly-guide",
   "version": "0.0.0",
   "homepage": "http://unpoly.com",
   "authors": [
@@ -20,10 +20,10 @@
   "dependencies": {
     "highlightjs": "~8.4.0",
     "jquery": "2.1.3",
-    "upjs": "~0.12.0"
+    "unpoly": "~0.12.0"
   },
   "resolutions": {
     "jquery": "2.1.3",
-    "upjs": "~0.12.0"
+    "unpoly": "~0.12.0"
   }
 }

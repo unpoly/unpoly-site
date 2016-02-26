@@ -1,5 +1,5 @@
 #= require jquery/dist/jquery
-#= require up
+#= require unpoly
 #= require_tree ./components
 
 up.modal.config.maxWidth = 950

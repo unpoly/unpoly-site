@@ -2,14 +2,14 @@
 
 These are the sources for the website of Unpoly, [unpoly.com](http://unpoly.com).
 
-If you are looking for Unpoly itself, visit [github.com/makandra/upjs](https://github.com/makandra/upjs).
+If you are looking for Unpoly itself, visit [github.com/unpoly/unpoly](https://github.com/unpoly/unpoly).
 
 
 ## Development
 
 We use [Middleman](https://middlemanapp.com/) to generate this site statically.
 
-The pages are parsed from [YUIDoc comments](http://yui.github.io/yuidoc/syntax/) like [this one](https://github.com/makandra/upjs/blob/9e12839106b25f8428684a8ba3b4162d3f03038e/lib/assets/javascripts/up/flow.js.coffee#L31).
+The pages are parsed from [YUIDoc comments](http://yui.github.io/yuidoc/syntax/) like [this one](https://github.com/unpoly/unpoly/blob/9e12839106b25f8428684a8ba3b4162d3f03038e/lib/assets/javascripts/up/flow.js.coffee#L31).
 
 Mind the block comment syntax with an additional asterisk (`*`) after the opening tag:
 
@@ -17,12 +17,12 @@ Mind the block comment syntax with an additional asterisk (`*`) after the openin
     Foo
     ###
 
-The Middleman site expects you to have checked out the [Unpoly repo](https://github.com/makandra/upjs) in the same folder like this:
+The Middleman site expects you to have checked out the [Unpoly repo](https://github.com/unpoly/unpoly) in the same folder like this:
 
 ```
 projects/
-  upjs
-  upjs-guide
+  unpoly
+  unpoly-guide
 ```
 
 This way you can make changes to the documentation and see its HTML output immediately.
@@ -30,8 +30,8 @@ This way you can make changes to the documentation and see its HTML output immed
 
 ## Deploying
 
-- In the `upjs-guide` repo, call `middleman build`. This will generate/update the static HTML files.
-- Commit and push changes in `upjs-guide`, including the static HTML files you just generated.
-- Commit and push changes in `upjs`, which you probably changed as well.
+- In the `unpoly-guide` repo, call `middleman build`. This will generate/update the static HTML files.
+- Commit and push changes in `unpoly-guide`, including the static HTML files you just generated.
+- Commit and push changes in `unpoly`, which you might have changed while reviewing the documentation output.
 - Run `cap deploy` to push the changes to <http://unpoly.com>.
 

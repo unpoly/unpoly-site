@@ -1,6 +1,6 @@
 require 'active_support/core_ext/enumerable'
 
-module Upjs
+module Unpoly
   class Example
     include Memoizer
 

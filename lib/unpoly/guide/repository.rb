@@ -1,12 +1,14 @@
-module Upjs
+module Unpoly
   module Guide
     class Repository
       include Logger
 
       def initialize(input_path)
-        @input_path = input_path
+        @path = input_path
         reload
       end
+
+      attr_reader :path
 
       def reload
         @klasses = []
@@ -18,7 +20,7 @@ module Upjs
 
       def changelog
         @changelog ||= begin
-          path = File.join(@input_path, 'CHANGELOG.md')
+          path = File.join(@path, 'CHANGELOG.md')
           File.read(path)
         end
       end
@@ -39,8 +41,8 @@ module Upjs
       end
 
       def version
-        require File.join(@input_path, 'lib/upjs/rails/version')
-        Upjs::Rails::VERSION
+        require File.join(@path, 'lib/unpoly/rails/version')
+        Unpoly::Rails::VERSION
       end
 
       attr_reader :klasses
@@ -52,9 +54,9 @@ module Upjs
       end
 
       def source_paths
-        File.directory?(@input_path) or raise "Input path not found: #{@input_path}"
-        log("Input pattern", File.join(@input_path, "**/*.coffee"))
-        Dir[File.join(@input_path, "**/*.coffee")]
+        File.directory?(@path) or raise "Input path not found: #{@path}"
+        log("Input pattern", File.join(@path, "**/*.coffee"))
+        Dir[File.join(@path, "**/*.coffee")]
       end
 
       def parse

@@ -1,2 +1,2 @@
 #= require jquery/dist/jquery
-#= require up
+#= require unpoly

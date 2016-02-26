@@ -8,13 +8,13 @@ require_relative 'guide/parser'
 require_relative 'guide/repository'
 require_relative 'guide/response'
 
-module Upjs
+module Unpoly
   module Guide
 
-    UPJS_PATH = 'vendor/upjs-local'
+    UNPOLY_PATH = 'vendor/unpoly-local'
 
     def self.current
-      @current ||= Repository.new(UPJS_PATH)
+      @current ||= Repository.new(UNPOLY_PATH)
     end
 
   end

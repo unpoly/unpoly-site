@@ -15,19 +15,19 @@
 
   <h3>Update a page fragment via AJAX</h3>
 
-  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('update-fragment') } %>
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('update-fragment') } %>
 
   <h3>Animate a page transition</h3>
 
-  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('transition') } %>
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('transition') } %>
 
   <h3>Custom tags</h3>
 
-  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('timestamp-tag') } %>
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('timestamp-tag') } %>
 
   <h3>Modal dialogs</h3>
 
-  <%= partial 'examples/embed', locals: { example: Upjs::Example.find('modal') } %>
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('modal') } %>
 
   <h2>
     Project status
@@ -125,7 +125,7 @@
   <h3>Be small</h3>
 
   <p>
-    Unpoly is <%= upjs_library_size %> KB gzipped.
+    Unpoly is <%= unpoly_library_size %> KB gzipped.
     <br />
     The only dependency is jQuery.
   </p>
@@ -179,12 +179,12 @@
   
   <ul>
     <li>
-      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly.js"><code>unpoly.js</code></a>
-      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly.min.js">minified</a>)
+      <a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly.js"><code>unpoly.js</code></a>
+      (<a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly.min.js">minified</a>)
     </li>
     <li>
-      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly.css"><code>unpoly.css</code></a>
-      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly.min.css">minified</a>)
+      <a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly.css"><code>unpoly.css</code></a>
+      (<a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly.min.css">minified</a>)
     </li>
   </ul>
 
@@ -200,12 +200,12 @@
 
   <ul>
     <li>
-      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly-bootstrap3.js"><code>unpoly-bootstrap3.js</code></a>
-      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly-bootstrap3.min.js">minified</a>)
+      <a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly-bootstrap3.js"><code>unpoly-bootstrap3.js</code></a>
+      (<a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly-bootstrap3.min.js">minified</a>)
     </li>
     <li>
-      <a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly-bootstrap3.css"><code>unpoly-bootstrap3.css</code></a>
-      (<a href="https://raw.githubusercontent.com/makandra/upjs/master/dist/unpoly-bootstrap3.min.css">minified</a>)
+      <a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly-bootstrap3.css"><code>unpoly-bootstrap3.css</code></a>
+      (<a href="https://raw.githubusercontent.com/unpoly/unpoly/master/dist/unpoly-bootstrap3.min.css">minified</a>)
     </li>
   </ul>
 
@@ -215,11 +215,11 @@
     You can also download the files using Bower:
   </p>
   
-  <pre><code class="nohighlight">bower install upjs</code></pre>
+  <pre><code class="nohighlight">bower install unpoly</code></pre>
   
   <p>
     This will download the files to
-    <code>bower_components/upjs/dist</code>.
+    <code>bower_components/unpoly/dist</code>.
   </p>
   
   
@@ -231,25 +231,25 @@
     add the following line to your <code>Gemfile</code>:
   </p>
 
-  <pre><code class="ruby">gem 'upjs-rails'</code></pre>
+  <pre><code class="ruby">gem 'unpoly-rails'</code></pre>
 
   <p>Now run <code>bundle install</code> and restart your development server.</p>
 
   <p>Add the following line to your <code>application.js</code> manifest:</p>
 
-  <pre><code class="javascript">//= require up</code></pre>
+  <pre><code class="javascript">//= require unpoly</code></pre>
 
   <p>
     Also add the following line to your <code>application.css</code> manifest:</p>
   </p>
 
   <pre><code class="scss">/*
- *= require up
+ *= require unpoly
  */</code></pre>
 
   <p>
     If you're using <a href="http://getbootstrap.com/">Bootstrap 3</a> you also want to
-    <code>require up-bootstrap</code> in both your <code>application.js</code> and
+    <code>require unpoly-bootstrap3</code> in both your <code>application.js</code> and
     <code>application.css</code> manifests.
   </p>
 
