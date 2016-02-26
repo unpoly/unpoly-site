@@ -116,7 +116,7 @@ helpers do
     if page_title.present?
       "#{page_title} - Unpoly"
     else
-      "Unpoly: Progressive Enhancement Javascript Framework"
+      "Unpoly: Progressive enhancement Javascript framework"
     end
   end
   
