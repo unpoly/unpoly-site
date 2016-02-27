@@ -36,704 +36,688 @@
 
           <div class="guide__left">
 
-            <div class="logo">
-              <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Unpoly
-              </a>
-              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                0.20.0
-              </a>
+            <div class="guide__logo">
+
+              <div class="logo">
+                <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
+                  Unpoly
+                </a>
+                <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
+                  0.20.0
+                </a>
+              </div>
             </div>
 
-            <div class="menu">
-                <a href="/up.link" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Linking to page fragments
-                </a>
-                <a href="/up.modal" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Modal dialogs
-                </a>
-                <a href="/up.popup" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Pop-up overlays
-                </a>
-                <a href="/up.motion" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Animation
-                </a>
-                <a href="/up.navigation" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Fast interaction feedback
-                </a>
-                <a href="/up.syntax" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Enhancing elements
-                </a>
-                <a href="/up.flow" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Changing page fragments programmatically
-                </a>
-                <a href="/up.proxy" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Caching and preloading
-                </a>
-                <a href="/up.form" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Forms
-                </a>
-                <a href="/up.tooltip" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Tooltips
-                </a>
-                <a href="/up.history" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Browser history
-                </a>
-                <a href="/up.layout" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Application layout
-                </a>
-                <a href="/up.bus" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Events
-                </a>
-                <a href="/up.util" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  Utility functions
-                </a>
+            <a href="/menu" up-modal=".menu" class="guide__hamburger" up-anchored="right">☰</a>
+
+            <div class="guide__menu">
+              <div class="menu">
+  <a class="menu__item is_for_narrow" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/search">API search</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.link">Linking to page fragments</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.modal">Modal dialogs</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.popup">Pop-up overlays</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.motion">Animation</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.navigation">Fast interaction feedback</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.syntax">Enhancing elements</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.flow">Changing page fragments programmatically</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.proxy">Caching and preloading</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.form">Forms</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.tooltip">Tooltips</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.history">Browser history</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.layout">Application layout</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.bus">Events</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.util">Utility functions</a>
+</div>
+
             </div>
 
           </div>
 
           <div class="guide__right">
-
             <form class="search">
 
-              <input type="text" class="search__query" placeholder="Search API …">
+  <input type="text" class="search__query" placeholder="Search API …">
 
-              <div class="search__matches">
-                  <a href="/.up-active" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-active up.navigation css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">.up-active</span>
-                  </a>
-                  <a href="/up.ajax" up-modal=".content" class="search__symbol is_stable" data-search-text="up.ajax up.proxy js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.ajax</span>
-                  </a>
-                  <a href="/up.animate" up-modal=".content" class="search__symbol is_stable" data-search-text="up.animate up.motion js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.animate</span>
-                  </a>
-                  <a href="/up.animation" up-modal=".content" class="search__symbol is_stable" data-search-text="up.animation up.motion js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.animation</span>
-                  </a>
-                  <a href="/up.autosubmit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.autosubmit up.form js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.autosubmit</span>
-                  </a>
-                  <a href="/up-autosubmit" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-autosubmit] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-autosubmit]</span>
-                  </a>
-                  <a href="/up-back" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-back] up.history css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-back]</span>
-                  </a>
-                  <a href="/up.boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.boot up.bus js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.boot</span>
-                  </a>
-                  <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.browser.canCssTransition</span>
-                  </a>
-                  <a href="/up.browser.canInputEvent" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.caninputevent js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.browser.canInputEvent</span>
-                  </a>
-                  <a href="/up.browser.canPushState" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.canpushstate js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.browser.canPushState</span>
-                  </a>
-                  <a href="/up.browser.isSupported" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.issupported js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.browser.isSupported</span>
-                  </a>
-                  <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.bus.nobodyprevents js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.bus.nobodyPrevents</span>
-                  </a>
-                  <a href="/up.bus.onEscape" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.bus.onescape js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.bus.onEscape</span>
-                  </a>
-                  <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-close]</span>
-                  </a>
-                  <a href="/up.compiler" up-modal=".content" class="search__symbol is_stable" data-search-text="up.compiler up.syntax js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.compiler</span>
-                  </a>
-                  <a href="/.up-current" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-current up.navigation css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">.up-current</span>
-                  </a>
-                  <a href="/up-dash" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-dash] up.link css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-dash]</span>
-                  </a>
-                  <a href="/up.destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.destroy up.flow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.destroy</span>
-                  </a>
-                  <a href="/up.emit" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.emit up.bus js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.emit</span>
-                  </a>
-                  <a href="/up-expand" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-expand] up.link css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-expand]</span>
-                  </a>
-                  <a href="/up.extract" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.extract up.flow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.extract</span>
-                  </a>
-                  <a href="/up.first" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.first up.flow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.first</span>
-                  </a>
-                  <a href="/up-fixed-bottom" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-fixed=bottom] up.layout css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-fixed=bottom]</span>
-                  </a>
-                  <a href="/up-fixed-top" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-fixed=top] up.layout css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-fixed=top]</span>
-                  </a>
-                  <a href="/up.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.follow up.link js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.follow</span>
-                  </a>
-                  <a href="/a-up-follow" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-follow] up.link css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">a[up-follow]</span>
-                  </a>
-                  <a href="/up.form.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.form.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.form.config</span>
-                  </a>
-                  <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:destroy up.flow event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:fragment:destroy</span>
-                  </a>
-                  <a href="/up:fragment:destroyed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:destroyed up.flow event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:fragment:destroyed</span>
-                  </a>
-                  <a href="/up:fragment:inserted" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:inserted up.flow event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:fragment:inserted</span>
-                  </a>
-                  <a href="/up:fragment:keep" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:keep up.flow event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:fragment:keep</span>
-                  </a>
-                  <a href="/up:fragment:kept" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:kept up.flow event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:fragment:kept</span>
-                  </a>
-                  <a href="/up:framework:boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:boot up.bus event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:framework:boot</span>
-                  </a>
-                  <a href="/up:framework:reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:reset up.bus event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:framework:reset</span>
-                  </a>
-                  <a href="/up.hello" up-modal=".content" class="search__symbol is_stable" data-search-text="up.hello up.flow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.hello</span>
-                  </a>
-                  <a href="/up-hide-for" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-hide-for] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-hide-for]</span>
-                  </a>
-                  <a href="/up.history.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.history.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.history.config</span>
-                  </a>
-                  <a href="/up.history.push" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.history.push js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.history.push</span>
-                  </a>
-                  <a href="/up.history.replace" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.history.replace js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.history.replace</span>
-                  </a>
-                  <a href="/up.history.url" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.history.url js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.history.url</span>
-                  </a>
-                  <a href="/up-instant" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-instant] up.link css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-instant]</span>
-                  </a>
-                  <a href="/up-keep" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-keep] up.flow css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-keep]</span>
-                  </a>
-                  <a href="/up.layout.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.layout.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.layout.config</span>
-                  </a>
-                  <a href="/up.layout.restoreScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.restorescroll js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.layout.restoreScroll</span>
-                  </a>
-                  <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.savescroll js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.layout.saveScroll</span>
-                  </a>
-                  <a href="/a-up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-modal] up.modal css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">a[up-modal]</span>
-                  </a>
-                  <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.close</span>
-                  </a>
-                  <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:close</span>
-                  </a>
-                  <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:closed</span>
-                  </a>
-                  <a href="/up.modal.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.modal.config</span>
-                  </a>
-                  <a href="/up.modal.contains" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.contains js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.contains</span>
-                  </a>
-                  <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.modal.coveredurl js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.coveredUrl</span>
-                  </a>
-                  <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.follow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.follow</span>
-                  </a>
-                  <a href="/up.modal.isOpen" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.isopen js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.isOpen</span>
-                  </a>
-                  <a href="/up:modal:open" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:open up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:open</span>
-                  </a>
-                  <a href="/up:modal:opened" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:opened up.modal event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:modal:opened</span>
-                  </a>
-                  <a href="/up.modal.url" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.url js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.url</span>
-                  </a>
-                  <a href="/up.modal.visit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.visit js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.modal.visit</span>
-                  </a>
-                  <a href="/up.morph" up-modal=".content" class="search__symbol is_stable" data-search-text="up.morph up.motion js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.morph</span>
-                  </a>
-                  <a href="/up.motion.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.motion.config</span>
-                  </a>
-                  <a href="/up.motion.finish" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.finish js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.motion.finish</span>
-                  </a>
-                  <a href="/up.motion.isEnabled" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.isenabled js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.motion.isEnabled</span>
-                  </a>
-                  <a href="/up.motion.none" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.none js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.motion.none</span>
-                  </a>
-                  <a href="/up.motion.when" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.motion.when js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.motion.when</span>
-                  </a>
-                  <a href="/up.navigation.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.navigation.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.navigation.config</span>
-                  </a>
-                  <a href="/up.observe" up-modal=".content" class="search__symbol is_stable" data-search-text="up.observe up.form js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.observe</span>
-                  </a>
-                  <a href="/up-observe" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-observe] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-observe]</span>
-                  </a>
-                  <a href="/up.off" up-modal=".content" class="search__symbol is_stable" data-search-text="up.off up.bus js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.off</span>
-                  </a>
-                  <a href="/up.on" up-modal=".content" class="search__symbol is_stable" data-search-text="up.on up.bus js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.on</span>
-                  </a>
-                  <a href="/a-up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-popup] up.popup css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">a[up-popup]</span>
-                  </a>
-                  <a href="/up.popup.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.attach js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.attach</span>
-                  </a>
-                  <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.close</span>
-                  </a>
-                  <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:close</span>
-                  </a>
-                  <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:closed</span>
-                  </a>
-                  <a href="/up.popup.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.popup.config</span>
-                  </a>
-                  <a href="/up.popup.coveredUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.popup.coveredurl js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.coveredUrl</span>
-                  </a>
-                  <a href="/up.popup.isOpen" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.isopen js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.isOpen</span>
-                  </a>
-                  <a href="/up:popup:open" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:open up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:open</span>
-                  </a>
-                  <a href="/up:popup:opened" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:opened up.popup event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:popup:opened</span>
-                  </a>
-                  <a href="/up.popup.url" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.url js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.popup.url</span>
-                  </a>
-                  <a href="/up-preload" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-preload] up.proxy css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-preload]</span>
-                  </a>
-                  <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.busy js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.busy</span>
-                  </a>
-                  <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:busy up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:busy</span>
-                  </a>
-                  <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.clear</span>
-                  </a>
-                  <a href="/up.proxy.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.proxy.config</span>
-                  </a>
-                  <a href="/up.proxy.get" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.get js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.get</span>
-                  </a>
-                  <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.idle</span>
-                  </a>
-                  <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:idle</span>
-                  </a>
-                  <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:load</span>
-                  </a>
-                  <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.preload</span>
-                  </a>
-                  <a href="/up:proxy:received" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:received up.proxy event">
-                    <span class="search__symbol_kind">EVENT</span>
-                    <span class="search__symbol_name">up:proxy:received</span>
-                  </a>
-                  <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.remove js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.remove</span>
-                  </a>
-                  <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.set js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.proxy.set</span>
-                  </a>
-                  <a href="/up.reload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reload up.flow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.reload</span>
-                  </a>
-                  <a href="/up.replace" up-modal=".content" class="search__symbol is_stable" data-search-text="up.replace up.flow js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.replace</span>
-                  </a>
-                  <a href="/up.reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.reset up.bus js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.reset</span>
-                  </a>
-                  <a href="/up.reveal" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reveal up.layout js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.reveal</span>
-                  </a>
-                  <a href="/up.scroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.scroll up.layout js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.scroll</span>
-                  </a>
-                  <a href="/up-show-for" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-show-for] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-show-for]</span>
-                  </a>
-                  <a href="/up.submit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.submit up.form js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.submit</span>
-                  </a>
-                  <a href="/up.syntax.data" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.syntax.data js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.syntax.data</span>
-                  </a>
-                  <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">a[up-target]</span>
-                  </a>
-                  <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">form[up-target]</span>
-                  </a>
-                  <a href="/up-toggle" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-toggle] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-toggle]</span>
-                  </a>
-                  <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-tooltip]</span>
-                  </a>
-                  <a href="/up.tooltip.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.tooltip.attach js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.tooltip.attach</span>
-                  </a>
-                  <a href="/up.tooltip.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.tooltip.close js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.tooltip.close</span>
-                  </a>
-                  <a href="/up.tooltip.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.tooltip.config prop">
-                    <span class="search__symbol_kind">PROP</span>
-                    <span class="search__symbol_name">up.tooltip.config</span>
-                  </a>
-                  <a href="/up-tooltip-html" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip-html] up.tooltip css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-tooltip-html]</span>
-                  </a>
-                  <a href="/up.transition" up-modal=".content" class="search__symbol is_stable" data-search-text="up.transition up.motion js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.transition</span>
-                  </a>
-                  <a href="/up.util.all" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.all js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.all</span>
-                  </a>
-                  <a href="/up.util.any" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.any js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.any</span>
-                  </a>
-                  <a href="/up.util.compact" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.compact js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.compact</span>
-                  </a>
-                  <a href="/up.util.contains" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.contains js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.contains</span>
-                  </a>
-                  <a href="/up.util.copy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.copy js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.copy</span>
-                  </a>
-                  <a href="/up.util.detect" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.detect js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.detect</span>
-                  </a>
-                  <a href="/up.util.each" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.each js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.each</span>
-                  </a>
-                  <a href="/up.util.except" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.except js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.except</span>
-                  </a>
-                  <a href="/up.util.extend" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.extend js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.extend</span>
-                  </a>
-                  <a href="/up.util.isArray" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isarray js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isArray</span>
-                  </a>
-                  <a href="/up.util.isBlank" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isblank js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isBlank</span>
-                  </a>
-                  <a href="/up.util.isDeferred" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isdeferred js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isDeferred</span>
-                  </a>
-                  <a href="/up.util.isDefined" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isdefined js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isDefined</span>
-                  </a>
-                  <a href="/up.util.isElement" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.iselement js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isElement</span>
-                  </a>
-                  <a href="/up.util.isFunction" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isfunction js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isFunction</span>
-                  </a>
-                  <a href="/up.util.isGiven" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isgiven js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isGiven</span>
-                  </a>
-                  <a href="/up.util.isHash" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ishash js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isHash</span>
-                  </a>
-                  <a href="/up.util.isJQuery" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isjquery js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isJQuery</span>
-                  </a>
-                  <a href="/up.util.isMissing" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ismissing js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isMissing</span>
-                  </a>
-                  <a href="/up.util.isNull" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isnull js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isNull</span>
-                  </a>
-                  <a href="/up.util.isNumber" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isnumber js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isNumber</span>
-                  </a>
-                  <a href="/up.util.isObject" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isobject js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isObject</span>
-                  </a>
-                  <a href="/up.util.isPresent" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ispresent js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isPresent</span>
-                  </a>
-                  <a href="/up.util.isPromise" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ispromise js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isPromise</span>
-                  </a>
-                  <a href="/up.util.isString" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isstring js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isString</span>
-                  </a>
-                  <a href="/up.util.isUndefined" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isundefined js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.isUndefined</span>
-                  </a>
-                  <a href="/up.util.map" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.map js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.map</span>
-                  </a>
-                  <a href="/up.util.merge" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.merge js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.merge</span>
-                  </a>
-                  <a href="/up.util.nextFrame" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.nextframe js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.nextFrame</span>
-                  </a>
-                  <a href="/up.util.once" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.once js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.once</span>
-                  </a>
-                  <a href="/up.util.only" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.only js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.only</span>
-                  </a>
-                  <a href="/up.util.parseUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.parseurl js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.parseUrl</span>
-                  </a>
-                  <a href="/up.util.presence" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.presence js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.presence</span>
-                  </a>
-                  <a href="/up.util.reject" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.reject js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.reject</span>
-                  </a>
-                  <a href="/up.util.remove" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.remove js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.remove</span>
-                  </a>
-                  <a href="/up.util.resolvedDeferred" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.resolveddeferred js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.resolvedDeferred</span>
-                  </a>
-                  <a href="/up.util.resolvedPromise" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.resolvedpromise js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.resolvedPromise</span>
-                  </a>
-                  <a href="/up.util.select" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.select js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.select</span>
-                  </a>
-                  <a href="/up.util.selectorForElement" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.selectorforelement js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.selectorForElement</span>
-                  </a>
-                  <a href="/up.util.times" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.times js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.times</span>
-                  </a>
-                  <a href="/up.util.uniq" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.uniq js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.uniq</span>
-                  </a>
-                  <a href="/up.util.unresolvableDeferred" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.unresolvabledeferred js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.unresolvableDeferred</span>
-                  </a>
-                  <a href="/up.util.unresolvablePromise" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.unresolvablepromise js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.util.unresolvablePromise</span>
-                  </a>
-                  <a href="/up.validate" up-modal=".content" class="search__symbol is_stable" data-search-text="up.validate up.form js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.validate</span>
-                  </a>
-                  <a href="/up-validate" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-validate] up.form css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-validate]</span>
-                  </a>
-                  <a href="/up-viewport" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-viewport] up.layout css">
-                    <span class="search__symbol_kind">CSS</span>
-                    <span class="search__symbol_name">[up-viewport]</span>
-                  </a>
-                  <a href="/up.visit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.visit up.link js">
-                    <span class="search__symbol_kind">JS</span>
-                    <span class="search__symbol_name">up.visit</span>
-                  </a>
-              </div>
+  <div class="search__matches">
+      <a href="/.up-active" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-active up.navigation css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">.up-active</span>
+      </a>
+      <a href="/up.ajax" up-modal=".content" class="search__symbol is_stable" data-search-text="up.ajax up.proxy js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.ajax</span>
+      </a>
+      <a href="/up-anchored-right" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-anchored=right] up.layout css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-anchored=right]</span>
+      </a>
+      <a href="/up.animate" up-modal=".content" class="search__symbol is_stable" data-search-text="up.animate up.motion js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.animate</span>
+      </a>
+      <a href="/up.animation" up-modal=".content" class="search__symbol is_stable" data-search-text="up.animation up.motion js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.animation</span>
+      </a>
+      <a href="/up.autosubmit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.autosubmit up.form js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.autosubmit</span>
+      </a>
+      <a href="/up-autosubmit" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-autosubmit] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-autosubmit]</span>
+      </a>
+      <a href="/up-back" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-back] up.history css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-back]</span>
+      </a>
+      <a href="/up.boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.boot up.bus js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.boot</span>
+      </a>
+      <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.browser.canCssTransition</span>
+      </a>
+      <a href="/up.browser.canInputEvent" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.caninputevent js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.browser.canInputEvent</span>
+      </a>
+      <a href="/up.browser.canPushState" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.canpushstate js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.browser.canPushState</span>
+      </a>
+      <a href="/up.browser.isSupported" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.issupported js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.browser.isSupported</span>
+      </a>
+      <a href="/up.bus.nobodyPrevents" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.bus.nobodyprevents js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.bus.nobodyPrevents</span>
+      </a>
+      <a href="/up.bus.onEscape" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.bus.onescape js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.bus.onEscape</span>
+      </a>
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-close]</span>
+      </a>
+      <a href="/up.compiler" up-modal=".content" class="search__symbol is_stable" data-search-text="up.compiler up.syntax js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.compiler</span>
+      </a>
+      <a href="/.up-current" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-current up.navigation css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">.up-current</span>
+      </a>
+      <a href="/up-dash" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-dash] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-dash]</span>
+      </a>
+      <a href="/up.destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.destroy up.flow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.destroy</span>
+      </a>
+      <a href="/up.emit" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.emit up.bus js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.emit</span>
+      </a>
+      <a href="/up-expand" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-expand] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-expand]</span>
+      </a>
+      <a href="/up.extract" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.extract up.flow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.extract</span>
+      </a>
+      <a href="/up.first" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.first up.flow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.first</span>
+      </a>
+      <a href="/up-fixed-bottom" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-fixed=bottom] up.layout css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-fixed=bottom]</span>
+      </a>
+      <a href="/up-fixed-top" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-fixed=top] up.layout css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-fixed=top]</span>
+      </a>
+      <a href="/up.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.follow up.link js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.follow</span>
+      </a>
+      <a href="/a-up-follow" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-follow] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-follow]</span>
+      </a>
+      <a href="/up.form.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.form.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.form.config</span>
+      </a>
+      <a href="/up:fragment:destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:destroy up.flow event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:fragment:destroy</span>
+      </a>
+      <a href="/up:fragment:destroyed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:destroyed up.flow event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:fragment:destroyed</span>
+      </a>
+      <a href="/up:fragment:inserted" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:inserted up.flow event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:fragment:inserted</span>
+      </a>
+      <a href="/up:fragment:keep" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:keep up.flow event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:fragment:keep</span>
+      </a>
+      <a href="/up:fragment:kept" up-modal=".content" class="search__symbol is_stable" data-search-text="up:fragment:kept up.flow event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:fragment:kept</span>
+      </a>
+      <a href="/up:framework:boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:boot up.bus event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:framework:boot</span>
+      </a>
+      <a href="/up:framework:reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:reset up.bus event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:framework:reset</span>
+      </a>
+      <a href="/up.hello" up-modal=".content" class="search__symbol is_stable" data-search-text="up.hello up.flow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.hello</span>
+      </a>
+      <a href="/up-hide-for" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-hide-for] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-hide-for]</span>
+      </a>
+      <a href="/up.history.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.history.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.history.config</span>
+      </a>
+      <a href="/up.history.push" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.history.push js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.history.push</span>
+      </a>
+      <a href="/up.history.replace" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.history.replace js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.history.replace</span>
+      </a>
+      <a href="/up.history.url" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.history.url js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.history.url</span>
+      </a>
+      <a href="/up-instant" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-instant] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-instant]</span>
+      </a>
+      <a href="/up-keep" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-keep] up.flow css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-keep]</span>
+      </a>
+      <a href="/up.layout.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.layout.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.layout.config</span>
+      </a>
+      <a href="/up.layout.restoreScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.restorescroll js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.layout.restoreScroll</span>
+      </a>
+      <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.savescroll js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.layout.saveScroll</span>
+      </a>
+      <a href="/a-up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-modal] up.modal css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-modal]</span>
+      </a>
+      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:close</span>
+      </a>
+      <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.close</span>
+      </a>
+      <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:closed</span>
+      </a>
+      <a href="/up.modal.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.modal.config</span>
+      </a>
+      <a href="/up.modal.contains" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.contains js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.contains</span>
+      </a>
+      <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.modal.coveredurl js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.coveredUrl</span>
+      </a>
+      <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.follow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.follow</span>
+      </a>
+      <a href="/up.modal.isOpen" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.isopen js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.isOpen</span>
+      </a>
+      <a href="/up:modal:open" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:open up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:open</span>
+      </a>
+      <a href="/up:modal:opened" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:opened up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:opened</span>
+      </a>
+      <a href="/up.modal.url" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.url js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.url</span>
+      </a>
+      <a href="/up.modal.visit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.visit js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.visit</span>
+      </a>
+      <a href="/up.morph" up-modal=".content" class="search__symbol is_stable" data-search-text="up.morph up.motion js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.morph</span>
+      </a>
+      <a href="/up.motion.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.motion.config</span>
+      </a>
+      <a href="/up.motion.finish" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.finish js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.motion.finish</span>
+      </a>
+      <a href="/up.motion.isEnabled" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.isenabled js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.motion.isEnabled</span>
+      </a>
+      <a href="/up.motion.none" up-modal=".content" class="search__symbol is_stable" data-search-text="up.motion.none js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.motion.none</span>
+      </a>
+      <a href="/up.motion.when" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.motion.when js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.motion.when</span>
+      </a>
+      <a href="/up.navigation.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.navigation.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.navigation.config</span>
+      </a>
+      <a href="/up.observe" up-modal=".content" class="search__symbol is_stable" data-search-text="up.observe up.form js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.observe</span>
+      </a>
+      <a href="/up-observe" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-observe] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-observe]</span>
+      </a>
+      <a href="/up.off" up-modal=".content" class="search__symbol is_stable" data-search-text="up.off up.bus js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.off</span>
+      </a>
+      <a href="/up.on" up-modal=".content" class="search__symbol is_stable" data-search-text="up.on up.bus js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.on</span>
+      </a>
+      <a href="/a-up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-popup] up.popup css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-popup]</span>
+      </a>
+      <a href="/up.popup.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.attach js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.attach</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:closed</span>
+      </a>
+      <a href="/up.popup.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.popup.config</span>
+      </a>
+      <a href="/up.popup.coveredUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.popup.coveredurl js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.coveredUrl</span>
+      </a>
+      <a href="/up.popup.isOpen" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.isopen js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.isOpen</span>
+      </a>
+      <a href="/up:popup:open" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:open up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:open</span>
+      </a>
+      <a href="/up:popup:opened" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:opened up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:opened</span>
+      </a>
+      <a href="/up.popup.url" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.url js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.url</span>
+      </a>
+      <a href="/up-preload" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-preload] up.proxy css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-preload]</span>
+      </a>
+      <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:busy up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:busy</span>
+      </a>
+      <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.busy js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.busy</span>
+      </a>
+      <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.clear</span>
+      </a>
+      <a href="/up.proxy.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.proxy.config</span>
+      </a>
+      <a href="/up.proxy.get" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.get js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.get</span>
+      </a>
+      <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.idle</span>
+      </a>
+      <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:idle</span>
+      </a>
+      <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:load</span>
+      </a>
+      <a href="/up.proxy.preload" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.preload js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.preload</span>
+      </a>
+      <a href="/up:proxy:received" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:received up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:received</span>
+      </a>
+      <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.remove js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.remove</span>
+      </a>
+      <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.set js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.set</span>
+      </a>
+      <a href="/up.reload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reload up.flow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.reload</span>
+      </a>
+      <a href="/up.replace" up-modal=".content" class="search__symbol is_stable" data-search-text="up.replace up.flow js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.replace</span>
+      </a>
+      <a href="/up.reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.reset up.bus js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.reset</span>
+      </a>
+      <a href="/up.reveal" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reveal up.layout js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.reveal</span>
+      </a>
+      <a href="/up.scroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.scroll up.layout js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.scroll</span>
+      </a>
+      <a href="/up-show-for" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-show-for] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-show-for]</span>
+      </a>
+      <a href="/up.submit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.submit up.form js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.submit</span>
+      </a>
+      <a href="/up-switch" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-switch] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-switch]</span>
+      </a>
+      <a href="/up.syntax.data" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.syntax.data js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.syntax.data</span>
+      </a>
+      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-target]</span>
+      </a>
+      <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">form[up-target]</span>
+      </a>
+      <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-tooltip]</span>
+      </a>
+      <a href="/up.tooltip.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.tooltip.attach js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.tooltip.attach</span>
+      </a>
+      <a href="/up.tooltip.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.tooltip.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.tooltip.close</span>
+      </a>
+      <a href="/up.tooltip.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.tooltip.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.tooltip.config</span>
+      </a>
+      <a href="/up-tooltip-html" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip-html] up.tooltip css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-tooltip-html]</span>
+      </a>
+      <a href="/up.transition" up-modal=".content" class="search__symbol is_stable" data-search-text="up.transition up.motion js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.transition</span>
+      </a>
+      <a href="/up.util.all" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.all js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.all</span>
+      </a>
+      <a href="/up.util.any" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.any js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.any</span>
+      </a>
+      <a href="/up.util.compact" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.compact js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.compact</span>
+      </a>
+      <a href="/up.util.contains" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.contains js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.contains</span>
+      </a>
+      <a href="/up.util.copy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.copy js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.copy</span>
+      </a>
+      <a href="/up.util.detect" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.detect js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.detect</span>
+      </a>
+      <a href="/up.util.each" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.each js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.each</span>
+      </a>
+      <a href="/up.util.except" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.except js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.except</span>
+      </a>
+      <a href="/up.util.extend" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.extend js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.extend</span>
+      </a>
+      <a href="/up.util.isArray" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isarray js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isArray</span>
+      </a>
+      <a href="/up.util.isBlank" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isblank js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isBlank</span>
+      </a>
+      <a href="/up.util.isDeferred" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isdeferred js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isDeferred</span>
+      </a>
+      <a href="/up.util.isDefined" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isdefined js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isDefined</span>
+      </a>
+      <a href="/up.util.isElement" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.iselement js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isElement</span>
+      </a>
+      <a href="/up.util.isFunction" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isfunction js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isFunction</span>
+      </a>
+      <a href="/up.util.isGiven" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isgiven js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isGiven</span>
+      </a>
+      <a href="/up.util.isHash" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ishash js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isHash</span>
+      </a>
+      <a href="/up.util.isJQuery" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isjquery js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isJQuery</span>
+      </a>
+      <a href="/up.util.isMissing" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ismissing js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isMissing</span>
+      </a>
+      <a href="/up.util.isNull" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isnull js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isNull</span>
+      </a>
+      <a href="/up.util.isNumber" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isnumber js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isNumber</span>
+      </a>
+      <a href="/up.util.isObject" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isobject js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isObject</span>
+      </a>
+      <a href="/up.util.isPresent" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ispresent js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isPresent</span>
+      </a>
+      <a href="/up.util.isPromise" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.ispromise js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isPromise</span>
+      </a>
+      <a href="/up.util.isString" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isstring js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isString</span>
+      </a>
+      <a href="/up.util.isUndefined" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.isundefined js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.isUndefined</span>
+      </a>
+      <a href="/up.util.map" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.map js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.map</span>
+      </a>
+      <a href="/up.util.merge" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.merge js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.merge</span>
+      </a>
+      <a href="/up.util.nextFrame" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.nextframe js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.nextFrame</span>
+      </a>
+      <a href="/up.util.once" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.once js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.once</span>
+      </a>
+      <a href="/up.util.only" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.only js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.only</span>
+      </a>
+      <a href="/up.util.parseUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.parseurl js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.parseUrl</span>
+      </a>
+      <a href="/up.util.presence" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.presence js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.presence</span>
+      </a>
+      <a href="/up.util.reject" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.reject js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.reject</span>
+      </a>
+      <a href="/up.util.remove" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.remove js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.remove</span>
+      </a>
+      <a href="/up.util.resolvedDeferred" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.resolveddeferred js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.resolvedDeferred</span>
+      </a>
+      <a href="/up.util.resolvedPromise" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.resolvedpromise js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.resolvedPromise</span>
+      </a>
+      <a href="/up.util.select" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.select js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.select</span>
+      </a>
+      <a href="/up.util.selectorForElement" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.selectorforelement js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.selectorForElement</span>
+      </a>
+      <a href="/up.util.times" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.times js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.times</span>
+      </a>
+      <a href="/up.util.uniq" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.uniq js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.uniq</span>
+      </a>
+      <a href="/up.util.unresolvableDeferred" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.unresolvabledeferred js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.unresolvableDeferred</span>
+      </a>
+      <a href="/up.util.unresolvablePromise" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.unresolvablepromise js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.unresolvablePromise</span>
+      </a>
+      <a href="/up.validate" up-modal=".content" class="search__symbol is_stable" data-search-text="up.validate up.form js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.validate</span>
+      </a>
+      <a href="/up-validate" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-validate] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-validate]</span>
+      </a>
+      <a href="/up-viewport" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-viewport] up.layout css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-viewport]</span>
+      </a>
+      <a href="/up.visit" up-modal=".content" class="search__symbol is_stable" data-search-text="up.visit up.link js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.visit</span>
+      </a>
+  </div>
 
-            </form>
+</form>
 
           </div>
 
@@ -817,13 +801,12 @@ open dialogs with sub-forms, etc. all without losing form state.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/form-up-target" up-modal=".content" class="api__symbol_signature">
-    form[up-target]
+  <a href="/up-switch" up-modal=".content" class="api__symbol_signature">
+    [up-switch]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Forms with an <code>up-target</code> attribute are <a href="/up.submit">submitted via AJAX</a>
-instead of triggering a full page reload.</p>
+      <div class='prose'><p>Show or hide part of a form if certain options are selected or boxes are checked.</p>
 </div>
     </div>
 
@@ -831,12 +814,13 @@ instead of triggering a full page reload.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/up-toggle" up-modal=".content" class="api__symbol_signature">
-    [up-toggle]
+  <a href="/form-up-target" up-modal=".content" class="api__symbol_signature">
+    form[up-target]
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Show or hide part of a form if certain options are selected or boxes are checked.</p>
+      <div class='prose'><p>Forms with an <code>up-target</code> attribute are <a href="/up.submit">submitted via AJAX</a>
+instead of triggering a full page reload.</p>
 </div>
     </div>
 
