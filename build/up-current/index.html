@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.scroll(viewport, scrollPos, [options]) - Unpoly</title>
+  <title>.up-current - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -726,128 +726,71 @@
               
 
 
-  <div class="symbol is_experimental">
+  <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.layout">
+    <a class="symbol__klass" href="/up.navigation">
       Module
-      <span class="symbol__klass_name">up.layout</span>
+      <span class="symbol__klass_name">up.navigation</span>
     </a>
 
     <div class="symbol__signature">
-      up.scroll(viewport, scrollPos, [options])
-        <span class="tag isnt_stable">
-          experimental
-        </span>
+      .up-current
     </div>
 
-      <div class="symbol__warning">
-        This feature is experimental and not part of Unpoly' stable API.
-        It may be removed or changed without prior notice or deprecation.
-      </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Scrolls the given viewport to the given Y-position.</p>
+        <div class='prose'><p>Links that point to the current location are assigned
+the <code>up-current</code> class automatically.</p>
 
-<p>A "viewport" is an element that has scrollbars, e.g. <code>&lt;body&gt;</code> or
-a container with <code>overflow-x: scroll</code>.</p>
+<p>The use case for this is navigation bars:</p>
 
-<h4 id="example">Example</h4>
-
-<p>This will scroll a <code>&lt;div class="main"&gt;...&lt;/div&gt;</code> to a Y-position of 100 pixels:</p>
-
-<pre><code>up.scroll('.main', 100);
+<pre><code>&lt;nav&gt;
+  &lt;a href="/foo"&gt;Foo&lt;/a&gt;
+  &lt;a href="/bar"&gt;Bar&lt;/a&gt;
+&lt;/nav&gt;
 </code></pre>
 
-<h4 id="animating-the-scrolling-motion">Animating the scrolling motion</h4>
+<p>If the browser location changes to <code>/foo</code>, the markup changes to this:</p>
 
-<p>The scrolling can (optionally) be animated.</p>
-
-<pre><code>up.scroll('.main', 100, {
-  easing: 'swing',
-  duration: 250
-});
+<pre><code>&lt;nav&gt;
+  &lt;a href="/foo" class="up-current"&gt;Foo&lt;/a&gt;
+  &lt;a href="/bar"&gt;Bar&lt;/a&gt;
+&lt;/nav&gt;
 </code></pre>
 
-<p>If the given viewport is already in a scroll animation when <code>up.scroll</code>
-is called a second time, the previous animation will instantly jump to the
-last frame before the next animation is started.</p>
+<h4 id="whats-considered-to-be-current">What's considered to be "current"?</h4>
+
+<p>The current location is considered to be either:</p>
+
+<ul>
+  <li>the URL displayed in the browser window's location bar</li>
+  <li>the source URL of a currently opened <a href="/up.modal">modal dialog</a></li>
+  <li>the source URL of a currently opened <a href="/up.popup">popup overlay</a></li>
+</ul>
+
+<p>A link matches the current location (and is marked as <code>.up-current</code>) if it matches either:</p>
+
+<ul>
+  <li>the link's <code>href</code> attribute</li>
+  <li>the link's <a href="#turn-any-element-into-a-link"><code>up-href</code></a> attribute</li>
+  <li>a space-separated list of URLs in the link's <code>up-alias</code> attribute</li>
+</ul>
+
+<h4 id="matching-url-by-prefix">Matching URL by prefix</h4>
+
+<p>You can mark a link as <code>.up-current</code> whenever the current URL matches a prefix.
+To do so, end the <code>up-alias</code> attribute in an asterisk (<code>*</code>).</p>
+
+<p>For instance, the following link is highlighted for both <code>/reports</code> and <code>/reports/123</code>:</p>
+
+<pre><code>&lt;a href="/reports" up-alias="/reports/*"&gt;Reports&lt;/a&gt;
+</code></pre>
 
 </div>
       </div>
 
 
 
-      <div class="symbol__subtitle">
-          Parameters
-      </div>
-
-        <div class="symbol__param">
-          <div class="symbol__param_name">
-            viewport            <span class="symbol__type">
-              String <span class="symbol__or">or</span> Element <span class="symbol__or">or</span> jQuery
-            </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'><p>The container element to scroll.</p>
-</div>
-          </div>
-        </div>
-        <div class="symbol__param">
-          <div class="symbol__param_name">
-            scrollPos            <span class="symbol__type">
-              Number
-            </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'><p>The absolute number of pixels to set the scroll position to.</p>
-</div>
-          </div>
-        </div>
-        <div class="symbol__param">
-          <div class="symbol__param_name">
-            [options.duration]            <span class="symbol__type">
-              Number
-            </span>
-              <span class="tag is_teal">
-                optional
-              </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'>
-<p>The number of miliseconds for the scrolling's animation.</p>
-</div>
-          </div>
-        </div>
-        <div class="symbol__param">
-          <div class="symbol__param_name">
-            [options.easing]            <span class="symbol__type">
-              String
-            </span>
-              <span class="tag is_teal">
-                optional
-              </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'>
-<p>The timing function that controls the acceleration for the scrolling's animation.</p>
-</div>
-          </div>
-        </div>
-
-
-      <div class="symbol__subtitle">
-        Return value
-      </div>
-
-        <div class="symbol__type">
-          Deferred
-        </div>
-
-      <div class="symbol__param_prose">
-        <div class='prose'>
-<p>A promise that will be resolved when the scrolling ends.</p>
-</div>
-      </div>
 
   </div>
 
