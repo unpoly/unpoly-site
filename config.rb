@@ -128,6 +128,14 @@ helpers do
     (ActiveSupport::Gzip.compress(source).length / 1024).round
   end
 
+  def menu_item(label, href, options = {})
+    options[:class] = "menu__item #{options[:class]}"
+    options['up-dash'] = '.content'
+    options['up-transition'] = "fade-out/move-from-bottom"
+    options['up-duration'] = 400
+    link_to label, href, options
+  end
+
 end
 
 set :css_dir, 'stylesheets'

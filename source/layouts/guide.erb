@@ -15,43 +15,28 @@
 
           <div class="guide__left">
 
-            <div class="logo">
-              <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                Unpoly
-              </a>
-              <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                <%= guide.version %>
-              </a>
+            <div class="guide__logo">
+
+              <div class="logo">
+                <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
+                  Unpoly
+                </a>
+                <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
+                  <%= guide.version %>
+                </a>
+              </div>
             </div>
 
-            <div class="menu">
-              <% %w[up.link up.modal up.popup up.motion up.navigation up.syntax up.flow up.proxy up.form up.tooltip up.history up.layout up.bus up.util].each do |klass_name| %>
-                <% klass = guide.klass_for_name(klass_name) %>
-                <a href="<%= klass.guide_path %>" class="menu__item" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400">
-                  <%= klass.title %>
-                </a>
-              <% end %>
+            <a href="/menu" up-modal=".menu" class="guide__hamburger" up-anchored="right">☰</a>
+
+            <div class="guide__menu">
+              <%= partial 'menu' %>
             </div>
 
           </div>
 
           <div class="guide__right">
-
-            <form class="search">
-
-              <input type="text" class="search__query" placeholder="Search API …">
-
-              <div class="search__matches">
-                <% guide.feature_index.entries.reject(&:internal?).each do |entry| %>
-                  <a href="<%= entry.guide_path %>" up-modal=".content" class="search__symbol is_<%= entry.visibility %>" data-search-text="<%= entry.search_text %>">
-                    <span class="search__symbol_kind"><%= entry.short_kind %></span>
-                    <span class="search__symbol_name"><%= entry.name %></span>
-                  </a>
-                <% end %>
-              </div>
-
-            </form>
-
+            <%= partial 'search' %>
           </div>
 
           <div class="guide__content">

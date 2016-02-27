@@ -13,4 +13,14 @@
     
   &.up-current, &.up-active
     font-weight: 700
-    
+
+  &.is_for_narrow
+    display: none
+
+    +narrow-screen
+      display: block
+
+//+narrower-than(800px)
+//  .menu
+//    .menu__item:not(.up-current)
+//      display: none

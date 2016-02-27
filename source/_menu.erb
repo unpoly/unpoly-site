@@ -1,0 +1,7 @@
+<div class="menu">
+  <%= menu_item 'API search', '/search', class: 'is_for_narrow' %>
+  <% %w[up.link up.modal up.popup up.motion up.navigation up.syntax up.flow up.proxy up.form up.tooltip up.history up.layout up.bus up.util].each do |klass_name| %>
+    <% klass = guide.klass_for_name(klass_name) %>
+    <%= menu_item klass.title, klass.guide_path %>
+  <% end %>
+</div>

@@ -30,6 +30,29 @@ $side-spacing: 0
   +border-box
   padding: 55px 0 55px 30px
 
+.guide__logo
+
+.guide__hamburger
+  display: none
+
+  +narrow_screen
+    position: absolute
+    top: 25px
+    right: 30px
+    +font-size(32px)
+    margin-top: 10px
+    color: $COLOR_MAIN
+    text-transform: uppercase
+    font-weight: bold
+    display: block
+
+    &:hover
+      color: $COLOR_ALIZARIN
+
+
+.guide__menu
+  margin-top: 34px
+
 .guide__right
   float: right
   width: $side-width
@@ -37,11 +60,22 @@ $side-spacing: 0
   +border-box
   padding: 55px 30px
 
-+narrower-than(1300px)
++narrow-screen
   .guide__right
     display: none
+  .guide__menu_toggler
+    display: block
+  .guide__logo
+  .guide__left
+    width: auto
+    float: none
+    padding-bottom: 0
+    padding-top: 35px
   .guide__content
-    margin-right: 0
+    +horizontal-margin(0)
+    padding-top: 40px
+  .guide__menu
+    display: none
 
 .guide__fineprint
   color: #666
