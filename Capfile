@@ -1,7 +1,7 @@
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
-set :deploy_to, "/var/www/upjs.io/"
-set :user, "deploy-upjs_p"
+set :deploy_to, "/var/www/unpoly.com/"
+set :user, "deploy-unpoly_p"
 set :use_sudo, false
 set :deploy_via, :remote_cache
 set :copy_exclude, [ '.git' ]
