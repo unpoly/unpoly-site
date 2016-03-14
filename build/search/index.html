@@ -43,7 +43,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.21.0
+                  0.22.0
                 </a>
               </div>
             </div>
@@ -371,13 +371,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -411,14 +411,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-preload]</span>
       </a>
-      <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:busy up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:busy</span>
-      </a>
-      <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.busy js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.busy</span>
-      </a>
       <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.clear</span>
@@ -431,13 +423,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.get</span>
       </a>
-      <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
+      <a href="/up.proxy.isBusy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isbusy js">
         <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.idle</span>
+        <span class="search__symbol_name">up.proxy.isBusy</span>
       </a>
-      <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:idle</span>
+      <a href="/up.proxy.isIdle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isidle js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.isIdle</span>
       </a>
       <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
         <span class="search__symbol_kind">EVENT</span>
@@ -451,6 +443,10 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:proxy:received</span>
       </a>
+      <a href="/up:proxy:recover" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:recover up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:recover</span>
+      </a>
       <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.remove js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.remove</span>
@@ -458,6 +454,10 @@
       <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.set js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.set</span>
+      </a>
+      <a href="/up:proxy:slow" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:slow up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:slow</span>
       </a>
       <a href="/up.reload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reload up.flow js">
         <span class="search__symbol_kind">JS</span>
@@ -1024,13 +1024,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -1064,14 +1064,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-preload]</span>
       </a>
-      <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:busy up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:busy</span>
-      </a>
-      <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.busy js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.busy</span>
-      </a>
       <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.clear</span>
@@ -1084,13 +1076,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.get</span>
       </a>
-      <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
+      <a href="/up.proxy.isBusy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isbusy js">
         <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.idle</span>
+        <span class="search__symbol_name">up.proxy.isBusy</span>
       </a>
-      <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:idle</span>
+      <a href="/up.proxy.isIdle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isidle js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.isIdle</span>
       </a>
       <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
         <span class="search__symbol_kind">EVENT</span>
@@ -1104,6 +1096,10 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:proxy:received</span>
       </a>
+      <a href="/up:proxy:recover" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:recover up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:recover</span>
+      </a>
       <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.remove js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.remove</span>
@@ -1111,6 +1107,10 @@
       <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.set js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.set</span>
+      </a>
+      <a href="/up:proxy:slow" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:slow up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:slow</span>
       </a>
       <a href="/up.reload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reload up.flow js">
         <span class="search__symbol_kind">JS</span>

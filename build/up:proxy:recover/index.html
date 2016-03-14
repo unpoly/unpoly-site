@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.proxy.idle() - Unpoly</title>
+  <title>up:proxy:recover - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -43,7 +43,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.21.0
+                  0.22.0
                 </a>
               </div>
             </div>
@@ -371,13 +371,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -411,14 +411,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-preload]</span>
       </a>
-      <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:busy up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:busy</span>
-      </a>
-      <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.busy js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.busy</span>
-      </a>
       <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.clear</span>
@@ -431,13 +423,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.get</span>
       </a>
-      <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
+      <a href="/up.proxy.isBusy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isbusy js">
         <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.idle</span>
+        <span class="search__symbol_name">up.proxy.isBusy</span>
       </a>
-      <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:idle</span>
+      <a href="/up.proxy.isIdle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isidle js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.isIdle</span>
       </a>
       <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
         <span class="search__symbol_kind">EVENT</span>
@@ -451,6 +443,10 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:proxy:received</span>
       </a>
+      <a href="/up:proxy:recover" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:recover up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:recover</span>
+      </a>
       <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.remove js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.remove</span>
@@ -458,6 +454,10 @@
       <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.set js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.set</span>
+      </a>
+      <a href="/up:proxy:slow" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:slow up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:slow</span>
       </a>
       <a href="/up.reload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reload up.flow js">
         <span class="search__symbol_kind">JS</span>
@@ -726,7 +726,7 @@
               
 
 
-  <div class="symbol is_experimental">
+  <div class="symbol is_stable">
 
     <a class="symbol__klass" href="/up.proxy">
       Module
@@ -734,43 +734,19 @@
     </a>
 
     <div class="symbol__signature">
-      up.proxy.idle()
-        <span class="tag isnt_stable">
-          experimental
-        </span>
+      up:proxy:recover
     </div>
 
-      <div class="symbol__warning">
-        This feature is experimental and not part of Unpoly' stable API.
-        It may be removed or changed without prior notice or deprecation.
-      </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns <code>true</code> if the proxy is not currently waiting
-for a request to finish. Returns <code>false</code> otherwise.</p>
-
-<p>The proxy will also emit an <a href="/up:proxy:idle"><code>up:proxy:idle</code> event</a> if it
-used to busy, but is now idle.</p>
+        <div class='prose'><p>This event is [emitted]/(up.emit) when <a href="/up.ajax">AJAX requests</a>
+have <a href="/up:proxy:slow">taken long to finish</a>, but have finished now.</p>
 
 </div>
       </div>
 
 
 
-
-      <div class="symbol__subtitle">
-        Return value
-      </div>
-
-        <div class="symbol__type">
-          Boolean
-        </div>
-
-      <div class="symbol__param_prose">
-        <div class='prose'>
-<p>Whether the proxy is idle</p>
-</div>
-      </div>
 
   </div>
 

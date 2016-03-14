@@ -43,7 +43,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.21.0
+                  0.22.0
                 </a>
               </div>
             </div>
@@ -371,13 +371,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -411,14 +411,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-preload]</span>
       </a>
-      <a href="/up:proxy:busy" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:busy up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:busy</span>
-      </a>
-      <a href="/up.proxy.busy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.busy js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.busy</span>
-      </a>
       <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.clear</span>
@@ -431,13 +423,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.get</span>
       </a>
-      <a href="/up.proxy.idle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.idle js">
+      <a href="/up.proxy.isBusy" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isbusy js">
         <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.proxy.idle</span>
+        <span class="search__symbol_name">up.proxy.isBusy</span>
       </a>
-      <a href="/up:proxy:idle" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:idle up.proxy event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:proxy:idle</span>
+      <a href="/up.proxy.isIdle" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.isidle js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.isIdle</span>
       </a>
       <a href="/up:proxy:load" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:proxy:load up.proxy event">
         <span class="search__symbol_kind">EVENT</span>
@@ -451,6 +443,10 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:proxy:received</span>
       </a>
+      <a href="/up:proxy:recover" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:recover up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:recover</span>
+      </a>
       <a href="/up.proxy.remove" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.remove js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.remove</span>
@@ -458,6 +454,10 @@
       <a href="/up.proxy.set" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.set js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.proxy.set</span>
+      </a>
+      <a href="/up:proxy:slow" up-modal=".content" class="search__symbol is_stable" data-search-text="up:proxy:slow up.proxy event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:proxy:slow</span>
       </a>
       <a href="/up.reload" up-modal=".content" class="search__symbol is_stable" data-search-text="up.reload up.flow js">
         <span class="search__symbol_kind">JS</span>
@@ -745,8 +745,8 @@ the user performs the click.</p>
 
 <h2 id="spinners">Spinners</h2>
 
-<p>You can <a href="/up.on">listen</a> to the <a href="/up:proxy:busy"><code>up:proxy:busy</code></a>
-and <a href="/up:proxy:idle"><code>up:proxy:idle</code></a> events  to implement a spinner
+<p>You can <a href="/up.on">listen</a> to the <a href="/up:proxy:slow"><code>up:proxy:slow</code></a>
+and <a href="/up:proxy:recover"><code>up:proxy:recover</code></a> events  to implement a spinner
 that appears during a long-running request,
 and disappears once the response has been received:</p>
 
@@ -760,8 +760,8 @@ and disappears once the response has been received:</p>
   show = function() { $element.show() };
   hide = function() { $element.hide() };
 
-  showOff = up.on('up:proxy:busy', show);
-  hideOff = up.on('up:proxy:idle', hide);
+  showOff = up.on('up:proxy:slow', show);
+  hideOff = up.on('up:proxy:recover', hide);
 
   hide();
 
@@ -774,11 +774,11 @@ and disappears once the response has been received:</p>
 });
 </code></pre>
 
-<p>The <code>up:proxy:busy</code> event will be emitted after a delay of 300 ms
+<p>The <code>up:proxy:slow</code> event will be emitted after a delay of 300 ms
 to prevent the spinner from flickering on and off.
 You can change (or remove) this delay by <a href="/up.proxy.config">configuring <code>up.proxy</code></a> like this:</p>
 
-<pre><code>up.proxy.config.busyDelay = 150;
+<pre><code>up.proxy.config.slowDelay = 150;
 </code></pre>
 
 </div>
@@ -836,23 +836,6 @@ If the response was already cached, returns the HTML instantly.</p>
 
 </div>
 
-        <div class="api__symbol is_experimental">
-
-  <a href="/up.proxy.busy" up-modal=".content" class="api__symbol_signature">
-    up.proxy.busy()
-      <span class="tag isnt_stable">
-        experimental
-      </span>
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>Returns <code>true</code> if the proxy is currently waiting
-for a request to finish. Returns <code>false</code> otherwise.</p>
-</div>
-    </div>
-
-</div>
-
         <div class="api__symbol is_stable">
 
   <a href="/up.proxy.clear" up-modal=".content" class="api__symbol_signature">
@@ -884,8 +867,25 @@ for a request to finish. Returns <code>false</code> otherwise.</p>
 
         <div class="api__symbol is_experimental">
 
-  <a href="/up.proxy.idle" up-modal=".content" class="api__symbol_signature">
-    up.proxy.idle()
+  <a href="/up.proxy.isBusy" up-modal=".content" class="api__symbol_signature">
+    up.proxy.isBusy()
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Returns <code>true</code> if the proxy is currently waiting
+for a request to finish. Returns <code>false</code> otherwise.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
+  <a href="/up.proxy.isIdle" up-modal=".content" class="api__symbol_signature">
+    up.proxy.isIdle()
       <span class="tag isnt_stable">
         experimental
       </span>
@@ -974,34 +974,6 @@ for a request to finish. Returns <code>false</code> otherwise.</p>
 
     <div class="api__symbols">
 
-        <div class="api__symbol is_stable">
-
-  <a href="/up:proxy:busy" up-modal=".content" class="api__symbol_signature">
-    up:proxy:busy
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is [emitted]/(up.emit) when <a href="/up.ajax">AJAX requests</a>
-are taking long to finish.</p>
-</div>
-    </div>
-
-</div>
-
-        <div class="api__symbol is_stable">
-
-  <a href="/up:proxy:idle" up-modal=".content" class="api__symbol_signature">
-    up:proxy:idle
-  </a>
-
-    <div class="api__symbol_summary">
-      <div class='prose'><p>This event is [emitted]/(up.emit) when <a href="/up.ajax">AJAX requests</a>
-have <a href="/up:proxy:busy">taken long to finish</a>, but have finished now.</p>
-</div>
-    </div>
-
-</div>
-
         <div class="api__symbol is_experimental">
 
   <a href="/up:proxy:load" up-modal=".content" class="api__symbol_signature">
@@ -1031,6 +1003,34 @@ is starting to load.</p>
     <div class="api__symbol_summary">
       <div class='prose'><p>This event is [emitted]/(up.emit) when the response to an <a href="/up.ajax">AJAX request</a>
 has been received.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up:proxy:recover" up-modal=".content" class="api__symbol_signature">
+    up:proxy:recover
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>This event is [emitted]/(up.emit) when <a href="/up.ajax">AJAX requests</a>
+have <a href="/up:proxy:slow">taken long to finish</a>, but have finished now.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up:proxy:slow" up-modal=".content" class="api__symbol_signature">
+    up:proxy:slow
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>This event is [emitted]/(up.emit) when <a href="/up.ajax">AJAX requests</a>
+are taking long to finish.</p>
 </div>
     </div>
 
