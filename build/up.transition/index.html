@@ -762,7 +762,7 @@ passing along the <code>options</code> that were passed to you.</p>
 logic instead, your code must honor the following contract:</p>
 
 <ol>
-  <li>It must honor the passed options.</li>
+  <li>It must honor the passed options <code>{ delay, duration, easing }</code> if present</li>
   <li>It must <em>not</em> remove any of the given elements from the DOM.</li>
   <li>It returns a promise that is resolved when the transition ends</li>
   <li>The returned promise responds to a <code>resolve()</code> function that

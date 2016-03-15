@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>up.motion.when(promises...) - Unpoly</title>
+  <title>up.motion.when(deferreds...) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -738,7 +738,7 @@
     </a>
 
     <div class="symbol__signature">
-      up.motion.when(promises...)
+      up.motion.when(deferreds...)
         <span class="tag isnt_stable">
           experimental
         </span>
@@ -750,11 +750,16 @@
       </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns a new promise that resolves once all promises in arguments resolve.</p>
+        <div class='prose'><p>Returns a new deferred that resolves once all given deferreds have resolved.</p>
 
 <p>Other then <a href="https://api.jquery.com/jquery.when/"><code>$.when</code> from jQuery</a>,
-the combined promise will have a <code>resolve</code> method. This <code>resolve</code> method
-will resolve all the wrapped promises.</p>
+the combined deferred will have a <code>resolve</code> method. This <code>resolve</code> method
+will resolve all the wrapped deferreds.</p>
+
+<p>This is important when composing multiple existing animations into
+a <a href="/up.transition">custom transition</a>, since the transition function
+must return a deferred with a <code>resolve</code> function that fast-forwards
+the animation to its last frame.</p>
 
 </div>
       </div>
@@ -767,8 +772,8 @@ will resolve all the wrapped promises.</p>
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            promises...            <span class="symbol__type">
-              
+            deferreds...            <span class="symbol__type">
+              Array<Deferred>
             </span>
           </div>
           <div class="symbol__param_prose">
@@ -782,9 +787,12 @@ will resolve all the wrapped promises.</p>
         Return value
       </div>
 
+        <div class="symbol__type">
+          Deferred
+        </div>
 
       <div class="symbol__param_prose">
-        <div class='prose'><p>A new promise.</p>
+        <div class='prose'><p>A new deferred</p>
 </div>
       </div>
 

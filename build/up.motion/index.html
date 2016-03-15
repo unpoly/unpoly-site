@@ -745,6 +745,8 @@ to smoothly fade out the old <code>.list</code> while fading in the new <code>.l
 <pre><code>&lt;a href="/users" up-target=".list" up-transition="cross-fade"&gt;Show users&lt;/a&gt;
 </code></pre>
 
+<h2 id="transitions-vs-animations">Transitions vs. animations</h2>
+
 <p>When we morph between an old an new element, we call it a <em>transition</em>.
 In contrast, when we animate a new element without simultaneously removing an
 old element, we call it an <em>animation</em>.</p>
@@ -754,6 +756,8 @@ using the <code>up-animation</code> attribute:</p>
 
 <pre><code>&lt;a href="/users" up-modal=".list" up-animation="move-from-top"&gt;Show users&lt;/a&gt;
 </code></pre>
+
+<h2 id="predefined-animations-and-transitions">Predefined animations and transitions</h2>
 
 <p>Unpoly ships with a number of predefined <a href="/up.animate#named-animation">animations</a>
 and <a href="/up.morph#named-animation">transitions</a>.
@@ -854,14 +858,14 @@ and completes instantly.</p>
         <div class="api__symbol is_experimental">
 
   <a href="/up.motion.when" up-modal=".content" class="api__symbol_signature">
-    up.motion.when(promises...)
+    up.motion.when(deferreds...)
       <span class="tag isnt_stable">
         experimental
       </span>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Returns a new promise that resolves once all promises in arguments resolve.</p>
+      <div class='prose'><p>Returns a new deferred that resolves once all given deferreds have resolved.</p>
 </div>
     </div>
 
