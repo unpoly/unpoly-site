@@ -155,6 +155,10 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-dash]</span>
       </a>
+      <a href="/up-data" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-data] up.syntax css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-data]</span>
+      </a>
       <a href="/up.destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.destroy up.flow js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.destroy</span>
@@ -371,13 +375,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -495,13 +499,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.syntax.data</span>
       </a>
-      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
-        <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-target]</span>
-      </a>
       <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">form[up-target]</span>
+      </a>
+      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-target]</span>
       </a>
       <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
         <span class="search__symbol_kind">CSS</span>
@@ -797,9 +801,29 @@ this new syntax.</p>
 
 <h4 id="stopping-to-listen">Stopping to listen</h4>
 
-<p><code>up.on</code> returns a function that unbinds the event listeners when called.</p>
+<p><code>up.on</code> returns a function that unbinds the event listeners when called:</p>
 
-<p>There is also a function <a href="/up.off"><code>up.off</code></a> which you can use for the same purpose.</p>
+<pre><code>// Define the listener
+var listener =  function() { ... };
+
+// Binding the listener returns an unbind function
+unbind = up.on('click', listener);
+
+// Unbind the listener
+unbind()
+</code></pre>
+
+<p>There is also a function <a href="/up.off"><code>up.off</code></a> which you can use for the same purpose:</p>
+
+<pre><code>// Define the listener
+var listener =  function() { ... };
+
+// Bind the listener
+up.on('click', listener);
+
+// Unbind the listener
+up.off('click', listener)
+</code></pre>
 
 </div>
       </div>
@@ -847,7 +871,7 @@ of the event target.</p>
           <div class="symbol__param_prose">
             <div class='prose'><p>The handler that should be called.
 The function takes the affected element as the first argument (as a jQuery object).
-If the element has an <code>up-data</code> attribute, its value is parsed as JSON
+If the element has an <a href="/up-data"><code>up-data</code></a> attribute, its value is parsed as JSON
 and passed as a second argument.</p>
 </div>
           </div>

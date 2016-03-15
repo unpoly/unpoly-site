@@ -155,6 +155,10 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-dash]</span>
       </a>
+      <a href="/up-data" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-data] up.syntax css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-data]</span>
+      </a>
       <a href="/up.destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.destroy up.flow js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.destroy</span>
@@ -371,13 +375,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -495,13 +499,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.syntax.data</span>
       </a>
-      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
-        <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-target]</span>
-      </a>
       <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">form[up-target]</span>
+      </a>
+      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-target]</span>
       </a>
       <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
         <span class="search__symbol_kind">CSS</span>
@@ -763,6 +767,36 @@ later.</p>
 
 </div>
 
+  <div class="api">
+
+    <div class="api__title">CSS selectors</div>
+
+    <div class="api__explanation">
+      Elements matching these CSS selectors will automatically
+      gain useful behavior when they are added to the DOM tree.
+    </div>
+
+    <div class="api__symbols">
+
+        <div class="api__symbol is_stable">
+
+  <a href="/up-data" up-modal=".content" class="api__symbol_signature">
+    [up-data]
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>If an element annotated with [<code>up-data</code>] is inserted into the DOM,
+Up will parse the JSON and pass the resulting object to any matching
+<a href="/up.compiler"><code>up.compiler</code></a> handlers.</p>
+</div>
+    </div>
+
+</div>
+
+
+    </div>
+
+  </div>
 
   <div class="api">
 
@@ -794,7 +828,7 @@ the given selector is inserted into the DOM.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Checks if the given element has an <code>up-data</code> attribute.
+      <div class='prose'><p>Checks if the given element has an <a href="/up-data"><code>up-data</code></a> attribute.
 If yes, parses the attribute value as JSON and returns the parsed object.</p>
 </div>
     </div>

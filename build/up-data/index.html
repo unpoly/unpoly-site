@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no"> 
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 
-  <title>[up-instant] - Unpoly</title>
+  <title>[up-data] - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -732,39 +732,77 @@
 
   <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.link">
+    <a class="symbol__klass" href="/up.syntax">
       Module
-      <span class="symbol__klass_name">up.link</span>
+      <span class="symbol__klass_name">up.syntax</span>
     </a>
 
     <div class="symbol__signature">
-      [up-instant]
+      [up-data]
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>By adding an <code>up-instant</code> attribute to a link, the destination will be
-fetched on <code>mousedown</code> instead of <code>click</code> (<code>mouseup</code>).</p>
+        <div class='prose'><p>If an element annotated with [<code>up-data</code>] is inserted into the DOM,
+Up will parse the JSON and pass the resulting object to any matching
+<a href="/up.compiler"><code>up.compiler</code></a> handlers.</p>
 
-<pre><code>&lt;a href="/users" up-target=".main" up-instant&gt;User list&lt;/a&gt;
+<p>For instance, a container for a <a href="https://developers.google.com/maps/documentation/javascript/tutorial">Google Map</a>
+might attach the location and names of its marker pins:</p>
+
+<pre><code>&lt;div class="google-map" up-data="[
+  { lat: 48.36, lng: 10.99, title: 'Friedberg' },
+  { lat: 48.75, lng: 11.45, title: 'Ingolstadt' }
+]"&gt;&lt;/div&gt;
 </code></pre>
 
-<p>This will save precious milliseconds that otherwise spent
-on waiting for the user to release the mouse button. Since an
-AJAX request will be triggered right way, the interaction will
-appear faster.</p>
+<p>The JSON will parsed and handed to your compiler as a second argument:</p>
 
-<p>Note that using <code>[up-instant]</code> will prevent a user from canceling a link
-click by moving the mouse away from the interaction area. However, for
-navigation actions this isn't needed. E.g. popular operation
-systems switch tabs on <code>mousedown</code> instead of <code>click</code>.</p>
+<pre><code>up.compiler('.google-map', function($element, pins) {
 
-<p><code>up-instant</code> will also work for links that open <a href="/up.modal">modals</a> or <a href="/up.popup">popups</a>.</p>
+  var map = new google.maps.Map($element);
+
+  pins.forEach(function(pin) {
+    var position = new google.maps.LatLng(pin.lat, pin.lng);
+    new google.maps.Marker({
+      position: position,
+      map: map,
+      title: pin.title
+    });
+  });
+
+});
+</code></pre>
+
+<p>Similarly, when an event is triggered on an element annotated with
+[<code>up-data</code>], the parsed object will be passed to any matching
+<a href="/up.on"><code>up.on</code></a> handlers.</p>
+
+<pre><code>up.on('click', '.google-map', function(event, $element, pins) {
+  console.log("There are %d pins on the clicked map", pins.length);
+});
+</code></pre>
 
 </div>
       </div>
 
 
+
+      <div class="symbol__subtitle">
+          Modifying attributes
+      </div>
+
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            up-data            <span class="symbol__type">
+              JSON
+            </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'><p>A serialized JSON string</p>
+</div>
+          </div>
+        </div>
 
 
   </div>

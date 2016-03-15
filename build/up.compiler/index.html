@@ -155,6 +155,10 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-dash]</span>
       </a>
+      <a href="/up-data" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-data] up.syntax css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-data]</span>
+      </a>
       <a href="/up.destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.destroy up.flow js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.destroy</span>
@@ -371,13 +375,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -495,13 +499,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.syntax.data</span>
       </a>
-      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
-        <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-target]</span>
-      </a>
       <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">form[up-target]</span>
+      </a>
+      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-target]</span>
       </a>
       <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
         <span class="search__symbol_kind">CSS</span>
@@ -834,7 +838,7 @@ might attach the location and names of its marker pins:</p>
 ]"&gt;&lt;/div&gt;
 </code></pre>
 
-<p>The JSON will parsed and handed to your event handler as a second argument:</p>
+<p>The JSON will parsed and handed to your compiler as a second argument:</p>
 
 <pre><code>up.compiler('.google-map', function($element, pins) {
 
@@ -957,7 +961,7 @@ with a jQuery collection containing all matching elements.</p>
           <div class="symbol__param_prose">
             <div class='prose'><p>The function to call when a matching element is inserted.
 The function takes the new element as the first argument (as a jQuery object).
-If the element has an <code>up-data</code> attribute, its value is parsed as JSON
+If the element has an <a href="/up-data"><code>up-data</code></a> attribute, its value is parsed as JSON
 and passed as a second argument.</p>
 
 <p>The function may return a destructor function that destroys the compiled

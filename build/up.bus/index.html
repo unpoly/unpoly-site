@@ -155,6 +155,10 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-dash]</span>
       </a>
+      <a href="/up-data" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-data] up.syntax css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">[up-data]</span>
+      </a>
       <a href="/up.destroy" up-modal=".content" class="search__symbol is_stable" data-search-text="up.destroy up.flow js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.destroy</span>
@@ -371,13 +375,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -495,13 +499,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.syntax.data</span>
       </a>
-      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
-        <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-target]</span>
-      </a>
       <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">form[up-target]</span>
+      </a>
+      <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">a[up-target]</span>
       </a>
       <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
         <span class="search__symbol_kind">CSS</span>
@@ -730,7 +734,31 @@
 </h1>
 
 <div class='prose'>
-<p>Unpoly has a convenient way to <a href="/up.on">listen to DOM events</a>:</p>
+<p>Most Unpoly interactions emit DOM events that are prefixed with <code>up:</code>.</p>
+
+<pre><code>$(document).on('up:modal:opened', function(event) {
+  console.log('A new modal has just opened!');
+});
+</code></pre>
+
+<p>Events often have both present (<a href="/up:modal:open"><code>up:modal:open</code></a>)
+and past forms (<a href="/up:modal:opened"><code>up:modal:opened</code></a>).</p>
+
+<p>You can usually prevent an action by listening to the present form
+and call <code>preventDefault()</code> on the <code>event</code> object:</p>
+
+<pre><code>$(document).on('up:modal:open', function(event) {
+  if (event.url == '/evil') {
+    // Prevent the modal from opening
+    event.preventDefault();
+  }
+});
+</code></pre>
+
+<h2 id="a-better-way-to-bind-event-listeners">A better way to bind event listeners</h2>
+
+<p>Instead of using jQuery to bind  an event handler to <code>document</code>, you can also
+use the more convenient <a href="/up.on"><code>up.on</code></a>:</p>
 
 <pre><code>up.on('click', 'button', function(event, $button) {
   // $button is a jQuery collection containing
@@ -745,29 +773,11 @@ using jQuery's <a href="http://api.jquery.com/on/"><code>on</code></a>.</p>
   <li>Event listeners on <a href="/up.browser.isSupported">unsupported browsers</a> are silently discarded,
 leaving you with an application without Javascript. This is typically preferable to
 a soup of randomly broken Javascript in ancient browsers.</li>
-  <li>A jQuery object with the target element is automatically passed to the event handler.</li>
-  <li>You can <a href="/up.on#attaching-structured-data">attach structured data</a> to observed elements.</li>
-  <li>The call is shorter.</li>
+  <li>A jQuery object with the target element is automatically passed to the event handler
+as a second argument.</li>
+  <li>You use an <a href="/up-data"><code>up-data</code></a> attribute to <a href="/up.on#attaching-structured-data">attach structured data</a>
+to observed elements.</li>
 </ul>
-
-<p>Many Unpoly interactions also emit DOM events that are prefixed with <code>up:</code>.</p>
-
-<pre><code>up.on('up:modal:opened', function(event) {
-  console.log('A new modal has just opened!');
-});
-</code></pre>
-
-<p>Events often have both present (<code>up:modal:open</code>) and past forms (<code>up:modal:opened</code>).
-You can usually prevent an action by listening to the present form
-and call <code>preventDefault()</code> on the <code>event</code> object:</p>
-
-<pre><code>up.on('up:modal:open', function(event) {
-  if (event.url == '/evil') {
-    // Prevent the modal from opening
-    event.preventDefault();
-  }
-});
-</code></pre>
 
 </div>
 
@@ -851,7 +861,7 @@ presses the <code>Escape</code> key.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Unregisters an event listener previously bound with <a href="/up.on"><code>up.on</code></a>.</p>
+      <div class='prose'><p>Unbinds an event listener previously bound with <a href="/up.on"><code>up.on</code></a>.</p>
 </div>
     </div>
 
