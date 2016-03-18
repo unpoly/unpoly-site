@@ -746,12 +746,12 @@
         <div class='prose'><p>Registers a function to be called whenever an element with
 the given selector is inserted into the DOM.</p>
 
-<pre><code>$('.action').compiler(function($element) {
+<pre><code>up.compiler('.action', function($element) {
   // your code here
 });
 </code></pre>
 
-<p>Compiler functions will be called on matching elements when
+<p>The functions will be called on elements maching <code>.action</code> when
 the page loads, or whenever a matching fragment is <a href="/up.replace">updated through Unpoly</a>
 later.</p>
 

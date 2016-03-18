@@ -734,7 +734,23 @@
 </h1>
 
 <div class='prose'>
-<p>Just like in a classical web application, an Unpoly app renders a series of <em>full HTML pages</em> on the server.</p>
+<p>Standard HTML links are a poor fit for modern applications:</p>
+
+<ul>
+  <li>State changes caused by AJAX updates get lost during the page transition.</li>
+  <li>Unsaved form changes get lost during the page transition.</li>
+  <li>The Javascript VM is reset during the page transition.</li>
+  <li>If the page layout is composed from multiple srollable containers
+(e.g. a pane view), the scroll positions get lost during the page transition.</li>
+  <li>The user sees a "flash" as the browser loads and renders the new page,
+even if large portions of the old and new page are the same (navigation, layout, etc.).</li>
+</ul>
+
+<p>Unpoly fixes this by letting you annotate  links with an <a href="/up-target"><code>up-target</code></a>
+attribute. The value of this attribute is a CSS selector that indicates which page
+fragment to update. The rest of the page will remain unchanged.</p>
+
+<h2 id="exammple">Exammple</h2>
 
 <p>Let's say we are rendering three pages with a tabbed navigation to switch between screens:</p>
 
@@ -762,26 +778,8 @@
 &lt;/article&gt;
 </code></pre>
 
-<p>Using this document-oriented way of navigating between pages
-is not a good fit for modern applications, for a multitude of reasons:</p>
-
-<ul>
-  <li>State changes caused by AJAX updates get lost during the page transition.</li>
-  <li>Unsaved form changes get lost during the page transition.</li>
-  <li>The Javascript VM is reset during the page transition.</li>
-  <li>If the page layout is composed from multiple srollable containers
-(e.g. a pane view), the scroll positions get lost during the page transition.</li>
-  <li>The user sees a "flash" as the browser loads and renders the new page,
-even if large portions of the old and new page are the same (navigation, layout, etc.).</li>
-</ul>
-
-<h2 id="smoother-flow-by-updating-fragments">Smoother flow by updating fragments</h2>
-
-<p>In Unpoly you annotate navigation links with an <code>up-target</code> attribute.
-The value of this attribute is a CSS selector that indicates which page
-fragment to update.</p>
-
-<p>Since we only want to update the <code>&lt;article&gt;</code> tag, we will use <code>up-target="article"</code>:</p>
+<p>Since we only want to update the <code>&lt;article&gt;</code> tag, we annotate the links
+with an <code>up-target</code> attribute:</p>
 
 <pre><code>&lt;nav&gt;
   &lt;a href="/pages/a" up-target="article"&gt;A&lt;/a&gt;
@@ -790,10 +788,11 @@ fragment to update.</p>
 &lt;/nav&gt;
 </code></pre>
 
-<p>Instead of <code>article</code> you can use any other CSS selector (e. g.  <code>#main .article</code>).</p>
+<p>Note that instead of <code>article</code> you can use any other CSS selector like <code>#main .article</code>.</p>
 
-<p>With these <code>up-target</code> annotations Unpoly only updates the targeted part of the screen.
-Javascript will not be reloaded, no white flash during a full page reload.</p>
+<p>With these <a href="/up-target"><code>up-target</code></a> annotations Unpoly only updates the targeted part of the screen.
+The Javascript environment will persist and the user will not see a white flash while the
+new page is loading.</p>
 
 <h2 id="read-on">Read on</h2>
 <ul>

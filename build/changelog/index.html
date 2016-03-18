@@ -737,6 +737,14 @@ This project mostly adheres to <a href="http://semver.org/">Semantic Versioning<
 
 <h3 id="compatible-changes">Compatible changes</h3>
 
+<ul>
+  <li>Fix a bug where links would be followed multiple times if the link
+had an <a href="/up-dash"><code>up-dash</code></a> attribute without a value and also an <code>up-target</code> attribute.</li>
+  <li>Fix a bug where a link would be followed multiple times if the link's
+click area was expanded using <a href="/up-expand"><code>[up-expand]</code></a> and if the
+link also had an <a href="/up-dash"><code>up-dash</code></a> attribute.</li>
+</ul>
+
 <h3 id="breaking-changes">Breaking changes</h3>
 
 <h2 id="section">0.22.0</h2>
