@@ -1,5 +1,13 @@
 @import environment
 
 .up-modal-content
-  padding: 35px
-  
+  +narrow-screen
+    padding: 20px
+  +wide-screen
+    padding: 35px
+
+.up-modal-dialog
+  +narrow-screen
+    margin: 0
+    width: 100%
+    

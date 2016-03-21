@@ -18,6 +18,10 @@ $meta_width: 170px
     font-weight: normal
     white-space: nowrap
 
+  pre
+    code
+      +code-block
+
   a
     @extend .hyperlink
 
@@ -30,15 +34,6 @@ $meta_width: 170px
   pre
     line-height: 22px
     margin-left: 20px
-
-    code
-      margin: 0
-      white-space: pre-wrap
-
-    .hljs
-      padding: 0
-      overflow: hidden
-      background-color: transparent
 
   ul
     @extend .bullets

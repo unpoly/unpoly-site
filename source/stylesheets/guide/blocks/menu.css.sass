@@ -4,9 +4,11 @@
 
 .menu__item
   display: block
-  margin-bottom: 10px
   +font-size(18px)
   color: $COLOR_MAIN
+
+  &:not(:last-child)
+    margin-bottom: 10px
 
   &:hover
     color: $COLOR_ALIZARIN

@@ -98,10 +98,25 @@
   margin-right: 2px
   +monospace-font
 
+=code-block
+  +monospace-font
+  margin: 0
+  padding: 0
+  +pretty-scrollbars
+  overflow-x: auto
+  overflow-y: visible
+  background: transparent
+  white-space: pre
+
+
 =steal-vertical-space($space)
   +horizontal-margin(-$space)
   +horizontal-padding($space)
 
 =narrow-screen
   +narrower-than(1200px)
+    @content
+
+=wide-screen
+  +wider-than(1200px)
     @content

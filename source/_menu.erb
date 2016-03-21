@@ -4,4 +4,5 @@
     <% klass = guide.klass_for_name(klass_name) %>
     <%= menu_item klass.title, klass.guide_path %>
   <% end %>
+  <%= menu_item 'Changelog', '/changelog', class: 'is_for_narrow' %>
 </div>

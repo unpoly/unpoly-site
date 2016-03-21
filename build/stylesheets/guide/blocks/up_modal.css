@@ -1,1 +1,1 @@
-.up-modal-content{padding:35px}
+@media (max-width: 1199px){.up-modal-content{padding:20px}}@media (min-width: 1200px){.up-modal-content{padding:35px}}@media (max-width: 1199px){.up-modal-dialog{margin:0;width:100%}}
