@@ -1,0 +1,161 @@
+<div class="prose">
+
+  <h1>
+    Download &amp; installation
+  </h1>
+
+  <p>
+    Unpoly's single dependency is <a href="https://jquery.com/">jQuery</a> 1.9 or higher.
+  </p>
+
+  <p>
+    The framework consists of both Javascript and CSS files:
+  </p>
+
+  <table>
+    <tr>
+      <th>Minified filename</th>
+      <th>Use</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><code>unpoly.min.js</code></td>
+      <td>required</td>
+      <td>Unpoly core framework</td>
+    </tr>
+    <tr>
+      <td><code>unpoly.min.css</code></td>
+      <td>required</td>
+      <td>
+        Minimal styles for Unpoly widgets like
+        <a href="/up.modal">modal dialogs</a>
+      </td>
+    </tr>
+    <tr>
+      <td><code>unpoly-bootstrap3.min.js</code></td>
+      <td>optional</td>
+      <td>Preconfigures Unpoly for use with <a href="http://getbootstrap.com/">Bootstrap</a></td>
+    </tr>
+    <tr>
+      <td><code>unpoly-bootstrap3.min.css</code></td>
+      <td>optional</td>
+      <td>
+        Overrides Unpoly styles for use with <a href="http://getbootstrap.com/">Bootstrap</a></td>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    You have multiple options for downloading and integrating these files:
+  </p>
+
+  <ul>
+    <li><a href="#rails">Install with Ruby on Rails</a></li>
+    <li><a href="#bower">Install with Bower</a></li>
+    <li><a href="#cdn">Link to a CDN</a></li>
+    <li><a href="#zip">Download as ZIP</a></li>
+    <li><a href="#git">Clone with Git</a></li>
+  </ul>
+
+  <h3 id="rails">Install with Ruby on Rails</h3>
+
+  <p>
+    Unpoly is available as a Ruby gem that makes the library's Javascript and CSS sources
+    available to the Rails asset pipeline. It also includes
+    <a href="http://www.rubydoc.info/github/unpoly/unpoly/master">some useful helpers</a>
+    for your controllers and views.
+  </p>
+
+  <p>
+    To install Unpoly in Rails, add the following line to your <code>Gemfile</code>:
+  </p>
+
+  <pre><code class="ruby">gem 'unpoly-rails'</code></pre>
+
+  <p>Now run <code>bundle install</code> and restart your development server.</p>
+
+  <p>Add the following line to your <code>application.js</code> manifest:</p>
+
+  <pre><code class="javascript">//= require unpoly</code></pre>
+
+  <p>
+    Also add the following line to your <code>application.css</code> manifest:</p>
+  </p>
+
+  <pre><code class="css">/*
+ *= require unpoly
+ */</code></pre>
+
+  <h4>Installing with Bootstrap integration</h4>
+
+  <p>If you want to using Unpoly's Bootstrap integration, add the following to your <code>application.js</code> manifest instead:</p>
+
+  <pre><code class="javascript">//= require unpoly
+//= require unpoly-bootstrap3</code></pre>
+
+  <p>
+    Also add the following line to your <code>application.css</code> manifest instead:</p>
+  </p>
+
+  <pre><code class="css">/*
+ *= require unpoly
+ *= require unpoly-bootstrap3
+ */</code></pre>
+
+  <h3 id="bower">Install with Bower</h3>
+
+  <p>
+    Install the <a href="http://bower.io/">Bower</a> package:
+  </p>
+
+  <pre><code class="nohighlight">bower install unpoly</code></pre>
+
+  <p>
+    This will download the files to
+    <code>bower_components/unpoly/dist</code>.
+  </p>
+
+  <h3 id="cdn">Link to a CDN</h3>
+
+  <p>
+    You can link to the Unpoly files directly from a CDN:
+  </p>
+
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/<%= guide.version %>/unpoly.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/<%= guide.version %>/unpoly.min.css"&gt;</code></pre>
+
+  <h4>Linking with Bootstrap integration</h4>
+
+  <p>If you want to using Unpoly's Bootstrap integration, link to the following URLs instead:</p>
+
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@<%= guide.version %>(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@<%= guide.version %>(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
+
+  <p>
+    Note that you need to trust the CDN.
+  </p>
+
+  <h3 id="zip">Download as ZIP</h3>
+
+  Download the <a href="https://github.com/unpoly/unpoly/archive/v<%= guide.version %>.zip">minified files and complete source code</a>:
+
+  <pre><code class="nohighlight">curl -LO https://github.com/unpoly/unpoly/archive/v<%= guide.version %>.zip
+unzip v<%= guide.version %>.zip</code></pre>
+
+  <p>
+    After unzipping the minified files will be in the <code>unpoly-<%= guide.version %>/dist</code> directory.
+  </p>
+
+  <h3 id="git">Clone with Git</h3>
+
+  <p>
+    Clone the project from <a href="https://github.com/unpoly/unpoly">GitHub</a>
+    and checkout the release:
+  </p>
+
+  <pre><code class="nohighlighth">git clone https://github.com/unpoly/unpoly.git
+cd unpoly
+git checkout v<%= guide.version %></code></pre>
+
+</div>
+
