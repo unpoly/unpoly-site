@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.22.1
+                  0.23.0
                 </a>
               </div>
             </div>
@@ -121,6 +121,10 @@
       <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.browser.canCssTransition</span>
+      </a>
+      <a href="/up.browser.canFormData" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.canformdata js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.browser.canFormData</span>
       </a>
       <a href="/up.browser.canInputEvent" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.caninputevent js">
         <span class="search__symbol_kind">JS</span>
@@ -278,13 +282,13 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">a[up-modal]</span>
       </a>
-      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:modal:close</span>
-      </a>
       <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.close</span>
+      </a>
+      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -378,13 +382,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -782,27 +786,7 @@ you can serialize the data to JSON and put it into an <code>[up-data]</code> att
 });
 </code></pre>
 
-<h4 id="migrating-jquery-event-handlers-to-upon">Migrating jQuery event handlers to <code>up.on</code></h4>
-
-<p>Within the event handler, Unpoly will bind <code>this</code> to the
-native DOM element to help you migrate your existing jQuery code to
-this new syntax.</p>
-
-<p>So if you had this before:</p>
-
-<pre><code>$(document).on('click', '.button', function() {
-  $(this).something();
-});
-</code></pre>
-
-<p>… you can simply copy the event handler to <code>up.on</code>:</p>
-
-<pre><code>up.on('click', '.button', function() {
-  $(this).something();
-});
-</code></pre>
-
-<h4 id="stopping-to-listen">Stopping to listen</h4>
+<h4 id="unbinding-an-event-listener">Unbinding an event listener</h4>
 
 <p><code>up.on</code> returns a function that unbinds the event listeners when called:</p>
 
@@ -826,6 +810,26 @@ up.on('click', listener);
 
 // Unbind the listener
 up.off('click', listener)
+</code></pre>
+
+<h4 id="migrating-jquery-event-handlers-to-upon">Migrating jQuery event handlers to <code>up.on</code></h4>
+
+<p>Within the event handler, Unpoly will bind <code>this</code> to the
+native DOM element to help you migrate your existing jQuery code to
+this new syntax.</p>
+
+<p>So if you had this before:</p>
+
+<pre><code>$(document).on('click', '.button', function() {
+  $(this).something();
+});
+</code></pre>
+
+<p>… you can simply copy the event handler to <code>up.on</code>:</p>
+
+<pre><code>up.on('click', '.button', function() {
+  $(this).something();
+});
 </code></pre>
 
 </div>

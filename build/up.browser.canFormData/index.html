@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.popup.isOpen() - Unpoly</title>
+  <title>up.browser.canFormData() - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -737,26 +737,47 @@
               
 
 
-  <div class="symbol is_stable">
+  <div class="symbol is_experimental">
 
-    <a class="symbol__klass" href="/up.popup">
+    <a class="symbol__klass" href="/up.browser">
       Module
-      <span class="symbol__klass_name">up.popup</span>
+      <span class="symbol__klass_name">up.browser</span>
     </a>
 
     <div class="symbol__signature">
-      up.popup.isOpen()
+      up.browser.canFormData()
+        <span class="tag isnt_stable">
+          experimental
+        </span>
     </div>
 
+      <div class="symbol__warning">
+        This feature is experimental and not part of Unpoly' stable API.
+        It may be removed or changed without prior notice or deprecation.
+      </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns whether popup modal is currently open.</p>
+        <div class='prose'><p>Returns whether this browser supports the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData"><code>FormData</code></a>
+interface.</p>
 
 </div>
       </div>
 
 
 
+
+      <div class="symbol__subtitle">
+        Return value
+      </div>
+
+        <div class="symbol__type">
+          Boolean
+        </div>
+
+      <div class="symbol__param_prose">
+        <div class='prose'>
+</div>
+      </div>
 
   </div>
 

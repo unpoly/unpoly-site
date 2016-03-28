@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.22.1
+                  0.23.0
                 </a>
               </div>
             </div>
@@ -121,6 +121,10 @@
       <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.browser.canCssTransition</span>
+      </a>
+      <a href="/up.browser.canFormData" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.canformdata js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.browser.canFormData</span>
       </a>
       <a href="/up.browser.canInputEvent" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.caninputevent js">
         <span class="search__symbol_kind">JS</span>
@@ -278,13 +282,13 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">a[up-modal]</span>
       </a>
-      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:modal:close</span>
-      </a>
       <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.close</span>
+      </a>
+      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -378,13 +382,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -769,15 +773,14 @@ use the more convenient <a href="/up.on"><code>up.on</code></a>:</p>
 });
 </code></pre>
 
-<p>This is roughly equivalent to binding an event listener to <code>document</code>
-using jQuery's <a href="http://api.jquery.com/on/"><code>on</code></a>.</p>
+<p>This improves jQuery's <a href="http://api.jquery.com/on/"><code>on</code></a> in multiple ways:</p>
 
 <ul>
   <li>Event listeners on <a href="/up.browser.isSupported">unsupported browsers</a> are silently discarded,
 leaving you with an application without Javascript. This is typically preferable to
 a soup of randomly broken Javascript in ancient browsers.</li>
   <li>A jQuery object with the target element is automatically passed to the event handler
-as a second argument.</li>
+as a second argument. You no longer need to write <code>$(this)</code> in the handler function.</li>
   <li>You use an <a href="/up-data"><code>up-data</code></a> attribute to <a href="/up.on#attaching-structured-data">attach structured data</a>
 to observed elements.</li>
 </ul>
