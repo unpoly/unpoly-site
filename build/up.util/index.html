@@ -382,13 +382,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -421,6 +421,10 @@
       <a href="/up-preload" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-preload] up.proxy css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-preload]</span>
+      </a>
+      <a href="/up.proxy.alias" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.proxy.alias js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.proxy.alias</span>
       </a>
       <a href="/up.proxy.clear" up-modal=".content" class="search__symbol is_stable" data-search-text="up.proxy.clear js">
         <span class="search__symbol_kind">JS</span>
@@ -653,6 +657,10 @@
       <a href="/up.util.nextFrame" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.nextframe js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.nextFrame</span>
+      </a>
+      <a href="/up.util.noop" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.noop js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.noop</span>
       </a>
       <a href="/up.util.once" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.once js">
         <span class="search__symbol_kind">JS</span>
@@ -915,7 +923,7 @@ the given properties.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Converts the given array-like argument into an array.</p>
+      <div class='prose'><p>Returns whether the given argument is an object with <code>then</code> and <code>resolve</code> methods.</p>
 </div>
     </div>
 
@@ -928,7 +936,7 @@ the given properties.</p>
   </a>
 
     <div class="api__symbol_summary">
-      <div class='prose'><p>Returns whether the given argument is an object with <code>then</code> and <code>resolve</code> methods.</p>
+      <div class='prose'><p>Converts the given array-like argument into an array.</p>
 </div>
     </div>
 
@@ -1151,6 +1159,22 @@ the given properties.</p>
     <div class="api__symbol_summary">
       <div class='prose'><p>Schedules the given function to be called in the
 next Javascript execution frame.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
+  <a href="/up.util.noop" up-modal=".content" class="api__symbol_signature">
+    up.util.noop()
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>A function that does nothing.</p>
 </div>
     </div>
 

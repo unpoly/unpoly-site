@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up:popup:opened - Unpoly</title>
+  <title>up.util.noop() - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -745,20 +745,27 @@
               
 
 
-  <div class="symbol is_stable">
+  <div class="symbol is_experimental">
 
-    <a class="symbol__klass" href="/up.popup">
+    <a class="symbol__klass" href="/up.util">
       Module
-      <span class="symbol__klass_name">up.popup</span>
+      <span class="symbol__klass_name">up.util</span>
     </a>
 
     <div class="symbol__signature">
-      up:popup:opened
+      up.util.noop()
+        <span class="tag isnt_stable">
+          experimental
+        </span>
     </div>
 
+      <div class="symbol__warning">
+        This feature is experimental and not part of Unpoly' stable API.
+        It may be removed or changed without prior notice or deprecation.
+      </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when a popup has finished opening.</p>
+        <div class='prose'><p>A function that does nothing.</p>
 
 </div>
       </div>
