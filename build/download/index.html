@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.23.0
+                  0.23.1
                 </a>
               </div>
             </div>
@@ -382,13 +382,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -702,6 +702,10 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.selectorForElement</span>
       </a>
+      <a href="/up.util.setTimer" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.settimer js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.setTimer</span>
+      </a>
       <a href="/up.util.times" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.times js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.times</span>
@@ -865,15 +869,15 @@
     You can link to the Unpoly files directly from a CDN:
   </p>
 
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/0.23.0/unpoly.min.js"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/0.23.0/unpoly.min.css"&gt;</code></pre>
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/0.23.1/unpoly.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/0.23.1/unpoly.min.css"&gt;</code></pre>
 
   <h4>Linking with Bootstrap integration</h4>
 
   <p>If you want to using Unpoly's Bootstrap integration, link to the following URLs instead:</p>
 
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@0.23.0(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@0.23.0(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@0.23.1(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@0.23.1(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
 
   <p>
     Note that you need to trust the CDN.
@@ -881,13 +885,13 @@
 
   <h3 id="zip">Download as ZIP</h3>
 
-  Download the <a href="https://github.com/unpoly/unpoly/archive/v0.23.0.zip">minified files and complete source code</a>:
+  Download the <a href="https://github.com/unpoly/unpoly/archive/v0.23.1.zip">minified files and complete source code</a>:
 
-  <pre><code class="nohighlight">curl -LO https://github.com/unpoly/unpoly/archive/v0.23.0.zip
-unzip v0.23.0.zip</code></pre>
+  <pre><code class="nohighlight">curl -LO https://github.com/unpoly/unpoly/archive/v0.23.1.zip
+unzip v0.23.1.zip</code></pre>
 
   <p>
-    After unzipping the minified files will be in the <code>unpoly-0.23.0/dist</code> directory.
+    After unzipping the minified files will be in the <code>unpoly-0.23.1/dist</code> directory.
   </p>
 
   <h3 id="git">Clone with Git</h3>
@@ -899,7 +903,7 @@ unzip v0.23.0.zip</code></pre>
 
   <pre><code class="nohighlighth">git clone https://github.com/unpoly/unpoly.git
 cd unpoly
-git checkout v0.23.0</code></pre>
+git checkout v0.23.1</code></pre>
 
 </div>
 

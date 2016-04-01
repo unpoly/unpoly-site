@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.ajax(request.url, request.method, request.target, request.cache, request.headers, request.data) - Unpoly</title>
+  <title>up.ajax(request) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.23.0
+                  0.23.1
                 </a>
               </div>
             </div>
@@ -382,13 +382,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -702,6 +702,10 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.selectorForElement</span>
       </a>
+      <a href="/up.util.setTimer" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.settimer js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.setTimer</span>
+      </a>
       <a href="/up.util.times" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.times js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.times</span>
@@ -753,7 +757,7 @@
     </a>
 
     <div class="symbol__signature">
-      up.ajax(request.url, request.method, request.target, request.cache, request.headers, request.data)
+      up.ajax(request)
     </div>
 
 

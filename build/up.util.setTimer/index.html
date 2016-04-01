@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.modal.coveredUrl() - Unpoly</title>
+  <title>up.util.setTimer(millis, callback) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -751,13 +751,13 @@
 
   <div class="symbol is_experimental">
 
-    <a class="symbol__klass" href="/up.modal">
+    <a class="symbol__klass" href="/up.util">
       Module
-      <span class="symbol__klass_name">up.modal</span>
+      <span class="symbol__klass_name">up.util</span>
     </a>
 
     <div class="symbol__signature">
-      up.modal.coveredUrl()
+      up.util.setTimer(millis, callback)
         <span class="tag isnt_stable">
           experimental
         </span>
@@ -769,26 +769,43 @@
       </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns the URL of the page behind the modal overlay.</p>
+        <div class='prose'><p>Waits for the given number of milliseconds, the nruns the given callback.</p>
+
+<p>If the number of milliseconds is zero, the callback is run in the current execution frame.
+See [<code>up.util.nextFrame</code>] for running a function in the next executation frame.</p>
 
 </div>
       </div>
-
 
 
 
       <div class="symbol__subtitle">
-        Return value
+          Parameters
       </div>
 
-        <div class="symbol__type">
-          String
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            millis            <span class="symbol__type">
+              Number
+            </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            callback            <span class="symbol__type">
+              Function
+            </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+</div>
+          </div>
         </div>
 
-      <div class="symbol__param_prose">
-        <div class='prose'>
-</div>
-      </div>
 
   </div>
 

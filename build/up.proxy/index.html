@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.23.0
+                  0.23.1
                 </a>
               </div>
             </div>
@@ -382,13 +382,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -702,6 +702,10 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.selectorForElement</span>
       </a>
+      <a href="/up.util.setTimer" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.settimer js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.setTimer</span>
+      </a>
       <a href="/up.util.times" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.times js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.times</span>
@@ -806,7 +810,7 @@ making the interaction feel instant.</p>
         <div class="api__symbol is_stable">
 
   <a href="/up.ajax" up-modal=".content" class="api__symbol_signature">
-    up.ajax(request.url, request.method, request.target, request.cache, request.headers, request.data)
+    up.ajax(request)
   </a>
 
     <div class="api__symbol_summary">
@@ -912,7 +916,7 @@ for a request to finish. Returns <code>false</code> otherwise.</p>
         <div class="api__symbol is_experimental">
 
   <a href="/up.proxy.remove" up-modal=".content" class="api__symbol_signature">
-    up.proxy.remove(request.url, request.method, request.target)
+    up.proxy.remove(request)
       <span class="tag isnt_stable">
         experimental
       </span>
@@ -928,7 +932,7 @@ for a request to finish. Returns <code>false</code> otherwise.</p>
         <div class="api__symbol is_experimental">
 
   <a href="/up.proxy.set" up-modal=".content" class="api__symbol_signature">
-    up.proxy.set(request.url, request.method, request.target, response)
+    up.proxy.set(request, response)
       <span class="tag isnt_stable">
         experimental
       </span>
