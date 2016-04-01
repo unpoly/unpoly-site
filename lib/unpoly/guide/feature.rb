@@ -50,10 +50,8 @@ module Unpoly
             if param.option?
               if option_params.all?(&:optional?)
                 "[#{param.option_hash_name}]"
-              elsif option_params.all?(&:required?)
-                param.option_hash_name
               else
-                param.name
+                param.option_hash_name
               end
             elsif param.optional?
               "[#{param.name}]"

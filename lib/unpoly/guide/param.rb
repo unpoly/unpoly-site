@@ -30,7 +30,7 @@ module Unpoly
       end
 
       def option?
-        name =~ OPTION_PREFIX
+        !!(name =~ OPTION_PREFIX)
       end
 
       def signature
