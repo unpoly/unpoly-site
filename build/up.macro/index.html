@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.util.contains(arrayOrString, elementOrSubstring) - Unpoly</title>
+  <title>up.macro(selector, options, compiler) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -759,18 +759,49 @@
 
   <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.util">
+    <a class="symbol__klass" href="/up.syntax">
       Module
-      <span class="symbol__klass_name">up.util</span>
+      <span class="symbol__klass_name">up.syntax</span>
     </a>
 
     <div class="symbol__signature">
-      up.util.contains(arrayOrString, elementOrSubstring)
+      up.macro(selector, options, compiler)
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns whether the given array or string contains the given element or substring.</p>
+        <div class='prose'><p>Registers a <a href="/up.compiler">compiler</a> that is run before all other compilers.</p>
+
+<p>You can use <code>up.macro</code> to register a compiler that sets other UJS attributes.</p>
+
+<h4 id="example">Example</h4>
+
+<p>You will sometimes find yourself setting the same combination of UJS attributes again and again:</p>
+
+<pre><code>&lt;a href="/page1" up-target=".content" up-transition="cross-fade" up-duration="300"&gt;Page 1&lt;/a&gt;
+&lt;a href="/page2" up-target=".content" up-transition="cross-fade" up-duration="300"&gt;Page 2&lt;/a&gt;
+&lt;a href="/page3" up-target=".content" up-transition="cross-fade" up-duration="300"&gt;Page 3&lt;/a&gt;
+</code></pre>
+
+<p>We would much rather define a new <code>content-link</code> attribute that let's us
+write the same links like this:</p>
+
+<pre><code>&lt;a href="/page1" content-link&gt;Page 1&lt;/a&gt;
+&lt;a href="/page2" content-link&gt;Page 2&lt;/a&gt;
+&lt;a href="/page3" content-link&gt;Page 3&lt;/a&gt;
+</code></pre>
+
+<p>We can define the <code>content-link</code> attribute by registering a macro that
+sets the <code>up-target</code>, <code>up-transition</code> and <code>up-duration</code> attributes for us:</p>
+
+<pre><code>up.macro('[content-link]', function($link) {
+  $link.attr('up-target', '.content');
+  $link.attr('up-transition', 'cross-fade');
+  $link.attr('up-duration', '300');
+});
+</code></pre>
+
+<p>Examples for built-in macros are <a href="/up-dash"><code>up-dash</code></a> and <a href="/up-expand"><code>up-expand</code></a>.</p>
 
 </div>
       </div>
@@ -783,23 +814,35 @@
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            arrayOrString            <span class="symbol__type">
-              Array <span class="symbol__or">or</span> String
+            selector            <span class="symbol__type">
+              String
             </span>
           </div>
           <div class="symbol__param_prose">
-            <div class='prose'>
+            <div class='prose'><p>The selector to match.</p>
 </div>
           </div>
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
-            elementOrSubstring            <span class="symbol__type">
-              
+            options            <span class="symbol__type">
+              Object
             </span>
           </div>
           <div class="symbol__param_prose">
-            <div class='prose'>
+            <div class='prose'><p>See options for <a href="/up.compiler"><code>up.compiler</code></a>.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            compiler            <span class="symbol__type">
+              Function($element, data)
+            </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'><p>The function to call when a matching element is inserted.
+See <a href="/up.compiler"><code>up.compiler</code></a> for details.</p>
 </div>
           </div>
         </div>

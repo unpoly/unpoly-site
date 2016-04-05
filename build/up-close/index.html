@@ -146,7 +146,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -278,17 +278,21 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.layout.saveScroll</span>
       </a>
+      <a href="/up.macro" up-modal=".content" class="search__symbol is_stable" data-search-text="up.macro up.syntax js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.macro</span>
+      </a>
       <a href="/a-up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-modal] up.modal css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">a[up-modal]</span>
       </a>
-      <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.modal.close</span>
-      </a>
       <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:modal:close</span>
+      </a>
+      <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -305,6 +309,10 @@
       <a href="/up.modal.coveredUrl" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.modal.coveredurl js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.coveredUrl</span>
+      </a>
+      <a href="/up.modal.extract" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.extract js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.extract</span>
       </a>
       <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.follow js">
         <span class="search__symbol_kind">JS</span>
@@ -382,13 +390,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -510,13 +518,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.syntax.data</span>
       </a>
-      <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
-        <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">form[up-target]</span>
-      </a>
       <a href="/a-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-target] up.link css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">a[up-target]</span>
+      </a>
+      <a href="/form-up-target" up-modal=".content" class="search__symbol is_stable" data-search-text="form[up-target] up.form css">
+        <span class="search__symbol_kind">CSS</span>
+        <span class="search__symbol_name">form[up-target]</span>
       </a>
       <a href="/up-tooltip" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-tooltip] up.tooltip css">
         <span class="search__symbol_kind">CSS</span>
@@ -751,6 +759,39 @@
 
   <div class="symbol is_stable">
 
+    <a class="symbol__klass" href="/up.modal">
+      Module
+      <span class="symbol__klass_name">up.modal</span>
+    </a>
+
+    <div class="symbol__signature">
+      [up-close]
+    </div>
+
+
+      <div class="symbol__prose">
+        <div class='prose'><p>When this element is clicked, closes a currently open dialog.</p>
+
+<p>Does nothing if no modal is currently open.</p>
+
+<p>To make a link that closes the current modal, but follows to
+a fallback destination if no modal is open:</p>
+
+<pre><code>&lt;a href="/fallback" up-close&gt;Okay&lt;/a&gt;
+</code></pre>
+
+</div>
+      </div>
+
+
+
+
+  </div>
+
+
+
+  <div class="symbol is_stable">
+
     <a class="symbol__klass" href="/up.popup">
       Module
       <span class="symbol__klass_name">up.popup</span>
@@ -769,39 +810,6 @@ a currently open popup is closed.</p>
 
 <p>To make a link that closes the current popup, but follows to
 a fallback destination if no popup is open:</p>
-
-<pre><code>&lt;a href="/fallback" up-close&gt;Okay&lt;/a&gt;
-</code></pre>
-
-</div>
-      </div>
-
-
-
-
-  </div>
-
-
-
-  <div class="symbol is_stable">
-
-    <a class="symbol__klass" href="/up.modal">
-      Module
-      <span class="symbol__klass_name">up.modal</span>
-    </a>
-
-    <div class="symbol__signature">
-      [up-close]
-    </div>
-
-
-      <div class="symbol__prose">
-        <div class='prose'><p>When this element is clicked, closes a currently open dialog.</p>
-
-<p>Does nothing if no modal is currently open.</p>
-
-<p>To make a link that closes the current modal, but follows to
-a fallback destination if no modal is open:</p>
 
 <pre><code>&lt;a href="/fallback" up-close&gt;Okay&lt;/a&gt;
 </code></pre>

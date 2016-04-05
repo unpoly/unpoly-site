@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.util.contains(arrayOrString, elementOrSubstring) - Unpoly</title>
+  <title>up.modal.extract(url, options) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -759,18 +759,32 @@
 
   <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.util">
+    <a class="symbol__klass" href="/up.modal">
       Module
-      <span class="symbol__klass_name">up.util</span>
+      <span class="symbol__klass_name">up.modal</span>
     </a>
 
     <div class="symbol__signature">
-      up.util.contains(arrayOrString, elementOrSubstring)
+      up.modal.extract(url, options)
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns whether the given array or string contains the given element or substring.</p>
+        <div class='prose'><p><a href="/up.extract">Extracts</a> the given CSS selector from the given HTML string and
+opens the results in a modal.</p>
+
+<p>Example:</p>
+
+<pre><code>var html = 'before &lt;div class="content"&gt;inner&lt;/div&gt; after';
+up.modal.extract('/foo', '.content', html);
+</code></pre>
+
+<p>The would open a modal with the following contents:</p>
+
+<pre><code>&lt;div class="content"&gt;inner&lt;/div&gt;
+</code></pre>
+
+<p>Emits events <a href="/up:modal:open"><code>up:modal:open</code></a> and <a href="/up:modal:opened"><code>up:modal:opened</code></a>.</p>
 
 </div>
       </div>
@@ -783,27 +797,42 @@
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            arrayOrString            <span class="symbol__type">
-              Array <span class="symbol__or">or</span> String
+            url            <span class="symbol__type">
+              String
             </span>
           </div>
           <div class="symbol__param_prose">
-            <div class='prose'>
+            <div class='prose'><p>The URL to load.</p>
 </div>
           </div>
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
-            elementOrSubstring            <span class="symbol__type">
-              
+            options            <span class="symbol__type">
+              Object
             </span>
           </div>
           <div class="symbol__param_prose">
-            <div class='prose'>
+            <div class='prose'><p>See options for <a href="/up.modal.follow"><code>up.modal.follow</code></a>.</p>
 </div>
           </div>
         </div>
 
+
+      <div class="symbol__subtitle">
+        Return value
+      </div>
+
+        <div class="symbol__type">
+          Promise
+        </div>
+
+      <div class="symbol__param_prose">
+        <div class='prose'>
+<p>A promise that will be resolved when the modal has been opened and the opening
+animation has completed.</p>
+</div>
+      </div>
 
   </div>
 
