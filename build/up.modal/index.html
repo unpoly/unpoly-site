@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.23.1
+                  0.24.0
                 </a>
               </div>
             </div>
@@ -788,10 +788,13 @@ and <a href="/up.modal.visit"><code>up.modal.visit</code></a>.</p>
 <p>By default the dialog uses the following DOM structure:</p>
 
 <pre><code>&lt;div class="up-modal"&gt;
-  &lt;div class="up-modal-dialog"&gt;
-    &lt;div class="up-modal-close" up-close&gt;X&lt;/div&gt;
-    &lt;div class="up-modal-content"&gt;
-      ...
+  &lt;div class="up-modal-backdrop"&gt;
+  &lt;div class="up-modal-viewport"&gt;
+    &lt;div class="up-modal-dialog"&gt;
+      &lt;div class="up-modal-content"&gt;
+        ...
+      &lt;/div&gt;
+      &lt;div class="up-modal-close" up-close&gt;X&lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;

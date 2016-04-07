@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.ajax(request) - Unpoly</title>
+  <title>up.ajax(url, [request]) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.23.1
+                  0.24.0
                 </a>
               </div>
             </div>
@@ -765,7 +765,7 @@
     </a>
 
     <div class="symbol__signature">
-      up.ajax(request)
+      up.ajax(url, [request])
     </div>
 
 
@@ -778,9 +778,20 @@ not be cached and the entire cache will be cleared.
 Only requests with a method of <code>GET</code>, <code>OPTIONS</code> and <code>HEAD</code>
 are considered to be read-only.</p>
 
+<h4 id="example">Example</h4>
+
+<pre><code>up.ajax('/search', data: { query: 'sunshine' }).then(function(data, status, xhr) {
+  console.log('The response body is %o', data);
+}).fail(function(xhr, status, error) {
+  console.error('The request failed');
+});
+</code></pre>
+
+<h4 id="events">Events</h4>
+
 <p>If a network connection is attempted, the proxy will emit
-a <code>up:proxy:load</code> event with the <code>request</code> as its argument.
-Once the response is received, a <code>up:proxy:receive</code> event will
+a <a href="/up:proxy:load"><code>up:proxy:load</code></a> event with the <code>request</code> as its argument.
+Once the response is received, a <a href="/up:proxy:receive"><code>up:proxy:receive</code></a> event will
 be emitted.</p>
 
 </div>
@@ -794,7 +805,7 @@ be emitted.</p>
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            request.url            <span class="symbol__type">
+            url            <span class="symbol__type">
               String
             </span>
           </div>
@@ -875,6 +886,22 @@ with the request.</p>
           <div class="symbol__param_prose">
             <div class='prose'>
 <p>An object of request parameters.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [request.url]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>You can omit the first string argument and pass the URL as
+a <code>request</code> property instead.</p>
 </div>
           </div>
         </div>

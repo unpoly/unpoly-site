@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.motion.finish(elementOrSelector) - Unpoly</title>
+  <title>up.motion.finish([elementOrSelector]) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.23.1
+                  0.24.0
                 </a>
               </div>
             </div>
@@ -765,17 +765,20 @@
     </a>
 
     <div class="symbol__signature">
-      up.motion.finish(elementOrSelector)
+      up.motion.finish([elementOrSelector])
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Completes all <a href="/up.animate">animations</a> and <a href="/up.morph">transitions</a>
-for the given element by jumping to the last animation frame instantly.</p>
+        <div class='prose'><p>Completes <a href="/up.animate">animations</a> and <a href="/up.morph">transitions</a>.</p>
 
-<p>All callbacks chained to the original animation's promise will be called.</p>
+<p>If called without arguments, all animations on the screen are completed.
+If given an element (or selector), animations on that element and its children
+are completed.</p>
 
-<p>Does nothing if the given element is not currently animating.</p>
+<p>Animations are completed by jumping to the last animation frame instantly.</p>
+
+<p>Does nothing if there are no animation to complete.</p>
 
 </div>
       </div>
@@ -788,9 +791,12 @@ for the given element by jumping to the last animation frame instantly.</p>
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            elementOrSelector            <span class="symbol__type">
+            [elementOrSelector]            <span class="symbol__type">
               Element <span class="symbol__or">or</span> jQuery <span class="symbol__or">or</span> String
             </span>
+              <span class="tag is_teal">
+                optional
+              </span>
           </div>
           <div class="symbol__param_prose">
             <div class='prose'>
