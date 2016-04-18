@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>a[up-popup] - Unpoly</title>
+  <title>[up-modal] - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.24.1
+                  0.25.0
                 </a>
               </div>
             </div>
@@ -146,7 +146,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -282,17 +282,17 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.macro</span>
       </a>
-      <a href="/a-up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-modal] up.modal css">
+      <a href="/up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-modal] up.modal css">
         <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-modal]</span>
-      </a>
-      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:modal:close</span>
+        <span class="search__symbol_name">[up-modal]</span>
       </a>
       <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.close</span>
+      </a>
+      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -313,6 +313,10 @@
       <a href="/up.modal.extract" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.extract js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.extract</span>
+      </a>
+      <a href="/up.modal.flavor" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.modal.flavor js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.flavor</span>
       </a>
       <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.follow js">
         <span class="search__symbol_kind">JS</span>
@@ -382,21 +386,21 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.on</span>
       </a>
-      <a href="/a-up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-popup] up.popup css">
+      <a href="/up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-popup] up.popup css">
         <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-popup]</span>
+        <span class="search__symbol_name">[up-popup]</span>
       </a>
       <a href="/up.popup.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.attach js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -759,28 +763,29 @@
 
   <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.popup">
+    <a class="symbol__klass" href="/up.modal">
       Module
-      <span class="symbol__klass_name">up.popup</span>
+      <span class="symbol__klass_name">up.modal</span>
     </a>
 
     <div class="symbol__signature">
-      a[up-popup]
+      [up-modal]
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Opens this link's destination of in a popup overlay:</p>
+        <div class='prose'><p>Clicking this link will load the destination via AJAX and open
+the given selector in a modal dialog.</p>
 
-<pre><code>&lt;a href="/decks" up-popup=".deck_list"&gt;Switch deck&lt;/a&gt;
+<p>Example:</p>
+
+<pre><code>&lt;a href="/blogs" up-modal=".blog-list"&gt;Switch blog&lt;/a&gt;
 </code></pre>
 
-<p>If the <code>up-sticky</code> attribute is set, the dialog does not auto-close
-if a page fragment behind the popup overlay updates:</p>
-
-<pre><code>&lt;a href="/decks" up-popup=".deck_list"&gt;Switch deck&lt;/a&gt;
-&lt;a href="/settings" up-popup=".options" up-sticky&gt;Settings&lt;/a&gt;
-</code></pre>
+<p>Clicking would request the path <code>/blog</code> and select <code>.blog-list</code> from
+the HTML response. Unpoly will dim the page with an overlay
+and place the matching <code>.blog-list</code> tag will be placed in
+a modal dialog.</p>
 
 </div>
       </div>
@@ -793,23 +798,6 @@ if a page fragment behind the popup overlay updates:</p>
 
         <div class="symbol__param">
           <div class="symbol__param_name">
-            [up-position]            <span class="symbol__type">
-              
-            </span>
-              <span class="tag is_teal">
-                optional
-              </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'>
-<p>Defines where the popup is attached to the opening element.</p>
-
-<p>Valid values are <code>bottom-right</code>, <code>bottom-left</code>, <code>top-right</code> and <code>top-left</code>.</p>
-</div>
-          </div>
-        </div>
-        <div class="symbol__param">
-          <div class="symbol__param_name">
             [up-confirm]            <span class="symbol__type">
               String
             </span>
@@ -820,14 +808,14 @@ if a page fragment behind the popup overlay updates:</p>
           <div class="symbol__param_prose">
             <div class='prose'>
 <p>A message that will be displayed in a cancelable confirmation dialog
-before the popup is opened.</p>
+before the modal is opened.</p>
 </div>
           </div>
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
             [up-sticky]            <span class="symbol__type">
-              
+              String
             </span>
               <span class="tag is_teal">
                 optional
@@ -835,8 +823,85 @@ before the popup is opened.</p>
           </div>
           <div class="symbol__param_prose">
             <div class='prose'>
-<p>If set to <code>true</code>, the popup remains
+<p>If set to <code>"true"</code>, the modal remains
 open even if the page changes in the background.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [up-animation]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The animation to use when opening the viewport containing the dialog.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [up-backdrop-animation]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The animation to use when opening the backdrop that dims the page below the dialog.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [up-height]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The width of the dialog in pixels.
+By <a href="/up.modal.config">default</a> the dialog will grow to fit its contents.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [up-width]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The width of the dialog in pixels.
+By <a href="/up.modal.config">default</a> the dialog will grow to fit its contents.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [up-history="true"]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>Whether to add a browser history entry for the modal's source URL.</p>
 </div>
           </div>
         </div>

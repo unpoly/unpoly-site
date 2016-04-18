@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.24.1
+                  0.25.0
                 </a>
               </div>
             </div>
@@ -146,7 +146,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -282,17 +282,17 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.macro</span>
       </a>
-      <a href="/a-up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-modal] up.modal css">
+      <a href="/up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-modal] up.modal css">
         <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-modal]</span>
-      </a>
-      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:modal:close</span>
+        <span class="search__symbol_name">[up-modal]</span>
       </a>
       <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.close</span>
+      </a>
+      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -313,6 +313,10 @@
       <a href="/up.modal.extract" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.extract js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.extract</span>
+      </a>
+      <a href="/up.modal.flavor" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.modal.flavor js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.flavor</span>
       </a>
       <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.follow js">
         <span class="search__symbol_kind">JS</span>
@@ -382,21 +386,21 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.on</span>
       </a>
-      <a href="/a-up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-popup] up.popup css">
+      <a href="/up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-popup] up.popup css">
         <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-popup]</span>
+        <span class="search__symbol_name">[up-popup]</span>
       </a>
       <a href="/up.popup.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.attach js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -877,15 +881,15 @@
     You can link to the Unpoly files directly from a CDN:
   </p>
 
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/0.24.1/unpoly.min.js"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/0.24.1/unpoly.min.css"&gt;</code></pre>
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/0.25.0/unpoly.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/0.25.0/unpoly.min.css"&gt;</code></pre>
 
   <h4>Linking with Bootstrap integration</h4>
 
   <p>If you want to using Unpoly's Bootstrap integration, link to the following URLs instead:</p>
 
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@0.24.1(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@0.24.1(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@0.25.0(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@0.25.0(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
 
   <p>
     Note that you need to trust the CDN.
@@ -893,13 +897,13 @@
 
   <h3 id="zip">Download as ZIP</h3>
 
-  Download the <a href="https://github.com/unpoly/unpoly/archive/v0.24.1.zip">minified files and complete source code</a>:
+  Download the <a href="https://github.com/unpoly/unpoly/archive/v0.25.0.zip">minified files and complete source code</a>:
 
-  <pre><code class="nohighlight">curl -LO https://github.com/unpoly/unpoly/archive/v0.24.1.zip
-unzip v0.24.1.zip</code></pre>
+  <pre><code class="nohighlight">curl -LO https://github.com/unpoly/unpoly/archive/v0.25.0.zip
+unzip v0.25.0.zip</code></pre>
 
   <p>
-    After unzipping the minified files will be in the <code>unpoly-0.24.1/dist</code> directory.
+    After unzipping the minified files will be in the <code>unpoly-0.25.0/dist</code> directory.
   </p>
 
   <h3 id="git">Clone with Git</h3>
@@ -911,7 +915,7 @@ unzip v0.24.1.zip</code></pre>
 
   <pre><code class="nohighlighth">git clone https://github.com/unpoly/unpoly.git
 cd unpoly
-git checkout v0.24.1</code></pre>
+git checkout v0.25.0</code></pre>
 
 </div>
 

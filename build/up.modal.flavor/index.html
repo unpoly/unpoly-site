@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>[up-instant] - Unpoly</title>
+  <title>up.modal.flavor(name, [overrideConfig]) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -761,41 +761,90 @@
               
 
 
-  <div class="symbol is_stable">
+  <div class="symbol is_experimental">
 
-    <a class="symbol__klass" href="/up.link">
+    <a class="symbol__klass" href="/up.modal">
       Module
-      <span class="symbol__klass_name">up.link</span>
+      <span class="symbol__klass_name">up.modal</span>
     </a>
 
     <div class="symbol__signature">
-      [up-instant]
+      up.modal.flavor(name, [overrideConfig])
+        <span class="tag isnt_stable">
+          experimental
+        </span>
     </div>
 
+      <div class="symbol__warning">
+        This feature is experimental and not part of Unpoly' stable API.
+        It may be removed or changed without prior notice or deprecation.
+      </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>By adding an <code>up-instant</code> attribute to a link, the destination will be
-fetched on <code>mousedown</code> instead of <code>click</code> (<code>mouseup</code>).</p>
+        <div class='prose'><p>Register a new modal variant with its own default configuration, CSS or HTML template.</p>
 
-<pre><code>&lt;a href="/users" up-target=".main" up-instant&gt;User list&lt;/a&gt;
+<h4 id="example">Example</h4>
+
+<p>Let's implement a drawer that slides in from the right:</p>
+
+<pre><code>up.modal.flavor('drawer', {
+  openAnimation: 'move-from-right',
+  closeAnimation: 'move-to-right',
+  maxWidth: 400
+}
 </code></pre>
 
-<p>This will save precious milliseconds that otherwise spent
-on waiting for the user to release the mouse button. Since an
-AJAX request will be triggered right way, the interaction will
-appear faster.</p>
+<p>Modals with that flavor will have a container <code>&lt;div class='up-modal' up-flavor='drawer'&gt;...&lt;/div&gt;</code>.
+We can target the <code>up-flavor</code> attribute override the default dialog styles:</p>
 
-<p>Note that using <code>[up-instant]</code> will prevent a user from canceling a link
-click by moving the mouse away from the interaction area. However, for
-navigation actions this isn't needed. E.g. popular operation
-systems switch tabs on <code>mousedown</code> instead of <code>click</code>.</p>
+<pre><code>.up-modal[up-flavor='drawer'] {
 
-<p><code>up-instant</code> will also work for links that open <a href="/up.modal">modals</a> or <a href="/up.popup">popups</a>.</p>
+  // Align drawer on the right
+  .up-modal-viewport { text-align: right; }
+
+  // Remove margin so the drawer starts at the screen edge
+  .up-modal-dialog { margin: 0; }
+
+  // Stretch drawer background to full window height
+  .up-modal-content { min-height: 100vh; }
+}
+</code></pre>
 
 </div>
       </div>
 
 
+
+      <div class="symbol__subtitle">
+          Parameters
+      </div>
+
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            name            <span class="symbol__type">
+              String
+            </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'><p>The name of the new flavor.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [overrideConfig]            <span class="symbol__type">
+              Object
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>An object whose properties override the defaults in <a href="/up.modal.config"><code>/up.modal.config</code></a>.</p>
+</div>
+          </div>
+        </div>
 
 
   </div>

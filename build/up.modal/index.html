@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.24.1
+                  0.25.0
                 </a>
               </div>
             </div>
@@ -146,7 +146,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -282,17 +282,17 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.macro</span>
       </a>
-      <a href="/a-up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-modal] up.modal css">
+      <a href="/up-modal" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-modal] up.modal css">
         <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-modal]</span>
-      </a>
-      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:modal:close</span>
+        <span class="search__symbol_name">[up-modal]</span>
       </a>
       <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.close</span>
+      </a>
+      <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:modal:close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -313,6 +313,10 @@
       <a href="/up.modal.extract" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.extract js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.modal.extract</span>
+      </a>
+      <a href="/up.modal.flavor" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.modal.flavor js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.flavor</span>
       </a>
       <a href="/up.modal.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.follow js">
         <span class="search__symbol_kind">JS</span>
@@ -382,21 +386,21 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.on</span>
       </a>
-      <a href="/a-up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="a[up-popup] up.popup css">
+      <a href="/up-popup" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-popup] up.popup css">
         <span class="search__symbol_kind">CSS</span>
-        <span class="search__symbol_name">a[up-popup]</span>
+        <span class="search__symbol_name">[up-popup]</span>
       </a>
       <a href="/up.popup.attach" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.attach js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:popup:close</span>
-      </a>
       <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.close</span>
+      </a>
+      <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
+        <span class="search__symbol_kind">EVENT</span>
+        <span class="search__symbol_name">up:popup:close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -765,7 +769,7 @@
 to show a fragment in a modal dialog. The existing page will remain
 open in the background and reappear once the modal is closed.</p>
 
-<p>To open a modal, add an <a href="/a-up-modal"><code>up-modal</code> attribute</a> to a link,
+<p>To open a modal, add an <a href="/up-modal"><code>up-modal</code> attribute</a> to a link,
 or call the Javascript functions <a href="/up.modal.follow"><code>up.modal.follow</code></a>
 and <a href="/up.modal.visit"><code>up.modal.visit</code></a>.</p>
 
@@ -806,7 +810,7 @@ configure Unpoly to <a href="/up.modal.config">use a different HTML structure</a
 <h4 id="closing-behavior">Closing behavior</h4>
 
 <p>By default the dialog automatically closes
-<em>whenever a page fragment behind the dialog is updated</em>.
+<em>when a link inside a modal changes a fragment behind the modal</em>.
 This is useful to have the dialog interact with the page that
 opened it, e.g. by updating parts of a larger form or by signing in a user
 and revealing additional information.</p>
@@ -844,8 +848,8 @@ and revealing additional information.</p>
 
         <div class="api__symbol is_stable">
 
-  <a href="/a-up-modal" up-modal=".content" class="api__symbol_signature">
-    a[up-modal]
+  <a href="/up-modal" up-modal=".content" class="api__symbol_signature">
+    [up-modal]
   </a>
 
     <div class="api__symbol_summary">
@@ -919,6 +923,22 @@ within the current modal.</p>
     <div class="api__symbol_summary">
       <div class='prose'><p><a href="/up.extract">Extracts</a> the given CSS selector from the given HTML string and
 opens the results in a modal.</p>
+</div>
+    </div>
+
+</div>
+
+        <div class="api__symbol is_experimental">
+
+  <a href="/up.modal.flavor" up-modal=".content" class="api__symbol_signature">
+    up.modal.flavor(name, [overrideConfig])
+      <span class="tag isnt_stable">
+        experimental
+      </span>
+  </a>
+
+    <div class="api__symbol_summary">
+      <div class='prose'><p>Register a new modal variant with its own default configuration, CSS or HTML template.</p>
 </div>
     </div>
 
