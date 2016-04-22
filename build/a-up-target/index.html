@@ -79,7 +79,7 @@
           <div class="guide__right">
             <form class="search">
 
-  <input type="text" class="search__query" placeholder="Search API …">
+  <input type="text" class="search__query" placeholder="Search API …" autofocus>
 
   <div class="search__matches">
       <a href="/up-active" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-active up.navigation css">
@@ -872,6 +872,21 @@ opening the destination in a new tab.</p>
             <div class='prose'>
 <p>The destination URL to follow.
 If omitted, the the link's <code>href</code> attribute will be used.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [up-method='get']            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The HTTP method to use for the request.</p>
 </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 #= require jquery/dist/jquery
+#= require js-cookie/src/js.cookie
 #= require unpoly
 #= require_tree ./components
 

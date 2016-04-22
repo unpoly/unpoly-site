@@ -1,0 +1,39 @@
+{
+  "name": "upjs",
+  "homepage": "https://github.com/makanda/upjs",
+  "authors": [
+    "Henning Koch <henning.koch@makandra.de>"
+  ],
+  "description": "Snappy UI for server-side web applications",
+  "main": [
+    "dist/up.js",
+    "dist/up.css"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "bin",
+    "design",
+    "doc",
+    "lib",
+    "pkg",
+    "spec_app",
+    "Gemfile",
+    "Gemfile.lock",
+    "Rakefile",
+    ".ruby-version",
+    "upjs-rails.gemspec"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.1"
+  },
+  "version": "0.12.5",
+  "_release": "0.12.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.12.5",
+    "commit": "7d2e9e649be085bec89d0210a64d0bc2849344c8"
+  },
+  "_source": "https://github.com/unpoly/unpoly.git",
+  "_target": "~0.12.0",
+  "_originalSource": "unpoly"
+}

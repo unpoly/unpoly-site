@@ -1,7 +1,18 @@
+u = up.util
+
+storeQuery = (query) ->
+  Cookies.set('query', query)
+
+loadQuery = ->
+  Cookies.get('query')
+
 up.compiler '.search', ($search, data) ->
 
   $query = $search.find('.search__query')
   $symbols = $search.find('.search__symbol')
+
+  if previousQuery = u.presence(loadQuery())
+    $query.val(previousQuery).select()
 
   matchSymbol = ($symbol, query) ->
     isMatch = true
@@ -13,10 +24,12 @@ up.compiler '.search', ($search, data) ->
     isMatch
 
   find = ->
-    query = up.util.trim($query.val()).toLowerCase().split(/\s+/)
+    query = u.trim($query.val()).toLowerCase()
+    storeQuery(query)
+    words = query.split(/\s+/)
     for symbol in $symbols
       $symbol = $(symbol)
-      isMatch = matchSymbol($symbol, query)
+      isMatch = matchSymbol($symbol, words)
       $symbol.toggle(isMatch)
 
   $query.on 'input', find

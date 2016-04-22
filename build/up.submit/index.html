@@ -79,7 +79,7 @@
           <div class="guide__right">
             <form class="search">
 
-  <input type="text" class="search__query" placeholder="Search API …">
+  <input type="text" class="search__query" placeholder="Search API …" autofocus>
 
   <div class="search__matches">
       <a href="/up-active" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-active up.navigation css">
@@ -827,7 +827,7 @@ Defaults to the form's <code>action</code> attribute, or to the current URL of t
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
-            [options.method]            <span class="symbol__type">
+            [options.method='post']            <span class="symbol__type">
               String
             </span>
               <span class="tag is_teal">

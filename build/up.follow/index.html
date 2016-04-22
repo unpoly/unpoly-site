@@ -79,7 +79,7 @@
           <div class="guide__right">
             <form class="search">
 
-  <input type="text" class="search__query" placeholder="Search API …">
+  <input type="text" class="search__query" placeholder="Search API …" autofocus>
 
   <div class="search__matches">
       <a href="/up-active" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-active up.navigation css">
@@ -840,6 +840,21 @@ Defaults to the <code>up-target</code> attribute on <code>link</code>, or to <co
             <div class='prose'>
 <p>The selector to replace if the server responds with a non-200 status code.
 Defaults to the <code>up-fail-target</code> attribute on <code>link</code>, or to <code>body</code> if such an attribute does not exist.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [options.method='get']            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>The HTTP method to use for the request.</p>
 </div>
           </div>
         </div>

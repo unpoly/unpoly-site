@@ -79,7 +79,7 @@
           <div class="guide__right">
             <form class="search">
 
-  <input type="text" class="search__query" placeholder="Search API …">
+  <input type="text" class="search__query" placeholder="Search API …" autofocus>
 
   <div class="search__matches">
       <a href="/up-active" up-modal=".content" class="search__symbol is_stable" data-search-text=".up-active up.navigation css">
@@ -767,6 +767,11 @@ This project mostly adheres to <a href="http://semver.org/">Semantic Versioning<
 <h2 id="unreleased">Unreleased</h2>
 
 <h3 id="compatible-changes">Compatible changes</h3>
+
+<ul>
+  <li>Fix a bug where if multiple compilers with <a href="/up.compiler#cleaning-up-after-yourself">destructors</a>
+are applied to the same element and the element is removed, only the last destructor was called.</li>
+</ul>
 
 <h3 id="breaking-changes">Breaking changes</h3>
 
