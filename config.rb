@@ -1,4 +1,5 @@
 require 'lib/ext/rack-test/support_colons_in_path'
+require 'vendor/unpoly-local/lib/unpoly/rails/version'
 require 'lib/unpoly/guide'
 require 'lib/unpoly/example'
 

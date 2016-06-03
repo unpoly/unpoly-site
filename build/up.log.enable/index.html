@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.util.select(array) - Unpoly</title>
+  <title>up.log.enable() - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -767,54 +767,54 @@
 
   <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.util">
+    <a class="symbol__klass" href="/up.history">
       Module
-      <span class="symbol__klass_name">up.util</span>
+      <span class="symbol__klass_name">up.history</span>
     </a>
 
     <div class="symbol__signature">
-      up.util.select(array)
+      up.log.enable()
     </div>
 
 
       <div class="symbol__prose">
-        <div class='prose'><p>Returns all elements from the given array that return
-a truthy value when passed to the given function.</p>
+        <div class='prose'><p>Makes future Unpoly events print vast amounts of debugging information to the developer console.</p>
+
+<p>Debugging information includes which elements are being <a href="/up.syntax">compiled</a>
+and which <a href="/up.bus">events</a> are being emitted.</p>
 
 </div>
       </div>
 
 
 
-      <div class="symbol__subtitle">
-          Parameters
-      </div>
 
-        <div class="symbol__param">
-          <div class="symbol__param_name">
-            array            <span class="symbol__type">
-              Array<T>
-            </span>
-          </div>
-          <div class="symbol__param_prose">
-            <div class='prose'>
-</div>
-          </div>
-        </div>
+  </div>
 
 
-      <div class="symbol__subtitle">
-        Return value
-      </div>
 
-        <div class="symbol__type">
-          Array<T>
-        </div>
+  <div class="symbol is_stable">
 
-      <div class="symbol__param_prose">
-        <div class='prose'>
+    <a class="symbol__klass" href="/up.history">
+      Module
+      <span class="symbol__klass_name">up.history</span>
+    </a>
+
+    <div class="symbol__signature">
+      up.log.enable()
+    </div>
+
+
+      <div class="symbol__prose">
+        <div class='prose'><p>Prevents future Unpoly events from printing vast amounts of debugging information to the developer console.</p>
+
+<p>Errors will still be printed.</p>
+
 </div>
       </div>
+
+
+
 
   </div>
 

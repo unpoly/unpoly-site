@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up:framework:boot - Unpoly</title>
+  <title>up.util.escapeHtml(string) - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.25.1
+                  0.26.0
                 </a>
               </div>
             </div>
@@ -114,10 +114,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-back]</span>
       </a>
-      <a href="/up.boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.boot up.bus js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.boot</span>
-      </a>
       <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.browser.canCssTransition</span>
@@ -146,7 +142,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -226,10 +222,6 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:fragment:kept</span>
       </a>
-      <a href="/up:framework:boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:boot up.bus event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:framework:boot</span>
-      </a>
       <a href="/up:framework:reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:reset up.bus event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:framework:reset</span>
@@ -277,6 +269,14 @@
       <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.savescroll js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.layout.saveScroll</span>
+      </a>
+      <a href="/up.log.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.config up.history prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.log.config</span>
+      </a>
+      <a href="/up.log.enable" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.enable up.history js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.log.enable</span>
       </a>
       <a href="/up.macro" up-modal=".content" class="search__symbol is_stable" data-search-text="up.macro up.syntax js">
         <span class="search__symbol_kind">JS</span>
@@ -582,6 +582,10 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.each</span>
       </a>
+      <a href="/up.util.escapeHtml" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.escapehtml js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.escapeHtml</span>
+      </a>
       <a href="/up.util.except" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.except js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.except</span>
@@ -763,13 +767,13 @@
 
   <div class="symbol is_experimental">
 
-    <a class="symbol__klass" href="/up.bus">
+    <a class="symbol__klass" href="/up.util">
       Module
-      <span class="symbol__klass_name">up.bus</span>
+      <span class="symbol__klass_name">up.util</span>
     </a>
 
     <div class="symbol__signature">
-      up:framework:boot
+      up.util.escapeHtml(string)
         <span class="tag isnt_stable">
           experimental
         </span>
@@ -781,12 +785,28 @@
       </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>This event is <a href="/up.emit">emitted</a> when Unpoly <a href="/up.boot">boots</a>.</p>
+        <div class='prose'><p>Escapes the given string of HTML by replacing control chars with their HTML entities.</p>
 
 </div>
       </div>
 
 
+
+      <div class="symbol__subtitle">
+          Parameters
+      </div>
+
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            string            <span class="symbol__type">
+              String
+            </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'><p>The text that should be escaped</p>
+</div>
+          </div>
+        </div>
 
 
   </div>

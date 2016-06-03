@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.25.1
+                  0.26.0
                 </a>
               </div>
             </div>
@@ -114,10 +114,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-back]</span>
       </a>
-      <a href="/up.boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.boot up.bus js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.boot</span>
-      </a>
       <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.browser.canCssTransition</span>
@@ -146,7 +142,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -226,10 +222,6 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:fragment:kept</span>
       </a>
-      <a href="/up:framework:boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:boot up.bus event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:framework:boot</span>
-      </a>
       <a href="/up:framework:reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:reset up.bus event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:framework:reset</span>
@@ -277,6 +269,14 @@
       <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.savescroll js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.layout.saveScroll</span>
+      </a>
+      <a href="/up.log.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.config up.history prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.log.config</span>
+      </a>
+      <a href="/up.log.enable" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.enable up.history js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.log.enable</span>
       </a>
       <a href="/up.macro" up-modal=".content" class="search__symbol is_stable" data-search-text="up.macro up.syntax js">
         <span class="search__symbol_kind">JS</span>
@@ -582,6 +582,10 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.each</span>
       </a>
+      <a href="/up.util.escapeHtml" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.escapehtml js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.escapeHtml</span>
+      </a>
       <a href="/up.util.except" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.except js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.except</span>
@@ -770,9 +774,34 @@ This project mostly adheres to <a href="http://semver.org/">Semantic Versioning<
 
 <h3 id="breaking-changes">Breaking changes</h3>
 
-<h2 id="section">0.25.1</h2>
+<h2 id="section">0.26.0</h2>
 
 <h3 id="compatible-changes-1">Compatible changes</h3>
+
+<ul>
+  <li><a href="/up.popup">Popups</a> no longer scroll with the document if they are attached to an element with <code>position: fixed</code></li>
+  <li><a href="/up.tooltip">Tooltips</a> no longer flicker if an <a href="/up-tooltip"><code>[up-tooltip]</code></a> elements has children</li>
+  <li><a href="/up.tooltip">Tooltips</a> no longer flicker if the user moves the mouse too close to the tooltip triangle</li>
+  <li>Before <a href="/up.compile">compiling</a> the body, Unpoly now explicitly waits until user-provided compiles have been registered and the DOM is ready.</li>
+  <li>Debugging messages in the developer console are now disabled by default. Call <a href="/up.log.enable"><code>up.log.enable()</code></a> to get them back.</li>
+  <li>New configuration options in <a href="/up.log.config"><code>up.log.config</code></a>: <code>up.log.config.enabled</code>, <code>up.log.config.collapse</code> and
+<code>up.log.config.prefix</code>.</li>
+  <li>Improve formatting of error messages.</li>
+  <li>New experimental utility function <a href="/up.util.escapeHtml"><code>up.util.escapeHtml</code></a>.</li>
+  <li>If an error is thrown before the document is ready, Unpoly now waits until the document is ready before showing the red error box.</li>
+</ul>
+
+<h2 id="section-1">0.25.2</h2>
+
+<h3 id="compatible-changes-2">Compatible changes</h3>
+
+<ul>
+  <li>Fix a bug where <a href="/form-up-target">submitting a form</a> with file uploads would throw an error <code>"Cannot convert FormData into a query string"</code></li>
+</ul>
+
+<h2 id="section-2">0.25.1</h2>
+
+<h3 id="compatible-changes-3">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where <a href="/up.ajax"><code>up.ajax</code></a> would incorrectly re-use form responses even if the form data differed</li>
@@ -781,9 +810,9 @@ This project mostly adheres to <a href="http://semver.org/">Semantic Versioning<
 are applied to the same element and the element is removed, only the last destructor was called.</li>
 </ul>
 
-<h2 id="section-1">0.25.0</h2>
+<h2 id="section-3">0.25.0</h2>
 
-<h3 id="compatible-changes-2">Compatible changes</h3>
+<h3 id="compatible-changes-4">Compatible changes</h3>
 
 <ul>
   <li>New modal default <a href="/up.modal.config"><code>up.modal.config.sticky</code></a></li>
@@ -817,17 +846,17 @@ last animation frame.</li>
 This way you can set <a href="/up-dash"><code>[up-dash]</code></a> and <a href="/up-expand"><code>[up-expand]</code></a> from your own macros.</li>
 </ul>
 
-<h2 id="section-2">0.24.1</h2>
+<h2 id="section-4">0.24.1</h2>
 
-<h3 id="compatible-changes-3">Compatible changes</h3>
+<h3 id="compatible-changes-5">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug that would stop transitions from working.</li>
 </ul>
 
-<h2 id="section-3">0.24.0</h2>
+<h2 id="section-5">0.24.0</h2>
 
-<h3 id="compatible-changes-4">Compatible changes</h3>
+<h3 id="compatible-changes-6">Compatible changes</h3>
 
 <ul>
   <li>New function <a href="/up.modal.extract"><code>up.modal.extract</code></a> to open a modal from an
@@ -882,9 +911,9 @@ In earlier versions the modal took over as soon as the animation had started.</l
 complete animations/transitions on children of the given element.</li>
 </ul>
 
-<h2 id="section-4">0.23.1</h2>
+<h2 id="section-6">0.23.1</h2>
 
-<h3 id="compatible-changes-5">Compatible changes</h3>
+<h3 id="compatible-changes-7">Compatible changes</h3>
 
 <ul>
   <li><a href="/up.motion">Animations</a> <code>move-to-*</code> and <code>move-from-*</code> now use CSS transforms instead of manipulating the
@@ -896,9 +925,9 @@ bounding box margins.</li>
 link marked with a <a href="/up-active">up-active</a> class forever.</li>
 </ul>
 
-<h2 id="section-5">0.23.0</h2>
+<h2 id="section-7">0.23.0</h2>
 
-<h3 id="compatible-changes-6">Compatible changes</h3>
+<h3 id="compatible-changes-8">Compatible changes</h3>
 
 <ul>
   <li>Unpoly forms can now <a href="/up.submit">submit</a> file uploads via AJAX.</li>
@@ -912,9 +941,9 @@ link marked with a <a href="/up-active">up-active</a> class forever.</li>
   <li>The tooltip CSS has been changed to be easier to override.</li>
 </ul>
 
-<h2 id="section-6">0.22.1</h2>
+<h2 id="section-8">0.22.1</h2>
 
-<h3 id="compatible-changes-7">Compatible changes</h3>
+<h3 id="compatible-changes-9">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where the document title wasn't restored when using the back
@@ -927,9 +956,9 @@ link also had an <a href="/up-dash"><code>up-dash</code></a> attribute.</li>
   <li><a href="/up.destroy"><code>up.destroy</code></a> now returns a resolved deferred if the given selector or jQuery collection does not exist</li>
 </ul>
 
-<h2 id="section-7">0.22.0</h2>
+<h2 id="section-9">0.22.0</h2>
 
-<h3 id="compatible-changes-8">Compatible changes</h3>
+<h3 id="compatible-changes-10">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where using the <code>up-confirm</code> attribute would result in an infinite loop</li>
@@ -946,9 +975,9 @@ has both <a href="/up-preload"><code>up-preload</code></a> and <code>up-confirm<
   <li>Event <code>up:proxy:idle</code> is now <a href="/up:proxy:recover"><code>up:proxy:idle</code></a></li>
 </ul>
 
-<h2 id="section-8">0.21.0</h2>
+<h2 id="section-10">0.21.0</h2>
 
-<h3 id="compatible-changes-9">Compatible changes</h3>
+<h3 id="compatible-changes-11">Compatible changes</h3>
 
 <ul>
   <li>New function <code>up.macro</code>. This registers a <a href="/up.compiler">compiler</a> that is run before all other compilers.</li>
@@ -963,7 +992,7 @@ has both <a href="/up-preload"><code>up-preload</code></a> and <code>up-confirm<
   <li><code>up-toggle</code> has been renamed to <code>up-switch</code></li>
 </ul>
 
-<h2 id="section-9">0.20.0</h2>
+<h2 id="section-11">0.20.0</h2>
 
 <ul>
   <li>The project has been renamed to <em>Unpoly</em>.</li>
@@ -989,9 +1018,9 @@ has both <a href="/up-preload"><code>up-preload</code></a> and <code>up-confirm<
   </li>
 </ul>
 
-<h2 id="section-10">0.19.0</h2>
+<h2 id="section-12">0.19.0</h2>
 
-<h3 id="compatible-changes-10">Compatible changes</h3>
+<h3 id="compatible-changes-12">Compatible changes</h3>
 
 <ul>
   <li>Elements can now be persisted during page updates using the <a href="/up-keep"><code>up-keep</code></a> attribute.</li>
@@ -1005,17 +1034,17 @@ has both <a href="/up-preload"><code>up-preload</code></a> and <code>up-confirm<
   <li><code>up.implant</code> has been renamed to <a href="/up.extract"><code>up.extract</code></a>.</li>
 </ul>
 
-<h2 id="section-11">0.18.1</h2>
+<h2 id="section-13">0.18.1</h2>
 
-<h3 id="compatible-changes-11">Compatible changes</h3>
+<h3 id="compatible-changes-13">Compatible changes</h3>
 
 <ul>
   <li>The logging output to the developer console is now much quieter and more useful</li>
 </ul>
 
-<h2 id="section-12">0.18.0</h2>
+<h2 id="section-14">0.18.0</h2>
 
-<h3 id="compatible-changes-12">Compatible changes</h3>
+<h3 id="compatible-changes-14">Compatible changes</h3>
 
 <ul>
   <li>New UJS attribute <a href="/up-toggle"><code>[up-toggle]</code></a> to show or hide part of a form if certain options are selected or boxes are checked.</li>
@@ -1060,9 +1089,9 @@ through <code>up.target</code> (this used to be <code>up.selector</code>).</p>
   </li>
 </ul>
 
-<h2 id="section-13">0.17.0</h2>
+<h2 id="section-15">0.17.0</h2>
 
-<h3 id="compatible-changes-13">Compatible changes</h3>
+<h3 id="compatible-changes-15">Compatible changes</h3>
 
 <ul>
   <li>When used with the <a href="https://github.com/rails/jquery-ujs">Ruby on Rails unobtrusive scripting adapter</a> (<code>rails_ujs.js</code>),
@@ -1078,9 +1107,9 @@ now prevents duplicate form submission when Unpoly attributes are mixed with <co
 being invoked in the next animation frame).</li>
 </ul>
 
-<h2 id="section-14">0.16.0</h2>
+<h2 id="section-16">0.16.0</h2>
 
-<h3 id="compatible-changes-14">Compatible changes</h3>
+<h3 id="compatible-changes-16">Compatible changes</h3>
 
 <ul>
   <li>
@@ -1111,17 +1140,17 @@ response was received.</li>
   <li>Popups and modals are now compiled before they are animated.</li>
 </ul>
 
-<h2 id="section-15">0.15.1</h2>
+<h2 id="section-17">0.15.1</h2>
 
-<h3 id="compatible-changes-15">Compatible changes</h3>
+<h3 id="compatible-changes-17">Compatible changes</h3>
 
 <ul>
   <li>Fix an error where <code>up.form.config</code> was not published. This caused <code>unpoly-bootstrap3.js</code> to throw an error.</li>
 </ul>
 
-<h2 id="section-16">0.15.0</h2>
+<h2 id="section-18">0.15.0</h2>
 
-<h3 id="compatible-changes-16">Compatible changes</h3>
+<h3 id="compatible-changes-18">Compatible changes</h3>
 
 <ul>
   <li>New function <a href="/up.autosubmit"><code>up.autosubmit</code></a> and selector <a href="/up-autosubmit"><code>[up-autosubmit]</code></a> to
@@ -1149,18 +1178,18 @@ event listeners.</li>
 The callback can now longer be passed as a <code>.change</code> option.</li>
 </ul>
 
-<h2 id="section-17">0.14.0</h2>
+<h2 id="section-19">0.14.0</h2>
 
-<h3 id="compatible-changes-17">Compatible changes</h3>
+<h3 id="compatible-changes-19">Compatible changes</h3>
 
 <ul>
   <li>Published the <a href="/up.util">up.util</a> module.
 This might save you from loading something like <a href="http://underscorejs.org/">Underscore.js</a>.</li>
 </ul>
 
-<h2 id="section-18">0.13.0</h2>
+<h2 id="section-20">0.13.0</h2>
 
-<h3 id="compatible-changes-18">Compatible changes</h3>
+<h3 id="compatible-changes-20">Compatible changes</h3>
 
 <ul>
   <li>Support for server-side live validation of forms
@@ -1178,18 +1207,18 @@ In a future release we will be able to submit file inputs via AJAX.</li>
   <li>Server responses can now change the document title by including an <code>X-Up-Title</code> header.</li>
 </ul>
 
-<h2 id="section-19">0.12.5</h2>
+<h2 id="section-21">0.12.5</h2>
 
-<h3 id="compatible-changes-19">Compatible changes</h3>
+<h3 id="compatible-changes-21">Compatible changes</h3>
 
 <ul>
   <li><code>a[up-target]</code> and <code>up.follow</code> now scroll to a #hash in the link's destination URL</li>
   <li>When up.replace cannot make a change in old browsers, return an unresolved promise instead of a resolved promise.</li>
 </ul>
 
-<h2 id="section-20">0.12.4</h2>
+<h2 id="section-22">0.12.4</h2>
 
-<h3 id="compatible-changes-20">Compatible changes</h3>
+<h3 id="compatible-changes-22">Compatible changes</h3>
 
 <ul>
   <li>When <a href="/up.morph">morphing</a>, prevent flickering caused by long repaint frames</li>
@@ -1197,13 +1226,13 @@ In a future release we will be able to submit file inputs via AJAX.</li>
   <li>Fix a bug where compositing wasn't forced properly during an animation</li>
 </ul>
 
-<h2 id="section-21">0.12.3</h2>
+<h2 id="section-23">0.12.3</h2>
 
 <p>Refactored internals. No API changes.</p>
 
-<h2 id="section-22">0.12.2</h2>
+<h2 id="section-24">0.12.2</h2>
 
-<h3 id="compatible-changes-21">Compatible changes</h3>
+<h3 id="compatible-changes-23">Compatible changes</h3>
 
 <ul>
   <li>When marking links as <code>.up-current</code>, also consider the URL behind a current modal or popup to
@@ -1217,9 +1246,9 @@ be the "current" URL.</li>
   <li>When <code>up.first</code> finds no match, return <code>undefined</code> instead of <code>null</code>.</li>
 </ul>
 
-<h2 id="section-23">0.12.1</h2>
+<h2 id="section-25">0.12.1</h2>
 
-<h3 id="compatible-changes-22">Compatible changes</h3>
+<h3 id="compatible-changes-24">Compatible changes</h3>
 
 <ul>
   <li><code>up.on</code> now returns a function that unbinds the events when called</li>
@@ -1228,9 +1257,9 @@ in situations where the same operation would also reveal the replaced element.</
   <li>Various bugfixes</li>
 </ul>
 
-<h2 id="section-24">0.12.0</h2>
+<h2 id="section-26">0.12.0</h2>
 
-<h3 id="compatible-changes-23">Compatible changes</h3>
+<h3 id="compatible-changes-25">Compatible changes</h3>
 
 <ul>
   <li>Unpoly can now be used with <a href="https://api.jquery.com/jquery.noconflict/"><code>jQuery.noConflict()</code></a>.</li>
@@ -1288,9 +1317,9 @@ causing it to be compiled etc.</li>
   </li>
 </ul>
 
-<h2 id="section-25">0.11.1</h2>
+<h2 id="section-27">0.11.1</h2>
 
-<h3 id="compatible-changes-24">Compatible changes</h3>
+<h3 id="compatible-changes-26">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where browsers without CSS animation support would crash after an animation call</li>
@@ -1298,9 +1327,9 @@ causing it to be compiled etc.</li>
   <li>Fix a million bugs related to compatibility with IE9 and IE10</li>
 </ul>
 
-<h2 id="section-26">0.11.0</h2>
+<h2 id="section-28">0.11.0</h2>
 
-<h3 id="compatible-changes-25">Compatible changes</h3>
+<h3 id="compatible-changes-27">Compatible changes</h3>
 
 <ul>
   <li>Rework the scrolling implementation so we don't need to scroll elements to the top before replacing them.</li>
@@ -1332,32 +1361,32 @@ set an <code>_up_request_method</code> cookie with the current request method on
   </li>
 </ul>
 
-<h2 id="section-27">0.10.5</h2>
+<h2 id="section-29">0.10.5</h2>
 
-<h3 id="compatible-changes-26">Compatible changes</h3>
+<h3 id="compatible-changes-28">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where the proxy would remain busy forever if a response failed.</li>
 </ul>
 
-<h2 id="section-28">0.10.4</h2>
+<h2 id="section-30">0.10.4</h2>
 
-<h3 id="compatible-changes-27">Compatible changes</h3>
+<h3 id="compatible-changes-29">Compatible changes</h3>
 
 <ul>
   <li>Fix a bug where hovering multiple times over the same [up-preload] link would
 not trigger a new request after the cache expired</li>
 </ul>
 
-<h2 id="section-29">0.10.3</h2>
+<h2 id="section-31">0.10.3</h2>
 
-<h3 id="compatible-changes-28">Compatible changes</h3>
+<h3 id="compatible-changes-30">Compatible changes</h3>
 
 <ul>
   <li>The default viewport is now <code>document</code> instead of the <code>&lt;body&gt;</code> element.</li>
 </ul>
 
-<h2 id="section-30">0.10.2</h2>
+<h2 id="section-32">0.10.2</h2>
 
 <h3 id="breaking-changes-14">Breaking changes</h3>
 
@@ -1367,7 +1396,7 @@ direct calls of <a href="/up.replace"><code>up.replace</code></a> no longer do.
 This behavior can be activated using the <code>{ reveal: true }</code> option.</li>
 </ul>
 
-<h3 id="compatible-changes-29">Compatible changes</h3>
+<h3 id="compatible-changes-31">Compatible changes</h3>
 
 <ul>
   <li>Options to control scrolling and cache use for
@@ -1378,7 +1407,7 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
 <a href="/a-up-target"><code>a[up-target]</code></a>.</li>
 </ul>
 
-<h2 id="section-31">0.10.1</h2>
+<h2 id="section-33">0.10.1</h2>
 
 <h3 id="breaking-changes-15">Breaking changes</h3>
 
@@ -1386,9 +1415,9 @@ This behavior can be activated using the <code>{ reveal: true }</code> option.</
   <li><a href="/up.reveal"><code>up.reveal</code></a> now only reveals the first 150 pixels of an element.</li>
 </ul>
 
-<h2 id="section-32">0.10.0</h2>
+<h2 id="section-34">0.10.0</h2>
 
-<h3 id="compatible-changes-30">Compatible changes</h3>
+<h3 id="compatible-changes-32">Compatible changes</h3>
 
 <ul>
   <li>Viewport scroll positions are saved when the URL changes and restored when the user hits the back/forward button</li>
@@ -1407,17 +1436,17 @@ within the viewport before replacement.</li>
   <li>The string <code>up.history.defaults('popTarget')</code> is now an array of selectors <code>up.history.defaults('popTargets')</code></li>
 </ul>
 
-<h2 id="section-33">0.9.1</h2>
+<h2 id="section-35">0.9.1</h2>
 
-<h3 id="compatible-changes-31">Compatible changes</h3>
+<h3 id="compatible-changes-33">Compatible changes</h3>
 
 <ul>
   <li>Change transition implementation so child elements with collapsing margins don't reposition within the animated element</li>
 </ul>
 
-<h2 id="section-34">0.9.0</h2>
+<h2 id="section-36">0.9.0</h2>
 
-<h3 id="compatible-changes-32">Compatible changes</h3>
+<h3 id="compatible-changes-34">Compatible changes</h3>
 
 <ul>
   <li>Elements are now being <a href="/up.reveal">revealed</a> within their viewport before they are updated</li>
@@ -1426,9 +1455,9 @@ within the viewport before replacement.</li>
   <li>You can now make <a href="/up.reveal"><code>up.reveal</code></a> aware of fixed navigation bars blocking the viewport by setting new options <code>up.layout.defaults('fixedTop')</code> and <code>up.layout.defaults('fixedBottom')</code>.</li>
 </ul>
 
-<h2 id="section-35">0.8.2</h2>
+<h2 id="section-37">0.8.2</h2>
 
-<h3 id="compatible-changes-33">Compatible changes</h3>
+<h3 id="compatible-changes-35">Compatible changes</h3>
 
 <ul>
   <li><a href="/up.reveal"><code>up.reveal</code></a> can now reveal content in modals and containers with <code>overflow-y: scroll</code>.</li>
@@ -1436,7 +1465,7 @@ within the viewport before replacement.</li>
   <li>Links linking to <code>"#"</code> are now never marked as <code>.up-current</code>.</li>
 </ul>
 
-<h2 id="section-36">0.8.1</h2>
+<h2 id="section-38">0.8.1</h2>
 
 <h3 id="compatible-chanes">Compatible chanes</h3>
 
@@ -1450,92 +1479,92 @@ within the viewport before replacement.</li>
   <li>Like Bootstrap, the Unpoly modal will now scroll the main document viewport instead of the modal dialog box.</li>
 </ul>
 
-<h2 id="section-37">0.8.0</h2>
+<h2 id="section-39">0.8.0</h2>
 
-<h3 id="compatible-changes-34">Compatible changes</h3>
+<h3 id="compatible-changes-36">Compatible changes</h3>
 
 <ul>
   <li>Unpoly will now emit <a href="http://unpoly.com/up.bus">events</a> <code>proxy:busy</code> and <code>proxy:idle</code> whenever it is loading or is done loading content over HTTP.</li>
   <li>Add an option <code>up.proxy.defaults('busyDelay')</code> to delay the <code>proxy:busy</code> event in order to prevent flickering of loading spinners.</li>
 </ul>
 
-<h2 id="section-38">0.7.8</h2>
+<h2 id="section-40">0.7.8</h2>
 
-<h3 id="compatible-changes-35">Compatible changes</h3>
+<h3 id="compatible-changes-37">Compatible changes</h3>
 
 <ul>
   <li>Now longer throws an error if the current location does not match an <code>up-alias</code> wildcard (bugfix).</li>
 </ul>
 
-<h2 id="section-39">0.7.7</h2>
+<h2 id="section-41">0.7.7</h2>
 
-<h3 id="compatible-changes-36">Compatible changes</h3>
+<h3 id="compatible-changes-38">Compatible changes</h3>
 
 <ul>
   <li>Allow <code>up-alias</code> to match URLs by prefix (<code>up-alias="prefix*"</code>).</li>
 </ul>
 
-<h2 id="section-40">0.7.6</h2>
+<h2 id="section-42">0.7.6</h2>
 
-<h3 id="compatible-changes-37">Compatible changes</h3>
+<h3 id="compatible-changes-39">Compatible changes</h3>
 
 <ul>
   <li>Fix what Unpoly considers the current URL of a modal or popup if multiple updates change different parts of the modal or popup.</li>
   <li>Don't replace elements within a container that matches <code>.up-destroying</code> or <code>.up-ghost</code> (which are cloned elements for animation purposes).</li>
 </ul>
 
-<h2 id="section-41">0.7.5</h2>
+<h2 id="section-43">0.7.5</h2>
 
-<h3 id="compatible-changes-38">Compatible changes</h3>
+<h3 id="compatible-changes-40">Compatible changes</h3>
 
 <ul>
   <li>Make sure that an expanded link will be considered a link by adding an <code>up-follow</code> attribute if it doesn't already have an <code>up-target</code> attribute.</li>
 </ul>
 
-<h2 id="section-42">0.7.4</h2>
+<h2 id="section-44">0.7.4</h2>
 
-<h3 id="compatible-changes-39">Compatible changes</h3>
+<h3 id="compatible-changes-41">Compatible changes</h3>
 
 <ul>
   <li>Correctly position tooltips when the user has scrolled the main document viewports.</li>
   <li>Allow popups within modal dialogs.</li>
 </ul>
 
-<h2 id="section-43">0.7.3</h2>
+<h2 id="section-45">0.7.3</h2>
 
-<h3 id="compatible-changes-40">Compatible changes</h3>
+<h3 id="compatible-changes-42">Compatible changes</h3>
 
 <ul>
   <li>Use <a href="http://unpoly.com/up.proxy">up.proxy</a> when submitting a form.</li>
 </ul>
 
-<h2 id="section-44">0.7.2</h2>
+<h2 id="section-46">0.7.2</h2>
 
-<h3 id="compatible-changes-41">Compatible changes</h3>
+<h3 id="compatible-changes-43">Compatible changes</h3>
 
 <ul>
   <li>When marking links as <code>.up-current</code>, allow to additionally match on a space-separated list of URLs in an  <code>up-alias</code> attribute.</li>
 </ul>
 
-<h2 id="section-45">0.7.1</h2>
+<h2 id="section-47">0.7.1</h2>
 
-<h3 id="compatible-changes-42">Compatible changes</h3>
+<h3 id="compatible-changes-44">Compatible changes</h3>
 
 <ul>
   <li>Bugfix: Don't consider forms with an <code>up-target</code> attribute to be a link.</li>
 </ul>
 
-<h2 id="section-46">0.7.0</h2>
+<h2 id="section-48">0.7.0</h2>
 
-<h3 id="compatible-changes-43">Compatible changes</h3>
+<h3 id="compatible-changes-45">Compatible changes</h3>
 
 <ul>
   <li>New selector <a href="/up-expand"><code>[up-expand]</code></a> to enlarge click areas</li>
 </ul>
 
-<h2 id="section-47">0.6.5</h2>
+<h2 id="section-49">0.6.5</h2>
 
-<h3 id="compatible-changes-44">Compatible changes</h3>
+<h3 id="compatible-changes-46">Compatible changes</h3>
 
 <ul>
   <li>Animation options for <code>up.tooltip.open</code></li>
@@ -1548,17 +1577,17 @@ within the viewport before replacement.</li>
   <li>Rename option <code>.origin</code> to <code>.position</code> in <code>up.popup</code> and <code>up.tooltip</code></li>
 </ul>
 
-<h2 id="section-48">0.6.4</h2>
+<h2 id="section-50">0.6.4</h2>
 
-<h3 id="compatible-changes-45">Compatible changes</h3>
+<h3 id="compatible-changes-47">Compatible changes</h3>
 
 <ul>
   <li>Don't follow links while CTRL, Meta or Shift keys are pressed</li>
 </ul>
 
-<h2 id="section-49">0.6.3</h2>
+<h2 id="section-51">0.6.3</h2>
 
-<h3 id="compatible-changes-46">Compatible changes</h3>
+<h3 id="compatible-changes-48">Compatible changes</h3>
 
 <ul>
   <li>Show backtraces for Unpoly errors</li>
@@ -1570,9 +1599,9 @@ within the viewport before replacement.</li>
   <li>Rename method <code>up.awaken</code> to <code>up.compiler</code></li>
 </ul>
 
-<h2 id="section-50">0.6.2</h2>
+<h2 id="section-52">0.6.2</h2>
 
-<h3 id="compatible-changes-47">Compatible changes</h3>
+<h3 id="compatible-changes-49">Compatible changes</h3>
 
 <ul>
   <li>Option to have a custom HTTP method for <code>up.follow</code></li>

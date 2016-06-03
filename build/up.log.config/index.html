@@ -7,7 +7,7 @@
 <link href='/images/favicon.png' rel='shortcut icon' type='image/png'>
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'>
 
-  <title>up.boot() - Unpoly</title>
+  <title>up.log.config = options - Unpoly</title>
   <link href='http://fonts.googleapis.com/css?family=Orbitron:400|Ubuntu+Mono:400,700|Source+Sans+Pro:300,400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="/stylesheets/guide/all.css" rel="stylesheet" />
@@ -44,7 +44,7 @@
                   Unpoly
                 </a>
                 <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  0.25.1
+                  0.26.0
                 </a>
               </div>
             </div>
@@ -114,10 +114,6 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-back]</span>
       </a>
-      <a href="/up.boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.boot up.bus js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.boot</span>
-      </a>
       <a href="/up.browser.canCssTransition" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.browser.cancsstransition js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.browser.canCssTransition</span>
@@ -146,7 +142,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -226,10 +222,6 @@
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:fragment:kept</span>
       </a>
-      <a href="/up:framework:boot" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:boot up.bus event">
-        <span class="search__symbol_kind">EVENT</span>
-        <span class="search__symbol_name">up:framework:boot</span>
-      </a>
       <a href="/up:framework:reset" up-modal=".content" class="search__symbol is_experimental" data-search-text="up:framework:reset up.bus event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:framework:reset</span>
@@ -277,6 +269,14 @@
       <a href="/up.layout.saveScroll" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.layout.savescroll js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.layout.saveScroll</span>
+      </a>
+      <a href="/up.log.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.config up.history prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.log.config</span>
+      </a>
+      <a href="/up.log.enable" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.enable up.history js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.log.enable</span>
       </a>
       <a href="/up.macro" up-modal=".content" class="search__symbol is_stable" data-search-text="up.macro up.syntax js">
         <span class="search__symbol_kind">JS</span>
@@ -582,6 +582,10 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.each</span>
       </a>
+      <a href="/up.util.escapeHtml" up-modal=".content" class="search__symbol is_experimental" data-search-text="up.util.escapehtml js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.util.escapeHtml</span>
+      </a>
       <a href="/up.util.except" up-modal=".content" class="search__symbol is_stable" data-search-text="up.util.except js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.util.except</span>
@@ -761,39 +765,82 @@
               
 
 
-  <div class="symbol is_experimental">
+  <div class="symbol is_stable">
 
-    <a class="symbol__klass" href="/up.bus">
+    <a class="symbol__klass" href="/up.history">
       Module
-      <span class="symbol__klass_name">up.bus</span>
+      <span class="symbol__klass_name">up.history</span>
     </a>
 
     <div class="symbol__signature">
-      up.boot()
-        <span class="tag isnt_stable">
-          experimental
-        </span>
+      up.log.config = options
     </div>
 
-      <div class="symbol__warning">
-        This feature is experimental and not part of Unpoly' stable API.
-        It may be removed or changed without prior notice or deprecation.
-      </div>
 
       <div class="symbol__prose">
-        <div class='prose'><p>Boots the Unpoly framework.</p>
-
-<p>This is done automatically by including the Unpoly Javascript.</p>
-
-<p>Unpoly will not boot if the current browser is <a href="/up.browser.isSupported">not supported</a>.
-This leaves you with a classic server-side application on legacy browsers.</p>
-
-<p>Emits the <a href="/up:framework:boot"><code>up:framework:boot</code></a> event.</p>
+        <div class='prose'><p>Configures the logging output on the developer console.</p>
 
 </div>
       </div>
 
 
+
+      <div class="symbol__subtitle">
+          Value
+      </div>
+
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [options.enabled=false]            <span class="symbol__type">
+              Boolean
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>Whether Unpoly will print debugging information to the developer console.</p>
+
+<p>Debugging information includes which elements are being <a href="/up.syntax">compiled</a>
+and which <a href="/up.bus">events</a> are being emitted.
+Note that errors will always be printed, regardless of this setting.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [options.collapse=false]            <span class="symbol__type">
+              Boolean
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'>
+<p>Whether debugging information is printed as a collapsed tree.</p>
+
+<p>Set this to <code>true</code> if you are overwhelmed by the debugging information Unpoly
+prints to the developer console.</p>
+</div>
+          </div>
+        </div>
+        <div class="symbol__param">
+          <div class="symbol__param_name">
+            [options.prefix='[UP]            <span class="symbol__type">
+              String
+            </span>
+              <span class="tag is_teal">
+                optional
+              </span>
+          </div>
+          <div class="symbol__param_prose">
+            <div class='prose'><p>']
+A string to prepend to Unpoly's logging messages so you can distinguish it from your own messages.</p>
+</div>
+          </div>
+        </div>
 
 
   </div>
