@@ -93,7 +93,7 @@ module Unpoly
             [\ \t]*        # .. whitespace before equals symbol
             \=             # .. equals symbol
             [\ \t]*        # .. whitespace after equals symbol
-            (\[.*?\]|.+?)  # .. default value which might be an array with square brackets ($2)
+            (\'.*?\'|\".*?\"|\[.*?\]|.+?)  # .. default value which might be a string or an array with square brackets ($2)
           )?
           [\ \t]*      # whitespace
           \]           # closing bracket
