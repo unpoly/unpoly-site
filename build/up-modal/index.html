@@ -69,6 +69,7 @@
     <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.layout">Application layout</a>
     <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.bus">Events</a>
     <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.util">Utility functions</a>
+    <a class="menu__item " up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/up.log">Logging</a>
   <a class="menu__item is_for_narrow" up-dash=".content" up-transition="fade-out/move-from-bottom" up-duration="400" href="/changelog">Changelog</a>
 </div>
 
@@ -142,7 +143,7 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.bus.onEscape</span>
       </a>
-      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.modal css">
+      <a href="/up-close" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-close] up.popup css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-close]</span>
       </a>
@@ -189,6 +190,10 @@
       <a href="/up-fixed-top" up-modal=".content" class="search__symbol is_stable" data-search-text="[up-fixed=top] up.layout css">
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-fixed=top]</span>
+      </a>
+      <a href="/up.flow.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.flow.config prop">
+        <span class="search__symbol_kind">PROP</span>
+        <span class="search__symbol_name">up.flow.config</span>
       </a>
       <a href="/up.follow" up-modal=".content" class="search__symbol is_stable" data-search-text="up.follow up.link js">
         <span class="search__symbol_kind">JS</span>
@@ -270,11 +275,15 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.layout.saveScroll</span>
       </a>
-      <a href="/up.log.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.config up.history prop">
+      <a href="/up.log.config" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.config prop">
         <span class="search__symbol_kind">PROP</span>
         <span class="search__symbol_name">up.log.config</span>
       </a>
-      <a href="/up.log.enable" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.enable up.history js">
+      <a href="/up.log.disable" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.disable js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.log.disable</span>
+      </a>
+      <a href="/up.log.enable" up-modal=".content" class="search__symbol is_stable" data-search-text="up.log.enable js">
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.log.enable</span>
       </a>
@@ -286,13 +295,13 @@
         <span class="search__symbol_kind">CSS</span>
         <span class="search__symbol_name">[up-modal]</span>
       </a>
-      <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.modal.close</span>
-      </a>
       <a href="/up:modal:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:close up.modal event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:modal:close</span>
+      </a>
+      <a href="/up.modal.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.modal.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.modal.close</span>
       </a>
       <a href="/up:modal:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:modal:closed up.modal event">
         <span class="search__symbol_kind">EVENT</span>
@@ -394,13 +403,13 @@
         <span class="search__symbol_kind">JS</span>
         <span class="search__symbol_name">up.popup.attach</span>
       </a>
-      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
-        <span class="search__symbol_kind">JS</span>
-        <span class="search__symbol_name">up.popup.close</span>
-      </a>
       <a href="/up:popup:close" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:close up.popup event">
         <span class="search__symbol_kind">EVENT</span>
         <span class="search__symbol_name">up:popup:close</span>
+      </a>
+      <a href="/up.popup.close" up-modal=".content" class="search__symbol is_stable" data-search-text="up.popup.close js">
+        <span class="search__symbol_kind">JS</span>
+        <span class="search__symbol_name">up.popup.close</span>
       </a>
       <a href="/up:popup:closed" up-modal=".content" class="search__symbol is_stable" data-search-text="up:popup:closed up.popup event">
         <span class="search__symbol_kind">EVENT</span>
@@ -896,7 +905,7 @@ By <a href="/up.modal.config">default</a> the dialog will grow to fit its conten
         </div>
         <div class="symbol__param">
           <div class="symbol__param_name">
-            [up-history="true"]            <span class="symbol__type">
+            [up-history]            <span class="symbol__type">
               String
             </span>
               <span class="tag is_teal">
@@ -905,7 +914,10 @@ By <a href="/up.modal.config">default</a> the dialog will grow to fit its conten
           </div>
           <div class="symbol__param_prose">
             <div class='prose'>
-<p>Whether to add a browser history entry for the modal's source URL.</p>
+<p>Whether to push an entry to the browser history for the modal's source URL.</p>
+
+<p>Set this to <code>'false'</code> to prevent the URL bar from being updated.
+Set this to a URL string to update the history with the given URL.</p>
 </div>
           </div>
         </div>
