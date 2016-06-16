@@ -1,14 +1,9 @@
-load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+load 'deploy'
 
 set :deploy_to, "/var/www/unpoly.com/"
 set :user, "deploy-unpoly_p"
 set :use_sudo, false
-set :deploy_via, :remote_cache
-set :copy_exclude, [ '.git' ]
-set :clear_cache, :false
-
-set :repository,  "git@code.makandra.de:makandra/unpoly-guide.git"
-set :scm, :git
+set :keep_releases, 10
 
 server "c23.makandra.makandra.de", :app, :web, :primary => true
 server "c42.makandra.makandra.de", :app, :web
@@ -16,26 +11,19 @@ server "c42.makandra.makandra.de", :app, :web
 ssh_options[:forward_agent] = true
 
 namespace :deploy do
-
-  task :restart do
+  task :build_files do
+    run_locally 'middleman build'
   end
 
-  task :start do
-  end
+  task :update_code do
 
-  task :stop do
-  end
+    local_path = File.join(Dir.pwd, 'build', '.')
+    remote_path = File.join(release_path, 'build')
 
-  task :migrate do
-  end
-
-  task :finalize_update do
-  end
-
-end
-
-task :fix_remote_cache, :role => :app do
-  if fetch(:deploy_via) == :remote_cache
-    run "cd #{shared_path}/cached-copy; git remote set-url origin #{fetch(:repository)}"
+    run "mkdir -p #{remote_path}"
+    top.upload local_path, remote_path, via: :scp, recursive: true
   end
 end
+
+before 'deploy:update_code', 'deploy:build_files'
+after 'deploy:restart', 'deploy:cleanup' # https://makandracards.com/makandra/1432-capistrano-delete-old-releases

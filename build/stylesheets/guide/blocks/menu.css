@@ -1,1 +1,0 @@
-.menu__item{display:block;font-size:18px;line-height:22px;color:#CC293C}.menu__item:not(:last-child){margin-bottom:10px}.menu__item:hover{color:#E74C3C}.menu__item.up-current,.menu__item.up-active{font-weight:700}.menu__item.is_for_narrow{display:none}@media (max-width: 1199px){.menu__item.is_for_narrow{display:block}}

@@ -1,1 +1,0 @@
-up.compiler("timestamp",function(e){var t=new Date;e.text(t)});
