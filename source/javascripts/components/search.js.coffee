@@ -27,10 +27,13 @@ up.compiler '.search', ($search, data) ->
     query = u.trim($query.val()).toLowerCase()
     storeQuery(query)
     words = query.split(/\s+/)
+    hasQuery = u.isPresent(query)
+    $search.toggleClass('has_query', hasQuery)
     for symbol in $symbols
       $symbol = $(symbol)
       isMatch = matchSymbol($symbol, words)
       $symbol.toggle(isMatch)
+      $symbol.toggleClass('is_match', isMatch)
 
   $query.on 'input', find
   find()

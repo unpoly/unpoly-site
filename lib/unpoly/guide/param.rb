@@ -33,10 +33,10 @@ module Unpoly
         !!(name =~ OPTION_PREFIX)
       end
 
-      def signature
+      def signature(with_default: true)
         signature = ""
         signature << name
-        signature << "=#{default}" if default?
+        signature << "=#{default}" if with_default && default?
         signature = "[#{signature}]" if optional?
         signature
       end

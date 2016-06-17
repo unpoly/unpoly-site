@@ -9,7 +9,7 @@ module Unpoly
             @features = features
           end
 
-          delegate :guide_id, :guide_path, :name, :search_text, :visibility, :kind, :short_kind, :<=>, :sort_name, :stable, :experimental, :internal?, to: :first_feature
+          delegate :guide_id, :guide_path, :name, :search_text, :visibility, :kind, :short_kind, :<=>, :sort_name, :stable, :experimental, :internal?, :function?, :selector?, :property?, :params, to: :first_feature
 
           private
 

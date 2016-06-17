@@ -136,8 +136,14 @@ module Unpoly
       end
 
       def search_text
+
+        strings = []
+        strings << name
+        strings << klass.name
+        strings << short_kind
+        strings += params.collect(&:name) if selector?
         parts = []
-        [name, klass.name, short_kind].each do |string|
+        strings.each do |string|
            unless parts.any? { |part| part.include?(string) }
              parts << string.downcase
            end

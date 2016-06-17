@@ -37,6 +37,7 @@
   line-height: 18px
   border-radius: 2px
   font-weight: bold
+  +border-box
 
   .search__symbol.is_experimental &
     background-color: $COLOR_PROTECTED
@@ -45,3 +46,13 @@
   color: $COLOR_ALIZARIN
   .search__symbol_kind
     background-color: $COLOR_ALIZARIN
+
+.search__symbol_params
+  display: none
+  opacity: 0.65
+  .search.has_query .search__symbol.is_match &
+    display: block
+  &:empty
+    display: none
+  .search__symbol_kind
+    opacity: 0.6
