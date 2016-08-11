@@ -145,15 +145,13 @@ set :js_dir, 'javascripts'
 
 set :images_dir, 'images'
 
-ready do
-  paths = Dir["vendor/*"].sort_by { |dir| -dir.size }
-  paths.each do |path|
-    puts "APPENDING SPROCKET PATH: #{path}"
-    sprockets.append_path File.expand_path(path)
-  end
-  sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/javascripts")
-  sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/stylesheets")
+paths = Dir["vendor/*"].sort_by { |dir| -dir.size }
+paths.each do |path|
+  puts "APPENDING SPROCKET PATH: #{path}"
+  sprockets.append_path File.expand_path(path)
 end
+sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/javascripts")
+sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/stylesheets")
 
 # Build-specific configuration
 configure :build do
@@ -164,7 +162,7 @@ configure :build do
   activate :minify_javascript
 
   # Enable cache buster
-  # activate :asset_hash
+  activate :asset_hash
 
   # Use relative URLs
   # activate :relative_assets
