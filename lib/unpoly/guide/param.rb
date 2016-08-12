@@ -46,6 +46,10 @@ module Unpoly
         $1
       end
 
+      def guide_anchor
+        Slugalizer.slugalize(name)
+      end
+
     end
   end
 end

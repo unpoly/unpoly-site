@@ -51,7 +51,7 @@
       </div>
 
       <% feature.params.each do |param| %>
-        <div class="symbol__param">
+        <div class="symbol__param" id="<%= param.guide_anchor %>">
           <div class="symbol__param_name">
             <%= param.signature -%>
             <span class="symbol__type">
