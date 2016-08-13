@@ -1,4 +1,5 @@
 @import environment
+@import title
 
 .symbol
   //border-top: 2px solid desaturate($COLOR_MAIN, 60%) + 110
@@ -60,11 +61,13 @@
   margin-left: 20px
 
 .symbol__subtitle
-  margin-top: 22px
-  margin-bottom: 10px
-  +font-size(18px)
-  color: #333
-  font-weight: 700
+  @extend .subtitle
+  //margin-top: 22px
+  //margin-bottom: 10px
+  //+font-size(18px)
+  //color: #333
+  //color: red
+  //font-weight: 700
 
 .symbol__or
   color: #b2b2b2
