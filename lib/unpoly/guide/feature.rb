@@ -35,7 +35,7 @@ module Unpoly
           signature = ''
           signature << name
           signature << ' = '
-          signature << params[0].option_hash_name || params[0].name
+          signature << (params[0].option_hash_name || params[0].name)
           signature
 
         else
