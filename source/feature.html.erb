@@ -1,0 +1,102 @@
+<%
+   guide.reload if development?
+%>
+
+<% guide.features_for_guide_id(guide_id).each_with_index do |feature, i| %>
+
+  <% @page_title = feature.signature if i == 0 %>
+
+  <div class="feature is_<%= feature.visibility %>">
+
+    <h1>
+
+      <a class="breadcrumb" href="<%= feature.klass.guide_path %>">
+        <%= feature.klass.title %>
+      </a>
+
+      <code>
+        <%= h(feature.signature) %>
+      </code>
+
+      <span class="feature__tags">
+        <span class="tag is_red is_large">
+          <%= feature.kind %>
+        </span>
+
+        <% if feature.visibility.present? && feature.visibility != 'stable' %>
+          <span class="tag isnt_stable is_large">
+            <%= feature.visibility %>
+          </span>
+        <% end %>
+      </span>
+
+    </h1>
+
+    <% if feature.experimental? %>
+      <div class="feature__warning">
+        This feature is experimental and not part of Unpoly's stable API.
+        It may be removed or changed without prior notice or deprecation.
+      </div>
+    <% end %>
+
+    <% if feature.guide_markdown.present? %>
+      <div class="feature__prose">
+        <%= markdown_prose(feature.guide_markdown) %>
+      </div>
+    <% end %>
+
+
+    <% if feature.params.present? %>
+
+      <h2>
+        <% if feature.selector? %>
+          Modifying attributes
+        <% elsif feature.property? %>
+          Value
+        <% elsif feature.event? %>
+          Properties
+        <% else %>
+          Parameters
+        <% end %>
+      </h2>
+
+      <% feature.params.each do |param| %>
+        <div class="feature__param" id="<%= param.guide_anchor %>">
+          <div class="feature__param_name">
+            <%= param.signature -%>
+            <span class="feature__type">
+              <%= param.types.join(' <span class="feature__or">or</span> ') %>
+            </span>
+            <% if param.optional? %>
+              <span class="tag is_light_gray">
+                optional
+              </span>
+            <% end %>
+          </div>
+          <div class="feature__param_prose">
+            <%= markdown_prose(param.guide_markdown) %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if feature.response %>
+
+      <h2>
+        Return value
+      </h2>
+
+      <% if feature.response.types.present? %>
+        <div class="feature__type">
+          <%= feature.response.types.join(' <span class="feature__or">or</span> ') %>
+        </div>
+      <% end %>
+
+      <div class="feature__param_prose">
+        <%= markdown_prose(feature.response.guide_markdown) %>
+      </div>
+    <% end %>
+
+  </div>
+
+<% end %>

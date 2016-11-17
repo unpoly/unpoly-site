@@ -1,34 +1,48 @@
 @import compass/reset
 @import environment
+@import typography
 
 html
   height: 100%
 
 body
-  +default-font
-  font-size: 18px
-  line-height: 26px
-  font-weight: 400
-  color: #444
-  // +pretty-scrollbars
   height: 100%
-  text-decoration: none
-  outline: 0 // firefox dotted outline
   overflow-y: scroll
+  overflow-x: hidden
 
 .screen
   height: 100%
 
-
-b
-  font-weight: 700
-
 a
   text-decoration: none
-
+  outline: 0 // firefox dotted outline
 
 i.fa
   font-style: normal !important
 
 .hljs
   +pretty-scrollbars(8px)
+
+input[type=text]
+  +font-size($FONT_SIZE)
+  border: 1px solid #aaa
+  padding: 4px 6px
+  +default-font
+  +border-box
+  width: 100%
+  border-radius: 2px
+
+  &::-moz-focus-inner // https://makandracards.com/makandra/946-firefox-remove-dotted-border-from-focused-buttons
+    border: none
+
+  &:focus, &:active
+    border-color: #666
+    outline: none
+
+.on_wide
+  +on_narrow
+    display: none !important
+
+.on_narrow
+  +on_wide
+    display: none !important

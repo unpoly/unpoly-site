@@ -1,0 +1,23 @@
+@import environment
+@import title
+
+.feature_preview
+  +vertical-margin(22px)
+
+.feature_preview__signature
+  +monospace-font
+  +bold
+  +font-size($FONT_SIZE)
+
+  &, & a
+    color: $COLOR_MAIN
+
+  .feature_preview.isnt_stable &,
+  .feature_preview.isnt_stable & a
+    color: $COLOR_PROTECTED
+
+.feature_preview__summary
+  margin-top: 5px
+  //margin-left: 20px
+  p
+    margin: 0 !important

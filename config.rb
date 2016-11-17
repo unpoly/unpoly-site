@@ -1,3 +1,4 @@
+require 'active_support/all'
 require 'lib/ext/rack-test/support_colons_in_path'
 require 'vendor/unpoly-local/lib/unpoly/rails/version'
 require 'lib/unpoly/guide'
@@ -43,7 +44,7 @@ end
 Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
   path = "/#{guide_id}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/symbol.html", locals: { guide_id: guide_id }, ignore: true
+  proxy path, "/feature.html", locals: { guide_id: guide_id }, ignore: true
 end
 
 Unpoly::Example.all.each do |example|
@@ -52,7 +53,7 @@ Unpoly::Example.all.each do |example|
 
   example.stylesheets.each do |asset|
     puts "Example stylesheet: #{asset.path}"
-    proxy asset.path, "/examples/stylesheet", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+    proxy asset.path, "/examples/stylesheet.html", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 
   example.javascripts.each do |asset|
@@ -117,24 +118,51 @@ helpers do
     if page_title.present?
       "#{page_title} - Unpoly"
     else
-      "Unpoly: Progressive enhancement Javascript framework"
+      "Unpoly: Unobtrusive JavaScript framework"
     end
   end
   
-  def unpoly_library_size
+  def unpoly_library_size(files = nil)
+    files ||= [
+        'unpoly.min.js',
+        'unpoly.min.css'
+    ]
+    files = Array.wrap(files)
     require 'active_support/gzip'
     source = ''
-    source << File.read("#{Unpoly::Guide.current.path}/dist/unpoly.min.js") +
-    source << File.read("#{Unpoly::Guide.current.path}/dist/unpoly.min.css")
-    (ActiveSupport::Gzip.compress(source).length / 1024).round
+    files.each do |file|
+      path = "#{Unpoly::Guide.current.path}/dist/#{file}"
+      File.exists?(path) or raise "Asset not found: #{path}"
+      source << File.read(path)
+    end
+    kbs = (ActiveSupport::Gzip.compress(source).length / 1024.0).round(1)
+    "#{kbs} KB"
   end
 
-  def menu_item(label, href, options = {})
-    options[:class] = "menu__item #{options[:class]}"
-    options['up-dash'] = '.content'
-    options['up-transition'] = "fade-out/move-from-bottom"
-    options['up-duration'] = 400
+  def modal_hyperlink(label, href, options = {})
+    options[:class] = "hyperlink #{options[:class]}"
+    modal_link label, href, options
+  end
+
+  def content_hyperlink(label, href, options = {})
+    options[:class] = "hyperlink #{options[:class]}"
+    content_link label, href, options
+  end
+
+  def modal_link(label, href, options = {})
+    options['modal-link'] = ''
     link_to label, href, options
+  end
+
+  def content_link(label, href, options = {})
+    options['content-link'] = ''
+    link_to label, href, options
+  end
+
+  def node_link(label, href, options = {})
+    options[:class] = "node__self #{options[:class]}"
+    # options['up-layer'] = 'page' # don't open drawer links within the drawer (both drawer and page contain .content)
+    content_link label, href, options
   end
 
 end
@@ -158,7 +186,7 @@ configure :build do
   # For example, change the Compass output style for deployment
   activate :minify_css
 
-  # Minify Javascript on build
+  # Minify JavaScript on build
   activate :minify_javascript
 
   # Enable cache buster

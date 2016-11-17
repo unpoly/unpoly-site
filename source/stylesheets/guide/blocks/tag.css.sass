@@ -8,7 +8,13 @@
   text-transform: uppercase
   +font-size(12px)
   vertical-align: middle
-  +horizontal-padding(4px)
+  padding: 0 3px
+
+  &.is_gray
+    // base styles are already gray
+
+  &.is_light_gray
+    background-color: #aaa
 
   &.is_red
     background-color: $COLOR_ALIZARIN
@@ -18,3 +24,8 @@
 
   &.isnt_stable
     background-color: $COLOR_PROTECTED
+
+  &.is_large
+    +font-size(14px)
+    padding: 2px 6px 1px 6px
+    +bold

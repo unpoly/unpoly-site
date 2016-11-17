@@ -2,16 +2,38 @@
 
 
 =tint-action($color)
-  background-color: $COLOR_MAIN
+  background-color: $color
   +hover
-    background-color: $COLOR_MAIN + 20
+    background-color: $color + 20
 
 
 .action
   border-radius: 2px
   color: white !important
   text-transform: uppercase
-  font-weight: bold
-  padding: 6px 14px
+  +bold
+  padding: 6px 14px 5px 14px // less bottom padding since uppercase doesn't have descendants
   display: inline-block
   +tint-action($COLOR_MAIN)
+  box-shadow: 0 1px 5px rgba(#000, 0.1), inset 0 2px 0 rgba(#fff, 0.2), inset 0 -2px 0 rgba(#000, 0.05)
+
+  cursor: pointer
+
+  &:active
+    transform: translate(0, 2px)
+
+  &.is_gray
+    +tint-action(#999)
+
+  //&.up-active
+  //  +tint-action($COLOR_SUN_FLOWER)
+
+  &.is_small
+    +font-size(14px)
+    padding: 5px 9px 4px 9px
+
+  //&:active, .up-active
+  //  transform: scale(0.9) translate(0, 2px)
+
+.actions
+  +vertical-margin($BLOCK_SPACING)

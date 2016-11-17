@@ -1,0 +1,15 @@
+@import environment
+
+.breadcrumb
+  display: block
+  +font-size($FONT_SIZE)
+  +font-size(16px)
+  //+bold
+  +uppercase
+  color: #888
+  margin-bottom: 3px
+  +hover
+    color: $COLOR_HOVER
+  &:after
+    content: '/'
+    color: #bbb

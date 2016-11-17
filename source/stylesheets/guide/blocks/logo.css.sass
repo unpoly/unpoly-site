@@ -1,21 +1,18 @@
 @import environment
 
 .logo
-  display: inline-block
+  display: flex
+  align-items: flex-start
+  flex-direction: row
 
-  .logo__name
-    color: $COLOR_SECONDARY
-    +font-size(36px)
-    +title-font
-    text-transform: uppercase
+  //.logo__name
+  //  color: white
+  //  +font-size(36px)
+  //  margin-bottom: -8px // no descendants in uppercase logo
+  //  +title-font
+  //  text-transform: uppercase
 
-  .logo__version
-    +font-size(14px, 0)
-    text-transform: uppercase
-    display: inline-block
-    color: desaturate($COLOR_ALIZARIN, 10%) + 10
-    margin-left: 2px
-    vertical-align: top
-    font-weight: 700
-    +narrow-screen
-      display: none
+  .logo__pixels
+    height: 25px
+    display: block
+    margin-top: 2px // align it at center

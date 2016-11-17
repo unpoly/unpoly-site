@@ -1,9 +1,0 @@
----
-title: 'Custom tags'
-
-explanation: |
-  Create arbitrary HTML tags with a few lines of Javascript.
-  Your tags will automatically be compiled whenever a page fragment is updated.
-
-highlight:
-  - 'timestamp'

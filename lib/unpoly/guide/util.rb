@@ -11,10 +11,14 @@ module Unpoly
           # Colons (used in up:events) are valid URL segments, as used e.g. by
           # Wikipedia: https://en.wikipedia.org/wiki/Template:Welcome
           guide_id.gsub!(/[^A-Za-z0-9\:\-\.]/, '-')
-          guide_id.gsub!(/^\-{2,}/, '-')
+          guide_id.gsub!(/\-{2,}/, '-') # no more than 2 dashes in a row
           guide_id.gsub!(/^\-/, '')
           guide_id.gsub!(/\-$/, '')
           guide_id
+        end
+
+        def first_markdown_paragraph(markdown)
+          markdown.strip.split(/\n\n/).first
         end
 
       end

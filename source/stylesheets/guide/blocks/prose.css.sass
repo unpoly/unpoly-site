@@ -1,7 +1,6 @@
 @import environment
 @import hyperlink
 @import bullets
-@import title
 
 
 $meta_aside_breakpoint: 750px
@@ -11,36 +10,37 @@ $meta_width: 170px
 .prose
   position: relative
 
-
   code
     +inline-code
-    font-size: 18px
+    font-size: $MONOSPACE_FONT_SIZE
     font-weight: normal
     white-space: nowrap
 
   pre
+
+    +vertical_margin($LARGE_BLOCK_SPACING)
+    line-height: 22px
+    margin-left: 20px
+
     code
       +code-block
+      +font-size($MONOSPACE_FONT_SIZE, 1px)
+
+    //&.is_embedish
+    //  +embedded-code-block
 
   a
     @extend .hyperlink
 
   p, ul, ol, dl
-    +vertical_margin($BLOCK_SPACING)
-
-  pre
-    +vertical_margin($BLOCK_SPACING * 1.3)
-
-  pre
-    line-height: 22px
-    margin-left: 20px
+    +vertical_margin($SMALL_BLOCK_SPACING)
 
   ul
     @extend .bullets
 
   dl
     dt
-      font-weight: 700
+      +bold
       margin-bottom: 0
       margin-top: $LIST_ITEM_SPACING
     dd
@@ -64,50 +64,18 @@ $meta_width: 170px
     +vertical-margin($BLOCK_SPACING * 1.6)
 
   img
-    border: 2px solid #666
-    +border-box
     max-width: 100%
 
+
   strong, b
-    font-weight: 700
+    +bold
 
   i, em
     font-style: italic
 
-  h1
-    @extend .title
-    
-
-  h2
-    @extend .subtitle
-
-  h3
-    +font-size(20px)
-    color: #555
-    margin-top: $BLOCK_SPACING * 1.9
-    margin-bottom: $BLOCK_SPACING * 0.7
-    font-weight: 700
-
-    code
-      +font-size(20px)
-      color: #444
-      font-weight: 700
-
-  h4
-    +font-size(18px)
-    color: #777
-    margin-top: $BLOCK_SPACING * 1.9
-    margin-bottom: $BLOCK_SPACING * 0.4
-    font-weight: 700
-
-    code
-      +font-size(20px)
-      color: #777
-      font-weight: 700
-
 
   table
-    +vertical_margin($BLOCK_SPACING * 1.5)
+    +vertical_margin($TABLE_SPACING)
     border-collapse: collapse
 
     td, th
@@ -116,8 +84,10 @@ $meta_width: 170px
       +horizontal-padding(0.4em)
       +vertical-padding(0.2em)
 
+      &[align=right]
+        text-align: right
+
     th
-      font-weight: bold
-      xtext-transform: uppercase
+      +bold
       +font-size(16px, 4px)
       color: #666

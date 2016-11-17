@@ -6,5 +6,5 @@ explanation: |
 highlight:
   - 'up-target'
 order:
-  - 'preview.html'
-  - 'full.html'
+  - 'back.html'
+  - 'front.html'

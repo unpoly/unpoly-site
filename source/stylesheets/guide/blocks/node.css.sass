@@ -1,0 +1,140 @@
+@import environment
+$addon-offset-y: 2px
+
+=highlighted
+  &.up-active, &.up-current
+    @content
+
+.node
+  //padding-left: 20px
+  position: relative
+  +font-size($FONT_SIZE, 3px)
+  //margin-bottom: 4px
+
+.node > .node
+  display: none
+  margin-left: 20px
+  //font-size: 17px
+  margin-bottom: 0
+
+.node.is_expanded > .node,
+.node.is_match > .node.is_match
+  display: block
+
+//.node
+//  &.is_function,
+//  &.is_selector,
+//  &.is_event,
+//  &.is_property,
+//  &.is_param
+//    .node__self
+//      padding-right: 45px
+//      &:after
+//        content: ''
+//        display: inline-block
+//        width: 35px
+//        text-align: center
+//        font-size: 11px
+//        line-height: 18px
+//        border-radius: 2px
+//        +bold
+//        position: absolute
+//        top: $addon-offset-y
+//        right: 0
+//        color: #999
+//        +border-box
+//
+//      +highlighted
+//        &:after
+//          color: #fff
+//    &.is_function .node__self:after
+//      content: 'J'
+//    &.is_selector .node__self:after
+//      content: 'C'
+//    &.is_event .node__self:after
+//      content: 'E'
+//    &.is_param .node__self:after
+//      content: 'A'
+//    &.is_property .node__self:after
+//      content: 'P'
+
+.node__self
+  color: #888
+  display: block
+  padding-left: 20px
+
+  // Truncate long feature names like up.link.makeFollowable
+  +truncate_text
+
+  .node.is_klass > &
+    // Allow the root nodes to wrap since they are English sentences
+    // like "Updating fragments from JavaScript"
+    white-space: normal
+
+=tint_node_self($color)
+  color: $color
+  +hover
+    color: $COLOR_HOVER
+  +highlighted
+    background-color: $color
+    color: white
+    +hover
+      background-color: $COLOR_HOVER
+      color: white
+
+a.node__self
+  +tint_node_self($COLOR_LEFT)
+
+  .node.is_experimental &
+    +tint_node_self($COLOR_PROTECTED)
+
+.node__collapser
+  font-size: 12px
+  position: absolute
+  top: $addon-offset-y
+  left: 0
+  display: block
+  +height(20px)
+  cursor: pointer
+
+.node mark
+  background-color: rgba(255, 200, 10, 0.7)
+
+.node.has_query
+  opacity: 0.5
+  &.is_match
+    opacity: 1
+
+//.node
+//
+//.node__self
+//  display: flex
+//
+//.node__name
+//  flex: 1 1 auto
+//  color: $COLOR_MAIN
+//  order: 1
+//
+//.node__collapser
+//  flex: 0 0 auto
+//  order: 0
+//  font-size: 12px
+//  line-height: 27px
+//  color: $COLOR_MAIN
+//  cursor: pointer
+//  margin-right: 5px
+//
+//.node__children
+//  padding-left: 20px
+//
+//.node > .node__children > .node
+//  display: none
+//
+//.node.has_match
+//  display: block !important
+//
+//.node.is_match
+//  display: block !important
+//
+//.node.is_expanded > .node__children > .node
+//  display: block

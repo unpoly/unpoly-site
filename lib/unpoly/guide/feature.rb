@@ -66,8 +66,28 @@ module Unpoly
         end
       end
 
+      def short_signature
+        if function?
+          "#{name}()"
+        else
+          name
+        end
+      end
+
       def stable?
         visibility == 'stable'
+      end
+
+      def guide_params
+        if selector?
+          params.reject { |param| param.guide_anchor == guide_id }  # feature is [up-popup], but param is just up-popup
+        else
+          []
+        end
+      end
+
+      def guide_params?
+        guide_params.present?
       end
 
       def internal?
@@ -111,12 +131,8 @@ module Unpoly
       #   @preventable
       # end
 
-      def guide_path
-        "#{@klass.guide_path}##{guide_anchor}"
-      end
-
       def guide_anchor
-        Slugalizer.slugalize(name)
+        Util.slugify(name)
       end
 
       def <=>(other)
@@ -147,7 +163,7 @@ module Unpoly
       end
 
       def summary_markdown
-        @guide_markdown.strip.split(/\n\n/).first
+        Util.first_markdown_paragraph(@guide_markdown)
       end
 
       def guide_id

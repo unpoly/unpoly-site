@@ -1,0 +1,231 @@
+<div class="prose">
+
+  <h1>Getting started with Unpoly</h1>
+
+  <p>
+    Unpoly is an
+    <%= link_to 'unobtrusive Javascript', 'http://blog.teamtreehouse.com/unobtrusive-javascript-important' %>
+    framework for applications that render on the server.
+    It allows your views to do things that are
+    not normally possible in HTML, such as having links
+    <%= modal_hyperlink 'update only fragments of a page', '/up.link' %>,
+    or <%= modal_hyperlink 'opening links in modal dialogs', '/up.modal' %>.
+  </p>
+
+  <p>
+    Unpoly can give your server-side application fast and flexible frontends that feel
+    like a single-page application (SPA).
+    It also preserves the resilience and simplicity of the server-side programming model.
+  </p>
+
+  <h2>Installation</h2>
+
+  <p>
+    You can <%= modal_hyperlink 'install Unpoly', '/install' %> by either downloading the library files
+    or using a package managers like npm or RubyGems.
+  </p>
+
+  <p>
+    If you just want to test-drive Unpoly, the easiest way is to <a href="/install#cdn">link to a CDN</a>.
+  </p>
+
+  <h2>Thinking with fragments</h2>
+
+  <p>
+    In a traditional web application, the entire page is destroyed and re-created when the
+    user follows a link:
+  </p>
+
+  <%= image_tag 'tutorial/fragment_flow_vanilla.svg', class: 'picture has_padding has_border is_sepia', width: 620 %>
+
+  <p>
+    This makes for an unfriendly experience: Whenver a link is followed, the scroll position is reset,
+    the page flashes, DOM changes caused by Javascript gets lost, unsaved form fields are discarded.
+  </p>
+
+  <p>
+    With Unpoly the server <b>still renders full HTML pages</b>, but we only use fragments and discard
+    the rest:
+  </p>
+
+  <%= image_tag 'tutorial/fragment_flow_unpoly.svg', class: 'picture has_padding has_border is_sepia', width: 620 %>
+
+  <p>
+    With this model, following links feel smooth. All transient DOM changes outside the updated fragment are preserved.
+    Pages also load much faster since the DOM, CSS and Javascript environments do not need to be
+    destroyed and recreated for every request.
+  </p>
+
+  <p>
+    All fragment updates change the browser URL by default. The back button work as expected.
+  </p>
+
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('update-fragment'), title: 'Example' } %>
+
+  <p>
+    You can learn more in <%= modal_hyperlink 'Linking to fragments', '/up.link' %>, or continue with the tutorial below.
+  </p>
+
+  <h2>Leveraging layers</h2>
+
+  <p>
+    Layered interactions, like modal dialogs, can make a frontend easier to both use and implement.
+    Using layers we can keep an unfinished interaction open in the background,
+    branch out to an interaction in an overlay, and return to the background page when we're done.
+  </p>
+
+  <p>
+    Below you see a screenshot of a layered interaction in <a href="https://mail.google.com">Gmail</a>.
+    The mail editor has been stacked on top of the message list as a modal dialog. Inside the dialog we see a third layer,
+    the autocomplete results, as a pop-up overlay:
+  </p>
+
+  <%= image_tag 'tutorial/gmail_cropped.png', class: 'picture is_sepia', width: 600 %>
+
+  <p>
+    An interaction like the Gmail example is pretty straightforward to build with Unpoly.
+    Unpoly lets you <b>stack up to three HTML documents</b> on top of each other:
+    The page itself, a <%= modal_hyperlink 'modal dialog', '/up.modal' %> and a <%= modal_hyperlink 'pop-up overlay', '/up.popup' %>.
+    Each layer has its own URL:
+  </p>
+
+  <%= image_tag 'tutorial/gmail_layers_cropped.png', class: 'picture is_sepia', width: 600 %>
+
+  <!--<pre><code>&lt;a href="/list" up-target=".main"&gt;Replace fragment&lt;/a&gt;-->
+
+<!--&lt;a href="/new" up-modal=".main"&gt;Open fragment in dialog&lt;/a&gt;-->
+
+<!--&lt;a href="/menu" up-popup=".main"&gt;Open fragment in dropdown&lt;/a&gt;</code></pre>-->
+
+  <p>
+    The content inside a modal is rendered as a <b>full HTML page</b>,
+    but we only use a fragment for the modal content and discard the rest. This allows you to render
+    any response either as a full page or inside a modal or pop-up.
+  </p>
+
+  <p>
+    Using <%= modal_link 'fragment links', '/up.link' %> it's also simple to stay inside a modal
+    or pop-up during an interaction that spans multiple pages.
+
+    Links prefer to update fragments within the same layer, while preserving the content of lower layers.
+    You can even <%= modal_hyperlink 'submit forms', '/form-up-target' %> without leaving the modal or pop-up.
+
+    <!--Changing a fragment <b>behind</b> the layer will close the layer.-->
+
+  </p>
+
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('modal'), title: 'Example' } %>
+
+  <p>
+    Learn more about <%= modal_hyperlink 'modals', '/up.modal' %> and <%= modal_hyperlink 'pop-ups', '/up.popup' %>, or continue with the tutorial below.
+  </p>
+
+
+  <h2>Animation</h2>
+
+  <p>
+    Have you noticed how noticed how pages fade in and out as you follow links on this site, <code>unpoly.com</code>?
+  </p>
+
+  <p>
+    Whenever you <%= modal_hyperlink 'update a page fragment', '/up.link' %> you can
+    <%= modal_hyperlink 'animate the change', '/up.motion' %>.
+
+    Unpoly comes with a number of <%= modal_hyperlink 'predefined transitions', '/up.morph#named-transitions' %>,
+    like a cross-fade or sweeping motion and you can <%= modal_hyperlink 'define your own', '/up.transition' %>
+    with a few lines of Javascript.
+  </p>
+
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('transition'), title: 'Example' } %>
+
+  <p>
+    Learn more about <%= modal_hyperlink 'animation', '/up.motion' %>,
+    or continue with the tutorial below.
+  </p>
+
+
+
+  <h2>Organizing Javascript snippets</h2>
+
+  <p>
+    Every app needs a way to activate JavaScript behavior
+    on certain HTML elements. Here are some examples:
+  </p>
+
+  <ul class="bullets">
+    <li>
+      An <code>&lt;input type="search"&gt;</code> should
+      request search results when the user types something
+    </li>
+
+    <li>
+      A <code>&lt;textarea class="wysiwyg"&gt;</code> should automatically activate
+      a WYSIWYG editor like <a href="https://imperavi.com/redactor/">Redactor</a>
+    </li>
+
+    <li>
+      A <code>&lt;div class="map"&gt;</code> should render a map with the
+      <a href="https://developers.google.com/maps/documentation/javascript/">Google Maps API</a>
+    </li>
+  </ul>
+
+  <p>
+    Unpoly lets you organize your JavaScript snippets with <%= modal_hyperlink 'compiler functions', "/up.compiler" %>.
+    Your compilers will be called whenever a matching element enters the DOM,
+    either when the <a href="https://api.jquery.com/ready/">page loads</a> or when
+    <%= modal_hyperlink 'updating a fragment', '/up.link' %>.
+  </p>
+
+  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('timestamp-compiler'), title: 'Example', explanation: false } %>
+
+
+  <h3>Extending Unpoly</h3>
+
+  <p>
+    Unpoly comes with an extensive Javascript API.
+    Want to update a fragment from your own code? There's a function for that:
+  </p>
+
+  <!--<p>-->
+    <!--Unobtrusive:-->
+  <!--</p>-->
+
+  <!--<pre><code>&lt;a href="full.html" up-target=".story"&gt;Continue&lt;/a&gt;</code></pre>-->
+
+  <!--<p>-->
+    <!--There is how you can do the same for Javascript:-->
+  <!--</p>-->
+
+  <pre><code>up.replace('.story', 'full.html');</code></pre>
+
+  <p>
+    Similar functions exist for <b>every</b> unobtrusive Unpoly feature, be it
+    <%= modal_hyperlink 'opening a modal', 'up.modal.visit' %>,
+    <%= modal_hyperlink 'submitting a form with AJAX', 'up.submit' %>
+    or
+    <%= modal_hyperlink 'morphing elements', 'up.submit' %>.
+    The API docs list these function along their unobtrusive counterparts.
+  </p>
+
+  <p>
+    You can event invent your own magic HTML attributes using
+    <%= modal_hyperlink 'compilers', '/up.compiler' %> and
+    <%= modal_hyperlink 'macros', '/up.macro' %>.
+
+  </p>
+
+
+  <h2>Ready for more?</h2>
+
+  <p>
+    This tutorial covered the most basic features of Unpoly.
+    The other guides will explain these and more advanced features in much greater detail.
+
+  </p>
+
+  <p>
+    This is the best place to start with the documentation:<br />
+    <a href="/up.link">Linking to page fragments</a>
+  </p>
+
+</div>

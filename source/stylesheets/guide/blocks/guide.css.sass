@@ -1,96 +1,174 @@
 @import environment
 
-$side-width: 290px - 30px
-$side-spacing: 0
+$SPACING_Y: 20px
+$SPACING_X: 32px
 
 .guide
-  width: 100%
-  background-color: #fff
+  display: flex
+  flex-direction: column
 
 .guide__head
-  height: 7px
-  background-color: $COLOR_SECONDARY
+  flex: 0 0 auto
   position: fixed
   left: 0
   top: 0
-  width: 100%
-  z-index: 100
+  right: 0
+  height: $HEAD_HEIGHT
+  z-index: $HEAD_STRATUM
+  background: $COLOR_MAIN
+  box-shadow: 0 3px 15px rgba(0,0,0,0.15)
 
-.guide__body
-  +clear_after
+  +on_wide
+    background: linear-gradient(to right, $COLOR_LEFT 0%, $COLOR_LEFT 50%, $COLOR_MAIN 50%, $COLOR_MAIN 100%)
 
-.guide__content
-  +horizontal-margin($side-width)
-  padding: 55px 30px
-
-.guide__left
-  float: left
-  width: $side-width
-  overflow: hidden
-  +border-box
-  padding: 55px 0 55px 30px
+  .viewport
+    display: flex
+    flex-direction: row
+    align-items: center
+    height: 100% // stretch to $HEAD_HEIGHT, so children can be centered vertically
+    flex-wrap: wrap
 
 .guide__logo
+  flex: 0 0 auto
 
-.guide__hamburger
-  display: none
+  +on_wide
+    background-color: $COLOR_LEFT
+    width: $LEFT_WIDTH
 
-  +narrow_screen
-    position: absolute
-    top: 31px
-    right: 30px
-    +font-size(24px)
-    margin-top: 10px
-    color: $COLOR_MAIN
-    text-transform: uppercase
-    font-weight: bold
-    display: block
-    +title-font
+.guide__top_nav
+  flex: 1 0 auto
+  background-color: $COLOR_MAIN
+  height: 100%
+  display: flex
+  align-items: center
+  padding-left: $SPACING_X
 
-    &:hover
-      color: $COLOR_ALIZARIN
+.guide__torso
+  //margin-top: $HEAD_HEIGHT + 35px
+  flex: 1 0 auto
 
+  .viewport
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    flex-wrap: nowrap
 
-.guide__menu
-  margin-top: 34px
+.guide__left
+  flex: 0 0 $LEFT_WIDTH
+  margin-right: $SPACING_X
 
-.guide__right
-  float: right
-  width: $side-width
-  overflow: hidden
+  +on_narrow
+    display: none
+
+.guide__browser
+  position: fixed
+  padding: 24px $SPACING_X $SPACING_Y 0
+  top: $HEAD_HEIGHT
+  width: $LEFT_WIDTH
   +border-box
-  padding: 55px 30px
-
-+narrow-screen
-  .guide__right
-    display: none
-  .guide__menu_toggler
-    display: block
-  .guide__logo
-  .guide__left
-    width: auto
-    float: none
-    padding-bottom: 0
-    padding-top: 35px
-  .guide__content
-    +horizontal-margin(0)
-    padding-top: 40px
-  .guide__menu
-    display: none
+  bottom: 0
+  overflow-y: scroll
 
 .guide__fineprint
-  color: #666
-  margin-top: 50px
-  border-top: 2px solid #eee
-  max-width: 400px
-  padding-top: 10px
-  +font-size(16px)
+  margin-top: $SPACING_Y
 
-//@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
-//  .guide__content
-//    padding-left: $side-width + $side-spacing
+.guide__content
+  margin-top: $HEAD_HEIGHT
+  margin-bottom: $SPACING_Y
+  flex: 1 1 auto
+  min-width: 0
+
+//$side-width: 290px - 30px
+//$side-spacing: 0
 //
-//  .guide__side
-//    width: $side-width
-//    position: fixed
-//    margin-bottom: 0
+//.guide
+//  width: 100%
+//  background-color: #fff
+//
+//.guide__head
+//  height: 7px
+//  background-color: $COLOR_SECONDARY
+//  position: fixed
+//  left: 0
+//  top: 0
+//  width: 100%
+//  z-index: 100
+//
+//.guide__torso
+//  +clear_after
+//
+//.guide__content
+//  +horizontal-margin($side-width)
+//  padding: 55px 30px
+//
+//.guide__left
+//  float: left
+//  width: $side-width
+//  overflow: hidden
+//  +border-box
+//  padding: 55px 0 55px 30px
+//
+//.guide__logo
+//
+//.guide__hamburger
+//  display: none
+//
+//  +narrow_screen
+//    position: absolute
+//    top: 31px
+//    right: 30px
+//    +font-size(24px)
+//    margin-top: 10px
+//    color: $COLOR_MAIN
+//    text-transform: uppercase
+//    +bold
+//    display: block
+//    +title-font
+//
+//    &:hover
+//      color: $COLOR_ALIZARIN
+//
+//
+//.guide__menu
+//  margin-top: 34px
+//
+//.guide__right
+//  float: right
+//  width: $side-width
+//  overflow: hidden
+//  +border-box
+//  padding: 55px 30px
+//
+//+narrow-screen
+//  .guide__right
+//    display: none
+//  .guide__menu_toggler
+//    display: block
+//  .guide__logo
+//  .guide__left
+//    width: auto
+//    float: none
+//    padding-bottom: 0
+//    padding-top: 35px
+//  .guide__content
+//    +horizontal-margin(0)
+//    padding-top: 40px
+//  .guide__menu
+//    display: none
+//
+//.guide__fineprint
+//  color: #666
+//  margin-top: 50px
+//  border-top: 2px solid #eee
+//  max-width: 400px
+//  padding-top: 10px
+//  +font-size(16px)
+//
+////@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
+////  .guide__content
+////    padding-left: $side-width + $side-spacing
+////
+////  .guide__side
+////    width: $side-width
+////    position: fixed
+////    margin-bottom: 0

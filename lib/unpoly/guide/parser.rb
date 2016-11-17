@@ -151,6 +151,7 @@ module Unpoly
             feature.visibility = visibility
           end
           while param = parse_param!(block)
+            param.feature = feature
             feature.params << param
           end
           if response = parse_response!(block)

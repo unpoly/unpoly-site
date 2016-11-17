@@ -1,24 +1,11 @@
 @import environment
 
 .hyperlink
-
-  =tint_hyperlink($color)
-    border-bottom: 0.1em solid transparentize($color, 0.7)
-    &, & code
-      color: $color
-
-  $margin: 0.05em
-  +horizontal_margin($margin)
-  +tint_hyperlink($COLOR_MAIN)
-  &:hover
-    +tint_hyperlink($COLOR_ALIZARIN)
-    
+  +hyperlink
 
   &.is_gray
-    +tint_hyperlink(#888)
-    &:hover
-      +tint_hyperlink($COLOR_SUN_FLOWER)
-  
+    +hyperlink(#888, #666)
+
 //  +tint_hyperlink($COLOR_ALIZARIN)
 
   +hover

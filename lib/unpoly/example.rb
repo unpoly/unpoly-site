@@ -55,6 +55,10 @@ module Unpoly
       "#{@folder}/index.html"
     end
 
+    def short_index_path
+      "#{@folder}"
+    end
+
     def demo_path
       pages.first.path
     end

@@ -1,39 +1,22 @@
 u = up.util
 
-storeQuery = (query) ->
-  Cookies.set('query', query)
+up.compiler '.search', ($search) ->
+  $input = $search.find('.search__input')
+  $reset = $search.find('.search__reset')
 
-loadQuery = ->
-  Cookies.get('query')
+  reset = ->
+    $input.val('')
+    $input.trigger('input')
 
-up.compiler '.search', ($search, data) ->
+  toggleReset = ->
+    value = u.trim($input.val())
+    present = u.isPresent(value)
+    $reset.toggle(present)
 
-  $query = $search.find('.search__query')
-  $symbols = $search.find('.search__symbol')
+  $input.on 'input', toggleReset
 
-  if previousQuery = u.presence(loadQuery())
-    $query.val(previousQuery).select()
+  $reset.on 'click', reset
 
-  matchSymbol = ($symbol, query) ->
-    isMatch = true
-    searchText = $symbol.data('search-text')
-    for word in query
-      if searchText.indexOf(word) == -1
-        isMatch = false
-        break
-    isMatch
+  toggleReset()
 
-  find = ->
-    query = u.trim($query.val()).toLowerCase()
-    storeQuery(query)
-    words = query.split(/\s+/)
-    hasQuery = u.isPresent(query)
-    $search.toggleClass('has_query', hasQuery)
-    for symbol in $symbols
-      $symbol = $(symbol)
-      isMatch = matchSymbol($symbol, words)
-      $symbol.toggle(isMatch)
-      $symbol.toggleClass('is_match', isMatch)
-
-  $query.on 'input', find
-  find()
+  

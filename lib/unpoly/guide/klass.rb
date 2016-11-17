@@ -23,6 +23,14 @@ module Unpoly
 
       attr_accessor :guide_markdown
 
+      def guide_features
+        features.reject(&:internal?).sort_by(&:guide_id)
+      end
+
+      def guide_features?
+        guide_features.present?
+      end
+
       def functions
         features.select(&:function?)
       end
@@ -45,6 +53,10 @@ module Unpoly
 
       def guide_path
         "/#{guide_id}"
+      end
+
+      def summary_markdown
+        Util.first_markdown_paragraph(@guide_markdown)
       end
 
     end

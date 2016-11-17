@@ -11,6 +11,7 @@ module Unpoly
         @guide_markdown = ''
         @optional = false
         @default = nil
+        @feature = nil
       end
 
       attr_accessor :optional
@@ -18,6 +19,7 @@ module Unpoly
       attr_accessor :types
       attr_accessor :guide_markdown
       attr_accessor :default
+      attr_accessor :feature
 
       alias_method :optional?, :optional
 
@@ -46,8 +48,12 @@ module Unpoly
         $1
       end
 
+      def guide_path
+        "#{feature.guide_path}##{guide_anchor}"
+      end
+
       def guide_anchor
-        Slugalizer.slugalize(name)
+        Util.slugify(name)
       end
 
     end

@@ -13,12 +13,12 @@
         <div class="example__info">
 
           <div class="example__back">
-            <a href="/" up-back up-target=".screen" up-transition="cross-fade" up-duration="300" class="action">Back</a>
+            <a href="/" up-close class="action">Back</a>
           </div>
           <div class="example__title"><%= example.title %></div>
 
           <% if example.explanation.present? %>
-            <div class="example__explanation">
+            <div class="example__explanation prose">
               <%= example.highlight markdown(example.explanation) %>
             </div>
           <% end %>
@@ -37,3 +37,4 @@
   </body>
 
 </html>
+

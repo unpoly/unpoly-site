@@ -9,47 +9,62 @@
 
       <div class="guide">
 
-        <div class="guide__head"></div>
+        <div class="guide__head" up-fixed="top">
 
-        <div class="guide__body">
-
-          <div class="guide__left">
+          <div class="viewport">
 
             <div class="guide__logo">
 
-              <div class="logo">
-                <a href="/" class="logo__name" up-dash=".content" up-transition="cross-fade">
-                  Unpoly
-                </a>
-                <a href="/changelog" class="logo__version" up-dash=".content" up-transition="cross-fade" up-tooltip="Changelog">
-                  <%= guide.version %>
-                </a>
+              <a class="logo" href="/" content-link>
+                <%= image_tag 'unpoly_revised_white.png', class: 'logo__pixels', alt: 'Unpoly' %>
+              </a>
+
+            </div>
+
+            <div class="guide__top_nav">
+
+              <div class="top_nav">
+                <a href="/install" class="top_nav__section" content-link>Install</a>
+                <a href="/tutorial" class="top_nav__section" content-link>Tutorial</a>
+                <a href="/changes" class="top_nav__section" content-link>Changes</a>
+                <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_github"><i class="fa fa-github"></i> Github</a>
+                <a href="/menu" class="top_nav__section is_hamburger" modal-link up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="guide__torso">
+
+          <div class="viewport">
+
+            <div class="guide__left">
+
+              <div class="guide__browser" up-viewport>
+
+                <%= partial 'layouts/browser' %>
+
+                <div class="guide__fineprint">
+                  <a href="/imprint" class="hyperlink is_gray" content-link>Imprint</a>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="guide__content">
+              <div class="page_content"> <%# Have one style-less container so it works in modals %>
+                <div class="modal_content">
+                  <%= yield %>
+                </div>
               </div>
             </div>
 
-            <a href="/menu" up-modal=".menu" class="guide__hamburger" up-anchored="right">Menu</a>
-
-            <div class="guide__menu">
-              <%= partial 'menu' %>
-            </div>
-
           </div>
 
-          <div class="guide__right">
-            <%= partial 'search' %>
-          </div>
-
-          <div class="guide__content">
-            <div class="content">
-              <%= yield %>
-            </div>
-
-            <div class="guide__fineprint">
-              A <a href="http://www.makandra.com/" class="hyperlink is_gray">makandra</a> project
-              (<a href="/imprint" class="hyperlink is_gray" up-modal=".content">imprint</a>)
-            </div>
-
-          </div>
         </div>
 
       </div>

@@ -1,0 +1,55 @@
+@import environment
+
+$margin: 5px
+$border-width: 1px
+$padding-y: 20px
+$padding-x: 18px
+
+.usps
+  +vertical-margin($BLOCK_SPACING * 1.5)
+
+.usps--inner
+  //+vertical-margin(-($border-width + (0.5 * $padding-y)))
+  //+horizontal-margin(-($border-width + (0.5 * $padding-x)))
+  display: flex
+  flex-wrap: wrap
+  overflow: hidden
+
+.usp
+  margin: -$border-width
+  flex: 1 1 250px
+  padding: $padding-y $padding-x
+  position: relative
+  border: $border-width solid #ddd
+
+  //&:after
+  //  content: ''
+  //  position: absolute
+  //  left: 0
+  //  top: 0
+  //  width: 100%
+  //  height: 100%
+  //  background-color: #eee
+  //  z-index: -1
+  //  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2)
+  //  //border-radius: 3px
+  //  transform: skew(-7.5deg)
+
+.usp--title
+  +font-size(19px)
+  color: #444
+  +bold
+  margin-bottom: 10px
+  text-align: center
+
+.usp--icon
+  text-align: center
+  color: #ccc
+  //color: desaturate($COLOR_SECONDARY, 25%) + 90
+  font-size: 50px
+  margin-bottom: 12px
+
+.usp--content
+  z-index: 2
+  position: relative
+

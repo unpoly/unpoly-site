@@ -1,0 +1,32 @@
+@import environment
+
+.digger
+
+.digger__head
+  display: flex
+
+.digger__title, .digger__feature
+  &.is_match
+    color: blue
+
+.digger__title
+  +bold
+  flex: 1 1 auto
+  white-space: normal
+
+.digger__collapser
+  flex: 0 0 auto
+
+.digger__feature
+  display: none
+
+  .digger.is_expanded &
+    display: block
+
+  .digger.is_filtered &
+    display: none
+
+  .digger.is_filtered &.is_match
+    display: block
+
+

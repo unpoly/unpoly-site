@@ -1,58 +1,81 @@
 @import environment
 
 .search
-  +font-size(16px)
+  position: relative
 
-.search__query
-  border: 1px solid #aaa
-  padding: 5px 7px
-  +default-font
-  margin-bottom: 15px
-  +border-box
-  width: 100%
-  border-radius: 2px
+.search__input
+  padding-left: 28px !important
+  padding-right: 24px !important
 
-.search__symbol
-  display: block
-  margin-bottom: 1px
-  white-space: nowrap
-  +monospace-font
-  color: $COLOR_MAIN
+.search__icon
+  position: absolute
+  top: 8px
+  left: 8px
+  color: #999
+  font-size: 16px
 
-  &.is_experimental
-    color: $COLOR_PROTECTED
+.search__reset
+  position: absolute
+  top: 2px
+  right: 8px
+  color: #777
+  font-size: 22px
+  +bold
+  cursor: pointer
 
-  // Styling .up-current has weird effects since
-  // "random" entries in the sorted list belong to a single URL
-  .up-active
-    font-weight: 700
-
-.search__symbol_kind
-  display: inline-block
-  width: 40px
-  text-align: center
-  background-color: $COLOR_MAIN
-  color: white
-  font-size: 12px
-  line-height: 18px
-  border-radius: 2px
-  font-weight: bold
-  +border-box
-
-  .search__symbol.is_experimental &
-    background-color: $COLOR_PROTECTED
-
-.search__symbol:hover
-  color: $COLOR_ALIZARIN
-  .search__symbol_kind
-    background-color: $COLOR_ALIZARIN
-
-.search__symbol_params
-  display: none
-  opacity: 0.65
-  .search.has_query .search__symbol.is_match &
-    display: block
-  &:empty
-    display: none
-  .search__symbol_kind
-    opacity: 0.6
+//.search
+//  +font-size(16px)
+//
+//.search__query
+//  border: 1px solid #aaa
+//  padding: 5px 7px
+//  +default-font
+//  margin-bottom: 15px
+//  +border-box
+//  width: 100%
+//  border-radius: 2px
+//
+//.search__symbol
+//  display: block
+//  margin-bottom: 1px
+//  white-space: nowrap
+//  +monospace-font
+//  color: $COLOR_MAIN
+//
+//  &.is_experimental
+//    color: $COLOR_PROTECTED
+//
+//  // Styling .up-current has weird effects since
+//  // "random" entries in the sorted list belong to a single URL
+//  .up-active
+//    +bold
+//
+//.search__symbol_kind
+//  display: inline-block
+//  width: 40px
+//  text-align: center
+//  background-color: $COLOR_MAIN
+//  color: white
+//  font-size: 12px
+//  line-height: 18px
+//  border-radius: 2px
+//  +bold
+//  +border-box
+//
+//  .search__symbol.is_experimental &
+//    background-color: $COLOR_PROTECTED
+//
+//.search__symbol:hover
+//  color: $COLOR_ALIZARIN
+//  .search__symbol_kind
+//    background-color: $COLOR_ALIZARIN
+//
+//.search__symbol_params
+//  display: none
+//  opacity: 0.65
+//  .search.has_query .search__symbol.is_match &
+//    display: block
+//  &:empty
+//    display: none
+//  .search__symbol_kind
+//    opacity: 0.6

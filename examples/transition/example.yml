@@ -1,7 +1,7 @@
 ---
 title: 'Animate a page transition'
 explanation: |
-  Give a link an `up-transition` attribute to animate between
+  Give a [fragment link](/up.link) an `up-transition` attribute to animate between
   the old and new fragment.
 highlight:
   - 'up-transition'

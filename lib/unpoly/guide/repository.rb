@@ -3,6 +3,25 @@ module Unpoly
     class Repository
       include Logger
 
+      PROMOTED_KLASS_NAMES = %w[
+        up.link
+        up.modal
+        up.popup
+        up.motion
+        up.feedback
+        up.syntax
+        up.dom
+        up.proxy
+        up.form
+        up.tooltip
+        up.history
+        up.layout
+        up.bus
+        up.util
+        up.log
+        up.browser
+      ]
+
       def initialize(input_path)
         @path = input_path
         reload
@@ -14,6 +33,7 @@ module Unpoly
         @klasses = []
         @feature_index = nil
         @changelog = nil
+        @promoted_klasses = nil
         parse
         self
       end
@@ -22,6 +42,14 @@ module Unpoly
         @changelog ||= begin
           path = File.join(@path, 'CHANGELOG.md')
           File.read(path)
+        end
+      end
+
+      def promoted_klasses
+        @promoted_klasses ||= begin
+          PROMOTED_KLASS_NAMES.map do |klass_name|
+            klass_for_name(klass_name)
+          end
         end
       end
 

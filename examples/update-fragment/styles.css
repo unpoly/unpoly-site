@@ -1,0 +1,38 @@
+body {
+  font-size: 0;
+}
+
+a {
+  display: inline-block;
+  border: 6px solid white;
+  border-radius: 10px;
+  margin: 10px;
+  width: 105px;
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+a[href*='front'] {
+  /* background: linear-gradient(to bottom, #757ba1, #656b91); */
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 25%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, rgba(0,0,0,0) 75%, rgba(0,0,0,0) 0), rgb(170, 204, 0);
+  filter: sepia(0.8) grayscale(0.4);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 24px;
+}
+
+a[href*='back'] {
+  background-color: white;
+  font-size: 100px;
+}
+
+a[href*='back'].one {
+  color: red;
+}
+
+a[href*='back'].two {
+  color: #111111;
+}

@@ -1,0 +1,10 @@
+---
+title: 'Custom Javascript'
+
+explanation: |
+  Let Unpoly pair HTML elements with your custom Javascript behavior.
+  Your elements will automatically be compiled whenever a page fragment is updated.
+
+highlight:
+  - '.timestamp'
+  - 'timestamp'

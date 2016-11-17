@@ -1,13 +1,40 @@
 @import environment
 
-.up-modal-content
-  +narrow-screen
-    padding: 20px
-  +wide-screen
-    padding: 35px
+.up-modal[up-flavor=default]
 
-.up-modal-dialog
-  +narrow-screen
-    margin: 0
+  .up-modal-dialog
+
+  .up-modal-content
+    max-width: 950px
+
+    +on_narrow
+      padding: 20px
+    +on_wide
+      padding: 32px
+
+.up-modal[up-flavor=fullscreen]
+  .up-modal-viewport
+    padding: 0
+
+  .up-modal-dialog
+    min-height: 100vh
     width: 100%
 
+  .up-modal-content
+    padding: 0
+  //
+  //.up-modal-close
+    //text-shadow: 0 0 5px #fff
+    //width: 50px
+    //+height(50px)
+    //font-size: 50px
+    //color: #444
+
+//.up-modal-dialog
+//  +narrow-screen
+//    margin: 0
+//    width: 100%
+//
+
+//.up-modal-dialog
+//  opacity: 0.1

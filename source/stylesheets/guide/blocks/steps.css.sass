@@ -1,0 +1,57 @@
+//= require ./prose
+
+@import environment
+
+$counter-edge: 40px
+$spacing: 15px
+
+.steps
+  list-style-type: none
+  +vertical-margin($BLOCK_SPACING)
+  counter-reset: steps
+
+  li
+    +vertical-margin(0.5 * $BLOCK_SPACING)
+    padding-left: $counter-edge + $spacing
+
+    position: relative
+
+    &:before
+      width: $counter-edge
+      +height($counter-edge)
+      font-size: 24px
+      +bold
+      counter-increment: steps
+      content: counter(steps)
+      //background-color: #666
+      //border-radius: 200px
+      text-align: center
+      margin-right: 8px
+      color: white
+      color: $COLOR_MAIN
+      color: #aaa
+      border: 2px solid #ccc
+      position: absolute
+      left: 0
+      top: 1px
+
+
+//.steps
+//  +vertical-margin($BLOCK_SPACING)
+//
+//.steps--inner
+//  display: flex
+//  flex-wrap: wrap
+//  margin: -10px
+//
+//.step
+//  flex: 1 1 200px
+//  padding: 20px
+//  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2)
+//  margin: 10px
+//
+//.step--text
+//
+//.step--subtext
+//  margin-top: 10px
+//  color: #777

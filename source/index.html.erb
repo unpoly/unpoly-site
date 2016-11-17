@@ -1,179 +1,207 @@
-<div class="prose">
+---
+browser: false
+---
 
-  <h1>
-    The progressive enhancement framework
+<div class="hero">
+
+  <h1 class="hero--claim">
+    <span class="hero--claim-line">
+      The unobtrusive JavaScript framework
+    </span>
+    <span class="hero--claim-line">
+      for server-side applications
+    </span>
   </h1>
 
-  <p>
-    Unpoly gives your traditional web application fast-responding views
-    with minimal changes to your code and development style.
-    If you require modern UX but don't want to pay the Javascript complexity tax,
-    Unpoly can be a solution for you.
+  <p class="hero--explanation">
+    Unpoly enables fast and flexible frontends with minimal changes to your server-side code.
   </p>
 
-  <h2>Examples</h2>
+  <div class="actions">
+    <a href="/tutorial" class="action">Get started</a> <!-- or <a href="#how-it-works" class="hyperlink">learn more</a> -->
+  </div>
 
-  <h3>Update a page fragment via AJAX</h3>
-
-  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('update-fragment') } %>
-
-  <h3>Animate a page transition</h3>
-
-  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('transition') } %>
-
-  <h3>Custom tags</h3>
-
-  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('timestamp-tag') } %>
-
-  <h3>Modal dialogs</h3>
-
-  <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('modal') } %>
-
-  <h2>
-    Project status
-  </h2>
-
-  <p>
-    <a href="http://www.makandra.com">We</a>'ve started to use Unpoly in production.
-    We're currently building a few more apps with it in order to improve the public API.
-  </p>
-
-  <p>
-    If you use Unpoly in production, you should be OK with a minor API
-    changes until we reach version 1.0.
-  </p>
-
-  <h2>
-    Philosophy
-  </h2>
-  
-  <p>
-    Unpoly is an opinionated Javascript library.
-    You should understand our philosophy to see if Unpoly
-    is for you. 
-  </p>
-
-  <h3>Client-side MVC is a complexity driver</h3>
-
-  <p>
-    In order to meet the demand for modern, fast-moving interfaces,
-    we have pushed more and more code into the client. 
-    This has vastly increased the complexity of our technology stacks.
-    Modern web applications have a complete MV* stack on both sides of the wire,
-    which we need to understand, synchronize and maintain.
-  </p>
-  
-  <p>
-    We would like to reclaim some of the simplicity of
-    classic server-side MVC development, while making your app
-    feel more responsive and while enabling the most
-    popular UI patterns you see on the web.
-  </p>
-
-  <h3>Batteries included</h3>
-
-  <p>
-    We will ship a basic implementation for the most established UI patterns like
-    <a href="/up.navigation">navigation bars</a>, infinite scrolling,
-    <a href="/up.popup">drop-down menus</a>, <a href="/up.modal">modals dialogs</a>,
-    etc.
-  </p>
-  <p>
-    We will split this out into a plugin architecture eventually, but not now.
-  </p>
-
-  <p>
-    Our built-in UI patterns ship with commonly seen options.
-    We don’t want to compromise their ease of use by providing a million hooks and switches.
-    If you are missing an option, you can always roll your own code or integrate
-    an existing Javascript library.
-  </p>
-
-  <h3>Not for ambitious UIs</h3>
-  
-  <p>
-    While Unpoly pushes limits of what's traditionally been possible
-    with server-side web development, the paradigm <i>does</i> have limits which we
-    recognize. If you want to create a very ambitious user interface,
-    Unpoly is probably not the best approach.
-  </p>
-
-  <h3>Plays nice with existing JS code</h3>
-  <p>
-    You can <a href="/up.compiler">wire</a> your existing JS code
-    into the <a href="/up.link">Unpoly page flow</a>.
-  </p>
-
-  <h3>URLs are important</h3>
-
-  <p>
-    In Unpoly every page or screen state has a URL
-    which you can bookmark and share.
-    This also means you get all the SEO love from Google.
-  </p>
-    
-  <h3>Server-side code should stay the same</h3>
-
-  <p>
-    We want to push progressive enhancement and unobtrusive Javascript
-    to new extremes. For this we want to limit the amount of change
-    required to your server-side code.
-    E. g. it should not require extra controllers or views to update a page
-    fragment via AJAX.
-  </p>
-
-  <h3>Both UJS and programmatic interfaces</h3>
-
-  <p>
-    All Unpoly functionality is available as both unobtrusive behavior
-    (through HTML attributes like <code>up-target</code>)
-    and Javascript functions for programmatic access and integration
-    with your code.
-  </p>
+</div>
 
 
-  
-  <h2>Browser support</h2>
 
-  <p>
-    Unpoly supports all modern browsers.
-  </p>
+<div class="usps" id="features">
+  <div class="usps--inner">
 
-  <p>
-    Unpoly gracefully degrades with old versions of Internet Explorer:
-  </p>
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-paper-plane-o"></i>
+      </div>
 
-  <table>
-    <tr>
-      <th>Edge</th>
-      <td>Full support</td>
-    </tr>
-    <tr>
-      <th>IE 10</th>
-      <td>Full support</td>
-    </tr>
-    <tr>
-      <th>IE 9</th>
-      <td>Page updates that change browser history fall back to a classic page load</td>
-    </tr>
-    <tr>
-      <th>IE 8</th>
-      <td>Unpoly prevents itself from booting itself, leaving you with a classic server-side application</td>
-    </tr>
-  </table>
+      <div class="usp--title">
+        Smoother navigation
+      </div>
+      <div class="usp--description">
+        Unpoly links can
+        <%= modal_hyperlink 'update page fragments', '/up.link', class: 'hyperlink' %>
+        instead of full pages.
+        No JavaScript required.
+      </div>
+    </div>
 
-  
-  <h2>Installation</h2>
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-clone"></i>
+      </div>
+      <div class="usp--title">
+        Branch off into layers
+      </div>
+      <div class="usp--description">
+        Branch off interactions into
+        <%= modal_hyperlink 'modals', '/up.modal' %>,
+        <%= modal_hyperlink 'popups', '/up.popup' %> or
+        <%= modal_hyperlink 'drawers', '/up-drawer' %>.
+        Return to the main page when you're done.
+      </div>
+    </div>
 
-  <p>
-    See <a href="/download">Download &amp; Installation</a>.
-  </p>
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-film"></i>
+      </div>
 
-  <h2>Getting started</h2>
+      <div class="usp--title">
+        Animation
+      </div>
+      <div class="usp--description">
+        <%= modal_hyperlink 'Animate page changes', '/up.motion' %>
+        with fade, swipe or zoom transitions.
+      </div>
+    </div>
 
-  <p>
-    This is the best place to start with the documentation:<br />
-    <a href="/up.link">Linking to page fragments</a>
-  </p>
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-flash"></i>
+      </div>
 
+      <div class="usp--title">
+        Faster response times
+      </div>
+      <div class="usp--description">
+        Outsmart latency by
+        <%= modal_hyperlink 'preloading pages', '/up-preload' %>,
+        <%= modal_hyperlink 'following links earlier', '/up-instant' %>,
+        <%= modal_hyperlink 'caching responses', '/up.proxy' %> and keeping a persistent CSS / JS environment.
+      </div>
+    </div>
+
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-cubes"></i>
+      </div>
+      <div class="usp--title">
+        Structure for JavaScript snippets
+      </div>
+      <div class="usp--description">
+        Organize your frontend code in
+        <%= modal_hyperlink 'compilers', '/up.compiler' %>
+        and let Unpoly pair HTML elements with JavaScript behavior.
+      </div>
+    </div>
+
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-wpforms"></i>
+      </div>
+      <div class="usp--title">
+        Better forms
+      </div>
+      <div class="usp--description">
+        Submit forms <%= modal_hyperlink 'via AJAX', 'form-up-target' %>.
+        Work with forms within modals.
+        <%= modal_hyperlink 'Validate forms', '/up-validate' %> against
+        server rules while filling in fields.
+      </div>
+    </div>
+
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-handshake-o"></i>
+      </div>
+      <div class="usp--title">
+        Plays nice with existing code
+      </div>
+      <div class="usp--description">
+        Migrate any server-side application with
+        minimal changes to existing code.
+      </div>
+    </div>
+
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-plug"></i>
+      </div>
+      <div class="usp--title">
+        Extensible
+      </div>
+      <div class="usp--description">
+        Build your own components using Unpoly's
+        <%= modal_hyperlink 'extensive Javascript API', '/up.dom' %> and
+        <%= modal_hyperlink 'event model', '/up.bus' %>.
+      </div>
+    </div>
+
+    <div class="usp">
+      <div class="usp--icon">
+        <i class="fa fa-heart-o"></i>
+      </div>
+      <div class="usp--title">
+        Degrades gracefully
+      </div>
+      <div class="usp--description">
+        Unpoly supports <%= modal_hyperlink 'all modern browsers', '/up.browser.isSupported' %>.
+        On old IEs features are disabled gracefully.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<h2 class="subtitle" id="how-it-works">How it works</h2>
+
+<ol class="steps">
+
+  <li>
+    <b>
+      Write a server-side app in any language
+    </b>
+    <br>
+    Like Ruby, PHP, Node.js, Java, Elixir …
+  </li>
+
+  <li>
+    <b>
+      <%= modal_hyperlink 'Install', '/install' %> the Unpoly Javascript and CSS
+    </b>
+    <br>
+    Only <%= unpoly_library_size %> minified. CSS is minimal and non-invasive.
+  </li>
+
+  <li>
+    <b>Decorate links with HTML attributes from the future</b>
+    <br>
+    Like
+    <%= modal_hyperlink 'up-target', '/a-up-target' %>,
+    <%= modal_hyperlink 'up-modal', '/up-modal' %>,
+    <%= modal_hyperlink 'up-dash', '/up-dash' %> …
+  </li>
+
+  <li>
+    <b>Enjoy a vastly improved frontend</b>
+    <br>
+    With snappy views, layered interactions, animations …
+  </li>
+</ol>
+
+
+
+
+<div class="actions">
+  <a href="/tutorial" class="action">Get started</a>
 </div>

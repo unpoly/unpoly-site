@@ -1,0 +1,20 @@
+@import environment
+
+.picture
+  display: block
+  +vertical-margin($LARGE_BLOCK_SPACING)
+  +border-box
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1)
+
+  &.has_border
+    border: 1px solid #b5b5b5
+
+  &.has_padding
+    padding: 18px
+
+    +narrower-than(400px)
+      padding: 13px
+
+  // Helps the image fit into this site's color scheme
+  &.is_sepia
+    filter: sepia(0.15)

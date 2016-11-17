@@ -1,3 +1,7 @@
+@import compass/css3
+@import compass/utilities/general/clearfix
+@import compass/typography/text/ellipsis
+
 =hover
   &:hover, &:focus
     @content
@@ -30,6 +34,10 @@
 
 =border_box
   +box_sizing(border-box)
+
+
+=uppercase
+  text-transform: uppercase
 
 =clear_after
   &:after
@@ -72,25 +80,46 @@
   @media (max-width: $width - 1)
     @content
 
+=on_narrow
+  +narrower_than($GUIDE_BREAKPOINT)
+    @content
+
+=on_wide
+  +wider_than($GUIDE_BREAKPOINT)
+    @content
+
+
 =pretty-scrollbars($width: 10px)
+
   &::-webkit-scrollbar
-    background-color: rgba(0, 0, 0, 0.1)
+    background-color: rgba(0, 0, 0, 0.02)
     width: $width
     height: $width
+    &:hover
+      background-color: rgba(0, 0, 0, 0.1)
+
   &::-webkit-scrollbar-thumb
-    background-color: rgba(0, 0, 0, 0.2)
+    background-color: rgba(0, 0, 0, 0.08)
     &:hover
       background-color: rgba(0, 0, 0, 0.3)
 
 =default-font
-  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif
+  font-family: 'Roboto', Arial, Helvetica, sans-serif
 
 =monospace-font
-  font-family: 'Ubuntu Mono', monospace
+  font-family: 'Roboto Mono', monospace
 
 =title-font
-  font-family: 'Orbitron', sans-serif
-  font-weight: 400 // we only have one font weight loaded
+  //font-family: 'Ubuntu Mono', 'Orbitron', sans-serif
+  //+bold
+  //font-family: 'Comfortaa', sans-serif
+  //font-family: 'Orbitron', sans-serif
+  //+uppercase
+  //font-weight: 400 // we only have one font weight loaded
+  //text-shadow: 3px 2px 1px rgba(251, 12, 12, 0.4), 0px -1px 2px rgba(12, 79, 251, 0.2),-3px 0px 1px rgba(52, 251, 12, 0.4)
+  //font-weight: normal
+  //+default-font
+
 
 =inline-code
   color: #666
@@ -99,24 +128,58 @@
   +monospace-font
 
 =code-block
+  display: block // since we're often styling `pre code`
   +monospace-font
   margin: 0
   padding: 0
-  +pretty-scrollbars
+  +pretty-scrollbars(9px)
   overflow-x: auto
-  overflow-y: visible
+  overflow-y: hidden
   background: transparent
   white-space: pre
 
+=embedded_code_block
+  +code_block
+  code
+    font-size: 15px !important
+    line-height: 17px !important
 
-=steal-vertical-space($space)
+
+=steal-horizontal-space($space)
   +horizontal-margin(-$space)
   +horizontal-padding($space)
 
-=narrow-screen
-  +narrower-than(1200px)
-    @content
+=steal-vertical-space($space)
+  +vertical-margin(-$space)
+  +vertical-padding($space)
 
-=wide-screen
-  +wider-than(1200px)
-    @content
+=height($height)
+  height: $height
+  line-height: $height
+
+=clearfix
+  &:after
+    content: ""
+    display: table
+    clear: both
+
+=bold
+  font-weight: 500
+
+=tint_hyperlink($color)
+  border-bottom: 1px dotted transparentize($color, 0.6)
+  &, & code
+    color: $color
+  &.up-active
+    background-color: $color
+    border-bottom: none
+    &, & code
+      color: white
+
+=hyperlink($color: $COLOR_LINK, $hover-color: $COLOR_HOVER)
+  $margin: 0.05em
+  +horizontal_margin($margin)
+  +tint_hyperlink($color)
+  &:hover
+    +tint_hyperlink($hover-color)
+

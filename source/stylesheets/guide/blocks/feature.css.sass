@@ -1,0 +1,57 @@
+@import environment
+
+.feature
+  //border-top: 2px solid desaturate($COLOR_MAIN, 60%) + 110
+  //padding-top: 25px
+
+  &+.feature
+    margin-top: 20px
+    padding-top: 20px
+    border-top: 1px solid #ccc
+
+  //.feature.isnt_stable &,
+  //.feature.isnt_stable & a
+  //  color: $COLOR_PROTECTED
+
+.feature__tags
+  display: inline-block
+  white-space: nowrap
+
+.feature__param
+  margin-top: 14px
+  &:target
+    // When directly jumping to the param, highlight it.
+    // Unfortunately that does not work after the initial page load,
+    // due to a bug in Webkit and Firefox :(
+    background-color: #ffa
+
+.feature__warning
+  border: 1px solid #fb9c54
+  background-color: #ffd
+  padding: 0.5em 0.6em
+  color: #c54
+  border-radius: 3px
+
+.feature__prose
+  +vertical-margin(25px)
+
+.feature__param_name
+  +monospace-font
+  font-size: $FONT_SIZE
+  +bold
+  color: #777
+
+.feature__param_prose
+  //margin-top: 4px
+  margin-left: 20px
+
+.feature__type
+  +monospace-font
+  font-size: $FONT_SIZE
+  +bold
+  color: #999
+
+.feature__or
+  color: #b2b2b2
+  font-weight: normal
+  

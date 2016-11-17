@@ -4,82 +4,65 @@
  @page_title = klass.title
 %>
 
-
-<h1 class="title">
+<h1>
   <%= klass.title %>
 </h1>
 
-<%= markdown_prose(klass.guide_markdown) %>
+
+<div class="expandable">
+
+  <div class="expandable__limiter">
+   <div class="expandable__content">
+     <h2>Overview</h2>
+
+     <%= markdown_prose(klass.guide_markdown) %>
+   </div>
+  </div>
+
+  <a class="expandable__expand action">Read more</a>
+
+</div>
 
 <% selectors = klass.selectors.reject(&:internal?).sort %>
 <% if selectors.present? %>
-  <div class="api">
 
-    <div class="api__title">CSS selectors</div>
+  <h2 class="subtitle">CSS selectors</h2>
 
-    <div class="api__explanation">
-      Elements matching these CSS selectors will automatically
-      gain useful behavior when they are added to the DOM tree.
-    </div>
+  <% selectors.each do |behavior| %>
+    <%= partial 'feature_preview', locals: { feature: behavior } %>
+  <% end %>
 
-    <div class="api__symbols">
-
-      <% selectors.each do |behavior| %>
-        <%= partial 'api_symbol', locals: { symbol: behavior } %>
-      <% end %>
-
-    </div>
-
-  </div>
 <% end %>
 
 <% functions = klass.functions.reject(&:internal?).sort %>
 <% if functions.present? %>
-  <div class="api">
 
-    <div class="api__title">Javascript functions</div>
+  <h2 class="subtitle">JavaScript functions</h2>
 
-    <div class="api__symbols">
+  <% functions.each do |function| %>
+    <%= partial 'feature_preview', locals: { feature: function } %>
+  <% end %>
 
-      <% functions.each do |function| %>
-        <%= partial 'api_symbol', locals: { symbol: function } %>
-      <% end %>
-
-    </div>
-
-  </div>
 <% end %>
 
 <% properties = klass.properties.reject(&:internal?).sort %>
 <% if properties.present? %>
-  <div class="api">
 
-    <div class="api__title">Javascript properties</div>
+  <h2 class="subtitle">JavaScript properties</h2>
 
-    <div class="api__symbols">
+    <% properties.each do |property| %>
+      <%= partial 'feature_preview', locals: { feature: property } %>
+    <% end %>
 
-      <% properties.each do |property| %>
-        <%= partial 'api_symbol', locals: { symbol: property } %>
-      <% end %>
-
-    </div>
-
-  </div>
 <% end %>
 
 <% events = klass.events.reject(&:internal?).sort %>
 <% if events.present? %>
-  <div class="api">
 
-    <div class="api__title">Events</div>
+  <h2 class="subtitle">Events</h2>
 
-    <div class="api__symbols">
+  <% events.each do |event| %>
+    <%= partial 'feature_preview', locals: { feature: event } %>
+  <% end %>
 
-      <% events.each do |event| %>
-        <%= partial 'api_symbol', locals: { symbol: event } %>
-      <% end %>
-
-    </div>
-
-  </div>
 <% end %>

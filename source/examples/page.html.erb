@@ -6,7 +6,7 @@
     <%= partial 'layouts/fonts' %>
     <%= stylesheet_link_tag 'example/all' %>
     <% asset.example.stylesheets.each do |stylesheet| %>
-      <link rel="stylesheet" type="text/css" href="<%= stylesheet.css %>" />
+      <link rel="stylesheet" type="text/css" href="<%= stylesheet.name %>" />
     <% end %>
     <%= javascript_include_tag 'example' %>
     <% asset.example.javascripts.each do |javascript| %>
@@ -14,8 +14,6 @@
     <% end %>
   </head>
   <body>
-    <div class="page">
-      <%= asset.text %>
-    </div>
+    <%= asset.text %>
   </body>
 </html>

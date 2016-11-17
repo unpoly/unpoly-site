@@ -2,7 +2,7 @@
 
 ul.bullets
 
-  +vertical_margin($BLOCK_SPACING)
+  +vertical_margin($LARGE_BLOCK_SPACING)
 
   li
     padding-left: 0.9em
@@ -16,10 +16,10 @@ ul.bullets
       //background-color: rgba(0,0,0,0.1)
       left: 0
       top: 0.0em
-      font-weight: 700
+      +bold
       //font-size: 16px
       //color: #999
-      color: desaturate($COLOR_PETER_RIVER, 20%)
+      color: desaturate($COLOR_SECONDARY, 20%)
 
   //
   //&.is_blue

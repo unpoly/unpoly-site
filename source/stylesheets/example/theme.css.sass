@@ -1,21 +1,28 @@
+@import compass/reset
 @import environment
+@import typography
 
-html, body
-  height: 100%
-  +border-box
-  padding: 10px
+
+html
+  // https://makandracards.com/makandra/39473-stretch-an-html-page-to-full-height
+  min-height: 100%
 
 body
-  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif
-  background-color: #bbb
-  font-weight: 400
-  color: #444
-  overflow-y: scroll
+  background-color: #e7e7e7
+  background: linear-gradient(to bottom, #e7e7e7, #dfdfdf)
+  overflow-y: hidden
   overflow-x: hidden
-  margin: 0
+  margin: 12px
 
 p
-  margin: 0 0 1em 0
+  margin: 1em 0
+
+  body >&:first-child
+    margin-top: 0
+
+a
+  color: $COLOR_PETER_RIVER
+  +bold
 
 .hljs
   padding: 0

@@ -1,0 +1,13 @@
+@import environment
+
+.table_overflow
+  max-width: 100%
+  overflow-x: auto
+  overflow-y: visible
+  +pretty-scrollbars
+  +vertical_margin($TABLE_SPACING)
+
+  >table
+    +vertical_margin(0)
+
+

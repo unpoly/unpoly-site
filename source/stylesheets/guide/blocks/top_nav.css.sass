@@ -1,0 +1,39 @@
+@import environment
+
+.top_nav
+  font-size: 20px
+  +bold
+  +uppercase
+  position: relative
+  width: 100%
+  +clearfix
+
+.top_nav__section
+  color: white
+
+  // Uppercase letters have no descendants, so push the links a little down
+  // to center them vertically.
+  display: inline-block
+  margin-top: 1px
+
+  + .top_nav__section
+    margin-left: 10px
+
+  &:focus, &:hover, &.up-current
+    text-decoration: underline
+
+  +on_narrow
+    display: none
+
+//.top_nav__version
+//  opacity: 0.5
+
+.is_github
+  float: right
+  opacity: 0.8
+
+.is_hamburger
+  display: none
+  float: right
+  +on_narrow
+    display: inline
