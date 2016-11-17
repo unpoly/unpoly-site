@@ -30,8 +30,7 @@ This way you can make changes to the documentation and see its HTML output immed
 
 ## Deploying
 
-- In the `unpoly-guide` repo, call `middleman build`. This will generate/update the static HTML files.
-- Commit and push changes in `unpoly-guide`, including the static HTML files you just generated.
-- Commit and push changes in `unpoly`, which you might have changed while reviewing the documentation output.
-- Run `cap deploy` to push the changes to <http://unpoly.com>.
+1. Commit and push changes in `unpoly-guide`.
+2. Commit and push changes in `unpoly`, which you might have changed while reviewing the documentation output.
+3. Run `cap deploy` to push the changes to <http://unpoly.com>. Static files will be built during deployment.
 
