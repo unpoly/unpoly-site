@@ -1,0 +1,7 @@
+DirectorySlash Off
+Options -Indexes
+
+RewriteEngine On
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule ^(.+?)$  /$1/index.html [L]
+
