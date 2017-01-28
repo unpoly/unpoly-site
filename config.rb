@@ -4,37 +4,48 @@ require 'vendor/unpoly-local/lib/unpoly/rails/version'
 require 'lib/unpoly/guide'
 require 'lib/unpoly/example'
 
-###
-# Compass
-###
 
-# Change Compass configuration
-# compass_config do |config|
-#   config.output_style = :compact
-# end
-
-###
-# Page options, layouts, aliases and proxies
-###
-
-# Per-page layout changes:
+##
+# Extensions
 #
-# With no layout
-# page "/path/to/file.html", :layout => false
+activate :sprockets
+
+# Produce */index.html files
+activate :directory_indexes
+
+
+##
+# Build-specific configuration
 #
-# With alternative layout
-# page "/path/to/file.html", :layout => :otherlayout
+configure :build do
+  # Minify CSS on build
+  activate :minify_css
+
+  # Minify Javascript on build
+  activate :minify_javascript
+
+  # Enable cache buster
+  activate :asset_hash
+
+end
+
+
+
+##
+# Layout
 #
-# A path which all have the same layout
-# with_layout :admin do
-#   page "/admin/*"
-# end
+page '/*.xml', layout: false
+page '/*.json', layout: false
+page '/*.txt', layout: false
+page '/*.html', layout: 'guide'
 
-# page '/examples/*', layout: 'example'
+sprockets.append_path File.expand_path('vendor/asset-libs')
+sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/javascripts')
+sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/stylesheets')
 
-page '*', layout: 'guide'
-
+##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
+#
 Unpoly::Guide.current.klasses.each do |klass|
   path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
@@ -53,12 +64,12 @@ Unpoly::Example.all.each do |example|
 
   example.stylesheets.each do |asset|
     puts "Example stylesheet: #{asset.path}"
-    proxy asset.path, "/examples/stylesheet.html", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+    proxy asset.path, "/examples/stylesheet", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 
   example.javascripts.each do |asset|
     puts "Example javascripts: #{asset.path}"
-    proxy asset.path, "/examples/javascript.js", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
+    proxy asset.path, "/examples/javascript", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 
   example.pages.each do |asset|
@@ -68,26 +79,10 @@ Unpoly::Example.all.each do |example|
 
 end
 
-# ignore '/klass.html.erb'
-
-# proxy "/this-page-has-no-template.html", "/template-file.html", :locals => {
-#  :which_fake_page => "Rendering a fake page with a local variable" }
 
 ###
 # Helpers
-###
-
-# Automatic image dimensions on image_tag helper
-# activate :automatic_image_sizes
-
-activate :directory_indexes
-
-# Reload the browser automatically whenever files change
-# configure :development do
-#   activate :livereload
-# end
-
-# Methods defined in the helpers block are available in templates
+#
 helpers do
 
   def guide
@@ -96,11 +91,11 @@ helpers do
 
   def markdown(text)
     doc = Kramdown::Document.new(text,
-      input: 'GFM',
-      remove_span_html_tags: true,
-      enable_coderay: false,
-      smart_quotes: ["apos", "apos", "quot", "quot"],
-      hard_wrap: false
+                                 input: 'GFM',
+                                 remove_span_html_tags: true,
+                                 enable_coderay: false,
+                                 smart_quotes: ["apos", "apos", "quot", "quot"],
+                                 hard_wrap: false
     )
     # Blindly remove any HTML tag from the document, including "span" elements
     # (see option above). This will NOT remove HTML tags from code examples.
@@ -121,7 +116,7 @@ helpers do
       "Unpoly: Unobtrusive JavaScript framework"
     end
   end
-  
+
   def unpoly_library_size(files = nil)
     files ||= [
         'unpoly.min.js',
@@ -167,34 +162,3 @@ helpers do
 
 end
 
-set :css_dir, 'stylesheets'
-
-set :js_dir, 'javascripts'
-
-set :images_dir, 'images'
-
-paths = Dir["vendor/*"].sort_by { |dir| -dir.size }
-paths.each do |path|
-  puts "APPENDING SPROCKET PATH: #{path}"
-  sprockets.append_path File.expand_path(path)
-end
-sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/javascripts")
-sprockets.append_path File.expand_path("#{Unpoly::Guide.current.path}/lib/assets/stylesheets")
-
-# Build-specific configuration
-configure :build do
-  # For example, change the Compass output style for deployment
-  activate :minify_css
-
-  # Minify JavaScript on build
-  activate :minify_javascript
-
-  # Enable cache buster
-  activate :asset_hash
-
-  # Use relative URLs
-  # activate :relative_assets
-
-  # Or use a different image path
-  # set :http_prefix, "/Content/images/"
-end

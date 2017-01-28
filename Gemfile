@@ -1,23 +1,16 @@
-# If you do not have OpenSSL installed, update
-# the following line to use "http://" instead
 source 'https://rubygems.org'
 
-gem "middleman", "< 4"
-
-# Live-reloading plugin
-gem "middleman-livereload", "~> 3.1.0"
-
 gem 'therubyracer'
-
-gem 'middleman-bower'
-
 gem 'memoizer'
-
 gem 'andand'
 
-# gem 'require_all'
+gem "middleman"
+
+gem "middleman-sprockets"
+gem 'sass'
+gem 'coffee-script'
 
 group :deploy do
-  gem "capistrano"
+  gem "capistrano", '<3'
   gem "capistrano_colors"
 end

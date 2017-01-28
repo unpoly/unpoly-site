@@ -1,5 +1,6 @@
 /*
- *= require highlightjs/styles/github
+ *= require meyerweb-reset/reset
+ *= require highlight.js/styles/github
  *= require unpoly
  *= require ./theme
  *= require_tree ./blocks

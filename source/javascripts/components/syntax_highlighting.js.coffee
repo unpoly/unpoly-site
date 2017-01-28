@@ -1,5 +1,3 @@
-#= require highlightjs/highlight.pack
-
 # The default highlight.js package from bower comes
 # with way too many languages, which makes auto-detection
 # go horribly wrong.
