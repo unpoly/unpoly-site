@@ -1,0 +1,64 @@
+<div class="prose">
+
+  <h1>
+    Installing Unpoly
+  </h1>
+
+
+  <h2>Requirements</h2>
+
+  <p>
+    Unpoly's single dependency is <a href="https://jquery.com/">jQuery</a> 1.9 or higher.
+  </p>
+
+  <p>
+    Unpoly works with almost all applications that render HTML on the server.
+    You can write your server-side code in any programming language (Ruby, PHP, Node.js, Java, Elixir …).
+  </p>
+
+  <h2 id="files">Library files</h2>
+
+  <p>
+    Unpoly consists of both JavaScript and (minimal) CSS files:
+  </p>
+
+  <ol>
+    <li>
+      <code>unpoly.min.js</code> (<%= unpoly_library_size('unpoly.min.js') %>)
+    </li>
+    <li>
+      <code>unpoly.min.css</code> (<%= unpoly_library_size('unpoly.min.css') %>)
+    </li>
+  </ol>
+
+  <p>
+    There are some <b>optional</b> files will help you if you are using <a href="http://getbootstrap.com/">Bootstrap</a>:
+  </p>
+
+  <ol>
+    <li>
+      <code>unpoly-bootstrap3.min.js</code> (<%= unpoly_library_size('unpoly-bootstrap3.min.js') %>)
+    </li>
+    <li>
+      <code>unpoly-bootstrap3.min.css</code> (<%= unpoly_library_size('unpoly-bootstrap3.min.css') %>)
+    </li>
+  </ol>
+
+
+  <h2 id="methods">Installation methods</h2>
+
+  <p>
+    You have multiple options for downloading and integrating Unpoly:
+  </p>
+
+  <ul>
+    <li><%= modal_hyperlink 'Link to a CDN', '/install/cdn' %> (great to test-drive)</li>
+    <li><%= modal_hyperlink 'Install with npm', '/install/npm' %></li>
+    <li><%= modal_hyperlink 'Install with Ruby on Rails', '/install/rails' %></li>
+    <li><%= modal_hyperlink 'Install with Bower', '/install/bower' %></li>
+    <li><%= modal_hyperlink 'Download as ZIP', '/install/zip' %></li>
+    <li><%= modal_hyperlink 'Clone with Git', '/install/git' %></li>
+  </ul>
+
+</div>
+

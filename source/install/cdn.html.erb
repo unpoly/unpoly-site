@@ -1,0 +1,21 @@
+<div class="prose">
+
+  <h1>Link to a CDN</h1>
+
+  <p>
+    You can link to the Unpoly files directly from a CDN:
+  </p>
+
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/<%= guide.version %>/unpoly.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/<%= guide.version %>/unpoly.min.css"&gt;</code></pre>
+
+  <h3>Linking with Bootstrap integration</h3>
+
+  <p>If you want to use Unpoly's Bootstrap integration, link to the following URLs instead:</p>
+
+  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@<%= guide.version %>(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@<%= guide.version %>(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
+
+  <%= partial 'star_prompt' %>
+
+</div>

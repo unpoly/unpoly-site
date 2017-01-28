@@ -1,0 +1,49 @@
+<div class="prose">
+  <h1>Install with Ruby on Rails</h1>
+
+  <p>
+    Unpoly is available as a Ruby gem that makes the library's JavaScript and CSS sources
+    available to the Rails asset pipeline. It also includes
+    <a href="http://www.rubydoc.info/github/unpoly/unpoly/master">some useful helpers</a>
+    for your controllers and views.
+  </p>
+
+  <p>
+    To install Unpoly in Rails, add the following line to your <code>Gemfile</code>:
+  </p>
+
+  <pre><code class="ruby">gem 'unpoly-rails'</code></pre>
+
+  <p>Now run <code>bundle install</code> and restart your development server.</p>
+
+  <p>Add the following line to your <code>application.js</code> manifest:</p>
+
+  <pre><code class="javascript">//= require unpoly</code></pre>
+
+  <p>
+    Also add the following line to your <code>application.css</code> manifest:</p>
+  </p>
+
+  <pre><code class="css">/*
+ *= require unpoly
+ */</code></pre>
+
+  <h3>Installing with Bootstrap integration</h3>
+
+  <p>If you want to use Unpoly's Bootstrap integration, add the following to your <code>application.js</code> manifest <b>after requiring Bootstrap</b>:</p>
+
+  <pre><code class="javascript">//= require unpoly
+//= require unpoly-bootstrap3</code></pre>
+
+  <p>
+    Also add the following to your <code>application.css</code> manifest <b>after requiring Bootstrap</b>:</p>
+  </p>
+
+  <pre><code class="css">/*
+ *= require unpoly
+ *= require unpoly-bootstrap3
+ */</code></pre>
+
+  <%= partial 'star_prompt' %>
+
+</div>
