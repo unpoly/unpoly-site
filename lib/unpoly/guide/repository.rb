@@ -83,8 +83,8 @@ module Unpoly
 
       def source_paths
         File.directory?(@path) or raise "Input path not found: #{@path}"
-        log("Input pattern", File.join(@path, "**/*.coffee"))
-        Dir[File.join(@path, "**/*.coffee")]
+        log("Input pattern", File.join(@path, "lib/**/*.coffee"))
+        Dir[File.join(@path, "lib/**/*.coffee")]
       end
 
       def parse
