@@ -44,13 +44,7 @@
             <div class="guide__left">
 
               <div class="guide__browser" up-viewport>
-
                 <%= partial 'layouts/browser' %>
-
-                <div class="guide__fineprint">
-                  <a href="/imprint" class="hyperlink is_gray" content-link>Imprint</a>
-                </div>
-
               </div>
 
             </div>
@@ -60,6 +54,18 @@
                 <div class="modal_content">
                   <%= yield %>
                 </div>
+
+
+                <div class="guide__fineprint">
+                  <div class="fineprint">
+                    Made by
+                    <a href="https://twitter.com/triskweline" class="hyperlink is_gray">Henning Koch</a>
+                    from
+                    <a href="https://makandra.com" class="hyperlink is_gray">makandra</a>
+                    (<a href="/imprint" class="hyperlink is_gray">Imprint</a>)
+                  </div>
+                </div>
+
               </div>
             </div>
 
