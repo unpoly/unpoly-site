@@ -3,6 +3,7 @@ require 'lib/ext/rack/support_colons_in_path'
 require 'vendor/unpoly-local/lib/unpoly/rails/version'
 require 'lib/unpoly/guide'
 require 'lib/unpoly/example'
+require 'fileutils'
 
 
 ##
@@ -26,6 +27,13 @@ configure :build do
 
   # Enable cache buster
   activate :asset_hash
+
+  # after_build do
+  #   puts 'Copying .htaccess file ...'
+  #   from = 'source/.htaccess'
+  #   to = 'build/.htaccess'
+  #   FileUtils.copy(from, to)
+  # end
 
 end
 

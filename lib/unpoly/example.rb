@@ -75,10 +75,10 @@ module Unpoly
       unmemoize :config
     end
 
-    def highlight(string, klass: 'example__highlight')
+    def highlight(string)
       string = string.dup
       highlighted_phrases.each do |phrase|
-        string.gsub! phrase, %(<span class="#{klass}">#{phrase}</span>)
+        string.gsub! phrase, %(<mark>#{phrase}</mark>)
       end
       string
     end
