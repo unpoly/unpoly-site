@@ -7,9 +7,9 @@ up.compiler '.expandable', ($expandable, data) ->
   $expandButton = $expandable.find('.expandable__expand');
 
   contentHeight = $content.height()
-  limiterHeight = $limiter.height()
+  limiterHeight = parseFloat($limiter.css('max-height'))
 
-  if contentHeight < limiterHeight + 50.length || data.path == '/up.protocol'
+  if (contentHeight < limiterHeight + 50) || (data.path == '/up.protocol')
     expand()
   else
     $expandButton.on('click', expand)
