@@ -13,9 +13,12 @@ makeContentLink = (link) ->
   $link = $(link)
   target = $link.attr('content-link') || '.page_content'
   attrs =
-    'up-dash': target
+    'up-target': target
+    'up-preload': ''
     'up-transition': 'cross-fade'
     'up-duration': '300'
+  unless $link.is('.action') # it feels wrong for a button
+    attrs['up-instant'] = ''
   $link.attr(attrs)
 
 up.macro '[content-link]', { priority: 10 }, makeContentLink
