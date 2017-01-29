@@ -17,9 +17,10 @@ module Unpoly
         up.history
         up.layout
         up.bus
+        up.browser
+        up.protocol
         up.util
         up.log
-        up.browser
       ]
 
       def initialize(input_path)

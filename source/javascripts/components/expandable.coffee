@@ -9,7 +9,7 @@ up.compiler '.expandable', ($expandable) ->
   contentHeight = $content.height()
   limiterHeight = $limiter.height()
 
-  if contentHeight < limiterHeight + 50
+  if contentHeight < limiterHeight + 50 || $content.has('h1:contains("Server protocol")')
     expand()
   else
     $expandButton.on('click', expand)
