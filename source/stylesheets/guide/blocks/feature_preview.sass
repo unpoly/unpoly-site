@@ -1,5 +1,9 @@
 @import environment
 
+=when-unstable
+  .feature_preview.isnt_stable &
+    @content
+
 .feature_preview
   +vertical-margin(22px)
 
@@ -8,15 +12,19 @@
   +bold
   +font-size($FONT_SIZE)
 
-  &, & a
-    color: $COLOR_MAIN
+  color: $COLOR_MAIN
 
-  .feature_preview.isnt_stable &,
-  .feature_preview.isnt_stable & a
+  +when-unstable
     color: $COLOR_PROTECTED
+
+  &:hover
+    color: $COLOR_HOVER !important
 
 .feature_preview__summary
   margin-top: 5px
   //margin-left: 20px
   p
     margin: 0 !important
+    a
+      +when-unstable
+        +hyperlink($COLOR_PROTECTED)

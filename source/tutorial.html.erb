@@ -26,7 +26,8 @@
   </p>
 
   <p>
-    If you just want to test-drive Unpoly, the easiest way is to <a href="/install#cdn">link to a CDN</a>.
+    If you just want to test-drive Unpoly, the easiest way is to
+    <%= modal_hyperlink 'link to a CDN', '/install/cdn' %>.
   </p>
 
   <h2>Thinking with fragments</h2>
@@ -218,14 +219,16 @@
   <h2>Ready for more?</h2>
 
   <p>
-    This tutorial covered the most basic features of Unpoly.
-    The other guides will explain these and more advanced features in much greater detail.
-
+    This tutorial covered just the most basic features of Unpoly.
+    The other guides will explain these and more advanced features in much greater detail:
   </p>
 
-  <p>
-    This is the best place to start with the documentation:<br />
-    <a href="/up.link">Linking to page fragments</a>
-  </p>
+
+
+  <ul>
+    <% guide.promoted_klasses.each do |klass|  %>
+      <li><%= link_to klass.title, klass.guide_path %></li>
+    <% end %>
+  </ul>
 
 </div>
