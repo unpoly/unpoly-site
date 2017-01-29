@@ -1,4 +1,4 @@
-up.compiler '.expandable', ($expandable) ->
+up.compiler '.expandable', ($expandable, data) ->
 
   expand = -> $expandable.addClass('is_expanded')
 
@@ -9,7 +9,7 @@ up.compiler '.expandable', ($expandable) ->
   contentHeight = $content.height()
   limiterHeight = $limiter.height()
 
-  if contentHeight < limiterHeight + 50 || $content.has('h1:contains("Server protocol")')
+  if contentHeight < limiterHeight + 50.length || data.path == '/up.protocol'
     expand()
   else
     $expandButton.on('click', expand)
