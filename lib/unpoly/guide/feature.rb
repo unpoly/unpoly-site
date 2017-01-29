@@ -34,8 +34,10 @@ module Unpoly
         elsif property?
           signature = ''
           signature << name
-          signature << ' = '
-          signature << (params[0].option_hash_name || params[0].name)
+          if params.present?
+            signature << ' = '
+            signature << (params[0].option_hash_name || params[0].name)
+          end
           signature
 
         else
