@@ -5,8 +5,8 @@ set :user, "deploy-unpoly_p"
 set :use_sudo, false
 set :keep_releases, 10
 
-server "c23.makandra.makandra.de", :app, :web, :primary => true
-server "c42.makandra.makandra.de", :app, :web
+server "c23.makandra-3.makandra.de", :app, :web, :primary => true
+server "c42.makandra-3.makandra.de", :app, :web
 
 ssh_options[:forward_agent] = true
 
