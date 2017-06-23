@@ -134,12 +134,16 @@ helpers do
     require 'active_support/gzip'
     source = ''
     files.each do |file|
-      path = "#{Unpoly::Guide.current.path}/dist/#{file}"
+      path = local_library_file_path(file)
       File.exists?(path) or raise "Asset not found: #{path}"
       source << File.read(path)
     end
     kbs = (ActiveSupport::Gzip.compress(source).length / 1024.0).round(1)
     "#{kbs} KB"
+  end
+
+  def local_library_file_path(file)
+    "#{Unpoly::Guide.current.path}/dist/#{file}"
   end
 
   def modal_hyperlink(label, href, options = {})
@@ -168,5 +172,27 @@ helpers do
     content_link label, href, options
   end
 
-end
+  def cdn_url(file)
+    "https://unpkg.com/unpoly@#{guide.version}/dist/#{file}"
+  end
 
+  def cdn_js_include(file)
+    %Q(<script src="#{cdn_url(file)}" #{sri_attrs(file)}></script>)
+  end
+
+  def cdn_css_include(file)
+    %Q(<link rel="stylesheet" src="#{cdn_url(file)}" #{sri_attrs(file)}>)
+  end
+
+  def sri_attrs(file)
+    %{integrity="#{sri_hash(file)}" crossorigin="anonymous"}
+  end
+
+  def sri_hash(file)
+    path = local_library_file_path(file)
+    hash_base64 = `openssl dgst -sha384 -binary #{path} | openssl base64 -A`.presence or raise "Error calling openssl"
+    hash_base64 = hash_base64.strip
+    "sha384-#{hash_base64}"
+  end
+
+end

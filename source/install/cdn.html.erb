@@ -6,15 +6,15 @@
     You can link to the Unpoly files directly from a CDN:
   </p>
 
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/unpoly/<%= guide.version %>/unpoly.min.js"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/unpoly/<%= guide.version %>/unpoly.min.css"&gt;</code></pre>
+  <pre><code><%= h cdn_js_include('unpoly.min.js') %>
+<%= h cdn_css_include('unpoly.min.css') %></code></pre>
 
-  <h3>Linking with Bootstrap integration</h3>
+  <h3>Adding Bootstrap integration</h3>
 
-  <p>If you want to use Unpoly's Bootstrap integration, link to the following URLs instead:</p>
+  <p>If you want to use Unpoly's Bootstrap integration, you should <b>also</b> add the following links:</p>
 
-  <pre><code>&lt;script src="https://cdn.jsdelivr.net/g/unpoly@<%= guide.version %>(unpoly.min.js+unpoly-bootstrap3.min.js)"&gt;&lt;/script&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/g/unpoly@<%= guide.version %>(unpoly.min.css+unpoly-bootstrap3.min.css)"&gt;</code></pre>
+  <pre><code><%= h cdn_js_include('unpoly-bootstrap3.min.js') %>
+<%= h cdn_css_include('unpoly-bootstrap3.min.css') %></code></pre>
 
   <%= partial 'star_prompt' %>
 
