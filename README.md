@@ -1,6 +1,6 @@
 # Unpoly guide and API
 
-These are the sources for the website of Unpoly, [unpoly.com](http://unpoly.com).
+These are the sources for the website of Unpoly, [unpoly.com](https://unpoly.com).
 
 If you are looking for Unpoly itself, visit [github.com/unpoly/unpoly](https://github.com/unpoly/unpoly).
 
@@ -32,5 +32,5 @@ This way you can make changes to the documentation and see its HTML output immed
 
 1. Commit and push changes in `unpoly-guide`.
 2. Commit and push changes in `unpoly`, which you might have changed while reviewing the documentation output.
-3. Run `cap deploy` to push the changes to <http://unpoly.com>. Static files will be built during deployment.
+3. Run `cap deploy` to push the changes to <https://unpoly.com>. Static files will be built during deployment.
 
