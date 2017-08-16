@@ -181,7 +181,7 @@ helpers do
   end
 
   def cdn_css_include(file)
-    %Q(<link rel="stylesheet" src="#{cdn_url(file)}" #{sri_attrs(file)}>)
+    %Q(<link rel="stylesheet" href="#{cdn_url(file)}" #{sri_attrs(file)}>)
   end
 
   def sri_attrs(file)
