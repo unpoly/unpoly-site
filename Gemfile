@@ -14,3 +14,5 @@ group :deploy do
   gem "capistrano", '<3'
   gem "capistrano_colors"
 end
+
+gem 'rspec'

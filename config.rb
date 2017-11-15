@@ -1,4 +1,3 @@
-require 'active_support/all'
 require 'lib/ext/rack/support_colons_in_path'
 require 'vendor/unpoly-local/lib/unpoly/rails/version'
 require 'lib/unpoly/guide'

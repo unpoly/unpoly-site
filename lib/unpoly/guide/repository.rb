@@ -97,6 +97,10 @@ module Unpoly
         @feature_index = Feature::Index.new(klasses.collect(&:features).flatten)
       end
 
+      def inspect
+        "#<#{self.class.name} klass_names=#{klasses.collect(&:name)}>"
+      end
+
     end
   end
 end

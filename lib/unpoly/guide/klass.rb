@@ -59,6 +59,10 @@ module Unpoly
         Util.first_markdown_paragraph(@guide_markdown)
       end
 
+      def inspect
+        "#<#{self.class.name} @name=#{name}>"
+      end
+
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'active_support/all'
+
 ##
 # Middleman writes pages using Rack::Test.
 # Unfortunately Rack::Test cannot work with relative paths
