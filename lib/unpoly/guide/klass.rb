@@ -3,7 +3,8 @@ module Unpoly
     class Klass
       include Logger
 
-      def initialize(name)
+      def initialize(kind, name)
+        @kind = kind
         @name = name
         # @visibility = 'internal'
         @features = []
@@ -29,6 +30,10 @@ module Unpoly
 
       def guide_features?
         guide_features.present?
+      end
+
+      def constructor
+        features.detect(&:constructor?)
       end
 
       def functions

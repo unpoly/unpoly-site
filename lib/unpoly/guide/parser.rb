@@ -12,9 +12,9 @@ module Unpoly
       }x
 
       KLASS_PATTERN = %r{
-        \@class  # @class
-        \        # space
-        (.+)     # class name ($1)
+        \@(class)  # @class ($1)
+        \          # space
+        (.+)       # class name ($2)
       }x
 
       TITLE_PATTERN = %r{
@@ -27,9 +27,9 @@ module Unpoly
       }x
 
       FEATURE_PATTERN = %r{
-        \@(function|selector|event|property)  # @function or @selector or ... ($1)
-        \                                     # space
-        (.+)                                  # feature name ($2)
+        \@(function|selector|event|property|constructor)  # @function or @selector or ... ($1)
+        \                                                 # space
+        (.+)                                              # feature name ($2)
       }x
 
       VISIBILITY_PATTERN = %r{
@@ -126,8 +126,9 @@ module Unpoly
 
       def parse_klass!(block)
         if block.sub!(KLASS_PATTERN, '')
-          klass_name = $1.strip
-          klass = Klass.new(klass_name)
+          klass_kind = $1.strip
+          klass_name = $2.strip
+          klass = Klass.new(klass_kind, klass_name)
           # if visibility = parse_visibility!(block)
           #   klass.visibility = visibility
           # end

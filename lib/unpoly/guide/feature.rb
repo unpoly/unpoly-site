@@ -112,6 +112,10 @@ module Unpoly
         @kind == 'property'
       end
 
+      def constructor?
+        @kind == 'constructor'
+      end
+
       def event?
         @kind == 'event'
       end
@@ -169,7 +173,13 @@ module Unpoly
       end
 
       def guide_id
-        Util.slugify(name)
+        str = name
+        # Constructors and "classes" are the same thing
+        # in JS, but we want two separate guide pages
+        if constructor? && !str.include?('.constructor')
+          str += '.constructor'
+        end
+        Util.slugify(str)
       end
 
       def guide_path
