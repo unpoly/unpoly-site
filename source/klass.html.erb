@@ -8,20 +8,21 @@
   <%= klass.title %>
 </h1>
 
+<% if klass.guide_markdown.present? %>
+  <div class="expandable" up-data='<%= { path: klass.guide_path }.to_json %>'>
 
-<div class="expandable" up-data='<%= { path: klass.guide_path }.to_json %>'>
+    <div class="expandable__limiter">
+     <div class="expandable__content">
+       <h2>Overview</h2>
 
-  <div class="expandable__limiter">
-   <div class="expandable__content">
-     <h2>Overview</h2>
+       <%= markdown_prose(klass.guide_markdown) %>
+     </div>
+    </div>
 
-     <%= markdown_prose(klass.guide_markdown) %>
-   </div>
+    <a class="expandable__expand action">Read more</a>
+
   </div>
-
-  <a class="expandable__expand action">Read more</a>
-
-</div>
+<% end %>
 
 <% selectors = klass.selectors.reject(&:internal?).sort %>
 <% if selectors.present? %>

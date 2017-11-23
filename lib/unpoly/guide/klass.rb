@@ -16,7 +16,12 @@ module Unpoly
       attr_accessor :name
       attr_accessor :guide_markdown
       attr_reader :features
-      attr_accessor :title
+
+      attr_writer :title
+
+      def title
+        @title.presence || name
+      end
 
       def guide_filename(extension)
         "#{@name}#{extension}"

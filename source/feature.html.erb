@@ -88,7 +88,7 @@
 
       <% if feature.response.types.present? %>
         <div class="feature__type">
-          <%= feature.response.types.join(' <span class="feature__or">or</span> ') %>
+          <%= feature.response.types.map { |t| h t }.join(' <span class="feature__or">or</span> ') %>
         </div>
       <% end %>
 
