@@ -79,7 +79,7 @@ module Unpoly
       attr_reader :feature_index
 
       def klass_for_name(name)
-        klasses.detect { |klass| klass.name == name } or raise "No such Klass: #{name}"
+        klasses.detect { |klass| klass.name == name } or raise UnknownClass, "No such Klass: #{name}"
       end
 
       def source_paths

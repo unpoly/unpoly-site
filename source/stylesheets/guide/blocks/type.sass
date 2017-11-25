@@ -1,0 +1,17 @@
+@import environment
+
+$color: #888
+
+.type
+  +monospace-font
+  font-size: $FONT_SIZE
+  +bold
+  color: $color
+
+  a
+    +hyperlink($color)
+
+.type__or
+  color: #b2b2b2
+  font-weight: normal
+  +horizontal_margin(6px)

@@ -63,9 +63,7 @@
         <div class="feature__param" id="<%= param.guide_anchor %>">
           <div class="feature__param_name">
             <%= param.signature -%>
-            <span class="feature__type">
-              <%= param.types.join(' <span class="feature__or">or</span> ') %>
-            </span>
+            <%= type param.types %>
             <% if param.optional? %>
               <span class="tag is_light_gray">
                 optional
@@ -86,8 +84,8 @@
       </h2>
 
       <% if feature.response.types.present? %>
-        <div class="feature__type">
-          <%= feature.response.types.map { |t| h t }.join(' <span class="feature__or">or</span> ') %>
+        <div>
+          <%= type(feature.response.types) %>
         </div>
       <% end %>
 

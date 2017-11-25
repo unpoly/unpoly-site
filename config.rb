@@ -194,4 +194,40 @@ helpers do
     "sha384-#{hash_base64}"
   end
 
+  BUILTIN_TYPE_URLS = {
+    # 'string' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String',
+    # 'undefined' => 'https://developer.mozilla.org/en-US/docs/Glossary/undefined',
+    # 'Array' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
+    # 'null' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null',
+    # 'number' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number',
+    # 'boolean' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean',
+    'Object' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects',
+    'Promise' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises',
+    'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData'
+  }
+
+  def type(type_or_types)
+    types = Array.wrap(type_or_types)
+    parts = types.map { |type|
+      type.gsub(/[a-z\.]+/i) { |subtype|
+
+        begin
+          url = guide.klass_for_name(subtype).guide_path
+        rescue Unpoly::Guide::UnknownClass
+          url = BUILTIN_TYPE_URLS[subtype]
+        end
+
+        if url
+          "<a href='#{h url}'>#{h(subtype)}</a>"
+        else
+          h(subtype)
+        end
+      }
+    }
+
+    or_tag = "<span class='type__or'>or</span>"
+
+    "<span class='type'>#{parts.join(or_tag)}</span>"
+  end
+
 end

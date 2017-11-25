@@ -1,5 +1,6 @@
 require 'active_support/all'
 require_relative 'guide/util'
+require_relative 'guide/errors'
 require_relative 'guide/logger'
 require_relative 'guide/feature'
 require_relative 'guide/feature/index'
