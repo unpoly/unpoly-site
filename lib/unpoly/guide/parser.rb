@@ -33,11 +33,30 @@ module Unpoly
       }x
 
       VISIBILITY_PATTERN = %r{
-        \@(stable|experimental|internal)
+        (^[ \t]*)        # first line indent ($1)
+        \@(              # visibility ($2)
+          stable|
+          experimental|
+          internal|
+          deprecated
+        )
+        (                # visibility comment, mostly for deprecation ($3)
+          .*$            # .. remainder of first line
+          (?:
+            \n
+            (?:
+              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
+              .*
+              |
+              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
+            )
+            $
+          )*
+        )
       }x
 
       TYPES_PATTERN = %r{
-      \{        # opening brace
+      \{          # opening brace
         ([^\}]+)  # pipe-separated list of types ($1)
         \}        # closing brace
       }x
@@ -149,7 +168,8 @@ module Unpoly
           feature_name = $2.strip
           feature = Feature.new(feature_kind, feature_name)
           if visibility = parse_visibility!(block)
-            feature.visibility = visibility
+            feature.visibility = visibility[:visibility]
+            feature.visibility_comment = visibility[:comment]
           end
           while param = parse_param!(block)
             param.feature = feature
@@ -171,8 +191,7 @@ module Unpoly
 
       def parse_visibility!(block)
         if block.sub!(VISIBILITY_PATTERN, '')
-          visibility = $1
-          visibility
+          { visibility: $2, comment: $3 }
         end
       end
 

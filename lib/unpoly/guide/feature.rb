@@ -7,6 +7,7 @@ module Unpoly
       def initialize(kind, name)
         @name = name
         @visibility = 'internal'
+        @visibility_comment = nil
         @kind = kind
         @params = []
         @guide_markdown = ''
@@ -26,6 +27,25 @@ module Unpoly
       attr_accessor :klass
       attr_accessor :kind
       # attr_accessor :preventable
+
+      attr_writer :visibility_comment
+
+      def visibility_comment
+        comment = @visibility_comment.strip
+        if comment.present?
+          if deprecated?
+            "**This feature has been deprecated**. #{comment}"
+          else
+            comment
+          end
+        else
+          if deprecated?
+            '**This feature has been deprecated**. It will be removed in a future version.'
+          elsif experimental?
+            '**This feature is experimental**. It may be removed or changed in a future version without prior notice or deprecation.'
+          end
+        end
+      end
 
       def signature
         if selector? || event?
@@ -90,6 +110,10 @@ module Unpoly
 
       def guide_params?
         guide_params.present?
+      end
+
+      def deprecated?
+        visibility == 'deprecated'
       end
 
       def internal?

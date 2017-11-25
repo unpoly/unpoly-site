@@ -32,10 +32,9 @@
 
     </h1>
 
-    <% if feature.experimental? %>
+    <% if feature.visibility_comment.present? %>
       <div class="feature__warning">
-        This feature is experimental and not part of Unpoly's stable API.
-        It may be removed or changed without prior notice or deprecation.
+        <%= markdown_prose feature.visibility_comment %>
       </div>
     <% end %>
 

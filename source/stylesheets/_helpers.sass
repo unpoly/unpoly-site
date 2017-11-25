@@ -179,3 +179,22 @@
   &:hover
     +tint_hyperlink($hover-color)
 
+=hide-last-margins
+  >*:last-child
+    margin-bottom: 0 !important
+    >*:last-child
+      margin-bottom: 0 !important
+      >*:last-child
+        margin-bottom: 0 !important
+        >*:last-child
+          margin-bottom: 0 !important
+
+=hide-first-margins
+  >*:first-child
+    margin-top: 0 !important
+    >*:first-child
+      margin-top: 0 !important
+      >*:first-child
+        margin-top: 0 !important
+        >*:first-child
+          margin-top: 0 !important

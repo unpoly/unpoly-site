@@ -29,6 +29,40 @@ describe Unpoly::Guide do
         expect(transition_param.default).to eq("'none'")
       end
 
+      describe 'visibilities' do
+
+        it 'parses a stable visibility' do
+          replace_function = subject.features_for_guide_id('up.replace').first
+          expect(replace_function.visibility).to eq('stable')
+        end
+
+        it 'parses a deprecated visibility' do
+          ajax_function = subject.features_for_guide_id('up.ajax').first
+          expect(ajax_function.visibility).to eq('deprecated')
+        end
+
+        it 'parses an experimental visibility' do
+          first_function = subject.features_for_guide_id('up.first').first
+          expect(first_function.visibility).to eq('experimental')
+        end
+
+        it 'parses deprecation reasons' do
+          ajax_function = subject.features_for_guide_id('up.ajax').first
+          expect(ajax_function.visibility_comment).to match(/use.+?up\.request/i)
+        end
+
+        it 'returns a default visibility comment for experimental features' do
+          first_function = subject.features_for_guide_id('up.first').first
+          expect(first_function.visibility_comment).to match(/feature is experimental/i)
+        end
+
+        it 'returns no default visibility comment for stable features' do
+          replace_function = subject.features_for_guide_id('up.replace').first
+          expect(replace_function.visibility_comment).to be_nil
+        end
+
+      end
+
       it 'parses selectors' do
         selector = subject.features_for_guide_id('a-up-target').first
         expect(selector.name).to eq('a[up-target]')
@@ -40,7 +74,7 @@ describe Unpoly::Guide do
         property = subject.features_for_guide_id('up.motion.config').first
         expect(property.name).to eq('up.motion.config')
         expect(property.kind).to eq('property')
-        expect(property.signature).to eq('up.motion.config = config')
+        expect(property.signature).to eq('up.motion.config')
       end
 
     end

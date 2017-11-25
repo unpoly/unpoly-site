@@ -85,8 +85,12 @@ $addon-offset-y: 2px
 a.node__self
   +tint_node_self($COLOR_LEFT)
 
+  .node.is_deprecated &,
   .node.is_experimental &
     +tint_node_self($COLOR_PROTECTED)
+
+  .node.is_deprecated &
+    text-decoration: line-through
 
 .node__collapser
   font-size: 12px
