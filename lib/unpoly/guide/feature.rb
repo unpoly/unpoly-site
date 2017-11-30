@@ -1,6 +1,5 @@
 module Unpoly
   module Guide
-
     class Feature
       include Logger
 
@@ -26,6 +25,8 @@ module Unpoly
       attr_accessor :event
       attr_accessor :klass
       attr_accessor :kind
+      attr_accessor :text_source
+
       # attr_accessor :preventable
 
       attr_writer :visibility_comment

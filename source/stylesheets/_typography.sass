@@ -13,6 +13,7 @@ h1, .h1
   +font-size(36px, 1px)
   margin-top: 32px
   margin-bottom: 28px
+  // margin-bottom: $BLOCK_SPACING * 0.8
   color: #555
 
   .up-modal &
@@ -22,6 +23,10 @@ h1, .h1
     +monospace-font
     font-size: 36px - 4px
 
+  &+*
+    margin-top: 0 !important
+    +hide-first-margins
+
 
 h2, .h2
   +font-size(28px)
@@ -30,11 +35,11 @@ h2, .h2
   margin-bottom: $BLOCK_SPACING * 0.8
   position: relative
 
-  h1 + &,
-  h1 + div>&,
-  h1 + div>div>&
-  h1 + div>div>div>&
-    margin-top: 0
+  //h1 + &,
+  //h1 + div>&,
+  //h1 + div>div>&
+  //h1 + div>div>div>&
+  //  margin-top: 0
 
 
 h3, .h3

@@ -46,6 +46,10 @@ module Unpoly
         end
       end
 
+      def github_url
+        'https://github.com/unpoly/unpoly'
+      end
+
       def promoted_klasses
         @promoted_klasses ||= begin
           PROMOTED_KLASS_NAMES.map do |klass_name|
@@ -72,6 +76,18 @@ module Unpoly
       def version
         require File.join(@path, 'lib/unpoly/rails/version')
         Unpoly::Rails::VERSION
+      end
+
+      def git_version_tag
+        "v#{version}"
+      end
+
+      def git_revision
+        revision = nil
+        Dir.chdir @path do
+          revision = `git rev-parse HEAD`
+        end
+        revision
       end
 
       attr_reader :klasses

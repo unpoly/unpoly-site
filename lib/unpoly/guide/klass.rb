@@ -15,6 +15,7 @@ module Unpoly
       # attr_accessor :visibility
       attr_accessor :name
       attr_accessor :guide_markdown
+      attr_accessor :text_source
       attr_reader :features
 
       attr_writer :title

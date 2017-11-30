@@ -203,7 +203,8 @@ helpers do
     # 'boolean' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean',
     'Object' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects',
     'Promise' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises',
-    'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData'
+    'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData',
+    'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest'
   }
 
   def type(type_or_types)
@@ -228,6 +229,12 @@ helpers do
     or_tag = "<span class='type__or'>or</span>"
 
     "<span class='type'>#{parts.join(or_tag)}</span>"
+  end
+
+  def edit_button(documentable)
+    commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
+    url = documentable.text_source.github_url(guide, commit: commit)
+    link_to '<i class="fa fa-edit"></i> Edit <span class="edit_link__etc">this page</span>', url, target: '_blank', class: 'hyperlink edit_link'
   end
 
 end

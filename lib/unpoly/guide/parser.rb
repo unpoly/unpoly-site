@@ -136,12 +136,15 @@ module Unpoly
       end
 
       def parse(path)
-        code = File.read(path)
-        blocks = find_blocks(code)
-        blocks.each do |block|
-          parse_klass!(block) || parse_function!(block)
+        doc_comments = DocComment.find_in_path(path)
+        doc_comments.each do |doc_comment|
+          if documentable = parse_klass!(doc_comment.text) || parse_feature!(doc_comment.text)
+            documentable.text_source = doc_comment.text_source
+          end
         end
       end
+
+      private
 
       def parse_klass!(block)
         if block.sub!(KLASS_PATTERN, '')
@@ -162,7 +165,7 @@ module Unpoly
         end
       end
 
-      def parse_function!(block)
+      def parse_feature!(block)
         if block.sub!(FEATURE_PATTERN, '')
           feature_kind = $1.strip
           feature_name = $2.strip
@@ -204,7 +207,7 @@ module Unpoly
 
       def parse_param!(block)
         if block.sub!(PARAM_PATTERN, '')
-          param_spec = unindent($2)
+          param_spec = Util.unindent($2)
           param = Param.new
           if types = parse_types!(param_spec)
             param.types = types
@@ -215,19 +218,19 @@ module Unpoly
             param.default = name_props[:default] if name_props.has_key?(:default)
           end
 
-          param.guide_markdown = process_markdown(unindent_hanging(param_spec))
+          param.guide_markdown = process_markdown(Util.unindent_hanging(param_spec))
           param
         end
       end
 
       def parse_response!(block)
         if block.sub!(RESPONSE_PATTERN, '')
-          response_spec = unindent($2)
+          response_spec = Util.unindent($2)
           response = Response.new
           if types = parse_types!(response_spec)
             response.types = types
           end
-          response.guide_markdown = process_markdown(unindent_hanging(response_spec))
+          response.guide_markdown = process_markdown(Util.unindent_hanging(response_spec))
           response
         end
       end
@@ -287,60 +290,6 @@ module Unpoly
           "#" * (match.size / 2)
         end
       end
-
-      private
-
-      def find_blocks(code)
-        code.scan(BLOCK_PATTERN).collect do |match|
-          unindent(match[0])
-        end
-      end
-      
-
-      # Takes a multi-line string (or an Array of single lines)
-      # and unindents all lines by the first line's indent.
-      def unindent(text_or_lines)
-        lines = text_or_lines.is_a?(String) ? split_lines(text_or_lines) : text_or_lines.dup
-        # remove_preceding_blank_lines!(lines)
-        if lines.size > 0
-          first_indent = lines.first.match(/^[ \t]*/)[0]
-          lines.collect { |line|
-            line.gsub(/^[\ \t]{0,#{first_indent.size}}/, '')
-          }.join("\n")
-        else
-          ''
-        end
-      end
-
-      # Removes all leading whitespace from the first line
-      # and unindents all subsequent lines by the second line's indent.
-      def unindent_hanging(block)
-        first_line, other_lines = first_and_other_lines(block)
-        first_line.sub!(/^[\ \t]+/, '')
-        unindented_other_lines = unindent(other_lines)
-        [first_line, unindented_other_lines].join("\n")
-      end
-
-      def split_lines(text)
-        text.split(/\n/)
-      end
-
-      def first_and_other_lines(text)
-        lines = split_lines(text)
-        if lines.length == 0
-          ['', []]
-        else
-          first_line, *other_lines = lines
-          [first_line, other_lines]
-        end
-      end
-
-      # def remove_preceding_blank_lines!(lines)
-      #   while lines.first =~ /^([ \t]*)$/
-      #     lines.shift
-      #   end
-      #   lines
-      # end
 
     end
 

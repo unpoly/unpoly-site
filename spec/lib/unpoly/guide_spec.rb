@@ -63,6 +63,13 @@ describe Unpoly::Guide do
 
       end
 
+      it 'parses the text source' do
+        toast_klass = subject.klass_for_name('up.toast')
+        expect(toast_klass.text_source.path).to end_with('lib/assets/javascripts/unpoly/toast.coffee')
+        expect(toast_klass.text_source.start_line).to eq(1)
+        expect(toast_klass.text_source.end_line).to eq(6)
+      end
+
       it 'parses selectors' do
         selector = subject.features_for_guide_id('a-up-target').first
         expect(selector.name).to eq('a[up-target]')

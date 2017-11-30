@@ -4,6 +4,8 @@
  @page_title = klass.title
 %>
 
+<%= edit_button(klass) %>
+
 <h1>
   <%= klass.title %>
 </h1>
@@ -13,8 +15,6 @@
 
     <div class="expandable__limiter">
      <div class="expandable__content">
-       <h2>Overview</h2>
-
        <%= markdown_prose(klass.guide_markdown) %>
      </div>
     </div>
