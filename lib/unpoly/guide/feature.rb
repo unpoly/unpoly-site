@@ -103,7 +103,9 @@ module Unpoly
 
       def guide_params
         if selector?
-          params.reject { |param| param.guide_anchor == guide_id }  # feature is [up-popup], but param is just up-popup
+          params.reject { |param|
+            selector? && name =~ /^[a-z\-]*\[([a-z\-]+)\]$/ && $1 == param.name
+          }
         else
           []
         end
@@ -199,11 +201,17 @@ module Unpoly
 
       def guide_id
         str = name
+
         # Constructors and "classes" are the same thing
         # in JS, but we want two separate guide pages
         if constructor? && !str.include?('.constructor')
           str += '.constructor'
         end
+
+        if function? || property?
+          str = str.sub('#', '.prototype.')
+        end
+
         Util.slugify(str)
       end
 

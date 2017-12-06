@@ -50,6 +50,8 @@ sprockets.append_path File.expand_path('vendor/asset-libs')
 sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/javascripts')
 sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/stylesheets')
 
+Unpoly::Guide.reload
+
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #

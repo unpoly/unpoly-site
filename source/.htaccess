@@ -12,3 +12,12 @@ RewriteRule ^(.+?)$  /$1/index.html [L]
 RedirectPermanent /up-dash /a-up-dash
 RedirectPermanent /up-popup /a-up-popup
 RedirectPermanent /up-modal /a-up-modal
+RedirectPermanent /up-instant /a-up-instant
+RedirectPermanent /up-preload /a-up-preload
+RedirectPermanent /up-active /a.up-active
+RedirectPermanent /up-current /a.up-current
+RedirectPermanent /up-autosubmit /form-up-autosubmit
+RedirectPermanent /up-observe /form-up-observe
+RedirectPermanent /up-validate /input-up-validatem
+RedirectPermanent /up-back /a-up-back
+RedirectPermanent /up-switch /select-up-switch
