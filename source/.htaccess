@@ -21,3 +21,9 @@ RedirectPermanent /up-observe /form-up-observe
 RedirectPermanent /up-validate /input-up-validate
 RedirectPermanent /up-back /a-up-back
 RedirectPermanent /up-switch /select-up-switch
+
+Header set Cache-Control "max-age=0, private"
+
+<FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico)$">
+  Header set Cache-Control "max-age=2628000, public"
+</FilesMatch>
