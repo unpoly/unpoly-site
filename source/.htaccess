@@ -18,6 +18,6 @@ RedirectPermanent /up-active /a.up-active
 RedirectPermanent /up-current /a.up-current
 RedirectPermanent /up-autosubmit /form-up-autosubmit
 RedirectPermanent /up-observe /form-up-observe
-RedirectPermanent /up-validate /input-up-validatem
+RedirectPermanent /up-validate /input-up-validate
 RedirectPermanent /up-back /a-up-back
 RedirectPermanent /up-switch /select-up-switch
