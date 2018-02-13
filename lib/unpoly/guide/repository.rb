@@ -17,6 +17,7 @@ module Unpoly
         up.history
         up.layout
         up.bus
+        up.radio
         up.browser
         up.protocol
         up.util
