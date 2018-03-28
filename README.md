@@ -13,7 +13,7 @@ The pages are parsed from [YUIDoc comments](http://yui.github.io/yuidoc/syntax/)
 
 Mind the block comment syntax with an additional asterisk (`*`) after the opening tag:
 
-    ###*
+    ###**
     Foo
     ###
 
