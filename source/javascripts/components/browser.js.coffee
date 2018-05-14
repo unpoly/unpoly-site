@@ -97,6 +97,10 @@ class Node
       new Node($(element), parentNode)
 
 up.compiler '.browser', ($browser) ->
+  if $browser.is('.is_placeholder')
+    up.replace('.browser', '/contents', history: false)
+    return
+
   $searchInput = $browser.find('.search__input')
   $tree = $browser.find('.browser__nodes')
   $rootNodes = $tree.find('>.node')

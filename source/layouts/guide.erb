@@ -29,7 +29,7 @@
                 <a href="/changes" class="top_nav__section" content-link>Changes</a>
                 <a href="/community" class="top_nav__section" content-link>Community</a>
                 <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_github"><i class="fa fa-github"></i> Github</a>
-                <a href="/menu" class="top_nav__section is_hamburger" modal-link up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
+                <a href="/contents" class="top_nav__section is_hamburger" modal-link=".browser" up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
               </div>
 
             </div>
@@ -43,15 +43,19 @@
           <div class="viewport">
 
             <div class="guide__left">
-
               <div class="guide__browser" up-viewport>
-                <%= partial 'layouts/browser' %>
+                <% if @browser_inclusion == 'sync' %>
+                  <%= partial 'layouts/browser' %>
+                <% else %>
+                  <div class="browser is_placeholder">
+                    <a href="/contents" class="hyperlink is_gray">Contents</a>
+                  </div>
+                <% end %>
               </div>
-
             </div>
 
             <div class="guide__content">
-              <div class="page_content"> <%# Have one style-less container so it works in modals %>
+              <div class="page_content <%= 'does-want-browser' if @browser != false %>">
                 <div class="modal_content">
                   <%= yield %>
                 </div>
@@ -61,8 +65,6 @@
                   <div class="fineprint">
                     Made by
                     <a href="https://twitter.com/triskweline" class="hyperlink is_gray">Henning Koch</a>
-                    from
-                    <a href="https://makandra.com" class="hyperlink is_gray">makandra</a>
                     (<a href="/imprint" class="hyperlink is_gray">imprint</a>)
                   </div>
                 </div>

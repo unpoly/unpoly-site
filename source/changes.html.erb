@@ -1,4 +1,8 @@
-<% guide.reload %>
+<%
+  guide.reload if development?
+  @page_title = 'Changes'
+%>
+
 
 <div class="prose">
   <%= markdown(guide.changelog) %>
