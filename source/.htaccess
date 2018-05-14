@@ -15,7 +15,8 @@ RedirectPermanent /up-modal /a-up-modal
 RedirectPermanent /up-instant /a-up-instant
 RedirectPermanent /up-preload /a-up-preload
 RedirectPermanent /up-active /a.up-active
-RedirectPermanent /up-current /a.up-current
+RedirectPermanent /up-current /up-nav-a.up-current
+RedirectPermanent /a.up-current /up-nav-a.up-current
 RedirectPermanent /up-autosubmit /form-up-autosubmit
 RedirectPermanent /up-observe /form-up-observe
 RedirectPermanent /up-validate /input-up-validate
