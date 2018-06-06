@@ -8,6 +8,7 @@ gem "middleman"
 
 gem "middleman-sprockets"
 gem 'sass'
+gem 'haml'
 gem 'coffee-script'
 
 group :deploy do

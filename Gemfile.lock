@@ -141,6 +141,7 @@ DEPENDENCIES
   capistrano (< 3)
   capistrano_colors
   coffee-script
+  haml
   memoizer
   middleman
   middleman-sprockets
@@ -149,4 +150,4 @@ DEPENDENCIES
   therubyracer
 
 BUNDLED WITH
-   1.14.3
+   1.16.1
