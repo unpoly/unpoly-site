@@ -21,6 +21,7 @@ module Unpoly
         up.browser
         up.protocol
         up.util
+        up.params
         up.log
       ]
 
