@@ -1,7 +1,7 @@
 u = up.util
 
 normalizeText = (text) ->
-  text = u.trim(text)
+  text = text.trim()
   text = text.toLowerCase()
   text
 

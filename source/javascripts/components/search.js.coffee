@@ -9,7 +9,7 @@ up.compiler '.search', ($search) ->
     $input.trigger('input')
 
   toggleReset = ->
-    value = u.trim($input.val())
+    value = $input.val().trim()
     present = u.isPresent(value)
     $reset.toggle(present)
 
