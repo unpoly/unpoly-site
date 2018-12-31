@@ -1,22 +1,21 @@
 u = up.util
+e = up.element
 
-up.compiler '.search', ($search) ->
-  $input = $search.find('.search__input')
-  $reset = $search.find('.search__reset')
+up.compiler '.search', (search) ->
+  input = search.querySelector('.search__input')
+  resetButton = search.querySelector('.search__reset')
 
   reset = ->
-    $input.val('')
-    $input.trigger('input')
+    input.value = ''
+    e.emit(input, 'input')
 
   toggleReset = ->
-    value = $input.val().trim()
+    value = input.value.trim()
     present = u.isPresent(value)
-    $reset.toggle(present)
+    e.toggle(resetButton, present)
 
-  $input.on 'input', toggleReset
+  input.addEventListener 'input', toggleReset
 
-  $reset.on 'click', reset
+  resetButton.addEventListener 'click', reset
 
   toggleReset()
-
-  

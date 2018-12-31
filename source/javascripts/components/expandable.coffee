@@ -1,15 +1,15 @@
-up.compiler '.expandable', ($expandable, data) ->
+up.compiler '.expandable', (expandable, data) ->
 
-  expand = -> $expandable.addClass('is_expanded')
+  expand = -> expandable.classList.add('is_expanded')
 
-  $content = $expandable.find('.expandable__content')
-  $limiter = $expandable.find('.expandable__limiter')
-  $expandButton = $expandable.find('.expandable__expand');
+  content = expandable.querySelector('.expandable__content')
+  limiter = expandable.querySelector('.expandable__limiter')
+  expandButton = expandable.querySelector('.expandable__expand');
 
-  contentHeight = $content.height()
-  limiterHeight = parseFloat($limiter.css('max-height'))
+  contentHeight = content.offsetHeight
+  limiterHeight = parseFloat(getComputedStyle(limiter).maxHeight)
 
   if (contentHeight < limiterHeight + 50) || (data.path == '/up.protocol')
     expand()
   else
-    $expandButton.on('click', expand)
+    expandButton.addEventListener('click', expand)

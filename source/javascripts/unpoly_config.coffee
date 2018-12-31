@@ -8,6 +8,6 @@ up.modal.flavors.fullscreen =
   openDuration: 500
   closeDuration: 500
 
-up.dom.config.fallbacks = ['.screen', 'body']
-up.dom.config.fallbackTransition = 'cross-fade'
+up.fragment.config.fallbacks = ['.screen', 'body']
+up.fragment.config.fallbackTransition = 'cross-fade'
 

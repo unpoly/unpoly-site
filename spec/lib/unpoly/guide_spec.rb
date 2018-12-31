@@ -6,10 +6,10 @@ describe Unpoly::Guide do
 
   describe 'parsing of doc comments' do
 
-    describe 'API modules (e.g. up.dom)' do
+    describe 'API modules (e.g. up.fragment)' do
 
       it 'parses modules' do
-        expect(subject.klasses).to include(have_attributes(name: 'up.dom'))
+        expect(subject.klasses).to include(have_attributes(name: 'up.fragment'))
         expect(subject.klasses).to include(have_attributes(name: 'up.modal'))
         expect(subject.klasses).to include(have_attributes(name: 'up.util'))
       end

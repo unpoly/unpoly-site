@@ -10,12 +10,12 @@ module Unpoly
         up.motion
         up.feedback
         up.syntax
-        up.dom
+        up.fragment
         up.proxy
         up.form
         up.tooltip
         up.history
-        up.layout
+        up.viewport
         up.bus
         up.radio
         up.browser

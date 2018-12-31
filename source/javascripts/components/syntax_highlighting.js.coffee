@@ -4,5 +4,5 @@
 hljs.configure
   languages: ['javascript', 'html', 'css', 'ruby']
 
-up.compiler 'pre code', ($fragment) ->
-  hljs.highlightBlock($fragment.get(0));
+up.compiler 'pre code', (fragment) ->
+  hljs.highlightBlock(fragment)

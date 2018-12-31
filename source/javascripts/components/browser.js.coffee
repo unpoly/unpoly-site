@@ -5,38 +5,40 @@ normalizeText = (text) ->
   text = text.toLowerCase()
   text
 
+findChildren = (root, selector) ->
+  u.select root.children, (child) -> child.matches(selector)
+
 class Node
 
   EXPANDED_ICON  = 'fa-minus-square-o'
   COLLAPSED_ICON = 'fa-plus-square-o'
   CHILDLESS_ICON = 'fa-angle-right'
 
-  constructor: (element, @parentNode) ->
-    @$element = $(element)
-    @$self = @$element.children('.node__self')
-    text = @$self.text()
+  constructor: (@element, @parentNode) ->
+    @self = findChildren(@element, '.node__self')[0]
+    text = @self.textContent
     @searchText = normalizeText(text)
     text = u.escapeHtml(text)
     text = text.replace(/\./g, '.<wbr>')
-    @$self.html(text)
-    $childElements = @$element.children('.node')
-    @childNodes = Node.newAll($childElements, this)
-    @$collapser = $('<span class="node__collapser fa fa-fw"></span>')
-    @$collapser.prependTo(@$self)
+    @self.innerHTML = text
+    childElements = findChildren(@element, '.node')
+    @childNodes = Node.newAll(childElements, this)
+    @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
+    @self.prepend(@collapser)
     @isExpanded = false
     @toggleExpanded(false)
-    @$collapser.on 'mousedown', (event) =>
+    @collapser.addEventListener 'mousedown', (event) =>
       @toggleExpanded()
       up.bus.consumeAction(event)
 
   toggleExpanded: (newExpanded) =>
-    @isExpanded = u.option(newExpanded, !@isExpanded) # toggle when not given
-    @$element.toggleClass('is_expanded', @isExpanded)
+    @isExpanded = newExpanded ? !@isExpanded # toggle when not given
+    up.element.toggleClass(@element, 'is_expanded', @isExpanded)
     if @childNodes.length
-      @$collapser.toggleClass(EXPANDED_ICON, @isExpanded)
-      @$collapser.toggleClass(COLLAPSED_ICON, !@isExpanded)
+      up.element.toggleClass(@collapser, EXPANDED_ICON, @isExpanded)
+      up.element.toggleClass(@collapser, COLLAPSED_ICON, !@isExpanded)
     else
-      @$collapser.addClass(CHILDLESS_ICON)
+      @collapser.classList.add(CHILDLESS_ICON)
     if @isExpanded
       # To ensure this node is visible, we need to expand our ancestry
       @parentNode?.toggleExpanded(true)
@@ -47,23 +49,26 @@ class Node
   isChild: =>
     not @isRoot()
 
+  marker: =>
+    @_marker ||= new Mark(@self)
+
   match: (words) =>
     @resetMatch() if @isRoot()
     if @isMatch(words)
-      @$self.mark(words)
+      @marker().mark(words)
       @notifyIsMatch()
       @parentNode?.notifyIsMatch()
     for childNode in @childNodes
       childNode.match(words)
 
   notifyIsMatch: =>
-    @$element.addClass('is_match')
+    @element.classList.add('is_match')
     @toggleExpanded(false)
     @parentNode?.notifyIsMatch()
 
   resetMatch: =>
-    @$self.unmark()
-    @$element.removeClass('is_match')
+    @marker().unmark()
+    @element.classList.remove('is_match')
     for childNode in @childNodes
       childNode.resetMatch()
 
@@ -79,36 +84,36 @@ class Node
       else
         false
     else
-      @$element.is('.is_match')
+      @element.matches('.is_match')
 
   isCurrent: =>
-    @$self.is('.up-current')
+    @self.matches('.up-current')
 
   revealCurrent: =>
     if @isChild() && @isCurrent() && !@parentNode.isMatch()
       @parentNode.toggleExpanded(true)
-      up.reveal(@$element)
+      up.reveal(@element)
     else
       for childNode in @childNodes
         childNode.revealCurrent()
 
-  @newAll: ($elements, parentNode) ->
-    u.map $elements, (element) ->
-      new Node($(element), parentNode)
+  @newAll: (elements, parentNode) ->
+    u.map elements, (element) ->
+      new Node(element, parentNode)
 
-up.compiler '.browser', ($browser) ->
-  if $browser.is('.is_placeholder')
+up.compiler '.browser', (browser) ->
+  if browser.matches('.is_placeholder')
     up.replace('.browser', '/contents', history: false)
     return
 
-  $searchInput = $browser.find('.search__input')
-  $tree = $browser.find('.browser__nodes')
-  $rootNodes = $tree.find('>.node')
+  searchInput = browser.querySelector('.search__input')
+  tree = browser.querySelector('.browser__nodes')
+  rootNodes = findChildren(tree, '.node')
 
-  rootNodes = Node.newAll($rootNodes)
+  rootNodes = Node.newAll(rootNodes)
 
   find = ->
-    query = normalizeText($searchInput.val())
+    query = normalizeText(searchInput.value)
     hasQuery = query.length >= 3
     if hasQuery
       words = query.split(/\s+/)
@@ -118,9 +123,10 @@ up.compiler '.browser', ($browser) ->
       for rootNode in rootNodes
         rootNode.resetMatch()
 
-    $rootNodes.toggleClass('has_query', hasQuery)
+    for rootNode in rootNodes
+      up.element.toggleClass(rootNode, 'has_query', hasQuery)
 
-  $searchInput.on 'input', find
+  searchInput.addEventListener 'input', find
 
   revealCurrentNode = ->
     u.nextFrame ->
@@ -131,6 +137,4 @@ up.compiler '.browser', ($browser) ->
 
   revealCurrentNode()
 
-  return [
-    unobserveHistoryChange
-  ]
+  return unobserveHistoryChange
