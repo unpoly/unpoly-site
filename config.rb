@@ -198,20 +198,24 @@ helpers do
 
   BUILTIN_TYPE_URLS = {
     # 'string' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String',
-    # 'undefined' => 'https://developer.mozilla.org/en-US/docs/Glossary/undefined',
+    'undefined' => 'https://developer.mozilla.org/en-US/docs/Glossary/undefined',
     # 'Array' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
-    # 'null' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null',
+    'null' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null',
     # 'number' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number',
     # 'boolean' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean',
     'Object' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects',
     'Promise' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises',
     'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData',
-    'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest'
+    'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest',
+    'NodeList' => 'https://developer.mozilla.org/en-US/docs/Web/API/NodeList',
+    'Element' => 'https://developer.mozilla.org/de/docs/Web/API/Element',
+    'jQuery' => 'https://learn.jquery.com/using-jquery-core/jquery-object/',
   }
 
   def type(type_or_types)
     types = Array.wrap(type_or_types)
     parts = types.map { |type|
+      type = h(type)
       type.gsub(/[a-z\.]+/i) { |subtype|
 
         begin
@@ -221,9 +225,9 @@ helpers do
         end
 
         if url
-          "<a href='#{h url}'>#{h(subtype)}</a>"
+          "<a href='#{h url}'>#{subtype}</a>"
         else
-          h(subtype)
+          subtype
         end
       }
     }

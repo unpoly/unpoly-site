@@ -7,7 +7,7 @@ up.compiler '.search', (search) ->
 
   reset = ->
     input.value = ''
-    e.emit(input, 'input')
+    up.emit(input, 'input')
 
   toggleReset = ->
     value = input.value.trim()

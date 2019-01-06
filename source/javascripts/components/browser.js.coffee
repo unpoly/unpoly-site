@@ -29,7 +29,7 @@ class Node
     @toggleExpanded(false)
     @collapser.addEventListener 'mousedown', (event) =>
       @toggleExpanded()
-      up.bus.consumeAction(event)
+      up.event.consumeAction(event)
 
   toggleExpanded: (newExpanded) =>
     @isExpanded = newExpanded ? !@isExpanded # toggle when not given

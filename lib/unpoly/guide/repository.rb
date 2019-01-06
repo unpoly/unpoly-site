@@ -16,12 +16,12 @@ module Unpoly
         up.tooltip
         up.history
         up.viewport
-        up.bus
+        up.event
         up.radio
         up.browser
         up.protocol
+        up.element
         up.util
-        up.params
         up.log
       ]
 
