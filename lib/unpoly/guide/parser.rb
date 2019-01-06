@@ -12,9 +12,9 @@ module Unpoly
       }x
 
       KLASS_PATTERN = %r{
-        \@(class)  # @class ($1)
-        \          # space
-        (.+)       # class name ($2)
+        \@(class|module)  # @class or @module ($1)
+        \                 # space
+        (.+)              # class name ($2)
       }x
 
       TITLE_PATTERN = %r{

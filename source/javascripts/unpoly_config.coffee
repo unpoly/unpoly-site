@@ -11,3 +11,5 @@ up.modal.flavors.fullscreen =
 up.fragment.config.fallbacks = ['.screen', 'body']
 up.fragment.config.fallbackTransition = 'cross-fade'
 
+up.viewport.config.revealPadding = 10
+

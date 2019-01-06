@@ -13,6 +13,7 @@ module Unpoly
       end
 
       # attr_accessor :visibility
+      attr_accessor :kind
       attr_accessor :name
       attr_accessor :guide_markdown
       attr_accessor :text_source

@@ -6,9 +6,14 @@
 
 <%= edit_button(klass) %>
 
-<h1>
-  <%= klass.title %>
+<h1 class="klass_badge">
+  <div class="klass_badge_title"><%= klass.title %></div>
+  <div class="klass_badge__meta">
+    <span class="klass_badge__kind"><%= klass.kind %></span>
+    <span class="klass_badge__name"><%= klass.name %></span>
+  </div>
 </h1>
+
 
 <% if klass.guide_markdown.present? %>
   <div class="expandable" up-data='<%= { path: klass.guide_path }.to_json %>'>
