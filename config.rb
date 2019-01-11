@@ -99,6 +99,12 @@ helpers do
   end
 
   def markdown(text)
+    text = text.gsub(/<`(.*?)`>/) do |match|
+      code = $1
+      slug = Unpoly::Guide::Util.slugify(code)
+      "[`#{code}`](/#{slug})"
+    end
+
     doc = Kramdown::Document.new(text,
                                  input: 'GFM',
                                  remove_span_html_tags: true,
