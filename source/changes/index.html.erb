@@ -1,7 +1,6 @@
 <%
   guide.reload if development?
   @page_title = 'Changes'
-  changelog = guide.changelog
 %>
 
 
@@ -11,13 +10,22 @@
 
   <p>This project mostly adheres to <a href="http://semver.org/">Semantic Versioning</a>.</p>
 
-  <% changelog.releases.first(2).each do |release| %>
+  <ul>
+    <% guide.releases.each do |release| %>
+      <li>
+        <%= link_to release.version, "/changes/#{release.version}" %>
+        <% if release.date %>
+          (<%= release.date %>)
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <% guide.releases.first(2).each do |release| %>
     <h2>
       <%= release.version %>
       <% if release.date %>
         (<%= release.date %>)
-      <% else %>
-        (unknown date)
       <% end %>
     </h2>
     <%= markdown(release.markdown) %>

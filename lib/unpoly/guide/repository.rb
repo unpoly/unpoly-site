@@ -56,6 +56,8 @@ module Unpoly
         end
       end
 
+      delegate :releases, to: :changelog
+
       def github_url
         'https://github.com/unpoly/unpoly'
       end

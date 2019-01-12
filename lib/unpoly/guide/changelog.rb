@@ -18,7 +18,7 @@ module Unpoly
               # $ git log -1 --format=%ai v0.50.0
               # => 2017-12-06 08:14:52 +0100
               raw = `git log -1 --format=%ai #{git_tag}`
-              if raw.present?
+              if raw.present?<
                 Time.parse(raw).to_date
               end
             end

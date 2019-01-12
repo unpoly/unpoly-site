@@ -281,4 +281,9 @@ helpers do
     link_to url, url, options
   end
 
+  def block_helper(&block)
+    html = "foo" + capture_html(&block) + "bar"
+    concat_content(html)
+  end
+
 end

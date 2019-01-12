@@ -4,7 +4,7 @@ layout: false
 
 <font face="arial, helvetica, sans-serif" size="2">
   <%=
-    markdown(guide.changelog)
+    markdown(guide.releases.first.markdown)
       .gsub(/<h\d[^>]*>/, '<p><u><b>')
       .gsub(/<\/h\d>/, '</b></u></p>')
       .gsub('href="/', 'href="https://unpoly.com/')
