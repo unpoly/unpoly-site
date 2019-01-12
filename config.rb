@@ -56,19 +56,19 @@ sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/styleshee
 Unpoly::Guide.current.klasses.each do |klass|
   path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/klass.html", locals: { klass_name: klass.name }, ignore: true
+  proxy path, "/klass_template.html", locals: { klass_name: klass.name }, ignore: true
 end
 
 Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
   path = "/#{guide_id}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/feature.html", locals: { guide_id: guide_id }, ignore: true
+  proxy path, "/feature_template.html", locals: { guide_id: guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.releases.each do |release|
   path = "/changes/#{release.version}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/changes/release.html", locals: { release: release }, ignore: true
+  proxy path, "/changes/release_template.html", locals: { release: release }, ignore: true
 end
 
 Unpoly::Example.all.each do |example|
