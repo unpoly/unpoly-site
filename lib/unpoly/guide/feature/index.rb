@@ -41,6 +41,10 @@ module Unpoly
           @features_by_guide_id[guide_id] or raise "No features for guide id: #{guide_id.inspect}"
         end
 
+        def guide_id_exists?
+          @features_by_guide_id.has_key?(guide_id)
+        end
+
       end
     end
   end

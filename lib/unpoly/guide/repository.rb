@@ -75,6 +75,8 @@ module Unpoly
         @feature_index.find_guide_id(guide_id)
       end
 
+      delegate :guide_id_exists?, to: :@feature_index
+
       def version
         require File.join(@path, 'lib/unpoly/rails/version')
         Unpoly::Rails::VERSION

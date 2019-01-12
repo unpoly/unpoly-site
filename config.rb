@@ -99,11 +99,11 @@ helpers do
   end
 
   def markdown(text)
-    text = text.gsub(/<`(.*?)`>/) do |match|
-      code = $1
-      slug = Unpoly::Guide::Util.slugify(code)
-      "[`#{code}`](/#{slug})"
-    end
+    # text = text.gsub(/<`(.*?)`>/) do |match|
+    #   code = $1
+    #   slug = Unpoly::Guide::Util.slugify(code)
+    #   "[`#{code}`](/#{slug})"
+    # end
 
     doc = Kramdown::Document.new(text,
                                  input: 'GFM',
@@ -115,7 +115,23 @@ helpers do
     # Blindly remove any HTML tag from the document, including "span" elements
     # (see option above). This will NOT remove HTML tags from code examples.
     doc.to_remove_html_tags
-    doc.to_html
+    html = doc.to_html
+    html = autolink_code(html)
+    html
+  end
+
+  def autolink_code(html)
+    parsed = Nokogiri::HTML.fragment(html)
+    codes = parsed.css('code')
+    codes.each do |code_element|
+      blocking_parents = code_element.ancestors('a, pre')
+      text = code_element.text
+      if blocking_parents.blank? && !text.include?("\n")
+        slug = Unpoly::Guide::Util.slugify(text)
+        code_element.wrap("<a href='/#{h slug}'></a>")
+      end
+    end
+    parsed.to_html
   end
 
   def markdown_prose(text)

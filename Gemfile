@@ -1,8 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'therubyracer'
+
 gem 'memoizer'
 gem 'andand'
+gem 'nokogiri'
 
 gem "middleman"
 
