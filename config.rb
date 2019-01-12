@@ -123,14 +123,28 @@ helpers do
   def autolink_code(html)
     parsed = Nokogiri::HTML.fragment(html)
     codes = parsed.css('code')
+
+    current_path = current_page.path
+    current_path = current_path.sub(/\/index\.html$/, '')
+    current_path = current_path.sub(/\/$/, '')
+    current_path = current_path.sub(/\.html$/, '')
+    current_path = "/#{current_path}" unless current_path[0] == '/'
+
     codes.each do |code_element|
-      blocking_parents = code_element.ancestors('a, pre')
       text = code_element.text
-      if blocking_parents.blank? && !text.include?("\n")
-        slug = Unpoly::Guide::Util.slugify(text)
-        code_element.wrap("<a href='/#{h slug}'></a>")
+      unless text.include?("\n")
+        if code_element.ancestors('a, pre').blank?
+          slug = Unpoly::Guide::Util.slugify(text)
+          if guide.guide_id_exists?(slug)
+            path = "/#{slug}"
+            unless path == current_path
+              code_element.wrap("<a href='#{h path}'></a>")
+            end
+          end
+        end
       end
     end
+
     parsed.to_html
   end
 
