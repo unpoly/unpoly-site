@@ -65,6 +65,12 @@ Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
   proxy path, "/feature.html", locals: { guide_id: guide_id }, ignore: true
 end
 
+Unpoly::Guide.current.releases.each do |release|
+  path = "/changes/#{release.version}.html" # the .html will be removed by Middleman's pretty directory indexes
+  puts "Proxy: #{path}"
+  proxy path, "/changes/release.html", locals: { release: release }, ignore: true
+end
+
 Unpoly::Example.all.each do |example|
 
   proxy example.index_path, "examples/index.html", locals: { example: example }, layout: false, ignore: true, directory_index: false
@@ -162,8 +168,8 @@ helpers do
 
   def unpoly_library_size(files = nil)
     files ||= [
-        'unpoly.min.js',
-        'unpoly.min.css'
+      'unpoly.min.js',
+      'unpoly.min.css'
     ]
     files = Array.wrap(files)
     require 'active_support/gzip'
@@ -281,9 +287,9 @@ helpers do
     link_to url, url, options
   end
 
-  def block_helper(&block)
-    html = "foo" + capture_html(&block) + "bar"
-    concat_content(html)
+  def menu(&block)
+    nodes = capture_html(&block)
+    @menu_html = partial('menu/menu', locals: { nodes: nodes })
   end
 
 end

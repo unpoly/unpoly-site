@@ -1,0 +1,24 @@
+<%
+  guide.reload if development?
+  @page_title = 'Changes'
+  @menu_path = '/menu/changes'
+%>
+
+<div class="prose">
+
+  <h1 class="klass_badge">
+    <a class="breadcrumb" href="/changes" up-restore-scroll>Changes</a>
+
+
+    Unpoly <%= release.version %>
+    <% if release.date %>
+      <div class="klass_badge__meta">
+        <span class="klass_badge__kind">Released on</span>
+        <span class="klass_badge__name"><%= release.date.strftime("%B %d, %Y") %></span>
+      </div>
+    <% end %>
+  </h1>
+
+  <%= markdown(release.markdown) %>
+
+</div>

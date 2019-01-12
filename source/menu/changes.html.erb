@@ -1,0 +1,9 @@
+<% menu do %>
+
+  <% guide.releases.each do |release| %>
+    <div class="node">
+      <%= node_link release.version, "/changes/#{release.version}" %>
+    </div>
+  <% end %>
+
+<% end %>

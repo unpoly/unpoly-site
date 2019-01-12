@@ -2,6 +2,7 @@
 <html>
 
   <%= partial 'layouts/head' %>
+  <% @menu_path = '/menu/api' if @menu_path.nil? && @menu_html.nil? %>
 
   <body>
 
@@ -29,7 +30,7 @@
                 <a href="/changes" class="top_nav__section" content-link>Changes</a>
                 <a href="/community" class="top_nav__section" content-link>Community</a>
                 <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_github"><i class="fa fa-github"></i> GitHub</a>
-                <a href="/contents" class="top_nav__section is_hamburger" modal-link=".browser" up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
+                <a href="/menu/narrow" class="top_nav__section is_hamburger" modal-link=".menu" up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
               </div>
 
             </div>
@@ -43,23 +44,23 @@
           <div class="viewport">
 
             <div class="guide__left">
-              <div class="guide__browser" up-viewport>
-                <% if @browser_inclusion == 'sync' %>
-                  <%= partial 'layouts/browser' %>
+
+              <div class="guide__menu" up-viewport>
+                <% if @menu_html %>
+                  <%= @menu_html %>
                 <% else %>
-                  <div class="browser is_placeholder">
-                    <a href="/contents" class="hyperlink is_gray">Contents</a>
+                  <div class="menu is_placeholder">
+                    <a href="<%= @menu_path %>" class="hyperlink is_gray">Menu</a>
                   </div>
                 <% end %>
               </div>
             </div>
 
             <div class="guide__content">
-              <div class="page_content <%= 'does-want-browser' if @browser != false %>">
+              <div class="page_content" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %>>
                 <div class="modal_content">
                   <%= yield %>
                 </div>
-
 
                 <div class="guide__fineprint">
                   <div class="fineprint">

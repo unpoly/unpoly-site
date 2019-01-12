@@ -19,7 +19,7 @@ class Node
     text = @self.textContent
     @searchText = normalizeText(text)
     text = u.escapeHtml(text)
-    text = text.replace(/\./g, '.<wbr>')
+    # text = text.replace(/\./g, '.<wbr>')
     @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
@@ -55,6 +55,7 @@ class Node
   match: (words) =>
     @resetMatch() if @isRoot()
     if @isMatch(words)
+      console.log("Marking words %o on %o", words, @self)
       @marker().mark(words)
       @notifyIsMatch()
       @parentNode?.notifyIsMatch()
@@ -101,13 +102,13 @@ class Node
     u.map elements, (element) ->
       new Node(element, parentNode)
 
-up.compiler '.browser', (browser) ->
-  if browser.matches('.is_placeholder')
-    up.replace('.browser', '/contents', history: false)
+up.compiler '.menu', (menu) ->
+  if menu.matches('.is_placeholder')
+    # up.replace('.menu', '/contents', history: false)
     return
 
-  searchInput = browser.querySelector('.search__input')
-  tree = browser.querySelector('.browser__nodes')
+  searchInput = menu.querySelector('.search__input')
+  tree = menu.querySelector('.menu__nodes')
   rootNodes = findChildren(tree, '.node')
 
   rootNodes = Node.newAll(rootNodes)
@@ -124,7 +125,7 @@ up.compiler '.browser', (browser) ->
         rootNode.resetMatch()
 
     for rootNode in rootNodes
-      up.element.toggleClass(rootNode, 'has_query', hasQuery)
+      up.element.toggleClass(rootNode.element, 'has_query', hasQuery)
 
   searchInput.addEventListener 'input', find
 
@@ -138,3 +139,14 @@ up.compiler '.browser', (browser) ->
   revealCurrentNode()
 
   return unobserveHistoryChange
+
+
+up.compiler '[wants-menu-path]', (element) ->
+  requestedMenuPath = element.getAttribute('wants-menu-path')
+  currentMenuPath = up.fragment.source('.menu')
+
+  console.debug("currentMenuPath = %o, newMenuPath = %o", currentMenuPath, requestedMenuPath)
+
+  if u.normalizeUrl(requestedMenuPath) != u.normalizeUrl(currentMenuPath)
+    u.nextFrame ->
+      up.replace('.menu', requestedMenuPath, history: false)

@@ -1,6 +1,7 @@
 <%
   guide.reload if development?
   @page_title = 'Changes'
+  @menu_path = '/menu/changes'
 %>
 
 
@@ -10,25 +11,41 @@
 
   <p>This project mostly adheres to <a href="http://semver.org/">Semantic Versioning</a>.</p>
 
-  <ul>
-    <% guide.releases.each do |release| %>
-      <li>
-        <%= link_to release.version, "/changes/#{release.version}" %>
-        <% if release.date %>
-          (<%= release.date %>)
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+  <p>
+    Select a version below to retrieve a detailed list of changes.
+  </p>
 
-  <% guide.releases.first(2).each do |release| %>
-    <h2>
-      <%= release.version %>
+  <table>
+    <tr>
+      <th>Version</th>
+      <th>Release date</th>
+    </tr>
+    <% guide.releases.each do |release| %>
+      <tr>
+        <td>
+          <b><a href="/changes/<%= release.version %>"><%= release.version %></a></b>
+        </td>
+        <td>
+          <% if release.date %>
+            <%= release.date.strftime("%B %d, %Y") %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+
+  <dl>
+    <% guide.releases.each do |release| %>
+      <dt>
+        <a href="/changes/<%= release.version %>"><%= release.version %></a>
+      </dt>
       <% if release.date %>
-        (<%= release.date %>)
+        <dd>
+          Released on <%= release.date.strftime("%B %d, %Y") %>
+        </dd>
       <% end %>
-    </h2>
-    <%= markdown(release.markdown) %>
-  <% end %>
+    <% end %>
+  </dl>
 
 </div>
