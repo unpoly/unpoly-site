@@ -1,9 +1,26 @@
 <%
   guide.reload if development?
   @page_title = 'Changes'
+  changelog = guide.changelog
 %>
 
 
 <div class="prose">
-  <%= markdown(guide.changelog) %>
+
+  <h1>Changes</h1>
+
+  <p>This project mostly adheres to <a href="http://semver.org/">Semantic Versioning</a>.</p>
+
+  <% changelog.releases.first(2).each do |release| %>
+    <h2>
+      <%= release.version %>
+      <% if release.date %>
+        (<%= release.date %>)
+      <% else %>
+        (unknown date)
+      <% end %>
+    </h2>
+    <%= markdown(release.markdown) %>
+  <% end %>
+
 </div>

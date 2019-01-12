@@ -9,6 +9,7 @@ require_relative 'guide/feature/index'
 require_relative 'guide/klass'
 require_relative 'guide/param'
 require_relative 'guide/parser'
+require_relative 'guide/changelog'
 require_relative 'guide/repository'
 require_relative 'guide/response'
 
