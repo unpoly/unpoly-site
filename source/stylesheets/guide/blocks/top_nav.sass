@@ -1,5 +1,8 @@
 @import environment
 
+=underline-section($color)
+  box-shadow: inset 0 -2px 0 $color
+
 .top_nav
   font-size: 20px
   +bold
@@ -19,8 +22,11 @@
   + .top_nav__section
     margin-left: 10px
 
-  &:focus, &:hover, &.up-current
-    text-decoration: underline
+  &.up-current
+    +underline-section(rgba(255, 255, 255, 0.4))
+
+  &:focus, &:hover
+    +underline-section(rgba(255, 255, 255, 0.8))
 
   +on_narrow
     display: none

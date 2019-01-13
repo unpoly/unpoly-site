@@ -6,15 +6,16 @@
 
 <div class="prose">
 
-  <h1 class="klass_badge">
-    <a class="breadcrumb" href="/changes" up-restore-scroll>Changes</a>
+  <%= revision_on_github_button(release) %>
 
+  <h1>
+    <a class="breadcrumb" href="/changes" up-restore-scroll>Changes</a>
 
     Unpoly <%= release.version %>
     <% if release.date %>
-      <div class="klass_badge__meta">
-        <span class="klass_badge__kind">Released on</span>
-        <span class="klass_badge__name"><%= release.date.strftime("%B %d, %Y") %></span>
+      <div class="subtitle">
+        <span class="dimmed">Released on</span>
+        <%= release.date.strftime("%B %d, %Y") %>
       </div>
     <% end %>
   </h1>

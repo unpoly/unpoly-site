@@ -35,17 +35,4 @@
 
   </table>
 
-  <dl>
-    <% guide.releases.each do |release| %>
-      <dt>
-        <a href="/changes/<%= release.version %>"><%= release.version %></a>
-      </dt>
-      <% if release.date %>
-        <dd>
-          Released on <%= release.date.strftime("%B %d, %Y") %>
-        </dd>
-      <% end %>
-    <% end %>
-  </dl>
-
 </div>

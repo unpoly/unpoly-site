@@ -29,6 +29,10 @@ module Unpoly
           "v#{version}"
         end
 
+        def github_url
+          "https://github.com/unpoly/unpoly/tree/#{git_tag}"
+        end
+
       end
 
       def initialize(repository_path)

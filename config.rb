@@ -283,6 +283,11 @@ helpers do
     link_to '<i class="fa fa-edit"></i> Edit <span class="edit_link__etc">this page</span>', url, target: '_blank', class: 'hyperlink edit_link'
   end
 
+  def revision_on_github_button(revision)
+    url = revision.github_url
+    link_to '<i class="fa fa-code"></i> Revision code', url, target: '_blank', class: 'hyperlink edit_link'
+  end
+
   def url_link(url, options = {})
     link_to url, url, options
   end

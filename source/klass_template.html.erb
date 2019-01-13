@@ -6,11 +6,11 @@
 
 <%= edit_button(klass) %>
 
-<h1 class="klass_badge">
-  <div class="klass_badge_title"><%= klass.title %></div>
-  <div class="klass_badge__meta">
-    <span class="klass_badge__kind"><%= klass.kind %></span>
-    <span class="klass_badge__name"><%= klass.name %></span>
+<h1>
+  <%= klass.title %>
+  <div class="subtitle">
+    <span class="dimmed"><%= klass.kind %></span>
+    <%= klass.name %>
   </div>
 </h1>
 
