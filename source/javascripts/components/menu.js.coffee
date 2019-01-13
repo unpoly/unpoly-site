@@ -108,8 +108,7 @@ up.compiler '.menu', (menu) ->
     return
 
   searchInput = menu.querySelector('.search__input')
-  tree = menu.querySelector('.menu__nodes')
-  rootNodes = findChildren(tree, '.node')
+  rootNodes = findChildren(menu, '.node')
 
   rootNodes = Node.newAll(rootNodes)
 
@@ -127,7 +126,7 @@ up.compiler '.menu', (menu) ->
     for rootNode in rootNodes
       up.element.toggleClass(rootNode.element, 'has_query', hasQuery)
 
-  searchInput.addEventListener 'input', find
+  searchInput?.addEventListener 'input', find
 
   revealCurrentNode = ->
     u.nextFrame ->
@@ -144,8 +143,6 @@ up.compiler '.menu', (menu) ->
 up.compiler '[wants-menu-path]', (element) ->
   requestedMenuPath = element.getAttribute('wants-menu-path')
   currentMenuPath = up.fragment.source('.menu')
-
-  console.debug("currentMenuPath = %o, newMenuPath = %o", currentMenuPath, requestedMenuPath)
 
   if u.normalizeUrl(requestedMenuPath) != u.normalizeUrl(currentMenuPath)
     u.nextFrame ->

@@ -1,9 +1,8 @@
+<% @menu_path = '/menu/install' %>
+
+<h1><%= page_title 'Installing Unpoly' %></h1>
+
 <div class="prose">
-
-  <h1>
-    Installing Unpoly
-  </h1>
-
 
   <h2>Requirements</h2>
 
@@ -61,12 +60,12 @@
   </p>
 
   <ul>
-    <li><%= modal_hyperlink 'Link to a CDN', '/install/cdn' %> (great to test-drive)</li>
-    <li><%= modal_hyperlink 'Install with npm', '/install/npm' %></li>
-    <li><%= modal_hyperlink 'Install with Ruby on Rails', '/install/rails' %></li>
-    <li><%= modal_hyperlink 'Install with Bower', '/install/bower' %></li>
-    <li><%= modal_hyperlink 'Download as ZIP', '/install/zip' %></li>
-    <li><%= modal_hyperlink 'Clone with Git', '/install/git' %></li>
+    <li><%= content_hyperlink 'Link to a CDN', '/install/cdn' %> (great to test-drive)</li>
+    <li><%= content_hyperlink 'Install with npm', '/install/npm' %></li>
+    <li><%= content_hyperlink 'Install with Ruby on Rails', '/install/rails' %></li>
+    <li><%= content_hyperlink 'Install with Bower', '/install/bower' %></li>
+    <li><%= content_hyperlink 'Download as ZIP', '/install/zip' %></li>
+    <li><%= content_hyperlink 'Clone with Git', '/install/git' %></li>
   </ul>
 
 </div>

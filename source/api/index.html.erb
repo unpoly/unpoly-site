@@ -1,0 +1,32 @@
+<h1>API</h1>
+
+<%
+  icons = {
+    'up.link' => 'external-link',
+    'up.modal' => 'clone',
+    'up.popup' => 'comment-o',
+    'up.motion' => 'play',
+    'up.feedback' => 'navicon',
+    'up.syntax' => 'code',
+    'up.fragment' => 'puzzle-piece',
+
+
+
+  }
+%>
+
+<% guide.promoted_klasses.each do |klass|  %>
+  <div class="klass_preview" up-expand>
+    <div class="klass_preview__icon">
+      <i class="fa fa-fw fa-<%= icons[klass.name] || 'code' %>"></i>
+    </div>
+
+    <div class="klass_preview__info">
+      <%= content_link klass.title, klass.guide_path, class: 'klass_preview__title hyperlink' %>
+      <span class="klass_preview__name"><%= klass.name %></span>
+      <div class="klass_preview__summary">
+        <%= markdown_prose(klass.summary_markdown) %>
+      </div>
+    </div>
+  </div>
+<% end %>

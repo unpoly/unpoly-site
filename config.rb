@@ -213,6 +213,10 @@ helpers do
     content_link label, href, options
   end
 
+  def breadcrumb_link(label, href)
+    content_link label, href, class: 'breadcrumb', 'up-restore-scroll': true
+  end
+
   def cdn_url(file)
     "https://unpkg.com/unpoly@#{guide.version}/dist/#{file}"
   end
@@ -292,9 +296,14 @@ helpers do
     link_to url, url, options
   end
 
-  def menu(&block)
+  def menu(search: false, &block)
     nodes = capture_html(&block)
-    @menu_html = partial('menu/menu', locals: { nodes: nodes })
+    @menu_html = partial('menu/menu', locals: { nodes: nodes, search: search })
+  end
+
+  def page_title(title)
+    @page_title = title
+    return title
   end
 
 end

@@ -11,10 +11,7 @@
     <%= edit_button(feature) %>
 
     <h1>
-
-      <a class="breadcrumb" href="<%= feature.klass.guide_path %>" up-restore-scroll>
-        <%= feature.klass.title %>
-      </a>
+      <%= breadcrumb_link feature.klass.title, feature.klass.guide_path %>
 
       <code>
         <%= h(feature.signature) %>

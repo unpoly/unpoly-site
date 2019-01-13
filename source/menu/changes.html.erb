@@ -1,8 +1,10 @@
 <% menu do %>
 
+  <div class="menu__title">Changes</div>
+
   <% guide.releases.each do |release| %>
     <div class="node">
-      <%= node_link release.version, "/changes/#{release.version}" %>
+      <%= node_link "Unpoly #{release.version}", "/changes/#{release.version}" %>
     </div>
   <% end %>
 

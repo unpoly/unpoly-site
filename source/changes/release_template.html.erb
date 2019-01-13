@@ -4,22 +4,21 @@
   @menu_path = '/menu/changes'
 %>
 
+
+<%= revision_on_github_button(release) %>
+
+<h1>
+  <%= breadcrumb_link 'Changes', '/changes' %>
+
+  Unpoly <%= release.version %>
+  <% if release.date %>
+    <div class="subtitle">
+      <span class="dimmed">Released on</span>
+      <%= release.date.strftime("%B %d, %Y") %>
+    </div>
+  <% end %>
+</h1>
+
 <div class="prose">
-
-  <%= revision_on_github_button(release) %>
-
-  <h1>
-    <a class="breadcrumb" href="/changes" up-restore-scroll>Changes</a>
-
-    Unpoly <%= release.version %>
-    <% if release.date %>
-      <div class="subtitle">
-        <span class="dimmed">Released on</span>
-        <%= release.date.strftime("%B %d, %Y") %>
-      </div>
-    <% end %>
-  </h1>
-
   <%= markdown(release.markdown) %>
-
 </div>

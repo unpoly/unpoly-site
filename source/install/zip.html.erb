@@ -1,7 +1,13 @@
-<div class="prose">
-  <h1>Download as ZIP</h1>
+<% @menu_path = '/menu/install' %>
 
-  Download the <a href="https://github.com/unpoly/unpoly/archive/v<%= guide.version %>.zip">minified files and complete source code</a>:
+<h1>
+  <%= breadcrumb_link 'Install', '/install' %>
+  <%= page_title 'Download as ZIP' %>
+</h1>
+
+<div class="prose">
+
+  <p>Download the <a href="https://github.com/unpoly/unpoly/archive/v<%= guide.version %>.zip">minified files and complete source code</a>:</p>
 
   <pre><code class="nohighlight">curl -LO https://github.com/unpoly/unpoly/archive/v<%= guide.version %>.zip
 unzip v<%= guide.version %>.zip</code></pre>

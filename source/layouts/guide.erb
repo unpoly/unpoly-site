@@ -25,9 +25,10 @@
             <div class="guide__top_nav">
 
               <div class="top_nav" up-nav>
-                <a href="/install" class="top_nav__section" content-link>Install</a>
+                <a href="/api" class="top_nav__section" content-link up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
                 <a href="/tutorial" class="top_nav__section" content-link>Tutorial</a>
-                <a href="/changes" class="top_nav__section" content-link>Changes</a>
+                <a href="/install" class="top_nav__section" content-link up-alias="/install/*">Install</a>
+                <a href="/changes" class="top_nav__section" content-link up-alias="/changes/*">Changes</a>
                 <a href="/community" class="top_nav__section" content-link>Community</a>
                 <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_github"><i class="fa fa-github"></i> GitHub</a>
                 <a href="/menu/narrow" class="top_nav__section is_hamburger" modal-link=".menu" up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>

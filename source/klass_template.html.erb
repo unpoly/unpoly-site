@@ -32,7 +32,7 @@
 <% selectors = klass.selectors.reject(&:internal?).sort %>
 <% if selectors.present? %>
 
-  <h2 class="subtitle">CSS selectors</h2>
+  <h2>CSS selectors</h2>
 
   <% selectors.each do |behavior| %>
     <%= partial 'feature_preview', locals: { feature: behavior } %>
@@ -43,7 +43,7 @@
 <% functions = klass.functions.reject(&:internal?).sort %>
 <% if functions.present? %>
 
-  <h2 class="subtitle">JavaScript functions</h2>
+  <h2>JavaScript functions</h2>
 
   <% functions.each do |function| %>
     <%= partial 'feature_preview', locals: { feature: function } %>
@@ -54,7 +54,7 @@
 <% properties = klass.properties.reject(&:internal?).sort %>
 <% if properties.present? %>
 
-  <h2 class="subtitle">JavaScript properties</h2>
+  <h2>JavaScript properties</h2>
 
     <% properties.each do |property| %>
       <%= partial 'feature_preview', locals: { feature: property } %>
@@ -65,7 +65,7 @@
 <% events = klass.events.reject(&:internal?).sort %>
 <% if events.present? %>
 
-  <h2 class="subtitle">Events</h2>
+  <h2>Events</h2>
 
   <% events.each do |event| %>
     <%= partial 'feature_preview', locals: { feature: event } %>
