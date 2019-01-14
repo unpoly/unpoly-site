@@ -38,7 +38,7 @@ module Unpoly
       def reload
         # puts "Reloading Repository!"
         synchronize do
-          # puts "Start reloading Repository!"
+          log "reload()"
           @klasses = []
           @feature_index = nil
           @changelog = nil
@@ -50,13 +50,11 @@ module Unpoly
 
       def changelog
         synchronize do
-          @changelog ||= begin
-            Changelog.new(@path)
-          end
+          @changelog ||= Changelog.new(@path)
         end
       end
 
-      delegate :releases, to: :changelog
+      delegate :releases, :versions, :release_for_version, to: :changelog
 
       def github_url
         'https://github.com/unpoly/unpoly'
@@ -133,6 +131,7 @@ module Unpoly
       private
 
       def parse
+        log "parse()"
         parser = Parser.new(self)
         log("Source paths", source_paths)
         source_paths.each do |source_path|

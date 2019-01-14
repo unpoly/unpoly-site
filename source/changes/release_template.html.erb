@@ -1,8 +1,8 @@
 <%
   guide.reload if development?
+  release = guide.release_for_version(version)
   @menu_path = '/changes/menu'
 %>
-
 
 <%= revision_on_github_button(release) %>
 

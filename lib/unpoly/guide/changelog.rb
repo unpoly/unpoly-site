@@ -1,6 +1,7 @@
 module Unpoly
   module Guide
     class Changelog
+      include Logger
 
       class Release
         def initialize(attrs)
@@ -36,6 +37,7 @@ module Unpoly
       end
 
       def initialize(repository_path)
+        log "initialize()"
         @repository_path = repository_path
         @changelog_path = File.join(@repository_path, 'CHANGELOG.md')
         @releases = []
@@ -44,11 +46,20 @@ module Unpoly
 
       attr_reader :releases
 
+      def versions
+        releases.map(&:version)
+      end
+
+      def release_for_version(version)
+        releases.detect { |release| release.version == version }
+      end
+
       private
 
       attr_reader :repository_path, :changelog_path
 
       def parse
+        log "parse()"
         all_markdown = File.read(changelog_path)
         all_markdown.gsub!("\r", '')
         sections = all_markdown.split(/^(\d+\.\d+\.\d+)\n\-+\n+/)

@@ -3,7 +3,7 @@ module Unpoly
     module Logger
 
       def log(*args)
-        # puts ([self.class.name] + args).inspect
+        puts ([self.class.name] + args).inspect
       end
 
     end

@@ -7,13 +7,18 @@
 <%= edit_button(klass) %>
 
 <h1>
-  <%= klass.title %>
-  <div class="subtitle">
-    <span class="dimmed"><%= klass.kind %></span>
-    <%= klass.name %>
-  </div>
-</h1>
+  <% if klass.title == klass.name && klass.kind == 'class' %>
+    <span class="dimmed">class</span>
+  <% end %>
 
+  <%= klass.title %>
+  <% if klass.title != klass.name %>
+    <div class="subtitle">
+      <span class="dimmed"><%= klass.kind %></span>
+      <%= klass.name %>
+    </div>
+  <% end %>
+</h1>
 
 <% if klass.guide_markdown.present? %>
   <div class="expandable" up-data='<%= { path: klass.guide_path }.to_json %>'>

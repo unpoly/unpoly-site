@@ -50,6 +50,9 @@ sprockets.append_path File.expand_path('vendor/asset-libs')
 sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/javascripts')
 sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/stylesheets')
 
+
+Unpoly::Guide.current.reload
+
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
@@ -65,10 +68,10 @@ Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
   proxy path, "/api/feature_template.html", locals: { guide_id: guide_id }, ignore: true
 end
 
-Unpoly::Guide.current.releases.each do |release|
-  path = "/changes/#{release.version}.html" # the .html will be removed by Middleman's pretty directory indexes
+Unpoly::Guide.current.versions.each do |version|
+  path = "/changes/#{version}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/changes/release_template.html", locals: { release: release }, ignore: true
+  proxy path, "/changes/release_template.html", locals: { version: version }, ignore: true
 end
 
 Unpoly::Example.all.each do |example|
