@@ -19,7 +19,7 @@ class Node
     text = @self.textContent
     @searchText = normalizeText(text)
     text = u.escapeHtml(text)
-    # text = text.replace(/\./g, '.<wbr>')
+    text = text.replace(/\./g, '.<wbr>')
     @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
@@ -93,7 +93,7 @@ class Node
   revealCurrent: =>
     if @isChild() && @isCurrent() && !@parentNode.isMatch()
       @parentNode.toggleExpanded(true)
-      up.reveal(@element)
+      up.reveal(@element, padding: 40)
     else
       for childNode in @childNodes
         childNode.revealCurrent()
