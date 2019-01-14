@@ -1,6 +1,6 @@
 <%
   guide.reload if development?
-  @menu_path = '/menu/changes'
+  @menu_path = '/changes/menu'
 %>
 
 
@@ -9,7 +9,7 @@
 <h1>
   <%= breadcrumb_link 'Changes', '/changes' %>
 
-  <%= page_title "Changes in Unpoly #{release.version}" %>
+  <%= page_title "Changes in #{release.version}" %>
 
   <% if release.date %>
     <div class="subtitle">
