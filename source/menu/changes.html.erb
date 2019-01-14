@@ -2,9 +2,13 @@
 
   <div class="menu__title">Changes</div>
 
+  <div class="node">
+    <%= node_link "Overview", "/changes" %>
+  </div>
+
   <% guide.releases.each do |release| %>
     <div class="node">
-      <%= node_link "Unpoly #{release.version}", "/changes/#{release.version}" %>
+      <%= node_link "Version #{release.version}", "/changes/#{release.version}" %>
     </div>
   <% end %>
 
