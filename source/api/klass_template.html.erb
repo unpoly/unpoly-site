@@ -35,7 +35,7 @@
   <h2>CSS selectors</h2>
 
   <% selectors.each do |behavior| %>
-    <%= partial 'feature_preview', locals: { feature: behavior } %>
+    <%= partial 'api/feature_preview', locals: { feature: behavior } %>
   <% end %>
 
 <% end %>
@@ -46,7 +46,7 @@
   <h2>JavaScript functions</h2>
 
   <% functions.each do |function| %>
-    <%= partial 'feature_preview', locals: { feature: function } %>
+    <%= partial 'api/feature_preview', locals: { feature: function } %>
   <% end %>
 
 <% end %>
@@ -57,7 +57,7 @@
   <h2>JavaScript properties</h2>
 
     <% properties.each do |property| %>
-      <%= partial 'feature_preview', locals: { feature: property } %>
+      <%= partial 'api/feature_preview', locals: { feature: property } %>
     <% end %>
 
 <% end %>
@@ -68,7 +68,7 @@
   <h2>Events</h2>
 
   <% events.each do |event| %>
-    <%= partial 'feature_preview', locals: { feature: event } %>
+    <%= partial 'api/feature_preview', locals: { feature: event } %>
   <% end %>
 
 <% end %>
