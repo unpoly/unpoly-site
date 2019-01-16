@@ -3,6 +3,14 @@ module Unpoly
     class Feature
       include Logger
 
+      LONG_KINDS = {
+        'function' => 'JavaScript function',
+        'constructor' => 'Class constructor',
+        'selector' => 'CSS selector',
+        'property' => 'JavaScript property',
+        'event' => 'DOM event'
+      }
+
       def initialize(kind, name)
         @name = name
         @visibility = 'internal'
@@ -48,7 +56,7 @@ module Unpoly
         end
       end
 
-      def signature
+      def signature(short: false)
         if selector? || event?
           name
 
@@ -61,40 +69,45 @@ module Unpoly
           # end
           signature
 
-        else
+        elsif function? || constructor?
 
           signature = ""
+          if constructor?
+            signature << 'new '
+          end
+
           signature << name
           signature << '('
 
-          option_params = params.select(&:option?)
+          unless short
+            option_params = params.select(&:option?)
 
-          compressed_params = params.collect { |param|
-            if param.option?
-              if option_params.all?(&:optional?)
-                "[#{param.option_hash_name}]"
+            compressed_params = params.collect { |param|
+              if param.option?
+                if option_params.all?(&:optional?)
+                  "[#{param.option_hash_name}]"
+                else
+                  param.option_hash_name
+                end
+              elsif param.optional?
+                "[#{param.name}]"
               else
-                param.option_hash_name
+                param.name
               end
-            elsif param.optional?
-              "[#{param.name}]"
-            else
-              param.name
-            end
-          }.uniq
+            }.uniq
 
-          signature << compressed_params.join(', ')
+            signature << compressed_params.join(', ')
+          end
+
           signature << ')'
           signature
+        else
+          raise "Unknown feature kind: #{kind}"
         end
       end
 
       def short_signature
-        if function?
-          "#{name}()"
-        else
-          name
-        end
+        signature(short: true)
       end
 
       def stable?
@@ -180,7 +193,6 @@ module Unpoly
       end
 
       def search_text
-
         strings = []
         strings << name
         strings << klass.name
@@ -204,8 +216,8 @@ module Unpoly
 
         # Constructors and "classes" are the same thing
         # in JS, but we want two separate guide pages
-        if constructor? && !str.include?('.constructor')
-          str += '.constructor'
+        if constructor? && !str.starts_with?('new ')
+          str = "new #{str}"
         end
 
         if function? || property?
@@ -217,6 +229,10 @@ module Unpoly
 
       def guide_path
         "/#{guide_id}"
+      end
+
+      def long_kind
+        LONG_KINDS.fetch(kind)
       end
 
     end

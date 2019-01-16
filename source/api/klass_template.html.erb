@@ -45,10 +45,25 @@
 
 <% end %>
 
+<% constructor = klass.constructor %>
+<% if constructor && !constructor.internal? %>
+
+  <h2>Constructor</h2>
+
+  <%= partial 'api/feature_preview', locals: { feature: constructor } %>
+
+<% end %>
+
 <% functions = klass.functions.reject(&:internal?).sort %>
 <% if functions.present? %>
 
-  <h2>JavaScript functions</h2>
+  <h2>
+    <% if klass.class? %>
+      Methods
+    <% else %>
+      JavaScript functions
+    <% end %>
+  </h2>
 
   <% functions.each do |function| %>
     <%= partial 'api/feature_preview', locals: { feature: function } %>

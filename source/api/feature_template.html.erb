@@ -13,21 +13,11 @@
     <h1>
       <%= breadcrumb_link feature.klass.title, feature.klass.guide_path %>
 
-      <code>
-        <%= h(feature.signature) %>
-      </code>
+      <%= h(feature.signature) %>
 
-      <span class="feature__tags">
-        <span class="tag is_red is_large">
-          <%= feature.kind %>
-        </span>
-
-        <% if feature.visibility.present? && feature.visibility != 'stable' %>
-          <span class="tag isnt_stable is_large">
-            <%= feature.visibility %>
-          </span>
-        <% end %>
-      </span>
+      <div class="subtitle">
+        <%= feature.long_kind %>
+      </div>
 
     </h1>
 

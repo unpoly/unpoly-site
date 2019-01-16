@@ -59,6 +59,14 @@ module Unpoly
         features.select(&:selector?)
       end
 
+      def class?
+        kind == 'class'
+      end
+
+      def module?
+        kind == 'module'
+      end
+
       def guide_id
         Util.slugify(name)
       end

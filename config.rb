@@ -141,6 +141,7 @@ helpers do
       text = code_element.text
       unless text.include?("\n")
         if code_element.ancestors('a, pre').blank?
+          text = text.sub('#', '.prototype.')
           slug = Unpoly::Guide::Util.slugify(text)
           if guide.guide_id_exists?(slug)
             path = "/#{slug}"
