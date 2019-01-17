@@ -105,7 +105,7 @@ helpers do
     @guide ||= Unpoly::Guide.current
   end
 
-  def markdown(text)
+  def markdown(text, **options)
     # text = text.gsub(/<`(.*?)`>/) do |match|
     #   code = $1
     #   slug = Unpoly::Guide::Util.slugify(code)
@@ -123,13 +123,28 @@ helpers do
     # (see option above). This will NOT remove HTML tags from code examples.
     doc.to_remove_html_tags
     html = doc.to_html
-    html = autolink_code(html)
+    html = postprocess_markdown(html, **options)
     html
   end
 
-  def autolink_code(html)
-    parsed = Nokogiri::HTML.fragment(html)
-    codes = parsed.css('code')
+  def postprocess_markdown(html, autolink_code: true, strip_links: false)
+    if autolink_code || strip_links
+      nokogiri_doc = Nokogiri::HTML.fragment(html)
+    end
+
+    if strip_links
+      nokogiri_doc.css('a').each do |link|
+        link.replace(link.children)
+      end
+    elsif autolink_code
+      autolink_code_in_nokogiri_doc(nokogiri_doc)
+    end
+
+    nokogiri_doc.to_html
+  end
+
+  def autolink_code_in_nokogiri_doc(nokogiri_doc)
+    codes = nokogiri_doc.css('code')
 
     current_path = current_page.path
     current_path = current_path.sub(/\/index\.html$/, '')
@@ -152,12 +167,10 @@ helpers do
         end
       end
     end
-
-    parsed.to_html
   end
 
-  def markdown_prose(text)
-    "<div class='prose'>#{markdown(text)}</div>"
+  def markdown_prose(text, **options)
+    "<div class='prose'>#{markdown(text, **options)}</div>"
   end
 
   def window_title

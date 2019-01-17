@@ -25,7 +25,7 @@
       <%= content_link interface.title, interface.guide_path, class: 'interface_preview__title hyperlink' %>
       <span class="interface_preview__name"><%= interface.name %></span>
 <!--      <div class="interface_preview__summary">-->
-        <%#= markdown_prose(interface.summary_markdown) %>
+        <%#= markdown_prose(interface.summary_markdown, strip_links: true) %>
 <!--      </div>-->
     </div>
   </div>

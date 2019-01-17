@@ -11,7 +11,7 @@
 
   <% if feature.summary_markdown.present? %>
     <div class="feature_preview__summary">
-      <%= markdown_prose(feature.summary_markdown) %>
+      <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
     </div>
   <% end %>
 
