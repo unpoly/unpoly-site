@@ -19,7 +19,8 @@ class Node
     text = @self.textContent
     @searchText = normalizeText(text)
     text = u.escapeHtml(text)
-    text = text.replace(/\./g, '.<wbr>')
+    # Allow the browser to wrap at dots and hashes
+    text = text.replace(/(\.|\#)/g, '$1<wbr>')
     @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
@@ -56,7 +57,7 @@ class Node
     @resetMatch() if @isRoot()
     if @isMatch(words)
       console.log("Marking words %o on %o", words, @self)
-      @marker().mark(words)
+      @marker().mark(words, acrossElements: true)
       @notifyIsMatch()
       @parentNode?.notifyIsMatch()
     for childNode in @childNodes
