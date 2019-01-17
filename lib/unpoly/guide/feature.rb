@@ -13,7 +13,7 @@ module Unpoly
         @response = nil
         @default = nil
         @optional = false
-        @klass = nil
+        @interface = nil
         # @preventable = false
       end
 
@@ -23,7 +23,7 @@ module Unpoly
       attr_accessor :guide_markdown
       attr_accessor :params
       attr_accessor :event
-      attr_accessor :klass
+      attr_accessor :interface
       attr_accessor :kind
       attr_accessor :text_source
 
@@ -137,12 +137,12 @@ module Unpoly
       end
 
       def instance_method?
-        klass.class? or raise "Only classes can have instance methods"
+        interface.class? or raise "Only classes can have instance methods"
         function? && name.include?('#')
       end
 
       def class_method?
-        klass.class? or raise "Only classes can have class methods"
+        interface.class? or raise "Only classes can have class methods"
         function? && !name.include?('#')
       end
 
@@ -182,7 +182,7 @@ module Unpoly
         when 'constructor'
           'Class constructor'
         when 'function'
-          if klass.class?
+          if interface.class?
             if instance_method?
               'Instance method'
             elsif class_method?
@@ -196,7 +196,7 @@ module Unpoly
         when 'event'
           'DOM event'
         when 'property'
-          if klass.class?
+          if interface.class?
             'Property'
           else
             'JavaScript property'
@@ -229,7 +229,7 @@ module Unpoly
       def search_text
         strings = []
         strings << name
-        strings << klass.name
+        strings << interface.name
         strings << short_kind
         strings += params.collect(&:name) if selector?
         parts = []

@@ -15,17 +15,17 @@
   }
 %>
 
-<% guide.promoted_klasses.each do |klass|  %>
-  <div class="klass_preview" up-expand>
-    <div class="klass_preview__icon">
-      <i class="fa fa-fw fa-<%= icons[klass.name] || 'code' %>"></i>
+<% guide.promoted_interfacees.each do |interface|  %>
+  <div class="interface_preview" up-expand>
+    <div class="interface_preview__icon">
+      <i class="fa fa-fw fa-<%= icons[interface.name] || 'code' %>"></i>
     </div>
 
-    <div class="klass_preview__info">
-      <%= content_link klass.title, klass.guide_path, class: 'klass_preview__title hyperlink' %>
-      <span class="klass_preview__name"><%= klass.name %></span>
-<!--      <div class="klass_preview__summary">-->
-        <%#= markdown_prose(klass.summary_markdown) %>
+    <div class="interface_preview__info">
+      <%= content_link interface.title, interface.guide_path, class: 'interface_preview__title hyperlink' %>
+      <span class="interface_preview__name"><%= interface.name %></span>
+<!--      <div class="interface_preview__summary">-->
+        <%#= markdown_prose(interface.summary_markdown) %>
 <!--      </div>-->
     </div>
   </div>

@@ -56,10 +56,10 @@ Unpoly::Guide.current.reload
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
-Unpoly::Guide.current.klasses.each do |klass|
-  path = "#{klass.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
+Unpoly::Guide.current.interfacees.each do |interface|
+  path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/api/klass_template.html", locals: { klass_name: klass.name }, ignore: true
+  proxy path, "/api/interface_template.html", locals: { interface_name: interface.name }, ignore: true
 end
 
 Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
@@ -267,7 +267,7 @@ helpers do
       type.gsub(/[a-z\.]+/i) { |subtype|
 
         begin
-          url = guide.klass_for_name(subtype).guide_path
+          url = guide.interface_for_name(subtype).guide_path
         rescue Unpoly::Guide::UnknownClass
           url = BUILTIN_TYPE_URLS[subtype]
         end

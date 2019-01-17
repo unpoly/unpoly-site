@@ -228,8 +228,8 @@
 
 
   <ul>
-    <% guide.promoted_klasses.each do |klass|  %>
-      <li><%= link_to klass.title, klass.guide_path %></li>
+    <% guide.promoted_interfacees.each do |interface|  %>
+      <li><%= link_to interface.title, interface.guide_path %></li>
     <% end %>
   </ul>
 

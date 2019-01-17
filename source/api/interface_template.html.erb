@@ -1,0 +1,47 @@
+<%
+ guide.reload if development?
+ interface = guide.interface_for_name(interface_name)
+ @page_title = interface.title
+%>
+
+<%= edit_button(interface) %>
+
+<h1>
+  <% if interface.module? %>
+    <%= interface.title %>
+    <div class="subtitle">
+      <span class="dimmed">module</span>
+      <%= interface.name %>
+    </div>
+  <% elsif interface.class? %>
+    <span class="dimmed">class</span>
+    <%= interface.title %>
+  <% end %>
+</h1>
+
+<% if interface.guide_markdown.present? %>
+  <div class="expandable" up-data='<%= { path: interface.guide_path }.to_json %>'>
+
+    <div class="expandable__limiter">
+     <div class="expandable__content">
+       <%= markdown_prose(interface.guide_markdown) %>
+     </div>
+    </div>
+
+    <a class="expandable__expand action">Read more</a>
+
+  </div>
+<% end %>
+
+<% if interface.module? %>
+  <%= feature_previews 'CSS selectors', interface.selectors %>
+  <%= feature_previews 'DOM events', interface.events %>
+  <%= feature_previews 'JavaScript functions', interface.functions %>
+  <%= feature_previews 'JavaScript properties', interface.properties %>
+<% elsif interface.class? %>
+  <%= feature_previews 'Constructor', interface.constructor %>
+  <%= feature_previews 'Properties', interface.properties %>
+  <%= feature_previews 'Instance methods', interface.instance_methods %>
+  <%= feature_previews 'Class methods', interface.class_methods %>
+<% end %>
+

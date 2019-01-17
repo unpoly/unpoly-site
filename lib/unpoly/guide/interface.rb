@@ -1,6 +1,6 @@
 module Unpoly
   module Guide
-    class Klass
+    class Interface
       include Logger
 
       def initialize(kind, name)

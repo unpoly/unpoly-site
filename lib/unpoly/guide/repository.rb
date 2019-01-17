@@ -5,7 +5,7 @@ module Unpoly
     class Repository
       include Logger
 
-      PROMOTED_KLASS_NAMES = %w[
+      PROMOTED_INTERFACE_NAMES = %w[
         up.link
         up.modal
         up.popup
@@ -39,10 +39,10 @@ module Unpoly
         # puts "Reloading Repository!"
         synchronize do
           log "reload()"
-          @klasses = []
+          @interfacees = []
           @feature_index = nil
           @changelog = nil
-          @promoted_klasses = nil
+          @promoted_interfacees = nil
           parse()
           self
         end
@@ -60,11 +60,11 @@ module Unpoly
         'https://github.com/unpoly/unpoly'
       end
 
-      def promoted_klasses
+      def promoted_interfacees
         synchronize do
-          @promoted_klasses ||= begin
-            PROMOTED_KLASS_NAMES.map do |klass_name|
-              klass_for_name(klass_name)
+          @promoted_interfacees ||= begin
+            PROMOTED_INTERFACE_NAMES.map do |interface_name|
+              interface_for_name(interface_name)
             end
           end
         end
@@ -114,18 +114,18 @@ module Unpoly
         end
       end
 
-      def klasses
+      def interfacees
         synchronize do
-          @klasses
+          @interfacees
         end
       end
 
-      def klass_for_name(name)
-        klasses.detect { |klass| klass.name == name } or raise UnknownClass, "No such Klass: #{name}"
+      def interface_for_name(name)
+        interfacees.detect { |interface| interface.name == name } or raise UnknownClass, "No such Interface: #{name}"
       end
 
       def inspect
-        "#<#{self.class.name} klass_names=#{klasses.collect(&:name)}>"
+        "#<#{self.class.name} interface_names=#{interfacees.collect(&:name)}>"
       end
 
       private
@@ -137,7 +137,7 @@ module Unpoly
         source_paths.each do |source_path|
           parser.parse(source_path)
         end
-        @feature_index = Feature::Index.new(klasses.collect(&:features).flatten)
+        @feature_index = Feature::Index.new(interfacees.collect(&:features).flatten)
       end
 
       def source_paths

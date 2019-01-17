@@ -2,17 +2,17 @@
 
 $border: 2px solid #ddd
 
-.klass_preview
+.interface_preview
   //+vertical_margin($BLOCK_SPACING)
   display: flex
   align-items: center
 
   //&:hover
   //  background-color: #f8f8f8
-  &+.klass_preview
+  &+.interface_preview
     border-top: $border
 
-.klass_preview__icon
+.interface_preview__icon
   padding-left: 10px
   padding-right: 13px
   flex: 0 0 auto
@@ -20,16 +20,16 @@ $border: 2px solid #ddd
   i
     +font-size(26px, 0)
 
-.klass_preview__info
+.interface_preview__info
   border-left: $border
   padding-left: 17px
   flex: 1 1 auto
   +vertical-padding(12px)
 
-.klass_preview__title
+.interface_preview__title
   +bold
 
-.klass_preview__name
+.interface_preview__name
   +monospace-font
   color: #777
   margin-left: 0px
@@ -41,6 +41,6 @@ $border: 2px solid #ddd
     color: #bbb
 
 
-.klass_preview__summary
+.interface_preview__summary
   p
     margin: 0 !important

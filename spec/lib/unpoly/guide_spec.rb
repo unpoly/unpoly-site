@@ -9,9 +9,9 @@ describe Unpoly::Guide do
     describe 'API modules (e.g. up.fragment)' do
 
       it 'parses modules' do
-        expect(subject.klasses).to include(have_attributes(name: 'up.fragment'))
-        expect(subject.klasses).to include(have_attributes(name: 'up.modal'))
-        expect(subject.klasses).to include(have_attributes(name: 'up.util'))
+        expect(subject.interfacees).to include(have_attributes(name: 'up.fragment'))
+        expect(subject.interfacees).to include(have_attributes(name: 'up.modal'))
+        expect(subject.interfacees).to include(have_attributes(name: 'up.util'))
       end
 
       it 'parses functions' do
@@ -64,10 +64,10 @@ describe Unpoly::Guide do
       end
 
       it 'parses the text source' do
-        toast_klass = subject.klass_for_name('up.toast')
-        expect(toast_klass.text_source.path).to end_with('lib/assets/javascripts/unpoly/toast.coffee')
-        expect(toast_klass.text_source.start_line).to eq(1)
-        expect(toast_klass.text_source.end_line).to eq(6)
+        toast_interface = subject.interface_for_name('up.toast')
+        expect(toast_interface.text_source.path).to end_with('lib/assets/javascripts/unpoly/toast.coffee')
+        expect(toast_interface.text_source.start_line).to eq(1)
+        expect(toast_interface.text_source.end_line).to eq(6)
       end
 
       it 'parses selectors' do
@@ -89,12 +89,12 @@ describe Unpoly::Guide do
     describe 'classes (like up.Response)' do
 
       it 'parses classes' do
-        expect(subject.klasses).to include(have_attributes(name: 'up.Request'))
-        expect(subject.klasses).to include(have_attributes(name: 'up.Response'))
+        expect(subject.interfacees).to include(have_attributes(name: 'up.Request'))
+        expect(subject.interfacees).to include(have_attributes(name: 'up.Response'))
       end
 
       it 'parses constructors, but gives it a guide ID that does not conflict with the class itself' do
-        request = subject.klass_for_name('up.Request')
+        request = subject.interface_for_name('up.Request')
         constructor = request.constructor
         expect(constructor).to_not be_nil
         expect(constructor.guide_id).to_not eq(request.guide_id)

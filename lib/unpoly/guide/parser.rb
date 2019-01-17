@@ -11,7 +11,7 @@ module Unpoly
         ^[\ \t]*\#\#\#[\ \t]*\n    # YUIDoc end symbol
       }x
 
-      KLASS_PATTERN = %r{
+      INTERFACE_PATTERN = %r{
         \@(class|module)  # @class or @module ($1)
         \                 # space
         (.+)              # class name ($2)
@@ -132,13 +132,13 @@ module Unpoly
 
       def initialize(repository)
         @repository = repository
-        @last_klass = nil
+        @last_interface = nil
       end
 
       def parse(path)
         doc_comments = DocComment.find_in_path(path)
         doc_comments.each do |doc_comment|
-          if documentable = parse_klass!(doc_comment.text) || parse_feature!(doc_comment.text)
+          if documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment.text)
             documentable.text_source = doc_comment.text_source
           end
         end
@@ -146,22 +146,22 @@ module Unpoly
 
       private
 
-      def parse_klass!(block)
-        if block.sub!(KLASS_PATTERN, '')
-          klass_kind = $1.strip
-          klass_name = $2.strip
-          klass = Klass.new(klass_kind, klass_name)
+      def parse_interface!(block)
+        if block.sub!(INTERFACE_PATTERN, '')
+          interface_kind = $1.strip
+          interface_name = $2.strip
+          interface = Interface.new(interface_kind, interface_name)
           # if visibility = parse_visibility!(block)
-          #   klass.visibility = visibility
+          #   interface.visibility = visibility
           # end
           if title = parse_title!(block)
-            klass.title = title
+            interface.title = title
           end
           # All the remaining text is guide prose
-          klass.guide_markdown = process_markdown(block)
-          @repository.klasses << klass
-          @last_klass = klass
-          klass
+          interface.guide_markdown = process_markdown(block)
+          @repository.interfacees << interface
+          @last_interface = interface
+          interface
         end
       end
 
@@ -186,8 +186,8 @@ module Unpoly
           # end
           # All the remaining text is guide prose
           feature.guide_markdown = process_markdown(block)
-          feature.klass = @last_klass
-          @last_klass.features << feature
+          feature.interface = @last_interface
+          @last_interface.features << feature
           feature
         end
       end
