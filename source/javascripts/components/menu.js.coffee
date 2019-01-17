@@ -21,7 +21,7 @@ class Node
     text = u.escapeHtml(text)
     # Allow the browser to wrap at dots and hashes
     text = text.replace(/(\.|\#)/g, '$1<wbr>')
-    @self.innerHTML = text
+    # @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
     @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')

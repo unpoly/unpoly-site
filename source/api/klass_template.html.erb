@@ -7,16 +7,15 @@
 <%= edit_button(klass) %>
 
 <h1>
-  <% if klass.title == klass.name && klass.kind == 'class' %>
-    <span class="dimmed">class</span>
-  <% end %>
-
-  <%= klass.title %>
-  <% if klass.title != klass.name %>
+  <% if klass.module? %>
+    <%= klass.title %>
     <div class="subtitle">
-      <span class="dimmed"><%= klass.kind %></span>
+      <span class="dimmed">module</span>
       <%= klass.name %>
     </div>
+  <% elsif klass.class? %>
+    <span class="dimmed">class</span>
+    <%= klass.title %>
   <% end %>
 </h1>
 
@@ -34,61 +33,15 @@
   </div>
 <% end %>
 
-<% selectors = klass.selectors.reject(&:internal?).sort %>
-<% if selectors.present? %>
-
-  <h2>CSS selectors</h2>
-
-  <% selectors.each do |behavior| %>
-    <%= partial 'api/feature_preview', locals: { feature: behavior } %>
-  <% end %>
-
+<% if klass.module? %>
+  <%= feature_previews 'CSS selectors', klass.selectors %>
+  <%= feature_previews 'DOM events', klass.events %>
+  <%= feature_previews 'JavaScript functions', klass.functions %>
+  <%= feature_previews 'JavaScript properties', klass.properties %>
+<% elsif klass.class? %>
+  <%= feature_previews 'Constructor', klass.constructor %>
+  <%= feature_previews 'Properties', klass.properties %>
+  <%= feature_previews 'Instance methods', klass.instance_methods %>
+  <%= feature_previews 'Class methods', klass.class_methods %>
 <% end %>
 
-<% constructor = klass.constructor %>
-<% if constructor && !constructor.internal? %>
-
-  <h2>Constructor</h2>
-
-  <%= partial 'api/feature_preview', locals: { feature: constructor } %>
-
-<% end %>
-
-<% functions = klass.functions.reject(&:internal?).sort %>
-<% if functions.present? %>
-
-  <h2>
-    <% if klass.class? %>
-      Methods
-    <% else %>
-      JavaScript functions
-    <% end %>
-  </h2>
-
-  <% functions.each do |function| %>
-    <%= partial 'api/feature_preview', locals: { feature: function } %>
-  <% end %>
-
-<% end %>
-
-<% properties = klass.properties.reject(&:internal?).sort %>
-<% if properties.present? %>
-
-  <h2>JavaScript properties</h2>
-
-    <% properties.each do |property| %>
-      <%= partial 'api/feature_preview', locals: { feature: property } %>
-    <% end %>
-
-<% end %>
-
-<% events = klass.events.reject(&:internal?).sort %>
-<% if events.present? %>
-
-  <h2>Events</h2>
-
-  <% events.each do |event| %>
-    <%= partial 'api/feature_preview', locals: { feature: event } %>
-  <% end %>
-
-<% end %>

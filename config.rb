@@ -296,6 +296,20 @@ helpers do
     link_to '<i class="fa fa-code"></i> Revision code', url, target: '_blank', class: 'hyperlink edit_link'
   end
 
+  def feature_previews(title, features)
+    html = ''.html_safe
+    features = Array.wrap(features)
+    features = features.reject(&:internal?)
+
+    if features.present?
+      html << content_tag(:h2, title)
+      features.sort.each do |feature|
+        html << partial('api/feature_preview', locals: { feature: feature })
+      end
+    end
+    html
+  end
+
   def url_link(url, options = {})
     link_to url, url, options
   end

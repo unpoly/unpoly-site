@@ -1,6 +1,6 @@
 <div class="node is_klass">
   <%= node_link klass.title, klass.guide_path %>
-  <% klass.guide_features.each do |feature| %>
+  <% klass.guide_features.sort.each do |feature| %>
     <div class="node is_<%= feature.visibility %>">
       <%= node_link feature.short_signature, feature.guide_path %>
       <% feature.guide_params.each do |param| %>

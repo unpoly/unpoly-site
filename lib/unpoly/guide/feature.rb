@@ -3,14 +3,6 @@ module Unpoly
     class Feature
       include Logger
 
-      LONG_KINDS = {
-        'function' => 'JavaScript function',
-        'constructor' => 'Class constructor',
-        'selector' => 'CSS selector',
-        'property' => 'JavaScript property',
-        'event' => 'DOM event'
-      }
-
       def initialize(kind, name)
         @name = name
         @visibility = 'internal'
@@ -144,6 +136,16 @@ module Unpoly
         @kind == 'function'
       end
 
+      def instance_method?
+        klass.class? or raise "Only classes can have instance methods"
+        function? && name.include?('#')
+      end
+
+      def class_method?
+        klass.class? or raise "Only classes can have class methods"
+        function? && !name.include?('#')
+      end
+
       def selector?
         @kind == 'selector'
       end
@@ -173,6 +175,35 @@ module Unpoly
         end
       end
 
+      def long_kind
+        case kind
+        when 'selector'
+          'CSS selector'
+        when 'constructor'
+          'Class constructor'
+        when 'function'
+          if klass.class?
+            if instance_method?
+              'Instance method'
+            elsif class_method?
+              'Class method'
+            else
+              raise "Unknown method nature"
+            end
+          else
+            'JavaScript function'
+          end
+        when 'event'
+          'DOM event'
+        when 'property'
+          if klass.class?
+            'Property'
+          else
+            'JavaScript property'
+          end
+        end
+      end
+
       # def preventable?
       #   @preventable
       # end
@@ -187,9 +218,12 @@ module Unpoly
 
       def sort_name
         sort_name = name.dup
-        sort_name.gsub!(/[^A-Za-z0-9\-]/, '-')
-        sort_name =~ /(^|\-)up\-(.*)$/
-        $2 || sort_name
+        sort_name = sort_name.downcase
+        # sort_name = sort_name.sub(/^.+\bup\b/, 'up')
+        sort_name = sort_name.gsub(/[^A-Za-z0-9\-]/, '-')
+        sort_name = sort_name.sub(/^-+/, '')
+        sort_name = sort_name.sub(/-+$/, '')
+        sort_name
       end
 
       def search_text
@@ -229,10 +263,6 @@ module Unpoly
 
       def guide_path
         "/#{guide_id}"
-      end
-
-      def long_kind
-        LONG_KINDS.fetch(kind)
       end
 
     end

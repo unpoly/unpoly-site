@@ -32,7 +32,7 @@ module Unpoly
       attr_accessor :guide_markdown
 
       def guide_features
-        features.reject(&:internal?).sort
+        features.reject(&:internal?)
       end
 
       def guide_features?
@@ -45,6 +45,14 @@ module Unpoly
 
       def functions
         features.select(&:function?)
+      end
+
+      def instance_methods
+        features.select(&:instance_method?)
+      end
+
+      def class_methods
+        features.select(&:class_method?)
       end
 
       def properties
