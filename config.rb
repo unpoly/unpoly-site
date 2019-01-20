@@ -56,7 +56,7 @@ Unpoly::Guide.current.reload
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
-Unpoly::Guide.current.interfacees.each do |interface|
+Unpoly::Guide.current.interfaces.each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   proxy path, "/api/interface_template.html", locals: { interface_name: interface.name }, ignore: true

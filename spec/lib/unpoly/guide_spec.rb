@@ -9,9 +9,9 @@ describe Unpoly::Guide do
     describe 'API modules (e.g. up.fragment)' do
 
       it 'parses modules' do
-        expect(subject.interfacees).to include(have_attributes(name: 'up.fragment'))
-        expect(subject.interfacees).to include(have_attributes(name: 'up.modal'))
-        expect(subject.interfacees).to include(have_attributes(name: 'up.util'))
+        expect(subject.interfaces).to include(have_attributes(name: 'up.fragment'))
+        expect(subject.interfaces).to include(have_attributes(name: 'up.modal'))
+        expect(subject.interfaces).to include(have_attributes(name: 'up.util'))
       end
 
       it 'parses functions' do
@@ -89,8 +89,8 @@ describe Unpoly::Guide do
     describe 'classes (like up.Response)' do
 
       it 'parses classes' do
-        expect(subject.interfacees).to include(have_attributes(name: 'up.Request'))
-        expect(subject.interfacees).to include(have_attributes(name: 'up.Response'))
+        expect(subject.interfaces).to include(have_attributes(name: 'up.Request'))
+        expect(subject.interfaces).to include(have_attributes(name: 'up.Response'))
       end
 
       it 'parses constructors, but gives it a guide ID that does not conflict with the class itself' do

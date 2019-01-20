@@ -39,10 +39,10 @@ module Unpoly
         # puts "Reloading Repository!"
         synchronize do
           log "reload()"
-          @interfacees = []
+          @interfaces = []
           @feature_index = nil
           @changelog = nil
-          @promoted_interfacees = nil
+          @promoted_interfaces = nil
           parse()
           self
         end
@@ -60,9 +60,9 @@ module Unpoly
         'https://github.com/unpoly/unpoly'
       end
 
-      def promoted_interfacees
+      def promoted_interfaces
         synchronize do
-          @promoted_interfacees ||= begin
+          @promoted_interfaces ||= begin
             PROMOTED_INTERFACE_NAMES.map do |interface_name|
               interface_for_name(interface_name)
             end
@@ -91,7 +91,9 @@ module Unpoly
         feature_index.find_guide_id(guide_id)
       end
 
-      delegate :guide_id_exists?, to: :feature_index
+      def guide_id_exists?(guide_id)
+        feature_index.guide_id_exists?(guide_id) || interface_with_guide_id_exists?(guide_id)
+      end
 
       def version
         synchronize do
@@ -114,18 +116,26 @@ module Unpoly
         end
       end
 
-      def interfacees
+      def interfaces
         synchronize do
-          @interfacees
+          @interfaces
         end
       end
 
       def interface_for_name(name)
-        interfacees.detect { |interface| interface.name == name } or raise UnknownClass, "No such Interface: #{name}"
+        interfaces.detect { |interface| interface.name == name } or raise UnknownClass, "No such Interface: #{name}"
+      end
+
+      def interface_for_guide_id(guide_id)
+        interfaces.detect { |interface| interface.guide_id == guide_id } or raise UnknownClass, "No such Interface: #{guide_id}"
+      end
+
+      def interface_with_guide_id_exists?(guide_id)
+        !!interfaces.detect { |interface| interface.guide_id == guide_id }
       end
 
       def inspect
-        "#<#{self.class.name} interface_names=#{interfacees.collect(&:name)}>"
+        "#<#{self.class.name} interface_names=#{interfaces.collect(&:name)}>"
       end
 
       private
@@ -137,7 +147,7 @@ module Unpoly
         source_paths.each do |source_path|
           parser.parse(source_path)
         end
-        @feature_index = Feature::Index.new(interfacees.collect(&:features).flatten)
+        @feature_index = Feature::Index.new(interfaces.collect(&:features).flatten)
       end
 
       def source_paths
