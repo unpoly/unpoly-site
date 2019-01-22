@@ -3,7 +3,7 @@ module Unpoly
     class Param
       include Logger
 
-      OPTION_PREFIX = /^(options|opts|request|response|params|config|attrs|attributes|props|properties)\./
+      OPTION_PREFIX = /^(options|opts|request|response|params|config|attrs|attributes|props|properties|eventProps)\./
 
       def initialize(name = nil)
         @name = name

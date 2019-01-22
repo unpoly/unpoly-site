@@ -6,7 +6,7 @@ normalizeText = (text) ->
   text
 
 findChildren = (root, selector) ->
-  u.select root.children, (child) -> child.matches(selector)
+  u.filter(root.children, (child) -> child.matches(selector))
 
 class Node
 
@@ -130,7 +130,7 @@ up.compiler '.menu', (menu) ->
   searchInput?.addEventListener 'input', find
 
   revealCurrentNode = ->
-    u.nextFrame ->
+    u.task ->
       for rootNode in rootNodes
         rootNode.revealCurrent()
 
@@ -146,5 +146,5 @@ up.compiler '[wants-menu-path]', (element) ->
   currentMenuPath = up.fragment.source('.menu')
 
   if u.normalizeUrl(requestedMenuPath) != u.normalizeUrl(currentMenuPath)
-    u.nextFrame ->
+    u.task ->
       up.replace('.menu', requestedMenuPath, history: false)

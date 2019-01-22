@@ -217,12 +217,16 @@ module Unpoly
       end
 
       def sort_name
-        sort_name = name.dup
+        sort_name = name
         sort_name = sort_name.downcase
         # sort_name = sort_name.sub(/^.+\bup\b/, 'up')
         sort_name = sort_name.gsub(/[^A-Za-z0-9\-]/, '-')
+        sort_name = sort_name.sub(/-{2,}/, '-')
         sort_name = sort_name.sub(/^-+/, '')
         sort_name = sort_name.sub(/-+$/, '')
+        if name.starts_with?('up.$')
+          sort_name << 'z' # sort up.$compiler behing up.compiler
+        end
         sort_name
       end
 
