@@ -337,4 +337,8 @@ helpers do
     return title
   end
 
+  def slugify(text)
+    Unpoly::Guide::Util.slugify(text)
+  end
+
 end

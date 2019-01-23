@@ -11,7 +11,7 @@
     <%= edit_button(feature) %>
 
     <h1>
-      <%= breadcrumb_link feature.interface.title, feature.interface.guide_path %>
+      <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>
 
       <%= h(feature.signature) %>
 
@@ -36,17 +36,20 @@
 
     <% if feature.params.present? %>
 
-      <h2>
-        <% if feature.selector? %>
-          Modifying attributes
-        <% elsif feature.property? %>
-          Value
-        <% elsif feature.event? %>
-          Properties
-        <% else %>
-          Parameters
-        <% end %>
-      </h2>
+      <%
+        title =
+          if feature.selector?
+            'Modifying attributes'
+          elsif feature.property?
+            'Value'
+          elsif feature.event?
+            'Properties'
+          else
+            'Parameters'
+          end
+      %>
+
+      <h2 id="<%= slugify(title.downcase) %>"><%= title %></h2>
 
       <% feature.params.each do |param| %>
         <div class="feature__param" id="<%= param.guide_anchor %>">
@@ -68,7 +71,7 @@
 
     <% if feature.response %>
 
-      <h2>
+      <h2 id="return-value">
         Return value
       </h2>
 

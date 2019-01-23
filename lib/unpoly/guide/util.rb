@@ -5,6 +5,9 @@ module Unpoly
 
         def slugify(string)
           guide_id = string.dup
+          # Don't downcase here, we want to keep separate up.viewport (module)
+          # and up.Viewport (class).
+          #
           # Even though we're OK with these characters in the middle of
           # a slug, we don't want them at the beginning
           guide_id.gsub!(/^[\:\-\.\$]+/, '-')

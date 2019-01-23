@@ -1,7 +1,7 @@
 @import environment
 
 .breadcrumb
-  display: none
+  display: block
   +font-size($FONT_SIZE)
   +font-size(16px)
   //+bold
@@ -12,3 +12,7 @@
   &:after
     content: ' /'
     color: #bbb
+
+  +on-wide
+    // On wide screens there is enough context in the left sidebar
+    display: none
