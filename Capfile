@@ -8,6 +8,11 @@ set :keep_releases, 10
 server "c23.makandra-3.makandra.de", :app, :web, :primary => true
 server "c42.makandra-3.makandra.de", :app, :web
 
+# Backup target
+# set :deploy_to, "/opt/www/unpoly.com/"
+# set :user, "deploy"
+# server "87.230.18.24", :app, :web, :primary => true
+
 ssh_options[:forward_agent] = true
 
 namespace :deploy do
