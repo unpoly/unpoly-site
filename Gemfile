@@ -14,8 +14,8 @@ gem 'haml'
 gem 'coffee-script'
 
 group :deploy do
-  gem "capistrano", '<3'
-  gem "capistrano_colors"
+  gem "capistrano", '<4'
+  gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'
 end
 
 gem 'rspec'

@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/makandra/capistrano-middleman.git
+  revision: 26cb59981e0ae2f300625b39c9e78732ced5d38c
+  specs:
+    capistrano-middleman (0.2.0)
+      capistrano (~> 3)
+      middleman (~> 4.0)
+      rubyzip (~> 1.1.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -8,15 +17,15 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    airbrussh (1.3.1)
+      sshkit (>= 1.6.1, != 1.7.0)
     andand (1.3.3)
     backports (3.6.8)
-    capistrano (2.15.9)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
-    capistrano_colors (0.5.5)
+    capistrano (3.11.0)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -38,7 +47,6 @@ GEM
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashie (3.4.6)
-    highline (1.7.8)
     i18n (0.7.0)
     kramdown (1.13.2)
     libv8 (3.16.14.17)
@@ -87,11 +95,7 @@ GEM
     minitest (5.10.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
-      net-ssh (>= 2.6.5)
-    net-ssh (4.0.1)
-    net-ssh-gateway (2.0.0)
-      net-ssh (>= 4.0.0)
+    net-ssh (5.1.0)
     nokogiri (1.10.0)
       mini_portile2 (~> 2.4.0)
     padrino-helpers (0.13.3.3)
@@ -103,6 +107,7 @@ GEM
     parallel (1.10.0)
     public_suffix (2.0.5)
     rack (2.0.1)
+    rake (12.3.2)
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
@@ -120,11 +125,15 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.0)
+    rubyzip (1.1.7)
     sass (3.4.23)
     servolux (0.12.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
+    sshkit (1.18.2)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
@@ -141,8 +150,8 @@ PLATFORMS
 
 DEPENDENCIES
   andand
-  capistrano (< 3)
-  capistrano_colors
+  capistrano (< 4)
+  capistrano-middleman!
   coffee-script
   haml
   memoizer
