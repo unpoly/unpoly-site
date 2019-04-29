@@ -16,7 +16,6 @@ module Unpoly
         up.proxy
         up.form
         up.tooltip
-        up.history
         up.viewport
         up.event
         up.radio
