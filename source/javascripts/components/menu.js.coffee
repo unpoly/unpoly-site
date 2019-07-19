@@ -145,6 +145,6 @@ up.compiler '[wants-menu-path]', (element) ->
   requestedMenuPath = element.getAttribute('wants-menu-path')
   currentMenuPath = up.fragment.source('.menu')
 
-  if u.normalizeUrl(requestedMenuPath) != u.normalizeUrl(currentMenuPath)
+  if u.normalizeURL(requestedMenuPath) != u.normalizeURL(currentMenuPath)
     u.task ->
       up.replace('.menu', requestedMenuPath, history: false)

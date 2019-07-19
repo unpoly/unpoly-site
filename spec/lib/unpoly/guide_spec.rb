@@ -18,11 +18,11 @@ describe Unpoly::Guide do
         function = subject.features_for_guide_id('up.replace').first
         expect(function.name).to eq('up.replace')
         expect(function.kind).to eq('function')
-        expect(function.params[0].name).to eq('selectorOrElement')
+        expect(function.params[0].name).to eq('target')
         expect(function.params[0].types).to contain_exactly('string', 'Element', 'jQuery')
         expect(function.params[1].name).to eq('url')
         expect(function.params[1].types).to contain_exactly('string')
-        expect(function.signature).to eq('up.replace(selectorOrElement, url, [options])')
+        expect(function.signature).to eq('up.replace(target, url, [options])')
 
         transition_param = function.params.detect { |p| p.name == 'options.transition' }
         expect(transition_param.types).to contain_exactly('string')
