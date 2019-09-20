@@ -1,10 +1,10 @@
 @import environment
 
-.up-modal[up-flavor=default]
+.up-overlay[up-flavor=modal]
 
-  .up-modal-dialog
+  .up-overlay-frame
 
-  .up-modal-content
+  .up-overlay-content
     max-width: 950px
 
     +on_narrow
@@ -12,16 +12,16 @@
     +on_wide
       padding: 32px
 
-.up-modal[up-flavor=fullscreen]
-  .up-modal-viewport
-    padding: 0
-
-  .up-modal-dialog
-    min-height: 100vh
-    width: 100%
-
-  .up-modal-content
-    padding: 0
+//.up-overlay[up-flavor=cover]
+//  .up-overlay-viewport
+//    padding: 0
+//
+//  .up-overlay-frame
+//    min-height: 100vh
+//    width: 100%
+//
+//  .up-modal-content
+//    padding: 0
   //
   //.up-modal-close
     //text-shadow: 0 0 5px #fff

@@ -3,10 +3,13 @@ layout: false
 ---
 
 <font face="arial, helvetica, sans-serif" size="2">
-  <%=
-    markdown(guide.releases.first.markdown)
-      .gsub(/<h\d[^>]*>/, '<p><u><b>')
-      .gsub(/<\/h\d>/, '</b></u></p>')
-      .gsub('href="/', 'href="https://unpoly.com/')
-  %>
+  <% guide.releases[0..4].each do |release| %>
+    <h3><%= release.version %></h3>
+    <%=
+      markdown(release.markdown)
+        .gsub(/<h\d[^>]*>/, '<p><u><b>')
+        .gsub(/<\/h\d>/, '</b></u></p>')
+        .gsub('href="/', 'href="https://unpoly.com/')
+    %>
+  <% end %>
 </font>
