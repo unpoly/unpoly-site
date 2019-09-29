@@ -1,5 +1,7 @@
 @import environment
 
+$section_spacing: 10px
+
 =underline-section($color)
   box-shadow: inset 0 -2px 0 $color
 
@@ -20,7 +22,7 @@
   margin-top: 1px
 
   + .top_nav__section
-    margin-left: 10px
+    margin-left: $section_spacing
 
   &.up-current
     +underline-section(rgba(255, 255, 255, 0.4))
@@ -34,9 +36,15 @@
 //.top_nav__version
 //  opacity: 0.5
 
-.is_github
+.top_nav__right
   float: right
-  opacity: 0.8
+
+.is_social
+  opacity: 0.75
+
+  +narrower_than(1100px)
+    .top_nav__label
+      display: none
 
 .is_hamburger
   display: none
