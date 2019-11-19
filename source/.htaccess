@@ -29,6 +29,7 @@ RedirectPermanent /up.dom/config /up.fragment/config
 RedirectPermanent /up.bus /up.event
 RedirectPermanent /up.bus.onEscape /up.event.onEscape
 RedirectPermanent /up.params /up.Params
+RedirectPermanent /install/rails /install/ruby
 
 Header set Cache-Control "max-age=0, private"
 
