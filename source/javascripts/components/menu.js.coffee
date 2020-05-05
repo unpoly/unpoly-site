@@ -18,9 +18,9 @@ class Node
     @self = findChildren(@element, '.node__self')[0]
     text = @self.textContent
     @searchText = normalizeText(text)
-    text = u.escapeHtml(text)
+    # text = u.escapeHtml(text)
     # Allow the browser to wrap at dots and hashes
-    text = text.replace(/(\.|\#)/g, '$1<wbr>')
+    # text = text.replace(/(\.|\#)/g, '$1<wbr>')
     # @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
@@ -28,14 +28,15 @@ class Node
     @self.prepend(@collapser)
     @isExpanded = false
     @toggleExpanded(false)
+    # @toggleExpanded(true)
     @collapser.addEventListener 'mousedown', (event) =>
       @toggleExpanded()
-      up.event.consumeAction(event)
+      up.event.halt(event)
 
   toggleExpanded: (newExpanded) =>
     @isExpanded = newExpanded ? !@isExpanded # toggle when not given
     up.element.toggleClass(@element, 'is_expanded', @isExpanded)
-    if @childNodes.length
+    if @childNodes?.length
       up.element.toggleClass(@collapser, EXPANDED_ICON, @isExpanded)
       up.element.toggleClass(@collapser, COLLAPSED_ICON, !@isExpanded)
     else
@@ -56,7 +57,6 @@ class Node
   match: (words) =>
     @resetMatch() if @isRoot()
     if @isMatch(words)
-      console.log("Marking words %o on %o", words, @self)
       @marker().mark(words, acrossElements: true)
       @notifyIsMatch()
       @parentNode?.notifyIsMatch()
@@ -100,12 +100,13 @@ class Node
         childNode.revealCurrent()
 
   @newAll: (elements, parentNode) ->
-    u.map elements, (element) ->
+    return u.map elements, (element) ->
       new Node(element, parentNode)
+
 
 up.compiler '.menu', (menu) ->
   if menu.matches('.is_placeholder')
-    # up.replace('.menu', '/contents', history: false)
+    # will be loaded by [wants-menu-path]
     return
 
   searchInput = menu.querySelector('.search__input')

@@ -2,7 +2,7 @@
 
   <div class="hero--notification notification">
     <p>Unpoly <a href="/changes/<%= guide.version %>"><%= guide.version %></a> is now available.</p>
-    <p><a href="https://groups.google.com/group/unpoly">Join our e-mail group</a> to stay up to date.</p>
+    <p><a href="https://groups.google.com/group/unpoly">Join our e-mail group</a> or <a href="https://twitter.com/unpolyjs">follow on Twitter</a> to stay up to date.</p>
   </div>
 
   <h1 class="hero--claim">
@@ -25,9 +25,7 @@
     </span>
   </p>
 
-  <div class="actions">
-    <a href="/tutorial" class="action">Get started</a> <!-- or <a href="#how-it-works" class="hyperlink">learn more</a> -->
-  </div>
+  <%= partial 'layouts/start_actions' %>
 
 </div>
 
@@ -59,9 +57,7 @@
       </div>
       <div class="usp--description">
         Branch off interactions into
-        <%= modal_hyperlink 'modals', '/up.modal' %>,
-        <%= modal_hyperlink 'popups', '/up.popup' %> or
-        <%= modal_hyperlink 'drawers', '/a-up-drawer' %>.
+        <%= modal_hyperlink 'layers', '/up.layer' %>,
         Return to the main page when you're done.
       </div>
     </div>
@@ -205,9 +201,4 @@
   </li>
 </ol>
 
-
-
-
-<div class="actions">
-  <a href="/tutorial" class="action">Get started</a>
-</div>
+<%= partial 'layouts/start_actions' %>

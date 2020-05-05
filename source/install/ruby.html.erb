@@ -2,13 +2,15 @@
 
 <h1>
   <%= breadcrumb_link 'Install', '/install' %>
-  <%= page_title 'Install with Ruby on Rails' %>
+  <%= page_title 'Install with Ruby' %>
 </h1>
 
 <div class="prose">
 
+  <h2>Ruby on Rails</h2>
+
   <p>
-    Unpoly is available as a Ruby gem that makes the library's JavaScript and CSS sources
+    The <code>unpoly-rails</code> gem makes the Unpoly's JavaScript and CSS sources
     available to the Rails asset pipeline. It also includes
     <a href="http://www.rubydoc.info/github/unpoly/unpoly/master">some useful helpers</a>
     for your controllers and views.
@@ -49,6 +51,30 @@
  *= require unpoly
  *= require unpoly-bootstrap3
  */</code></pre>
+
+  <h2>Roda</h2>
+
+  <p>
+    If your Roda app uses an asset bundler like Webpack, you can <a href="/install/npm">get Unpoly from npm</a>.
+    You can also <a href="/install/cdn">load Unpoly from a CDN</a> or <a href="/install/zip">download a local copy</a>.
+  </p>
+
+  <p>
+    If you need the <a href="/up.protocol">optional server protocol</a> in your Roda app,
+    check out the <a href="https://github.com/adam12/roda-unpoly">roda-unpoly</a> gem.
+  </p>
+
+  <h2>Rack</h2>
+
+  <p>
+    If your Rack app uses an asset bundler like Webpack, you can <a href="/install/npm">get Unpoly from npm</a>.
+    You can also <a href="/install/cdn">load Unpoly from a CDN</a> or <a href="/install/zip">download a local copy</a>.
+  </p>
+
+  <p>
+    If you need the <a href="/up.protocol">optional server protocol</a> in your Rack app,
+    check out the <a href="https://github.com/adam12/rack-unpoly">rack-unpoly</a> gem.
+  </p>
 
   <%= partial 'star_prompt' %>
 

@@ -7,15 +7,13 @@ module Unpoly
 
       PROMOTED_INTERFACE_NAMES = %w[
         up.link
-        up.modal
-        up.popup
+        up.layer
         up.motion
         up.feedback
         up.syntax
         up.fragment
         up.proxy
         up.form
-        up.tooltip
         up.viewport
         up.event
         up.radio
