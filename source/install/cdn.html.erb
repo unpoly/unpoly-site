@@ -16,10 +16,11 @@
 
   <h3>Adding Bootstrap integration</h3>
 
-  <p>If you want to use Unpoly's Bootstrap integration, you should <b>also</b> add the following links:</p>
+  <p>If you want to use Unpoly's Bootstrap integration, you should also add <b>one</b> of the following links for your Bootstrap version:</p>
 
-  <pre><code><%= h cdn_js_include('unpoly-bootstrap3.min.js') %>
-<%= h cdn_css_include('unpoly-bootstrap3.min.css') %></code></pre>
+  <pre><code><%= h cdn_css_include('unpoly-bootstrap3.min.css') %>
+<%= h cdn_css_include('unpoly-bootstrap4.min.css') %>
+<%= h cdn_css_include('unpoly-bootstrap5.min.css') %></code></pre>
 
   <%= partial 'star_prompt' %>
 
