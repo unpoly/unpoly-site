@@ -48,6 +48,20 @@ module Unpoly
         $1
       end
 
+      def name_without_option_prefix
+        name.sub(OPTION_PREFIX, '')
+      end
+
+      def guide_name
+        if feature.selector?
+          "[#{name}]"
+        elsif feature.property? && option?
+          "#{feature.name}.#{name_without_option_prefix}"
+        else
+          name
+        end
+      end
+
       def guide_path
         "#{feature.guide_path}##{guide_anchor}"
       end

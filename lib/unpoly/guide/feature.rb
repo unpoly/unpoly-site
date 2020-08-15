@@ -109,8 +109,10 @@ module Unpoly
       def guide_params
         if selector?
           params.reject { |param|
-            selector? && name =~ /^[a-z\-]*\[([a-z\-]+)\]$/ && $1 == param.name
+            name =~ /^[a-z\-]*\[([a-z\-]+)\]$/ && $1 == param.name
           }
+        elsif property?
+          params.select { |param| param.option? }
         else
           []
         end
