@@ -43,7 +43,7 @@ module Unpoly
           if deprecated?
             '**This feature has been deprecated**. It will be removed in a future version.'
           elsif experimental?
-            '**This feature is experimental**. It may be changed or removed in a future version without prior notice or deprecation.'
+            '**This feature is experimental**. It may be changed or removed in a future version.'
           end
         end
       end
