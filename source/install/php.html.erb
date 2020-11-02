@@ -1,0 +1,23 @@
+<% @menu_path = '/install/menu' %>
+
+<h1>
+  <%= breadcrumb_link 'Install', '/install' %>
+  <%= page_title 'Install with PHP' %>
+</h1>
+
+<div class="prose">
+
+  <p>
+    For a PHP web framework like <a href="https://symfony.com/">Symfony</a> or <a href="https://laravel.com/">Laravel</a>
+    you are probably using a bundler like Webpack. In that case, <a href="/install/npm">get Unpoly from npm</a>.
+
+    If you are not using an asset bundler you may want to load Unpoly from a <a href="/install/cdn">CDN</a> or
+    <a href="/install/zip">download a local copy</a>.
+  </p>
+
+  <p>
+    If you need the <a href="/up.protocol">optional server protocol</a> in your PHP app, the Composer package
+    <a href="https://github.com/webstronauts/php-unpoly">webstronauts/unpoly</a> provides a Stack middleware.
+  </p>
+
+</div>
