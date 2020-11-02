@@ -189,10 +189,15 @@ helpers do
       'unpoly.min.css'
     ]
     files = Array.wrap(files)
+    paths = files.map { |file| local_library_file_path(file) }
+
+    unless paths.all? { |path| File.file?(path) }
+      return '?? KB'
+    end
+
     require 'active_support/gzip'
     source = ''
-    files.each do |file|
-      path = local_library_file_path(file)
+    paths.each do |path|
       File.exists?(path) or raise "Asset not found: #{path}"
       source << File.read(path)
     end
