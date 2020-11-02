@@ -148,4 +148,4 @@ up.compiler '[wants-menu-path]', (element) ->
 
   if u.normalizeURL(requestedMenuPath) != u.normalizeURL(currentMenuPath)
     u.task ->
-      up.replace('.menu', requestedMenuPath, history: false)
+      up.render('.menu', url: requestedMenuPath)

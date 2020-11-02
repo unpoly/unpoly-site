@@ -8,11 +8,11 @@ module Unpoly
       PROMOTED_INTERFACE_NAMES = %w[
         up.link
         up.layer
-        up.motion
-        up.feedback
         up.syntax
         up.fragment
-        up.proxy
+        up.motion
+        up.feedback
+        up.request
         up.form
         up.viewport
         up.event

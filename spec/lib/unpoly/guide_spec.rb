@@ -42,7 +42,7 @@ describe Unpoly::Guide do
         end
 
         it 'parses an experimental visibility' do
-          first_function = subject.features_for_guide_id('up.proxy.isBusy').first
+          first_function = subject.features_for_guide_id('up.network.isBusy').first
           expect(first_function.visibility).to eq('experimental')
         end
 
@@ -52,7 +52,7 @@ describe Unpoly::Guide do
         end
 
         it 'returns a default visibility comment for experimental features' do
-          first_function = subject.features_for_guide_id('up.proxy.isBusy').first
+          first_function = subject.features_for_guide_id('up.network.isBusy').first
           expect(first_function.visibility_comment).to match(/feature is experimental/i)
         end
 

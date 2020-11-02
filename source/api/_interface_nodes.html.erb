@@ -11,13 +11,14 @@
     </div>
   <% end %>
 
-  <% if interface.name == 'up.form' %>
-    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name('up.Params') } %>
-  <% end %>
-
-  <% if interface.name == 'up.proxy' %>
-    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name('up.Request') } %>
-    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name('up.Response') } %>
+  <% case interface.name %>
+  <% when 'up.form' %>
+    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Params') } %>
+  <% when 'up.layer' %>
+    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Layer') } %>
+  <% when 'up.request' %>
+    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Request') } %>
+    <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Response') } %>
   <% end %>
 
 </div>
