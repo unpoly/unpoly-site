@@ -61,7 +61,7 @@ module Unpoly
         synchronize do
           @promoted_interfaces ||= begin
             PROMOTED_INTERFACE_NAMES.map do |interface_name|
-              interface_for_name(interface_name)
+              interface_for_name!(interface_name)
             end
           end
         end
@@ -119,13 +119,27 @@ module Unpoly
         end
       end
 
-      def interface_for_name(name)
-        interfaces.detect { |interface| interface.name == name } or raise UnknownClass, "No such Interface: #{name}"
+      def merge_interface(new_interface)
+        synchronize do
+          if (existing_interface = interface_for_name(new_interface.name))
+            existing_interface.guide_markdown += new_interface.guide_markdown
+          else
+            @interfaces << new_interface
+          end
+        end
       end
 
-      def interface_for_guide_id(guide_id)
-        interfaces.detect { |interface| interface.guide_id == guide_id } or raise UnknownClass, "No such Interface: #{guide_id}"
+      def interface_for_name(name)
+        interfaces.detect { |interface| interface.name == name }
       end
+
+      def interface_for_name!(name)
+        interface_for_name(name) or raise UnknownInterface, "No such Interface: #{name}"
+      end
+
+      # def interface_for_guide_id(guide_id)
+      #   interfaces.detect { |interface| interface.guide_id == guide_id } or raise UnknownInterface, "No such Interface: #{guide_id}"
+      # end
 
       def interface_with_guide_id_exists?(guide_id)
         !!interfaces.detect { |interface| interface.guide_id == guide_id }

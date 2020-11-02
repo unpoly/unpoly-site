@@ -64,10 +64,10 @@ describe Unpoly::Guide do
       end
 
       it 'parses the text source' do
-        toast_interface = subject.interface_for_name('up.toast')
-        expect(toast_interface.text_source.path).to end_with('lib/assets/javascripts/unpoly/toast.coffee')
-        expect(toast_interface.text_source.start_line).to eq(1)
-        expect(toast_interface.text_source.end_line).to eq(6)
+        interface = subject.interface_for_name!('up.radio')
+        expect(interface.text_source.path).to end_with('lib/assets/javascripts/unpoly/radio.coffee')
+        expect(interface.text_source.start_line).to eq(1)
+        expect(interface.text_source.end_line).to eq(9)
       end
 
       it 'parses selectors' do
@@ -94,7 +94,7 @@ describe Unpoly::Guide do
       end
 
       it 'parses constructors, but gives it a guide ID that does not conflict with the class itself' do
-        request = subject.interface_for_name('up.Request')
+        request = subject.interface_for_name!('up.Request')
         constructor = request.constructor
         expect(constructor).to_not be_nil
         expect(constructor.guide_id).to_not eq(request.guide_id)

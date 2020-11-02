@@ -159,7 +159,7 @@ module Unpoly
           end
           # All the remaining text is guide prose
           interface.guide_markdown = process_markdown(block)
-          @repository.interfaces << interface
+          @repository.merge_interface(interface)
           @last_interface = interface
           interface
         end

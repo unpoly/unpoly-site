@@ -285,8 +285,8 @@ helpers do
       type.gsub(/[a-z\.]+/i) { |subtype|
 
         begin
-          url = guide.interface_for_name(subtype).guide_path
-        rescue Unpoly::Guide::UnknownClass
+          url = guide.interface_for_name!(subtype).guide_path
+        rescue Unpoly::Guide::UnknownInterface
           url = BUILTIN_TYPE_URLS[subtype]
         end
 
