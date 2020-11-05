@@ -22,7 +22,7 @@
     </div>
 
     <div class="interface_preview__info">
-      <%= content_link interface.title, interface.guide_path, class: 'interface_preview__title hyperlink' %>
+      <%= hyperlink interface.title, interface.guide_path, class: 'interface_preview__title' %>
       <span class="interface_preview__name"><%= interface.name %></span>
 <!--      <div class="interface_preview__summary">-->
         <%#= markdown_prose(interface.summary_markdown, strip_links: true) %>

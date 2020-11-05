@@ -27,9 +27,9 @@ module Unpoly
       }x
 
       FEATURE_PATTERN = %r{
-        \@(function|selector|event|property|constructor)  # @function or @selector or ... ($1)
-        \                                                 # space
-        (.+)                                              # feature name ($2)
+        \@(function|selector|event|property|constructor|header|cookie)  # @function or @selector or ... ($1)
+        \                                                               # space
+        (.+)                                                            # feature name ($2)
       }x
 
       VISIBILITY_PATTERN = %r{

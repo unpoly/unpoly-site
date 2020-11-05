@@ -16,7 +16,7 @@
 
             <div class="guide__logo">
 
-              <a class="logo" href="/" content-link>
+              <a class="logo" href="/">
                 <%= image_tag 'unpoly_revised_white.png', class: 'logo__pixels', alt: 'Unpoly' %>
               </a>
 
@@ -25,16 +25,16 @@
             <div class="guide__top_nav">
 
               <div class="top_nav" up-nav>
-                <a href="/api" class="top_nav__section" content-link up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
-                <a href="/tutorial" class="top_nav__section" content-link>Tutorial</a>
-                <a href="/install" class="top_nav__section" content-link up-alias="/install/*">Install</a>
-                <a href="/changes" class="top_nav__section" content-link up-alias="/changes/*">Changes</a>
-                <a href="/community" class="top_nav__section" content-link>Community</a>
+                <a href="/api" class="top_nav__section" up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
+                <a href="/tutorial" class="top_nav__section">Tutorial</a>
+                <a href="/install" class="top_nav__section" up-alias="/install/*">Install</a>
+                <a href="/changes" class="top_nav__section" up-alias="/changes/*">Changes</a>
+                <a href="/community" class="top_nav__section">Community</a>
                 <span class="top_nav__right">
                   <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_social"><i class="fa fa-github"></i><span class="top_nav__label"> GitHub</span></a>
                   <a href="https://twitter.com/unpolyjs" class="top_nav__section is_social"><i class="fa fa-twitter"></i> <span class="top_nav__label">Twitter</span></a>
                 </span>
-                <a href="/menu/narrow" class="top_nav__section is_hamburger" modal-link=".menu" up-flavor="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
+                <a href="/menu/narrow" class="top_nav__section is_hamburger" up-target=".menu" up-layer="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
 
               </div>
 
@@ -62,8 +62,8 @@
             </div>
 
             <div class="guide__content">
-              <div class="page_content" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %>>
-                <div class="modal_content">
+              <div class="page_content" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
+                <div class="modal_content" up-main="overlay">
                   <%= yield %>
                 </div>
 

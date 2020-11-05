@@ -67,6 +67,14 @@ module Unpoly
         features.select(&:selector?)
       end
 
+      def headers
+        features.select(&:header?)
+      end
+
+      def cookies
+        features.select(&:cookie?)
+      end
+
       def class?
         kind == 'class'
       end

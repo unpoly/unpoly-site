@@ -49,7 +49,7 @@ module Unpoly
       end
 
       def signature(short: false)
-        if selector? || event?
+        if selector? || event? || header? || cookie?
           name
 
         elsif property?
@@ -109,8 +109,10 @@ module Unpoly
       def guide_params
         if selector?
           params.reject { |param|
-            selector? && name =~ /^[a-z\-]*\[([a-z\-]+)\]$/ && $1 == param.name
+            name =~ /^[a-z\-]*\[([a-z\-]+)\]$/ && $1 == param.name
           }
+        elsif property?
+          params.select { |param| param.option? }
         else
           []
         end
@@ -162,18 +164,30 @@ module Unpoly
         @kind == 'event'
       end
 
-      def short_kind
-        case kind
-        when 'selector'
-          'CSS'
-        when 'function'
-          'JS'
-        when 'event'
-          'EVENT'
-        when 'property'
-          'PROP'
-        end
+      def header?
+        @kind == 'header'
       end
+
+      def cookie?
+        @kind == 'cookie'
+      end
+
+      # def short_kind
+      #   case kind
+      #   when 'selector'
+      #     'CSS'
+      #   when 'function'
+      #     'JS'
+      #   when 'event'
+      #     'EVENT'
+      #   when 'property'
+      #     'PROP'
+      #   when 'header'
+      #     'HTTP'
+      #   when 'cookie'
+      #     'COOK'
+      #   end
+      # end
 
       def long_kind
         case kind
@@ -201,6 +215,12 @@ module Unpoly
           else
             'JavaScript property'
           end
+        when 'header'
+          'HTTP header'
+        when 'cookie'
+          'Cookie'
+        else
+          "Unhandled feature kind: #{kind}"
         end
       end
 
@@ -230,20 +250,24 @@ module Unpoly
         sort_name
       end
 
-      def search_text
-        strings = []
-        strings << name
-        strings << interface.name
-        strings << short_kind
-        strings += params.collect(&:name) if selector?
-        parts = []
-        strings.each do |string|
-           unless parts.any? { |part| part.include?(string) }
-             parts << string.downcase
-           end
-        end
-        parts.join(' ')
-      end
+      # def search_text
+      #   strings = []
+      #   strings << name
+      #   strings << interface.name
+      #   # strings << short_kind
+      #   if selector?
+      #     strings += params.collect(&:name)
+      #   elsif property?
+      #     strings += params.select(&:option?).collect(&:name)
+      #   end
+      #   parts = []
+      #   strings.each do |string|
+      #      unless parts.any? { |part| part.include?(string) }
+      #        parts << string.downcase
+      #      end
+      #   end
+      #   parts.join(' ')
+      # end
 
       def summary_markdown
         Util.first_markdown_paragraph(@guide_markdown)

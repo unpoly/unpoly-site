@@ -13,7 +13,7 @@ module Unpoly
           guide_id.gsub!(/^[\:\-\.\$]+/, '-')
           # Colons (used in up:events) are valid URL segments, as used e.g. by
           # Wikipedia: https://en.wikipedia.org/wiki/Template:Welcome
-          guide_id.gsub!(/[^A-Za-z0-9\:\-\.\$]/, '-')
+          guide_id.gsub!(/[^A-Za-z0-9\:\-\.\$\_]/, '-')
           guide_id.gsub!(/\-{2,}/, '-') # no more than 2 dashes in a row
           guide_id.gsub!(/^\-/, '')
           guide_id.gsub!(/\-$/, '')

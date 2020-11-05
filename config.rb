@@ -209,34 +209,25 @@ helpers do
     "#{Unpoly::Guide.current.path}/dist/#{file}"
   end
 
-  def modal_hyperlink(label, href, options = {})
+  def hyperlink(label, href, options = {})
     options[:class] = "hyperlink #{options[:class]}"
-    modal_link label, href, options
-  end
-
-  def content_hyperlink(label, href, options = {})
-    options[:class] = "hyperlink #{options[:class]}"
-    content_link label, href, options
-  end
-
-  def modal_link(label, href, options = {})
-    options['modal-link'] = ''
     link_to label, href, options
   end
 
-  def content_link(label, href, options = {})
-    options['content-link'] = ''
+  def modal_hyperlink(label, href, options = {})
+    options[:class] = "hyperlink #{options[:class]}"
+    options['up-layer'] = 'modal'
     link_to label, href, options
   end
 
   def node_link(label, href, options = {})
     options[:class] = "node__self #{options[:class]}"
     # options['up-layer'] = 'page' # don't open drawer links within the drawer (both drawer and page contain .content)
-    content_link label, href, options
+    link_to label, href, options
   end
 
   def breadcrumb_link(label, href)
-    content_link label, href, class: 'breadcrumb', 'up-restore-scroll': true
+    link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true
   end
 
   def cdn_url(file)
@@ -317,6 +308,7 @@ helpers do
   def feature_previews(title, features)
     html = ''.html_safe
     features = Array.wrap(features)
+    features = features.sort
     features = features.reject(&:internal?)
 
     if features.present?
