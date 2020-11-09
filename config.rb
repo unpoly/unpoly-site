@@ -156,12 +156,21 @@ helpers do
       text = code_element.text
       unless text.include?("\n")
         if code_element.ancestors('a, pre').blank?
-          text = text.sub('#', '.prototype.')
-          slug = Unpoly::Guide::Util.slugify(text)
-          if guide.guide_id_exists?(slug)
-            path = "/#{slug}"
+          guide_id = text
+          guide_id = guide_id.sub('#', '.prototype.')
+          hash = nil
+
+          if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
+            guide_id = $1
+            hash = "config.#{$2}"
+          end
+
+          guide_id = Unpoly::Guide::Util.slugify(guide_id)
+          if guide.guide_id_exists?(guide_id)
+            path = "/#{guide_id}"
             unless path == current_path
-              code_element.wrap("<a href='#{h path}'></a>")
+              href = [path, hash].compact.join('#')
+              code_element.wrap("<a href='#{h href}'></a>")
             end
           end
         end
