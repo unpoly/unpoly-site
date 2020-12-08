@@ -25,12 +25,13 @@ If you are looking for the source code of the Unpoly framework, visit [github.co
 
 ## Updating API documentation
 
-All API references and package overviews are *not* built as Middleman pages.
-Instead the info is parsed from documentation comments in the Unpoly source
-code in `vendor/unpoly-local`.
-
-Every API page on [unpoly.com](https://unpoly.com) will have a *Change this page* link
+The API docs for Unpoly functions, selectors, etc. are not maintained in *this* repo but in documentation comments in [unpoly/unpoly](https://github.com/unpoly/unpoly). Every API page on [unpoly.com](https://unpoly.com) will have a *Change this page* link
 leading to the underlying comment on GitHub.
+
+**When you make a change to an API documentation, make a PR in [unpoly/unpoly](https://github.com/unpoly/unpoly). Make sure to edit files in `lib` and
+not in `dist`.** Files in `dist` are rewritten with every release.
+
+Accordingly all API references and package overviews are *not* built as Middleman pages. Instead the info is parsed from documentation comments in the Unpoly source code in `vendor/unpoly-local`.
 
 Documentation comments look like this in JavaScript files (`.js`, `.mjs`):
 
@@ -60,9 +61,6 @@ The `up.link` module lets you build links that update fragments instead of entir
 
 The documentation syntax is inspired by [YUIDoc](http://yui.github.io/yuidoc/syntax/).
 We added many extensions to that syntax to document events, selectors, etc.
-
-**When you make a change to an API documentation, make sure to edit files in `lib` and
-not in `dist`.** Files in `dist` are rewritten with every release.
 
 Documentation changes should be picked up by reloading.
 You probably need to restart your development server when you create a *new*
