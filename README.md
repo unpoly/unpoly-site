@@ -108,7 +108,7 @@ add a `RewriteRule` to `source/.htaccess` to existing links will keep working.
 
 - Install the Ruby version from `.ruby-version`
 - Install dependencies with `bundle install`
-- Start a development server with `middleman server`
+- Start a development server with `bundle exec middleman server`
 - Test your changes on `http://localhost:4567`
 
 
