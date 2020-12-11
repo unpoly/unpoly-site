@@ -3,5 +3,5 @@ set :branch, 'master'
 # set :middleman_options, %w[--environment=production]
 set :keep_releases, 10
 
-server 'c23.makandra-3.makandra.de', user: 'deploy-unpoly_p', roles: %w(app)
-server 'c42.makandra-3.makandra.de', user: 'deploy-unpoly_p', roles: %w(app)
+server 'app01-prod.makandra.makandra.de', user: 'deploy-unpoly_p', roles: %w(app)
+server 'app02-prod.makandra.makandra.de', user: 'deploy-unpoly_p', roles: %w(app)
