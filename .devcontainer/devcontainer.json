@@ -19,5 +19,9 @@
 
     "remoteUser": "vscode",
 
-    "postAttachCommand": "bundle install"
+    "postAttachCommand": "bundle install",
+
+    "mounts": [
+        "source=${localWorkspaceFolder}/../unpoly,target=/workspaces/unpoly,type=bind,consistency=cached"
+    ]
 }
