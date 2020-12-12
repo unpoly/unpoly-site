@@ -111,6 +111,17 @@ add a `RewriteRule` to `source/.htaccess` to existing links will keep working.
 - Start a development server with `bundle exec middleman server`
 - Test your changes on `http://localhost:4567`
 
+## Local development using a DevContainer
+
+If you're using an editor such as VSCode and have Docker available, you can use
+the DevContainer configuration provided without requiring any dependencies.
+
+1. Checkout `unpoly-site` alongside `unpoly` in the same parent folder (as above).
+2. Open project in VSCode.
+3. When prompted, choose to Reopen in Devcontainer.
+
+Once inside the DevContainer, use `bundle exec middleman server` and `bundle exec rspec`
+as you normally would.
 
 ## Tests
 
