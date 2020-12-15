@@ -24,7 +24,7 @@
 
   <p>
     You can <%= modal_hyperlink 'install Unpoly', '/install' %> by either downloading the library files
-    or using a package managers like npm or RubyGems.
+    or using package managers like npm or RubyGems.
   </p>
 
   <p>
@@ -60,7 +60,7 @@
   </p>
 
   <p>
-    All fragment updates change the browser URL by default. The back button work as expected.
+    All fragment updates change the browser URL by default. The back button works as expected.
   </p>
 
   <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('update-fragment'), title: 'Example' } %>
@@ -127,7 +127,7 @@
   <h2>Animation</h2>
 
   <p>
-    Have you noticed how noticed how pages fade in and out as you follow links on this site, <code>unpoly.com</code>?
+    Have you noticed how pages fade in and out as you follow links on this site, <code>unpoly.com</code>?
   </p>
 
   <p>
@@ -206,12 +206,12 @@
     <%= modal_hyperlink 'opening a modal', 'up.modal.visit' %>,
     <%= modal_hyperlink 'submitting a form with AJAX', 'up.submit' %>
     or
-    <%= modal_hyperlink 'morphing elements', 'up.submit' %>.
+    <%= modal_hyperlink 'morphing elements', 'up.morph' %>.
     The API docs list these function along their unobtrusive counterparts.
   </p>
 
   <p>
-    You can event invent your own magic HTML attributes using
+    You can even invent your own magic HTML attributes using
     <%= modal_hyperlink 'compilers', '/up.compiler' %> and
     <%= modal_hyperlink 'macros', '/up.macro' %>.
 
