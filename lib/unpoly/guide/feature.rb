@@ -2,6 +2,7 @@ module Unpoly
   module Guide
     class Feature
       include Logger
+      include Memoized
 
       def initialize(kind, name)
         @name = name
@@ -291,6 +292,21 @@ module Unpoly
 
       def guide_path
         "/#{guide_id}"
+      end
+
+      memoize def param_groups
+        groups = params.group_by { |param| param.option_hash_name || param.name }
+        groups.map { |group|  
+          if group.first.option?
+            OptionsParam.new(group)
+          else
+            group.first
+          end
+        }
+      end
+
+      def options_params
+        param_groups.select { |group| group.is_a?(OptionsParam) }
       end
 
     end
