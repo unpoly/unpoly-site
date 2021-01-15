@@ -3,7 +3,8 @@ require 'vendor/unpoly-local/lib/unpoly/rails/version'
 require 'lib/unpoly/guide'
 require 'lib/unpoly/example'
 require 'fileutils'
-
+require 'kramdown'
+require 'kramdown-parser-gfm'
 
 ##
 # Extensions

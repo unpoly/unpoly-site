@@ -14,14 +14,12 @@ require 'rack/mock'
 
 module Rack
   class MockRequest
-    class << self
 
+    module EnvForWithColons
       def env_for_with_colons(uri="", opts={})
         uri = absolutize_uri(uri)
-        env_for_without_colons(uri, opts)
+        super(uri, opts)
       end
-
-      alias_method_chain :env_for, :colons
 
       private
 
@@ -33,5 +31,7 @@ module Rack
       end
 
     end
+
+    singleton_class.prepend EnvForWithColons
   end
 end

@@ -2,7 +2,7 @@ require 'active_support/core_ext/enumerable'
 
 module Unpoly
   class Example
-    include Memoizer
+    include Memoized
 
     class Asset
 

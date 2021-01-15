@@ -2,11 +2,12 @@ source 'https://rubygems.org'
 
 gem 'therubyracer'
 
-gem 'memoizer'
+gem 'memoized'
 gem 'andand'
 gem 'nokogiri'
 
-gem "middleman"
+gem "middleman", '<5'
+gem 'kramdown-parser-gfm'
 
 gem "middleman-sprockets"
 gem 'sass'

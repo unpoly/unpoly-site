@@ -1,4 +1,6 @@
 require 'active_support/all'
+require 'memoized'
+require 'byebug'
 require_relative 'guide/util'
 require_relative 'guide/errors'
 require_relative 'guide/logger'
