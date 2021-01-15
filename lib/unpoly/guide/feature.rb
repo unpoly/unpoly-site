@@ -279,8 +279,8 @@ module Unpoly
 
         # Constructors and "classes" are the same thing
         # in JS, but we want two separate guide pages
-        if constructor? && !str.starts_with?('new ')
-          str = "new #{str}"
+        if constructor? && str !~ /\bnew\b/
+          str += ".new"
         end
 
         if function? || property?

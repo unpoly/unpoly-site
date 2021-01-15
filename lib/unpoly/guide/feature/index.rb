@@ -38,7 +38,7 @@ module Unpoly
         end
 
         def find_guide_id(guide_id)
-          @features_by_guide_id[guide_id] or raise "No features for guide id: #{guide_id.inspect}"
+          @features_by_guide_id[guide_id] or raise UnknownFeature, "No features for guide id: #{guide_id.inspect}"
         end
 
         def guide_id_exists?(guide_id)

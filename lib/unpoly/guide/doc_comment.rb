@@ -18,8 +18,10 @@ module Unpoly
       attr_accessor :text_source
 
       def self.find_in_path(path)
-        code = File.read(path)
+        find_in_string(File.read(path), path)
+      end
 
+      def self.find_in_string(code, path = '(string)')
         code.scan(PATTERN).collect do |match|
           full_comment = match[0]
           text = Util.unindent(match[1])

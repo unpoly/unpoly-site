@@ -154,12 +154,13 @@ module Unpoly
           # if visibility = parse_visibility!(block)
           #   interface.visibility = visibility
           # end
-          if title = parse_title!(block)
-            interface.title = title
+          if explicit_title = parse_title!(block)
+            interface.explicit_title = explicit_title
           end
           # All the remaining text is guide prose
           interface.guide_markdown = process_markdown(block)
-          @repository.merge_interface(interface)
+
+          interface = @repository.merge_interface(interface)
           @last_interface = interface
           interface
         end

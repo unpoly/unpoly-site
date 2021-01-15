@@ -82,6 +82,10 @@ module Unpoly
         feature_index.guide_ids
       end
 
+      def feature_for_guide_id(guide_id)
+        features_for_guide_id(guide_id).first # the index already raises
+      end
+
       # Since we (e.g.) have multiple selectors called [up-close],
       # we display all of them on the same guide page.
       def features_for_guide_id(guide_id)
@@ -123,8 +127,11 @@ module Unpoly
         synchronize do
           if (existing_interface = interface_for_name(new_interface.name))
             existing_interface.guide_markdown += new_interface.guide_markdown
+            existing_interface.explicit_title ||= new_interface.explicit_title
+            return existing_interface
           else
             @interfaces << new_interface
+            return new_interface
           end
         end
       end
@@ -163,7 +170,7 @@ module Unpoly
 
       def source_paths
         File.directory?(@path) or raise "Input path not found: #{@path}"
-        pattern = File.join(@path, "lib/**/*{.coffee,.coffee.erb}")
+        pattern = File.join(@path, "lib/**/*{.coffee,.coffee.erb,.js,.js.erb}")
         log("Input pattern", pattern)
         Dir[pattern]
       end

@@ -20,3 +20,4 @@ group :deploy do
 end
 
 gem 'rspec'
+gem 'byebug'

@@ -10,40 +10,50 @@ describe Unpoly::Guide do
 
       it 'parses modules' do
         expect(subject.interfaces).to include(have_attributes(name: 'up.fragment'))
-        expect(subject.interfaces).to include(have_attributes(name: 'up.modal'))
+        expect(subject.interfaces).to include(have_attributes(name: 'up.layer'))
         expect(subject.interfaces).to include(have_attributes(name: 'up.util'))
       end
 
-      it 'parses functions' do
-        function = subject.features_for_guide_id('up.replace').first
-        expect(function.name).to eq('up.replace')
-        expect(function.kind).to eq('function')
-        expect(function.params[0].name).to eq('target')
-        expect(function.params[0].types).to contain_exactly('string', 'Element', 'jQuery')
-        expect(function.params[1].name).to eq('url')
-        expect(function.params[1].types).to contain_exactly('string')
-        expect(function.signature).to eq('up.replace(target, url, [options])')
+      describe 'functions' do
 
-        transition_param = function.params.detect { |p| p.name == 'options.transition' }
-        expect(transition_param.types).to contain_exactly('string')
-        expect(transition_param.default).to eq("'none'")
+        it 'parses the signature' do
+          function = subject.feature_for_guide_id('up.reload')
+          expect(function.name).to eq('up.reload')
+          expect(function.kind).to eq('function')
+          expect(function.params[0].name).to eq('target')
+          expect(function.params[0].types).to contain_exactly('string', 'Element', 'jQuery')
+          expect(function.params[1].name).to eq('options')
+          expect(function.signature).to eq('up.reload([target], [options])')
+        end
+
+        it 'parses the return value' do
+          function = subject.feature_for_guide_id('up.util.every')
+          expect(function.response.types).to contain_exactly('boolean')
+        end
+
+      end
+
+      it 'parses a function default' do
+        function = subject.features_for_guide_id('up.render').first
+        layer_param = function.params.detect { |p| p.name == 'options.layer' }
+        expect(layer_param.default).to eq("'current'")
       end
 
       describe 'visibilities' do
 
         it 'parses a stable visibility' do
-          replace_function = subject.features_for_guide_id('up.replace').first
+          replace_function = subject.features_for_guide_id('up.render').first
           expect(replace_function.visibility).to eq('stable')
+        end
+
+        it 'parses an experimental visibility' do
+          first_function = subject.features_for_guide_id('up.event.onEscape').first
+          expect(first_function.visibility).to eq('experimental')
         end
 
         it 'parses a deprecated visibility' do
           ajax_function = subject.features_for_guide_id('up.ajax').first
           expect(ajax_function.visibility).to eq('deprecated')
-        end
-
-        it 'parses an experimental visibility' do
-          first_function = subject.features_for_guide_id('up.network.isBusy').first
-          expect(first_function.visibility).to eq('experimental')
         end
 
         it 'parses deprecation reasons' do
@@ -52,12 +62,12 @@ describe Unpoly::Guide do
         end
 
         it 'returns a default visibility comment for experimental features' do
-          first_function = subject.features_for_guide_id('up.network.isBusy').first
+          first_function = subject.features_for_guide_id('up.event.onEscape').first
           expect(first_function.visibility_comment).to match(/feature is experimental/i)
         end
 
         it 'returns no default visibility comment for stable features' do
-          replace_function = subject.features_for_guide_id('up.replace').first
+          replace_function = subject.features_for_guide_id('up.render').first
           expect(replace_function.visibility_comment).to be_nil
         end
 
@@ -98,7 +108,7 @@ describe Unpoly::Guide do
         constructor = request.constructor
         expect(constructor).to_not be_nil
         expect(constructor.guide_id).to_not eq(request.guide_id)
-        expect(constructor.guide_id).to eq('up.Request.constructor')
+        expect(constructor.guide_id).to eq('up.Request.new')
       end
 
     end

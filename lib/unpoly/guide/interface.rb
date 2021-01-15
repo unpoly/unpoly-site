@@ -19,10 +19,10 @@ module Unpoly
       attr_accessor :text_source
       attr_reader :features
 
-      attr_writer :title
+      attr_accessor :explicit_title
 
       def title
-        @title.presence || name
+        explicit_title.presence || name
       end
 
       def guide_filename(extension)
