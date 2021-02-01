@@ -73,6 +73,15 @@ describe Unpoly::Guide do
 
       end
 
+      describe 'params note' do
+
+        it 'parses a params note' do
+          submit_function = subject.feature_for_guide_id('up.submit')
+          expect(submit_function.params_note).to match(/options from `up.render\(\)` may be used/i)
+        end
+
+      end
+
       it 'parses the text source' do
         interface = subject.interface_for_name!('up.radio')
         expect(interface.text_source.path).to end_with('lib/assets/javascripts/unpoly/radio.coffee')

@@ -55,6 +55,24 @@ module Unpoly
         )
       }x
 
+      PARAMS_NOTE_PATTERN = %r{
+        (^[ \t]*)        # first line indent ($1)
+        \@(params-note)  # tag ($2)
+        (                # note markdown ($3)
+          .*$            # .. remainder of first line
+          (?:
+            \n
+            (?:
+              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
+              .*
+              |
+              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
+            )
+            $
+          )*
+        )
+      }x
+
       TYPES_PATTERN = %r{
       \{          # opening brace
         ([^\}]+)  # pipe-separated list of types ($1)
@@ -87,7 +105,7 @@ module Unpoly
 
       PARAM_PATTERN = %r{
         (^[ \t]*)      # first line indent ($1)
-        \@param        # @param
+        \@param\b      # @param, but not @params-note
         (              # param spec ($2)
           .+$          # .. remainder of first line
           (?:
@@ -138,6 +156,7 @@ module Unpoly
       def parse(path)
         doc_comments = DocComment.find_in_path(path)
         doc_comments.each do |doc_comment|
+
           if documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment.text)
             documentable.text_source = doc_comment.text_source
           end
@@ -182,6 +201,9 @@ module Unpoly
           if response = parse_response!(block)
             feature.response = response
           end
+
+          feature.params_note = parse_params_note!(block)
+
           # while example = parse_example(block)
           #   feature.examples << example
           # end
@@ -196,6 +218,13 @@ module Unpoly
       def parse_visibility!(block)
         if block.sub!(VISIBILITY_PATTERN, '')
           { visibility: $2, comment: $3 }
+        end
+      end
+
+      def parse_params_note!(block)
+        if block.sub!(PARAMS_NOTE_PATTERN, '')
+          note = $3
+          note
         end
       end
 

@@ -28,6 +28,8 @@ module Unpoly
       attr_accessor :kind
       attr_accessor :text_source
 
+      attr_accessor :params_note
+
       # attr_accessor :preventable
 
       attr_writer :visibility_comment
