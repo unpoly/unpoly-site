@@ -22,16 +22,18 @@ RedirectPermanent /up-observe /form-up-observe
 RedirectPermanent /up-validate /input-up-validate
 RedirectPermanent /up-back /a-up-back
 RedirectPermanent /up-switch /select-up-switch
-RedirectPermanent /up.proxy /up.request
+RedirectPermanent /up.proxy /up.network
 RedirectPermanent /up.layout /up.viewport
-RedirectPermanent /up.layout/config /up.viewport/config
+RedirectPermanent /up.layout.config /up.viewport.config
 RedirectPermanent /up.dom /up.fragment
-RedirectPermanent /up.dom/config /up.fragment/config
+RedirectPermanent /up.dom.config /up.fragment.config
 RedirectPermanent /up.syntax.data /up.data
 RedirectPermanent /up.bus /up.event
 RedirectPermanent /up.bus.onEscape /up.event.onEscape
 RedirectPermanent /up.params /up.Params
 RedirectPermanent /install/rails /install/ruby
+
+RedirectPermanent /up.layer.context /up.context
 
 RedirectPermanent /up.modal /up.layer
 RedirectPermanent /a-up-drawer /a-up-layer
