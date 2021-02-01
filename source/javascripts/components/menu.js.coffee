@@ -28,7 +28,7 @@ class Node
     @self.prepend(@collapser)
     @isExpanded = false
     @toggleExpanded(false)
-    @collapser.addEventListener 'mousedown', (event) =>
+    @collapser.addEventListener 'up:click', (event) =>
       @toggleExpanded()
       up.event.halt(event)
 
