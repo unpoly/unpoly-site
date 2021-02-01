@@ -18,21 +18,27 @@
   <% elsif interface.class? %>
     <span class="dimmed">class</span>
     <%= interface.title %>
+  <% elsif interface.page? %>
+    <%= interface.title %>
   <% end %>
 </h1>
 
 <% if interface.guide_markdown.present? %>
-  <div class="expandable" up-data='<%= { path: interface.guide_path }.to_json %>'>
+  <% if interface.collapse_markdown? %>
+    <div class="expandable">
 
-    <div class="expandable__limiter">
-     <div class="expandable__content">
-       <%= markdown_prose(interface.guide_markdown) %>
-     </div>
+      <div class="expandable__limiter">
+       <div class="expandable__content">
+         <%= markdown_prose(interface.guide_markdown) %>
+       </div>
+      </div>
+
+      <span class="expandable__expand action">Read more</span>
+
     </div>
-
-    <a class="expandable__expand action">Read more</a>
-
-  </div>
+  <% else %>
+    <%= markdown_prose(interface.guide_markdown) %>
+  <% end %>
 <% end %>
 
 <% if interface.module? %>

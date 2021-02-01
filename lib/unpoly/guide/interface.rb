@@ -83,6 +83,14 @@ module Unpoly
         kind == 'module'
       end
 
+      def page?
+        kind == 'page'
+      end
+
+      def collapse_markdown?
+        features.present?
+      end
+
       def guide_id
         Util.slugify(name)
       end

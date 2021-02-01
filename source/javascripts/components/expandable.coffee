@@ -9,7 +9,7 @@ up.compiler '.expandable', (expandable, data) ->
   contentHeight = content.offsetHeight
   limiterHeight = parseFloat(getComputedStyle(limiter).maxHeight)
 
-  if (contentHeight < limiterHeight + 50) || (data.path == '/up.protocol')
+  if contentHeight < limiterHeight + 50
     expand()
   else
     expandButton.addEventListener('click', expand)

@@ -12,9 +12,9 @@ module Unpoly
       }x
 
       INTERFACE_PATTERN = %r{
-        \@(class|module)  # @class or @module ($1)
-        \                 # space
-        (.+)              # class name ($2)
+        \@(class|module|page)  # kind ($1)
+        \                      # space
+        (.+)                   # class name ($2)
       }x
 
       TITLE_PATTERN = %r{
