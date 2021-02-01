@@ -107,6 +107,11 @@ module Unpoly
         "#<#{self.class.name} @name=#{name}>"
       end
 
+      def merge!(new_interface)
+        self.guide_markdown += new_interface.guide_markdown
+        self.explicit_title ||= new_interface.explicit_title
+      end
+
     end
   end
 end

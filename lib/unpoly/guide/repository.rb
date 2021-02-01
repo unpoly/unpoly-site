@@ -126,8 +126,7 @@ module Unpoly
       def merge_interface(new_interface)
         synchronize do
           if (existing_interface = interface_for_name(new_interface.name))
-            existing_interface.guide_markdown += new_interface.guide_markdown
-            existing_interface.explicit_title ||= new_interface.explicit_title
+            existing_interface.merge!(new_interface)
             return existing_interface
           else
             @interfaces << new_interface
