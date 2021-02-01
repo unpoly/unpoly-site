@@ -155,7 +155,7 @@ helpers do
 
     codes.each do |code_element|
       text = code_element.text
-      unless text.include?("\n")
+      unless text.include?("\n") || text =~ /^["']/
         if code_element.ancestors('a, pre').blank?
           guide_id = text
           guide_id = guide_id.sub('#', '.prototype.')
