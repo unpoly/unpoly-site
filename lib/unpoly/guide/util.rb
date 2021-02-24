@@ -28,7 +28,7 @@ module Unpoly
         # and unindents all lines by the first line's indent.
         def unindent(text_or_lines)
           lines = text_or_lines.is_a?(String) ? split_lines(text_or_lines) : text_or_lines.dup
-          # remove_preceding_blank_lines!(lines)
+          remove_preceding_blank_lines!(lines)
           if lines.size > 0
             first_indent = lines.first.match(/^[ \t]*/)[0]
             lines.collect { |line|
@@ -62,12 +62,12 @@ module Unpoly
           end
         end
 
-        # def remove_preceding_blank_lines!(lines)
-        #   while lines.first =~ /^([ \t]*)$/
-        #     lines.shift
-        #   end
-        #   lines
-        # end
+        def remove_preceding_blank_lines!(lines)
+          while lines.first =~ /^([ \t]*)$/
+            lines.shift
+          end
+          lines
+        end
 
         def count_lines(text)
           split_lines(text).size

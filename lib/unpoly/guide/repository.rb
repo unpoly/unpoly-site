@@ -83,7 +83,7 @@ module Unpoly
       end
 
       def feature_for_guide_id(guide_id)
-        features_for_guide_id(guide_id).first # the index already raises
+        features_for_guide_id(guide_id).first
       end
 
       # Since we (e.g.) have multiple selectors called [up-close],
@@ -140,7 +140,23 @@ module Unpoly
       end
 
       def interface_for_name!(name)
-        interface_for_name(name) or raise UnknownInterface, "No such Interface: #{name}"
+        interface_for_name(name) or raise UnknownInterface, "No such interface: #{name}"
+      end
+
+      def feature_for_name(name)
+        features.detect { |feature| feature.name == name }
+      end
+
+      def feature_for_name!(name)
+        feature_for_name(name) or raise UnknownFeature, "No such feature: #{name}"
+      end
+
+      def find_by_name(name)
+        interface_for_name(name) || feature_for_name(name)
+      end
+
+      def find_by_name!(name)
+        interface_for_name(name) || feature_for_name(name) or raise Unknown, "No such interface or feature: #{name}"
       end
 
       # def interface_for_guide_id(guide_id)
@@ -155,6 +171,10 @@ module Unpoly
         "#<#{self.class.name} interface_names=#{interfaces.collect(&:name)}>"
       end
 
+      def features
+        interfaces.flat_map(&:features)
+      end
+
       private
 
       def parse
@@ -164,7 +184,7 @@ module Unpoly
         source_paths.each do |source_path|
           parser.parse(source_path)
         end
-        @feature_index = Feature::Index.new(interfaces.collect(&:features).flatten)
+        @feature_index = Feature::Index.new(features)
       end
 
       def source_paths

@@ -139,6 +139,13 @@ module Unpoly
         ([^\ \t]+)      # required param name ($3)
       }x
 
+      REFERENCE_PATTERN = %r{
+        \@see
+        \s+
+        (.+?) # guide ID ($1)
+        (\n|$)
+      }x
+
       # EXAMPLE_PATTERN = %r{
       #   (^[ \t]*)     # first line indent ($1)
       #   \@example     # @example
@@ -156,7 +163,6 @@ module Unpoly
       def parse(path)
         doc_comments = DocComment.find_in_path(path)
         doc_comments.each do |doc_comment|
-
           if documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment.text)
             documentable.text_source = doc_comment.text_source
           end
@@ -170,12 +176,17 @@ module Unpoly
           interface_kind = $1.strip
           interface_name = $2.strip
           interface = Interface.new(interface_kind, interface_name)
+          block = Util.unindent(block)
+
           # if visibility = parse_visibility!(block)
           #   interface.visibility = visibility
           # end
           if explicit_title = parse_title!(block)
             interface.explicit_title = explicit_title
           end
+
+          parse_references!(block, interface)
+
           # All the remaining text is guide prose
           interface.guide_markdown = process_markdown(block)
 
@@ -189,6 +200,8 @@ module Unpoly
         if block.sub!(FEATURE_PATTERN, '')
           feature_kind = $1.strip
           feature_name = $2.strip
+          block = Util.unindent(block)
+
           feature = Feature.new(feature_kind, feature_name)
           if visibility = parse_visibility!(block)
             feature.visibility = visibility[:visibility]
@@ -201,6 +214,7 @@ module Unpoly
           if response = parse_response!(block)
             feature.response = response
           end
+          parse_references!(block, feature)
 
           feature.params_note = parse_params_note!(block)
 
@@ -248,8 +262,24 @@ module Unpoly
             param.default = name_props[:default] if name_props.has_key?(:default)
           end
 
-          param.guide_markdown = process_markdown(Util.unindent_hanging(param_spec))
+          markdown = process_markdown(Util.unindent_hanging(param_spec))
+
+          parse_references!(markdown, param)
+
+          param.guide_markdown = markdown
           param
+        end
+      end
+
+      def parse_references!(block, referencer)
+        while reference_name = parse_reference_name!(block)
+          referencer.reference_names << reference_name
+        end
+      end
+
+      def parse_reference_name!(block)
+        if block.sub!(REFERENCE_PATTERN, '')
+          return $1
         end
       end
 
@@ -260,7 +290,8 @@ module Unpoly
           if types = parse_types!(response_spec)
             response.types = types
           end
-          response.guide_markdown = process_markdown(Util.unindent_hanging(response_spec))
+          markdown = process_markdown(Util.unindent_hanging(response_spec))
+          response.guide_markdown = markdown
           response
         end
       end

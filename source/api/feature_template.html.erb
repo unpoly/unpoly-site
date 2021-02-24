@@ -4,7 +4,7 @@
 
 <% guide.features_for_guide_id(guide_id).each_with_index do |feature, i| %>
 
-  <% @page_title = feature.signature if i == 0 %>
+  <% @page_title = feature.title if i == 0 %>
 
   <div class="feature is_<%= feature.visibility %>">
 
@@ -33,9 +33,9 @@
       </div>
     <% end %>
 
+    <%= partial 'see_also', locals: { referencer: feature } %>
 
     <% if feature.params.present? || feature.params_note.present? %>
-
       <%
         title =
           if feature.selector?
@@ -69,7 +69,16 @@
             <% end %>
           </div>
           <div class="feature__param_prose">
-            <%= markdown_prose(param.guide_markdown) %>
+
+            <div class="prose">
+              <%= markdown(param.guide_markdown) %>
+              <% if param.references? %>
+                <p>
+                  See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
+                </p>
+              <% end %>
+            </div>
+
           </div>
         </div>
       <% end %>

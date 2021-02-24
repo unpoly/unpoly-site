@@ -2,6 +2,7 @@ module Unpoly
   module Guide
     class Param
       include Logger
+      include Referencer
 
       OPTION_PREFIX = /^(options|opts|request|response|params|config|attrs|attributes|props|properties|eventProps)\./
 
@@ -41,6 +42,10 @@ module Unpoly
         signature << "=#{default}" if with_default && default?
         signature = "[#{signature}]" if optional?
         signature
+      end
+
+      def title
+        signature(with_default: false)
       end
 
       def option_hash_name

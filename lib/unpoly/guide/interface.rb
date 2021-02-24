@@ -2,6 +2,7 @@ module Unpoly
   module Guide
     class Interface
       include Logger
+      include Referencer
 
       def initialize(kind, name)
         @kind = kind
@@ -23,6 +24,10 @@ module Unpoly
 
       def title
         explicit_title.presence || name
+      end
+
+      def code?
+        kind != 'page'
       end
 
       def guide_filename(extension)
@@ -110,6 +115,7 @@ module Unpoly
       def merge!(new_interface)
         self.guide_markdown += new_interface.guide_markdown
         self.explicit_title ||= new_interface.explicit_title
+        self.reference_names += new_interface.reference_names
       end
 
     end

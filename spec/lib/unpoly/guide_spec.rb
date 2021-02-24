@@ -36,7 +36,7 @@ describe Unpoly::Guide do
       it 'parses a function default' do
         function = subject.features_for_guide_id('up.render').first
         layer_param = function.params.detect { |p| p.name == 'options.layer' }
-        expect(layer_param.default).to eq("'current'")
+        expect(layer_param.default).to eq("'origin current'")
       end
 
       describe 'visibilities' do
@@ -101,6 +101,20 @@ describe Unpoly::Guide do
         expect(property.name).to eq('up.motion.config')
         expect(property.kind).to eq('property')
         expect(property.signature).to eq('up.motion.config')
+      end
+
+    end
+
+    describe 'references' do
+
+      it 'parses a reference to another guide entry' do
+        a_up_current = subject.feature_for_name!('a.up-current')
+        expect(a_up_current.references?).to eq(true)
+        expect(a_up_current.references.size).to eq(1)
+
+        first_reference = a_up_current.references.first
+        expect(first_reference).to be_a(Unpoly::Guide::Feature)
+        expect(first_reference.name).to eq('[up-nav]')
       end
 
     end

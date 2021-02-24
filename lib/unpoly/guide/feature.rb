@@ -1,8 +1,9 @@
 module Unpoly
   module Guide
     class Feature
-      include Logger
       include Memoized
+      include Logger
+      include Referencer
 
       def initialize(kind, name)
         @name = name
@@ -103,6 +104,14 @@ module Unpoly
 
       def short_signature
         signature(short: true)
+      end
+
+      def title
+        short_signature
+      end
+
+      def code?
+        true
       end
 
       def stable?

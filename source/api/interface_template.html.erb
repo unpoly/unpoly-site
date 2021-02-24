@@ -41,6 +41,8 @@
   <% end %>
 <% end %>
 
+<%= partial 'see_also', locals: { referencer: interface } %>
+
 <% if interface.module? %>
   <%= feature_previews 'CSS selectors', interface.selectors %>
   <%= feature_previews 'DOM events', interface.events %>

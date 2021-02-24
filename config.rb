@@ -185,6 +185,14 @@ helpers do
     end
   end
 
+  def hyperlink_to_reference(reference)
+    label = reference.title
+    if reference.code?
+      label = content_tag(:code, label)
+    end
+    link_to label, reference.guide_path, class: 'hyperlink'
+  end
+
   def markdown_prose(text, **options)
     "<div class='prose'>#{markdown(text, **options)}</div>"
   end
