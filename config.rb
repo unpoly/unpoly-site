@@ -128,7 +128,7 @@ helpers do
     html
   end
 
-  def postprocess_markdown(html, autolink_code: true, strip_links: false)
+  def postprocess_markdown(html, autolink_code: true, strip_links: false, pictures: true)
     if autolink_code || strip_links
       nokogiri_doc = Nokogiri::HTML.fragment(html)
     end
@@ -139,6 +139,12 @@ helpers do
       end
     elsif autolink_code
       autolink_code_in_nokogiri_doc(nokogiri_doc)
+    end
+
+    if pictures
+      nokogiri_doc.css('img:not([class])').each do |img|
+        img[:class] = 'picture has_border'
+      end
     end
 
     nokogiri_doc.to_html
