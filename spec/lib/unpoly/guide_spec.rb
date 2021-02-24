@@ -6,69 +6,108 @@ describe Unpoly::Guide do
 
   describe 'parsing of doc comments' do
 
-    describe 'API modules (e.g. up.fragment)' do
+    def find(name)
+      subject.find_by_name!(name)
+    end
+
+    describe 'modules (e.g. up.fragment)' do
 
       it 'parses modules' do
-        expect(subject.interfaces).to include(have_attributes(name: 'up.fragment'))
-        expect(subject.interfaces).to include(have_attributes(name: 'up.layer'))
-        expect(subject.interfaces).to include(have_attributes(name: 'up.util'))
+        interface = find('test.module')
+        expect(interface.kind).to eq('module')
+      end
+
+      it 'parses the module title from its Markdown' do
+        interface = find('test.module')
+        expect(interface.title).to eq('Test module')
       end
 
       describe 'functions' do
 
+        it 'associates them with the last declared module' do
+          interface = find('test.module')
+          function = find('test.module.function')
+          expect(interface.functions).to include(function)
+        end
+
         it 'parses the signature' do
-          function = subject.feature_for_guide_id('up.reload')
-          expect(function.name).to eq('up.reload')
+          function = find('test.module.function')
+          expect(function.name).to eq('test.module.function')
           expect(function.kind).to eq('function')
           expect(function.params[0].name).to eq('target')
-          expect(function.params[0].types).to contain_exactly('string', 'Element', 'jQuery')
+          expect(function.params[0].types).to contain_exactly('string', 'Element')
+          expect(function.params[0]).not_to be_optional
           expect(function.params[1].name).to eq('options')
-          expect(function.signature).to eq('up.reload([target], [options])')
+          expect(function.params[1].types).to contain_exactly('Object')
+          expect(function.params[1]).to be_optional
+          expect(function.signature).to eq('test.module.function(target, [options])')
         end
 
         it 'parses the return value' do
-          function = subject.feature_for_guide_id('up.util.every')
+          function = find('test.module.function')
           expect(function.response.types).to contain_exactly('boolean')
+        end
+
+        it 'parses a default argument' do
+          function = find('test.module.functionWithDefault')
+          expect(function.params.first).to be_optional
+          expect(function.params.first.default).to eq("'default value'")
+        end
+      end
+
+      describe 'selectors' do
+
+        it 'parses selectors' do
+          selector = find('[test-module-selector]')
+          expect(selector.name).to eq('[test-module-selector]')
+          expect(selector.kind).to eq('selector')
+          expect(selector.signature).to eq('[test-module-selector]')
         end
 
       end
 
-      it 'parses a function default' do
-        function = subject.features_for_guide_id('up.render').first
-        layer_param = function.params.detect { |p| p.name == 'options.layer' }
-        expect(layer_param.default).to eq("'origin current'")
+      describe 'properties' do
+
+        it 'parses properties' do
+          property = find('test.module.property')
+          expect(property.name).to eq('test.module.property')
+          expect(property.kind).to eq('property')
+          expect(property.signature).to eq('test.module.property')
+          expect(property.params[0].name).to eq('value')
+        end
+
       end
 
       describe 'visibilities' do
 
         it 'parses a stable visibility' do
-          replace_function = subject.features_for_guide_id('up.render').first
-          expect(replace_function.visibility).to eq('stable')
+          function = find('test.module.stableFunction')
+          expect(function.visibility).to eq('stable')
         end
 
         it 'parses an experimental visibility' do
-          first_function = subject.features_for_guide_id('up.event.onEscape').first
-          expect(first_function.visibility).to eq('experimental')
+          function = find('test.module.experimentalFunction')
+          expect(function.visibility).to eq('experimental')
         end
 
         it 'parses a deprecated visibility' do
-          ajax_function = subject.features_for_guide_id('up.ajax').first
-          expect(ajax_function.visibility).to eq('deprecated')
+          function = find('test.module.deprecatedFunction')
+          expect(function.visibility).to eq('deprecated')
         end
 
         it 'parses deprecation reasons' do
-          ajax_function = subject.features_for_guide_id('up.ajax').first
-          expect(ajax_function.visibility_comment).to match(/use.+?up\.request/i)
+          function = find('test.module.deprecatedFunction')
+          expect(function.visibility_comment).to match(/use something else/i)
         end
 
         it 'returns a default visibility comment for experimental features' do
-          first_function = subject.features_for_guide_id('up.event.onEscape').first
-          expect(first_function.visibility_comment).to match(/feature is experimental/i)
+          function = find('test.module.experimentalFunction')
+          expect(function.visibility_comment).to match(/feature is experimental/i)
         end
 
         it 'returns no default visibility comment for stable features' do
-          replace_function = subject.features_for_guide_id('up.render').first
-          expect(replace_function.visibility_comment).to be_nil
+          function = find('test.module.stableFunction')
+          expect(function.visibility_comment).to be_nil
         end
 
       end
@@ -76,31 +115,17 @@ describe Unpoly::Guide do
       describe 'params note' do
 
         it 'parses a params note' do
-          submit_function = subject.feature_for_guide_id('up.submit')
-          expect(submit_function.params_note).to match(/options from `up.render\(\)` may be used/i)
+          function = find('test.module.functionWithParamsNote')
+          expect(function.params_note).to match(/all options from other function may be used/i)
         end
 
       end
 
-      it 'parses the text source' do
-        interface = subject.interface_for_name!('up.radio')
-        expect(interface.text_source.path).to end_with('lib/assets/javascripts/unpoly/radio.coffee')
+      it 'remembers the file and line range from which a module was loaded' do
+        interface = find('test.module')
+        expect(interface.text_source.path).to end_with('spec/fixtures/parser/module.coffee')
         expect(interface.text_source.start_line).to eq(1)
-        expect(interface.text_source.end_line).to eq(9)
-      end
-
-      it 'parses selectors' do
-        selector = subject.features_for_guide_id('a-up-target').first
-        expect(selector.name).to eq('a[up-target]')
-        expect(selector.kind).to eq('selector')
-        expect(selector.signature).to eq('a[up-target]')
-      end
-
-      it 'parses properties' do
-        property = subject.features_for_guide_id('up.motion.config').first
-        expect(property.name).to eq('up.motion.config')
-        expect(property.kind).to eq('property')
-        expect(property.signature).to eq('up.motion.config')
+        expect(interface.text_source.end_line).to eq(6)
       end
 
     end
@@ -108,13 +133,13 @@ describe Unpoly::Guide do
     describe 'references' do
 
       it 'parses a reference to another guide entry' do
-        a_up_current = subject.feature_for_name!('a.up-current')
-        expect(a_up_current.references?).to eq(true)
-        expect(a_up_current.references.size).to eq(1)
+        function = find('test.module.referencingFunction')
+        expect(function.references?).to eq(true)
+        expect(function.references.size).to eq(1)
 
-        first_reference = a_up_current.references.first
+        first_reference = function.references.first
         expect(first_reference).to be_a(Unpoly::Guide::Feature)
-        expect(first_reference.name).to eq('[up-nav]')
+        expect(first_reference.name).to eq('test.module.function')
       end
 
     end
@@ -122,16 +147,17 @@ describe Unpoly::Guide do
     describe 'classes (like up.Response)' do
 
       it 'parses classes' do
-        expect(subject.interfaces).to include(have_attributes(name: 'up.Request'))
-        expect(subject.interfaces).to include(have_attributes(name: 'up.Response'))
+        interface = find('test.Class')
+        expect(interface.kind).to eq('class')
       end
 
       it 'parses constructors, but gives it a guide ID that does not conflict with the class itself' do
-        request = subject.interface_for_name!('up.Request')
-        constructor = request.constructor
+        klass = find('test.Class')
+        constructor = klass.constructor
         expect(constructor).to_not be_nil
-        expect(constructor.guide_id).to_not eq(request.guide_id)
-        expect(constructor.guide_id).to eq('up.Request.new')
+        expect(constructor.guide_id).to_not eq(klass.guide_id)
+        expect(constructor.guide_id).to eq('test.Class.new')
+        expect(constructor.params[0].types).to contain_exactly('string')
       end
 
     end

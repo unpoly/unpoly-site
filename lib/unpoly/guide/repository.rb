@@ -180,16 +180,21 @@ module Unpoly
       def parse
         log "parse()"
         parser = Parser.new(self)
-        log("Source paths", source_paths)
-        source_paths.each do |source_path|
+        paths = source_paths
+        log("Source paths", paths)
+        paths.each do |source_path|
           parser.parse(source_path)
         end
         @feature_index = Feature::Index.new(features)
       end
 
       def source_paths
-        File.directory?(@path) or raise "Input path not found: #{@path}"
-        pattern = File.join(@path, "lib/**/*{.coffee,.coffee.erb,.js,.js.erb}")
+        source_paths_for_root(path) + source_paths_for_root('spec/fixtures')
+      end
+
+      def source_paths_for_root(root)
+        File.directory?(root) or raise "Input path not found: #{root}"
+        pattern = File.join(root, "**/*{.coffee,.coffee.erb,.js,.js.erb}")
         log("Input pattern", pattern)
         Dir[pattern]
       end

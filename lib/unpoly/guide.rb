@@ -22,7 +22,7 @@ module Unpoly
     UNPOLY_PATH = 'vendor/unpoly-local'
 
     def self.current
-      @current ||= Repository.new(UNPOLY_PATH)
+      @current ||= Repository.new(UNPOLY_PATH + '/lib')
     end
 
     def self.reload

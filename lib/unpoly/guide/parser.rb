@@ -23,7 +23,7 @@ module Unpoly
         (.+)       # title ($1)
         \n         # line break
         \={3,}     # markdown h1 underline
-        \n         # line break
+        (\n|$)     # line break or EOF
       }x
 
       FEATURE_PATTERN = %r{
@@ -178,9 +178,6 @@ module Unpoly
           interface = Interface.new(interface_kind, interface_name)
           block = Util.unindent(block)
 
-          # if visibility = parse_visibility!(block)
-          #   interface.visibility = visibility
-          # end
           if explicit_title = parse_title!(block)
             interface.explicit_title = explicit_title
           end
