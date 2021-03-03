@@ -10,7 +10,6 @@ up.util.assign up.layer.config.cover,
 
 up.viewport.config.revealPadding = 10
 
-up.link.config.followSelectors.push('a:not([href*="://"])')
-up.link.config.preloadSelectors.push('a:not([href*="://"])')
-up.link.config.instantSelectors.push('a:not([href*="://"]):not(.action)')
-
+up.link.config.followSelectors.push('a[href])')
+up.link.config.preloadSelectors.push('a[href])')
+up.link.config.instantSelectors.push('a[href]:not(.action)')
