@@ -327,7 +327,7 @@ helpers do
   end
 
   def revision_on_github_button(revision)
-    url = revision.github_url
+    url = revision.github_browse_url
     link_to '<i class="fa fa-code"></i> Revision code', url, target: '_blank', class: 'hyperlink edit_link'
   end
 

@@ -4,6 +4,8 @@ module Unpoly
       include Logger
 
       class Release
+        include Memoized
+
         def initialize(attrs)
           @version = attrs.fetch(:version)
           @markdown = attrs.fetch(:markdown)
@@ -12,14 +14,15 @@ module Unpoly
         end
 
         attr_reader :version, :markdown
+        attr_accessor :previous_release
 
-        def date
+        memoize def date
           @date ||= begin
-            Dir.chdir(@repository_path) do
+            in_repository do
               # $ git log -1 --format=%ai v0.50.0
               # => 2017-12-06 08:14:52 +0100
-              raw = `git log -1 --format=%ai #{git_tag}`
-              if raw.strip.present?
+              raw = `git log -1 --format=%ai #{git_tag}`.strip
+              if raw.present?
                 Time.parse(raw).to_date
               end
             end
@@ -30,8 +33,41 @@ module Unpoly
           "v#{version}"
         end
 
-        def github_url
+        def github_browse_url
           "https://github.com/unpoly/unpoly/tree/#{git_tag}"
+        end
+
+        def github_commits_url
+          "https://github.com/unpoly/unpoly/commits/#{git_tag}"
+        end
+
+        def github_diff_url
+          if first_commit && last_commit
+            "https://github.com/unpoly/unpoly/compare/#{first_commit}...#{last_commit}"
+          end
+        end
+
+        def first_commit
+          previous_release&.git_tag
+        end
+
+        def last_commit
+          git_tag
+        end
+
+        memoize def commit_count
+          if first_commit && last_commit
+            in_repository do
+              raw = `git log --pretty=oneline #{first_commit}...#{last_commit} | wc -l`.strip
+              if raw.present? && raw != '0'
+                raw.to_i
+              end
+            end
+          end
+        end
+
+        def in_repository(&block)
+          Dir.chdir(@repository_path, &block)
         end
 
       end
@@ -70,6 +106,13 @@ module Unpoly
             markdown: release_markdown,
             repository_path: repository_path
           )
+        end
+
+        releases.each_with_index do |release, index|
+          # Recent releases are listed first
+          if index < releases.length - 1
+            release.previous_release = releases[index + 1]
+          end
         end
       end
 

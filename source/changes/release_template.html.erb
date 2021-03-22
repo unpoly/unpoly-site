@@ -9,16 +9,30 @@
 <h1>
   <%= breadcrumb_link 'Changes', '/changes' %>
 
-  <%= page_title "Changes in #{release.version}" %>
+  <%= page_title "Version #{release.version}" %>
 
   <% if release.date %>
     <div class="subtitle">
       <span class="dimmed">Released on</span>
       <%= release.date.strftime("%B %d, %Y") %>
+      <span class="dimmed">with</span>
+      <%= link_to pluralize(release.commit_count, 'commit', 'commits'), release.github_commits_url %>
     </div>
   <% end %>
 </h1>
 
 <div class="prose">
   <%= markdown(release.markdown) %>
+</div>
+
+<h2>Upgrading</h2>
+
+<div class="prose">
+  <span class="line-on-wide">
+    If you're upgrading from an older Unpoly version you should load <code>unpoly-migrate.js</code>
+    to enable deprecated APIs.
+  </span>
+  <span class="line-on-wide">
+    See our <a href="/changes/upgrading">upgrading guide</a> for details.
+  </span>
 </div>

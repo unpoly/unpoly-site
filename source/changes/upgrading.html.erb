@@ -1,0 +1,82 @@
+<%
+  @menu_path = '/changes/menu'
+%>
+
+<h1><%= page_title 'Upgrading Unpoly' %></h1>
+
+<div class="prose">
+  <p>
+    Unpoly will occasionally rename or remove an existing function, event or HTML attribute.
+  </p>
+
+  <p>
+    To <b>re-enable old APIs</b>, load the file <code>unpoly-migrate.js</code> that ships with
+    Unpoly 2 or higher.
+  </p>
+
+  <p>
+    By loading <code>unpoly-migrate.js</code>, calls to most old APIs will be forwarded to the
+    new version. A deprecation notice will be logged to your browser console.
+    This way you can upgrade Unpoly, revive your application with a few changes,
+    then replace deprecated API calls under green tests.
+  </p>
+
+  <%= image_tag 'changes/log-deprecation.png', class: 'picture has_border is_sepia', width: 700 %>
+
+  <h3>What migrate does</h3>
+
+  <h4>Renamed functions are aliased</h4>
+
+  <p>
+    Calls to deprecated functions will be forwarded if there is an equivalent function
+    in the current version.
+  </p>
+
+    E.g. <code>up.modal.close()</code> will call <code>up.layer.dismiss()</code>.
+  </p>
+
+  <h4>Renamed options are aliased</h4>
+
+  <p>
+    Usage of deprecated options will be rewritten if there is an equivalent option
+    in the current version.
+  </p>
+
+  <p>
+    E.g. <code>{ reveal: false }</code> will be renamed to <code>{ scroll: false }</code>.
+  </p>
+
+  <h4>Renamed packages are aliased</h4>
+
+  <p>
+    Usage of deprecated pcakages will be rewritten if there is an equivalent packages
+    in the current version.
+  </p>
+
+  <p>
+    E.g. <code>up.proxy.config</code> will return <code>up.network.config</code>.
+  </p>
+
+  <p>
+    Occasionally a package will be removed
+  </p>
+
+  <h4>Renamed HTML attributes are aliased</h4>
+
+  <p>
+    E.g. <code>&lt;a up-close&gt;</code> will translate to <code>&lt;a up-dismiss&gt;</code>
+  </p>
+
+  <h4>Renamed events are aliased</h4>
+
+  <p>
+    E.g.
+    <code>up.on('up:proxy:load')</code> will bind to <code>up:request:load</code>.
+  </p>
+
+  <p>
+    Note that event aliases are only used when registering listeners with <a href="/up.on"><code>up.on()</code></a>,
+    but not with the native <code>Element#addEventListener()</code>.
+  </p>
+
+</div>

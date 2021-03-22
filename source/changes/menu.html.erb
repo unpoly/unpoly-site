@@ -6,6 +6,10 @@
     <%= node_link "Overview", "/changes" %>
   </div>
 
+  <div class="node">
+    <%= node_link "Upgrading", "/changes/upgrading" %>
+  </div>
+
   <% guide.releases.each do |release| %>
     <div class="node">
       <%= node_link "Version #{release.version}", "/changes/#{release.version}" %>

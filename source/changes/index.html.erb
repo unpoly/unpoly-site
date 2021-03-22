@@ -4,7 +4,6 @@
   @menu_path = '/changes/menu'
 %>
 
-
 <h1><%= page_title 'Changes' %></h1>
 
 <div class="prose">
@@ -14,6 +13,18 @@
   </p>
 
   <p>
+    <span class="line-on-wide">
+      If you're upgrading from an older Unpoly version you should load <code>unpoly-migrate.js</code>
+      to enable deprecated APIs.
+    </span>
+    <span class="line-on-wide">
+      See our <a href="/changes/upgrading">upgrading guide</a> for details.
+    </span>
+  </p>
+
+  <h3>Version history</h3>
+
+  <p>
     Select a version below to retrieve a detailed list of changes.
   </p>
 
@@ -21,16 +32,20 @@
     <tr>
       <th>Version</th>
       <th>Release date</th>
+      <th align="right">Commits</th>
     </tr>
     <% guide.releases.each do |release| %>
       <tr>
         <td>
-          <b><a href="/changes/<%= release.version %>"><%= release.version %></a></b>
+          <b><a href="/changes/<%= release.version %>">Version <%= release.version %></a></b>
         </td>
         <td>
           <% if release.date %>
             <%= release.date.strftime("%B %d, %Y") %>
           <% end %>
+        </td>
+        <td align="right">
+          <%= release.commit_count %>
         </td>
       </tr>
     <% end %>
