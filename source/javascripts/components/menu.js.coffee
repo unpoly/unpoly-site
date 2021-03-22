@@ -134,7 +134,7 @@ up.compiler '.menu', (menu) ->
       for rootNode in rootNodes
         rootNode.revealCurrent()
 
-  unobserveHistoryChange = up.on('up:history:pushed up:history:restored', revealCurrentNode)
+  unobserveHistoryChange = up.on('up:location:changed', revealCurrentNode)
 
   revealCurrentNode()
 
