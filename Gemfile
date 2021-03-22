@@ -19,3 +19,4 @@ group :deploy do
 end
 
 gem 'rspec'
+gem 'rack', '=2.0.8'
