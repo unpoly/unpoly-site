@@ -47,7 +47,7 @@ module Unpoly
 
       def changelog
         synchronize do
-          @changelog ||= Changelog.new(@path)
+          @changelog ||= Changelog.new(path)
         end
       end
 
@@ -98,7 +98,7 @@ module Unpoly
 
       def version
         synchronize do
-          require File.join(@path, 'lib/unpoly/rails/version')
+          require File.join(path, 'lib/unpoly/rails/version')
           Unpoly::Rails::VERSION
         end
       end
@@ -110,7 +110,7 @@ module Unpoly
       def git_revision
         synchronize do
           revision = nil
-          Dir.chdir @path do
+          Dir.chdir path do
             revision = `git rev-parse HEAD`
           end
           revision
@@ -189,7 +189,7 @@ module Unpoly
       end
 
       def source_paths
-        source_paths_for_root(path) + source_paths_for_root('spec/fixtures')
+        source_paths_for_root(File.join(path, "lib")) + source_paths_for_root('spec/fixtures')
       end
 
       def source_paths_for_root(root)
