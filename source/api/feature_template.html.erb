@@ -24,6 +24,12 @@
     <% if feature.visibility_comment.present? %>
       <div class="notification">
         <%= markdown_prose feature.visibility_comment %>
+        <% if feature.deprecated? %>
+          <p class="notification--subline">
+            Load <a href="/changes/upgrading"><code>unpoly-migrate.js</code></a>
+            to enable deprecated features.
+          </p>
+        <% end %>
       </div>
     <% end %>
 
