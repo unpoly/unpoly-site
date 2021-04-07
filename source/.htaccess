@@ -70,7 +70,8 @@ RedirectPermanent /up-popup-up-close /a-up-dismiss
 RedirectPermanent /up.popup.url /up.layer.location
 
 RedirectPermanent /up.cache /up.cache.get
-
+RedirectPermanent /a-up-target /a-up-follow
+RedirectPermanent /form-up-target /form-up-follow
 
 Header set Cache-Control "max-age=0, private"
 
