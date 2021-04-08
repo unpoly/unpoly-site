@@ -57,3 +57,16 @@
   @param {string} value
   @stable
   ###
+
+  ###**
+  @property test.module.objectProperty
+  @param {string} objectProperty.key1
+  @param {number} objectProperty.key2
+  @stable
+  ###
+
+  ###**
+  @property test.module.propertyWithArrayDefault
+  @param {Array<string>} [propertyWithArrayDefault=['foo', 'bar']]
+  @stable
+  ###

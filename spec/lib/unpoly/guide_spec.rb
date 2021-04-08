@@ -12,7 +12,7 @@ describe Unpoly::Guide do
 
     describe 'modules (e.g. up.fragment)' do
 
-      it 'parses modules' do
+      it 'parses a module' do
         interface = find('test.module')
         expect(interface.kind).to eq('module')
       end
@@ -57,7 +57,7 @@ describe Unpoly::Guide do
 
       describe 'selectors' do
 
-        it 'parses selectors' do
+        it 'parses a selector' do
           selector = find('[test-module-selector]')
           expect(selector.name).to eq('[test-module-selector]')
           expect(selector.kind).to eq('selector')
@@ -68,12 +68,33 @@ describe Unpoly::Guide do
 
       describe 'properties' do
 
-        it 'parses properties' do
+        it 'parses a property' do
           property = find('test.module.property')
           expect(property.name).to eq('test.module.property')
           expect(property.kind).to eq('property')
           expect(property.signature).to eq('test.module.property')
           expect(property.params[0].name).to eq('value')
+        end
+
+        it 'parses a property with a structured object value' do
+          property = find('test.module.objectProperty')
+          expect(property.name).to eq('test.module.objectProperty')
+          expect(property.kind).to eq('property')
+          expect(property.signature).to eq('test.module.objectProperty')
+          expect(property.params.size).to eq(2)
+          expect(property.params[0].name).to eq('objectProperty.key1')
+          expect(property.params[0].types).to contain_exactly('string')
+          expect(property.params[0].guide_anchor).to eq('objectProperty.key1')
+          expect(property.params[1].name).to eq('objectProperty.key2')
+          expect(property.params[1].types).to contain_exactly('number')
+          expect(property.params[1].guide_anchor).to eq('objectProperty.key2')
+        end
+
+        it 'parses a property with an array default value' do
+          property = find('test.module.propertyWithArrayDefault')
+          expect(property.params[0].name).to eq('propertyWithArrayDefault')
+          expect(property.params[0].types).to contain_exactly('Array<string>')
+          expect(property.params[0].default).to eq("['foo', 'bar']")
         end
 
       end
