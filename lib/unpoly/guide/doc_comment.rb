@@ -6,7 +6,7 @@ module Unpoly
         (                                # entire doc comment ($1)
           ^[\ \t]*\#\#\#\*{2,}[\ \t]*\n  # start doc comment (###**)
           ((?:.|\n)*?)                   # block content ($2)
-          ^[\ \t]*\#\#\#[\ \t]*\n        # end doc comment (###)
+          ^[\ \t]*\#\#\#[\ \t]*(?:\n|$)  # end doc comment (###)
         )
       }x
 

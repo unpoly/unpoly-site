@@ -183,6 +183,15 @@ describe Unpoly::Guide do
 
     end
 
+    describe 'pages' do
+
+      it 'parses a content page' do
+        interface = find('test.page')
+        expect(interface.title).to eq('Test Page')
+      end
+
+    end
+
   end
 
 end
