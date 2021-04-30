@@ -20,7 +20,7 @@
     To install Unpoly in Rails, add the following line to your <code>Gemfile</code>:
   </p>
 
-  <pre><code class="ruby">gem 'unpoly-rails'</code></pre>
+  <pre><code class="ruby">gem 'unpoly-rails'<%= ", '~>#{gem_version}'" if pre_release? %></code></pre>
 
   <p>Now run <code>bundle install</code> and restart your development server.</p>
 

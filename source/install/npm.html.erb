@@ -11,11 +11,11 @@
     Install the <a href="https://www.npmjs.com/package/unpoly">npm package</a> like this:
   </p>
 
-  <pre><code class="nohighlight">npm install unpoly --save</code></pre>
+  <pre><code class="nohighlight">npm install unpoly<%= '@next' if pre_release? %> --save</code></pre>
 
   <p>
-    This will download the files to
-    <code>node_modules/unpoly/dist</code>.
+    This will add Unpoly as a dependency to your <code>package.json</code>.<br>
+    The package will be downloaded into <code>node_modules/unpoly</code>.
   </p>
 
   <p>

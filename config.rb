@@ -1,7 +1,14 @@
-require 'lib/ext/rack/support_colons_in_path'
-require 'vendor/unpoly-local/lib/unpoly/rails/version'
-require 'lib/unpoly/guide'
-require 'lib/unpoly/example'
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+$LOAD_PATH.unshift('lib')
+$LOAD_PATH.unshift('vendor/unpoly-local/lib')
+
+require 'ext/rack/support_colons_in_path'
+require 'unpoly/rails/version'
+require 'unpoly/tasks'
+require 'unpoly/guide'
+require 'unpoly/example'
 require 'fileutils'
 require 'kramdown'
 require 'kramdown-parser-gfm'
@@ -107,6 +114,14 @@ helpers do
 
   def guide
     @guide ||= Unpoly::Guide.current
+  end
+
+  def gem_version
+    Unpoly::Tasks.gem_version
+  end
+
+  def pre_release?
+    Unpoly::Tasks.pre_release?
   end
 
   def markdown(text, **options)
