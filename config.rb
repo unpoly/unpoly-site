@@ -23,7 +23,10 @@ configure :build do
   activate :minify_css
 
   # Minify Javascript on build
-  activate :minify_javascript
+  activate :minify_javascript, compressor: proc {
+    require 'uglifier'
+    Uglifier.new(harmony: true)
+  }
 
   # Enable cache buster
   activate :asset_hash
