@@ -14,24 +14,27 @@ require 'rack/mock'
 
 module Rack
   class MockRequest
+    class << self
 
-    module EnvForWithColons
-      def env_for_with_colons(uri="", opts={})
-        uri = absolutize_uri(uri)
-        super(uri, opts)
-      end
-
-      private
-
-      def absolutize_uri(uri)
-        unless uri.include?(':/') || uri[0] == '/'
-          uri = "/#{uri}"
+      module EnvForWithColons
+        def env_for(uri="", opts={})
+          uri = absolutize_uri(uri)
+          super(uri, opts)
         end
-        uri
+
+        private
+
+        def absolutize_uri(uri)
+          unless uri.include?(':/') || uri[0] == '/'
+            uri = "/#{uri}"
+          end
+          uri
+        end
+
       end
+
+      prepend EnvForWithColons
 
     end
-
-    singleton_class.prepend EnvForWithColons
   end
 end
