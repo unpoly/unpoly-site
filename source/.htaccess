@@ -83,5 +83,5 @@ Header set Cache-Control "max-age=0, private"
 # - v1.unpoly.com
 # - v2.unpoly.com
 # - v2-pre.unpoly.com
-RewriteCond %{HTTP_HOST} ^v\d+(-[a-z0-9]+)?\.unpoly\.com$
-RewriteRule ^/robots.txt$ /robots.exclude.txt
+RewriteCond %{HTTP_HOST} ^v2-pre\.unpoly\.com$
+RewriteRule ^robots\.txt$ /robots.exclude.txt [L]
