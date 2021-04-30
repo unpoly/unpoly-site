@@ -83,7 +83,7 @@ $meta_width: 170px
     td, th
       vertical-align: top
       xborder: 0.08em solid #bbb
-      +horizontal-padding(0.4em)
+      +horizontal-padding(0.6em)
       +vertical-padding(0.2em)
 
       &[align=right]
@@ -94,13 +94,20 @@ $meta_width: 170px
       +font-size(16px, 4px)
       color: #666
       text-align: left
-      background-color: #ddd
+      background-color: #f2f2f2
+      border-bottom: 1px solid #bbb
+      padding-top: 0.35em
+
+
+    //tr
+    //  td
+    //    border-bottom: 2px solid #ddd
 
     tr
-      &:nth-child(odd)
-        td
-          background-color: #fbfbfb
+      //&:nth-child(odd)
+      //  td
+      //    background-color: #fbfbfb
       &:nth-child(even)
         td
-          background-color: #f2f2f2
+          background-color: #f8f8f8
 
