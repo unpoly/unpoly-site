@@ -18,7 +18,7 @@
     <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Params') } %>
   <% when 'up.layer' %>
     <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Layer') } %>
-  <% when 'up.request' %>
+  <% when 'up.network' %>
     <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Request') } %>
     <%= partial 'api/interface_nodes', locals: { interface: guide.interface_for_name!('up.Response') } %>
   <% end %>

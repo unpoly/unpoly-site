@@ -9,14 +9,15 @@ module Unpoly
         up.link
         up.layer
         up.syntax
+        up.form
         up.fragment
         up.motion
         up.feedback
-        up.request
-        up.form
-        up.viewport
+        up.network
         up.event
+        up.history
         up.radio
+        up.viewport
         up.browser
         up.protocol
         up.element
