@@ -1,0 +1,3 @@
+# This file is returned for /robots.txt on staging servers
+User-agent: *
+Disallow: /

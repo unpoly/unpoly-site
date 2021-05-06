@@ -36,3 +36,10 @@ Header set Cache-Control "max-age=0, private"
 <FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico)$">
   Header set Cache-Control "max-age=2628000, public"
 </FilesMatch>
+
+# Exclude crawlers from hostnames like:
+# - v1.unpoly.com
+# - v2.unpoly.com
+# - v2-pre.unpoly.com
+RewriteCond %{HTTP_HOST} ^v[0-9]+(-[a-z0-9]+)?\.unpoly\.com$
+RewriteRule ^robots\.txt$ /robots.exclude.txt [L]
