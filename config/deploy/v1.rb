@@ -1,4 +1,4 @@
-set :deploy_to, "/var/www/v1.unpoly.com/current"
+set :deploy_to, "/var/www/v1.unpoly.com"
 set :branch, 'master'
 # set :middleman_options, %w[--environment=production]
 set :keep_releases, 10
