@@ -273,27 +273,27 @@ helpers do
   end
 
   def cdn_url(file)
-    "https://unpkg.com/unpoly@#{guide.version}/dist/#{file}"
+    "https://unpkg.com/unpoly@#{guide.version}/#{file}"
   end
 
   def cdn_js_include(file)
-    %Q(<script src="#{cdn_url(file)}" #{sri_attrs(file)}></script>)
+    %Q(<script src="#{cdn_url(file)}"></script>)
   end
 
   def cdn_css_include(file)
-    %Q(<link rel="stylesheet" href="#{cdn_url(file)}" #{sri_attrs(file)}>)
+    %Q(<link rel="stylesheet" href="#{cdn_url(file)}">)
   end
 
-  def sri_attrs(file)
-    %{integrity="#{sri_hash(file)}" crossorigin="anonymous"}
-  end
-
-  def sri_hash(file)
-    path = local_library_file_path(file)
-    hash_base64 = `openssl dgst -sha384 -binary #{path} | openssl base64 -A`.presence or raise "Error calling openssl"
-    hash_base64 = hash_base64.strip
-    "sha384-#{hash_base64}"
-  end
+  # def sri_attrs(file)
+  #   %{integrity="#{sri_hash(file)}" crossorigin="anonymous"}
+  # end
+  #
+  # def sri_hash(file)
+  #   path = local_library_file_path(file)
+  #   hash_base64 = `openssl dgst -sha384 -binary #{path} | openssl base64 -A`.presence or raise "Error calling openssl"
+  #   hash_base64 = hash_base64.strip
+  #   "sha384-#{hash_base64}"
+  # end
 
   BUILTIN_TYPE_URLS = {
     # 'string' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String',
