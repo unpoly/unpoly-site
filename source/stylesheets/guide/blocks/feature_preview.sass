@@ -4,6 +4,10 @@
   .feature_preview.isnt_stable &
     @content
 
+=when-deprecated
+  .feature_preview.is_deprecated &
+    @content
+
 .feature_preview
   +vertical-margin(22px)
 
@@ -17,6 +21,9 @@
   +when-unstable
     color: $COLOR_PROTECTED
 
+  +when_deprecated
+    text-decoration: line-through
+
   &:hover
     color: $COLOR_HOVER !important
 
@@ -28,3 +35,7 @@
     a
       +when-unstable
         +hyperlink($COLOR_PROTECTED)
+
+.feature_preview__visibility
+  display: inline-block
+  margin-left: 5px

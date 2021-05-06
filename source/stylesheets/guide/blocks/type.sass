@@ -3,13 +3,22 @@
 $color: #888
 
 .type
+  display: inline-block
+  padding: 0 5px 1px 5px
+  background-color: #f4f4f4
+  border-radius: 2px
+
   +monospace-font
   font-size: $FONT_SIZE
   +bold
   color: $color
 
   a
-    +hyperlink($color)
+    +hover
+      text-decoration: underline
+
+  //a
+  //  +hyperlink($color)
 
 .type__or
   color: #b2b2b2

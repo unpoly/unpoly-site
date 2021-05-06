@@ -1,10 +1,12 @@
-<div class="feature_preview <%= 'isnt_stable' if feature.visibility != 'stable' %>">
+<div class="feature_preview <%= 'isnt_stable' if feature.visibility != 'stable' %> is_<%= feature.visibility %>">
 
-  <a href="<%= feature.guide_path %>" class="feature_preview__signature">
-    <%= h(feature.signature) %>
+  <a href="<%= feature.guide_path %>" class="feature_preview__title">
+    <span class="feature_preview__signature"><%= h(feature.signature) %></span>
     <% if feature.visibility.present? && feature.visibility != 'stable' %>
-      <span class="tag isnt_stable">
-        <%= feature.visibility %>
+      <span class="feature_preview__visibility">
+        <span class="tag isnt_stable">
+          <%= feature.visibility %>
+        </span>
       </span>
     <% end %>
   </a>

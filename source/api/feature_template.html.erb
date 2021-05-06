@@ -67,9 +67,11 @@
         <div class="feature__param" id="<%= param.guide_anchor %>">
           <div class="feature__param_name">
             <%= param.signature -%>
-            <span class="feature__param_type">
-              <%= type param.types %>
-            </span>
+            <% if param.types.present? %>
+              <span class="feature__param_type">
+                <%= type param.types %>
+              </span>
+            <% end %>
             <% if param.optional? %>
               <span class="tag is_light_gray">
                 optional
