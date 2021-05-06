@@ -103,7 +103,7 @@ add a `RewriteRule` to `source/.htaccess` to existing links will keep working.
   that the source code for unpoly.com and the framework are checked out in the same folder:
   
       projects/
-        unpoly/
+        unpoly-1.x-stable/ # the 1.x-stable branch of Unpoly
         unpoly-site/
 
 - Install the Ruby version from `.ruby-version`
