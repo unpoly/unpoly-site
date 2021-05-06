@@ -138,5 +138,5 @@ We should have feature specs with Capybara for that.
 
 1. Commit and push changes in `unpoly-site`.
 2. Commit and push changes in `unpoly`, which you might have changed while reviewing the documentation output.
-3. Run `bundle exec cap production deploy` to push the changes to <https://unpoly.com>. Static files will be built during deployment.
+3. Run `bundle exec cap latest deploy` to push the changes to <https://unpoly.com>. Static files will be built during deployment.
 
