@@ -40,6 +40,15 @@ module Unpoly
         features.reject(&:internal?)
       end
 
+      # def essential_features
+      #   features.select(&:essential?)
+      # end
+
+      def essential_features
+        # We're using @see feature to list an essential feature.
+        references
+      end
+
       def guide_features?
         guide_features.present?
       end

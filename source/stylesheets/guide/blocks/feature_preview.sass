@@ -10,6 +10,23 @@
 
 .feature_preview
   +vertical-margin(22px)
+  padding-left: 60px
+  position: relative
+  display: block
+
+.feature_preview__kind
+  position: absolute
+  left: 0
+  top: 2px
+  background-color: #f2f2f2
+  border: 1px solid #aaa
+  color: #888
+  border-radius: 3px
+  +font-size(13px)
+  +bold
+  text-align: center
+  width: 45px
+  +height(43px)
 
 .feature_preview__signature
   +monospace-font
@@ -28,7 +45,7 @@
     color: $COLOR_HOVER !important
 
 .feature_preview__summary
-  margin-top: 3px
+  margin-top: 2px
   //margin-left: 20px
   p
     margin: 0 !important

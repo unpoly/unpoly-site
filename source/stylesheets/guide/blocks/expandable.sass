@@ -12,6 +12,7 @@
   overflow: hidden
   +when_expanded
     max-height: none
+    overflow: visible // overflow: hidden will capture the bottom margin in the limiter element
 
   &:after
     content: ''
@@ -30,5 +31,3 @@
   left: 0
   +when_expanded
     display: none
-
-

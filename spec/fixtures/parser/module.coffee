@@ -48,6 +48,17 @@
   ###
 
   ###**
+  @function test.module.essentialFunction
+  @stable
+  @essential
+  ###
+
+  ###**
+  @function test.module.nonessentialFunction
+  @stable
+  ###
+
+  ###**
   @selector [test-module-selector]
   @stable
   ###

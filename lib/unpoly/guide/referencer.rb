@@ -20,6 +20,24 @@ module Unpoly
         @reference_names.present?
       end
 
+      # def essential_names
+      #   @essential_names ||= []
+      # end
+      #
+      # def essential_names=(names)
+      #   @essential_names = names
+      # end
+      #
+      # def essentials
+      #   essential_names.map do |name|
+      #     Guide.current.find_by_name!(name)
+      #   end
+      # end
+      #
+      # def essentials?
+      #   @essential_names.present?
+      # end
+
     end
   end
 end

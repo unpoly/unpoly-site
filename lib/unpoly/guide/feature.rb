@@ -28,12 +28,17 @@ module Unpoly
       attr_accessor :interface
       attr_accessor :kind
       attr_accessor :text_source
+      # attr_accessor :essential
 
       attr_accessor :params_note
 
       # attr_accessor :preventable
 
       attr_writer :visibility_comment
+
+      # def essential?
+      #   !!essential
+      # end
 
       def visibility_comment
         comment = @visibility_comment.strip
@@ -184,27 +189,27 @@ module Unpoly
         @kind == 'cookie'
       end
 
-      # def short_kind
-      #   case kind
-      #   when 'selector'
-      #     'CSS'
-      #   when 'function'
-      #     'JS'
-      #   when 'event'
-      #     'EVENT'
-      #   when 'property'
-      #     'PROP'
-      #   when 'header'
-      #     'HTTP'
-      #   when 'cookie'
-      #     'COOK'
-      #   end
-      # end
+      def short_kind
+        case kind
+        when 'selector'
+          if name.starts_with?(':')
+            'CSS'
+          else
+            'HTML'
+          end
+        when 'function', 'constructor', 'property', 'event'
+          'JS'
+        when 'header', 'cookie'
+          'HTTP'
+        else
+          "Unhandled feature kind: #{kind}"
+        end
+      end
 
       def long_kind
         case kind
         when 'selector'
-          'CSS selector'
+          'HTML extension'
         when 'constructor'
           'Class constructor'
         when 'function'

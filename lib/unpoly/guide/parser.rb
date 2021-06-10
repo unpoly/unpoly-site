@@ -55,6 +55,13 @@ module Unpoly
         )
       }x
 
+      # ESSENTIAL_PATTERN = %r{
+      #   (^[ \t]*)        # first line indent ($1)
+      #   \@(              # essential tag ($2)
+      #     essential
+      #   )
+      # }x
+
       PARAMS_NOTE_PATTERN = %r{
         (^[ \t]*)        # first line indent ($1)
         \@(params-note)  # tag ($2)
@@ -200,17 +207,23 @@ module Unpoly
           block = Util.unindent(block)
 
           feature = Feature.new(feature_kind, feature_name)
+
           if visibility = parse_visibility!(block)
             feature.visibility = visibility[:visibility]
             feature.visibility_comment = visibility[:comment]
           end
+
           while param = parse_param!(block)
             param.feature = feature
             feature.params << param
           end
+
           if response = parse_response!(block)
             feature.response = response
           end
+
+          # feature.essential = parse_essential!(block)
+
           parse_references!(block, feature)
 
           feature.params_note = parse_params_note!(block)
@@ -245,6 +258,10 @@ module Unpoly
           title
         end
       end
+
+      # def parse_essential!(block)
+      #   !!block.sub!(ESSENTIAL_PATTERN, '')
+      # end
 
       def parse_param!(block)
         if block.sub!(PARAM_PATTERN, '')

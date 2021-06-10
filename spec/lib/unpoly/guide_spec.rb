@@ -53,6 +53,15 @@ describe Unpoly::Guide do
           expect(function.params.first).to be_optional
           expect(function.params.first.default).to eq("'default value'")
         end
+
+        it 'parses an @essential tag' do
+          essential_function = find('test.module.essentialFunction')
+          nonessential_function = find('test.module.nonessentialFunction')
+
+          expect(essential_function).to be_essential
+          expect(nonessential_function).to_not be_essential
+        end
+
       end
 
       describe 'selectors' do

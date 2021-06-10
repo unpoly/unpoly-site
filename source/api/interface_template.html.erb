@@ -41,22 +41,29 @@
   <% end %>
 <% end %>
 
-<%= partial 'see_also', locals: { referencer: interface } %>
+<% if (essential_features = interface.references.presence) %>
+  <h2>Essential features</h2>
 
-<% if interface.module? %>
-  <%= feature_previews 'CSS selectors', interface.selectors %>
-  <%= feature_previews 'DOM events', interface.events %>
-  <%= feature_previews 'JavaScript functions', interface.functions %>
-  <%= feature_previews 'JavaScript properties', interface.properties %>
-<% elsif interface.class? %>
-  <%= feature_previews 'Constructor', interface.constructor %>
-  <%= feature_previews 'Properties', interface.properties %>
-  <%= feature_previews 'Instance methods', interface.instance_methods %>
-  <%= feature_previews 'Class methods', interface.class_methods %>
-  <%= feature_previews 'DOM events', interface.events %>
+  <div class="essential_features">
+    <% essential_features.each do |feature| %>
+      <a class="essential_feature" href="<%= feature.guide_path %>">
+        <div class="essential_feature__signature">
+          <%= feature.short_signature %>
+        </div>
+        <div class="essential_feature__kind" title="<%= feature.long_kind %>">
+          <%= feature.short_kind %>
+        </div>
+        <div class="essential_feature__summary">
+          <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
+        </div>
+      </a>
+    <% end %>
+  </div>
 <% end %>
 
-<%= feature_previews 'HTTP headers', interface.headers %>
-<%= feature_previews 'Cookies', interface.cookies %>
+<h2>All features</h2>
 
+<% interface.guide_features.sort.each do |feature| %>
+  <%= feature_preview(feature) %>
+<% end %>
 
