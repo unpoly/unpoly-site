@@ -22,8 +22,33 @@ module Unpoly
 
       attr_accessor :explicit_title
 
+      def short_signature
+        if page?
+          title
+        else
+          name
+        end
+      end
+
+      alias long_signature short_signature
+
       def title
         explicit_title.presence || name
+      end
+
+      def short_kind
+        case kind
+        when 'page'
+          'DOC'
+        when 'class', 'module'
+          'JS'
+        else
+          throw "Unhandled kind: #{kind}"
+        end
+      end
+
+      def long_kind
+        kind.capitalize
       end
 
       def code?

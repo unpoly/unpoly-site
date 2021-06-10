@@ -46,7 +46,7 @@
 
   <div class="essential_features">
     <% essential_features.each do |feature| %>
-      <a class="essential_feature" href="<%= feature.guide_path %>">
+      <a class="essential_feature <%= 'is_code' if feature.code? %>" href="<%= feature.guide_path %>">
         <div class="essential_feature__signature">
           <%= feature.short_signature %>
         </div>
