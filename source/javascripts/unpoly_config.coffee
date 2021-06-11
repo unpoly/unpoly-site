@@ -13,3 +13,8 @@ up.viewport.config.revealPadding = 10
 up.link.config.followSelectors.push('a[href]')
 up.link.config.preloadSelectors.push('a[href]')
 up.link.config.instantSelectors.push('a[href]:not(.action)')
+
+up.layer.config.modal.size = 'large'
+
+up.layer.config.popup.align = 'right'
+up.layer.config.popup.size = 'grow'

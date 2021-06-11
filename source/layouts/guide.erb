@@ -22,6 +22,12 @@
 
             </div>
 
+            <div class="guide__version_nav">
+              <a href="/version_choice" class="version_nav" up-layer="new popup" up-target=".choice">
+                <%= guide.short_version %> <i class="fa fa-angle-down"></i>
+              </a>
+            </div>
+
             <div class="guide__top_nav">
 
               <div class="top_nav" up-nav>
@@ -34,7 +40,7 @@
                   <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_social"><i class="fa fa-github"></i><span class="top_nav__label"> GitHub</span></a>
                   <a href="https://twitter.com/unpolyjs" class="top_nav__section is_social"><i class="fa fa-twitter"></i> <span class="top_nav__label">Twitter</span></a>
                 </span>
-                <a href="/menu/narrow" class="top_nav__section is_hamburger" up-target=".menu" up-layer="drawer" up-history="false"><i class="fa fa-bars"></i> Menu</a>
+                <a href="/menu/narrow" class="top_nav__section is_hamburger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><i class="fa fa-bars"></i> Menu</a>
 
               </div>
 

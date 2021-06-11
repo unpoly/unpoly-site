@@ -104,6 +104,11 @@ module Unpoly
         end
       end
 
+      def short_version
+        # version.sub(/-.+$/, '')
+        version.scan(/^\d+\.\d+/)[0]
+      end
+
       def git_version_tag
         "v#{version}"
       end

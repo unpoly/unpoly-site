@@ -1,0 +1,18 @@
+@import ../../environment
+
+.choice
+
+.choice__item
+  display: block
+  padding: 10px 18px
+  +bold
+  color: lighten($COLOR_TEXT, 10%)
+
+  &+.choice__item
+    border-top: 1px solid #ccc
+
+  &:hover
+    //background-color: #ffa
+    color: $COLOR_TEXT
+    background-color: #eee
+

@@ -147,7 +147,7 @@ helpers do
   end
 
   def postprocess_markdown(html, autolink_code: true, strip_links: false, pictures: true)
-    if autolink_code || strip_links
+    if autolink_code || strip_links || pictures
       nokogiri_doc = Nokogiri::HTML.fragment(html)
     end
 
@@ -258,7 +258,7 @@ helpers do
 
   def modal_hyperlink(label, href, options = {})
     options[:class] = "hyperlink #{options[:class]}"
-    options['up-layer'] = 'modal'
+    options['up-layer'] = 'new modal'
     link_to label, href, options
   end
 

@@ -2,6 +2,8 @@
 
 $SPACING_X: 32px
 
+$VERSION_NAV_WIDTH: 90px
+
 .guide
   display: flex
   flex-direction: column
@@ -32,7 +34,14 @@ $SPACING_X: 32px
 
   +on_wide
     background-color: $COLOR_LEFT
-    width: $LEFT_WIDTH
+    width: $LEFT_WIDTH - $VERSION_NAV_WIDTH
+
+.guide__version_nav
+  flex: 0 0 $VERSION_NAV_WIDTH
+  text-align: right
+
+  +on_narrow
+    display: none
 
 .guide__top_nav
   flex: 1 0 auto

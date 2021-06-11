@@ -1,16 +1,10 @@
 @import ../../environment
 
-.up-overlay[up-flavor=modal]
-
-  .up-overlay-frame
-
-  .up-overlay-content
-    max-width: 950px
-
-    +on_narrow
-      padding: 20px
-    +on_wide
-      padding: 32px
+up-modal-box
+  +on_narrow
+    padding: 20px
+  +on_wide
+    padding: 32px
 
 //.up-overlay[up-flavor=cover]
 //  .up-overlay-viewport
@@ -39,7 +33,3 @@
 //.up-modal-dialog
 //  opacity: 0.1
 
-.up-modal[up-flavor=drawer]
-  .up-modal-dialog
-    width: 320px
-    max-width: 100%
