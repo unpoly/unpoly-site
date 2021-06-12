@@ -61,9 +61,10 @@
   </div>
 <% end %>
 
-<h2>All features</h2>
+<% if (all_features = interface.guide_features.sort.presence) %>
+  <h2>All features</h2>
 
-<% interface.guide_features.sort.each do |feature| %>
-  <%= feature_preview(feature) %>
+  <% all_features.each do |feature| %>
+    <%= feature_preview(feature) %>
+  <% end %>
 <% end %>
-
