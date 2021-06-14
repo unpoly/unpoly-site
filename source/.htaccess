@@ -10,8 +10,6 @@ RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)$  /$1/index.html [L]
 
 RedirectPermanent /up-dash /a-up-dash
-RedirectPermanent /up-popup /a-up-popup
-RedirectPermanent /up-modal /a-up-modal
 RedirectPermanent /up-instant /a-up-instant
 RedirectPermanent /up-preload /a-up-preload
 RedirectPermanent /up-active /a.up-active
@@ -34,40 +32,6 @@ RedirectPermanent /up.params /up.Params
 RedirectPermanent /install/rails /install/ruby
 
 RedirectPermanent /up.layer.context /up.context
-
-RedirectPermanent /up.modal /up.layer
-RedirectPermanent /a-up-drawer /a-up-layer
-RedirectPermanent /a-up-modal /a-up-layer
-RedirectPermanent /up.modal.close /up.layer.dismiss
-RedirectPermanent /up:modal:close /up:layer:dismiss
-RedirectPermanent /up:modal:closed /up:layer:dismissed
-RedirectPermanent /up.modal.config /up.layer.config
-RedirectPermanent /up.modal.contains /up.layer.contains
-# RedirectPermanent /up.modal.coveredUrl
-RedirectPermanent /up.modal.extract /up.render
-# RedirectPermanent /up.modal.flavors
-# RedirectPermanent /up.modal.flavors.drawer
-RedirectPermanent /up.modal.follow /up.follow
-RedirectPermanent /up.modal.isOpen /up.layer.isOverlay
-RedirectPermanent /up:modal:open /up:layer:open
-RedirectPermanent /up:modal:opened /up:layer:opened
-RedirectPermanent /up-modal-up-close /a-up-dismiss
-RedirectPermanent /up.modal.url /up.layer.location
-RedirectPermanent /up.modal.visit /up.layer.open
-RedirectPermanent /up.popup /up.layer
-RedirectPermanent /a-up-popup /a-up-layer
-RedirectPermanent /up.popup.attach /up.layer.open
-RedirectPermanent /up.popup.close /up.layer.dismiss
-RedirectPermanent /up:popup:close /up:layer.dimiss
-RedirectPermanent /up:popup:closed /up:layer:dismissed
-RedirectPermanent /up.popup.config /up.layer.config
-# RedirectPermanent /up.popup.coveredUrl
-RedirectPermanent /up.popup.isOpen /up.layer.isOverlay
-RedirectPermanent /up:popup:open /up:layer:open
-RedirectPermanent /up:popup:opened /up:layer:opened
-RedirectPermanent /up.popup.sync /up.layer.sync
-RedirectPermanent /up-popup-up-close /a-up-dismiss
-RedirectPermanent /up.popup.url /up.layer.location
 
 RedirectPermanent /up.cache /up.cache.get
 RedirectPermanent /a-up-target /a-up-follow
