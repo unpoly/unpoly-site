@@ -16,6 +16,10 @@ module Unpoly
         "#{repository.github_url}/blob/#{commit}#{relative_path}#L#{start_line}:L#{end_line}"
       end
 
+      def local_position
+        "#{path}:#{start_line}:#{end_line}"
+      end
+
     end
   end
 end

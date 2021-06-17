@@ -3,7 +3,9 @@ module Unpoly
     class Parser
       include Logger
 
-      class CannotParse < StandardError; end
+      class Error < StandardError; end
+      class CannotParse < Error; end
+      class MissingVisibility < CannotParse; end
 
       BLOCK_PATTERN = %r{
         ^[\ \t]*\#\#\#\*[\ \t]*\n  # YUIDoc begin symbol
@@ -170,7 +172,7 @@ module Unpoly
       def parse(path)
         doc_comments = DocComment.find_in_path(path)
         doc_comments.each do |doc_comment|
-          if documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment.text)
+          if documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment)
             documentable.text_source = doc_comment.text_source
           end
         end
@@ -200,39 +202,43 @@ module Unpoly
         end
       end
 
-      def parse_feature!(block)
-        if block.sub!(FEATURE_PATTERN, '')
+      def parse_feature!(doc_comment)
+        text = doc_comment.text
+
+        if text.sub!(FEATURE_PATTERN, '')
           feature_kind = $1.strip
           feature_name = $2.strip
-          block = Util.unindent(block)
+          text = Util.unindent(text)
 
           feature = Feature.new(feature_kind, feature_name)
 
-          if visibility = parse_visibility!(block)
+          if visibility = parse_visibility!(text)
             feature.visibility = visibility[:visibility]
             feature.visibility_comment = visibility[:comment]
+          elsif looks_like_published_feature?(feature_name)
+            raise MissingVisibility, "Missing visibility tag for feature: @#{feature_kind} #{feature_name} (#{doc_comment.local_position})"
           end
 
-          while param = parse_param!(block)
+          while param = parse_param!(text)
             param.feature = feature
             feature.params << param
           end
 
-          if response = parse_response!(block)
+          if response = parse_response!(text)
             feature.response = response
           end
 
           # feature.essential = parse_essential!(block)
 
-          parse_references!(block, feature)
+          parse_references!(text, feature)
 
-          feature.params_note = parse_params_note!(block)
+          feature.params_note = parse_params_note!(text)
 
           # while example = parse_example(block)
           #   feature.examples << example
           # end
           # All the remaining text is guide prose
-          feature.guide_markdown = process_markdown(block)
+          feature.guide_markdown = process_markdown(text)
           feature.interface = @last_interface
           @last_interface.features << feature
           feature
@@ -364,6 +370,10 @@ module Unpoly
         markdown.gsub /(\\#){2,}/ do |match|
           "#" * (match.size / 2)
         end
+      end
+
+      def looks_like_published_feature?(feature_name)
+        feature_name =~ /^up[\.\:]/
       end
 
     end

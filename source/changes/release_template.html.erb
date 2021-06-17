@@ -25,14 +25,16 @@
   <%= markdown(release.markdown) %>
 </div>
 
-<h2>Upgrading</h2>
+<% unless release.markdown.include?('unpoly-migrate.js') %>
+  <h3>Upgrading</h3>
 
-<div class="prose">
-  <span class="line-on-wide">
-    If you're upgrading from an older Unpoly version you should load <code>unpoly-migrate.js</code>
-    to enable deprecated APIs.
-  </span>
-  <span class="line-on-wide">
-    See our <a href="/changes/upgrading">upgrading guide</a> for details.
-  </span>
-</div>
+  <div class="prose">
+    <span class="line-on-wide">
+      If you're upgrading from an older Unpoly version you should load <code>unpoly-migrate.js</code>
+      to enable deprecated APIs.
+    </span>
+    <span class="line-on-wide">
+      See our <a href="/changes/upgrading">upgrading guide</a> for details.
+    </span>
+  </div>
+<% end %>

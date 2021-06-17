@@ -18,3 +18,7 @@ up.layer.config.modal.size = 'large'
 
 up.layer.config.popup.align = 'right'
 up.layer.config.popup.size = 'grow'
+
+up.layer.config.cover.openAnimation = false
+up.layer.config.cover.closeAnimation = false
+

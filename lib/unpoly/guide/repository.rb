@@ -7,21 +7,21 @@ module Unpoly
 
       PROMOTED_INTERFACE_NAMES = %w[
         up.link
-        up.layer
         up.syntax
         up.form
+        up.layer
         up.fragment
+        up.radio
         up.motion
         up.feedback
         up.network
         up.event
-        up.history
-        up.radio
-        up.viewport
-        up.browser
         up.protocol
         up.element
+        up.viewport
+        up.history
         up.util
+        up.browser
         up.log
       ].freeze
 

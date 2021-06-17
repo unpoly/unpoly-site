@@ -17,7 +17,7 @@ module Unpoly
       attr_accessor :text
       attr_accessor :text_source
 
-      delegate :path, :start_line, :end_line, to: :text_source
+      delegate :path, :start_line, :end_line, :local_position, to: :text_source
 
       def self.find_in_path(path)
         find_in_string(File.read(path), path)
