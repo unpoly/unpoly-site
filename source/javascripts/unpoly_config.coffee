@@ -22,3 +22,5 @@ up.layer.config.popup.size = 'grow'
 up.layer.config.cover.openAnimation = false
 up.layer.config.cover.closeAnimation = false
 
+up.on 'up:link:follow', 'up-drawer .menu a', (event) ->
+  event.renderOptions.layer = 'root'
