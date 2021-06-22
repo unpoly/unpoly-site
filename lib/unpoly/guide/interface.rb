@@ -127,7 +127,9 @@ module Unpoly
       end
 
       def collapse_markdown?
-        (guide_markdown.size > 1800) || (name == 'up.link') || (features.present?)
+        long_text = (guide_markdown.size > 1800) || (name == 'up.link')
+        important_content_below_text = features.present?
+        long_text && important_content_below_text
       end
 
       def guide_id
