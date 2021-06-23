@@ -39,10 +39,13 @@ $section_spacing: 10px
 .top_nav__right
   float: right
 
+  +narrower_than(1000px)
+    display: none
+
 .is_social
   opacity: 0.75
 
-  +narrower_than(1100px)
+  +narrower_than(1200px)
     .top_nav__label
       display: none
 

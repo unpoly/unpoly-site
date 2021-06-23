@@ -1,11 +1,11 @@
 ---
 title: 'Modal dialogs'
 explanation: |
-  Give a link an `up-modal` attribute to extract a CSS selector from the destination
+  Give a link an `[up-layer=new]` attribute to extract a CSS selector from the destination
   and open the fragment in a modal dialog.
   No server-side changes required.
 highlight:
-  - 'up-modal'
+  - 'up-layer'
 order:
   - 'preview.html'
   - 'full.html'

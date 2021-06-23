@@ -11,7 +11,7 @@
     It allows your views to do things that are
     not normally possible in HTML, such as having links
     <%= modal_hyperlink 'update only fragments of a page', '/up.link' %>,
-    or <%= modal_hyperlink 'opening links in modal dialogs', '/up.modal' %>.
+    or <%= modal_hyperlink 'opening links in modal dialogs', '/up.layer' %>.
   </p>
 
   <p>
@@ -87,18 +87,12 @@
 
   <p>
     An interaction like the Gmail example is pretty straightforward to build with Unpoly.
-    Unpoly lets you <b>stack up to three HTML documents</b> on top of each other:
-    The page itself, a <%= modal_hyperlink 'modal dialog', '/up.modal' %> and a <%= modal_hyperlink 'pop-up overlay', '/up.popup' %>.
-    Each layer has its own URL:
+    Unpoly lets you <b>stack an arbitrary number of overlays</b> on top of each other.
+    Each <a href="/up.layer">layer</a> has its own URL:
   </p>
 
   <%= image_tag 'tutorial/gmail_layers_cropped.png', class: 'picture is_sepia', width: 600 %>
 
-  <!--<pre><code>&lt;a href="/list" up-target=".main"&gt;Replace fragment&lt;/a&gt;-->
-
-<!--&lt;a href="/new" up-modal=".main"&gt;Open fragment in dialog&lt;/a&gt;-->
-
-<!--&lt;a href="/menu" up-popup=".main"&gt;Open fragment in dropdown&lt;/a&gt;</code></pre>-->
 
   <p>
     The content inside a modal is rendered as a <b>full HTML page</b>,
@@ -120,7 +114,7 @@
   <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('modal'), title: 'Example' } %>
 
   <p>
-    Learn more about <%= modal_hyperlink 'modals', '/up.modal' %> and <%= modal_hyperlink 'pop-ups', '/up.popup' %>, or continue with the tutorial below.
+    Learn more about <%= modal_hyperlink 'overlays', '/up.layer' %>  or continue with the tutorial below.
   </p>
 
 
@@ -203,7 +197,7 @@
 
   <p>
     Similar functions exist for <b>every</b> unobtrusive Unpoly feature, be it
-    <%= modal_hyperlink 'opening a modal', '/up.modal.visit' %>,
+    <%= modal_hyperlink 'opening an overlay', '/up.layer.open' %>,
     <%= modal_hyperlink 'submitting a form with AJAX', '/up.submit' %>
     or
     <%= modal_hyperlink 'morphing elements', '/up.morph' %>.
@@ -212,8 +206,7 @@
 
   <p>
     You can even invent your own magic HTML attributes using
-    <%= modal_hyperlink 'compilers', '/up.compiler' %> and
-    <%= modal_hyperlink 'macros', '/up.macro' %>.
+    <%= modal_hyperlink 'compilers', '/up.compiler' %>.
 
   </p>
 
@@ -222,9 +215,16 @@
 
   <p>
     This tutorial covered just the most basic features of Unpoly.
-    The other guides will explain these and more advanced features in much greater detail:
   </p>
 
+  <p>
+    We recommend checking out the <a href="https://demo.unpoly.com" target="_blank">demo application</a>
+    that shows some of Unpoly's more advanced capabilities.
+  </p>
+
+  <p>
+    The other guides explain all of Unpoly's features in great detail:
+  </p>
 
 
   <ul>
