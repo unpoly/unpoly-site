@@ -7,7 +7,7 @@
 
 <div class="prose">
 
-  <h2>Ruby on Rails</h2>
+  <h2 id="ruby-on-rails">Ruby on Rails</h2>
 
   <p>
     The <code>unpoly-rails</code> gem makes the Unpoly's JavaScript and CSS sources
@@ -27,6 +27,13 @@
   <p>Add the following line to your <code>application.js</code> manifest:</p>
 
   <pre><code class="javascript">//= require unpoly</code></pre>
+
+  <p>
+    If you're <a href="/changes/upgrading">upgrading from an older version</a>
+    you should also require <code>unpoly-migrate</code>:
+  </p>
+
+  <pre><code class="javascript">//= require unpoly-migrate</code></pre>
 
   <p>
     Also add the following line to your <code>application.css</code> manifest:</p>
@@ -49,10 +56,10 @@
   <pre><code class="javascript">//= require unpoly-bootstrap5</code></pre>
 
   <p>
-    If you are using Bootstrap 4, `require unpoly-bootstrap4` instead.<br>
-    If you are using Bootstrap 3, `require unpoly-bootstrap3` instead.</p>
+    If you are using Bootstrap 4, require <code>unpoly-bootstrap4</code> instead.<br>
+    If you are using Bootstrap 3, require <code>unpoly-bootstrap3</code> instead.</p>
 
-  <h2>Roda</h2>
+  <h2 id="roda">Roda</h2>
 
   <p>
     If your Roda app uses an asset bundler like Webpack, you can <a href="/install/npm">get Unpoly from npm</a>.
@@ -64,7 +71,7 @@
     check out the <a href="https://github.com/adam12/roda-unpoly">roda-unpoly</a> gem.
   </p>
 
-  <h2>Rack</h2>
+  <h2 id="rack">Rack</h2>
 
   <p>
     If your Rack app uses an asset bundler like Webpack, you can <a href="/install/npm">get Unpoly from npm</a>.
