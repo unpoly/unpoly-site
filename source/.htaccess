@@ -30,6 +30,7 @@ RedirectPermanent /up.bus /up.event
 RedirectPermanent /up.bus.onEscape /up.event.onEscape
 RedirectPermanent /up.params /up.Params
 RedirectPermanent /install/rails /install/ruby
+RedirectPermanent /install/zip /install/download
 
 RedirectPermanent /up.layer.context /up.context
 

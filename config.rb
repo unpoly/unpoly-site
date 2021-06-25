@@ -276,12 +276,20 @@ helpers do
     "https://unpkg.com/unpoly@#{guide.version}/#{file}"
   end
 
+  def cdn_browse_url
+    "https://unpkg.com/unpoly@#{guide.version}/"
+  end
+
   def cdn_js_include(file)
     %Q(<script src="#{cdn_url(file)}"></script>)
   end
 
   def cdn_css_include(file)
     %Q(<link rel="stylesheet" href="#{cdn_url(file)}">)
+  end
+
+  def npm_tarball_url
+    `npm view unpoly dist.tarball`.strip
   end
 
   # def sri_attrs(file)

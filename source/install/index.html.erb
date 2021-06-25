@@ -30,14 +30,14 @@
     Unpoly consists of both JavaScript and (minimal) CSS files:
   </p>
 
-  <ol>
+  <ul>
     <li>
       <code>unpoly.min.js</code> (<%= unpoly_library_size('unpoly.min.js') %> gzipped)
     </li>
     <li>
       <code>unpoly.min.css</code> (<%= unpoly_library_size('unpoly.min.css') %> gzipped)
     </li>
-  </ol>
+  </ul>
 
   <h3>Bootstrap integration</h3>
 
@@ -45,7 +45,7 @@
     There are some <b>optional</b> files will help you if you are using <a href="http://getbootstrap.com/">Bootstrap</a>:
   </p>
 
-  <ol>
+  <ul>
     <li>
       <code>unpoly-bootstrap3.min.js</code> (<%= unpoly_library_size('unpoly-bootstrap3.min.js') %> gzipped)
     </li>
@@ -58,8 +58,20 @@
     <li>
       <code>unpoly-bootstrap5.min.css</code> (<%= unpoly_library_size('unpoly-bootstrap5.min.css') %> gzipped)
     </li>
-   </ol>
+  </ul>
 
+  <h3>Upgrade shim</h3>
+
+  <p>
+    If you're <a href="/changes/upgrading">upgrading from an older version</a> you should also load <code>unpoly-migrate.js</code>
+    to enable deprecated APIs:
+  </p>
+
+  <ul>
+    <li>
+      <code>unpoly-migrate.min.js</code> (<%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped)
+    </li>
+  </ul>
 
   <h2 id="methods">Installation methods</h2>
 
@@ -69,6 +81,7 @@
 
   <ul>
     <li><%= hyperlink 'Link to a CDN', '/install/cdn' %> (great to test-drive)</li>
+    <li><%= hyperlink 'Download', '/install/download' %></li>
     <li><%= hyperlink 'Install with npm', '/install/npm' %></li>
     <li><%= hyperlink 'Install with Ruby', '/install/ruby' %></li>
     <li><%= hyperlink 'Install with PHP', '/install/php' %></li>

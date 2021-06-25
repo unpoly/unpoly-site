@@ -1,0 +1,21 @@
+<% @menu_path = '/install/menu' %>
+
+<h1>
+  <%= breadcrumb_link 'Install', '/install' %>
+  <%= page_title 'Download' %>
+</h1>
+
+<div class="prose">
+
+  <p>
+    The latest release is available for download here:<br>
+    <%= link_to npm_tarball_url, npm_tarball_url %>
+  </p>
+
+  <p>
+    You may also <a href="<%= cdn_browse_url %>">view and download individual files</a> from any release.
+  </p>
+
+  <%= partial 'star_prompt' %>
+
+</div>
