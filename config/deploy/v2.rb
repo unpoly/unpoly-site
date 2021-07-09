@@ -1,3 +1,5 @@
+raise "v2.unpoly.com is redirecting to unpoly.com while the latest version is 2.x. Deploy with `cap latest deploy` instead."
+
 set :deploy_to, "/var/www/v2.unpoly.com/"
 set :branch, 'master'
 # set :middleman_options, %w[--environment=production]
