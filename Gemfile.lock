@@ -94,6 +94,7 @@ GEM
       sprockets (>= 3.0)
     mini_portile2 (2.4.0)
     minitest (5.14.3)
+    naturally (2.2.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (5.1.0)
@@ -168,6 +169,7 @@ DEPENDENCIES
   memoized
   middleman (< 5)
   middleman-sprockets
+  naturally
   nokogiri
   rack (= 2.0.8)
   rspec

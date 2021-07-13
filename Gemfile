@@ -14,6 +14,8 @@ gem 'sass'
 gem 'haml'
 gem 'coffee-script'
 
+gem 'naturally'
+
 group :deploy do
   gem "capistrano", '<4'
   gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'

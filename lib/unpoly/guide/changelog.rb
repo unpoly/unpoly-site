@@ -108,10 +108,19 @@ module Unpoly
           )
         end
 
-        releases.each_with_index do |release, index|
-          # Recent releases are listed first
-          if index < releases.length - 1
-            release.previous_release = releases[index + 1]
+        releases_by_version = Naturally.sort_by(releases) { |release|
+          version = release.version
+          unless version.include?('-')
+            # Sort "2.0.0" behind a pre-release like "2.0.0.-rc9".
+            version += '-zzzzzzzz'
+          end
+          version
+        }
+
+        releases_by_version.each_with_index do |release, index|
+          if index > 0
+            previous_release = releases_by_version[index - 1]
+            release.previous_release = previous_release
           end
         end
       end
