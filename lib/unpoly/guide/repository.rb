@@ -99,14 +99,25 @@ module Unpoly
 
       def version
         synchronize do
-          require File.join(path, 'lib/unpoly/rails/version')
-          Unpoly::Rails::VERSION
+          package_json_path = File.join(path, 'package.json')
+          package_json_content = File.read(package_json_path)
+          package_info = JSON.parse(package_json_content)
+          package_info['version'].presence or raise Error, "Cannot parse { version } from #{package_json_path}"
         end
       end
 
       def short_version
         # version.sub(/-.+$/, '')
         version.scan(/^\d+\.\d+/)[0]
+      end
+
+      def pre_release?
+        version =~ /rc|beta|pre|alpha/
+      end
+
+      def gem_version
+        # RubyGems automatically convert 2.0.0-rc9 to 2.0.0.pre.rc9
+        version.sub('-', '.pre.')
       end
 
       def git_version_tag

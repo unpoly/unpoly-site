@@ -1,17 +1,18 @@
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+# lib = File.expand_path('../lib', __FILE__)
+# $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-$LOAD_PATH.unshift('lib')
-$LOAD_PATH.unshift('vendor/unpoly-local/lib')
+$LOAD_PATH.unshift(File.expand_path('../lib', __FILE__))
+# $LOAD_PATH.unshift('vendor/unpoly-local/lib')
 
 require 'ext/rack/support_colons_in_path'
-require 'unpoly/rails/version'
-require 'unpoly/tasks'
+# require 'unpoly/tasks'
 require 'unpoly/guide'
 require 'unpoly/example'
 require 'fileutils'
 require 'kramdown'
 require 'kramdown-parser-gfm'
+
+require_relative '../unpoly-rails/lib/unpoly/rails/version'
 
 ##
 # Extensions
@@ -80,8 +81,7 @@ page '/*.txt', layout: false
 page '/*.html', layout: 'guide'
 
 sprockets.append_path File.expand_path('vendor/asset-libs')
-sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/javascripts')
-sprockets.append_path File.expand_path('vendor/unpoly-local/lib/assets/stylesheets')
+sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 
 
 Unpoly::Guide.current.reload
@@ -101,10 +101,12 @@ Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
   proxy path, "/api/feature_template.html", locals: { guide_id: guide_id }, ignore: true
 end
 
-Unpoly::Guide.current.versions.each do |version|
-  path = "/changes/#{version}.html" # the .html will be removed by Middleman's pretty directory indexes
+Unpoly::Guide.current.versions.each do |release_version|
+  path = "/changes/#{release_version}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/changes/release_template.html", locals: { version: version }, ignore: true
+  # We pass the release version instead of the release object,
+  # so the template will pick up changes when the guide reloads.
+  proxy path, "/changes/release_template.html", locals: { release_version: release_version }, ignore: true
 end
 
 Unpoly::Example.all.each do |example|
@@ -138,12 +140,16 @@ helpers do
     @guide ||= Unpoly::Guide.current
   end
 
+  def version
+    guide.version
+  end
+
   def gem_version
-    Unpoly::Tasks.gem_version
+    guide.gem_version
   end
 
   def pre_release?
-    Unpoly::Tasks.pre_release?
+    guide.pre_release?
   end
 
   def markdown(text, **options)
