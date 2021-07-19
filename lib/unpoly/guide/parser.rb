@@ -172,9 +172,8 @@ module Unpoly
       def parse(path)
         doc_comments = DocComment.find_in_path(path)
         doc_comments.each do |doc_comment|
-          if documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment)
-            documentable.text_source = doc_comment.text_source
-          end
+          documentable = parse_interface!(doc_comment.text) || parse_feature!(doc_comment) || cannot_parse!(doc_comment)
+          documentable.text_source = doc_comment.text_source
         end
       end
 
@@ -373,7 +372,11 @@ module Unpoly
       end
 
       def looks_like_published_feature?(feature_name)
-        feature_name =~ /^up[\.\:]/
+        feature_name =~ /^(x-)up[\.\:\-]/i
+      end
+
+      def cannot_parse!(doc_comment)
+        raise CannotParse, "Doc comment is neither interface nor feature: #{doc_comment.path_with_lines}"
       end
 
     end

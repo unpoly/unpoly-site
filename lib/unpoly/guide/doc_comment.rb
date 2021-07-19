@@ -48,6 +48,10 @@ module Unpoly
         end
       end
 
+      def path_with_lines
+        [path, start_line, end_line].join(':')
+      end
+
     end
   end
 end

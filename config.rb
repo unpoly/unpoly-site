@@ -45,8 +45,30 @@ configure :build do
   #   FileUtils.copy(from, to)
   # end
 
+  after_build do
+    puts "Checking for broken links. Disable with SKIP_CHECK_LINKS=1."
+    unless ENV['SKIP_CHECK_LINKS']
+      Dir.chdir('./build') do
+        begin
+          HTMLProofer.check_directory('.', {
+            assume_extension: true, url_ignore: [/github\.com/],
+            file_ignore: [
+              './CHANGELOG.md',
+              './changes/google_groups/index.html',
+              %r(^./images/.+\.html$),
+              %r(^./changes/[\d\.]+(-[a-z0-9]+)?/)
+            ],
+            disable_external: true,
+            checks_to_ignore: ['ImageCheck']
+          }).run
+          puts "All links OK."
+        rescue Exception => e
+          raise "Broken links found in build!"
+        end
+      end
+    end
+  end
 end
-
 
 
 ##
@@ -179,12 +201,18 @@ helpers do
 
     codes.each do |code_element|
       text = code_element.text
-      unless text.include?("\n") || text =~ /^["']/
+      unless text.include?("\n") || text =~ /^["']/ || text.include?('=')
         if code_element.ancestors('a, pre').blank?
           guide_id = text
-          guide_id = guide_id.sub('#', '.prototype.')
-          hash = nil
 
+          # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
+          # if guide_id =~ /^(.+?)\s*=(.+?)$/
+          #   guide_id = $1
+          # end
+
+          guide_id = guide_id.sub('#', '.prototype.')
+
+          hash = nil
           if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
             guide_id = $1
             hash = "config.#{$2}"

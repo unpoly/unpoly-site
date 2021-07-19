@@ -16,6 +16,8 @@ gem 'coffee-script'
 
 gem 'naturally'
 
+gem 'html-proofer'
+
 group :deploy do
   gem "capistrano", '<4'
   gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'

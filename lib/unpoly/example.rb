@@ -52,11 +52,11 @@ module Unpoly
     end
 
     def index_path
-      "#{@folder}/index.html"
+      "/#{@folder}/index.html"
     end
 
     def short_index_path
-      "#{@folder}"
+      "/#{@folder}"
     end
 
     def demo_path
