@@ -10,77 +10,44 @@
   <h2 id="ruby-on-rails">Ruby on Rails</h2>
 
   <p>
-    The <code>unpoly-rails</code> gem makes the Unpoly's JavaScript and CSS sources
-    available to the Rails asset pipeline. It also includes
-    <a href="http://www.rubydoc.info/github/unpoly/unpoly/master">some useful helpers</a>
-    for your controllers and views.
+    The <a href="https://github.com/unpoly/unpoly-rails"><code>unpoly-rails</code></a> gem implements the <a href="https://unpoly.com/up.protocol">optional server protocol</a> for Ruby on Rails applications.
   </p>
 
   <p>
-    To install Unpoly in Rails, add the following line to your <code>Gemfile</code>:
+    If you're using the <b>Asset Pipeline</b>, <code>unpoly-rails</code> also provides Unpoly's frontend files.
   </p>
 
-  <pre><code class="ruby">gem 'unpoly-rails'<%= ", '~>#{gem_version}'" if pre_release? %></code></pre>
-
-  <p>Now run <code>bundle install</code> and restart your development server.</p>
-
-  <p>Add the following line to your <code>application.js</code> manifest:</p>
-
-  <pre><code class="javascript">//= require unpoly</code></pre>
-
   <p>
-    If you're <a href="/changes/upgrading">upgrading from an older version</a>
-    you should also require <code>unpoly-migrate</code>:
+    If you're using <b>Webpacker</b>, install the <a href="https://unpoly.com/install/npm"><code>unpoly</code> npm package</a> to get Unpoly's frontend files.
   </p>
 
-  <pre><code class="javascript">//= require unpoly-migrate</code></pre>
-
-  <p>
-    Also add the following line to your <code>application.css</code> manifest:</p>
-  </p>
-
-  <pre><code class="css">/*
- *= require unpoly
- */</code></pre>
-
-  <h3>Installing with Bootstrap integration</h3>
-
-  <p>If you want to use Unpoly's Bootstrap integration, add the following to your <code>application.js</code> manifest <b>after requiring Bootstrap and Unpoly</b>:</p>
-
-  <pre><code class="javascript">//= require unpoly-bootstrap5</code></pre>
-
-  <p>
-    Also add the following to your <code>application.css</code> manifest <b>after requiring Bootstrap and Unpoly</b>:
-  </p>
-
-  <pre><code class="javascript">//= require unpoly-bootstrap5</code></pre>
-
-  <p>
-    If you are using Bootstrap 4, require <code>unpoly-bootstrap4</code> instead.<br>
-    If you are using Bootstrap 3, require <code>unpoly-bootstrap3</code> instead.</p>
 
   <h2 id="roda">Roda</h2>
 
   <p>
-    If your Roda app uses an asset bundler like Webpack, you can <a href="/install/npm">get Unpoly from npm</a>.
-    You can also <a href="/install/cdn">load Unpoly from a CDN</a>.
+    The <a href="https://github.com/adam12/roda-unpoly"><code>roda-unpoly</code></a> gem implements the <a href="https://unpoly.com/up.protocol">optional server protocol</a> for Roda applications.
   </p>
 
   <p>
-    If you need the <a href="/up.protocol">optional server protocol</a> in your Roda app,
-    check out the <a href="https://github.com/adam12/roda-unpoly">roda-unpoly</a> gem.
+    If your Roda app uses an asset bundler like Webpack, install the <a href="https://unpoly.com/install/npm"><code>unpoly</code> npm package</a> to get Unpoly's frontend files.
+  </p>
+
+  <p>
+    If you don't want to use npm you can <a href="/install/cdn">load Unpoly from CDN</a> or <a href="/install/download">download Unpoly directly</a>.
   </p>
 
   <h2 id="rack">Rack</h2>
 
   <p>
-    If your Rack app uses an asset bundler like Webpack, you can <a href="/install/npm">get Unpoly from npm</a>.
-    You can also <a href="/install/cdn">load Unpoly from a CDN</a>.
+    The <a href="https://github.com/adam12/rack-unpoly"><code>rack-unpoly</code></a> gem implements the <a href="https://unpoly.com/up.protocol">optional server protocol</a> for Rack applications.
   </p>
 
   <p>
-    If you need the <a href="/up.protocol">optional server protocol</a> in your Rack app,
-    check out the <a href="https://github.com/adam12/rack-unpoly">rack-unpoly</a> gem.
+    If your Rack app uses an asset bundler like Webpack, install the <a href="https://unpoly.com/install/npm"><code>unpoly</code> npm package</a> to get Unpoly's frontend files.
+  </p>
+
+  <p>
+    If you don't want to use npm you can <a href="/install/cdn">load Unpoly from CDN</a> or <a href="/install/download">download Unpoly directly</a>.
   </p>
 
   <%= partial 'star_prompt' %>

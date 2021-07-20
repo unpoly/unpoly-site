@@ -1,0 +1,27 @@
+<% @menu_path = '/install/menu' %>
+
+<h1>
+  <%= breadcrumb_link 'Install', '/install' %>
+  <%= page_title 'Install with Python' %>
+</h1>
+
+<div class="prose">
+
+  <p>
+    There are two separate PiP packages that implement the <a href="https://unpoly.com/up.protocol">optional server protocol</a> for the Django web framework:
+  </p>
+
+  <ul>
+    <li><a href="https://github.com/jwaschkau/django-unpoly"><code>django-unpoly</code></a></li>
+    <li><a href="https://github.com/jwaschkau/unpoly_django"><code>unpoly_django</code></a></li>
+  </ul>
+
+  <p>
+    If your Django app uses a bundler like Webpack, install the <a href="https://unpoly.com/install/npm"><code>unpoly</code> npm package</a> to get Unpoly's frontend files.
+  </p>
+
+  <p>
+    If you don't want to use npm you can <a href="/install/cdn">load Unpoly from CDN</a> or <a href="/install/download">download Unpoly directly</a>.
+  </p>
+
+</div>
