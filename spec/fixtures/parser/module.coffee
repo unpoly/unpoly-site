@@ -48,12 +48,6 @@
   ###
 
   ###**
-  @function test.module.essentialFunction
-  @stable
-  @essential
-  ###
-
-  ###**
   @function test.module.nonessentialFunction
   @stable
   ###
