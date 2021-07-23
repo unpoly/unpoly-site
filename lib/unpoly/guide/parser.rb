@@ -364,11 +364,7 @@ module Unpoly
       end
       
       def process_markdown(markdown)
-        # We cannot use triple-hashes for h3 since
-        # that would close CS block comments
-        markdown.gsub /(\\#){2,}/ do |match|
-          "#" * (match.size / 2)
-        end
+        markdown
       end
 
       def looks_like_published_feature?(feature_name)

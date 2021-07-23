@@ -21,12 +21,22 @@ module Unpoly
           code = File.read(path)
 
           if extension.include?('.coffee')
-            find_fenced(
+            comments = find_fenced(
               code: code,
               path: path,
               start_marker: /###\*\*/,
               end_marker: /###/
             )
+
+            # We cannot use triple-hashes for h3 since
+            # that would close CS block comments
+            comments.each do |comment|
+              comment.text.gsub! /(\\#){3,}/ do |match|
+                "#" * (match.size / 2)
+              end
+            end
+
+            comments
           elsif extension.include?('.js')
             find_fenced(
               code: code,
@@ -35,7 +45,7 @@ module Unpoly
               end_marker: /\*\//
             )
           elsif extension.include?('.md')
-            last_line_number = Util.count_linefeeds(code) + 1
+            last_line_number = Util.count_linefeeds(code) # line after last line feed does not appear in GitHub
             [TextSource.new(
               code,
               path: path,
