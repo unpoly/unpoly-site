@@ -206,12 +206,12 @@ module Unpoly
       end
 
       def source_paths
-        source_paths_for_root(File.join(path, "lib")) + source_paths_for_root('spec/fixtures')
+        source_paths_for_root(File.join(path, "lib")) + source_paths_for_root('spec/fixtures/parser')
       end
 
       def source_paths_for_root(root)
         File.directory?(root) or raise "Input path not found: #{root}"
-        pattern = File.join(root, "**/*{.coffee,.coffee.erb,.js,.js.erb}")
+        pattern = File.join(root, "**/*{.coffee,.coffee.erb,.js,.js.erb,.md}")
         log("Input pattern", pattern)
         Dir[pattern]
       end
