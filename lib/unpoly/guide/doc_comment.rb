@@ -35,7 +35,7 @@ module Unpoly
               end_marker: /\*\//
             )
           elsif extension.include?('.md')
-            last_line_number = Util.count_linefeeds(code) + 1
+            last_line_number = Util.count_linefeeds(code) # line after last line feed does not appear in GitHub
             [TextSource.new(
               code,
               path: path,
