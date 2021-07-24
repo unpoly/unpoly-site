@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'therubyracer'
-
 gem 'memoized'
 gem 'andand'
 gem 'nokogiri'
@@ -13,6 +11,7 @@ gem "middleman-sprockets"
 gem 'sass'
 gem 'haml'
 gem 'coffee-script'
+gem 'terser'
 
 gem 'naturally'
 

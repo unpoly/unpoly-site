@@ -32,8 +32,8 @@ configure :build do
 
   # Minify Javascript on build
   activate :minify_javascript, compressor: proc {
-    require 'uglifier'
-    Uglifier.new(harmony: true)
+    require 'terser'
+    Terser.new
   }
 
   # Enable cache buster
