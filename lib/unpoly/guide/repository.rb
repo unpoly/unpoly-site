@@ -206,7 +206,7 @@ module Unpoly
       end
 
       def source_paths
-        source_paths_for_root(File.join(path, "lib")) + source_paths_for_root('spec/fixtures/parser')
+        source_paths_for_root(File.join(path, "src")) + source_paths_for_root('spec/fixtures/parser')
       end
 
       def source_paths_for_root(root)
