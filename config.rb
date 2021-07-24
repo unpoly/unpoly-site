@@ -381,7 +381,8 @@ helpers do
   end
 
   def edit_button(documentable)
-    commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
+    # commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
+    commit = guide.git_revision
     url = documentable.text_source.github_url(guide, commit: commit)
     link_to '<i class="fa fa-edit"></i> Edit <span class="edit_link__etc">this page</span>', url, target: '_blank', class: 'hyperlink edit_link'
   end
