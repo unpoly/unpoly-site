@@ -36,7 +36,7 @@ describe Unpoly::Guide::DocComment do
       expect(comments.size).to eq(1)
 
       expect(comments[0].start_line).to eq(1)
-      expect(comments[0].end_line).to eq(3)
+      expect(comments[0].end_line).to eq(2)
       expect(comments[0].text).to eq("Doc comment\nSecond line\n")
 
     end

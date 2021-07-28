@@ -35,16 +35,23 @@ module Unpoly
               end_marker: /\*\//
             )
           elsif extension.include?('.md')
-            last_line_number = Util.count_linefeeds(code) # line after last line feed does not appear in GitHub
-            [TextSource.new(
-              code,
-              path: path,
-              start_line: 1,
-              end_line: last_line_number
-            )]
+            [build_for_whole_file(path)]
           else
             raise "Unsupported extension: #{extension}"
           end
+        end
+
+        def build_for_whole_file(path)
+          text = File.read(path)
+          last_line_number = Util.count_linefeeds(text) # line after last line feed does not appear in GitHub
+          comment = new(text)
+          comment.text_source = TextSource.new(
+            text,
+            path: path,
+            start_line: 1,
+            end_line: last_line_number
+          )
+          comment
         end
 
         def find_fenced(code:, start_marker:, end_marker:, path:)
