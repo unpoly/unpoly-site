@@ -24,14 +24,14 @@ module Unpoly
             find_fenced(
               code: code,
               path: path,
-              start_marker: /###\*\*/,
+              start_marker: /###-/,
               end_marker: /###/
             )
           elsif extension.include?('.js')
             find_fenced(
               code: code,
               path: path,
-              start_marker: /\/\*\*\*/,
+              start_marker: /\/\*-/,
               end_marker: /\*\//
             )
           elsif extension.include?('.md')
