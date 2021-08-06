@@ -310,8 +310,13 @@ helpers do
     "https://unpkg.com/unpoly@#{guide.version}/#{file}"
   end
 
-  def cdn_browse_url
-    "https://unpkg.com/unpoly@#{guide.version}/"
+  def cdn_browse_url(filename = nil)
+    "https://unpkg.com/unpoly@#{guide.version}/#{filename}"
+  end
+
+  def link_to_cdn_file(filename, link_options = {})
+    url = cdn_browse_url(filename)
+    link_to content_tag(:code, filename), url, link_options
   end
 
   def cdn_js_include(file)

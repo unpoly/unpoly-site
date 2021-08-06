@@ -10,9 +10,27 @@
   </p>
 
   <p>
-    To <b>re-enable old APIs</b>, load the file <code>unpoly-migrate.js</code> that <a href="/install">ships</a> with
-    Unpoly 2 or higher.
+    To <b>re-enable old APIs</b>, load the file <code>unpoly-migrate.js</code> that ships with
+    Unpoly 2 or higher:
   </p>
+
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-migrate.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-migrate.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped
+      </td>
+    </tr>
+  </table>
 
   <p>
     By loading <code>unpoly-migrate.js</code>, calls to most old APIs will be forwarded to the

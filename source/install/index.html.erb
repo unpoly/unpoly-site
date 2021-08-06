@@ -4,74 +4,90 @@
 
 <div class="prose">
 
-  <h2>Requirements</h2>
+  <h2>No dependencies</h2>
 
-  <ul>
-    <li>
-      Unpoly has <b>no dependencies</b>.
-    </li>
-  
-    <li>
-      You can write your server-side code in <b>any programming language</b> (Ruby, PHP, Node.js, Java, Elixir …).
-    </li>
-  
-    <li>
-      Unpoly supports  <%= hyperlink 'all modern browsers', '/up.browser' %>.
-  
-      If you need to support Internet Explorer 11,
-      you also need a <code>Promise</code> polyfill like <a href="https://github.com/stefanpenner/es6-promise">es6-promise</a> (2.4 KB gzipped).
-  
-    </li>
-  </ul>
-
-  <h2 id="files">Library files</h2>
+  <p>Unpoly has <b>no dependencies</b> on the client or server.</p>
 
   <p>
-    Unpoly consists of both JavaScript and (minimal) CSS files:
+    You can write your server-side code in <b>any programming language</b> like Ruby, Node.js, PHP or Python.
+    By loading the <a href="#files">frontend files</a> below, Unpoly's API becomes available to your HTML templates and JavaScripts.
+
+    <b>No server-side integration is required</b>.
   </p>
 
-  <ul>
-    <li>
-      <code>unpoly.min.js</code> (<%= unpoly_library_size('unpoly.min.js') %> gzipped)
-    </li>
-    <li>
-      <code>unpoly.min.css</code> (<%= unpoly_library_size('unpoly.min.css') %> gzipped)
-    </li>
-  </ul>
+  </p>
+    Unpoly also works great with static sites.
+  </p>
 
-  <h3>Bootstrap integration</h3>
+  <h2 id="files">Frontend files</h2>
 
   <p>
-    There are some <b>optional</b> files will help you if you are using <a href="http://getbootstrap.com/">Bootstrap</a>:
+    Unpoly consists one JavaScript file and one CSS file:
   </p>
 
-  <ul>
-    <li>
-      <code>unpoly-bootstrap3.min.js</code> (<%= unpoly_library_size('unpoly-bootstrap3.min.js') %> gzipped)
-    </li>
-    <li>
-      <code>unpoly-bootstrap3.min.css</code> (<%= unpoly_library_size('unpoly-bootstrap3.min.css') %> gzipped)
-    </li>
-    <li>
-      <code>unpoly-bootstrap4.min.css</code> (<%= unpoly_library_size('unpoly-bootstrap4.min.js') %> gzipped)
-    </li>
-    <li>
-      <code>unpoly-bootstrap5.min.css</code> (<%= unpoly_library_size('unpoly-bootstrap5.min.css') %> gzipped)
-    </li>
-  </ul>
-
-  <h3>Upgrade shim</h3>
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly.min.js') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly.css') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly.min.css') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly.min.css') %> gzipped
+      </td>
+    </tr>
+  </table>
 
   <p>
-    If you're <a href="/changes/upgrading">upgrading from an older version</a> you should also load <code>unpoly-migrate.js</code>
-    to enable deprecated APIs:
+    <code>unpoly.js</code> is transpiled to ES2020 and will work in all modern browsers.<br>
+    If Internet Explorer 11 if a concern for you, see <a href="#legacy-browsers">legacy browser support</a>.
   </p>
 
-  <ul>
-    <li>
-      <code>unpoly-migrate.min.js</code> (<%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped)
-    </li>
-  </ul>
+
+  <h2>Initialization</h2>
+
+  <p>
+    Include Unpoly before your own stylesheets and JavaScripts:
+  </p>
+
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel="stylesheet" href="unpoly.css" /&gt;
+    &lt;link rel="stylesheet" href="script.css" /&gt;
+    &lt;script src="unpoly.js"&gt;&lt;/script&gt;
+    &lt;script src="scripts.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- HTML here may use Unpoly attributes like [up-follow] --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <p>
+    Unpoly automatically initializes on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event"><code>DOMContentLoaded</code></a>
+    event and runs your <a href="http://localhost:4567/up.compiler">compilers</a> on the initial page.
+  </p>
+
+  <p>
+    <code>unpoly.js</code> defines a single global property <code>window.up</code> to expose its <a href="/api">API</a> to your JavaScripts.
+  </p>
+
 
   <h2 id="methods">Installation methods</h2>
 
@@ -88,6 +104,112 @@
     <li><%= hyperlink 'Install with Python', '/install/python' %></li>
     <li><%= hyperlink 'Install with Elixir', '/install/elixir' %></li>
   </ul>
+
+
+  <h2 id="legacy-browsers">Legacy browser support</h2>
+
+  <p>Unpoly supports <%= hyperlink 'all modern browsers', '/up.browser' %>.</p>
+
+  <p>
+    If you need to support Internet Explorer 11, you must load a <code>Promise</code> polyfill before you load Unpoly.
+    We recommend <a href="https://github.com/stefanpenner/es6-promise">es6-promise</a> (2.4 KB gzipped).
+  </p>
+
+  <p>
+    <code>unpoly.js</code> uses modern JavaScript syntax that is not supported for Internet Explorer 11.
+    If you're not already using a transpiler like <a href="https://babeljs.io/">Babel</a>, you may also use the ES5 build of Unpoly:
+  </p>
+
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly.es5.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly.es5.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly.es5.min.js') %> gzipped
+      </td>
+    </tr>
+  </table>
+
+  <h2>Bootstrap integration</h2>
+
+  <p>
+    If you're using <a href="http://getbootstrap.com/">Bootstrap</a>, there are some <b>optional</b> files that configures
+    Unpoly to use Bootstrap's CSS classes:
+  </p>
+
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap3.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap3.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap3.min.js') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap4.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap4.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap4.min.js') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap5.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap5.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap5.min.js') %> gzipped
+      </td>
+    </tr>
+  </table>
+
+  <h2>Upgrade shim</h2>
+
+  <p>
+    If you're <a href="/changes/upgrading">upgrading from an older version</a> you should also load <code>unpoly-migrate.js</code>
+    to enable deprecated APIs:
+  </p>
+
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-migrate.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-migrate.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped
+      </td>
+    </tr>
+  </table>
+
 
 </div>
 
