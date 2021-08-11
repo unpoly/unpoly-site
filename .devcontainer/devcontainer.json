@@ -4,8 +4,6 @@
         "dockerfile": "Dockerfile",
         "args": {
             "VARIANT": "2.6",
-            "INSTALL_NODE": "true",
-            "NODE_VERSION": "lts/*"
         }
     },
 
@@ -22,6 +20,7 @@
     "postAttachCommand": "bundle install",
 
     "mounts": [
-        "source=${localWorkspaceFolder}/../unpoly,target=/workspaces/unpoly,type=bind,consistency=cached"
+        "source=${localWorkspaceFolder}/../unpoly,target=/workspaces/unpoly,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/../unpoly-rails,target=/workspaces/unpoly-rails,type=bind,consistency=cached"
     ]
 }
