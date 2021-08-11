@@ -12,8 +12,6 @@ require 'fileutils'
 require 'kramdown'
 require 'kramdown-parser-gfm'
 
-require_relative '../unpoly-rails/lib/unpoly/rails/version'
-
 ##
 # Extensions
 #
