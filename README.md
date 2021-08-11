@@ -82,11 +82,12 @@ When you rename anything with a URL, e.g. by renaming an API function, please ad
 
 - Check out the repo
 - Make sure that the symlink `vendor/unpoly-local` points to a copy  of the source codes for the Unpoly framework. By default it is expected
-  that the `unpoly` and `unpoly-site` repositories are checked out in the same parent folder:
+  that the `unpoly`, `unpoly-site`, and `unpoly-rails` repositories are checked out in the same parent folder:
   
       projects/
         unpoly/
         unpoly-site/
+        unpoly-rails/
 
 - Make sure you have recent build compiled in `unpoly/dist`. Otherwise run `npm run build` in the `unpoly` directory.
 - Install the Ruby version from `.ruby-version`
@@ -98,7 +99,7 @@ When you rename anything with a URL, e.g. by renaming an API function, please ad
 
 If you're using an editor such as VSCode and have Docker available, you can use the DevContainer configuration provided without requiring any dependencies.
 
-1. Checkout `unpoly-site` alongside `unpoly` in the same parent folder (as above).
+1. Checkout `unpoly-site` alongside `unpoly` and `unpoly-rails` in the same parent folder (as above).
 2. Open project in VSCode.
 3. When prompted, choose to Reopen in Devcontainer.
 
