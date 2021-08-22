@@ -21,7 +21,7 @@ module Unpoly
         up.viewport
         up.history
         up.util
-        up.browser
+        up.framework
         up.log
       ].freeze
 

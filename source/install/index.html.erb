@@ -60,7 +60,7 @@
   </p>
 
 
-  <h2>Initialization</h2>
+  <h2 id="initialization">Initialization</h2>
 
   <p>
     Include Unpoly before your own stylesheets and JavaScripts:
@@ -80,10 +80,13 @@
 &lt;/html&gt;</code></pre>
 
   <p>
-    Unpoly automatically initializes on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event"><code>DOMContentLoaded</code></a>
-    event and runs your <a href="http://localhost:4567/up.compiler">compilers</a> on the initial page.
+    You may also load Unpoly with <code>&lt;script defer&gt;</code> or <code>&lt;script type="module"&gt;</code>.
+  </p>
 
-    Using <code>[async]</code>, <code>[defer]</code>, or <code>[type=module]</code> on the <code>&lt;script&gt;</code> tag that loads Unpoly is currently unsupported.
+  <p>
+    By default, Unpoly automatically initializes on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event"><code>DOMContentLoaded</code></a>
+    event and runs your <a href="/up.compiler">compilers</a> on the initial page.
+    For <b>manual</b> initialization, load Unpoly with <a href="/script-up-boot-manual">&lt;script up-boot="manual"&gt;</a> and later call <a href="/up.boot"><code>up.boot()</code></a>.
   </p>
 
   <p>
@@ -110,7 +113,7 @@
 
   <h2 id="legacy-browsers">Legacy browser support</h2>
 
-  <p>Unpoly supports <%= hyperlink 'all modern browsers', '/up.browser' %>.</p>
+  <p>Unpoly supports <%= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.</p>
 
   <p>
     If you need to support Internet Explorer 11, you must load a <code>Promise</code> polyfill before you load Unpoly.
@@ -118,7 +121,7 @@
   </p>
 
   <p>
-    <code>unpoly.js</code> uses modern JavaScript syntax that is not supported for Internet Explorer 11.
+    <code>unpoly.js</code> also uses modern JavaScript syntax that is not supported for Internet Explorer 11.
     If you're not already using a transpiler like <a href="https://babeljs.io/">Babel</a>, you may also use the ES5 build of Unpoly:
   </p>
 
