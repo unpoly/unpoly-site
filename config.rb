@@ -194,44 +194,106 @@ helpers do
     nokogiri_doc.to_html
   end
 
-  def autolink_code_in_nokogiri_doc(nokogiri_doc)
+  def autolink_code_in_nokogiri_doc(nokogiri_doc, link_current_path: false)
     codes = nokogiri_doc.css('code')
 
+    current_path = normalized_current_path
+
+    codes.each do |code_element|
+      text = code_element.text
+      if code_element.ancestors('a, pre').blank?
+        if (parsed = code_to_guide_location(text))
+          if link_current_path || (parsed[:path] != current_path)
+            href = parsed[:full_path]
+            code_element.wrap("<a href='#{h href}'></a>")
+          end
+        end
+      end
+    end
+  end
+
+  def autolink_code_in_markdown(markdown, link_current_path: false)
+    current_path = normalized_current_path
+
+    markdown.gsub(/(?<![`\[])`([^`]+)`(?![\]`])/) do
+      code = $1
+      if (parsed = code_to_guide_location(code)) && (link_current_path || (parsed[:path] != current_path))
+        href = parsed[:full_path]
+        "[`#{code}`](#{href})"
+      else
+        "`#{code}`"
+      end
+    end
+    # markdown.gsub(/(?<!\[)`([^`]+)`(?!\])/) do
+    #   code = $1
+    #   if (parsed = code_to_guide_location(code)) && (link_current_path || (parsed[:path] != current_path))
+    #     href = full_url ? parsed[:full_url] : parsed[:full_path]
+    #     "[`#{code}`](#{href})"
+    #   else
+    #     "`#{code}`"
+    #   end
+    # end
+  end
+
+  def urlify_paths_in_markdown(markdown)
+    markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) do
+      url = $1
+      if url.include?('://')
+        url
+      else
+        "https://unpoly.com#{url}"
+      end
+    end
+  end
+
+  def normalized_current_path
     current_path = current_page.path
     current_path = current_path.sub(/\/index\.html$/, '')
     current_path = current_path.sub(/\/$/, '')
     current_path = current_path.sub(/\.html$/, '')
     current_path = "/#{current_path}" unless current_path[0] == '/'
+    current_path
+  end
 
-    codes.each do |code_element|
-      text = code_element.text
-      unless text.include?("\n") || text =~ /^["']/ || text.include?('=')
-        if code_element.ancestors('a, pre').blank?
-          guide_id = text
+  def code_to_guide_location(code)
+    # For some code snippets there cannot be a guide symbol
+    if code.include?("\n") || code =~ /^["']/ || code.include?('=')
+      return
+    end
 
-          # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
-          # if guide_id =~ /^(.+?)\s*=(.+?)$/
-          #   guide_id = $1
-          # end
+    guide_id = code
 
-          guide_id = guide_id.sub('#', '.prototype.')
+    # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
+    # if guide_id =~ /^(.+?)\s*=(.+?)$/
+    #   guide_id = $1
+    # end
 
-          hash = nil
-          if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
-            guide_id = $1
-            hash = "config.#{$2}"
-          end
+    guide_id = guide_id.sub('#', '.prototype.')
 
-          guide_id = Unpoly::Guide::Util.slugify(guide_id)
-          if guide.guide_id_exists?(guide_id)
-            path = "/#{guide_id}"
-            unless path == current_path
-              href = [path, hash].compact.join('#')
-              code_element.wrap("<a href='#{h href}'></a>")
-            end
-          end
-        end
-      end
+    hash = nil
+    if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
+      guide_id = $1
+      hash = "config.#{$2}"
+    end
+
+    guide_id = Unpoly::Guide::Util.slugify(guide_id)
+    if guide.guide_id_exists?(guide_id)
+      path = "/#{guide_id}"
+      full_path = [path, hash].compact.join('#')
+      full_url = "https://unpoly.com#{path}"
+
+      return {
+        path: path,
+        hash: hash,
+        full_path: full_path,
+        full_url: full_url
+      }
+    end
+  end
+
+  def code_to_guide_url(text)
+    if (path = code_to_guide_path(text))
+      "https://unpoly.com#{path}"
     end
   end
 

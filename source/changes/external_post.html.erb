@@ -1,0 +1,13 @@
+---
+layout: false
+---
+
+<pre>
+<%- guide.releases[0..4].each do |release| -%>
+<%= release.version %>
+<%= '=' * release.version.size %>
+
+<%= h urlify_paths_in_markdown(autolink_code_in_markdown(release.markdown)) %>
+
+<%- end -%>
+</pre>
