@@ -41,6 +41,15 @@
 
   <%= image_tag 'changes/log-deprecation.png', class: 'picture has_border is_sepia', width: 700 %>
 
+  <h3>Installing <code>unpoly-migrate.js</code></h3>
+
+  <code>unpoly-migrate.js</code> must be loaded <i>after</i> Unpoly, but <i>before</i> your own code. For example:
+
+  <pre><code>&lt;script src="unpoly.js"&gt;
+&lt;script src="unpoly-migrate.js"&gt;
+&lt;script src="app.js"&gt;
+  </code></pre>
+
   <h3>What <code>unpoly-migrate.js</code> does</h3>
 
   <h4>Renamed functions are aliased</h4>
