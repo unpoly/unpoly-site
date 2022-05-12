@@ -113,16 +113,16 @@
 
   <h2 id="legacy-browsers">Legacy browser support</h2>
 
-  <p>Unpoly supports <%= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.</p>
+  <p>Recent versions of Unpoly supports <%= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.</p>
 
   <p>
-    If you need to support Internet Explorer 11, you must load a <code>Promise</code> polyfill before you load Unpoly.
-    We recommend <a href="https://github.com/stefanpenner/es6-promise">es6-promise</a> (2.4 KB gzipped).
+    The last version with support for Internet Explorer 11 is <a href="/changes/2.6.0">2.6.x</a>a>.
   </p>
 
   <p>
-    <code>unpoly.js</code> also uses modern JavaScript syntax that is not supported for Internet Explorer 11.
-    If you're not already using a transpiler like <a href="https://babeljs.io/">Babel</a>, you may also use the ES5 build of Unpoly:
+    <code>unpoly.js</code> also uses modern JavaScript syntax that may not supported by some legacy browsers or build pipelines.
+    If you're not already working around this with a transpiler like <a href="https://babeljs.io/">Babel</a>,
+    you may also use the ES5 build of Unpoly:
   </p>
 
   <table>
