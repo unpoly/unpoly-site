@@ -412,6 +412,7 @@ helpers do
     'Object' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects',
     'Promise' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises',
     'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData',
+    'URL' => 'https://developer.mozilla.org/en-US/docs/Web/API/URL',
     'Event' => 'https://developer.mozilla.org/en-US/docs/Web/API/Event',
     'Error' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error',
     'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest',

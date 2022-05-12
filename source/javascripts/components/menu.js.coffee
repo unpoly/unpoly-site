@@ -34,10 +34,10 @@ class Node
 
   toggleExpanded: (newExpanded) =>
     @isExpanded = newExpanded ? !@isExpanded # toggle when not given
-    up.element.toggleClass(@element, 'is_expanded', @isExpanded)
+    @element.classList.toggle('is_expanded', @isExpanded)
     if @childNodes?.length
-      up.element.toggleClass(@collapser, EXPANDED_ICON, @isExpanded)
-      up.element.toggleClass(@collapser, COLLAPSED_ICON, !@isExpanded)
+      @collapser.classList.toggle(EXPANDED_ICON, @isExpanded)
+      @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
     else
       @collapser.classList.add(CHILDLESS_ICON)
     if @isExpanded
@@ -125,7 +125,7 @@ up.compiler '.menu', (menu) ->
         rootNode.resetMatch()
 
     for rootNode in rootNodes
-      up.element.toggleClass(rootNode.element, 'has_query', hasQuery)
+      rootNode.element.classList.toggle('has_query', hasQuery)
 
   searchInput?.addEventListener 'input', find
 
