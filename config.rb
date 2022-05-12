@@ -257,7 +257,7 @@ helpers do
 
   def code_to_guide_location(code)
     # For some code snippets there cannot be a guide symbol
-    if code.include?("\n") || code =~ /^["']/ || code.include?('=')
+    if code.include?("\n") || code =~ /^["']/ || code.include?('=') || code.starts_with?('{')
       return
     end
 
