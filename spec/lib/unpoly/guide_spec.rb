@@ -6,32 +6,30 @@ describe Unpoly::Guide do
 
   describe 'parsing of doc comments' do
 
-    def find(name)
-      subject.find_by_name!(name)
-    end
+    delegate :find_by_name!, :find_by_guide_id!, to: :subject
 
     describe 'modules (e.g. up.fragment)' do
 
       it 'parses a module' do
-        interface = find('test.module')
+        interface = find_by_name!('test.module')
         expect(interface.kind).to eq('module')
       end
 
       it 'parses the module title from its Markdown' do
-        interface = find('test.module')
+        interface = find_by_name!('test.module')
         expect(interface.title).to eq('Test module')
       end
 
       describe 'functions' do
 
         it 'associates them with the last declared module' do
-          interface = find('test.module')
-          function = find('test.module.function')
+          interface = find_by_name!('test.module')
+          function = find_by_name!('test.module.function')
           expect(interface.functions).to include(function)
         end
 
         it 'parses the signature' do
-          function = find('test.module.function')
+          function = find_by_name!('test.module.function')
           expect(function.name).to eq('test.module.function')
           expect(function.kind).to eq('function')
           expect(function.params[0].name).to eq('target')
@@ -44,12 +42,12 @@ describe Unpoly::Guide do
         end
 
         it 'parses the return value' do
-          function = find('test.module.function')
+          function = find_by_name!('test.module.function')
           expect(function.response.types).to contain_exactly('boolean')
         end
 
         it 'parses a default argument' do
-          function = find('test.module.functionWithDefault')
+          function = find_by_name!('test.module.functionWithDefault')
           expect(function.params.first).to be_optional
           expect(function.params.first.default).to eq("'default value'")
         end
@@ -59,7 +57,7 @@ describe Unpoly::Guide do
       describe 'selectors' do
 
         it 'parses a selector' do
-          selector = find('[test-module-selector]')
+          selector = find_by_name!('[test-module-selector]')
           expect(selector.name).to eq('[test-module-selector]')
           expect(selector.kind).to eq('selector')
           expect(selector.signature).to eq('[test-module-selector]')
@@ -70,7 +68,7 @@ describe Unpoly::Guide do
       describe 'properties' do
 
         it 'parses a property' do
-          property = find('test.module.property')
+          property = find_by_name!('test.module.property')
           expect(property.name).to eq('test.module.property')
           expect(property.kind).to eq('property')
           expect(property.signature).to eq('test.module.property')
@@ -78,7 +76,7 @@ describe Unpoly::Guide do
         end
 
         it 'parses a property with a structured object value' do
-          property = find('test.module.objectProperty')
+          property = find_by_name!('test.module.objectProperty')
           expect(property.name).to eq('test.module.objectProperty')
           expect(property.kind).to eq('property')
           expect(property.signature).to eq('test.module.objectProperty')
@@ -92,7 +90,7 @@ describe Unpoly::Guide do
         end
 
         it 'parses a property with an array default value' do
-          property = find('test.module.propertyWithArrayDefault')
+          property = find_by_name!('test.module.propertyWithArrayDefault')
           expect(property.params[0].name).to eq('propertyWithArrayDefault')
           expect(property.params[0].types).to contain_exactly('Array<string>')
           expect(property.params[0].default).to eq("['foo', 'bar']")
@@ -103,32 +101,32 @@ describe Unpoly::Guide do
       describe 'visibilities' do
 
         it 'parses a stable visibility' do
-          function = find('test.module.stableFunction')
+          function = find_by_name!('test.module.stableFunction')
           expect(function.visibility).to eq('stable')
         end
 
         it 'parses an experimental visibility' do
-          function = find('test.module.experimentalFunction')
+          function = find_by_name!('test.module.experimentalFunction')
           expect(function.visibility).to eq('experimental')
         end
 
         it 'parses a deprecated visibility' do
-          function = find('test.module.deprecatedFunction')
+          function = find_by_name!('test.module.deprecatedFunction')
           expect(function.visibility).to eq('deprecated')
         end
 
         it 'parses deprecation reasons' do
-          function = find('test.module.deprecatedFunction')
+          function = find_by_name!('test.module.deprecatedFunction')
           expect(function.visibility_comment).to match(/use something else/i)
         end
 
         it 'returns a default visibility comment for experimental features' do
-          function = find('test.module.experimentalFunction')
+          function = find_by_name!('test.module.experimentalFunction')
           expect(function.visibility_comment).to match(/feature is experimental/i)
         end
 
         it 'returns no default visibility comment for stable features' do
-          function = find('test.module.stableFunction')
+          function = find_by_name!('test.module.stableFunction')
           expect(function.visibility_comment).to be_nil
         end
 
@@ -137,14 +135,14 @@ describe Unpoly::Guide do
       describe 'params note' do
 
         it 'parses a params note' do
-          function = find('test.module.functionWithParamsNote')
+          function = find_by_name!('test.module.functionWithParamsNote')
           expect(function.params_note).to match(/all options from other function may be used/i)
         end
 
       end
 
       it 'remembers the file and line range from which a module was loaded' do
-        interface = find('test.module')
+        interface = find_by_name!('test.module')
         expect(interface.text_source.path).to end_with('spec/fixtures/parser/module.coffee')
         expect(interface.text_source.start_line).to eq(1)
         expect(interface.text_source.end_line).to eq(6)
@@ -155,7 +153,7 @@ describe Unpoly::Guide do
     describe 'references' do
 
       it 'parses a reference to another guide entry' do
-        function = find('test.module.referencingFunction')
+        function = find_by_name!('test.module.referencingFunction')
         expect(function.references?).to eq(true)
         expect(function.references.size).to eq(1)
 
@@ -166,15 +164,27 @@ describe Unpoly::Guide do
 
     end
 
+    describe 'explicit parent' do
+
+      it 'parses a @parent reference and adds the documentable to the children of another' do
+        klass = find_by_guide_id!('test.Class')
+        expect(klass.explicit_parent_name).to eq('test.module')
+
+        parent = find_by_guide_id!('test.Class')
+        expect(parent.children).to include(klass)
+      end
+
+    end
+
     describe 'classes (like up.Response)' do
 
       it 'parses classes' do
-        interface = find('test.Class')
+        interface = find_by_guide_id!('test.Class')
         expect(interface.kind).to eq('class')
       end
 
       it 'parses constructors, but gives it a guide ID that does not conflict with the class itself' do
-        klass = find('test.Class')
+        klass = find_by_guide_id!('test.Class')
         constructor = klass.constructor
         expect(constructor).to_not be_nil
         expect(constructor.guide_id).to_not eq(klass.guide_id)
@@ -187,7 +197,7 @@ describe Unpoly::Guide do
     describe 'pages' do
 
       it 'parses a content page' do
-        interface = find('test.page')
+        interface = find_by_name!('test.page')
         expect(interface.title).to eq('Test Page')
       end
 

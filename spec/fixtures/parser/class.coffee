@@ -1,5 +1,6 @@
   ###-
   @class test.Class
+  @parent test.module
   ###
 
   ###-

@@ -1,0 +1,23 @@
+<% guide.promoted_interfaces.each do |interface|  %>
+  <div class="node">
+    <%= node_link interface.title, interface.guide_path %>
+
+    <%
+      topics_group = interface.all_topics
+      html_group = interface.menu_children.select { |documentable| documentable.kind?(:selector) }.sort
+      event_group =  interface.menu_children.select { |feature| feature.kind?(:event) }.sort
+      javascript_group = interface.menu_children.select { |feature| feature.kind?(:function, :property, :class, :constructor) }.sort
+      http_group = interface.menu_children.select { |feature| feature.kind?(:header, :cookie) }.sort
+    %>
+
+    <%# topics_group.each do |topic| %>
+      <%#= partial 'nodes/documentable', locals: { documentable: topic } %>
+    <%# end %>
+
+    <%= partial 'nodes/group', locals: { title: 'Topics', documentables: topics_group } %>
+    <%= partial 'nodes/group', locals: { title: 'HTML', documentables: html_group } %>
+    <%= partial 'nodes/group', locals: { title: 'Events', documentables: event_group } %>
+    <%= partial 'nodes/group', locals: { title: 'JavaScript', documentables: javascript_group } %>
+    <%= partial 'nodes/group', locals: { title: 'HTTP', documentables: http_group } %>
+  </div>
+<% end %>

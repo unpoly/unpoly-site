@@ -1,9 +1,9 @@
 module Unpoly
   module Guide
     class Feature
+      include Documentable
       include Memoized
       include Logger
-      include Referencer
 
       def initialize(kind, name)
         @name = name
@@ -16,29 +16,14 @@ module Unpoly
         @default = nil
         @optional = false
         @interface = nil
-        # @preventable = false
       end
 
       attr_accessor :response
-      attr_accessor :name
       attr_accessor :visibility
-      attr_accessor :guide_markdown
       attr_accessor :params
-      attr_accessor :event
       attr_accessor :interface
-      attr_accessor :kind
-      attr_accessor :text_source
-      # attr_accessor :essential
-
       attr_accessor :params_note
-
-      # attr_accessor :preventable
-
       attr_writer :visibility_comment
-
-      # def essential?
-      #   !!essential
-      # end
 
       def visibility_comment
         comment = @visibility_comment.strip
@@ -55,6 +40,10 @@ module Unpoly
             '**This feature is experimental**. It may be changed or removed in a future version.'
           end
         end
+      end
+
+      def menu_title
+        short_signature
       end
 
       def signature(short: false)
@@ -245,27 +234,9 @@ module Unpoly
       #   @preventable
       # end
 
-      def guide_anchor
-        Util.slugify(name)
-      end
-
-      def <=>(other)
-        sort_name <=> other.sort_name
-      end
-
-      def sort_name
-        sort_name = name
-        sort_name = sort_name.downcase
-        # sort_name = sort_name.sub(/^.+\bup\b/, 'up')
-        sort_name = sort_name.gsub(/[^A-Za-z0-9\-]/, '-')
-        sort_name = sort_name.sub(/-{2,}/, '-')
-        sort_name = sort_name.sub(/^-+/, '')
-        sort_name = sort_name.sub(/-+$/, '')
-        if name.starts_with?('up.$')
-          sort_name << 'z' # sort up.$compiler behing up.compiler
-        end
-        sort_name
-      end
+      # def guide_anchor
+      #   Util.slugify(name)
+      # end
 
       # def search_text
       #   strings = []
@@ -286,10 +257,6 @@ module Unpoly
       #   parts.join(' ')
       # end
 
-      def summary_markdown
-        Util.first_markdown_paragraph(@guide_markdown)
-      end
-
       def guide_id
         str = name
 
@@ -306,13 +273,9 @@ module Unpoly
         Util.slugify(str)
       end
 
-      def guide_path
-        "/#{guide_id}"
-      end
-
       memoize def param_groups
         groups = params.group_by { |param| param.option_hash_name || param.name }
-        groups.map { |group|  
+        groups.map { |group|
           if group.first.option?
             OptionsParam.new(group)
           else
@@ -323,6 +286,18 @@ module Unpoly
 
       def options_params
         param_groups.select { |group| group.is_a?(OptionsParam) }
+      end
+
+      def children
+        super + params
+      end
+
+      def menu_modifiers
+        [visibility]
+      end
+
+      def guide_page?
+        !internal?
       end
 
     end

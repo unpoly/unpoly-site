@@ -13,36 +13,59 @@ class Node
   EXPANDED_ICON  = 'fa-minus-square-o'
   COLLAPSED_ICON = 'fa-plus-square-o'
   CHILDLESS_ICON = 'fa-angle-right'
+  PAGE_ICON = 'fa-bookmark-o'
 
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node__self')[0]
     text = @self.textContent
     @searchText = normalizeText(text)
+#    @searchText += @parentNode.searchText unless @isRoot()
     # text = u.escapeHtml(text)
     # Allow the browser to wrap at dots and hashes
     # text = text.replace(/(\.|\#)/g, '$1<wbr>')
     # @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
-    @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
-    @self.prepend(@collapser)
-    @isExpanded = false
-    @toggleExpanded(false)
-    @collapser.addEventListener 'up:click', (event) =>
-      @toggleExpanded()
-      up.event.halt(event)
 
-  toggleExpanded: (newExpanded) =>
-    @isExpanded = newExpanded ? !@isExpanded # toggle when not given
+    unless @isGroup()
+      @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
+      @self.prepend(@collapser)
+      @collapser.addEventListener 'up:click', (event) =>
+        @toggleExpanded()
+        if @isMatch()
+          @element.classList.add('is_force_toggled')
+
+        up.event.halt(event)
+
+    @toggleExpanded(false)
+
+
+  toggleExpanded: (forcedState) =>
+    if @isGroup()
+      forcedState = true
+
+    @isExpanded = forcedState ? !@isExpanded # toggle when not given
     @element.classList.toggle('is_expanded', @isExpanded)
-    if @childNodes?.length
-      @collapser.classList.toggle(EXPANDED_ICON, @isExpanded)
-      @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
-    else
-      @collapser.classList.add(CHILDLESS_ICON)
+
+    if @collapser
+      if @childNodes?.length
+        @collapser.classList.toggle(EXPANDED_ICON, @isExpanded)
+        @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
+      else
+        if @isPage()
+          @collapser.classList.add(PAGE_ICON)
+        else
+          @collapser.classList.add(CHILDLESS_ICON)
+
     if @isExpanded
       # To ensure this node is visible, we need to expand our ancestry
       @parentNode?.toggleExpanded(true)
+
+  isGroup: =>
+    @element.matches('.is_group')
+
+  isPage: =>
+    @element.matches('.is_page')
 
   isRoot: =>
     not @parentNode
@@ -50,30 +73,45 @@ class Node
   isChild: =>
     not @isRoot()
 
+  isMatch: =>
+    @element.matches('.is_match')
+
+  root: =>
+    if @isRoot()
+      this
+    else
+      @parentNode.root()
+
   marker: =>
     @_marker ||= new Mark(@self)
 
   match: (words) =>
     @resetMatch() if @isRoot()
-    if @isMatch(words)
-      @marker().mark(words, acrossElements: true)
-      @notifyIsMatch()
-      @parentNode?.notifyIsMatch()
+    if @matchesQuery(words)
+      @highlight(words)
+      @notifyIsMatch(words)
+      @parentNode.notifyIsMatch(words) unless @isRoot()
     for childNode in @childNodes
       childNode.match(words)
 
-  notifyIsMatch: =>
+  highlight: (words) =>
+    @marker().mark(words, acrossElements: true)
+
+  unhighlight: =>
+    @marker().unmark()
+
+  notifyIsMatch: (words) =>
     @element.classList.add('is_match')
     @toggleExpanded(false)
-    @parentNode?.notifyIsMatch()
+    @parentNode.notifyIsMatch(words) unless @isRoot()
 
   resetMatch: =>
-    @marker().unmark()
-    @element.classList.remove('is_match')
+    @unhighlight()
+    @element.classList.remove('is_match', 'is_force_toggled')
     for childNode in @childNodes
       childNode.resetMatch()
 
-  isMatch: (words) =>
+  matchesQuery: (words) =>
     if u.isArray(words)
       if words.length
         isMatch = true

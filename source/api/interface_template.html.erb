@@ -1,7 +1,7 @@
 <%
- guide.reload if development?
- interface = guide.interface_for_name!(interface_name)
- @page_title = interface.title
+  guide.reload if development?
+  interface = guide.find_by_guide_id!(interface_id)
+  @page_title = interface.title
 %>
 
 <%= edit_button(interface) %>
@@ -28,9 +28,9 @@
     <div class="expandable">
 
       <div class="expandable__limiter">
-       <div class="expandable__content">
-         <%= markdown_prose(interface.guide_markdown) %>
-       </div>
+         <div class="expandable__content">
+           <%= markdown_prose(interface.guide_markdown) %>
+         </div>
       </div>
 
       <span class="expandable__expand action">Read more</span>
@@ -41,7 +41,17 @@
   <% end %>
 <% end %>
 
-<% if (essential_features = interface.references.presence) %>
+<% if (sub_topics = interface.sub_topics.presence) %>
+  <h2>Topics</h2>
+
+  <ul class="sub_topics">
+    <% sub_topics.each do |sub_topic| %>
+       <%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.title, sub_topic.guide_path, class: 'sub_topic' %>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if (essential_features = interface.essential_features.presence) %>
   <h2>Essential features</h2>
 
   <div class="essential_features">

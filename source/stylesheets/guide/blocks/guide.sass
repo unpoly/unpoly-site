@@ -34,7 +34,7 @@ $VERSION_NAV_WIDTH: 90px
 
   +on_wide
     background-color: $COLOR_LEFT
-    width: $LEFT_WIDTH - $VERSION_NAV_WIDTH
+    width: calc(#{$LEFT_WIDTH} - #{$VERSION_NAV_WIDTH})
 
 .guide__version_nav
   flex: 0 0 $VERSION_NAV_WIDTH
@@ -78,6 +78,7 @@ $VERSION_NAV_WIDTH: 90px
   bottom: 0
   overflow-y: scroll
   overflow-x: hidden
+  +pretty-scrollbars
 
 .guide__fineprint
   margin-top: 40px

@@ -38,10 +38,10 @@ module Unpoly
         synchronize do
           log "reload()"
           @interfaces = []
-          @feature_index = nil
           @changelog = nil
           @promoted_interfaces = nil
-          parse()
+          unindex
+          parse
           self
         end
       end
@@ -62,39 +62,10 @@ module Unpoly
         synchronize do
           @promoted_interfaces ||= begin
             PROMOTED_INTERFACE_NAMES.map do |interface_name|
-              interface_for_name!(interface_name)
+              find_by_name!(interface_name)
             end
           end
         end
-      end
-
-      def feature_index
-        synchronize do
-          @feature_index
-        end
-      end
-
-      def all_features
-        feature_index.all
-      end
-
-      def all_feature_guide_ids
-        # We have multiple selectors called [up-close]
-        feature_index.guide_ids
-      end
-
-      def feature_for_guide_id(guide_id)
-        features_for_guide_id(guide_id).first
-      end
-
-      # Since we (e.g.) have multiple selectors called [up-close],
-      # we display all of them on the same guide page.
-      def features_for_guide_id(guide_id)
-        feature_index.find_guide_id(guide_id)
-      end
-
-      def guide_id_exists?(guide_id)
-        feature_index.guide_id_exists?(guide_id) || interface_with_guide_id_exists?(guide_id)
       end
 
       def version
@@ -136,63 +107,78 @@ module Unpoly
 
       def interfaces
         synchronize do
-          @interfaces
+          @interfaces ||= []
         end
-      end
-
-      def merge_interface(new_interface)
-        synchronize do
-          if (existing_interface = interface_for_name(new_interface.name))
-            existing_interface.merge!(new_interface)
-            return existing_interface
-          else
-            @interfaces << new_interface
-            return new_interface
-          end
-        end
-      end
-
-      def interface_for_name(name)
-        interfaces.detect { |interface| interface.name == name }
-      end
-
-      def interface_for_name!(name)
-        interface_for_name(name) or raise UnknownInterface, "No such interface: #{name}"
-      end
-
-      def feature_for_name(name)
-        features.detect { |feature| feature.name == name }
-      end
-
-      def feature_for_name!(name)
-        feature_for_name(name) or raise UnknownFeature, "No such feature: #{name}"
-      end
-
-      def find_by_name(name)
-        interface_for_name(name) || feature_for_name(name)
-      end
-
-      def find_by_name!(name)
-        interface_for_name(name) || feature_for_name(name) or raise Unknown, "No such interface or feature: #{name}"
-      end
-
-      # def interface_for_guide_id(guide_id)
-      #   interfaces.detect { |interface| interface.guide_id == guide_id } or raise UnknownInterface, "No such Interface: #{guide_id}"
-      # end
-
-      def interface_with_guide_id_exists?(guide_id)
-        !!interfaces.detect { |interface| interface.guide_id == guide_id }
-      end
-
-      def inspect
-        "#<#{self.class.name} interface_names=#{interfaces.collect(&:name)}>"
       end
 
       def features
         interfaces.flat_map(&:features)
       end
 
+      def documentables
+        interfaces + features
+      end
+
+      def merge_interface(new_interface)
+        synchronize do
+          if (existing_interface = find_by_name(new_interface.name))
+            existing_interface.merge!(new_interface)
+            return existing_interface
+          else
+            interfaces << new_interface
+            unindex
+            return new_interface
+          end
+        end
+      end
+
+      def find_by_name(name)
+        documentables_by_name[name]
+      end
+
+      def find_by_name!(name)
+        find_by_name(name) or raise Unknown, "No Documentable with name '#{name}'"
+      end
+
+      def find_by_guide_id(guide_id)
+        documentables_by_guide_id[guide_id]
+      end
+
+      def find_by_guide_id!(guide_id)
+        find_by_guide_id(guide_id) or raise Unknown, "No Documentable with guide_id '#{guide_id}'"
+      end
+
+      def guide_id_exists?(guide_id)
+        !!find_by_guide_id(guide_id)
+      end
+
+      def all_by_explicit_parent_name(explicit_parent_name)
+        documentables_by_explicit_parent_name[explicit_parent_name] || []
+      end
+
+      def inspect
+        "#<#{self.class.name} interface_names=#{interfaces.collect(&:name)}>"
+      end
+
       private
+
+      def unindex
+        @documentables_by_guide_id = nil
+        @documentables_by_name = nil
+        @documentables_by_explicit_parent_name = nil
+      end
+
+      def documentables_by_guide_id
+        @documentables_by_guide_id ||= documentables.index_by(&:guide_id)
+      end
+
+      def documentables_by_name
+        @documentables_by_name ||= documentables.index_by(&:name)
+      end
+
+      def documentables_by_explicit_parent_name
+        @documentables_by_explicit_parent_name ||= documentables.group_by(&:explicit_parent_name)
+      end
 
       def parse
         log "parse()"
@@ -202,7 +188,6 @@ module Unpoly
         paths.each do |source_path|
           parser.parse(source_path)
         end
-        @feature_index = Feature::Index.new(features)
       end
 
       def source_paths

@@ -19,6 +19,12 @@ module Unpoly
         (.+)                   # class name ($2)
       }x
 
+      EXPLICIT_PARENT_PATTERN = %r{
+        \@parent
+        \                      # space
+        (.+)                   # parent interface name ($1)
+      }x
+
       TITLE_PATTERN = %r{
         \A         # beginning of text
         [\ \t\n]*  # whitespace and line breaks
@@ -192,6 +198,8 @@ module Unpoly
 
           parse_references!(block, interface)
 
+          parse_explicit_parent!(block, interface)
+
           # All the remaining text is guide prose
           interface.guide_markdown = process_markdown(block)
 
@@ -296,6 +304,12 @@ module Unpoly
         end
       end
 
+      def parse_explicit_parent!(block, documentable)
+        if block.sub!(EXPLICIT_PARENT_PATTERN, '')
+          documentable.explicit_parent_name = $1
+        end
+      end
+
       def parse_reference_name!(block)
         if block.sub!(REFERENCE_PATTERN, '')
           return $1
@@ -362,7 +376,7 @@ module Unpoly
           types
         end
       end
-      
+
       def process_markdown(markdown)
         # We cannot use triple-hashes for h3 since
         # that would close CS block comments
