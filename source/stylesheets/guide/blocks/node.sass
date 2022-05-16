@@ -7,7 +7,7 @@ $addon-offset-y: 2px
 
 .node
   position: relative
-  +font-size($FONT_SIZE, 3px)
+  +font-size($FONT_SIZE, 4px)
   +bold
 
 .node > .node
@@ -15,6 +15,37 @@ $addon-offset-y: 2px
   margin-left: 20px
   +font-size($FONT_SIZE - 2px, 3px)
   margin-bottom: 0
+
+.node_group
+  $color: desaturate(#3182bd, 0%)
+
+  margin-top: 3px
+  margin-bottom: 3px
+  +font-size($FONT_SIZE - 4px, 3px)
+  color: $color
+  display: none
+  margin-left: 20px
+  text-transform: uppercase
+  position: relative
+
+  &:before
+    content: ''
+    position: absolute
+    left: 0
+    top: 9px
+    right: 0
+    height: 1px
+    background-color: lighten($color, 30%)
+    z-index: 0
+
+  .node.is_expanded > &
+    display: block
+
+.node_group__self
+  background-color: white
+  position: relative
+  padding-right: 5px
+  z-index: 1
 
 .node.is_expanded > .node,
 .node.is_match > .node.is_match

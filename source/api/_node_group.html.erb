@@ -1,0 +1,18 @@
+<% if features.present? %>
+  <div class="node_group">
+    <span class="node_group__self">
+      <%= title %>
+    </span>
+  </div>
+  <% features.sort.each do |feature| %>
+    <div class="node is_<%= feature.visibility %>">
+      <%= node_link feature.short_signature, feature.guide_path %>
+      <% feature.guide_params.each do |param| %>
+        <div class="node">
+          <%= node_link param.guide_name, param.guide_path %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+

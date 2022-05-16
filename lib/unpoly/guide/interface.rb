@@ -2,7 +2,7 @@ module Unpoly
   module Guide
     class Interface
       include Logger
-      include Referencer
+      include Node
 
       def initialize(kind, name)
         @kind = kind
@@ -14,10 +14,6 @@ module Unpoly
       end
 
       # attr_accessor :visibility
-      attr_accessor :kind
-      attr_accessor :name
-      attr_accessor :guide_markdown
-      attr_accessor :text_source
       attr_reader :features
 
       attr_accessor :explicit_title
@@ -45,10 +41,6 @@ module Unpoly
         else
           throw "Unhandled kind: #{kind}"
         end
-      end
-
-      def long_kind
-        kind.capitalize
       end
 
       def code?
@@ -130,22 +122,6 @@ module Unpoly
         long_text = (guide_markdown.size > 1800) || (name == 'up.link')
         important_content_below_text = features.present?
         long_text && important_content_below_text
-      end
-
-      def guide_id
-        Util.slugify(name)
-      end
-
-      def guide_path
-        "/#{guide_id}"
-      end
-
-      def summary_markdown
-        Util.first_markdown_paragraph(@guide_markdown)
-      end
-
-      def inspect
-        "#<#{self.class.name} @name=#{name}>"
       end
 
       def merge!(new_interface)
