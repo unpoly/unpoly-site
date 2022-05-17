@@ -1,9 +1,9 @@
 module Unpoly
   module Guide
     class Feature
+      include Documentable
       include Memoized
       include Logger
-      include Node
 
       def initialize(kind, name)
         @name = name

@@ -1,8 +1,8 @@
 module Unpoly
   module Guide
     class Interface
+      include Documentable
       include Logger
-      include Node
 
       def initialize(kind, name)
         @kind = kind
