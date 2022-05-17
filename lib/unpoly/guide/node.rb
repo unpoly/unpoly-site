@@ -6,6 +6,7 @@ module Unpoly
       attr_accessor :kind
       attr_accessor :name
       attr_accessor :guide_markdown
+      attr_accessor :text_source
 
       def long_kind
         kind.capitalize
