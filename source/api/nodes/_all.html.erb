@@ -1,0 +1,9 @@
+<% guide.promoted_interfaces.each do |interface|  %>
+  <div class="node">
+    <%= node_link interface.title, interface.guide_path %>
+
+    <%= partial 'nodes/group', locals: { title: 'HTML', documentables: interface.guide_features.select { |feature| feature.selector? }.sort } %>
+    <%= partial 'nodes/group', locals: { title: 'Events', documentables: interface.guide_features.select { |feature| feature.event? }.sort } %>
+    <%= partial 'nodes/group', locals: { title: 'JavaScript', documentables: interface.guide_features.select { |feature| feature.function? }.sort } %>
+  </div>
+<% end %>

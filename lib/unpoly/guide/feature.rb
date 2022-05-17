@@ -22,10 +22,7 @@ module Unpoly
       attr_accessor :visibility
       attr_accessor :params
       attr_accessor :interface
-
       attr_accessor :params_note
-
-
       attr_writer :visibility_comment
 
       def visibility_comment
@@ -43,6 +40,10 @@ module Unpoly
             '**This feature is experimental**. It may be changed or removed in a future version.'
           end
         end
+      end
+
+      def guide_name
+        short_signature
       end
 
       def signature(short: false)
@@ -233,9 +234,9 @@ module Unpoly
       #   @preventable
       # end
 
-      def guide_anchor
-        Util.slugify(name)
-      end
+      # def guide_anchor
+      #   Util.slugify(name)
+      # end
 
       # def search_text
       #   strings = []
@@ -285,6 +286,14 @@ module Unpoly
 
       def options_params
         param_groups.select { |group| group.is_a?(OptionsParam) }
+      end
+
+      def children
+        params
+      end
+
+      def guide_modifiers
+        [visibility]
       end
 
     end

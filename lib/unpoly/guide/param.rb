@@ -1,6 +1,7 @@
 module Unpoly
   module Guide
     class Param
+      include Documentable
       include Logger
       include Referencer
 

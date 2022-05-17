@@ -16,8 +16,16 @@ module Unpoly
         Util.slugify(name)
       end
 
+      def guide_name
+        name
+      end
+
       def guide_path
         "/#{guide_id}"
+      end
+
+      def guide_modifiers
+        []
       end
 
       def summary_markdown
@@ -44,6 +52,10 @@ module Unpoly
           sort_name << 'z' # sort up.$compiler behing up.compiler
         end
         sort_name
+      end
+
+      def children
+        []
       end
 
     end
