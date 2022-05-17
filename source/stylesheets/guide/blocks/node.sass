@@ -12,20 +12,17 @@ $addon-offset-y: 2px
 
 .node > .node
   display: none
-  margin-left: 20px
   +font-size($FONT_SIZE - 2px, 3px)
   margin-bottom: 0
 
-.node_group
+.node:not(.is_group) > .node
+  margin-left: 20px
+
+.node.is_group
   $color: desaturate(#3182bd, 20%)
 
-  margin-top: 5px
-  margin-bottom: 1px
-  +font-size($FONT_SIZE - 4px, 3px)
-  color: $color
-  display: none
-  margin-left: 20px
-  text-transform: uppercase
+  margin-bottom: 2px
+  margin-top: 2px
   position: relative
 
   &:before
@@ -38,23 +35,42 @@ $addon-offset-y: 2px
     background-color: lighten($color, 30%)
     z-index: 0
 
-  .node.is_expanded > &
-    display: block
+  > .node__self
+    +font-size($FONT_SIZE - 4px, 3px)
+    color: $color
+    text-transform: uppercase
+    background-color: white
+    position: relative
+    padding-right: 5px
+    z-index: 1
+    display: inline-block
 
-.node_group__self
-  background-color: white
-  position: relative
-  padding-right: 5px
-  z-index: 1
+  //+ .node
+  //  margin-top: 4px
 
-.node.is_expanded > .node,
+
+//.node:not(.is_group).is_expanded > .node
+//  display: block !important
+//
+//.node.is_match > .node.is_match
+//  display: block
+//
+//.node.is_group:not(.is_match) > .node
+//  display: block
+
+.node:not(.is_match).is_expanded > .node,
+.node.is_match.is_force_toggled.is_expanded > .node
+  display: block
+
 .node.is_match > .node.is_match
   display: block
 
 .node__self
   color: #888
   display: block
-  padding-left: 20px
+
+  .node:not(.is_group) > &
+    padding-left: 20px
 
   // Truncate long feature names like up.link.makeFollowable
   // +truncate_text

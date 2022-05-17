@@ -24,31 +24,55 @@ class Node
     # @self.innerHTML = text
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
-    @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
-    @self.prepend(@collapser)
-    @isExpanded = false
-    @toggleExpanded(false)
-    @collapser.addEventListener 'up:click', (event) =>
-      @toggleExpanded()
-      up.event.halt(event)
 
-  toggleExpanded: (newExpanded) =>
-    @isExpanded = newExpanded ? !@isExpanded # toggle when not given
+    unless @isGroup()
+      @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
+      @self.prepend(@collapser)
+      @collapser.addEventListener 'up:click', (event) =>
+        @toggleExpanded()
+        if @isMatch()
+          @element.classList.add('is_force_toggled')
+
+        up.event.halt(event)
+
+    @toggleExpanded(false)
+
+
+  toggleExpanded: (forcedState) =>
+    if @isGroup()
+      forcedState = true
+
+    @isExpanded = forcedState ? !@isExpanded # toggle when not given
     @element.classList.toggle('is_expanded', @isExpanded)
-    if @childNodes?.length
-      @collapser.classList.toggle(EXPANDED_ICON, @isExpanded)
-      @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
-    else
-      @collapser.classList.add(CHILDLESS_ICON)
+
+    if @collapser
+      if @childNodes?.length
+        @collapser.classList.toggle(EXPANDED_ICON, @isExpanded)
+        @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
+      else
+        @collapser.classList.add(CHILDLESS_ICON)
+
     if @isExpanded
       # To ensure this node is visible, we need to expand our ancestry
       @parentNode?.toggleExpanded(true)
+
+  isGroup: =>
+    @element.matches('.is_group')
 
   isRoot: =>
     not @parentNode
 
   isChild: =>
     not @isRoot()
+
+  isMatch: =>
+    @element.matches('.is_match')
+
+#  root: =>
+#    if @isRoot()
+#      this
+#    else
+#      @parentNode.root()
 
   marker: =>
     @_marker ||= new Mark(@self)
@@ -69,7 +93,7 @@ class Node
 
   resetMatch: =>
     @marker().unmark()
-    @element.classList.remove('is_match')
+    @element.classList.remove('is_match', 'is_force_toggled')
     for childNode in @childNodes
       childNode.resetMatch()
 
