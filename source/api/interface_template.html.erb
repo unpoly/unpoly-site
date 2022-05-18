@@ -1,7 +1,7 @@
 <%
- guide.reload if development?
- interface = guide.interface_for_name!(interface_name)
- @page_title = interface.title
+  guide.reload if development?
+  interface = guide.find_by_name!(interface_name)
+  @page_title = interface.title
 %>
 
 <%= edit_button(interface) %>
@@ -28,9 +28,9 @@
     <div class="expandable">
 
       <div class="expandable__limiter">
-       <div class="expandable__content">
-         <%= markdown_prose(interface.guide_markdown) %>
-       </div>
+         <div class="expandable__content">
+           <%= markdown_prose(interface.guide_markdown) %>
+         </div>
       </div>
 
       <span class="expandable__expand action">Read more</span>

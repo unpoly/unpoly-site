@@ -18,6 +18,7 @@ class Node
     @self = findChildren(@element, '.node__self')[0]
     text = @self.textContent
     @searchText = normalizeText(text)
+#    @searchText += @parentNode.searchText unless @isRoot()
     # text = u.escapeHtml(text)
     # Allow the browser to wrap at dots and hashes
     # text = text.replace(/(\.|\#)/g, '$1<wbr>')
@@ -68,36 +69,42 @@ class Node
   isMatch: =>
     @element.matches('.is_match')
 
-#  root: =>
-#    if @isRoot()
-#      this
-#    else
-#      @parentNode.root()
+  root: =>
+    if @isRoot()
+      this
+    else
+      @parentNode.root()
 
   marker: =>
     @_marker ||= new Mark(@self)
 
   match: (words) =>
     @resetMatch() if @isRoot()
-    if @isMatch(words)
-      @marker().mark(words, acrossElements: true)
-      @notifyIsMatch()
-      @parentNode?.notifyIsMatch()
+    if @matchesQuery(words)
+      @highlight(words)
+      @notifyIsMatch(words)
+      @parentNode.notifyIsMatch(words) unless @isRoot()
     for childNode in @childNodes
       childNode.match(words)
 
-  notifyIsMatch: =>
+  highlight: (words) =>
+    @marker().mark(words, acrossElements: true)
+
+  unhighlight: =>
+    @marker().unmark()
+
+  notifyIsMatch: (words) =>
     @element.classList.add('is_match')
     @toggleExpanded(false)
-    @parentNode?.notifyIsMatch()
+    @parentNode.notifyIsMatch(words) unless @isRoot()
 
   resetMatch: =>
-    @marker().unmark()
+    @unhighlight()
     @element.classList.remove('is_match', 'is_force_toggled')
     for childNode in @childNodes
       childNode.resetMatch()
 
-  isMatch: (words) =>
+  matchesQuery: (words) =>
     if u.isArray(words)
       if words.length
         isMatch = true

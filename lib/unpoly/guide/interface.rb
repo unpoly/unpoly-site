@@ -125,9 +125,14 @@ module Unpoly
       end
 
       def merge!(new_interface)
+        kind == new_interface.kind or raise "Cannot merge interfaces with different kinds"
         self.guide_markdown += new_interface.guide_markdown
         self.explicit_title ||= new_interface.explicit_title
         self.reference_names += new_interface.reference_names
+      end
+
+      def children
+        super + features
       end
 
     end

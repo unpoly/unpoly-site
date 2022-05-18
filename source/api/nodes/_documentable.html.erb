@@ -1,4 +1,4 @@
-<div class="node <%= documentable.guide_modifiers.map { |m| "is_#{m}" }.join(' ') %>">
+<div class="node <%= documentable.menu_modifiers.map { |m| "is_#{m}" }.join(' ') %>">
   <%= node_link documentable.guide_name, documentable.guide_path %>
   <% documentable.children.each do |child| %>
     <%= partial 'nodes/documentable', locals: { documentable: child } %>

@@ -1,116 +1,112 @@
 <%
-   guide.reload if development?
+  guide.reload if development?
+  feature = guide.find_by_name!(feature_name)
+  @page_title = feature.title
 %>
 
-<% guide.features_for_guide_id(guide_id).each_with_index do |feature, i| %>
+<div class="feature is_<%= feature.visibility %>">
 
-  <% @page_title = feature.title if i == 0 %>
+  <%= edit_button(feature) %>
 
-  <div class="feature is_<%= feature.visibility %>">
+  <h1>
+    <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>
 
-    <%= edit_button(feature) %>
+    <%= h(feature.signature) %>
 
-    <h1>
-      <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>
+    <div class="subtitle">
+      <%= feature.long_kind %>
+    </div>
 
-      <%= h(feature.signature) %>
+  </h1>
 
-      <div class="subtitle">
-        <%= feature.long_kind %>
-      </div>
-
-    </h1>
-
-    <% if feature.visibility_comment.present? %>
-      <div class="notification">
-        <%= markdown_prose feature.visibility_comment %>
-        <% if feature.deprecated? %>
-          <p class="notification--subline">
-            Load <a href="/changes/upgrading"><code>unpoly-migrate.js</code></a>
-            to enable deprecated features.
-          </p>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if feature.guide_markdown.present? %>
-      <div class="feature__prose">
-        <%= markdown_prose(feature.guide_markdown) %>
-      </div>
-    <% end %>
-
-    <%= partial 'see_also', locals: { referencer: feature } %>
-
-    <% if feature.params.present? || feature.params_note.present? %>
-      <%
-        title =
-          if feature.selector?
-            'Modifying attributes'
-          elsif feature.property?
-            'Value'
-          elsif feature.event?
-            'Properties'
-          else
-            'Parameters'
-          end
-      %>
-
-      <h2 id="<%= slugify(title.downcase) %>"><%= title %></h2>
-
-      <% if feature.params_note.present? %>
-        <div class="feature__params_note">
-          <%= markdown_prose(feature.params_note) %>
-        </div>
+  <% if feature.visibility_comment.present? %>
+    <div class="notification">
+      <%= markdown_prose feature.visibility_comment %>
+      <% if feature.deprecated? %>
+        <p class="notification--subline">
+          Load <a href="/changes/upgrading"><code>unpoly-migrate.js</code></a>
+          to enable deprecated features.
+        </p>
       <% end %>
+    </div>
+  <% end %>
 
-      <% feature.params.each do |param| %>
-        <div class="feature__param" id="<%= param.guide_anchor %>">
-          <div class="feature__param_name">
-            <%= param.signature -%>
-            <% if param.types.present? %>
-              <span class="feature__param_type">
-                <%= type param.types %>
-              </span>
-            <% end %>
-            <% if param.optional? %>
-              <span class="tag is_light_gray">
-                optional
-              </span>
+  <% if feature.guide_markdown.present? %>
+    <div class="feature__prose">
+      <%= markdown_prose(feature.guide_markdown) %>
+    </div>
+  <% end %>
+
+  <%= partial 'see_also', locals: { referencer: feature } %>
+
+  <% if feature.params.present? || feature.params_note.present? %>
+    <%
+      title =
+        if feature.selector?
+          'Modifying attributes'
+        elsif feature.property?
+          'Value'
+        elsif feature.event?
+          'Properties'
+        else
+          'Parameters'
+        end
+    %>
+
+    <h2 id="<%= slugify(title.downcase) %>"><%= title %></h2>
+
+    <% if feature.params_note.present? %>
+      <div class="feature__params_note">
+        <%= markdown_prose(feature.params_note) %>
+      </div>
+    <% end %>
+
+    <% feature.params.each do |param| %>
+      <div class="feature__param" id="<%= param.guide_anchor %>">
+        <div class="feature__param_name">
+          <%= param.signature -%>
+          <% if param.types.present? %>
+            <span class="feature__param_type">
+              <%= type param.types %>
+            </span>
+          <% end %>
+          <% if param.optional? %>
+            <span class="tag is_light_gray">
+              optional
+            </span>
+          <% end %>
+        </div>
+        <div class="feature__param_prose">
+
+          <div class="prose">
+            <%= markdown(param.guide_markdown) %>
+            <% if param.references? %>
+              <p>
+                See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
+              </p>
             <% end %>
           </div>
-          <div class="feature__param_prose">
 
-            <div class="prose">
-              <%= markdown(param.guide_markdown) %>
-              <% if param.references? %>
-                <p>
-                  See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
-                </p>
-              <% end %>
-            </div>
-
-          </div>
         </div>
-      <% end %>
+      </div>
     <% end %>
+  <% end %>
 
-    <% if feature.response %>
+  <% if feature.response %>
 
-      <h2 id="return-value">
-        Return value
-      </h2>
+    <h2 id="return-value">
+      Return value
+    </h2>
 
-      <% if feature.response.types.present? %>
-        <div>
-          <%= type(feature.response.types) %>
-        </div>
-      <% end %>
-
-      <div class="feature__param_prose">
-        <%= markdown_prose(feature.response.guide_markdown) %>
+    <% if feature.response.types.present? %>
+      <div>
+        <%= type(feature.response.types) %>
       </div>
     <% end %>
 
-  </div>
+    <div class="feature__param_prose">
+      <%= markdown_prose(feature.response.guide_markdown) %>
+    </div>
+  <% end %>
 
-<% end %>
+</div>

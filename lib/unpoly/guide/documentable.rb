@@ -4,9 +4,10 @@ module Unpoly
       include Referencer
 
       attr_accessor :kind
-      attr_accessor :name
+
       attr_accessor :guide_markdown
       attr_accessor :text_source
+      attr_accessor :explicit_parent_name
 
       def long_kind
         kind.capitalize
@@ -16,6 +17,13 @@ module Unpoly
         Util.slugify(name)
       end
 
+      # The name in the documentation.
+      attr_accessor :name
+
+      # The name displayed in the menu.
+      # This is usually the same as #name, but in case of @params of a @selector
+      # we display the param in square brackets to indicate that it's an attribute.
+      # We cannot use square brackets in the documentation, as it means "optional" there.
       def guide_name
         name
       end
@@ -24,7 +32,7 @@ module Unpoly
         "/#{guide_id}"
       end
 
-      def guide_modifiers
+      def menu_modifiers
         []
       end
 
@@ -54,9 +62,24 @@ module Unpoly
         sort_name
       end
 
-      def children
-        []
+      # An interface can explicitly set a parent using the @parent directive
+      # to move itself under another module in the menu tree.
+      #
+      # E.g. the up.Params class sets @parent up.form.
+      def explicit_children
+        if explicit_parent_name
+          Guide.current.all_by_explicit_parent_name(explicit_parent_name)
+        else
+          []
+        end
       end
+
+      alias :children :explicit_children
+
+      # The children shown in the menu tree.
+      # This is usually the same as #children, but in case of
+      # features we only show their params when the feature is a selector.
+      alias :menu_children :children
 
     end
   end

@@ -90,13 +90,15 @@ Unpoly::Guide.current.reload
 Unpoly::Guide.current.interfaces.each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
+  # Pass the name instead of the interface instance, since reloading will build a new instance.
   proxy path, "/api/interface_template.html", locals: { interface_name: interface.name }, ignore: true
 end
 
-Unpoly::Guide.current.all_feature_guide_ids.each do |guide_id|
-  path = "/#{guide_id}.html" # the .html will be removed by Middleman's pretty directory indexes
+Unpoly::Guide.current.features.each do |feature|
+  path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
-  proxy path, "/api/feature_template.html", locals: { guide_id: guide_id }, ignore: true
+  # Pass the name instead of the feature instance, since reloading will build a new instance.
+  proxy path, "/api/feature_template.html", locals: { feature_name: feature }, ignore: true
 end
 
 Unpoly::Guide.current.versions.each do |release_version|
@@ -428,8 +430,8 @@ helpers do
       type.gsub(/[a-z\.]+/i) { |subtype|
 
         begin
-          url = guide.interface_for_name!(subtype).guide_path
-        rescue Unpoly::Guide::UnknownInterface
+          url = guide.find_by_name!(subtype).guide_path
+        rescue Unpoly::Guide::Unknown
           url = BUILTIN_TYPE_URLS[subtype]
         end
 

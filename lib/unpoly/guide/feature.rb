@@ -289,10 +289,18 @@ module Unpoly
       end
 
       def children
-        params
+        super + params
       end
 
-      def guide_modifiers
+      def menu_children
+        if selector?
+          children
+        else
+          []
+        end
+      end
+
+      def menu_modifiers
         [visibility]
       end
 
