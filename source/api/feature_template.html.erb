@@ -1,6 +1,6 @@
 <%
   guide.reload if development?
-  feature = guide.find_by_name!(feature_name)
+  feature = guide.find_by_guide_id!(feature_id)
   @page_title = feature.title
 %>
 

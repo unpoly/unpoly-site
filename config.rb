@@ -91,14 +91,14 @@ Unpoly::Guide.current.interfaces.each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   # Pass the name instead of the interface instance, since reloading will build a new instance.
-  proxy path, "/api/interface_template.html", locals: { interface_name: interface.name }, ignore: true
+  proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.features.each do |feature|
   path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   # Pass the name instead of the feature instance, since reloading will build a new instance.
-  proxy path, "/api/feature_template.html", locals: { feature_name: feature }, ignore: true
+  proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.versions.each do |release_version|

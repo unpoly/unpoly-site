@@ -1,6 +1,6 @@
 <%
   guide.reload if development?
-  interface = guide.find_by_name!(interface_name)
+  interface = guide.find_by_guide_id!(interface_id)
   @page_title = interface.title
 %>
 
