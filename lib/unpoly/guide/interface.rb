@@ -121,6 +121,7 @@ module Unpoly
         self.guide_markdown += new_interface.guide_markdown
         self.explicit_title ||= new_interface.explicit_title
         self.reference_names += new_interface.reference_names
+        self.explicit_parent_name ||= new_interface.explicit_parent_name
       end
 
       def children
