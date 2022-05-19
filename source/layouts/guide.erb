@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 
+  <% guide.ensure_fresh! if development? # reload guide if we have rendered a page with it before %>
   <%= partial 'layouts/head' %>
   <% @menu_path = '/api/menu' if @menu_path.nil? && @menu_html.nil? %>
 

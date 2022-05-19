@@ -81,29 +81,26 @@ page '/*.html', layout: 'guide'
 sprockets.append_path File.expand_path('vendor/asset-libs')
 sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 
-
-Unpoly::Guide.current.reload
-
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
 Unpoly::Guide.current.interfaces.select(&:guide_page?).each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
-  puts "Proxy: #{path}"
+  puts "Interface #{interface.name}: #{path}"
   # Pass the name instead of the interface instance, since reloading will build a new instance.
   proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
   path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
-  puts "Proxy: #{path}"
+  puts "Feature #{feature.name}: #{path}"
   # Pass the name instead of the feature instance, since reloading will build a new instance.
   proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.versions.each do |release_version|
   path = "/changes/#{release_version}.html" # the .html will be removed by Middleman's pretty directory indexes
-  puts "Proxy: #{path}"
+  puts "Change #{release_version}: #{path}"
   # We pass the release version instead of the release object,
   # so the template will pick up changes when the guide reloads.
   proxy path, "/changes/release_template.html", locals: { release_version: release_version }, ignore: true

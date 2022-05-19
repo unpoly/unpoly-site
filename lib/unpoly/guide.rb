@@ -25,13 +25,5 @@ module Unpoly
       @current ||= Repository.new(UNPOLY_PATH)
     end
 
-    def self.reload
-      if @current
-        @current.reload
-      else
-        # no need to do anything -- it will be initialized when .current is called
-      end
-    end
-
   end
 end

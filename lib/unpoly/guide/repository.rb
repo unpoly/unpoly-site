@@ -33,6 +33,10 @@ module Unpoly
 
       attr_reader :path
 
+      def ensure_fresh!
+        reload unless @fresh
+      end
+
       def reload
         # puts "Reloading Repository!"
         synchronize do
@@ -42,7 +46,7 @@ module Unpoly
           @promoted_interfaces = nil
           unindex
           parse
-          self
+          @fresh = true
         end
       end
 
