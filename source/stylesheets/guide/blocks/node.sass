@@ -19,10 +19,10 @@ $addon-offset-y: 2px
   margin-left: 20px
 
 .node.is_group
-  $color: desaturate(#3182bd, 20%)
+  $color: $COLOR_TERTIARY
 
-  margin-bottom: 5px
-  margin-top: 5px
+  margin-bottom: 4px
+  margin-top: 4px
   position: relative
 
   &:before
@@ -83,7 +83,7 @@ $addon-offset-y: 2px
 
 
 a.node__self
-  --node-color: #{$COLOR_LEFT}
+  --node-color: #{$COLOR_SECONDARY}
 
   .node.is_deprecated &,
   .node.is_experimental &
