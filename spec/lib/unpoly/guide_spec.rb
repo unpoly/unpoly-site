@@ -170,7 +170,7 @@ describe Unpoly::Guide do
         klass = find_by_guide_id!('test.Class')
         expect(klass.explicit_parent_name).to eq('test.module')
 
-        parent = find_by_guide_id!('test.Class')
+        parent = find_by_guide_id!('test.module')
         expect(parent.children).to include(klass)
       end
 
