@@ -364,9 +364,10 @@ helpers do
     link_to url, url, options
   end
 
-  def menu(search: false, &block)
+  def menu(&block)
     nodes = capture_html(&block)
-    @menu_html = partial('menu/menu', locals: { nodes: nodes, search: search })
+    @menu_html = content_tag(:div, nodes, class: 'menu', 'up-nav': '')
+    concat_content @menu_html
   end
 
   def page_title(title)

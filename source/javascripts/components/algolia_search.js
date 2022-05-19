@@ -78,17 +78,9 @@ up.compiler('.guide__results', function(resultsElement) {
     up.element.show(resultsElement)
   }
 
-  function onSearchChanged({ query }) {
-    hasQuery = query.length >= 3
-    if (hasQuery) {
-      queueSearch(query)
-    } else {
-      hideResults()
-    }
-  }
-
   // searchNow('overlay value')
 
-  up.destructor(resultsElement, up.on('search:changed', onSearchChanged))
+  up.destructor(resultsElement, up.on('query:expand', ({ query }) => queueSearch(query)))
+  up.destructor(resultsElement, up.on('query:cleared', () => hideResults()))
 })
 

@@ -144,18 +144,21 @@ up.compiler '.menu', (menu) ->
   rootNodes = findChildren(menu, '.node')
   rootNodes = Node.newAll(rootNodes)
 
-  onSearchChanged = ({ query }) ->
-    hasQuery = query.length >= 3
-    if hasQuery
-      words = query.split(/\s+/)
-      for rootNode in rootNodes
-        rootNode.match(words)
-    else
-      for rootNode in rootNodes
-        rootNode.resetMatch()
+  onQueryChanged = ({ query }) ->
+    words = query.split(/\s+/)
+    for rootNode in rootNodes
+      rootNode.match(words)
 
-      revealCurrentNode()
+    markQueryState(true)
 
+  onQueryCleared = ->
+    for rootNode in rootNodes
+      rootNode.resetMatch()
+
+    markQueryState(false)
+    revealCurrentNode()
+
+  markQueryState = (hasQuery) ->
     for rootNode in rootNodes
       rootNode.element.classList.toggle('has_query', hasQuery)
 
@@ -168,7 +171,8 @@ up.compiler '.menu', (menu) ->
         rootNode.revealCurrent()
 
   up.destructor(menu, up.on('up:location:changed', revealCurrentNodeInNextTask))
-  up.destructor(menu, up.on('search:changed', onSearchChanged))
+  up.destructor(menu, up.on('query:changed', onQueryChanged))
+  up.destructor(menu, up.on('query:cleared', onQueryCleared))
 
   revealCurrentNodeInNextTask()
 
