@@ -1,10 +1,5 @@
 u = up.util
 
-normalizeText = (text) ->
-  text = text.trim()
-  text = text.toLowerCase()
-  text
-
 findChildren = (root, selector) ->
   u.filter(root.children, (child) -> child.matches(selector))
 
@@ -18,7 +13,7 @@ class Node
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node__self')[0]
     text = @self.textContent
-    @searchText = normalizeText(text)
+    @searchText = text.toLowerCase()
 #    @searchText += @parentNode.searchText unless @isRoot()
     # text = u.escapeHtml(text)
     # Allow the browser to wrap at dots and hashes
@@ -146,13 +141,10 @@ up.compiler '.menu', (menu) ->
     # will be loaded by [wants-menu-path]
     return
 
-  searchInput = menu.querySelector('.search__input')
   rootNodes = findChildren(menu, '.node')
-
   rootNodes = Node.newAll(rootNodes)
 
-  find = ->
-    query = normalizeText(searchInput.value)
+  onSearchChanged = ({ query }) ->
     hasQuery = query.length >= 3
     if hasQuery
       words = query.split(/\s+/)
@@ -162,21 +154,23 @@ up.compiler '.menu', (menu) ->
       for rootNode in rootNodes
         rootNode.resetMatch()
 
+      revealCurrentNode()
+
     for rootNode in rootNodes
       rootNode.element.classList.toggle('has_query', hasQuery)
 
-  searchInput?.addEventListener 'input', find
+  revealCurrentNodeInNextTask = ->
+    u.task(revealCurrentNode)
 
   revealCurrentNode = ->
     u.task ->
       for rootNode in rootNodes
         rootNode.revealCurrent()
 
-  unobserveHistoryChange = up.on('up:location:changed', revealCurrentNode)
+  up.destructor(menu, up.on('up:location:changed', revealCurrentNodeInNextTask))
+  up.destructor(menu, up.on('search:changed', onSearchChanged))
 
-  revealCurrentNode()
-
-  return unobserveHistoryChange
+  revealCurrentNodeInNextTask()
 
 
 up.compiler '[wants-menu-path]', (element) ->

@@ -164,6 +164,42 @@ module Unpoly
         "#<#{self.class.name} interface_names=#{interfaces.collect(&:name)}>"
       end
 
+      def code_to_location(code)
+        # For some code snippets there cannot be a guide symbol
+        if code.include?("\n") || code =~ /^["']/ || code.include?('=') || code.starts_with?('{')
+          return
+        end
+
+        guide_id = code
+
+        # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
+        # if guide_id =~ /^(.+?)\s*=(.+?)$/
+        #   guide_id = $1
+        # end
+
+        guide_id = guide_id.sub('#', '.prototype.')
+
+        hash = nil
+        if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
+          guide_id = $1
+          hash = "config.#{$2}"
+        end
+
+        guide_id = Util.slugify(guide_id)
+        if guide_id_exists?(guide_id)
+          path = "/#{guide_id}"
+          full_path = [path, hash].compact.join('#')
+          full_url = "https://unpoly.com#{path}"
+
+          {
+            path: path,
+            hash: hash,
+            full_path: full_path,
+            full_url: full_url
+          }
+        end
+      end
+
       private
 
       def unindex

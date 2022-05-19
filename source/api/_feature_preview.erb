@@ -1,4 +1,4 @@
-<a href="<%= feature.guide_path %>" class="feature_preview <%= 'isnt_stable' if feature.visibility != 'stable' %> is_<%= feature.visibility %>">
+<a href="<%= feature.guide_path %>" class="feature_preview <%= 'isnt_stable' unless feature.stable? %> is_<%= feature.visibility %>">
 
   <span class="feature_preview__kind" title="<%= feature.long_kind %>"><%= feature.short_kind %></span>
 

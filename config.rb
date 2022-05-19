@@ -9,8 +9,6 @@ require 'ext/rack/support_colons_in_path'
 require 'unpoly/guide'
 require 'unpoly/example'
 require 'fileutils'
-require 'kramdown'
-require 'kramdown-parser-gfm'
 
 ##
 # Extensions
@@ -150,65 +148,8 @@ helpers do
   end
 
   def markdown(text, **options)
-    # text = text.gsub(/<`(.*?)`>/) do |match|
-    #   code = $1
-    #   slug = Unpoly::Guide::Util.slugify(code)
-    #   "[`#{code}`](/#{slug})"
-    # end
-
-    doc = Kramdown::Document.new(text,
-                                 input: 'GFM',
-                                 remove_span_html_tags: true,
-                                 enable_coderay: false,
-                                 smart_quotes: ["apos", "apos", "quot", "quot"],
-                                 hard_wrap: false
-    )
-    # Blindly remove any HTML tag from the document, including "span" elements
-    # (see option above). This will NOT remove HTML tags from code examples.
-    doc.to_remove_html_tags
-    html = doc.to_html
-    html = postprocess_markdown(html, **options)
-    html
-  end
-
-  def postprocess_markdown(html, autolink_code: true, strip_links: false, pictures: true)
-    if autolink_code || strip_links || pictures
-      nokogiri_doc = Nokogiri::HTML.fragment(html)
-    end
-
-    if strip_links
-      nokogiri_doc.css('a').each do |link|
-        link.replace(link.children)
-      end
-    elsif autolink_code
-      autolink_code_in_nokogiri_doc(nokogiri_doc)
-    end
-
-    if pictures
-      nokogiri_doc.css('img:not([class])').each do |img|
-        img[:class] = 'picture has_border'
-      end
-    end
-
-    nokogiri_doc.to_html
-  end
-
-  def autolink_code_in_nokogiri_doc(nokogiri_doc, link_current_path: false)
-    codes = nokogiri_doc.css('code')
-
-    current_path = normalized_current_path
-
-    codes.each do |code_element|
-      text = code_element.text
-      if code_element.ancestors('a, pre').blank?
-        if (parsed = code_to_guide_location(text))
-          if link_current_path || (parsed[:path] != current_path)
-            href = parsed[:full_path]
-            code_element.wrap("<a href='#{h href}'></a>")
-          end
-        end
-      end
-    end
+    renderer = Unpoly::Guide::MarkdownRenderer.new(current_path: normalized_current_path, **options)
+    renderer.to_html(text)
   end
 
   def autolink_code_in_markdown(markdown, link_current_path: false)
@@ -216,7 +157,7 @@ helpers do
 
     markdown.gsub(/(?<![`\[])`([^`]+)`(?![\]`])/) do
       code = $1
-      if (parsed = code_to_guide_location(code)) && (link_current_path || (parsed[:path] != current_path))
+      if (parsed = guide.to_location(code)) && (link_current_path || (parsed[:path] != current_path))
         href = parsed[:full_path]
         "[`#{code}`](#{href})"
       else
@@ -252,48 +193,6 @@ helpers do
     current_path = current_path.sub(/\.html$/, '')
     current_path = "/#{current_path}" unless current_path[0] == '/'
     current_path
-  end
-
-  def code_to_guide_location(code)
-    # For some code snippets there cannot be a guide symbol
-    if code.include?("\n") || code =~ /^["']/ || code.include?('=') || code.starts_with?('{')
-      return
-    end
-
-    guide_id = code
-
-    # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
-    # if guide_id =~ /^(.+?)\s*=(.+?)$/
-    #   guide_id = $1
-    # end
-
-    guide_id = guide_id.sub('#', '.prototype.')
-
-    hash = nil
-    if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
-      guide_id = $1
-      hash = "config.#{$2}"
-    end
-
-    guide_id = Unpoly::Guide::Util.slugify(guide_id)
-    if guide.guide_id_exists?(guide_id)
-      path = "/#{guide_id}"
-      full_path = [path, hash].compact.join('#')
-      full_url = "https://unpoly.com#{path}"
-
-      return {
-        path: path,
-        hash: hash,
-        full_path: full_path,
-        full_url: full_url
-      }
-    end
-  end
-
-  def code_to_guide_url(text)
-    if (path = code_to_guide_path(text))
-      "https://unpoly.com#{path}"
-    end
   end
 
   def hyperlink_to_reference(reference)

@@ -1,7 +1,10 @@
+require 'padrino-helpers/format_helpers'
+
 module Unpoly
   module Guide
     class Util
       class << self
+        include Padrino::Helpers::FormatHelpers
 
         def slugify(string)
           guide_id = string.dup

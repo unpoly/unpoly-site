@@ -1,6 +1,11 @@
 u = up.util
 e = up.element
 
+normalizeText = (text) ->
+  text = text.trim()
+  text = text.toLowerCase()
+  text
+
 up.compiler '.search', (search) ->
   input = search.querySelector('.search__input')
   resetButton = search.querySelector('.search__reset')
@@ -10,12 +15,17 @@ up.compiler '.search', (search) ->
     up.emit(input, 'input')
     input.focus()
 
-  toggleReset = ->
-    value = input.value.trim()
-    present = u.isPresent(value)
-    e.toggle(resetButton, present)
+  normalizedQuery = ->
+    normalizeText(input.value)
 
-  input.addEventListener 'input', toggleReset
+  onInput = ->
+    toggleReset()
+    up.emit('search:changed', { query: normalizedQuery() })
+
+  toggleReset = ->
+    e.toggle(resetButton, !!normalizedQuery().length)
+
+  input.addEventListener 'input', onInput
 
   resetButton.addEventListener 'click', reset
 
