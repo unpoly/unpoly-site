@@ -24,7 +24,7 @@ module Unpoly
       # This is usually the same as #name, but in case of @params of a @selector
       # we display the param in square brackets to indicate that it's an attribute.
       # We cannot use square brackets in the documentation, as it means "optional" there.
-      def guide_name
+      def menu_title
         name
       end
 
@@ -67,11 +67,7 @@ module Unpoly
       #
       # E.g. the up.Params class sets @parent up.form.
       def explicit_children
-        if explicit_parent_name
-          Guide.current.all_by_explicit_parent_name(explicit_parent_name)
-        else
-          []
-        end
+        Guide.current.all_by_explicit_parent_name(name)
       end
 
       alias :children :explicit_children
@@ -80,6 +76,42 @@ module Unpoly
       # This is usually the same as #children, but in case of
       # features we only show their params when the feature is a selector.
       alias :menu_children :children
+
+      def kind?(*kinds)
+        kinds.map(&:to_s).include?(kind)
+      end
+
+      def menu_children
+        children.select(&:menu_node?)
+      end
+
+      def menu_node?
+        guide_page?
+      end
+
+      def guide_page?
+        true
+      end
+
+      # def topic_kind?
+      #
+      # end
+      #
+      # def javascript_kind?
+      #   kind?(:function, :property, :constructor, :class)
+      # end
+      #
+      # def html_kind?
+      #   kind?(:selector)
+      # end
+      #
+      # def event_kind?
+      #   kind?(:event)
+      # end
+      #
+      # def http_kind?
+      #   kind?(:header, :cookie)
+      # end
 
     end
   end

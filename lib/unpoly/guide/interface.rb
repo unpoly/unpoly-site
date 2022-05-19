@@ -53,10 +53,6 @@ module Unpoly
 
       attr_accessor :guide_markdown
 
-      def guide_features
-        features.reject(&:internal?)
-      end
-
       # def essential_features
       #   features.select(&:essential?)
       # end
@@ -64,10 +60,6 @@ module Unpoly
       def essential_features
         # We're using @see feature to list an essential feature.
         references
-      end
-
-      def guide_features?
-        guide_features.present?
       end
 
       def constructor
@@ -133,6 +125,31 @@ module Unpoly
 
       def children
         super + features
+      end
+
+      def menu_title
+        if page?
+          title
+        else
+          name
+        end
+      end
+
+      def guide_features
+        features.select(&:guide_page?)
+      end
+
+      def as_overview_menu_node
+        copy = dup
+        def copy.children
+          []
+        end
+
+        def copy.menu_title
+          'Overview'
+        end
+
+        copy
       end
 
     end

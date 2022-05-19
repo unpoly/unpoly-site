@@ -4,7 +4,7 @@
       <%= title %>
     </span>
 
-    <% documentables.sort.each do |feature| %>
+    <% documentables.each do |feature| %>
       <%= partial 'nodes/documentable', locals: { documentable: feature } %>
     <% end %>
   </div>

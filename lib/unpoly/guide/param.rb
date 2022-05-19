@@ -58,7 +58,7 @@ module Unpoly
         name.sub(OPTION_PREFIX, '')
       end
 
-      def guide_name
+      def menu_title
         if feature.selector?
           "[#{name}]"
         # elsif feature.property? && option?
@@ -74,6 +74,15 @@ module Unpoly
 
       def guide_anchor
         Util.slugify(name)
+      end
+
+      def guide_page?
+        # Params are rendered on the feature page.
+        false
+      end
+
+      def menu_node?
+        feature.selector?
       end
 
     end

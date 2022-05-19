@@ -42,7 +42,7 @@ module Unpoly
         end
       end
 
-      def guide_name
+      def menu_title
         short_signature
       end
 
@@ -292,16 +292,12 @@ module Unpoly
         super + params
       end
 
-      def menu_children
-        if selector?
-          children
-        else
-          []
-        end
-      end
-
       def menu_modifiers
         [visibility]
+      end
+
+      def guide_page?
+        !internal?
       end
 
     end

@@ -70,7 +70,7 @@ $addon-offset-y: 2px
   display: block
 
   .node:not(.is_group) > &
-    padding-left: 20px
+    padding-left: 19px
 
   // Truncate long feature names like up.link.makeFollowable
   // +truncate_text
@@ -80,26 +80,29 @@ $addon-offset-y: 2px
   //  // like "Updating fragments from JavaScript"
   //  white-space: normal
 
-=tint_node_self($color)
-  color: $color
-  +hover
-    color: $COLOR_HOVER
-  +highlighted
-    background-color: $color
-    color: white
-    +hover
-      background-color: $COLOR_HOVER
-      color: white
 
 a.node__self
-  +tint_node_self($COLOR_LEFT)
+  --node-color: #{$COLOR_LEFT}
 
   .node.is_deprecated &,
   .node.is_experimental &
-    +tint_node_self($COLOR_PROTECTED)
+    --node-color: #{$COLOR_PROTECTED}
 
   .node.is_deprecated &
     text-decoration: line-through
+
+  color: var(--node-color)
+
+  +hover
+    color: $COLOR_HOVER
+
+  .node > .node &
+    +highlighted
+      background-color: var(--node-color)
+      color: white
+      +hover
+        background-color: $COLOR_HOVER
+        color: white
 
 .node__collapser
   font-size: 12px
@@ -109,6 +112,7 @@ a.node__self
   display: block
   +height(20px)
   cursor: pointer
+  width: 13px
 
 .node mark
   color: $COLOR_ALIZARIN

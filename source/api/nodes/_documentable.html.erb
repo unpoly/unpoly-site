@@ -1,6 +1,6 @@
 <div class="node <%= documentable.menu_modifiers.map { |m| "is_#{m}" }.join(' ') %>">
-  <%= node_link documentable.guide_name, documentable.guide_path %>
-  <% documentable.children.each do |child| %>
+  <%= node_link documentable.menu_title, documentable.guide_path %>
+  <% documentable.menu_children.each do |child| %>
     <%= partial 'nodes/documentable', locals: { documentable: child } %>
   <% end %>
 </div>

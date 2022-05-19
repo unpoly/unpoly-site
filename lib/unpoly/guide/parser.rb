@@ -19,7 +19,7 @@ module Unpoly
         (.+)                   # class name ($2)
       }x
 
-      PARENT_PATTERN = %r{
+      EXPLICIT_PARENT_PATTERN = %r{
         \@parent
         \                      # space
         (.+)                   # parent interface name ($1)
@@ -198,7 +198,7 @@ module Unpoly
 
           parse_references!(block, interface)
 
-          block.sub!(PARENT_PATTERN, '')
+          parse_explicit_parent!(block, interface)
 
           # All the remaining text is guide prose
           interface.guide_markdown = process_markdown(block)
@@ -301,6 +301,12 @@ module Unpoly
       def parse_references!(block, referencer)
         while reference_name = parse_reference_name!(block)
           referencer.reference_names << reference_name
+        end
+      end
+
+      def parse_explicit_parent!(block, documentable)
+        if block.sub!(EXPLICIT_PARENT_PATTERN, '')
+          documentable.explicit_parent_name = $1
         end
       end
 

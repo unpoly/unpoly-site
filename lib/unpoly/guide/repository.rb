@@ -120,8 +120,6 @@ module Unpoly
       end
 
       def merge_interface(new_interface)
-        puts "Merging interface #{new_interface.name}"
-
         synchronize do
           if (existing_interface = find_by_name(new_interface.name))
             existing_interface.merge!(new_interface)

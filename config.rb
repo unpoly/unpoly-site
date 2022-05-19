@@ -87,14 +87,14 @@ Unpoly::Guide.current.reload
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
-Unpoly::Guide.current.interfaces.each do |interface|
+Unpoly::Guide.current.interfaces.select(&:guide_page?).each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   # Pass the name instead of the interface instance, since reloading will build a new instance.
   proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, ignore: true
 end
 
-Unpoly::Guide.current.features.each do |feature|
+Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
   path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Proxy: #{path}"
   # Pass the name instead of the feature instance, since reloading will build a new instance.

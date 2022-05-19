@@ -164,6 +164,18 @@ describe Unpoly::Guide do
 
     end
 
+    describe 'explicit parent' do
+
+      it 'parses a @parent reference and adds the documentable to the children of another' do
+        klass = find_by_guide_id!('test.Class')
+        expect(klass.explicit_parent_name).to eq('test.module')
+
+        parent = find_by_guide_id!('test.Class')
+        expect(parent.children).to include(klass)
+      end
+
+    end
+
     describe 'classes (like up.Response)' do
 
       it 'parses classes' do

@@ -2,8 +2,22 @@
   <div class="node">
     <%= node_link interface.title, interface.guide_path %>
 
-    <%= partial 'nodes/group', locals: { title: 'HTML', documentables: interface.guide_features.select { |feature| feature.selector? }.sort } %>
-    <%= partial 'nodes/group', locals: { title: 'Events', documentables: interface.guide_features.select { |feature| feature.event? }.sort } %>
-    <%= partial 'nodes/group', locals: { title: 'JavaScript', documentables: interface.guide_features.select { |feature| feature.function? }.sort } %>
+    <%
+      topics_group = [interface.as_overview_menu_node] + interface.menu_children.select { |documentable| documentable.kind?(:page) }.sort
+      html_group = interface.menu_children.select { |documentable| documentable.kind?(:selector) }.sort
+      event_group =  interface.menu_children.select { |feature| feature.kind?(:event) }.sort
+      javascript_group = interface.menu_children.select { |feature| feature.kind?(:function, :property, :class, :constructor) }.sort
+      http_group = interface.menu_children.select { |feature| feature.kind?(:header, :cookie) }.sort
+    %>
+
+    <% topics_group.each do |topic| %>
+      <%= partial 'nodes/documentable', locals: { documentable: topic } %>
+    <% end %>
+
+    <%# partial 'nodes/group', locals: { title: 'Topics', documentables: topics_group } %>
+    <%= partial 'nodes/group', locals: { title: 'HTML', documentables: html_group } %>
+    <%= partial 'nodes/group', locals: { title: 'Events', documentables: event_group } %>
+    <%= partial 'nodes/group', locals: { title: 'JavaScript', documentables: javascript_group } %>
+    <%= partial 'nodes/group', locals: { title: 'HTTP', documentables: http_group } %>
   </div>
 <% end %>
