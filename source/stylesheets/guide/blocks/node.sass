@@ -1,5 +1,4 @@
 @import ../../environment
-$addon-offset-y: 2px
 
 =highlighted
   &.up-active, &.up-current
@@ -7,12 +6,13 @@ $addon-offset-y: 2px
 
 .node
   position: relative
-  +font-size($FONT_SIZE, 4px)
+  +font-size($FONT_SIZE + 1px, 4px)
   +bold
 
 .node > .node
   display: none
-  +font-size($FONT_SIZE - 2px, 3px)
+  +font-size($FONT_SIZE, 3.5px)
+  font-weight: normal
   margin-bottom: 0
 
 .node:not(.is_group) > .node
@@ -29,14 +29,14 @@ $addon-offset-y: 2px
     content: ''
     position: absolute
     left: 0
-    top: 9px
+    top: 11px
     right: 0
     height: 1px
     background-color: lighten($color, 30%)
     z-index: 0
 
   > .node__self
-    +font-size($FONT_SIZE - 4px, 3px)
+    +font-size($FONT_SIZE - 3px, 3px)
     color: $color
     text-transform: uppercase
     background-color: white
@@ -45,6 +45,7 @@ $addon-offset-y: 2px
     z-index: 1
     display: inline-block
     margin-bottom: 2px
+    +bold
 
   //+ .node
   //  margin-top: 4px
@@ -71,7 +72,7 @@ $addon-offset-y: 2px
   display: block
 
   .node:not(.is_group) > &
-    padding-left: 19px
+    padding-left: 1.1em
 
   // Truncate long feature names like up.link.makeFollowable
   // +truncate_text
@@ -106,14 +107,13 @@ a.node__self
         color: white
 
 .node__collapser
-  font-size: 12px
+  font-size: 0.8em
   position: absolute
-  top: $addon-offset-y
+  top: 0.5em
   left: 0
   display: block
-  +height(20px)
   cursor: pointer
-  width: 13px
+  width: 1em
 
 .node mark
   color: $COLOR_ALIZARIN

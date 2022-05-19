@@ -41,7 +41,17 @@
   <% end %>
 <% end %>
 
-<% if (essential_features = interface.references.presence) %>
+<% if (sub_topics = interface.sub_topics.presence) %>
+  <h2>Topics</h2>
+
+  <ul class="sub_topics">
+    <% sub_topics.each do |sub_topic| %>
+       <%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.title, sub_topic.guide_path, class: 'sub_topic' %>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if (essential_features = interface.essential_features.presence) %>
   <h2>Essential features</h2>
 
   <div class="essential_features">

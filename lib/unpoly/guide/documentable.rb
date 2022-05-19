@@ -78,7 +78,9 @@ module Unpoly
       alias :menu_children :children
 
       def kind?(*kinds)
-        kinds.map(&:to_s).include?(kind)
+        kinds = kinds.map(&:to_s)
+        # Allow to find both by #kind and the lowercase class name, e.g. kind?(:feature)
+        kinds.include?(kind) || kinds.include?(self.class.name.demodulize.underscore)
       end
 
       def menu_children

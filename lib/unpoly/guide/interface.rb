@@ -147,7 +147,11 @@ module Unpoly
         features.select(&:guide_page?)
       end
 
-      def as_overview_menu_node
+      def essential_features
+        references.select { |reference| reference.kind?(:feature) }
+      end
+
+      def overview_topic
         copy = dup
         def copy.children
           []
@@ -162,6 +166,14 @@ module Unpoly
         end
 
         copy
+      end
+
+      def sub_topics
+        references.select { |reference| reference.kind?(:page) }
+      end
+
+      def all_topics
+        [overview_topic] + sub_topics
       end
 
     end
