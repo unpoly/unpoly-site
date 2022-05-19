@@ -10,11 +10,11 @@
       http_group = interface.menu_children.select { |feature| feature.kind?(:header, :cookie) }.sort
     %>
 
-    <% topics_group.each do |topic| %>
-      <%= partial 'nodes/documentable', locals: { documentable: topic } %>
-    <% end %>
+    <%# topics_group.each do |topic| %>
+      <%#= partial 'nodes/documentable', locals: { documentable: topic } %>
+    <%# end %>
 
-    <%# partial 'nodes/group', locals: { title: 'Topics', documentables: topics_group } %>
+    <%= partial 'nodes/group', locals: { title: 'Topics', documentables: topics_group } %>
     <%= partial 'nodes/group', locals: { title: 'HTML', documentables: html_group } %>
     <%= partial 'nodes/group', locals: { title: 'Events', documentables: event_group } %>
     <%= partial 'nodes/group', locals: { title: 'JavaScript', documentables: javascript_group } %>

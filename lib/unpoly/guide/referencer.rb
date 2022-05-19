@@ -2,6 +2,10 @@ module Unpoly
   module Guide
     module Referencer
 
+      def self.define_references(name)
+        singular = name.singular
+      end
+
       def reference_names
         @reference_names ||= []
       end

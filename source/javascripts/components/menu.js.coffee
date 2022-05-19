@@ -13,6 +13,7 @@ class Node
   EXPANDED_ICON  = 'fa-minus-square-o'
   COLLAPSED_ICON = 'fa-plus-square-o'
   CHILDLESS_ICON = 'fa-angle-right'
+  PAGE_ICON = 'fa-bookmark-o'
 
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node__self')[0]
@@ -51,7 +52,10 @@ class Node
         @collapser.classList.toggle(EXPANDED_ICON, @isExpanded)
         @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
       else
-        @collapser.classList.add(CHILDLESS_ICON)
+        if @isPage()
+          @collapser.classList.add(PAGE_ICON)
+        else
+          @collapser.classList.add(CHILDLESS_ICON)
 
     if @isExpanded
       # To ensure this node is visible, we need to expand our ancestry
@@ -59,6 +63,9 @@ class Node
 
   isGroup: =>
     @element.matches('.is_group')
+
+  isPage: =>
+    @element.matches('.is_page')
 
   isRoot: =>
     not @parentNode

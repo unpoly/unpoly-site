@@ -135,6 +135,14 @@ module Unpoly
         end
       end
 
+      def menu_modifiers
+        if page?
+          ['page']
+        else
+          []
+        end
+      end
+
       def guide_features
         features.select(&:guide_page?)
       end
@@ -147,6 +155,10 @@ module Unpoly
 
         def copy.menu_title
           'Overview'
+        end
+
+        def copy.menu_modifiers
+          ['page']
         end
 
         copy
