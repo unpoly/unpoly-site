@@ -1,5 +1,5 @@
 const client = algoliasearch('HQEWMGFXBZ', 'c46b02ab3bf1018d8b2a240e8f70f101')
-const index = client.initIndex('unpoly-site_development')
+const index = client.initIndex(<%= algolia_index.to_json %>)
 
 const SEARCH_CONFIG = {
   hitsPerPage: 10,
@@ -35,7 +35,7 @@ up.compiler('.content_search', function(container) {
     return `
       <div class="content_search__no_hits">
         No text results for <b>${query}</b>
-      </div>  
+      </div>
     `
   }
 

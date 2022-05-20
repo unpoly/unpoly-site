@@ -13,7 +13,9 @@ require 'fileutils'
 ##
 # Extensions
 #
-activate :sprockets
+activate :sprockets do |c|
+  c.expose_middleman_helpers = true
+end
 
 # Produce */index.html files
 activate :directory_indexes
@@ -377,6 +379,18 @@ helpers do
 
   def slugify(text)
     Unpoly::Guide::Util.slugify(text)
+  end
+
+  def algolia_index
+    "unpoly-site_#{algolia_stage}"
+  end
+
+  def algolia_stage
+    if development?
+      'development'
+    else
+      ENV['STAGE'] || 'latest'
+    end
   end
 
 end
