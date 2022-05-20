@@ -157,7 +157,7 @@ helpers do
 
     markdown.gsub(/(?<![`\[])`([^`]+)`(?![\]`])/) do
       code = $1
-      if (parsed = guide.to_location(code)) && (link_current_path || (parsed[:path] != current_path))
+      if (parsed = guide.code_to_location(code)) && (link_current_path || (parsed[:path] != current_path))
         href = parsed[:full_path]
         "[`#{code}`](#{href})"
       else

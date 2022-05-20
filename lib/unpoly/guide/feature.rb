@@ -240,7 +240,15 @@ module Unpoly
       #   parts.join(' ')
       # end
 
-      def guide_id
+      def name
+        str = super
+        if function? || property?
+          str = str.sub('#', '.prototype.')
+        end
+        str
+      end
+
+      def index_name
         str = name
 
         # Constructors and "classes" are the same thing
@@ -249,11 +257,7 @@ module Unpoly
           str += ".new"
         end
 
-        if function? || property?
-          str = str.sub('#', '.prototype.')
-        end
-
-        Util.slugify(str)
+        str
       end
 
       memoize def param_groups
