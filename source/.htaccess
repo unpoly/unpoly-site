@@ -38,9 +38,6 @@ RedirectPermanent /up.layer.context /up.context
 RedirectPermanent /up.cache /up.cache.get
 RedirectPermanent /a-up-target /a-up-follow
 RedirectPermanent /form-up-target /form-up-follow
-RedirectPermanent /form-up-observe /form-up-watch
-RedirectPermanent /input-up-observe /input-up-watch
-RedirectPermanent /up.observe /up.watch
 
 Header set Cache-Control "max-age=0, private"
 
