@@ -7,7 +7,7 @@ module Unpoly
 
       def push_all
         key = ENV['ALGOLIA_KEY'] or raise CannotPush, "Requires environment variable ALGOLIA_KEY with the Algolia admin key"
-        stage = ENV.fetch('ALGOLIA_STAGE'), "Requires ALGOLIA_STAGE or STAGE (from Capistrano)"
+        stage = ENV['ALGOLIA_STAGE'] || ENV['STAGE'] or raise "Requires ALGOLIA_STAGE or STAGE (from Capistrano)"
         index = "unpoly-site_#{stage}"
 
         client = ::Algolia::Search::Client.create('HQEWMGFXBZ', key)
