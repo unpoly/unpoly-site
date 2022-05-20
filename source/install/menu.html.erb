@@ -1,19 +1,19 @@
 <% menu do %>
-
   <div class="menu__title">Installation</div>
 
-  <div class="node"><%= node_link 'Overview', '/install' %></div>
-  <div class="node"><%= node_link 'Link to a CDN', '/install/cdn' %></div>
-  <div class="node"><%= node_link 'Download', '/install/download' %></div>
-  <div class="node"><%= node_link 'Install with npm', '/install/npm' %></div>
-  <div class="node">
-    <%= node_link 'Install with Ruby', '/install/ruby' %>
-    <div class="node"><%= node_link 'Ruby on Rails', '/install/ruby#ruby-on-rails' %></div>
-    <div class="node"><%= node_link 'Roda', '/install/ruby#roda' %></div>
-    <div class="node"><%= node_link 'Rack', '/install/ruby#rack' %></div>
+  <div class="menu__nodes">
+    <div class="node"><%= node_link 'Overview', '/install' %></div>
+    <div class="node"><%= node_link 'Link to a CDN', '/install/cdn' %></div>
+    <div class="node"><%= node_link 'Download', '/install/download' %></div>
+    <div class="node"><%= node_link 'Install with npm', '/install/npm' %></div>
+    <div class="node">
+      <%= node_link 'Install with Ruby', '/install/ruby' %>
+      <div class="node"><%= node_link 'Ruby on Rails', '/install/ruby#ruby-on-rails' %></div>
+      <div class="node"><%= node_link 'Roda', '/install/ruby#roda' %></div>
+      <div class="node"><%= node_link 'Rack', '/install/ruby#rack' %></div>
+    </div>
+    <div class="node"><%= node_link 'Install with PHP', '/install/php' %></div>
+    <div class="node"><%= node_link 'Install with Python', '/install/python' %></div>
+    <div class="node"><%= node_link 'Install with Elixir', '/install/elixir' %></div>
   </div>
-  <div class="node"><%= node_link 'Install with PHP', '/install/php' %></div>
-  <div class="node"><%= node_link 'Install with Python', '/install/python' %></div>
-  <div class="node"><%= node_link 'Install with Elixir', '/install/elixir' %></div>
-
 <% end %>

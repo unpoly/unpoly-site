@@ -10,11 +10,9 @@ up.compiler '.search', (searchForm) ->
   input = searchForm.querySelector('.search__input')
   resetButton = searchForm.querySelector('.search__reset')
   expandHelp = searchForm.querySelector('.search__expand_help')
-
-  reset = ->
-    input.value = ''
-    up.emit(input, 'input')
-    input.focus()
+  menu = document.querySelector('.menu')
+  contentSearch = document.querySelector('.content_search')
+  expanded = false
 
   normalizedQuery = ->
     normalizeText(input.value)
@@ -22,25 +20,43 @@ up.compiler '.search', (searchForm) ->
   hasQuery = ->
     normalizedQuery().length >= 3
 
+  onReset = ->
+    input.value = ''
+    input.focus()
+
+    unexpand()
+
   onSubmit = (event) ->
     event.preventDefault()
     if hasQuery()
-      up.emit('query:expand', { query: normalizedQuery() })
+      expand()
+
+  expand = ->
+    contentSearch.search(normalizedQuery()).then ->
+      expanded = true
+      toggleElements()
+
+  unexpand = ->
+    expanded = false
+    menu.resetFilter()
+    toggleElements()
 
   onInput = ->
     toggleElements()
-    if hasQuery()
-      up.emit('query:changed', { query: normalizedQuery() })
+    if hasQuery() && !expanded
+      menu.filter(normalizedQuery())
     else
-      up.emit('query:cleared')
+      unexpand()
 
   toggleElements = ->
+    menu.toggleNodes(!expanded)
+    e.toggle(contentSearch, expanded)
     e.toggle(resetButton, hasQuery())
     e.toggle(expandHelp, hasQuery())
 
   searchForm.addEventListener('submit', onSubmit)
   input.addEventListener('input', onInput)
-  resetButton.addEventListener('click', reset)
+  resetButton.addEventListener('click', onReset)
   expandHelp.addEventListener('click', onSubmit)
 
   toggleElements()

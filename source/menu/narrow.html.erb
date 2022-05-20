@@ -1,25 +1,26 @@
 <% menu do %>
-
-<!--  <div class="node">-->
+  <div class="menu__nodes">
+    <!--  <div class="node">-->
     <%#= node_link 'API', '/api' %>
-<!--  </div>-->
+    <!--  </div>-->
 
-  <div class="node">
-    <%= node_link 'Tutorial', '/tutorial' %>
+    <div class="node">
+      <%= node_link 'Tutorial', '/tutorial' %>
+    </div>
+
+    <div class="node">
+      <%= node_link 'Demo', 'https://demo.unpoly.com' %>
+    </div>
+
+    <div class="node">
+      <%= node_link 'Installation', '/install' %>
+    </div>
+
+    <%= partial 'api/nodes/all' %>
+
+    <div class="node">
+      <%= node_link 'Changes', '/changes' %>
+    </div>
+
   </div>
-
-  <div class="node">
-    <%= node_link 'Demo', 'https://demo.unpoly.com' %>
-  </div>
-
-  <div class="node">
-    <%= node_link 'Installation', '/install' %>
-  </div>
-
-  <%= partial 'api/nodes/all' %>
-
-  <div class="node">
-    <%= node_link 'Changes', '/changes' %>
-  </div>
-
 <% end %>

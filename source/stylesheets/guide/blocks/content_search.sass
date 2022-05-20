@@ -1,14 +1,14 @@
 @import ../../environment
 
-.search_result
+.content_search__hit
   +vertical-margin(22px)
   display: block
 
-.search_result__head
+.content_search__hit_head
   margin-bottom: 5px
   line-height: 20px
 
-.search_result__title
+.content_search__hit_title
   +bold
 
   color: $COLOR_LINK
@@ -19,10 +19,10 @@
   +when_deprecated
     text-decoration: line-through
 
-.search_result__visibility
+.content_search__hit_visibility
   +when-stable
     display: none
 
-.search_result__text
+.content_search__hit_text
   +font-size(15px)
 

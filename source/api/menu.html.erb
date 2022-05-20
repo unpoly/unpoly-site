@@ -1,4 +1,11 @@
 <% menu do %>
-  <%= partial 'menu/search' %>
-  <%= partial 'nodes/all' %>
+  <div class="menu__search">
+    <%= partial 'api/search' %> <%# must be part of .menu because that is loaded lazily %>
+  </div>
+
+  <div class="menu__nodes">
+    <%= partial 'api/nodes/all' %>
+  </div>
+
+  <div class="content_search"></div>
 <% end %>

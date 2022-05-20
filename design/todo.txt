@@ -4,3 +4,5 @@
 - Show when we don't have results
 - Algolia sync: include name and description of params
 - Algolia sync: note to run this after deploy
+- full text search compiler has the hardcoded algolia stage
+

@@ -1,19 +1,19 @@
 <% menu do %>
-
   <div class="menu__title">Changes</div>
 
-  <div class="node">
-    <%= node_link "Overview", "/changes" %>
-  </div>
-
-  <div class="node">
-    <%= node_link "Upgrading", "/changes/upgrading" %>
-  </div>
-
-  <% guide.releases.each do |release| %>
+  <div class="menu__nodes">
     <div class="node">
-      <%= node_link "Version #{release.version}", "/changes/#{release.version}" %>
+      <%= node_link "Overview", "/changes" %>
     </div>
-  <% end %>
 
+    <div class="node">
+      <%= node_link "Upgrading", "/changes/upgrading" %>
+    </div>
+
+    <% guide.releases.each do |release| %>
+      <div class="node">
+        <%= node_link "Version #{release.version}", "/changes/#{release.version}" %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
