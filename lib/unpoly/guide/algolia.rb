@@ -28,8 +28,6 @@ module Unpoly
       def documentable_to_algolia_object(documentable)
         html = markdown_renderer.to_html(documentable.guide_markdown)
 
-        text = Util.strip_tags(html)
-
         {
           objectID: documentable.guide_id,
           path: documentable.guide_path,
@@ -39,12 +37,36 @@ module Unpoly
           shortKind: documentable.short_kind,
           longKind: documentable.long_kind,
           visibility: documentable.visibility,
-          text: text,
+          text: to_text(documentable),
         }
       end
 
       def markdown_renderer
         @markdown_renderer ||= MarkdownRenderer.new(autolink_code: true, strip_links: true, pictures: false)
+      end
+
+      def to_html(documentable)
+        markdown_renderer.to_html(documentable.guide_markdown)
+      end
+
+      def to_text(documentable)
+        # We don't need to inclide the title since that's in a separate object property
+
+        html = to_html(documentable)
+        text = Util.strip_tags(html)
+
+        if documentable.kind?(:feature)
+          if documentable.params_note.present?
+            text += "\n" + documentable.params_note
+          end
+
+          documentable.params.each do |param|
+            text += "\n" + param.signature
+            text += "\n" + to_text(param)
+          end
+        end
+
+        text
       end
 
     end

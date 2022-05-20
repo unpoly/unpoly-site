@@ -196,6 +196,11 @@ module Unpoly
             interface.explicit_title = explicit_title
           end
 
+          if visibility = parse_visibility!(block)
+            interface.visibility = visibility[:visibility]
+            interface.visibility_comment = visibility[:comment]
+          end
+
           parse_references!(block, interface)
 
           parse_explicit_parent!(block, interface)
