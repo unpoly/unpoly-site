@@ -1,12 +1,28 @@
 @import ../../environment
 
 .search_result
-  +vertical-margin(28px)
+  +vertical-margin(22px)
+  display: block
+
+.search_result__head
+  margin-bottom: 5px
+  line-height: 20px
 
 .search_result__title
   +bold
 
-.search_result__kind
-  color: #888
-  +font-size(13px)
-  +bold
+  color: $COLOR_LINK
+
+  +when-unstable
+    color: $COLOR_PROTECTED
+
+  +when_deprecated
+    text-decoration: line-through
+
+.search_result__visibility
+  +when-stable
+    display: none
+
+.search_result__text
+  +font-size(15px)
+

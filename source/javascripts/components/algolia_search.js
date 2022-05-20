@@ -18,9 +18,9 @@ up.compiler('.guide__results', function(resultsElement) {
     // only query string
     index.search(query, {
       hitsPerPage: 10,
-      attributesToRetrieve: ['path', 'shortKind'],
+      attributesToRetrieve: ['path', 'visibility'],
       attributesToHighlight: [],
-      attributesToSnippet: ['title:40', 'name:40', 'text:40'],
+      attributesToSnippet: ['title:40', 'name:40', 'text:30'],
       snippetEllipsisText: '…',
       highlightPreTag: '<mark>',
       highlightPostTag: '</mark>'
@@ -31,30 +31,32 @@ up.compiler('.guide__results', function(resultsElement) {
 
     let html = ''
 
-    html += '<h1 class="title">Search results</h1>'
+    // html += '<h1 class="title">Search results</h1>'
 
+    // for (let hit of hits) {
+    //   html += `
+    //     <a href="${hit.path}" class="documentable_preview">
+    //       <div class="documentable_preview__kind">${hit.shortKind}</div>
+    //       <div class="documentable_preview__title">
+    //         <span class="documentable_preview__signature">${hit._snippetResult.title.value}</span>
+    //       </div>
+    //       <div class="documentable_preview__summary">${hit._snippetResult.text.value}</div>
+    //     </a>
+    //   `
+    // }
     for (let hit of hits) {
       html += `
-        <a href="${hit.path}" class="documentable_preview">
-          <div class="documentable_preview__kind">${hit.shortKind}</div>
-          <div class="documentable_preview__title">
-            <span class="documentable_preview__signature">${hit._snippetResult.title.value}</span>
+        <a class="search_result is_${hit.visibility}" href="${hit.path}">
+          <div class="search_result__head">
+            <span class="search_result__title">${hit._snippetResult.title.value}</span>
+            <span class="search_result__visibility">
+              <span class="tag is_${hit.visibility}">${hit.visibility}</span>
+            </span>
           </div>
-          <div class="documentable_preview__summary">${hit._snippetResult.text.value}</div>
+          <div class="search_result__text">${hit._snippetResult.text.value}</div>
         </a>
       `
     }
-    // for (let hit of hits) {
-    //   html += `
-    //     <div class="search_result">
-    //       <div class="search_result__kind">${hit.longKind}</div>
-    //       <div class="search_result__title">
-    //         <a class="hyperlink" href="${hit.path}">${hit._snippetResult.title.value}</a>
-    //       </div>
-    //       <div class="search_result__text">${hit._snippetResult.text.value}</div>
-    //     </div>
-    //   `
-    // }
 
     resultsElement.innerHTML = html
     showResults()
@@ -65,21 +67,19 @@ up.compiler('.guide__results', function(resultsElement) {
     }
   }
 
-  function getContentElement() {
-    return document.querySelector('.guide__content')
+  function getContentElements() {
+    return document.querySelectorAll('.node')
   }
 
   function hideResults() {
-    up.element.show(getContentElement())
+    getContentElements().forEach(up.element.show)
     up.element.hide(resultsElement)
   }
 
   function showResults() {
-    up.element.hide(getContentElement())
+    getContentElements().forEach(up.element.hide)
     up.element.show(resultsElement)
   }
-
-  // searchNow('overlay value')
 
   up.destructor(resultsElement, up.on('query:expand', ({ query }) => queueSearch(query)))
   up.destructor(resultsElement, up.on('query:cleared', () => hideResults()))

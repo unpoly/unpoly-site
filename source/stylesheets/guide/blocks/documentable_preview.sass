@@ -1,19 +1,5 @@
 @import ../../environment
 
-=when-stable
-  .documentable_preview.is_stable &
-    @content
-
-=when-unstable
-  .documentable_preview.is_internal &,
-  .documentable_preview.is_experimental &,
-  .documentable_preview.is_deprecated
-    @content
-
-=when-deprecated
-  .documentable_preview.is_deprecated &
-    @content
-
 .documentable_preview
   +vertical-margin(22px)
   padding-left: 60px

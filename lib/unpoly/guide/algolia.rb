@@ -5,11 +5,11 @@ module Unpoly
     class Algolia
 
       def push_all
-        key = ENV.fetch('ALGOLIA_MASTER_KEY')
+        key = ENV.fetch('ALGOLIA_KEY')
         stage = ENV.fetch('ALGOLIA_STAGE')
         index = "unpoly-site_#{stage}"
 
-        client = ::Algolia::Se1arch::Client.create('HQEWMGFXBZ', key)
+        client = ::Algolia::Search::Client.create('HQEWMGFXBZ', key)
 
         index = client.init_index(index)
         index.clear_objects
@@ -27,9 +27,6 @@ module Unpoly
 
       def documentable_to_algolia_object(documentable)
         html = markdown_renderer.to_html(documentable.guide_markdown)
-
-        raise "include name and description of params"
-        raise "note to run this during deploy"
 
         text = Util.strip_tags(html)
 

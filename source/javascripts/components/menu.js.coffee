@@ -176,6 +176,10 @@ up.compiler '.menu', (menu) ->
 
   revealCurrentNodeInNextTask()
 
+  document.querySelector('.search__input').value = 'overlay vlaue'
+  up.emit(document.querySelector('.search__input'), 'input')
+  up.emit('query:expand', { query: 'overlay value' })
+
 
 up.compiler '[wants-menu-path]', (element) ->
   requestedMenuPath = u.normalizeURL(element.getAttribute('wants-menu-path'))
