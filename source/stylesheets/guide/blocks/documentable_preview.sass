@@ -1,20 +1,12 @@
 @import ../../environment
 
-=when-unstable
-  .feature_preview.isnt_stable &
-    @content
-
-=when-deprecated
-  .feature_preview.is_deprecated &
-    @content
-
-.feature_preview
+.documentable_preview
   +vertical-margin(22px)
   padding-left: 60px
   position: relative
   display: block
 
-.feature_preview__kind
+.documentable_preview__kind
   position: absolute
   left: 0
   top: 2px
@@ -28,7 +20,7 @@
   width: 45px
   +height(43px)
 
-.feature_preview__signature
+.documentable_preview__signature
   //+monospace-font
   +bold
   +font-size($FONT_SIZE)
@@ -44,7 +36,7 @@
   &:hover
     color: $COLOR_HOVER !important
 
-.feature_preview__summary
+.documentable_preview__summary
   margin-top: 2px
   //margin-left: 20px
   p
@@ -53,6 +45,9 @@
       +when-unstable
         +hyperlink($COLOR_PROTECTED)
 
-.feature_preview__visibility
+.documentable_preview__visibility
   display: inline-block
   margin-left: 5px
+
+  +when-stable
+    display: none

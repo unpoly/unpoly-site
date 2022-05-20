@@ -23,7 +23,6 @@ module Unpoly
       attr_accessor :params
       attr_accessor :interface
       attr_accessor :params_note
-      attr_writer :visibility_comment
 
       def visibility_comment
         comment = @visibility_comment.strip
@@ -108,10 +107,6 @@ module Unpoly
         true
       end
 
-      def stable?
-        visibility == 'stable'
-      end
-
       def guide_params
         if selector?
           params.reject { |param|
@@ -126,18 +121,6 @@ module Unpoly
 
       def guide_params?
         guide_params.present?
-      end
-
-      def deprecated?
-        visibility == 'deprecated'
-      end
-
-      def internal?
-        visibility == 'internal'
-      end
-
-      def experimental?
-        visibility == 'experimental'
       end
 
       def function?
@@ -198,7 +181,7 @@ module Unpoly
       def long_kind
         case kind
         when 'selector'
-          'HTML extension'
+          'HTML selector'
         when 'constructor'
           'Class constructor'
         when 'function'

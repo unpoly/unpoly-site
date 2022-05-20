@@ -1,10 +1,5 @@
 u = up.util
 
-normalizeText = (text) ->
-  text = text.trim()
-  text = text.toLowerCase()
-  text
-
 findChildren = (root, selector) ->
   u.filter(root.children, (child) -> child.matches(selector))
 
@@ -18,27 +13,24 @@ class Node
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node__self')[0]
     text = @self.textContent
-    @searchText = normalizeText(text)
-#    @searchText += @parentNode.searchText unless @isRoot()
-    # text = u.escapeHtml(text)
-    # Allow the browser to wrap at dots and hashes
-    # text = text.replace(/(\.|\#)/g, '$1<wbr>')
-    # @self.innerHTML = text
+    @searchText = text.toLowerCase()
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
-
-    unless @isGroup()
-      @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
-      @self.prepend(@collapser)
-      @collapser.addEventListener 'up:click', (event) =>
-        @toggleExpanded()
-        if @isMatch()
-          @element.classList.add('is_force_toggled')
-
-        up.event.halt(event)
-
+    @createCollapser()
     @toggleExpanded(false)
 
+  createCollapser: ->
+    return if @isGroup()
+    @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
+    @self.prepend(@collapser)
+    @collapser.addEventListener 'up:click', (event) => @onCollapserClicked(event)
+
+  onCollapserClicked: (event) ->
+    up.event.halt(event)
+
+    @toggleExpanded()
+    if @isMatch()
+      @element.classList.add('is_force_toggled')
 
   toggleExpanded: (forcedState) =>
     if @isGroup()
@@ -146,37 +138,50 @@ up.compiler '.menu', (menu) ->
     # will be loaded by [wants-menu-path]
     return
 
-  searchInput = menu.querySelector('.search__input')
-  rootNodes = findChildren(menu, '.node')
-
+  nodesContainer = menu.querySelector('.menu__nodes')
+  rootNodes = findChildren(nodesContainer, '.node')
   rootNodes = Node.newAll(rootNodes)
 
-  find = ->
-    query = normalizeText(searchInput.value)
-    hasQuery = query.length >= 3
-    if hasQuery
-      words = query.split(/\s+/)
-      for rootNode in rootNodes
-        rootNode.match(words)
-    else
-      for rootNode in rootNodes
-        rootNode.resetMatch()
+  filter = (query) ->
+    words = query.split(/\s+/)
+    for rootNode in rootNodes
+      rootNode.match(words)
 
+    markQueryState(true)
+
+  resetFilter = ->
+    for rootNode in rootNodes
+      rootNode.resetMatch()
+
+    markQueryState(false)
+    revealCurrentNode()
+
+  markQueryState = (hasQuery) ->
     for rootNode in rootNodes
       rootNode.element.classList.toggle('has_query', hasQuery)
-
-  searchInput?.addEventListener 'input', find
 
   revealCurrentNode = ->
     u.task ->
       for rootNode in rootNodes
         rootNode.revealCurrent()
 
-  unobserveHistoryChange = up.on('up:location:changed', revealCurrentNode)
+  revealCurrentNodeInNextTask = ->
+    u.task(revealCurrentNode)
 
-  revealCurrentNode()
+  toggleNodes = (newState) ->
+    up.element.toggle(nodesContainer, newState)
 
-  return unobserveHistoryChange
+  up.destructor(menu, up.on('up:location:changed', revealCurrentNodeInNextTask))
+
+  revealCurrentNodeInNextTask()
+
+  menu.filter = filter
+  menu.resetFilter = resetFilter
+  menu.toggleNodes = toggleNodes
+
+#  document.querySelector('.search__input').value = 'overlay vlaue'
+#  up.emit(document.querySelector('.search__input'), 'input')
+#  up.emit('query:expand', { query: 'overlay value' })
 
 
 up.compiler '[wants-menu-path]', (element) ->

@@ -1,0 +1,28 @@
+@import ../../environment
+
+.content_search__hit
+  +vertical-margin(22px)
+  display: block
+
+.content_search__hit_head
+  margin-bottom: 5px
+  line-height: 20px
+
+.content_search__hit_title
+  +bold
+
+  color: $COLOR_LINK
+
+  +when-unstable
+    color: $COLOR_PROTECTED
+
+  +when_deprecated
+    text-decoration: line-through
+
+.content_search__hit_visibility
+  +when-stable
+    display: none
+
+.content_search__hit_text
+  +font-size(15px)
+

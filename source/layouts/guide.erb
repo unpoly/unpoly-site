@@ -69,30 +69,29 @@
               </div>
             </div>
 
-            <div class="guide__content">
-              <div class="page_content" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
-                <div class="modal_content" up-main="modal">
-                  <%= yield %>
-                </div>
+            <div class="guide__main" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
 
-                <div class="guide__fineprint">
-                  <div class="fineprint">
-                    <div class="fineprint__item">
-                      Made by
-                      <a href="https://twitter.com/triskweline" class="hyperlink is_gray">Henning Koch</a>
-                    </div>
+              <div class="guide__content" up-main="modal">
+                <%= yield %>
+              </div>
 
-                    <div class="fineprint__item">
-                      <a href="/imprint" class="hyperlink is_gray">Imprint</a>
-                    </div>
+              <div class="guide__fineprint">
+                <div class="fineprint">
+                  <div class="fineprint__item">
+                    Made by
+                    <a href="https://twitter.com/triskweline" class="hyperlink is_gray">Henning Koch</a>
+                  </div>
 
-                    <div class="fineprint__item">
-                      <a href="/privacy" class="hyperlink is_gray">Privacy policy</a>
-                    </div>
+                  <div class="fineprint__item">
+                    <a href="/imprint" class="hyperlink is_gray">Imprint</a>
+                  </div>
+
+                  <div class="fineprint__item">
+                    <a href="/privacy" class="hyperlink is_gray">Privacy policy</a>
                   </div>
                 </div>
-
               </div>
+
             </div>
 
           </div>

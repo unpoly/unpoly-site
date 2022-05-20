@@ -213,3 +213,17 @@
 
 =subtle-shadow
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+=when-stable
+  .is_stable &
+    @content
+
+=when-unstable
+  .is_internal &,
+  .is_experimental &,
+  .is_deprecated
+    @content
+
+=when-deprecated
+  .is_deprecated &
+    @content

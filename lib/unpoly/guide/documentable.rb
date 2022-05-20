@@ -95,6 +95,30 @@ module Unpoly
         true
       end
 
+      def visibility
+        @visibility || 'stable'
+      end
+
+      attr_writer :visibility
+
+      attr_accessor :visibility_comment
+
+      def stable?
+        visibility == 'stable'
+      end
+
+      def deprecated?
+        visibility == 'deprecated'
+      end
+
+      def internal?
+        visibility == 'internal'
+      end
+
+      def experimental?
+        visibility == 'experimental'
+      end
+
       # def topic_kind?
       #
       # end

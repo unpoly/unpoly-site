@@ -4,3 +4,5 @@
 #= require ./unpoly_config
 #= require_tree ./animations
 #= require_tree ./components
+#= require_self
+
