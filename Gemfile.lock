@@ -39,6 +39,8 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -77,7 +79,7 @@ GEM
     faraday-retry (1.0.3)
     fast_blank (1.0.0)
     fastimage (2.2.1)
-    ffi (1.14.2)
+    ffi (1.15.5)
     haml (5.2.1)
       temple (>= 0.8.0)
       tilt
@@ -149,6 +151,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (5.1.0)
+    nio4r (2.5.8)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.5)
@@ -161,6 +164,8 @@ GEM
       activesupport (>= 3.1)
     parallel (1.10.0)
     public_suffix (2.0.5)
+    puma (5.6.4)
+      nio4r (~> 2.0)
     rack (2.0.8)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -193,6 +198,9 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.4.0)
       ffi (~> 1.9)
+    selenium-webdriver (3.8.0)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.0)
     servolux (0.13.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
@@ -235,9 +243,11 @@ DEPENDENCIES
   middleman-sprockets
   naturally
   nokogiri
+  puma
   rack (= 2.0.8)
   rspec
   sass
+  selenium-webdriver (>= 3)
   terser
 
 BUNDLED WITH

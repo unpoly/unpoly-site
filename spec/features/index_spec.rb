@@ -1,4 +1,4 @@
-describe 'index', :type => :feature do
+describe 'index', type: :feature do
   before do
     visit '/'
   end
