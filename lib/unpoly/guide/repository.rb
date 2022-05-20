@@ -213,7 +213,7 @@ module Unpoly
       end
 
       def documentables_by_name
-        @documentables_by_name ||= documentables.index_by(&:name)
+        @documentables_by_name ||= documentables.index_by(&:index_name)
       end
 
       def documentables_by_explicit_parent_name

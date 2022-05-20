@@ -14,11 +14,16 @@ module Unpoly
       end
 
       def guide_id
-        Util.slugify(name)
+        Util.slugify(index_name)
       end
 
       # The name in the documentation.
       attr_accessor :name
+
+      # What is indexed for guide.find_by_name()
+      # Constructors append a ".new" here to not conflict with the class,
+      # which gets its own guide page
+      alias :index_name :name
 
       # The name displayed in the menu.
       # This is usually the same as #name, but in case of @params of a @selector
