@@ -19,8 +19,7 @@ RedirectPermanent /up-autosubmit /form-up-autosubmit
 RedirectPermanent /up-observe /form-up-observe
 RedirectPermanent /up-validate /input-up-validate
 RedirectPermanent /up-back /a-up-back
-RedirectPermanent /up-switch /input-up-switch
-RedirectPermanent /select-up-switch /input-up-switch
+RedirectPermanent /up-switch /select-up-switch
 RedirectPermanent /up.proxy /up.network
 RedirectPermanent /up.layout /up.viewport
 RedirectPermanent /up.layout.config /up.viewport.config
