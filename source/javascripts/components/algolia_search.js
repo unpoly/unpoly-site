@@ -20,9 +20,10 @@ up.compiler('.guide__results', function(resultsElement) {
       hitsPerPage: 10,
       attributesToRetrieve: ['path', 'shortKind'],
       attributesToHighlight: [],
-      attributesToSnippet: ['title:30', 'name:30', 'text:30'],
+      attributesToSnippet: ['title:40', 'name:40', 'text:40'],
+      snippetEllipsisText: '…',
       highlightPreTag: '<mark>',
-      highlightPostTag: '</mark>',
+      highlightPostTag: '</mark>'
     }).then(onResultsReceived)
   }
 
