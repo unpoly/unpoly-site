@@ -2,7 +2,7 @@ const client = algoliasearch('HQEWMGFXBZ', 'c46b02ab3bf1018d8b2a240e8f70f101')
 const index = client.initIndex(<%= algolia_index.to_json %>)
 
 const SEARCH_CONFIG = {
-  hitsPerPage: 10,
+  hitsPerPage: 15,
   attributesToRetrieve: ['path', 'visibility'],
   attributesToHighlight: [],
   attributesToSnippet: ['title:40', 'name:40', 'text:30'],
