@@ -15,15 +15,19 @@ gem 'terser'
 
 gem 'naturally'
 
-gem 'html-proofer'
-
-group :deploy do
-  gem "capistrano", '<4'
-  gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'
-end
-
-gem 'rspec'
 gem 'byebug'
 gem 'rack', '=2.0.8'
 
 gem 'algolia'
+
+group :deploy do
+  gem "capistrano", '<4'
+  gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'
+  gem 'html-proofer'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'capybara'
+end
+
