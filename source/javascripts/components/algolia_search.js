@@ -35,12 +35,12 @@ up.compiler('.guide__results', function(resultsElement) {
 
     for (let hit of hits) {
       html += `
-        <a href="${hit.path}" class="feature_preview">
-          <div class="feature_preview__kind">${hit.shortKind}</div>
-          <div class="feature_preview__title">
-            <span class="feature_preview__signature">${hit._snippetResult.title.value}</span>
+        <a href="${hit.path}" class="documentable_preview">
+          <div class="documentable_preview__kind">${hit.shortKind}</div>
+          <div class="documentable_preview__title">
+            <span class="documentable_preview__signature">${hit._snippetResult.title.value}</span>
           </div>
-          <div class="feature_preview__summary">${hit._snippetResult.text.value}</div>
+          <div class="documentable_preview__summary">${hit._snippetResult.text.value}</div>
         </a>
       `
     }

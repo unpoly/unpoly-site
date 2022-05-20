@@ -1,0 +1,4 @@
+- Search results as drawer that tucks onto the left
+  - Or do we want to replace the left menu?
+- Do we have search on mobile?
+- Show when we don't have results

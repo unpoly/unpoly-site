@@ -1,20 +1,18 @@
-<a href="<%= feature.guide_path %>" class="feature_preview <%= 'isnt_stable' unless feature.stable? %> is_<%= feature.visibility %>">
+<a href="<%= feature.guide_path %>" class="documentable_preview is_<%= feature.visibility %>">
 
-  <span class="feature_preview__kind" title="<%= feature.long_kind %>"><%= feature.short_kind %></span>
+  <span class="documentable_preview__kind" title="<%= feature.long_kind %>"><%= feature.short_kind %></span>
 
-  <div class="feature_preview__title">
-    <span class="feature_preview__signature"><%= h(feature.signature) %></span>
-    <% if feature.visibility.present? && feature.visibility != 'stable' %>
-      <span class="feature_preview__visibility">
-        <span class="tag isnt_stable">
-          <%= feature.visibility %>
-        </span>
+  <div class="documentable_preview__title">
+    <span class="documentable_preview__signature"><%= h(feature.signature) %></span>
+    <span class="documentable_preview__visibility">
+      <span class="tag is_<%= feature.visibility %> %>">
+        <%= feature.visibility %>
       </span>
-    <% end %>
+    </span>
   </div>
 
   <% if feature.summary_markdown.present? %>
-    <div class="feature_preview__summary">
+    <div class="documentable_preview__summary">
       <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
     </div>
   <% end %>
