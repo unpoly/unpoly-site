@@ -16,7 +16,11 @@ module Unpoly
       end
 
       class << self
+        include Logger
+
         def find_in_path(path)
+          log "Parsing #{path}"
+
           extension = path.match(/\.[^\/]+$/)[0] or raise "Cannot extract extension from path: #{path}"
           code = File.read(path)
 
