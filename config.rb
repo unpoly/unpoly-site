@@ -49,6 +49,7 @@ configure :build do
     unless ENV['SKIP_CHECK_LINKS']
       Dir.chdir('./build') do
         begin
+          require 'html-proofer'
           HTMLProofer.check_directory('.', {
             assume_extension: true, url_ignore: [/github\.com/],
             file_ignore: [
@@ -62,7 +63,7 @@ configure :build do
           }).run
           puts "All links OK."
         rescue Exception => e
-          raise "Broken links found in build!"
+          raise "Broken links found in build (#{e.class}: #{e.message})"
         end
       end
     end
