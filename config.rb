@@ -69,6 +69,7 @@ configure :build do
   end
 end
 
+DEBUG = false
 
 ##
 # Layout
@@ -86,21 +87,21 @@ sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 #
 Unpoly::Guide.current.interfaces.select(&:guide_page?).each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
-  puts "Interface #{interface.name}: #{path}"
+  puts "Interface #{interface.name}: #{path}" if DEBUG
   # Pass the name instead of the interface instance, since reloading will build a new instance.
   proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
   path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
-  puts "Feature #{feature.name}: #{path}"
+  puts "Feature #{feature.name}: #{path}" if DEBUG
   # Pass the name instead of the feature instance, since reloading will build a new instance.
   proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, ignore: true
 end
 
 Unpoly::Guide.current.versions.each do |release_version|
   path = "/changes/#{release_version}.html" # the .html will be removed by Middleman's pretty directory indexes
-  puts "Change #{release_version}: #{path}"
+  puts "Change #{release_version}: #{path}" if DEBUG
   # We pass the release version instead of the release object,
   # so the template will pick up changes when the guide reloads.
   proxy path, "/changes/release_template.html", locals: { release_version: release_version }, ignore: true
@@ -111,17 +112,17 @@ Unpoly::Example.all.each do |example|
   proxy example.index_path, "examples/index.html", locals: { example: example }, layout: false, ignore: true, directory_index: false
 
   example.stylesheets.each do |asset|
-    puts "Example stylesheet: #{asset.path}"
+    puts "Example stylesheet: #{asset.path}" if DEBUG
     proxy asset.path, "/examples/stylesheet", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 
   example.javascripts.each do |asset|
-    puts "Example javascripts: #{asset.path}"
+    puts "Example javascripts: #{asset.path}" if DEBUG
     proxy asset.path, "/examples/javascript", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 
   example.pages.each do |asset|
-    puts "Example pages: #{asset.path}"
+    puts "Example pages: #{asset.path}" if DEBUG
     proxy asset.path, "/examples/page.html", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
   end
 

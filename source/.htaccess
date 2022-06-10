@@ -47,8 +47,8 @@ Header set Cache-Control "max-age=0, private"
 # Exclude crawlers from hostnames like:
 # - v1.unpoly.com
 # - v2.unpoly.com
-# - v2-pre.unpoly.com
-RewriteCond %{HTTP_HOST} ^v[0-9]+(-[a-z0-9]+)?\.unpoly\.com$
+# - pre.unpoly.com
+RewriteCond %{HTTP_HOST} ^(v\d+|pre)\.unpoly\.com$
 RewriteRule ^robots\.txt$ /robots.exclude.txt [L]
 
 # v2 is the current version, so let's redirect
