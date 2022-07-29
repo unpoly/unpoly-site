@@ -82,7 +82,7 @@ module Unpoly
       end
 
       def menu_node?
-        feature.selector?
+        feature.selector? || feature.config?
       end
 
     end

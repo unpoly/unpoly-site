@@ -145,6 +145,10 @@ module Unpoly
         @kind == 'property'
       end
 
+      def config?
+        property? && name.end_with?('.config')
+      end
+
       def constructor?
         @kind == 'constructor'
       end
