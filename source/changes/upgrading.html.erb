@@ -52,6 +52,17 @@
 
   <h3>What <code>unpoly-migrate.js</code> does</h3>
 
+  <h4>Removed functions are polyfilled</h4>
+
+  <p>
+    If a function was removed without replacement, <code>unpoly-migrate.js</code> will provide a polyfill.
+  </p>
+
+  <p>
+    E.g. Unpoly no longer supports <code>up.util.times()</code>, but the function is
+    re-added by <code>unpoly-migrate.js</code>.
+  </p>
+
   <h4>Renamed functions are aliased</h4>
 
   <p>
@@ -59,6 +70,7 @@
     in the current version.
   </p>
 
+  <p>
     E.g. <code>up.modal.close()</code> will call <code>up.layer.dismiss()</code>.
   </p>
 
