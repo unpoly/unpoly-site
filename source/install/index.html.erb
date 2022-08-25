@@ -56,7 +56,7 @@
 
   <p>
     <code>unpoly.js</code> is transpiled to ES2020 and will work in all modern browsers.<br>
-    If Internet Explorer 11 if a concern for you, see <a href="#legacy-browsers">legacy browser support</a>.
+    If Internet Explorer 11 or legacy Safari versions are a concern for you, see <a href="#legacy-browsers">legacy browser support</a>.
   </p>
 
 
@@ -122,7 +122,7 @@
   <p>
     <code>unpoly.js</code> also uses modern JavaScript syntax that may not supported by some legacy browsers or build pipelines.
     If you're not already working around this with a transpiler like <a href="https://babeljs.io/">Babel</a>,
-    you may also use the ES5 build of Unpoly:
+    you may also use the ES6 build of Unpoly:
   </p>
 
   <table>
@@ -132,16 +132,20 @@
     </tr>
     <tr>
       <td>
-        <%= link_to_cdn_file('unpoly.es5.js') %>
+        <%= link_to_cdn_file('unpoly.es6.js') %>
       </td>
       <td>
-        <%= link_to_cdn_file('unpoly.es5.min.js') %>
+        <%= link_to_cdn_file('unpoly.es6.min.js') %>
       </td>
       <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly.es5.min.js') %> gzipped
+        <%= unpoly_library_size('unpoly.es6.min.js') %> gzipped
       </td>
     </tr>
   </table>
+
+  <p>
+    The ES6 build does not contain any polyfills.
+  </p>
 
   <h2>Bootstrap integration</h2>
 
