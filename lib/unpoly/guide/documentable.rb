@@ -124,6 +124,10 @@ module Unpoly
         visibility == 'experimental'
       end
 
+      def published?
+        not internal?
+      end
+
       # def topic_kind?
       #
       # end

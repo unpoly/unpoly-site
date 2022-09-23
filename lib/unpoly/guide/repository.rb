@@ -200,6 +200,25 @@ module Unpoly
         end
       end
 
+      def published_js_props
+        # documentables.select(&:published?).flat_map(&:published_properties)
+        js_props = []
+        interfaces.select(&:code?).each do |interface|
+          js_props += interface.name.split('.')
+          interface.features.select(&:code?).select(&:published?).each do |feature|
+            if feature.property? || feature.function?
+              js_props += feature.name.split('.')
+              feature.params.select(&:published?).each do |param|
+                param_path = param.name.split('.')
+                js_props += param_path.from(1)
+              end
+            end
+          end
+        end
+
+        js_props.select(&:present?).uniq.sort
+      end
+
       private
 
       def unindex
