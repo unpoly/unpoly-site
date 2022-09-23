@@ -10,6 +10,7 @@ module Unpoly
         @autolink_code = options.fetch(:autolink_code, true)
         @strip_links = options.fetch(:strip_links, false)
         @pictures = options.fetch(:pictures, true)
+        @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @link_current_path = options.fetch(:link_current_path, false)
         @current_path = options.fetch(:current_path) if link_current_path
       end
@@ -17,6 +18,7 @@ module Unpoly
       attr_reader :autolink_code
       attr_reader :strip_links
       attr_reader :pictures
+      attr_reader :fix_relative_image_paths
       attr_reader :link_current_path
       attr_reader :current_path
 
@@ -46,7 +48,7 @@ module Unpoly
       private
 
       def postprocess(html)
-        if autolink_code || strip_links || pictures
+        if autolink_code || strip_links || pictures || fix_relative_image_paths
           nokogiri_doc = Nokogiri::HTML.fragment(html)
         end
 
@@ -61,6 +63,12 @@ module Unpoly
         if pictures
           nokogiri_doc.css('img:not([class])').each do |img|
             img[:class] = 'picture has_border'
+          end
+        end
+
+        if fix_relative_image_paths
+          nokogiri_doc.css('img[src^="images/"]').each do |img|
+            img[:src] = img[:src].sub(/^images/, "/images/api")
           end
         end
 
