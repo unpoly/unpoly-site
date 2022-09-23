@@ -42,6 +42,11 @@ RedirectPermanent /form-up-observe /form-up-watch
 RedirectPermanent /input-up-observe /input-up-watch
 RedirectPermanent /up.observe /up.watch
 
+RedirectPermanent /server-errors /failed-responses
+RedirectPermanent /offline /disconnects
+RedirectPermanent /handling-disconnects /disconnects
+RedirectPermanent /cache /caching
+
 Header set Cache-Control "max-age=0, private"
 
 <FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico)$">
