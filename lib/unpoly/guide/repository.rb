@@ -166,7 +166,7 @@ module Unpoly
 
       def code_to_location(code)
         # For some code snippets there cannot be a guide symbol
-        if code.include?("\n") || code =~ /^["']/ || code.include?('=') || code.starts_with?('{')
+        if code.include?("\n") || code =~ /^["']/ || code.include?(' = ') || code.starts_with?('{')
           return
         end
 
