@@ -83,3 +83,16 @@
   @return
     Curly { braces } in the description are not parsed as types
   ###
+
+  ###-
+  @function test.module.paramVisibilities
+  @param options.foo
+    Foo description
+    @internal
+  @param options.bar
+    Bar description
+  @param options.baz
+    Baz description
+    @internal
+  @experimental
+  ###

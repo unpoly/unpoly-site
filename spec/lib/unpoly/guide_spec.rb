@@ -61,6 +61,17 @@ describe Unpoly::Guide do
           expect(function.response.guide_markdown.chomp).to eq("Curly { braces } in the description are not parsed as types")
         end
 
+        it 'parses params with a different visibility than the feature' do
+          function = find_by_name!('test.module.paramVisibilities')
+          expect(function.visibility).to eq('experimental')
+          expect(function.params[0].name).to eq('options.foo')
+          expect(function.params[0].visibility).to eq('internal')
+          expect(function.params[1].name).to eq('options.bar')
+          expect(function.params[1].visibility).to eq('experimental')
+          expect(function.params[2].name).to eq('options.baz')
+          expect(function.params[2].visibility).to eq('internal')
+        end
+
       end
 
       describe 'selectors' do

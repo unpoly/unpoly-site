@@ -69,9 +69,9 @@ module Unpoly
           signature << '('
 
           unless short
-            option_params = params.select(&:option?)
+            option_params = published_params.select(&:option?)
 
-            compressed_params = params.collect { |param|
+            compressed_params = published_params.collect { |param|
               if param.option?
                 if option_params.all?(&:optional?)
                   "[#{param.option_hash_name}]"
@@ -107,20 +107,8 @@ module Unpoly
         true
       end
 
-      def guide_params
-        if selector?
-          params.reject { |param|
-            name =~ /^[a-z\-]*\[([a-z\-]+)\]$/ && $1 == param.name
-          }
-        elsif property?
-          params.select { |param| param.option? }
-        else
-          []
-        end
-      end
-
-      def guide_params?
-        guide_params.present?
+      def published_params
+        params.select(&:published?)
       end
 
       def function?

@@ -82,7 +82,11 @@ module Unpoly
       end
 
       def menu_node?
-        feature.selector? || feature.config?
+        published? && (feature.selector? || feature.config?)
+      end
+
+      def visibility
+        @visibility || feature.visibility
       end
 
     end

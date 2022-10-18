@@ -61,7 +61,7 @@
       </div>
     <% end %>
 
-    <% feature.params.each do |param| %>
+    <% feature.published_params.each do |param| %>
       <div class="feature__param" id="<%= param.guide_anchor %>">
         <div class="feature__param_name">
           <%= param.signature -%>

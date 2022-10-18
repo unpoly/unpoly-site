@@ -232,13 +232,6 @@ module Unpoly
 
           feature = Feature.new(feature_kind, feature_name)
 
-          if visibility = parse_visibility!(text)
-            feature.visibility = visibility[:visibility]
-            feature.visibility_comment = visibility[:comment]
-          elsif looks_like_published_feature?(feature_name)
-            raise MissingVisibility, "Missing visibility tag for feature: @#{feature_kind} #{feature_name} (#{doc_comment.local_position})"
-          end
-
           while param = parse_param!(text)
             param.feature = feature
             feature.params << param
@@ -246,6 +239,13 @@ module Unpoly
 
           if response = parse_response!(text)
             feature.response = response
+          end
+
+          if visibility = parse_visibility!(text)
+            feature.visibility = visibility[:visibility]
+            feature.visibility_comment = visibility[:comment]
+          elsif looks_like_published_feature?(feature_name)
+            raise MissingVisibility, "Missing visibility tag for feature: @#{feature_kind} #{feature_name} (#{doc_comment.local_position})"
           end
 
           # feature.essential = parse_essential!(block)
@@ -294,13 +294,20 @@ module Unpoly
           type_spec = $2
           param_spec = Util.unindent($4)
           param = Param.new
+
           if types = parse_types!(type_spec)
             param.types = types
           end
+
           if name_props = parse_param_name_and_optionality!(param_spec)
             param.name = name_props[:name].strip
             param.optional = name_props[:optional] if name_props.has_key?(:optional)
             param.default = name_props[:default] if name_props.has_key?(:default)
+          end
+
+          if visibility = parse_visibility!(param_spec)
+            param.visibility = visibility[:visibility]
+            param.visibility_comment = visibility[:comment]
           end
 
           markdown = process_markdown(Util.unindent_hanging(param_spec))
