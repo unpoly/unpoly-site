@@ -75,3 +75,11 @@
   @param {Array<string>} [propertyWithArrayDefault=['foo', 'bar']]
   @stable
   ###
+
+  ###-
+  @function test.module.noTypeButCurlyBracesInDescription
+  @param foo
+    Curly { braces } in the description are not parsed as types
+  @return
+    Curly { braces } in the description are not parsed as types
+  ###

@@ -52,6 +52,15 @@ describe Unpoly::Guide do
           expect(function.params.first.default).to eq("'default value'")
         end
 
+        it 'does not parse curly braces in the description as types' do
+          function = find_by_name!('test.module.noTypeButCurlyBracesInDescription')
+          expect(function.params.first.name).to eq('foo')
+          expect(function.params.first.types).to be_blank
+          expect(function.params.first.guide_markdown.chomp).to eq("Curly { braces } in the description are not parsed as types")
+          expect(function.response.types).to be_blank
+          expect(function.response.guide_markdown.chomp).to eq("Curly { braces } in the description are not parsed as types")
+        end
+
       end
 
       describe 'selectors' do

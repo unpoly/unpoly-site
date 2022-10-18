@@ -46,6 +46,7 @@ RedirectPermanent /server-errors /failed-responses
 RedirectPermanent /offline /disconnects
 RedirectPermanent /handling-disconnects /disconnects
 RedirectPermanent /cache /caching
+RedirectPermanent /targeting-elements /targeting-fragments
 
 Header set Cache-Control "max-age=0, private"
 

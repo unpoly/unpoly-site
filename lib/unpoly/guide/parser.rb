@@ -103,7 +103,11 @@ module Unpoly
       RESPONSE_PATTERN = %r{
         (^[ \t]*)      # first line indent ($1)
         \@return       # @return
-        (              # response spec ($2)
+        (                   # optional type ($2, $3)
+          [ \t]+
+          #{TYPES_PATTERN}
+        )?
+        (              # response spec ($4)
           .*$          # .. remainder of first line
           (?:
             \n
@@ -121,7 +125,11 @@ module Unpoly
       PARAM_PATTERN = %r{
         (^[ \t]*)      # first line indent ($1)
         \@param\b      # @param, but not @params-note
-        (              # param spec ($2)
+        (                   # optional type ($2, $3)
+          [ \t]+
+          #{TYPES_PATTERN}
+        )?
+        (              # param spec ($4)
           .+$          # .. remainder of first line
           (?:
             \n
@@ -283,9 +291,10 @@ module Unpoly
 
       def parse_param!(block)
         if block.sub!(PARAM_PATTERN, '')
-          param_spec = Util.unindent($2)
+          type_spec = $2
+          param_spec = Util.unindent($4)
           param = Param.new
-          if types = parse_types!(param_spec)
+          if types = parse_types!(type_spec)
             param.types = types
           end
           if name_props = parse_param_name_and_optionality!(param_spec)
@@ -323,9 +332,10 @@ module Unpoly
 
       def parse_response!(block)
         if block.sub!(RESPONSE_PATTERN, '')
-          response_spec = Util.unindent($2)
+          type_spec = $2
+          response_spec = Util.unindent($4)
           response = Response.new
-          if types = parse_types!(response_spec)
+          if types = parse_types!(type_spec)
             response.types = types
           end
           markdown = process_markdown(Util.unindent_hanging(response_spec))
@@ -376,7 +386,7 @@ module Unpoly
       end
 
       def parse_types!(block)
-        if block.sub!(TYPES_PATTERN, '')
+        if block&.sub!(TYPES_PATTERN, '')
           types = $1.split(TYPES_SEPARATOR)
           types
         end
