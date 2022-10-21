@@ -23,23 +23,13 @@ module Unpoly
       attr_reader :current_path
 
       def to_html(text)
-        # text = text.gsub(/<`(.*?)`>/) do |match|
-        #   code = $1
-        #   slug = Unpoly::Guide::Util.slugify(code)
-        #   "[`#{code}`](/#{slug})"
-        # end
-
         doc = Kramdown::Document.new(text,
           input: 'GFM',
-          remove_span_html_tags: true,
           enable_coderay: false,
           smart_quotes: ["apos", "apos", "quot", "quot"],
           hard_wrap: false
         )
 
-        # Blindly remove any HTML tag from the document, including "span" elements
-        # (see option above). This will NOT remove HTML tags from code examples.
-        doc.to_remove_html_tags
         html = doc.to_html
         html = postprocess(html)
         html
