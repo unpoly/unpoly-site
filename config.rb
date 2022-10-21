@@ -45,8 +45,8 @@ configure :build do
   # end
 
   after_build do
-    puts "Checking for broken links. Disable with SKIP_CHECK_LINKS=1."
     unless ENV['SKIP_CHECK_LINKS']
+      puts "Checking for broken links. Disable with SKIP_CHECK_LINKS=1."
       Dir.chdir('./build') do
         begin
           require 'html-proofer'
