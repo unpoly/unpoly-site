@@ -180,7 +180,7 @@ module Unpoly
         guide_id = guide_id.sub('#', '.prototype.')
 
         hash = nil
-        if guide_id =~ /^(up\..+?\.config)\.(.+?)$/
+        if guide_id =~ /^(up\.[.\w]+?\.config)\.([.\w]+?)$/
           guide_id = $1
           hash = "config.#{$2}"
         end
