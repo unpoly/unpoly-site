@@ -1,0 +1,51 @@
+@import ../../environment
+
+=tint($bg, $fg, $border: mix($bg, $fg, 65%))
+  background-color: $bg
+  border-color: $border
+  color: $fg
+  .admonition--title
+    color: $fg
+
+  //a,
+  //a code
+  //  +hyperlink(darken(saturate($bg, 0%), 50%))
+
+blockquote.admonition
+  border: none
+  font-style: normal
+  border-radius: 2px
+  background-color: #eee
+  padding: $NOTIFICATION_PADDING
+
+  +hide-last-margins
+  +vertical_margin($LARGE_BLOCK_SPACING)
+
+.admonition--title
+  +bold
+  margin-bottom: 0.5em
+  margin-top: 0
+  text-decoration: none !important
+
+  .fa
+    margin-right: 0.2em
+
+  & + *
+    margin-top: 0 !important
+
+.admonition
+  &.-warning, &.-attention, &.-caution
+    +tint(lighten(desaturate($COLOR_ALIZARIN, 10%), 36%), darken(desaturate($COLOR_ALIZARIN, 20%), 20%))
+
+  &.-tip, &.-hint // lightbulb
+    +tint(#eeeef8, #55556e)
+
+  &.-info
+    +tint(lighten(saturate($COLOR_MUTED_BLUE, 6%), 47.5%), darken(desaturate($COLOR_MUTED_BLUE, 20%), 15%))
+
+  &.-note
+    +tint(#f2f2f2, #626262)
+
+  &.-important
+    +tint($NOTIFICATION_BACKGROUND, $NOTIFICATION_COLOR)
+

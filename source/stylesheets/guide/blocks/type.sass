@@ -1,17 +1,15 @@
 @import ../../environment
 
-$color: #888
-
 .type
   display: inline-block
-  padding: 0 5px 1px 5px
-  background-color: rgba(0, 0, 0, 0.05)
-  border-radius: 2px
+  padding: 0 9px 1px 9px
+  background-color: rgba(0, 0, 0, 0.06)
+  border-radius: 20px
 
   +monospace-font
-  font-size: $FONT_SIZE
+  font-size: $FONT_SIZE - 2px
   +bold
-  color: $color
+  color: #808080
 
   a
     +hover
@@ -21,6 +19,6 @@ $color: #888
   //  +hyperlink($color)
 
 .type__or
-  color: #b2b2b2
+  opacity: 0.6
   font-weight: normal
   +horizontal_margin(6px)

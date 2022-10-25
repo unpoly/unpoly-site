@@ -2,15 +2,14 @@
 
 .tag
   display: inline-block
-  background-color: #888
-  color: white
+  +default-font
+  +font-size(11px)
   +bold
   text-transform: uppercase
-  +font-size(11px)
+  background-color: #888
+  color: white
   vertical-align: middle
   padding: 1px 4px
-  border-radius: 2px
-  text-shadow: 0 1px 2px rgba(0,0,0,0.1)
 
   &.is_gray
     // base styles are already gray
