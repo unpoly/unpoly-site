@@ -48,6 +48,9 @@ RedirectPermanent /handling-disconnects /disconnects
 RedirectPermanent /cache /caching
 RedirectPermanent /targeting-elements /targeting-fragments
 
+RedirectPermanent /focus-option /focus
+RedirectPermanent /scroll-option /scrolling
+
 Header set Cache-Control "max-age=0, private"
 
 <FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico)$">
