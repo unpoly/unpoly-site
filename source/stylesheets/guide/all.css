@@ -1,6 +1,6 @@
 /*
  *= require meyerweb-reset/reset
- *= require highlight.js/styles/color-brewer
+ *= require highlight.js/styles/color-brewer.min
  *= require unpoly
  *= require ./theme
  *= require_tree ./blocks

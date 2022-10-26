@@ -2,7 +2,7 @@
 # with way too many languages, which makes auto-detection
 # go horribly wrong.
 hljs.configure
-  languages: ['javascript', 'html', 'css', 'ruby']
+  languages: ['javascript', 'html', 'css', 'ruby', 'http']
 
 up.compiler 'pre code', (fragment) ->
-  hljs.highlightBlock(fragment)
+  hljs.highlightElement(fragment)

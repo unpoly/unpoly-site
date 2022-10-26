@@ -2,5 +2,6 @@ Custom build with languages:
 - Ruby
 - CSS
 - HTML
-- Javascript
+- JavaScript
+- HTTP
 
