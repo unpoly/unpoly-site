@@ -13,7 +13,7 @@ module Unpoly
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @admonitions = options.fetch(:admonitions, true)
         @link_current_path = options.fetch(:link_current_path, false)
-        @current_path = options.fetch(:current_path) if link_current_path
+        @current_path = options.fetch(:current_path) if autolink_code && !link_current_path
       end
 
       attr_reader :autolink_code
@@ -76,7 +76,7 @@ module Unpoly
       def autolink_code_in_nokogiri_doc(nokogiri_doc, link_current_path: false)
         codes = nokogiri_doc.css('code')
 
-        current_path = normalized_current_path
+        # current_path = normalized_current_path
 
         codes.each do |code_element|
           text = code_element.text
@@ -89,10 +89,6 @@ module Unpoly
             end
           end
         end
-      end
-
-      def normalized_current_path
-
       end
 
       ADMONITION_ICONS = {
