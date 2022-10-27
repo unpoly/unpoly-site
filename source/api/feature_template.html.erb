@@ -21,7 +21,13 @@
 
   <% if feature.visibility_comment.present? %>
     <div class="notification">
-      <%= markdown_prose feature.visibility_comment %>
+      <%
+        visibility_comment = feature.visibility_comment
+        if feature.experimental?
+          visibility_comment = '<i class="fa fa-flask"></i> ' + visibility_comment
+        end
+        %>
+      <%= markdown_prose visibility_comment %>
       <% if feature.deprecated? %>
         <p class="notification--subline">
           Load <a href="/changes/upgrading"><code>unpoly-migrate.js</code></a>
