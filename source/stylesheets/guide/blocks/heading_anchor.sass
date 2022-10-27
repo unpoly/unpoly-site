@@ -1,0 +1,17 @@
+@import ../../environment
+
+.heading-anchor
+  position: absolute
+  margin-left: -0.9em
+  padding-right: 0.5em // don't stop hovering as user moves mouse from headline to anchor
+  +steal-vertical-space(0.2em) // enlarge the hover area vertically
+
+.heading-anchor--link
+  text-decoration: none !important
+  color: #bbb !important
+  visibility: hidden // don't show the link while not hovering, but let it take up space so we can hover over it
+
+h1, h2, h3, h4, h5, .heading-anchor
+  &:hover
+    .heading-anchor--link
+      visibility: visible
