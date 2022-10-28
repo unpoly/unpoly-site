@@ -19,7 +19,21 @@ $meta_width: 170px
   pre
     +vertical_margin($LARGE_BLOCK_SPACING)
     line-height: 22px
-    margin-left: 20px
+    //margin-left: 20px
+    padding: 0.85em 1.1em
+    background-color: $BACKGROUND_LIGHT
+    //border-top-right-radius: 20px
+    //border-bottom-right-radius: 20px
+    position: relative
+
+    //&:before
+    //  content: 'HTTP'
+    //  background-color: rgba(0, 0, 0, 0.1)
+    //  position: absolute
+    //  top: 0
+    //  right: 0
+    //  padding: 0.3em 0.5em
+
 
     code
       +code-block
@@ -81,9 +95,8 @@ $meta_width: 170px
 
     td, th
       vertical-align: top
-      xborder: 0.08em solid #bbb
       +horizontal-padding(0.6em)
-      +vertical-padding(0.2em)
+      +vertical-padding(0.27em)
 
       &[align=right]
         text-align: right
@@ -93,8 +106,7 @@ $meta_width: 170px
       +font-size(16px, 4px)
       color: #666
       text-align: left
-      background-color: #f2f2f2
-      border-bottom: 1px solid #bbb
+      background-color: rgba(0, 0, 0, 0.08)
       padding-top: 0.35em
 
 
@@ -108,5 +120,5 @@ $meta_width: 170px
       //    background-color: #fbfbfb
       &:nth-child(even)
         td
-          background-color: #f8f8f8
+          background: $BACKGROUND_LIGHT
 

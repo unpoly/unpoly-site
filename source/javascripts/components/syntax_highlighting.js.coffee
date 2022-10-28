@@ -5,4 +5,5 @@ hljs.configure
   languages: ['javascript', 'html', 'css', 'ruby', 'http']
 
 up.compiler 'pre code', (fragment) ->
+  # match = /\blanguage-()
   hljs.highlightElement(fragment)
