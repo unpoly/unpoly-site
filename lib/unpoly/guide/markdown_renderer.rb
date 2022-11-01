@@ -7,13 +7,14 @@ module Unpoly
     class MarkdownRenderer
 
       def initialize(**options)
-        @autolink_code = options.fetch(:autolink_code, true)
         @strip_links = options.fetch(:strip_links, false)
+        @autolink_code = options.fetch(:autolink_code, true) && !strip_links
         @pictures = options.fetch(:pictures, true)
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @admonitions = options.fetch(:admonitions, true)
         @link_current_path = options.fetch(:link_current_path, false)
         @current_path = options.fetch(:current_path) if autolink_code && !link_current_path
+        # @mark_code = options.fetch(:mark_code, true)
       end
 
       attr_reader :autolink_code
@@ -23,6 +24,7 @@ module Unpoly
       attr_reader :link_current_path
       attr_reader :current_path
       attr_reader :admonitions
+      # attr_reader :mark_code
 
       def to_html(text)
         doc = Kramdown::Document.new(text,
@@ -40,17 +42,21 @@ module Unpoly
       private
 
       def postprocess(html)
-        if autolink_code || strip_links || pictures || fix_relative_image_paths
-          nokogiri_doc = Nokogiri::HTML.fragment(html)
-        end
+        nokogiri_doc = Nokogiri::HTML.fragment(html)
 
         if strip_links
           nokogiri_doc.css('a').each do |link|
             link.replace(link.children)
           end
-        elsif autolink_code
+        end
+
+        if autolink_code
           autolink_code_in_nokogiri_doc(nokogiri_doc)
         end
+
+        # if mark_code
+        #   mark_code_in_nokogiri_doc(nokogiri_doc)
+        # end
 
         if pictures
           nokogiri_doc.css('img:not([class])').each do |img|
@@ -67,6 +73,8 @@ module Unpoly
         html = nokogiri_doc.to_html
 
         if admonitions
+          # This would be cleaner on the Nokogiri doc, but we could port some
+          # existing code that works on strings.
           html = parse_msdoc_admonitions(html)
         end
 
@@ -90,6 +98,18 @@ module Unpoly
           end
         end
       end
+
+      # def mark_code_in_nokogiri_doc(nokogiri_doc)
+      #   code_blocks = nokogiri_doc.css('pre code')
+      #
+      #   code_blocks.each do |code_element|
+      #     html = code_element.inner_html
+      #     marked_html = html.gsub(/^(.*)\s*{mark}$/, '<mark>\1</mark>')
+      #     if html != marked_html
+      #       code_element.inner_html = marked_html
+      #     end
+      #   end
+      # end
 
       ADMONITION_ICONS = {
         'WARNING' => 'exclamation-triangle',

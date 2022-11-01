@@ -5,5 +5,11 @@ hljs.configure
   languages: ['javascript', 'html', 'css', 'ruby', 'http']
 
 up.compiler 'pre code', (fragment) ->
-  # match = /\blanguage-()
   hljs.highlightElement(fragment)
+
+  html = fragment.innerHTML
+
+  markedHTML = html.replaceAll(/^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-line\b.*?<\/span>$/mg, '$1<mark>$2</mark>')
+
+  if html != markedHTML
+    fragment.innerHTML = markedHTML
