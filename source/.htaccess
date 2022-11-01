@@ -50,6 +50,8 @@ RedirectPermanent /targeting-elements /targeting-fragments
 
 RedirectPermanent /focus-option /focus
 RedirectPermanent /scroll-option /scrolling
+RedirectPermanent /validating /validation
+RedirectPermanent /validations /validation
 
 Header set Cache-Control "max-age=0, private"
 
