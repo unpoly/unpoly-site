@@ -1,6 +1,8 @@
 /*
  *= require meyerweb-reset/reset
- *= require highlight.js/styles/github
+ *= require roboto/roboto
+ *= require roboto-mono/roboto-mono
+ *= require highlight.js/styles/color-brewer.min
  *= require unpoly
  *= require ./theme
  *= require_tree ./blocks
