@@ -219,6 +219,11 @@ module Unpoly
         js_props.select(&:present?).uniq.sort
       end
 
+      def migrate_redirects
+        htaccess_path = File.join(path, 'src', 'unpoly-migrate', '.htaccess')
+        File.read(htaccess_path)
+      end
+
       private
 
       def unindex

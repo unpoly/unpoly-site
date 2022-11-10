@@ -83,6 +83,8 @@ page '/*.html', layout: 'guide'
 sprockets.append_path File.expand_path('vendor/asset-libs')
 sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 
+page '/.htaccess', directory_index: false
+
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
