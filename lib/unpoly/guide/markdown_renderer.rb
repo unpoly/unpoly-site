@@ -39,6 +39,22 @@ module Unpoly
         html
       end
 
+      def render_admonition(type:, title: nil, text:, text_closes_blockquote: false)
+        type = type.to_s.upcase
+        title = title.presence || type.titleize
+        icon = ADMONITION_ICONS.fetch(type)
+
+        html = ''.html_safe
+        html << "<blockquote class='admonition -#{type.downcase}'>".html_safe
+        html <<  "<h4 class='admonition--title'>".html_safe
+        html << "<i class='fa fa-#{icon}'></i>".html_safe
+        html << title
+        html << "</h4>".html_safe
+        html << text
+        html << "</blockquote>".html_safe unless text_closes_blockquote
+        html
+      end
+
       private
 
       def postprocess(html)
@@ -148,14 +164,15 @@ module Unpoly
       def parse_msdoc_admonitions(html)
         html.gsub(RENDERED_MSDOC_ADMONITION_PATTERN) do
           content_start = $1
-          admonition_type = $2.upcase
-          admonition_title = $3.presence || admonition_type.titleize
-          admonition_icon = ADMONITION_ICONS.fetch(admonition_type)
-          <<~HTML.html_safe
-            <blockquote class='admonition -#{admonition_type.downcase}'>
-              <h4 class='admonition--title'><i class='fa fa-#{admonition_icon}'></i> #{admonition_title}</h4>
-              #{content_start}
-          HTML
+          admonition_type = $2
+          admonition_title = $3
+
+          render_admonition(
+            type: admonition_type,
+            title: admonition_title&.html_safe,
+            text: content_start&.html_safe,
+            text_closes_blockquote: true
+          )
         end
       end
 

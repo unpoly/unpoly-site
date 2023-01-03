@@ -1,8 +1,7 @@
 @import ../../environment
 
-=tint($bg, $fg, $border: mix($bg, $fg, 65%))
+=tint($bg, $fg)
   background-color: $bg
-  border-color: $border
   color: $fg
   .admonition--title
     color: $fg
@@ -26,9 +25,10 @@ blockquote.admonition
   margin-bottom: 0.5em
   margin-top: 0
   text-decoration: none !important
+  font-size: inherit
 
   .fa
-    margin-right: 0.2em
+    margin-right: 0.3em
 
   & + *
     margin-top: 0 !important
@@ -37,14 +37,17 @@ blockquote.admonition
   &.-warning, &.-attention, &.-caution
     +tint(lighten(desaturate($COLOR_ALIZARIN, 10%), 36%), darken(desaturate($COLOR_ALIZARIN, 20%), 20%))
 
-  &.-tip, &.-hint // lightbulb
-    +tint(#f2f2f2, #626262)
+  //&.-tip, &.-hint // lightbulb
+  //  +tint(#f2f2f2, #626262)
 
-  &.-info
+  &.-info, &.-tip, &.-hint
     +tint(lighten(saturate($COLOR_MUTED_BLUE, 6%), 47.5%), darken(desaturate($COLOR_MUTED_BLUE, 20%), 15%))
 
   &.-note
-    +tint(#f2f2f2, #626262)
+    //+tint(#f2f2f2, #626262)
+    //+tint(mix(#f2f2f2, $NOTIFICATION_BACKGROUND, 50%), mix(#626262, $NOTIFICATION_COLOR, 50%))
+    //+tint(#66573c, #66573c)
+    +tint(#f8f0e0, #665035)
 
   &.-important
     +tint($NOTIFICATION_BACKGROUND, $NOTIFICATION_COLOR)

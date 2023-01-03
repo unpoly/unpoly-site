@@ -165,6 +165,8 @@ module Unpoly
       end
 
       def code_to_location(code)
+        code = code.strip
+
         # For some code snippets there cannot be a guide symbol
         if code.include?("\n") || code =~ /^["']/ || code.include?(' = ') || code.starts_with?('{')
           return
@@ -178,6 +180,9 @@ module Unpoly
         # end
 
         guide_id = guide_id.sub('#', '.prototype.')
+
+        # guide_id = guide_id.sub(/^([A-Za-z.]{3,})\([`)]*\)$/, '\1')
+        # guide_id = guide_id.sub(/^([A-Za-z.]{3,})\(([A-Za-z]+(,\s*)?)*\)$/, '\1()')
 
         hash = nil
         if guide_id =~ /^(up\.[.\w]+?\.config)\.([.\w]+?)$/

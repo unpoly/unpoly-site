@@ -46,7 +46,7 @@
 
   <ul class="sub_topics">
     <% sub_topics.each do |sub_topic| %>
-       <%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.title, sub_topic.guide_path, class: 'sub_topic' %>
+       <li><%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.title, sub_topic.guide_path %></li>
     <% end %>
   </ul>
 <% end %>

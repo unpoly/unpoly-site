@@ -63,7 +63,9 @@
 
     <% if feature.params_note.present? %>
       <div class="feature__params_note">
-        <%= markdown_prose(feature.params_note) %>
+        <% admonition(:info) do %>
+          <%= markdown_prose(feature.params_note) %>
+        <% end %>
       </div>
     <% end %>
 

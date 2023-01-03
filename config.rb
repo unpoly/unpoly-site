@@ -154,8 +154,17 @@ helpers do
   end
 
   def markdown(text, **options)
-    renderer = Unpoly::Guide::MarkdownRenderer.new(current_path: normalized_current_path, **options)
-    renderer.to_html(text)
+    markdown_renderer(**options).to_html(text)
+  end
+
+  def markdown_renderer(**options)
+    Unpoly::Guide::MarkdownRenderer.new(current_path: normalized_current_path, **options)
+  end
+
+  def admonition(type, title: nil, &block)
+    text = capture_html(&block)
+    html = markdown_renderer.render_admonition(type: type, title: title, text: text)
+    concat_content(html)
   end
 
   # This is only for /changes/external_post, where we need to autolink code in Markdown

@@ -31,7 +31,6 @@ module Unpoly
         # and unindents all lines by the first line's indent.
         def unindent(text_or_lines)
           lines = text_or_lines.is_a?(String) ? split_lines(text_or_lines) : text_or_lines.dup
-          remove_preceding_blank_lines!(lines)
           if lines.size > 0
             first_indent = lines.first.match(/^[ \t]*/)[0]
             lines.collect { |line|
@@ -46,7 +45,7 @@ module Unpoly
         # and unindents all subsequent lines by the second line's indent.
         def unindent_hanging(block)
           first_line, other_lines = first_and_other_lines(block)
-          first_line.sub!(/^[\ \t]+/, '')
+          first_line.sub!(/\A[\ \t]+/, '')
           unindented_other_lines = unindent(other_lines)
           [first_line, unindented_other_lines].join("\n")
         end
@@ -63,13 +62,6 @@ module Unpoly
             first_line, *other_lines = lines
             [first_line, other_lines]
           end
-        end
-
-        def remove_preceding_blank_lines!(lines)
-          while lines.first =~ /^([ \t]*)$/
-            lines.shift
-          end
-          lines
         end
 
         def count_lines(text)

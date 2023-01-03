@@ -9,7 +9,9 @@ up.compiler 'pre code', (fragment) ->
 
   html = fragment.innerHTML
 
-  markedHTML = html.replaceAll(/^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-line\b.*?<\/span>$/mg, '$1<mark>$2</mark>')
+  markedHTML = html
+  markedHTML = markedHTML.replaceAll(/^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-line\b.*?<\/span>$/mg, '$1<mark>$2</mark>')
+  markedHTML = markedHTML.replaceAll(/^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-word: ([A-Za-z0-9_.-]+)\b.*?<\/span>$/mg, (match, indent, code, word) -> indent + code.replace(word, '<mark>$&</mark>'))
 
   if html != markedHTML
     fragment.innerHTML = markedHTML
