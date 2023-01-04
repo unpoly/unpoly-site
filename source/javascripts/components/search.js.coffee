@@ -8,7 +8,7 @@ normalizeText = (text) ->
 
 isAnyFieldFocused = ->
   focusedField = document.activeElement
-  focusedField && up.element.matches(focusedField, up.form.fieldSelector())
+  focusedField && focusedField.matches(up.form.fieldSelector())
 
 up.compiler '.search', (searchForm) ->
   input = searchForm.querySelector('.search__input')
