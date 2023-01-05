@@ -234,8 +234,6 @@ module Unpoly
         if text.sub!(PARTIAL_PATTERN, '')
           partial_name = $1.strip
 
-          puts "Got partial with name #{partial_name.inspect}"
-
           partial = Partial.new(partial_name)
           text = Util.unindent(text)
           text = text.strip + "\n"
@@ -469,8 +467,6 @@ module Unpoly
           indent = $1
           name = $2
           indent_size = indent.gsub("\t", ' ').size
-
-          puts "Looking up partial #{name.inspect}"
 
           partial = find_by_index_name!(name)
 
