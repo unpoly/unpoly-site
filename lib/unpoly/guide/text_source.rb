@@ -20,6 +20,10 @@ module Unpoly
         "#{path}:#{start_line}:#{end_line}"
       end
 
+      def coffee_script?
+        path && path.ends_with?('.coffee')
+      end
+
     end
   end
 end

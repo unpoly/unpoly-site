@@ -128,24 +128,8 @@ module Unpoly
         not internal?
       end
 
-      # def topic_kind?
-      #
-      # end
-      #
-      # def javascript_kind?
-      #   kind?(:function, :property, :constructor, :class)
-      # end
-      #
-      # def html_kind?
-      #   kind?(:selector)
-      # end
-      #
-      # def event_kind?
-      #   kind?(:event)
-      # end
-      #
-      # def http_kind?
-      #   kind?(:header, :cookie)
+      # def ==(other)
+      #   self.class == other.class && guide_id == other.guide_id
       # end
 
     end

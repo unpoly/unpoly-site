@@ -72,6 +72,16 @@ describe Unpoly::Guide do
           expect(function.params[2].visibility).to eq('internal')
         end
 
+        it 'includes partials in the markdown' do
+          function = find_by_name!('test.module.featureIncludingPartial')
+          expect(function.guide_markdown).to eq(<<~EOT)
+            Line before partial
+            Partial line 1
+            Partial line 2
+            Line after partial
+          EOT
+        end
+
       end
 
       describe 'selectors' do

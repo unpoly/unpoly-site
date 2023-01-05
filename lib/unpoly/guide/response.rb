@@ -3,6 +3,7 @@ module Unpoly
     # This is actually "return", but that's reserved in Ruby.
     class Response
       include Logger
+      include Documentable
 
       def initialize
         @types = []
@@ -11,6 +12,11 @@ module Unpoly
 
       attr_accessor :types
       attr_accessor :guide_markdown
+
+      def guide_page?
+        # Responses are rendered on the feature page.
+        false
+      end
 
     end
   end

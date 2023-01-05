@@ -96,3 +96,12 @@
     @internal
   @experimental
   ###
+
+  ###-
+  Line before partial
+  @include test.partial
+  Line after partial
+
+  @function test.module.featureIncludingPartial
+  @experimental
+  ###
