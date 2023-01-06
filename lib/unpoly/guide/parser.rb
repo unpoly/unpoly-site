@@ -46,7 +46,7 @@ module Unpoly
         \@include  # @include
         \          # space
         (.+)       # partial name ($2)
-        \n         # remove line feed as partial markdown already ends in line feed
+        (\n|\z)    # remove line feed as partial markdown already ends in line feed
       }x
 
       FEATURE_PATTERN = %r{
@@ -196,8 +196,22 @@ module Unpoly
       def initialize(repository)
         @repository = repository
         @last_interface = nil
+
+        # TODO: We already know the repository. We don't need to track documentables ourselves.
         @documentables_by_index_name = {}
       end
+
+      def parse_all(paths)
+        paths.each do |source_path|
+          parse(source_path)
+        end
+
+        documentables.each do |documentable|
+          postprocess!(documentable)
+        end
+      end
+
+      private
 
       def parse(path)
         doc_comments = DocComment.find_in_path(path)
@@ -208,13 +222,7 @@ module Unpoly
             index_documentable(documentable)
           end
         end
-
-        documentables.each do |documentable|
-          postprocess!(documentable)
-        end
       end
-
-      private
 
       def index_documentable(documentable)
         @documentables_by_index_name[documentable.index_name] = documentable

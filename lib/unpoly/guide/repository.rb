@@ -254,9 +254,7 @@ module Unpoly
         parser = Parser.new(self)
         paths = source_paths
         log("Source paths", paths)
-        paths.each do |source_path|
-          parser.parse(source_path)
-        end
+        parser.parse_all(source_paths)
       end
 
       def source_paths

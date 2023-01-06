@@ -83,6 +83,12 @@
               optional
             </span>
           <% end %>
+          <% if param.experimental? && !feature.experimental? %>
+            <span class="tag is_experimental">
+              <i class="fa fa-flask"></i>
+              experimental
+            </span>
+          <% end %>
         </div>
         <div class="feature__param_prose">
 
