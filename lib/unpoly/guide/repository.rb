@@ -156,6 +156,10 @@ module Unpoly
         !!find_by_guide_id(guide_id)
       end
 
+      def name_exists?(name)
+        !!find_by_name(name)
+      end
+
       def all_by_explicit_parent_name(explicit_parent_name)
         documentables_by_explicit_parent_name[explicit_parent_name] || []
       end
@@ -172,35 +176,32 @@ module Unpoly
           return
         end
 
-        guide_id = code
+        name = code
 
         # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
         # if guide_id =~ /^(.+?)\s*=(.+?)$/
         #   guide_id = $1
         # end
 
-        guide_id = guide_id.sub('#', '.prototype.')
+        name = name.sub('#', '.prototype.')
 
-        # guide_id = guide_id.sub(/^([A-Za-z.]{3,})\([`)]*\)$/, '\1')
+        name = name.sub(/^([A-Za-z.]{3,})\([^)]*\)$/, '\1')
+
         # guide_id = guide_id.sub(/^([A-Za-z.]{3,})\(([A-Za-z]+(,\s*)?)*\)$/, '\1()')
 
         hash = nil
-        if guide_id =~ /^(up\.[.\w]+?\.config)\.([.\w]+?)$/
-          guide_id = $1
+        if name =~ /^(up\.[.\w]+?\.config)\.([.\w]+?)$/
+          name = $1
           hash = "config.#{$2}"
         end
 
-        guide_id = Util.slugify(guide_id)
-        if guide_id_exists?(guide_id)
-          path = "/#{guide_id}"
-          full_path = [path, hash].compact.join('#')
-          full_url = "https://unpoly.com#{path}"
-
+        if (documentable = find_by_name(name))
           {
-            path: path,
-            hash: hash,
-            full_path: full_path,
-            full_url: full_url
+            path:      documentable.guide_path,
+            hash:      hash,
+            url:       documentable.guide_url,
+            full_path: documentable.guide_path(hash: hash),
+            full_url:  documentable.guide_url(hash: hash),
           }
         end
       end

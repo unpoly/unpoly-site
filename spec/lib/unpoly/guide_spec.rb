@@ -235,4 +235,43 @@ describe Unpoly::Guide do
 
   end
 
+  describe '#code_to_location' do
+
+    it 'matches a selector feature' do
+      location = subject.code_to_location('[up-poll]')
+      expect(location).to be_present
+      expect(location[:full_path]).to eq('/up-poll')
+    end
+
+    it 'matches a pseudo-selector' do
+      location = subject.code_to_location(':main')
+      expect(location).to be_present
+      expect(location[:full_path]).to eq('/main')
+    end
+
+    it 'does not match `main` (without colon) to `:main`' do
+      location = subject.code_to_location('main')
+      expect(location).to be_nil
+    end
+
+    it 'matches a function feature with parentheses' do
+      location = subject.code_to_location('up.render()')
+      expect(location).to be_present
+      expect(location[:full_path]).to eq('/up.render')
+    end
+
+    it 'matches a function feature with parentheses and an argument' do
+      location = subject.code_to_location('up.render(target)')
+      expect(location).to be_present
+      expect(location[:full_path]).to eq('/up.render')
+    end
+
+    it 'matches a config property' do
+      location = subject.code_to_location('up.fragment.config.mainTargets')
+      expect(location).to be_present
+      expect(location[:full_path]).to eq('/up.fragment.config#config.mainTargets')
+    end
+
+  end
+
 end

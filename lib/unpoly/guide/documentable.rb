@@ -33,8 +33,12 @@ module Unpoly
         name
       end
 
-      def guide_path
-        "/#{guide_id}"
+      def guide_path(hash: nil)
+        ["/#{guide_id}", hash].compact.join('#')
+      end
+
+      def guide_url(hash: nil)
+        "https://unpoly.com#{guide_path(hash: hash)}"
       end
 
       def menu_modifiers
