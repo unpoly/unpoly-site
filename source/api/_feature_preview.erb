@@ -4,11 +4,7 @@
 
   <div class="documentable_preview__title">
     <span class="documentable_preview__signature"><%= h(feature.signature) %></span>
-    <span class="documentable_preview__visibility">
-      <span class="tag is_<%= feature.visibility %> %>">
-        <%= feature.visibility %>
-      </span>
-    </span>
+    <span class="documentable_preview__visibility"><%= visibility_tag(feature.visibility) %></span>
   </div>
 
   <% if feature.summary_markdown.present? %>

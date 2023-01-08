@@ -5,6 +5,8 @@
   padding-left: 60px
   position: relative
   display: block
+  //+when_deprecated
+  //  opacity: 0.6
 
 .documentable_preview__kind
   position: absolute
@@ -32,6 +34,7 @@
 
   +when_deprecated
     text-decoration: line-through
+    color: $COLOR_PROTECTED
 
   &:hover
     color: $COLOR_HOVER !important

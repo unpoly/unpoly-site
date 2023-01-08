@@ -399,4 +399,25 @@ helpers do
     end
   end
 
+  def visibility_tag(visibility)
+    if visibility == 'experimental'
+      experimental_tag
+    else
+      <<~HTML
+      <span class="tag is_experimental">
+        #{visibility}
+      </span>
+      HTML
+    end
+  end
+
+  def experimental_tag
+    <<~HTML
+      <span class="tag is_experimental">
+        <i class="fa fa-flask"></i>
+        experimental
+      </span>
+    HTML
+  end
+
 end

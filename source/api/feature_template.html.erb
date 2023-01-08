@@ -26,6 +26,9 @@
         if feature.experimental?
           visibility_comment = '<i class="fa fa-flask"></i> ' + visibility_comment
         end
+        if feature.deprecated?
+          visibility_comment = '<i class="fa fa-ban"></i> ' + visibility_comment
+        end
         %>
       <%= markdown_prose visibility_comment %>
       <% if feature.deprecated? %>
@@ -84,10 +87,7 @@
             </span>
           <% end %>
           <% if param.experimental? && !feature.experimental? %>
-            <span class="tag is_experimental">
-              <i class="fa fa-flask"></i>
-              experimental
-            </span>
+            <%= experimental_tag %>
           <% end %>
         </div>
         <div class="feature__param_prose">

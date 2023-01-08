@@ -223,11 +223,15 @@
     @content
 
 =when-unstable
+  &.is_internal,
   .is_internal &,
+  &.is_experimental,
   .is_experimental &,
+  &.is_deprecated,
   .is_deprecated
     @content
 
 =when-deprecated
+  &.is_deprecated,
   .is_deprecated &
     @content
