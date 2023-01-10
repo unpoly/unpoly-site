@@ -6,7 +6,7 @@
 
 <div class="prose">
   <p>
-    Unpoly will occasionally rename or remove an existing function, event or HTML attribute.
+    New Unpoly releases will occasionally rename or remove an existing function, event or HTML attribute.
   </p>
 
   <p>
@@ -116,5 +116,26 @@
     Note that event aliases are only used when registering listeners with <a href="/up.on"><code>up.on()</code></a>,
     but not with the native <code>Element#addEventListener()</code>.
   </p>
+
+  <h3>Detecting use of deprecated APIs with automated tests</h3>
+
+  <p>
+    If your app has good test coverage you can configure <code>unpoly-migrate.js</code>
+    to log an <em>error</em> (instead of a warning) whenever a deprecated API is called:
+  </p>
+
+  <pre><code>up.migrate.config.logLevel = 'error'</code></pre>
+
+  <p>
+    You can now detect which code needs to be upgraded by following test failures.
+  </p>
+
+  <% admonition(:tip) do %>
+    <p>
+      Your E2E tests can
+      <a href="https://makandracards.com/makandra/55056-raising-javascript-errors-in-cucumber-scenarios-and-how-to-silence-them-for-particular-scenarios">check if the browser console shows an error</a>
+      using the Selenium API.
+    </p>
+  <% end %>
 
 </div>
