@@ -44,7 +44,7 @@
 <% if (sub_topics = interface.sub_topics.presence) %>
   <h2 id="topics">Topics</h2>
 
-  <ul class="sub_topics">
+  <ul class="topics">
     <% sub_topics.each do |sub_topic| %>
        <li><%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.title, sub_topic.guide_path %></li>
     <% end %>

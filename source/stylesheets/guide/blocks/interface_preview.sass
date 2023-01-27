@@ -1,33 +1,26 @@
 @import ../../environment
 
-$border: 2px solid #ddd
+$spacing: $BLOCK_SPACING * 0.8
+$roundness: 5px
+$border-color: #b8b8b8
+$padding: 15px 17px
+
 
 .interface_preview
-  //+vertical_margin($BLOCK_SPACING)
-  display: flex
-  align-items: center
+  border: 1px solid $border-color
+  padding: $padding
+  border-radius: $roundness
+  +subtle-shadow
+  position: relative
+  +vertical_margin($spacing)
 
-  //&:hover
-  //  background-color: #f8f8f8
-  &+.interface_preview
-    border-top: $border
-
-.interface_preview__icon
-  padding-left: 10px
-  padding-right: 13px
-  flex: 0 0 auto
-  color: #999
-  i
-    +font-size(26px, 0)
-
-.interface_preview__info
-  border-left: $border
-  padding-left: 17px
-  flex: 1 1 auto
-  +vertical-padding(12px)
-
-.interface_preview__title
+.interface_preview__head
+  margin: 0
   +bold
+
+  &, a
+    text-decoration: none
+    color: $COLOR_TEXT
 
 .interface_preview__name
   +monospace-font
@@ -40,7 +33,6 @@ $border: 2px solid #ddd
     content: ')'
     color: #bbb
 
+.interface_preview__topics
+  +hide_last-margins
 
-.interface_preview__summary
-  p
-    margin: 0 !important

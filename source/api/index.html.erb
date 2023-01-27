@@ -1,32 +1,18 @@
 <h1>API</h1>
 
-<%
-  icons = {
-    'up.link' => 'external-link',
-    'up.modal' => 'clone',
-    'up.popup' => 'comment-o',
-    'up.motion' => 'play',
-    'up.feedback' => 'navicon',
-    'up.syntax' => 'code',
-    'up.fragment' => 'puzzle-piece',
-
-
-
-  }
-%>
-
-<% guide.promoted_interfaces.each do |interface|  %>
-  <div class="interface_preview" up-expand>
-    <div class="interface_preview__icon">
-      <i class="fa fa-fw fa-<%= icons[interface.name] || 'code' %>"></i>
-    </div>
-
-    <div class="interface_preview__info">
+<% guide.promoted_interfaces.each do |interface| %>
+  <div class="interface_preview">
+    <h3 class="interface_preview__head">
       <%= hyperlink interface.title, interface.guide_path, class: 'interface_preview__title' %>
       <span class="interface_preview__name"><%= interface.name %></span>
-<!--      <div class="interface_preview__summary">-->
-        <%#= markdown_prose(interface.summary_markdown, strip_links: true) %>
-<!--      </div>-->
-    </div>
+    </h3>
+
+    <%= markdown_prose(interface.summary_markdown, strip_links: true) %>
+
+    <ul class="interface_preview__topics topics">
+      <% interface.all_topics.each do |sub_topic| %>
+        <li><%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.menu_title, sub_topic.guide_path %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
