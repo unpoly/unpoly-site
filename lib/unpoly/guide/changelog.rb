@@ -98,7 +98,7 @@ module Unpoly
         log "parse()"
         all_markdown = File.read(changelog_path)
         all_markdown.gsub!("\r", '')
-        sections = all_markdown.split(/^(\d+\.\d+\.\d+)\n\-+\n+/)
+        sections = all_markdown.split(/^(\d+\.\d+\.\d+(?:-[a-z\d]+)?)\n-+\n+/)
         sections.shift # remove introduction text
         sections.each_slice(2) do |version, release_markdown|
           releases << Release.new(
