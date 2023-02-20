@@ -104,7 +104,7 @@ module Unpoly
 
         codes.each do |code_element|
           text = code_element.text
-          if code_element.ancestors('a, pre').blank?
+          if code_element.ancestors('a, pre, h1, h2, h3, h4, h5, h6').blank?
             if (parsed = guide.code_to_location(text))
               if link_current_path || (parsed[:path] != current_path)
                 href = parsed[:full_path]
