@@ -14,6 +14,12 @@ class Node
     @self = findChildren(@element, '.node__self')[0]
     text = @self.textContent
     @searchText = text.toLowerCase()
+
+    # Pages often have different keywords in their URL and title.
+    # E.g. the page /analytics is titled "Tracking page views"
+    if @isPage()
+      @searchText += @self.href
+
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
     @createCollapser()
