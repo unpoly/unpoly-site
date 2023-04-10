@@ -68,6 +68,10 @@ module Unpoly
         end
       end
 
+      def index_name
+        "#{feature.index_name}#{super}"
+      end
+
       def guide_path
         "#{feature.guide_path}##{guide_anchor}"
       end
