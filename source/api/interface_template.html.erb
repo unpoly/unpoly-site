@@ -6,6 +6,10 @@
 
 <%= edit_button(interface) %>
 
+<% if false && interface.page? %>
+<ul class="toc bullets"></ul>
+<% end %>
+
 <h1>
   <%= breadcrumb_link 'API', '/api' %>
 
