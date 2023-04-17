@@ -27,8 +27,7 @@ Header set Cache-Control "max-age=0, private"
 RewriteCond %{HTTP_HOST} ^(v\d+|pre)\.unpoly\.com$
 RewriteRule ^robots\.txt$ /robots.exclude.txt [L]
 
-# v2 is the current version, so let's redirect
-# v2.unpoly.com/foo to unpoly.com/foo
-RewriteCond %{HTTP_HOST} ^v2\.unpoly\.com$
+# v3 is the current version, so let's redirect
+# v3.unpoly.com/foo to unpoly.com/foo
+RewriteCond %{HTTP_HOST} ^v3\.unpoly\.com$
 RewriteRule ^(.*)$ https://unpoly.com/$1 [R=301,L]
-
