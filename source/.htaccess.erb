@@ -30,4 +30,4 @@ RewriteRule ^robots\.txt$ /robots.exclude.txt [L]
 # v3 is the current version, so let's redirect
 # v3.unpoly.com/foo to unpoly.com/foo
 RewriteCond %{HTTP_HOST} ^(v3|www)\.unpoly\.com$
-RewriteRule ^(.*)$ https://unpoly.com/$1 [R=301,L]
+RewriteRule ^(.*)$ https://unpoly.com/$1 [R=307,L]
