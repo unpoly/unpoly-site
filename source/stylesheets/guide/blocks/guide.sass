@@ -1,18 +1,28 @@
 @import ../../environment
 
 $SPACING_X: 32px
-
+$HAT_HEIGHT: 32px
 $VERSION_NAV_WIDTH: 90px
 
 .guide
   display: flex
   flex-direction: column
 
-.guide__head
+.guide__hat
   flex: 0 0 auto
   position: fixed
   left: 0
   top: 0
+  right: 0
+  +height($HAT_HEIGHT)
+  background: #ffa
+  z-index: $HEAD_STRATUM
+
+.guide__head
+  flex: 0 0 auto
+  position: fixed
+  left: 0
+  top: $HAT_HEIGHT
   right: 0
   height: $HEAD_HEIGHT
   z-index: $HEAD_STRATUM
@@ -72,7 +82,7 @@ $VERSION_NAV_WIDTH: 90px
   position: fixed
   //padding: 24px $SPACING_X 24px 0
   padding: 28px 24px 24px 0
-  top: $HEAD_HEIGHT
+  top: $HAT_HEIGHT + $HEAD_HEIGHT
   width: $LEFT_WIDTH
   +border-box
   bottom: 0
@@ -85,7 +95,7 @@ $VERSION_NAV_WIDTH: 90px
   margin-bottom: 5px
 
 .guide__main
-  margin-top: $HEAD_HEIGHT
+  margin-top: $HAT_HEIGHT + $HEAD_HEIGHT
   margin-bottom: 20px
   flex: 1 1 auto
   min-width: 0
