@@ -13,4 +13,4 @@ RUN useradd -ms /bin/bash vscode
 
 USER vscode
 
-RUN gem install bundler -v "2.1.4"
+RUN gem install bundler -v "1.17.3"
