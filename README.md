@@ -104,6 +104,18 @@ If you're using an editor such as VSCode and have Docker available, you can use 
 
 Once inside the DevContainer, use `bundle exec middleman server` and `bundle exec rspec` as you normally would.
 
+
+## Local development using Docker Compose
+
+You can use Docker to run the development dependencies and middleman sever.
+
+1. Checkout `unpoly-site` alongside `unpoly` in the same parent folder (as above).
+2. From inside the `unpoly-site` folder, run the command below.
+
+        docker compose -p unpoly-site -f .devcontainer/docker-compose.yml run --service-ports app
+
+Once the container is running, you can browse documentation from the outside at https://localhost:4567
+
 ## Tests
 
 This repo should have a lot more tests.

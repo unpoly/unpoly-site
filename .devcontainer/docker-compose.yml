@@ -1,0 +1,20 @@
+---
+version: "3.7"
+services: 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VARIANT: "2.6"
+    command: "/bin/bash -c '(bundle check || bundle install) && bundle exec middleman serve'"
+    volumes:
+      - "../../unpoly:/workspaces/unpoly"
+      - "../../unpoly-rails:/workspaces/unpoly-rails"
+      - "..:/workspaces/unpoly-site"
+      - "bundle:/usr/local/bundle"
+    ports:
+      - 4567:4567
+    working_dir: /workspaces/unpoly-site
+volumes:
+  bundle:
