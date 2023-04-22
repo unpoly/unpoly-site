@@ -273,11 +273,11 @@ helpers do
   end
 
   def cdn_url(file)
-    "https://unpkg.com/unpoly@#{guide.version}/#{file}"
+    "https://cdn.jsdelivr.net/npm/unpoly@#{guide.version}/#{file}"
   end
 
   def cdn_browse_url(filename = nil)
-    "https://unpkg.com/unpoly@#{guide.version}/#{filename}"
+    "https://cdn.jsdelivr.net/npm/unpoly@#{guide.version}/#{filename}"
   end
 
   def link_to_cdn_file(filename, link_options = {})
