@@ -124,7 +124,8 @@
     to log an <em>error</em> (instead of a warning) whenever a deprecated API is called:
   </p>
 
-  <pre><code>up.migrate.config.logLevel = 'error'</code></pre>
+  <pre><code>up.migrate.config.logLevel = 'error' // log to the error console
+up.log.config.format = false         // log unformatted text for easier extraction</code></pre>
 
   <p>
     You can now detect which code needs to be upgraded by following test failures.
