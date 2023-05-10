@@ -185,7 +185,7 @@ module Unpoly
 
         name = name.sub('#', '.prototype.')
 
-        name = name.sub(/^([A-Za-z.]{3,})\([^)]*\)$/, '\1')
+        name = name.sub(/^([A-Za-z.$]{3,})\([^)]*\)$/, '\1')
 
         # guide_id = guide_id.sub(/^([A-Za-z.]{3,})\(([A-Za-z]+(,\s*)?)*\)$/, '\1()')
 
