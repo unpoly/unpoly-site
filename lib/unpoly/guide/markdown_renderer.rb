@@ -61,7 +61,7 @@ module Unpoly
       private
 
       def preprocess_markdown(markdown)
-        markdown.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/) do
+        markdown.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
           "#{$1} [##{$2}](https://github.com/unpoly/unpoly/issues/#{$2})"
         end
       end
