@@ -95,8 +95,11 @@ $meta_width: 170px
 
     td, th
       vertical-align: top
-      +horizontal-padding(0.6em)
-      +vertical-padding(0.27em)
+      +horizontal-padding(0.7em)
+      +vertical-padding(0.45em)
+
+      border: 1px solid #ccc
+
 
       &[align=right]
         text-align: right
@@ -106,19 +109,29 @@ $meta_width: 170px
       +font-size(16px, 4px)
       color: #666
       text-align: left
-      background-color: rgba(0, 0, 0, 0.08)
-      padding-top: 0.35em
+      background-color: opacify($BACKGROUND_LIGHT, 0.05)
+      //color: white
+      //padding-top: 0.35em
 
+    thead
+      tr:first-child
+        th:first-child
+          border-top-left-radius: 2px
+        th:last-child
+          border-top-right-radius: 2px
+
+    tbody
+      tr:last-child
+        td:first-child
+          border-bottom-left-radius: 2px
+        td:last-child
+          border-bottom-right-radius: 2px
 
     //tr
-    //  td
-    //    border-bottom: 2px solid #ddd
-
-    tr
-      //&:nth-child(odd)
-      //  td
-      //    background-color: #fbfbfb
-      &:nth-child(even)
-        td
-          background: $BACKGROUND_LIGHT
-
+    //  &:nth-child(even)
+    //    td
+    //      background: $BACKGROUND_LIGHT
+    //  &:nth-child(odd)
+    //    td
+    //      background: transparentize($BACKGROUND_LIGHT, 0.05)
+    //
