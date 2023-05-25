@@ -9,6 +9,7 @@ module Unpoly
       def initialize(**options)
         @strip_links = options.fetch(:strip_links, false)
         @autolink_code = options.fetch(:autolink_code, true) && !strip_links
+        @autolink_issues = options.fetch(:autolink_issues, true) && !strip_links
         @pictures = options.fetch(:pictures, true)
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @admonitions = options.fetch(:admonitions, true)
@@ -26,8 +27,10 @@ module Unpoly
       attr_reader :admonitions
       # attr_reader :mark_code
 
-      def to_html(text)
-        doc = Kramdown::Document.new(text,
+      def to_html(markdown)
+        markdown = preprocess_markdown(markdown)
+
+        doc = Kramdown::Document.new(markdown,
           input: 'GFM',
           enable_coderay: false,
           smart_quotes: ["apos", "apos", "quot", "quot"],
@@ -35,7 +38,7 @@ module Unpoly
         )
 
         html = doc.to_html
-        html = postprocess(html)
+        html = postprocess_html(html)
         html
       end
 
@@ -57,7 +60,13 @@ module Unpoly
 
       private
 
-      def postprocess(html)
+      def preprocess_markdown(markdown)
+        markdown.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/) do
+          "#{$1} [##{$2}](https://github.com/unpoly/unpoly/issues/#{$2})"
+        end
+      end
+
+      def postprocess_html(html)
         nokogiri_doc = Nokogiri::HTML.fragment(html)
 
         if strip_links
