@@ -64,6 +64,10 @@ module Unpoly
         markdown.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
           "#{$1} [##{$2}](https://github.com/unpoly/unpoly/issues/#{$2})"
         end
+
+        markdown.gsub(/@([a-z\d][a-z\d-]{2,38})\b/) do
+          "[@#{$1}](https://github.com/#{$1}){: .is_secondary}"
+        end
       end
 
       def postprocess_html(html)
