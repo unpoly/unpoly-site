@@ -7,7 +7,7 @@ module Unpoly
 
       PROMOTED_INTERFACE_NAMES = %w[
         up.link
-        up.syntax
+        up.script
         up.form
         up.layer
         up.fragment
