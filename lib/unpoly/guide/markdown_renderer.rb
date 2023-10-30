@@ -9,7 +9,7 @@ module Unpoly
       def initialize(**options)
         @strip_links = options.fetch(:strip_links, false)
         @autolink_code = options.fetch(:autolink_code, true) && !strip_links
-        @autolink_issues = options.fetch(:autolink_issues, false) && !strip_links
+        @autolink_github_issues = options.fetch(:autolink_github_issues, false) && !strip_links
         @autolink_github_users = options.fetch(:autolink_github_users, false) && !strip_links
         @pictures = options.fetch(:pictures, true)
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
