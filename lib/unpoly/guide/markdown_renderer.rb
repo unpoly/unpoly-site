@@ -9,7 +9,8 @@ module Unpoly
       def initialize(**options)
         @strip_links = options.fetch(:strip_links, false)
         @autolink_code = options.fetch(:autolink_code, true) && !strip_links
-        @autolink_issues = options.fetch(:autolink_issues, true) && !strip_links
+        @autolink_issues = options.fetch(:autolink_issues, false) && !strip_links
+        @autolink_github_users = options.fetch(:autolink_github_users, false) && !strip_links
         @pictures = options.fetch(:pictures, true)
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @admonitions = options.fetch(:admonitions, true)
@@ -25,6 +26,8 @@ module Unpoly
       attr_reader :link_current_path
       attr_reader :current_path
       attr_reader :admonitions
+      attr_reader :autolink_github_issues
+      attr_reader :autolink_github_users
       # attr_reader :mark_code
 
       def to_html(markdown)
@@ -61,13 +64,7 @@ module Unpoly
       private
 
       def preprocess_markdown(markdown)
-        markdown.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
-          "#{$1} [##{$2}](https://github.com/unpoly/unpoly/issues/#{$2})"
-        end
-
-        markdown.gsub(/@([a-z\d][a-z\d-]{2,38})\b/) do
-          "[@#{$1}](https://github.com/#{$1}){: .is_secondary}"
-        end
+        markdown
       end
 
       def postprocess_html(html)
@@ -99,6 +96,26 @@ module Unpoly
           end
         end
 
+        if autolink_github_issues
+          text_nodes_outside_code(nokogiri_doc).each do |text_node|
+            html = CGI.escapeHTML(text_node.content)
+            html = html.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
+              "#{$1} <a href='https://github.com/unpoly/unpoly/issues/#{$2}'>##{$2}</a>"
+            end
+            text_node.replace(html)
+          end
+        end
+
+        if autolink_github_users
+          text_nodes_outside_code(nokogiri_doc).each do |text_node|
+            html = CGI.escapeHTML(text_node.content)
+            html = html.gsub(/@([a-z\d][a-z\d-]{2,38})\b/) do
+              "<a href='https://github.com/#{$1}' class='is_secondary'>@#{$1}</a>"
+            end
+            text_node.replace(html)
+          end
+        end
+
         html = nokogiri_doc.to_html
 
         if admonitions
@@ -108,6 +125,10 @@ module Unpoly
         end
 
         html
+      end
+
+      def text_nodes_outside_code(nokogiri_doc)
+        nokogiri_doc.xpath('*//text()[not(ancestor::code)]').to_a.dup
       end
 
       def autolink_code_in_nokogiri_doc(nokogiri_doc, link_current_path: false)

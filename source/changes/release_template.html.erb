@@ -22,7 +22,7 @@
 </h1>
 
 <div class="prose">
-  <%= markdown(release.markdown) %>
+  <%= markdown(release.markdown, autolink_github_issues: true, autolink_github_users: true) %>
 </div>
 
 <% unless release.markdown.include?('unpoly-migrate.js') %>
