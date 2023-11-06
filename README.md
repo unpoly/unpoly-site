@@ -25,10 +25,10 @@ The API docs for Unpoly functions, selectors, etc. are not maintained in *this* 
 
 Accordingly all API references and package overviews are *not* built as Middleman pages. Instead the info is parsed from documentation comments in the Unpoly source code in `vendor/unpoly-local`.
 
-Documentation comments look like this in JavaScript files (`.js`, `.mjs`):
+Documentation comments look like this in JavaScript files (`.js`):
 
 ```
-/***
+/*-
 Linking to fragments
 ====================
 
@@ -41,7 +41,7 @@ The `up.link` module lets you build links that update fragments instead of entir
 In a CoffeeScript file (`.coffee`) they will look like this::
 
 ```
-###**
+###-
 Linking to fragments
 ====================
 
