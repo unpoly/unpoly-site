@@ -25,7 +25,7 @@ module Unpoly
       attr_accessor :params_note
 
       def visibility_comment
-        comment = @visibility_comment.strip
+        comment = @visibility_comment&.strip
         if comment.present?
           if deprecated?
             "**This feature has been deprecated**. #{comment}"
