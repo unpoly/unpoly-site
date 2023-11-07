@@ -10,8 +10,7 @@
   </p>
 
   <p>
-    To <b>re-enable old APIs</b>, load the file <code>unpoly-migrate.js</code> that ships with
-    Unpoly 2 or higher:
+    To <b>polyfill old APIs</b>, load the file <code>unpoly-migrate.js</code>:
   </p>
 
   <table>
@@ -34,24 +33,38 @@
 
   <p>
     By loading <code>unpoly-migrate.js</code>, calls to most old APIs will be forwarded to the
-    new version. A deprecation notice will be logged to your browser console.
-    This way you can upgrade Unpoly, revive your application with a few changes,
-    then replace deprecated API calls under green tests.
+    new version. A deprecation notice will be logged to your browser console:
   </p>
 
   <%= image_tag 'changes/log-deprecation.png', class: 'picture has_border is_sepia', width: 700 %>
 
-  <h3>Installing <code>unpoly-migrate.js</code></h3>
+  <p>
+    This way you can upgrade Unpoly, revive your application with a few changes,
+    then replace deprecated API calls under green tests.
+  </p>
 
-  <code>unpoly-migrate.js</code> must be loaded <i>after</i> Unpoly, but <i>before</i> your own code. For example:
+  <% admonition(:tip) do %>
+    <p>
+      <span class="line-on-wide">
+        We recommend to temporarily load <code>unpoly-migrate.js</code> for every upgrade, even for minor version bumps.
+      </span>
+      <span class="line-on-wide">
+        Changes handled by <code>unpoly-migrate.js</code> are not considered breaking changes.
+      </span>
+    </p>
+  <% end %>
 
-  <pre><code>&lt;script src="unpoly.js"&gt;
-&lt;script src="unpoly-migrate.js"&gt;
-&lt;script src="app.js"&gt;</code></pre>
+  <h2 id="installation">Installing the polyfills</h2>
 
-  <h3>What <code>unpoly-migrate.js</code> does</h3>
+  <p><code>unpoly-migrate.js</code> must be loaded <i>after</i> Unpoly, but <i>before</i> your own code. For example:</p>
 
-  <h4>Removed functions are polyfilled</h4>
+  <pre><code>&lt;script src="unpoly.js"&gt;&lt;/script&gt;
+&lt;script src="unpoly-migrate.js"&gt;&lt;/script&gt; &lt;!-- mark-line --&gt;
+&lt;script src="app.js"&gt;&lt;/script&gt;</code></pre>
+
+  <h2>Covered functionality</h2>
+
+  <h3>Removed functions are polyfilled</h3>
 
   <p>
     If a function was removed without replacement, <code>unpoly-migrate.js</code> will provide a polyfill.
@@ -62,7 +75,7 @@
     re-added by <code>unpoly-migrate.js</code>.
   </p>
 
-  <h4>Renamed functions are aliased</h4>
+  <h3>Renamed functions are aliased</h3>
 
   <p>
     Calls to deprecated functions will be forwarded if there is an equivalent function
@@ -73,7 +86,7 @@
     E.g. <code>up.modal.close()</code> will call <code>up.layer.dismiss()</code>.
   </p>
 
-  <h4>Renamed options are aliased</h4>
+  <h3>Renamed options are aliased</h3>
 
   <p>
     Usage of deprecated options will be rewritten if there is an equivalent option
@@ -84,7 +97,7 @@
     E.g. <code>{ reveal: false }</code> will be renamed to <code>{ scroll: false }</code>.
   </p>
 
-  <h4>Renamed packages are aliased</h4>
+  <h3>Renamed packages are aliased</h3>
 
   <p>
     Usage of deprecated pcakages will be rewritten if there is an equivalent packages
@@ -99,13 +112,13 @@
     Occasionally a package will be removed
   </p>
 
-  <h4>Renamed HTML attributes are aliased</h4>
+  <h3>Renamed HTML attributes are aliased</h3>
 
   <p>
     E.g. <code>&lt;a up-close&gt;</code> will translate to <code>&lt;a up-dismiss&gt;</code>
   </p>
 
-  <h4>Renamed events are aliased</h4>
+  <h3>Renamed events are aliased</h3>
 
   <p>
     E.g.
@@ -117,7 +130,7 @@
     but not with the native <code>Element#addEventListener()</code>.
   </p>
 
-  <h3 id="detecting-deprecated-apis-with-tests">Detecting use of deprecated APIs with automated tests</h3>
+  <h2 id="detecting-deprecated-apis-with-tests">Detecting use of deprecated APIs with automated tests</h2>
 
   <p>
     If your app has good test coverage you can configure <code>unpoly-migrate.js</code>

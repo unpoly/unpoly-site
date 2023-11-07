@@ -31,10 +31,10 @@
         end
         %>
       <%= markdown_prose visibility_comment %>
-      <% if feature.deprecated? %>
+      <% if feature.deprecated? && visibility_comment !~ /without replacement/i %>
         <p class="notification--subline">
           Load <a href="/changes/upgrading"><code>unpoly-migrate.js</code></a>
-          to enable deprecated features.
+          to polyfill deprecated features.
         </p>
       <% end %>
     </div>

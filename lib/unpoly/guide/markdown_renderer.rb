@@ -16,6 +16,7 @@ module Unpoly
         @admonitions = options.fetch(:admonitions, true)
         @link_current_path = options.fetch(:link_current_path, false)
         @current_path = options.fetch(:current_path) if autolink_code && !link_current_path
+        @heading_level = options.fetch(:heading_level, 0)
         # @mark_code = options.fetch(:mark_code, true)
       end
 
@@ -28,6 +29,7 @@ module Unpoly
       attr_reader :admonitions
       attr_reader :autolink_github_issues
       attr_reader :autolink_github_users
+      attr_reader :heading_level
       # attr_reader :mark_code
 
       def to_html(markdown)
@@ -116,6 +118,10 @@ module Unpoly
           end
         end
 
+        if heading_level != 0
+          shift_heading_level(nokogiri_doc, heading_level)
+        end
+
         html = nokogiri_doc.to_html
 
         if admonitions
@@ -125,6 +131,13 @@ module Unpoly
         end
 
         html
+      end
+
+      def shift_heading_level(nokogiri_doc, diff)
+        nokogiri_doc.css('h1, h2, h3, h4, h5, h6').each do |heading|
+          level = heading.name[1].to_i
+          heading.name = "h#{level + diff}"
+        end
       end
 
       def text_nodes_outside_code(nokogiri_doc)

@@ -22,17 +22,9 @@
 </h1>
 
 <div class="prose">
-  <%= markdown(release.markdown, autolink_github_issues: true, autolink_github_users: true) %>
+  <% release_html = markdown(release.markdown, autolink_github_issues: true, autolink_github_users: true, heading_level: -1) %>
+  <% unless release_html =~ /<h\d(>|\s)/ %><h2>Changes</h2><% end %>
+  <%= release_html %>
 </div>
 
-<h2>Upgrading</h2>
-
-<div class="prose">
-  <span class="line-on-wide">
-    If you're upgrading from an older Unpoly version you should load <code>unpoly-migrate.js</code>
-    to enable deprecated APIs.
-  </span>
-  <span class="line-on-wide">
-    See our <a href="/changes/upgrading">upgrading guide</a> for details.
-  </span>
-</div>
+<%= partial('changes/upgrading_teaser') %>
