@@ -118,6 +118,8 @@ module Unpoly
           end
         end
 
+        # insert_toc(nokogiri_doc)
+
         if heading_level != 0
           shift_heading_level(nokogiri_doc, heading_level)
         end
@@ -133,8 +135,23 @@ module Unpoly
         html
       end
 
+      # def insert_toc(nokogiri_docs)
+      #   headings = find_headings(nokogiri_doc)
+      #
+      #   root = { children: [] }
+      #   current_level = 0
+      #
+      #   headings.each do |heading|
+      #
+      #   end
+      # end
+
+      def find_headings(nokogiri_doc)
+        nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup
+      end
+
       def shift_heading_level(nokogiri_doc, diff)
-        nokogiri_doc.css('h1, h2, h3, h4, h5, h6').each do |heading|
+        find_headings(nokogiri_doc).each do |heading|
           level = heading.name[1].to_i
           heading.name = "h#{level + diff}"
         end
@@ -145,7 +162,7 @@ module Unpoly
       end
 
       def autolink_code_in_nokogiri_doc(nokogiri_doc, link_current_path: false)
-        codes = nokogiri_doc.css('code')
+        codes = nokogiri_doc.css('code:not([autolink=false])')
 
         # current_path = normalized_current_path
 
