@@ -11,7 +11,7 @@
 
     <ul class="interface_preview__topics topics">
       <% interface.all_topics.each do |sub_topic| %>
-        <li><%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.menu_title, sub_topic.guide_path %></li>
+        <li><%= link_to content_tag(:i, '', class: "fa fa-file-text-o") + ' ' + sub_topic.menu_title, sub_topic.guide_path %></li>
       <% end %>
     </ul>
   </div>

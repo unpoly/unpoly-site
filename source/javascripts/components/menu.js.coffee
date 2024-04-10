@@ -8,7 +8,7 @@ class Node
   EXPANDED_ICON  = 'fa-minus-square-o'
   COLLAPSED_ICON = 'fa-plus-square-o'
   CHILDLESS_ICON = 'fa-angle-right'
-  PAGE_ICON = 'fa-bookmark-o'
+  PAGE_ICON = 'fa-file-text-o'
 
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node__self')[0]

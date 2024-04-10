@@ -1,4 +1,37 @@
-.toc
-  float: right
-  clear: right
+@import ../../environment
 
+$depth-indent: 15px
+
+.toc
+  padding: $NOTIFICATION_PADDING
+  +vertical-margin($BLOCK_SPACING)
+  border-radius: 3px
+  width: fit-content
+  background-color: rgba(0, 0, 0, 0.03)
+  //background-color: #f8f8f8
+  //border: 1px solid #d2d2d2
+  //box-shadow: inset 0 1px 0 white
+
+.toc--title
+  margin-bottom: 0.5em
+  margin-top: 0
+  text-decoration: none !important
+  font-size: inherit
+  +bold
+
+.toc--item
+  i.fa
+    margin-right: 3px
+
+  a
+    text-decoration: none
+
+  //&.-depth-1
+  //  margin-left: $depth-indent
+  //  display: none
+  //&.-depth-2
+  //  margin-left: 2 * $depth-indent
+  //  display: none
+  //&.-depth-3
+  //  margin-left: 3 * $depth-indent
+  //  display: none

@@ -6,10 +6,6 @@
 
 <%= edit_button(interface) %>
 
-<% if false && interface.page? %>
-<ul class="toc bullets"></ul>
-<% end %>
-
 <h1>
   <%= breadcrumb_link 'API', '/api' %>
 
@@ -27,14 +23,15 @@
   <% end %>
 </h1>
 
-
 <% if interface.guide_markdown.present? %>
+  <% markdown_html = markdown_prose(interface.guide_markdown, auto_toc: interface.page?) %>
+
   <% if interface.collapse_markdown? %>
     <div class="expandable">
 
       <div class="expandable__limiter">
          <div class="expandable__content">
-           <%= markdown_prose(interface.guide_markdown) %>
+           <%= markdown_html %>
          </div>
       </div>
 
@@ -42,7 +39,7 @@
 
     </div>
   <% else %>
-    <%= markdown_prose(interface.guide_markdown) %>
+    <%= markdown_html %>
   <% end %>
 <% end %>
 
@@ -51,7 +48,7 @@
 
   <ul class="topics">
     <% sub_topics.each do |sub_topic| %>
-       <li><%= link_to content_tag(:i, '', class: "fa fa-bookmark-o") + ' ' + sub_topic.title, sub_topic.guide_path %></li>
+       <li><%= link_to content_tag(:i, '', class: "fa fa-file-text-o") + ' ' + sub_topic.title, sub_topic.guide_path %></li>
     <% end %>
   </ul>
 <% end %>
