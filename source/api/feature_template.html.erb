@@ -5,17 +5,19 @@
 
   params_section_visible = feature.params.present? || feature.params_note.present?
 
-  params_section_title = if feature.selector?
-    'Modifying attributes'
+  if feature.selector?
+    params_section_title = 'Modifying attributes'
+    params_section_id = 'attributes'
   elsif feature.property?
-    'Value'
+    params_section_title = 'Value'
+    params_section_id = 'value'
   elsif feature.event?
-    'Properties'
+    params_section_title = 'Event properties'
+    params_section_id = 'properties'
   else
-    'Parameters'
+    params_section_title = 'Parameters'
+    params_section_id = 'parameters'
   end
-
-  params_section_id = slugify(params_section_title)
 %>
 
 <div class="feature is_<%= feature.visibility %>">
