@@ -12,7 +12,7 @@ module Unpoly
 
         chars_before_last_heading = text_size_before(nokogiri_doc, last_heading)
 
-        if (headings.size >= 4) || (chars_before_last_heading >= 900)
+        if (headings.size >= 4) || (chars_before_last_heading >= 1000)
           insert_toc_before(headings.first, headings)
         end
 
@@ -65,6 +65,11 @@ module Unpoly
           html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{Util.escape_html heading.text}</a></div>"
         end
         html << '</nav>'
+
+        # Prefer inserting before (not after) a <hr class="separator">
+        if position_after.previous_element.matches?('hr')
+          position_after = position_after.previous_element
+        end
 
         position_after.add_previous_sibling(html)
       end

@@ -64,8 +64,10 @@
 
     <%= partial 'see_also', locals: { referencer: feature } %>
 
-    <% if params_section_visible %>
-      <div class="bleed-section">
+    <% if params_section_visible || feature.response %>
+      <hr class="separator">
+
+      <% if params_section_visible %>
 
         <h2 id="<%= slugify(params_section_id) %>"><%= params_section_title %></h2>
 
@@ -110,24 +112,26 @@
           </div>
         <% end %>
 
-      </div>
-    <% end %>
+      <% end %>
 
-    <% if feature.response %>
+      <% if feature.response %>
 
-      <h2 id="return-value">
-        Return value
-      </h2>
+        <h2 id="return-value">
+          Return value
+        </h2>
 
-      <% if feature.response.types.present? %>
-        <div>
-          <%= type(feature.response.types) %>
+        <% if feature.response.types.present? %>
+          <div>
+            <%= type(feature.response.types) %>
+          </div>
+        <% end %>
+
+        <div class="feature__param_prose">
+          <%= markdown_prose(feature.response.guide_markdown) %>
         </div>
       <% end %>
 
-      <div class="feature__param_prose">
-        <%= markdown_prose(feature.response.guide_markdown) %>
-      </div>
+
     <% end %>
 
   <% end %>

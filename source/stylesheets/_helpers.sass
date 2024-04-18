@@ -94,9 +94,6 @@
   $hover-track-color: rgba(0, 0, 0, 0.1)
   $hover-thumb-color: rgba(0, 0, 0, 0.3)
 
-  &:hover
-    scrollbar-color: $hover-track-color $hover-thumb-color
-
   &::-webkit-scrollbar
     background-color: $idle-track-color
     width: $width
@@ -109,9 +106,15 @@
     &:hover
       background-color: $hover-thumb-color
 
+  //@supports selector(.foo)
+  //  display: none
+
   //@supports not selector(::-webkit-scrollbar)
   //  scrollbar-width: $width // Firefox
   //  scrollbar-color: $idle-track-color $idle-thumb-color
+
+  //&:hover
+  //  scrollbar-color: $hover-track-color $hover-thumb-color
 
 
 =default-font
