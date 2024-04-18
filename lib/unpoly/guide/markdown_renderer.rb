@@ -17,7 +17,7 @@ module Unpoly
         @link_current_path = options.fetch(:link_current_path, false)
         @current_path = options.fetch(:current_path) if autolink_code && !link_current_path
         @shift_heading_level = options.fetch(:shift_heading_level, 0)
-        @auto_toc = options.fetch(:auto_toc, false)
+        # @auto_toc = options.fetch(:auto_toc, false)
         # @mark_code = options.fetch(:mark_code, true)
       end
 
@@ -31,7 +31,7 @@ module Unpoly
       attr_reader :autolink_github_issues
       attr_reader :autolink_github_users
       attr_reader :shift_heading_level
-      attr_reader :auto_toc
+      # attr_reader :auto_toc
       # attr_reader :mark_code
 
       def to_html(markdown)
@@ -124,9 +124,9 @@ module Unpoly
           do_shift_heading_level(nokogiri_doc, shift_heading_level)
         end
 
-        if auto_toc
-          insert_auto_toc(nokogiri_doc)
-        end
+        # if auto_toc
+        #   insert_auto_toc(nokogiri_doc)
+        # end
 
         html = nokogiri_doc.to_html
 
@@ -139,37 +139,37 @@ module Unpoly
         html
       end
 
-      def insert_auto_toc(nokogiri_doc)
-        headings = find_headings_with_min_level(nokogiri_doc)
-
-        if headings.size >= 2
-          insert_toc_before(headings.first, headings)
-        end
-      end
-
-      def insert_toc_before(position_after, headings)
-        html = ''
-        html << '<nav class="toc">'
-        html << '<h4 class="toc--title">Contents</h4>'
-        headings.each do |heading|
-          html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.text}</a></div>"
-        end
-        html << '</nav>'
-
-        position_after.add_previous_sibling(html)
-      end
-
-      def heading_level(heading)
-        heading.name[1].to_i
-      end
-
-      # (1) We only show TOC items for the first headline levels.
-      # (2) Some pages use <h2> for sections, some pages use <h3> for sections
-      def find_headings_with_min_level(nokogiri_doc)
-        headings = find_headings(nokogiri_doc)
-        min_heading_level = headings.map { |heading| heading_level(heading) }.min
-        find_headings(nokogiri_doc).select { |heading| heading_level(heading) == min_heading_level }
-      end
+      # def insert_auto_toc(nokogiri_doc)
+      #   headings = find_headings_with_min_level(nokogiri_doc)
+      #
+      #   if headings.size >= 2
+      #     insert_toc_before(headings.first, headings)
+      #   end
+      # end
+      #
+      # def insert_toc_before(position_after, headings)
+      #   html = ''
+      #   html << '<nav class="toc">'
+      #   html << '<h4 class="toc--title">Contents</h4>'
+      #   headings.each do |heading|
+      #     html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.text}</a></div>"
+      #   end
+      #   html << '</nav>'
+      #
+      #   position_after.add_previous_sibling(html)
+      # end
+      #
+      # def heading_level(heading)
+      #   heading.name[1].to_i
+      # end
+      #
+      # # (1) We only show TOC items for the first headline levels.
+      # # (2) Some pages use <h2> for sections, some pages use <h3> for sections
+      # def find_headings_with_min_level(nokogiri_doc)
+      #   headings = find_headings(nokogiri_doc)
+      #   min_heading_level = headings.map { |heading| heading_level(heading) }.min
+      #   find_headings(nokogiri_doc).select { |heading| heading_level(heading) == min_heading_level }
+      # end
 
       def find_headings(nokogiri_doc)
         nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup

@@ -23,60 +23,61 @@
   <% end %>
 </h1>
 
-<% if interface.guide_markdown.present? %>
-  <% markdown_html = markdown_prose(interface.guide_markdown, auto_toc: interface.page?) %>
+<% auto_toc do %>
 
-  <% if interface.collapse_markdown? %>
-    <div class="expandable">
+  <% if interface.guide_markdown.present? %>
+    <%= markdown_prose(interface.guide_markdown) %>
+  <% end %>
 
-      <div class="expandable__limiter">
-         <div class="expandable__content">
-           <%= markdown_html %>
-         </div>
-      </div>
+  <% if (sub_topics = interface.sub_topics.presence) %>
+    <div class="bleed-section">
+      <h2 id="topics" style="margin-top: 0">Guides</h2>
 
-      <span class="expandable__expand action">Read more</span>
-
+      <ul class="topics">
+        <% sub_topics.each do |sub_topic| %>
+           <li><%= link_to content_tag(:i, '', class: "fa fa-file-text-o") + ' ' + sub_topic.title, sub_topic.guide_path %></li>
+        <% end %>
+      </ul>
     </div>
-  <% else %>
-    <%= markdown_html %>
   <% end %>
-<% end %>
 
-<% if (sub_topics = interface.sub_topics.presence) %>
-  <h2 id="topics">Topics</h2>
+  <%
+    essential_features = interface.essential_features
+    all_features = interface.guide_features.sort
+  %>
 
-  <ul class="topics">
-    <% sub_topics.each do |sub_topic| %>
-       <li><%= link_to content_tag(:i, '', class: "fa fa-file-text-o") + ' ' + sub_topic.title, sub_topic.guide_path %></li>
+  <% if essential_features.present? || all_features.present? %>
+
+    <h2 id="features">Features</h2>
+
+    <% if essential_features.present? %>
+      <h3 id="essential-features">Essentials</h3>
+
+      <div class="essential_features">
+        <% essential_features.each do |feature| %>
+          <a class="essential_feature <%= 'is_code' if feature.code? %>" href="<%= feature.guide_path %>">
+            <div class="essential_feature__signature">
+              <%= feature.short_signature %>
+            </div>
+            <div class="essential_feature__kind" title="<%= feature.long_kind %>">
+              <%= feature.short_kind %>
+            </div>
+            <div class="essential_feature__summary">
+              <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
+            </div>
+          </a>
+        <% end %>
+      </div>
     <% end %>
-  </ul>
-<% end %>
 
-<% if (essential_features = interface.essential_features.presence) %>
-  <h2 id="essential-features">Essential features</h2>
+    <% if all_features.present? %>
+      <h3 id="all-features">All features</h3>
 
-  <div class="essential_features">
-    <% essential_features.each do |feature| %>
-      <a class="essential_feature <%= 'is_code' if feature.code? %>" href="<%= feature.guide_path %>">
-        <div class="essential_feature__signature">
-          <%= feature.short_signature %>
-        </div>
-        <div class="essential_feature__kind" title="<%= feature.long_kind %>">
-          <%= feature.short_kind %>
-        </div>
-        <div class="essential_feature__summary">
-          <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
-        </div>
-      </a>
+      <% all_features.each do |feature| %>
+        <%= feature_preview(feature) %>
+      <% end %>
     <% end %>
-  </div>
-<% end %>
 
-<% if (all_features = interface.guide_features.sort.presence) %>
-  <h2 id="all-features">All features</h2>
-
-  <% all_features.each do |feature| %>
-    <%= feature_preview(feature) %>
   <% end %>
+
 <% end %>

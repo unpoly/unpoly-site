@@ -110,11 +110,11 @@ module Unpoly
         kind == 'page'
       end
 
-      def collapse_markdown?
-        long_text = (guide_markdown.size > 1800) || (name == 'up.link')
-        important_content_below_text = features.present?
-        long_text && important_content_below_text
-      end
+      # def collapse_markdown?
+      #   long_text = (guide_markdown.size > 1800) || (name == 'up.link')
+      #   important_content_below_text = features.present?
+      #   long_text && important_content_below_text
+      # end
 
       def merge!(new_interface)
         kind == new_interface.kind or raise "Cannot merge interfaces with different kinds"

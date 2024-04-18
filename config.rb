@@ -167,6 +167,16 @@ helpers do
     concat_content(html)
   end
 
+  def toc_inserter
+    Unpoly::Guide::TOCInserter.new
+  end
+
+  def auto_toc(&block)
+    html = capture_html(&block)
+    html = toc_inserter.auto_insert(html)
+    concat_content(html)
+  end
+
   # This is only for /changes/external_post, where we need to autolink code in Markdown
   # without rendering to HTML. The resulting Markdown is posted on GitHub discussions.
   def autolink_code_in_markdown(markdown, link_current_path: false)

@@ -16,6 +16,7 @@ require_relative 'guide/parser'
 require_relative 'guide/changelog'
 require_relative 'guide/repository'
 require_relative 'guide/markdown_renderer'
+require_relative 'guide/toc_inserter'
 require_relative 'guide/response'
 require_relative 'guide/algolia'
 

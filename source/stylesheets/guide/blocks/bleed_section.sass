@@ -1,0 +1,15 @@
+@import ../../environment
+
+$max-distance-to-left-menu: $SPACING_X
+
+.bleed-section
+  //background-color: rgba(0,0,0,0.04)
+  padding: 25px                       50vw  0                   $max-distance-to-left-menu
+  margin:  (1.25 * $BLOCK_SPACING)   -50vw  $BLOCK_SPACING   (-1 * $max-distance-to-left-menu)
+
+  +hide-first-margins
+  +hide-last-margins
+
+  border-top: 2px solid #e0e0e0
+  box-shadow: inset 0 1px 15px rgba(255, 255, 255, 0.75)
+  background: linear-gradient(to bottom, #f4f4f4 0%, white 200px)
