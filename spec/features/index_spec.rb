@@ -4,7 +4,7 @@ describe 'index', type: :feature do
   end
 
   it 'shows our claim' do
-    expect(page).to have_css('h1', text: 'The unobtrusive JavaScript framework')
+    expect(page).to have_css('h1', text: 'The progressive enhancement framework')
   end
 
   it 'refers to our forum' do
