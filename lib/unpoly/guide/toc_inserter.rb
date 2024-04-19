@@ -67,7 +67,7 @@ module Unpoly
         html << '</nav>'
 
         # Prefer inserting before (not after) a <hr class="separator">
-        if position_after.previous_element.matches?('hr')
+        if position_after.previous_element&.matches?('hr')
           position_after = position_after.previous_element
         end
 
