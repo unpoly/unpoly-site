@@ -13,7 +13,7 @@ module Unpoly
 
       def github_url(repository, commit: repository.git_version_tag)
         relative_path = path.sub(repository.path, '')
-        "#{repository.github_url}/blob/#{commit}#{relative_path}#L#{start_line}:L#{end_line}"
+        "#{repository.github_url}/blob/#{commit}#{relative_path}?plain=1#L#{start_line}:L#{end_line}"
       end
 
       def local_position
