@@ -8,15 +8,18 @@ module Unpoly
         nokogiri_doc = Nokogiri::HTML.fragment(html)
         headings = find_top_level_headings_with_id(nokogiri_doc)
 
+        return html if headings.blank?
+
         last_heading = headings.last
 
         chars_before_last_heading = text_size_before(nokogiri_doc, last_heading)
 
         if (headings.size >= 4) || (chars_before_last_heading >= 1000)
           insert_toc_before(headings.first, headings)
+          nokogiri_doc.to_html
+        else
+          html
         end
-
-        nokogiri_doc.to_html
       end
 
       private
