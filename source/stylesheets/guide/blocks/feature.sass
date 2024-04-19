@@ -12,7 +12,8 @@
   white-space: nowrap
 
 .feature__param
-  margin-top: 14px
+  +vertical-margin($BLOCK_SPACING * 0.75)
+
   &:target, &.hash-target
     // When directly jumping to the param, highlight it.
     // Unfortunately that does not work after the initial page load,
@@ -26,7 +27,7 @@
   +monospace-font
   font-size: $FONT_SIZE
   +bold
-  color: #777
+  color: #707070
 
 .feature__param_type
 
