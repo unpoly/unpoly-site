@@ -22,129 +22,129 @@
 
 </div>
 
-<div class="usps" id="features">
-  <div class="usps--inner">
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-paper-plane-o"></i>
-      </div>
+<hr class="separator">
 
-      <div class="usp--title">
-        Smoother navigation
-      </div>
-      <div class="usp--description">
-        Unpoly links can
-        <%= modal_hyperlink 'update page fragments', '/up.link', class: 'hyperlink' %>
-        instead of full pages.
-        No custom JavaScript required.
-      </div>
-    </div>
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-paper-plane-o"></i>
+  </div>
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-clone"></i>
-      </div>
-      <div class="usp--title">
-        Branch off into layers
-      </div>
-      <div class="usp--description">
-        Branch off <%= modal_hyperlink 'subinteractions', '/subinteractions' %> into
-        <%= modal_hyperlink 'layers', '/up.layer' %>,
-        Return to the main page when you're done.
-      </div>
-    </div>
+  <div class="usp--title">
+    Smoother navigation
+  </div>
+  <div class="usp--description">
+    Unpoly links can
+    <%= hyperlink 'update page fragments', '/up.link', class: 'hyperlink' %>
+    instead of full pages.
+    No custom JavaScript required.
+  </div>
+</div>
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-wpforms"></i>
-      </div>
-      <div class="usp--title">
-        Complex forms become easy
-      </div>
-      <div class="usp--description">
-        Submit forms <%= modal_hyperlink 'without leaving the page', '/form-up-submit' %>.
-        Work with <%= modal_hyperlink 'forms within modals', '/subinteractions' %>,
-        <%= modal_hyperlink 'validate forms', '/up-validate' %> and
-        <%= modal_hyperlink 'update dependent fields', '/dependent-fields' %>
-        using short HTML attributes.
-      </div>
-    </div>
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-wpforms"></i>
+  </div>
+  <div class="usp--title">
+    Master complex forms
+  </div>
+  <div class="usp--description">
+    Submit forms <%= hyperlink 'without leaving the page', '/form-up-submit' %>.
+    Work with <%= hyperlink 'forms within modals', '/subinteractions' %>,
+    <%= hyperlink 'validate forms', '/up-validate' %> and
+    <%= hyperlink 'update dependent fields', '/dependent-fields' %>
+    using short HTML attributes.
+  </div>
+</div>
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-flash"></i>
-      </div>
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-flash"></i>
+  </div>
 
-      <div class="usp--title">
-        Faster response times
-      </div>
-      <div class="usp--description">
-        Outsmart latency by
-        <%= modal_hyperlink 'preloading pages', '/a-up-preload' %>,
-        <%= modal_hyperlink 'caching responses', '/caching' %>,
-        <%= modal_hyperlink 'following links earlier', '/a-up-instant' %>
-        and keeping a persistent CSS / JS environment.
-      </div>
-    </div>
+  <div class="usp--title">
+    Faster response times
+  </div>
+  <div class="usp--description">
+    Outsmart latency by
+    <%= hyperlink 'preloading pages', '/a-up-preload' %>,
+    <%= hyperlink 'caching responses', '/caching' %>,
+    <%= hyperlink 'following links earlier', '/a-up-instant' %>
+    and keeping a persistent CSS / JS environment.
+  </div>
+</div>
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-cubes"></i>
-      </div>
-      <div class="usp--title">
-        Structure for JavaScript snippets
-      </div>
-      <div class="usp--description">
-        Organize your frontend code in
-        <%= modal_hyperlink 'compilers', '/up.compiler' %>
-        to pair HTML elements with JavaScript behavior.
-        Enhance existing HTML tags or create new elements.
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-clone"></i>
+  </div>
+  <div class="usp--title">
+    Branch off into layers
+  </div>
+  <div class="usp--description">
+    Branch off <%= hyperlink 'subinteractions', '/subinteractions' %> into
+    <%= hyperlink 'overlays', '/up.layer' %>.
+    Return to the main page when you're done.
+  </div>
+</div>
 
-      </div>
-    </div>
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-cubes"></i>
+  </div>
+  <div class="usp--title">
+    Organize your JavaScript snippets
+  </div>
+  <div class="usp--description">
+    Organize your Javascripts in
+    <%= hyperlink 'compilers', '/up.compiler' %>
+    to pair HTML elements with JavaScript behavior.
+    Enhance existing HTML tags or create new elements.
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-film"></i>
-      </div>
+  </div>
+</div>
 
-      <div class="usp--title">
-        Animation
-      </div>
-      <div class="usp--description">
-        <%= modal_hyperlink 'Animate page changes', '/up.motion' %>
-        with fade, swipe or zoom transitions.
-      </div>
-    </div>
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-film"></i>
+  </div>
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-plug"></i>
-      </div>
-      <div class="usp--title">
-        Extensible
-      </div>
-      <div class="usp--description">
-        Hack and extend Unpoly using its comprehensive
-        <%= modal_hyperlink 'render hooks', '/render-hooks' %>,
-        <%= modal_hyperlink 'JavaScript API', '/up.fragment' %> and
-        <%= modal_hyperlink 'event model', '/up.event' %>.
-      </div>
-    </div>
+  <div class="usp--title">
+    Animation
+  </div>
+  <div class="usp--description">
+    <%= hyperlink 'Animate page changes', '/up.motion' %>
+    with fade, swipe or zoom transitions.
+  </div>
+</div>
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-handshake-o"></i>
-      </div>
-      <div class="usp--title">
-        Plays nice with existing code
-      </div>
-      <div class="usp--description">
-        Migrate any server-side web application with
-        <%= modal_hyperlink 'manageable changes', '/legacy-scripts' %> to existing JavaScripts.
-      </div>
-    </div>
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-plug"></i>
+  </div>
+  <div class="usp--title">
+    Extensible
+  </div>
+  <div class="usp--description">
+    Hack and extend Unpoly using its comprehensive
+    <%= hyperlink 'render hooks', '/render-hooks' %>,
+    <%= hyperlink 'JavaScript API', '/up.fragment' %> and
+    <%= hyperlink 'event model', '/up.event' %>.
+  </div>
+</div>
+
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-handshake-o"></i>
+  </div>
+  <div class="usp--title">
+    Plays nice with existing code
+  </div>
+  <div class="usp--description">
+    Migrate any server-side web application with
+    <%= hyperlink 'manageable changes', '/legacy-scripts' %> to existing JavaScripts.
+  </div>
+</div>
 
 <!--    <div class="usp">-->
 <!--      <div class="usp--icon">-->
@@ -154,25 +154,23 @@
 <!--        Degrades gracefully-->
 <!--      </div>-->
 <!--      <div class="usp--description">-->
-<!--        Unpoly supports <%#= modal_hyperlink 'all modern browsers', '/up.framework.isSupported' %>.-->
+<!--        Unpoly supports <%#= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.-->
 <!--      </div>-->
 <!--    </div>-->
 
-    <div class="usp">
-      <div class="usp--icon">
-        <i class="fa fa-random"></i>
-      </div>
-      <div class="usp--title">
-        Fix concurrency
-      </div>
-      <div class="usp--description">
-        Avoid real-world race conditions by
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-random"></i>
+  </div>
+  <div class="usp--title">
+    Fix concurrency
+  </div>
+  <div class="usp--description">
+    Avoid real-world race conditions by
 
-        <%= modal_hyperlink 'smart aborting', '/aborting-requests' %>,
-        <%= modal_hyperlink 'batched validations', '/dependent-fields#preventing-race-conditions' %> and
-        <%= modal_hyperlink 'disabling submitted forms', '/disabling-forms' %>.
-      </div>
-    </div>
-
+    <%= hyperlink 'smart aborting', '/aborting-requests' %>,
+    <%= hyperlink 'batched validations', '/dependent-fields#preventing-race-conditions' %> and
+    <%= hyperlink 'disabling submitted forms', '/disabling-forms' %>.
   </div>
 </div>
+

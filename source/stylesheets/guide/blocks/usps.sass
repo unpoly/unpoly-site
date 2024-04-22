@@ -1,26 +1,26 @@
 @import ../../environment
 
 $margin: 5px
-$border-width: 1px
-$padding-y: 20px
-$padding-x: 18px
-
-.usps
-  +vertical-margin($BLOCK_SPACING * 1.5)
-
-.usps--inner
-  //+vertical-margin(-($border-width + (0.5 * $padding-y)))
-  //+horizontal-margin(-($border-width + (0.5 * $padding-x)))
-  display: flex
-  flex-wrap: wrap
-  overflow: hidden
+//$border-width: 1px
+$padding-y: 40px
+$padding-x: 36px
 
 .usp
-  margin: -$border-width
-  flex: 1 1 250px
-  padding: $padding-y $padding-x
-  position: relative
-  border: $border-width solid #ddd
+  +vertical-margin($BLOCK_SPACING * 1.3)
+
+  //margin: -$border-width
+
+  display: grid
+  grid-template-columns: min-content 1fr
+  grid-template-rows: min-content min-content
+
+  grid-template-areas: "icon title" "icon content"
+
+  align-items: start
+
+  //padding: $padding-y $padding-x
+  //position: relative
+  //border: $border-width solid #ddd
 
   //&:after
   //  content: ''
@@ -36,20 +36,44 @@ $padding-x: 18px
   //  transform: skew(-7.5deg)
 
 .usp--title
-  +font-size(19px)
+  +font-size(20px)
   color: #444
   +bold
-  margin-bottom: 10px
-  text-align: center
+  margin-bottom: 8px
+  grid-area: title
 
 .usp--icon
   text-align: center
-  color: #ccc
   //color: desaturate($COLOR_SECONDARY, 25%) + 90
-  font-size: 50px
-  margin-bottom: 12px
+  grid-area: icon
+  margin-right: 30px
+
+
+  color: #777
+  //border: 1px solid #bbb
+  //background: #f8f8f8
+  //background-color: desaturate($COLOR_SECONDARY, 5%) + 20
+  //background-color: #999
+  //background: #eee
+  //background: linear-gradient(to bottom, #f8f8f8, #e0e0e0)
+  //box-shadow: inset 0 2px 5px white
+
+  //border: none
+  //color: #ccc
+  //color: white
+  //background-color: #999
+
+
+  margin-top: 2px
+
+  border-radius: 200px
+  font-size: 40px
+  width: 50px
+  height: 50px
+  line-height: 50px
 
 .usp--content
   z-index: 2
   position: relative
+  grid-area: content
 

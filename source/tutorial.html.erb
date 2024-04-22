@@ -10,8 +10,8 @@
     framework for applications that render on the server.
     It allows your views to do things that are
     not normally possible in HTML, such as having links
-    <%= modal_hyperlink 'update only fragments of a page', '/up.link' %>,
-    or <%= modal_hyperlink 'opening links in modal dialogs', '/up.layer' %>.
+    <%= hyperlink 'update only fragments of a page', '/up.link' %>,
+    or <%= hyperlink 'opening links in modal dialogs', '/up.layer' %>.
   </p>
 
   <p>
@@ -23,13 +23,13 @@
   <h2>Installation</h2>
 
   <p>
-    You can <%= modal_hyperlink 'install Unpoly', '/install' %> by either downloading the library files
+    You can <%= hyperlink 'install Unpoly', '/install' %> by either downloading the library files
     or using package managers like npm or RubyGems.
   </p>
 
   <p>
     If you just want to test-drive Unpoly, the easiest way is to
-    <%= modal_hyperlink 'link to a CDN', '/install/cdn' %>.
+    <%= hyperlink 'link to a CDN', '/install/cdn' %>.
   </p>
 
   <h2>Thinking with fragments</h2>
@@ -66,7 +66,7 @@
   <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('update-fragment'), title: 'Example' } %>
 
   <p>
-    You can learn more in <%= modal_hyperlink 'Linking to fragments', '/up.link' %>, or continue with the tutorial below.
+    You can learn more in <%= hyperlink 'Linking to fragments', '/up.link' %>, or continue with the tutorial below.
   </p>
 
   <h2>Leveraging layers</h2>
@@ -101,11 +101,11 @@
   </p>
 
   <p>
-    Using <%= modal_hyperlink 'fragment links', '/up.link' %> it's also simple to stay inside a modal
+    Using <%= hyperlink 'fragment links', '/up.link' %> it's also simple to stay inside a modal
     or pop-up during an interaction that spans multiple pages.
 
     Links prefer to update fragments within the same layer, while preserving the content of lower layers.
-    You can even <%= modal_hyperlink 'submit forms', '/form-up-submit' %> without leaving the modal or pop-up.
+    You can even <%= hyperlink 'submit forms', '/form-up-submit' %> without leaving the modal or pop-up.
 
     <!--Changing a fragment <b>behind</b> the layer will close the layer.-->
 
@@ -114,7 +114,7 @@
   <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('modal'), title: 'Example' } %>
 
   <p>
-    Learn more about <%= modal_hyperlink 'overlays', '/up.layer' %>  or continue with the tutorial below.
+    Learn more about <%= hyperlink 'overlays', '/up.layer' %>  or continue with the tutorial below.
   </p>
 
 
@@ -125,18 +125,18 @@
   </p>
 
   <p>
-    Whenever you <%= modal_hyperlink 'update a page fragment', '/up.link' %> you can
-    <%= modal_hyperlink 'animate the change', '/up.motion' %>.
+    Whenever you <%= hyperlink 'update a page fragment', '/up.link' %> you can
+    <%= hyperlink 'animate the change', '/up.motion' %>.
 
-    Unpoly comes with a number of <%= modal_hyperlink 'predefined transitions', '/up.morph#named-transitions' %>,
-    like a cross-fade or sweeping motion and you can <%= modal_hyperlink 'define your own', '/up.transition' %>
+    Unpoly comes with a number of <%= hyperlink 'predefined transitions', '/up.morph#named-transitions' %>,
+    like a cross-fade or sweeping motion and you can <%= hyperlink 'define your own', '/up.transition' %>
     with a few lines of Javascript.
   </p>
 
   <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('transition'), title: 'Example' } %>
 
   <p>
-    Learn more about <%= modal_hyperlink 'animation', '/up.motion' %>,
+    Learn more about <%= hyperlink 'animation', '/up.motion' %>,
     or continue with the tutorial below.
   </p>
 
@@ -167,10 +167,10 @@
   </ul>
 
   <p>
-    Unpoly lets you organize your JavaScript snippets with <%= modal_hyperlink 'compiler functions', "/up.compiler" %>.
+    Unpoly lets you organize your JavaScript snippets with <%= hyperlink 'compiler functions', "/up.compiler" %>.
     Your compilers will be called whenever a matching element enters the DOM,
     either when the <a href="https://api.jquery.com/ready/">page loads</a> or when
-    <%= modal_hyperlink 'updating a fragment', '/up.link' %>.
+    <%= hyperlink 'updating a fragment', '/up.link' %>.
   </p>
 
   <%= partial 'examples/embed', locals: { example: Unpoly::Example.find('timestamp-compiler'), title: 'Example', explanation: false } %>
@@ -197,16 +197,16 @@
 
   <p>
     Similar functions exist for <b>every</b> unobtrusive Unpoly feature, be it
-    <%= modal_hyperlink 'opening an overlay', '/up.layer.open' %>,
-    <%= modal_hyperlink 'submitting a form with AJAX', '/up.submit' %>
+    <%= hyperlink 'opening an overlay', '/up.layer.open' %>,
+    <%= hyperlink 'submitting a form with AJAX', '/up.submit' %>
     or
-    <%= modal_hyperlink 'morphing elements', '/up.morph' %>.
+    <%= hyperlink 'morphing elements', '/up.morph' %>.
     The API docs list these function along their unobtrusive counterparts.
   </p>
 
   <p>
     You can even invent your own magic HTML attributes using
-    <%= modal_hyperlink 'compilers', '/up.compiler' %>.
+    <%= hyperlink 'compilers', '/up.compiler' %>.
 
   </p>
 
