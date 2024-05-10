@@ -6,6 +6,11 @@
   .admonition--title
     color: $fg
 
+  //a, a code
+  //  $link-color: lighten($fg, 10%)
+  //  color: $link-color
+  //  text-decoration-color: $link-color + 20
+
   //a,
   //a code
   //  +hyperlink(darken(saturate($bg, 0%), 50%))
@@ -41,13 +46,13 @@ blockquote.admonition
   //  +tint(#f2f2f2, #626262)
 
   &.-info, &.-tip, &.-hint
-    +tint(lighten(saturate($COLOR_MUTED_BLUE, 6%), 47.5%), darken(desaturate($COLOR_MUTED_BLUE, 20%), 15%))
+    +tint(lighten(saturate($COLOR_MUTED_BLUE, 6%), 45%), darken(desaturate($COLOR_MUTED_BLUE, 20%), 16%))
 
   &.-note
     //+tint(#f2f2f2, #626262)
     //+tint(mix(#f2f2f2, $NOTIFICATION_BACKGROUND, 50%), mix(#626262, $NOTIFICATION_COLOR, 50%))
     //+tint(#66573c, #66573c)
-    +tint(#f8f0e0, #665035)
+    +tint(darken(saturate(#f8f0e0, 10%), 2%), darken(#665035, 4%))
 
   &.-important
     +tint($NOTIFICATION_BACKGROUND, $NOTIFICATION_COLOR)

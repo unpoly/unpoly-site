@@ -86,9 +86,11 @@
 a.node__self
   --node-color: #{desaturate($COLOR_SECONDARY, 5%)}
 
-  .node.is_deprecated &,
-  .node.is_experimental &
+  .node.is_deprecated &
     --node-color: #{$COLOR_PROTECTED}
+
+  //.node.is_experimental &
+  //
 
   .node.is_deprecated &
     text-decoration: line-through
