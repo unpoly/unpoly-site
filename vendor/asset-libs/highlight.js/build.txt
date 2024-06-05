@@ -1,7 +1,8 @@
 Custom build with languages:
 - Ruby
 - CSS
-- HTML
+- HTML (as "XML")
 - JavaScript
 - HTTP
+- ERB
 
