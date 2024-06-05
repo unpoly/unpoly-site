@@ -22,7 +22,7 @@
 </h1>
 
 <div class="prose">
-  <% release_html = markdown(release.markdown, autolink_github_issues: true, autolink_github_users: true, shift_heading_level: -1) %>
+  <% release_html = markdown(release.markdown, autolink_github_issues: true, autolink_github_users: true, autolink_code: true, shift_heading_level: -1) %>
   <% unless release_html =~ /<h\d(>|\s)/ %><h2>Changes</h2><% end %>
   <%= release_html %>
 </div>
