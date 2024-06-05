@@ -17,10 +17,11 @@ up.compiler 'pre code', (fragment) ->
   )
 
   markedHTML = markedHTML.replaceAll(
-    /^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-phrase (?:"([^"]+)"|'([^']+)').*?<\/span>$/mg,
-    (match, indent, code, phrase1, phrase2) ->
+    /^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-phrase (?:"([^"]+)"|'([^']+)').*?<\/span>(<span class="language-\w+">)?$/mg,
+    (match, indent, code, phrase1, phrase2, nextLanguage) ->
       phrase = (phrase1 || phrase2).trim()
-      indent + code.replace(phrase, '<mark>$&</mark>')
+      suffix = (nextLanguage || '')
+      indent + code.replace(phrase, '<mark>$&</mark>') + suffix
   )
 
 #  markedHTML = markedHTML.replaceAll(
