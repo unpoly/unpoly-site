@@ -39,8 +39,18 @@ module Unpoly
         attr_reader :size
       end
 
+      ELEMENTS_WITH_MARGIN = %w[h1 h2 h3 h4 pre li p tr dt dd]
+
       def text_size_before_inner(aggregated_size, root, stop_element)
         subtree_size = 0
+
+        if root.is_a?(Nokogiri::XML::Node)
+          # Add some more for block elements as they have some
+          # margin_bonus = ELEMENTS_WITH_MARGIN.include?(root.name) ? 50 : 0
+          margin_bonus = root.parent && root.matches?('h1, h2, h3, h4, pre, li, p, tr, dt, dd') ? 50 : 0
+          subtree_size += margin_bonus
+          aggregated_size += margin_bonus
+        end
 
         root.children.each do |child|
           if child == stop_element
