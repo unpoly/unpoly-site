@@ -5,7 +5,6 @@ explanation: |
   and open the fragment in a modal dialog.
   No server-side changes required.
 highlight:
-  - 'up-layer'
 order:
   - 'preview.html'
   - 'full.html'
