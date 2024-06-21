@@ -140,6 +140,12 @@ module Unpoly
         documentables_by_name[name]
       end
 
+      def find_by_name_smart(name)
+        is_up_attr_without_tagname = name.start_with?('[up-')
+
+        find_by_name(name) || (is_up_attr_without_tagname && (find_by_name("a" + name) || find_by_name("form" + name)))
+      end
+
       def find_by_name!(name)
         find_by_name(name) or raise Unknown, "No Documentable with name '#{name}'"
       end
@@ -195,7 +201,7 @@ module Unpoly
           hash = "config.#{$2}"
         end
 
-        if (documentable = find_by_name(name))
+        if (documentable = find_by_name_smart(name))
           {
             path:      documentable.guide_path,
             hash:      hash,
