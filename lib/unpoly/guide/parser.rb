@@ -35,6 +35,13 @@ module Unpoly
         (\n|$)     # line break or EOF
       }x
 
+      MENU_TITLE_PATTERN = %r{
+        \@menu-title    # @menu-title
+        \               # space
+        (.+)            # title
+        (\n|$)          # line break or EOF
+      }x
+
       PARTIAL_PATTERN = %r{
         \@partial  # @partial
         \          # space
@@ -264,6 +271,10 @@ module Unpoly
             interface.explicit_title = explicit_title
           end
 
+          if (explicit_menu_title = parse_menu_title!(block))
+            interface.explicit_menu_title = explicit_menu_title
+          end
+
           if (visibility = parse_visibility!(block))
             interface.visibility = visibility[:visibility]
             interface.visibility_comment = visibility[:comment]
@@ -343,6 +354,13 @@ module Unpoly
         if block.sub!(TITLE_PATTERN, '')
           title = $1
           title
+        end
+      end
+
+      def parse_menu_title!(block)
+        if block.sub!(MENU_TITLE_PATTERN, '')
+          menu_title = $1
+          menu_title
         end
       end
 

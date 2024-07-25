@@ -18,6 +18,8 @@ module Unpoly
 
       attr_accessor :explicit_title
 
+      attr_accessor :explicit_menu_title
+
       def short_signature
         if page?
           title
@@ -120,6 +122,7 @@ module Unpoly
         kind == new_interface.kind or raise "Cannot merge interfaces with different kinds"
         self.guide_markdown += new_interface.guide_markdown
         self.explicit_title ||= new_interface.explicit_title
+        self.explicit_menu_title ||= new_interface.explicit_menu_title
         self.reference_names += new_interface.reference_names
         self.explicit_parent_name ||= new_interface.explicit_parent_name
       end
@@ -129,7 +132,9 @@ module Unpoly
       end
 
       def menu_title
-        if page?
+        if explicit_menu_title.present?
+          explicit_menu_title
+        elsif page?
           title
         else
           name

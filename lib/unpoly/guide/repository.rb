@@ -142,8 +142,9 @@ module Unpoly
 
       def find_by_name_smart(name)
         is_up_attr_without_tagname = name.start_with?('[up-')
+        is_up_class_without_tagname = name.start_with?('.up-')
 
-        find_by_name(name) || (is_up_attr_without_tagname && (find_by_name("a" + name) || find_by_name("form" + name)))
+        find_by_name(name) || (is_up_attr_without_tagname && (find_by_name("a" + name) || find_by_name("form" + name))) || (is_up_class_without_tagname && (find_by_name("a" + name) || find_by_name("form" + name)))
       end
 
       def find_by_name!(name)
