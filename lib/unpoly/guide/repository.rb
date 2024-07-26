@@ -202,15 +202,26 @@ module Unpoly
           hash = "config.#{$2}"
         end
 
-        if (documentable = find_by_name_smart(name))
-          {
-            path:      documentable.guide_path,
-            hash:      hash,
-            url:       documentable.guide_url,
-            full_path: documentable.guide_path(hash: hash),
-            full_url:  documentable.guide_url(hash: hash),
-          }
+        documentable = find_by_name_smart(name)
+
+        unless documentable && documentable.guide_page?
+          # We either don't know this code or it is internal.
+          return
         end
+
+        if hash && !documentable.params.any? { |param| param.name == hash }
+          # We cannot links to a removed property like up.network.config.expireAge.
+          # Linking to an unknown hash will blow up html-proofer.
+          return
+        end
+
+        {
+          path:      documentable.guide_path,
+          hash:      hash,
+          url:       documentable.guide_url,
+          full_path: documentable.guide_path(hash: hash),
+          full_url:  documentable.guide_url(hash: hash),
+        }
       end
 
       def published_js_props
