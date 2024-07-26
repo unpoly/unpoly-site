@@ -4,6 +4,7 @@
 $LOAD_PATH.unshift(File.expand_path('../lib', __FILE__))
 # $LOAD_PATH.unshift('vendor/unpoly-local/lib')
 
+require 'ext/uri/silence_escape_warning'
 require 'ext/rack/support_colons_in_path'
 # require 'unpoly/tasks'
 require 'unpoly/guide'
