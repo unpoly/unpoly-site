@@ -8,6 +8,7 @@ module Unpoly
 
         def initialize(attrs)
           @version = attrs.fetch(:version)
+          @is_current_major = attrs.fetch(:is_current_major)
           @markdown = attrs.fetch(:markdown)
           @repository_path = attrs.fetch(:repository_path)
           @date = nil
@@ -27,6 +28,10 @@ module Unpoly
               end
             end
           end
+        end
+
+        def current_major?
+          @is_current_major
         end
 
         def git_tag
@@ -77,10 +82,12 @@ module Unpoly
         @repository_path = repository_path
         @changelog_path = File.join(@repository_path, 'CHANGELOG.md')
         @releases = []
+        @current_major = nil
         parse()
       end
 
       attr_reader :releases
+      attr_reader :current_major
 
       def versions
         releases.map(&:version)
@@ -92,6 +99,10 @@ module Unpoly
 
       private
 
+      def extract_major(version_string)
+        version_string.scan(/\d+/).first
+      end
+
       attr_reader :repository_path, :changelog_path
 
       def parse
@@ -100,11 +111,16 @@ module Unpoly
         all_markdown.gsub!("\r", '')
         sections = all_markdown.split(/^(\d+\.\d+\.\d+(?:-[a-z\d]+)?)\n-+\n+/)
         sections.shift # remove introduction text
+        first_version = nil
         sections.each_slice(2) do |version, release_markdown|
+          @current_major ||= extract_major(version)
+          release_major = extract_major(version)
+
           releases << Release.new(
             version: version,
             markdown: release_markdown,
-            repository_path: repository_path
+            repository_path: repository_path,
+            is_current_major: (current_major == release_major),
           )
         end
 

@@ -57,7 +57,7 @@ configure :build do
               './CHANGELOG.md',
               './changes/google_groups/index.html',
               %r(^./images/.+\.html$),
-              %r(^./changes/[\d\.]+(-[a-z0-9]+)?/)
+              # %r(^./changes/[\d\.]+(-[a-z0-9]+)?/),
             ],
             disable_external: true,
             checks_to_ignore: ['ImageCheck']
