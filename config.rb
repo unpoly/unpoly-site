@@ -183,7 +183,7 @@ helpers do
   def autolink_code_in_markdown(markdown, link_current_path: false)
     current_path = normalized_current_path
 
-    markdown.gsub(/(?<![`\[])`([^`]+)`(?![\]`])/) do
+    markdown.gsub(/(?<![`\[])`([^`\n]+)`(?![\]`])/) do
       code = $1
       if (parsed = guide.code_to_location(code)) && (link_current_path || (parsed[:path] != current_path))
         href = parsed[:full_path]
