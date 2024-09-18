@@ -273,10 +273,9 @@ helpers do
     link_to label, href, options
   end
 
-  def node_link(label, href, options = {})
+  def node_link(*args, **options, &block)
     options[:class] = "node__self #{options[:class]}"
-    # options['up-layer'] = 'page' # don't open drawer links within the drawer (both drawer and page contain .content)
-    link_to label, href, options
+    link_to(*args, **options, &block)
   end
 
   def breadcrumb_link(label, href)

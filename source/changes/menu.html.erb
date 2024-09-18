@@ -12,7 +12,18 @@
 
     <% guide.releases.each do |release| %>
       <div class="node">
-        <%= node_link "Version #{release.version}", "/changes/#{release.version}" %>
+        <% node_link "/changes/#{release.version}" do %>
+          Version <%= release.version %>
+
+          <% if (commit_count = release.commit_count) %>
+            <span class="node__dots"></span>
+            <span class="node__commit_count" title="<%= pluralize(commit_count, 'commit', 'commits') %>">
+              <%= commit_count %>
+              <i class="fa fa-gg"></i>
+            </span>
+          <% end %>
+
+        <% end %>
       </div>
     <% end %>
   </div>

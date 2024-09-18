@@ -70,6 +70,8 @@
 .node__self
   color: #888
   display: block
+  display: flex
+  align-items: center
 
   .node:not(.is_group) > &
     padding-left: 1.1em
@@ -119,11 +121,35 @@ a.node__self
 
 
 .node__experimental_icon
-  vertical-align: middle
-  margin-top: -2px
   font-size: 12px
   display: inline-block
-  margin-left: 1px
+  margin-left: 5px
+
+.node__dots
+  flex: 1 1 0
+  border-top: 1px dotted #bbb
+  margin-top: 10px
+  margin-left: 12px
+  margin-right: 12px
+
+.node__commit_count
+  color: #555
+  //margin-left: 5px
+  //display: inline-block
+  font-size: 13px
+  margin-left: auto
+  font-weight: normal
+
+  .fa
+    color: #999
+
+  //border-radius: 10px
+  //border: 1px solid #bbb
+  //+font-size(13px)
+  //
+  //padding: 2px 5px 1px 5px
+  //+font-size(12px)
+
 
 .node mark
   color: $COLOR_ALIZARIN

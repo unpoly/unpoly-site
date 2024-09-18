@@ -15,8 +15,10 @@
     <div class="subtitle">
       <span class="dimmed">Released on</span>
       <%= release.date.strftime("%B %d, %Y") %>
-      <span class="dimmed">with</span>
-      <%= link_to pluralize(release.commit_count, 'commit', 'commits'), release.github_commits_url %>
+      <% if (commit_count = release.commit_count) %>
+        <span class="dimmed">with</span>
+        <%= link_to pluralize(commit_count, 'commit', 'commits'), release.github_commits_url %>
+      <% end %>
     </div>
   <% end %>
 </h1>
