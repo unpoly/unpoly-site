@@ -103,8 +103,8 @@ module Unpoly
         if autolink_github_issues
           text_nodes_outside_code(nokogiri_doc).each do |text_node|
             html = CGI.escapeHTML(text_node.content)
-            html = html.gsub(/\b(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
-              "#{$1} <a href='https://github.com/unpoly/unpoly/issues/#{$2}'>##{$2}</a>"
+            html = html.gsub(/\b(issue|close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
+              "#{$1} <a href='https://github.com/unpoly/unpoly/issues/#{$2}' class='is_secondary'>##{$2}</a>"
             end
             text_node.replace(html)
           end
