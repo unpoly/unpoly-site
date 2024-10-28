@@ -75,7 +75,7 @@ module Unpoly
         html << '<nav class="toc">'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
-          html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{Util.escape_html heading.text}</a></div>"
+          html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.inner_html}</a></div>"
         end
         html << '</nav>'
 
