@@ -70,7 +70,6 @@
 .node__self
   color: #888
   display: block
-  display: flex
   align-items: center
 
   .node:not(.is_group) > &
@@ -126,6 +125,10 @@ a.node__self
   margin-left: 5px
 
 .node__dots
+
+  .node__self:has(&)
+    display: flex
+
   flex: 1 1 0
   border-top: 1px dotted #bbb
   margin-top: 10px
