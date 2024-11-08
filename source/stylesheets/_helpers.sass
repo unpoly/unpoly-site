@@ -185,7 +185,7 @@
   font-weight: 500
 
 =tint_hyperlink($color)
-  text-decoration-color: transparentize($color, 0.5)
+  text-decoration-color: transparentize($color, 0.3)
   &, & code
     color: $color
   &.up-active
@@ -196,7 +196,9 @@
 
 =hyperlink($color: $COLOR_LINK, $hover-color: $COLOR_HOVER)
   text-decoration: underline
-  text-decoration-skip-ink: none
+  text-decoration-skip-ink: auto
+
+  //text-decoration-color: transparentize($color, 0.5)
   //$margin: 0.05em
   //+horizontal_margin($margin)
   +tint_hyperlink($color)
