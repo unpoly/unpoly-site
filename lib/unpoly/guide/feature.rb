@@ -36,7 +36,7 @@ module Unpoly
           if deprecated?
             '**This feature has been deprecated**. It will be removed in a future version.'
           elsif experimental?
-            '**This feature is experimental**. It may be changed or removed in a future version.'
+            '**This feature is experimental**. Please [share](https://github.com/unpoly/unpoly/discussions) your experiences so we know what to keep or change.'
           end
         end
       end
