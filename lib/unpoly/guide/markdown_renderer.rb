@@ -89,14 +89,14 @@ module Unpoly
         # end
 
         if pictures
-          nokogiri_doc.css('img:not([class])').each do |img|
-            img[:class] = 'picture has_border'
+          nokogiri_doc.css('img:not([class]), video:not([class])').each do |element|
+            element[:class] = 'picture has_border'
           end
         end
 
         if fix_relative_image_paths
-          nokogiri_doc.css('img[src^="images/"]').each do |img|
-            img[:src] = img[:src].sub(/^images/, "/images/api")
+          nokogiri_doc.css('img[src^="images/"], video[src^="images/"]').each do |element|
+            element[:src] = element[:src].sub(/^images/, "/images/api")
           end
         end
 
