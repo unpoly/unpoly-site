@@ -1,0 +1,41 @@
+@import ../../environment
+
+.video-player
+  // Have this extra container so margins can collapse
+  +vertical-margin($LARGE_BLOCK_SPACING)
+
+.video-player--inner
+  display: inline-block
+  font-size: 0
+  line-height: 0
+  position: relative
+  border: 1px solid #b5b5b5
+  border-radius: 2px
+
+.video-player--video
+  max-width: 100%
+  display: block
+
+.video-player--play-button
+  position: absolute
+  inset: 0
+  appearance: none
+  border: none
+  cursor: pointer
+  background: none
+  backdrop-filter: grayscale(90%) brightness(200%) blur(4px)
+
+  i
+    font-size: 30px
+    width: 60px
+    line-height: 60px
+    color: white
+    border-radius: 100%
+    background-color: $COLOR_SECONDARY
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5)
+
+    &:before
+      padding-left: 7px
+
+  &:hover i
+    background-color: $COLOR_SECONDARY + 20

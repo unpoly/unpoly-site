@@ -12,6 +12,7 @@ module Unpoly
         @autolink_github_issues = options.fetch(:autolink_github_issues, false) && !strip_links
         @autolink_github_users = options.fetch(:autolink_github_users, false) && !strip_links
         @pictures = options.fetch(:pictures, true)
+        @video_player = options.fetch(:video_player, true)
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @admonitions = options.fetch(:admonitions, true)
         @link_current_path = options.fetch(:link_current_path, false)
@@ -24,6 +25,7 @@ module Unpoly
       attr_reader :autolink_code
       attr_reader :strip_links
       attr_reader :pictures
+      attr_reader :video_player
       attr_reader :fix_relative_image_paths
       attr_reader :link_current_path
       attr_reader :current_path
@@ -89,8 +91,21 @@ module Unpoly
         # end
 
         if pictures
-          nokogiri_doc.css('img:not([class]), video:not([class])').each do |element|
+          nokogiri_doc.css('img:not([class])').each do |element|
             element[:class] = 'picture has_border'
+          end
+        end
+
+        if video_player
+          nokogiri_doc.css('video:not([class])').each do |video|
+            inner = video.wrap('<div class="video-player--inner"></div>').parent
+            player = inner.wrap('<div class="video-player"></div>').parent
+            inner.add_child(<<~HTML)
+              <button class="video-player--play-button" aria-label="Play">
+                <i class="fa fa-play"></i>
+              </button>
+            HTML
+            video.add_class('video-player--video')
           end
         end
 
