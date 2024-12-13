@@ -13,7 +13,7 @@ module Unpoly
         up.fragment
         up.radio
         up.motion
-        up.feedback
+        up.status
         up.network
         up.event
         up.protocol

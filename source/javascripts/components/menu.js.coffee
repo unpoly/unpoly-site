@@ -198,4 +198,4 @@ up.compiler '[wants-menu-path]', (element) ->
 
   if requestedMenuPath != currentMenuPath
     u.task ->
-      up.render('.menu', url: requestedMenuPath)
+      up.render('.menu', url: requestedMenuPath, cache: true)

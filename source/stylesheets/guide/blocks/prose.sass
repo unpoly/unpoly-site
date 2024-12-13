@@ -46,10 +46,10 @@ $meta_width: 170px
   p, ul, ol, dl
     +vertical_margin($SMALL_BLOCK_SPACING)
 
-  ul
+  ul:not([class])
     @extend .bullets
 
-  dl
+  dl:not([class])
     dt
       +bold
       //code
@@ -59,7 +59,7 @@ $meta_width: 170px
     dd
       margin-bottom: $LIST_ITEM_SPACING * 1.4
 
-  ol
+  ol:not([class])
     list-style-type: decimal
     padding-left: 1.6em
     li
