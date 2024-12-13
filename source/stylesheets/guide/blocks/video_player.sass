@@ -15,6 +15,7 @@
 .video-player--video
   max-width: 100%
   display: block
+  clip-path: fill-box
 
 .video-player--play-button
   position: absolute
@@ -23,7 +24,7 @@
   border: none
   cursor: pointer
   background: none
-  backdrop-filter: grayscale(90%) brightness(200%) blur(4px)
+  backdrop-filter: grayscale(90%) brightness(190%) blur(4px)
 
   i
     font-size: 30px
@@ -32,7 +33,7 @@
     color: white
     border-radius: 100%
     background-color: $COLOR_SECONDARY
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5)
+    box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.7)
 
     &:before
       padding-left: 7px
