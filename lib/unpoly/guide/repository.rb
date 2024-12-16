@@ -25,6 +25,32 @@ module Unpoly
         up.log
       ].freeze
 
+      BUILTIN_TYPE_URLS = {
+        # 'string' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String',
+        'undefined' => 'https://developer.mozilla.org/en-US/docs/Glossary/undefined',
+        # 'Array' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
+        'null' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null',
+        # 'number' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number',
+        # 'boolean' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean',
+        'Array' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
+        'Object' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects',
+        'Promise' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises',
+        'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData',
+        'URL' => 'https://developer.mozilla.org/en-US/docs/Web/API/URL',
+        'Event' => 'https://developer.mozilla.org/en-US/docs/Web/API/Event',
+        'Error' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error',
+        'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest',
+        'NodeList' => 'https://developer.mozilla.org/en-US/docs/Web/API/NodeList',
+        'HTMLCollection' => 'https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection',
+        'Element' => 'https://developer.mozilla.org/de/docs/Web/API/Element',
+        'Node' => 'https://developer.mozilla.org/de/docs/Web/API/Node',
+        'Text' => 'https://developer.mozilla.org/de/docs/Web/API/Text',
+        'Comment' => 'https://developer.mozilla.org/de/docs/Web/API/Comment',
+        'CDATASection' => 'https://developer.mozilla.org/de/docs/Web/API/CDATASection',
+        'jQuery' => 'https://learn.jquery.com/using-jquery-core/jquery-object/',
+      }.freeze
+
+
       def initialize(input_path)
         @path = input_path
         extend(MonitorMixin)
@@ -203,10 +229,21 @@ module Unpoly
         end
 
         documentable = find_by_name_smart(name)
+        builtin_url = BUILTIN_TYPE_URLS[name]
 
-        unless documentable && documentable.guide_page?
-          # We either don't know this code or it is internal.
-          return
+        if !documentable || !documentable.guide_page?
+          if builtin_url
+            return {
+              path: builtin_url,
+              hash: hash,
+              url: builtin_url,
+              full_path: builtin_url,
+              full_url: builtin_url,
+            }
+          else
+            # We either don't know this code or it is internal.
+            return nil
+          end
         end
 
         if hash && !documentable.params.any? { |param| param.name == hash }
