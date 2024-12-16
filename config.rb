@@ -318,39 +318,16 @@ helpers do
   #   "sha384-#{hash_base64}"
   # end
 
-  BUILTIN_TYPE_URLS = {
-    # 'string' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String',
-    'undefined' => 'https://developer.mozilla.org/en-US/docs/Glossary/undefined',
-    # 'Array' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
-    'null' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null',
-    # 'number' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number',
-    # 'boolean' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean',
-    'Object' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects',
-    'Promise' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises',
-    'FormData' => 'https://developer.mozilla.org/en-US/docs/Web/API/FormData',
-    'URL' => 'https://developer.mozilla.org/en-US/docs/Web/API/URL',
-    'Event' => 'https://developer.mozilla.org/en-US/docs/Web/API/Event',
-    'Error' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error',
-    'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest',
-    'NodeList' => 'https://developer.mozilla.org/en-US/docs/Web/API/NodeList',
-    'Element' => 'https://developer.mozilla.org/de/docs/Web/API/Element',
-    'jQuery' => 'https://learn.jquery.com/using-jquery-core/jquery-object/',
-  }
-
   def type(type_or_types)
     types = Array.wrap(type_or_types)
     parts = types.map { |type|
       type = h(type)
       type.gsub(/[a-z\.]+/i) { |subtype|
 
-        begin
-          url = guide.find_by_name!(subtype).guide_path
-        rescue Unpoly::Guide::Unknown
-          url = BUILTIN_TYPE_URLS[subtype]
-        end
+        location = guide.code_to_location(subtype)
 
-        if url
-          "<a href='#{h url}'>#{subtype}</a>"
+        if location
+          "<a href='#{h location[:full_path]}'>#{subtype}</a>"
         else
           subtype
         end
