@@ -14,7 +14,7 @@ module Unpoly
 
         chars_before_last_heading = text_size_before(nokogiri_doc, last_heading)
 
-        if (headings.size >= 4) || (chars_before_last_heading >= 1000)
+        if (headings.size >= 4) || (chars_before_last_heading >= 1000 && headings.size > 1)
           insert_toc_before(headings.first, headings)
           nokogiri_doc.to_html
         else
