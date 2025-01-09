@@ -100,18 +100,6 @@ module Unpoly
         features.select(&:cookie?)
       end
 
-      def class?
-        kind == 'class'
-      end
-
-      def module?
-        kind == 'module'
-      end
-
-      def page?
-        kind == 'page'
-      end
-
       # def collapse_markdown?
       #   long_text = (guide_markdown.size > 1800) || (name == 'up.link')
       #   important_content_below_text = features.present?

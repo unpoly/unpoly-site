@@ -59,15 +59,32 @@ module Unpoly
 
       def sort_name
         sort_name = name
+
+        # Ignore case.
+        # Also allow us to force-prepend items with uppercase letters below ('Z' < 'a')
         sort_name = sort_name.downcase
+
+        sort_name = sort_name.sub('()', '')
+
+        # List instance methods first
+        sort_name = sort_name.sub('.prototype.', '.A.')
+        # # List constructor after instance methods, but before class methods
+        # sort_name = sort_name.sub(/^new (.+)$/, '\1.B.new')
+
         # sort_name = sort_name.sub(/^.+\bup\b/, 'up')
         sort_name = sort_name.gsub(/[^A-Za-z0-9\-]/, '-')
         sort_name = sort_name.sub(/-{2,}/, '-')
         sort_name = sort_name.sub(/^-+/, '')
         sort_name = sort_name.sub(/-+$/, '')
+
         if name.starts_with?('up.$')
-          sort_name << 'z' # sort up.$compiler behing up.compiler
+          sort_name << 'z' # sort up.$compiler behind up.compiler
         end
+
+        if class?
+          sort_name.prepend('z')
+        end
+
         sort_name
       end
 
@@ -90,6 +107,58 @@ module Unpoly
         kinds = kinds.map(&:to_s)
         # Allow to find both by #kind and the lowercase class name, e.g. kind?(:feature)
         kinds.include?(kind) || kinds.include?(self.class.name.demodulize.underscore)
+      end
+
+      def class?
+        kind == 'class'
+      end
+
+      def module?
+        kind == 'module'
+      end
+
+      def page?
+        kind == 'page'
+      end
+
+      def function?
+        kind == 'function'
+      end
+
+      def instance_method?
+        is_a?(Feature) && interface.class? && function? && name.include?('.prototype.')
+      end
+
+      def class_method?
+        is_a?(Feature) && interface.class? && function? && !name.include?('.prototype.')
+      end
+
+      def selector?
+        kind == 'selector'
+      end
+
+      def property?
+        kind == 'property'
+      end
+
+      def config?
+        property? && name.end_with?('.config')
+      end
+
+      def constructor?
+        kind == 'constructor'
+      end
+
+      def event?
+        kind == 'event'
+      end
+
+      def header?
+        kind == 'header'
+      end
+
+      def cookie?
+        kind == 'cookie'
       end
 
       def menu_children

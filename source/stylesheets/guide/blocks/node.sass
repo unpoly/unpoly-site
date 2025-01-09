@@ -119,6 +119,22 @@ a.node__self
   width: 1em
 
 
+.node__label
+  display: inline-block
+  +font-size(11px)
+  +bold
+  text-transform: uppercase
+  vertical-align: middle
+  padding: 1px 3px 0 3px
+  border-radius: 4px
+  color: #454966
+  border: 1px solid #656986
+  margin-left: 1px
+  margin-top: -1px
+  .node__self.up-active &, .node__self.up-current &
+    color: white
+    border-color: white
+
 .node__experimental_icon
   font-size: 12px
   display: inline-block

@@ -1,12 +1,18 @@
 <div class="node <%= documentable.menu_modifiers.map { |m| "is_#{m}" }.join(' ') %>">
   <% node_link documentable.guide_path do %>
     <%= documentable.menu_title %>
+    <% if documentable.class? %>
+      <span class="node__label">class</span>
+    <% end %>
+    <% if documentable.config? %>
+      <span class="node__label">config</span>
+    <% end %>
     <% if documentable.experimental? %>
       <i class="fa fa-flask node__experimental_icon"></i>
     <% end %>
   <% end %>
 
-  <% documentable.menu_children.each do |child| %>
+  <% documentable.menu_children.sort.each do |child| %>
     <%= partial 'api/nodes/documentable', locals: { documentable: child } %>
   <% end %>
 </div>

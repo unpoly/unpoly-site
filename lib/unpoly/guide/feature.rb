@@ -42,7 +42,11 @@ module Unpoly
       end
 
       def menu_title
-        short_signature
+        title = short_signature
+        if function? || property?
+          title = title.sub('.prototype.', '#')
+        end
+        title
       end
 
       def signature(short: false)
@@ -109,48 +113,6 @@ module Unpoly
 
       def published_params
         params.select(&:published?)
-      end
-
-      def function?
-        @kind == 'function'
-      end
-
-      def instance_method?
-        interface.class? or raise "Only classes can have instance methods"
-        function? && name.include?('#')
-      end
-
-      def class_method?
-        interface.class? or raise "Only classes can have class methods"
-        function? && !name.include?('#')
-      end
-
-      def selector?
-        @kind == 'selector'
-      end
-
-      def property?
-        @kind == 'property'
-      end
-
-      def config?
-        property? && name.end_with?('.config')
-      end
-
-      def constructor?
-        @kind == 'constructor'
-      end
-
-      def event?
-        @kind == 'event'
-      end
-
-      def header?
-        @kind == 'header'
-      end
-
-      def cookie?
-        @kind == 'cookie'
       end
 
       def short_kind

@@ -334,7 +334,7 @@ helpers do
       }
     }
 
-    or_tag = "<span class='type__or'>or</span>"
+    or_tag = "<span class='type__or'>|</span>"
 
     "<span class='type'>#{parts.join(or_tag)}</span>"
   end
