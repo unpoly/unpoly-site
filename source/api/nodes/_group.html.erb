@@ -1,7 +1,9 @@
 <% if documentables.present? %>
   <div class="node is_group">
     <span class="node__self">
-      <%= title %>
+      <span class="node__title">
+        <%= title %>
+      </span>
     </span>
 
     <% documentables.each do |feature| %>

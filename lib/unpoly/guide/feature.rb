@@ -155,6 +155,8 @@ module Unpoly
         when 'property'
           if interface.class?
             'Property'
+          elsif config?
+            'Configuration object'
           else
             'JavaScript property'
           end

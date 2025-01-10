@@ -4,6 +4,8 @@
   &.up-active, &.up-current
     @content
 
+$meta-breakpoint: 1350px
+
 .node
   position: relative
   +font-size($FONT_SIZE + 1px, 4px)
@@ -71,9 +73,11 @@
   color: #888
   display: block
   align-items: center
+  display: flex
+  gap: 5px
 
-  .node:not(.is_group) > &
-    padding-left: 1.1em
+  //.node:not(.is_group) > &
+  //  padding-left: 1.1em
 
   // Truncate long feature names like up.link.makeFollowable
   // +truncate_text
@@ -111,15 +115,25 @@ a.node__self
 
 .node__collapser
   font-size: 0.8em
-  position: absolute
-  top: 0.5em
-  left: 0
-  display: block
   cursor: pointer
-  width: 1em
+  margin-top: 2px
+  //position: absolute
+  //top: 0.5em
+  //left: 0
+  //display: block
+  //width: 1em
 
+.node__meta
+  white-space: nowrap
+  display: flex
+  gap: 5px
+  align-items: center
+  margin-right: 4px
 
-.node__label
+  +narrower-than($meta-breakpoint)
+    display: none
+
+.node__tag
   display: inline-block
   +font-size(11px)
   +bold
@@ -129,35 +143,40 @@ a.node__self
   border-radius: 4px
   color: #454966
   border: 1px solid #656986
-  margin-left: 1px
   margin-top: -1px
   .node__self.up-active &, .node__self.up-current &
     color: white
     border-color: white
 
-.node__experimental_icon
+.node__visibility_icon
   font-size: 12px
   display: inline-block
   margin-left: 5px
   margin-top: -1px
+  text-decoration: none
+
+.node__title
+  flex: 1 1 auto
+  white-space: nowrap
+  overflow-x: hidden
+  text-overflow: ellipsis
+
+  &:has(+.node__dots)
+    flex: 0 0 auto
 
 .node__dots
-
-  .node__self:has(&)
-    display: flex
-
   flex: 1 1 0
   border-top: 1px dotted #bbb
   margin-top: 10px
-  margin-left: 12px
-  margin-right: 12px
+
+  +narrower-than($meta-breakpoint)
+    display: none
 
 .node__commit_count
   color: #555
   //margin-left: 5px
   //display: inline-block
   font-size: 13px
-  margin-left: auto
   font-weight: normal
 
   .fa

@@ -1,14 +1,21 @@
 <div class="node <%= documentable.menu_modifiers.map { |m| "is_#{m}" }.join(' ') %>">
   <% node_link documentable.guide_path do %>
-    <%= documentable.menu_title %>
-    <% if documentable.class? %>
-      <span class="node__label">class</span>
-    <% end %>
-    <% if documentable.config? %>
-      <span class="node__label">config</span>
-    <% end %>
-    <% if documentable.experimental? %>
-      <i class="fa fa-flask node__experimental_icon"></i>
+    <span class="node__title">
+      <%= documentable.menu_title %>
+    </span>
+
+    <% node_meta do %>
+      <% if documentable.experimental? %>
+        <i class="fa fa-flask node__visibility_icon"></i>
+      <% end %>
+
+      <% if !documentable.deprecated? %>
+        <% if documentable.class? %>
+          <span class="node__tag">class</span>
+        <% elsif documentable.config? %>
+          <span class="node__tag">config</span>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 

@@ -275,7 +275,20 @@ helpers do
 
   def node_link(*args, **options, &block)
     options[:class] = "node__self #{options[:class]}"
+
+    unless block
+      args[0] = content_tag(:span, args[0], class: 'node__title')
+    end
+
     link_to(*args, **options, &block)
+  end
+
+  def node_meta(&block)
+    meta = capture_html(&block).strip
+    if meta.present?
+      meta = content_tag(:span, meta, class: 'node__meta')
+      concat_content(meta)
+    end
   end
 
   def breadcrumb_link(label, href)
