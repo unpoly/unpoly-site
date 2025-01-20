@@ -25,17 +25,21 @@
 
 <div class="usp">
   <div class="usp--icon">
-    <i class="fa fa-paper-plane-o"></i>
+    <i class="fa fa-puzzle-piece"></i>
   </div>
 
   <div class="usp--title">
-    Smoother navigation
+    Links only update changed fragments
   </div>
   <div class="usp--description">
-    Unpoly links can
-    <%= hyperlink 'update page fragments', '/up.link', class: 'hyperlink' %>
-    instead of full pages.
-    No custom JavaScript required.
+    <span class="line-on-wide">
+      Unpoly enhances your links to
+      <%= hyperlink 'update fragments', '/up.link', class: 'hyperlink' %>
+      instead of full pages.
+    </span>
+    <span>
+      This preserves other page state, like scroll positions or forms.
+    </span>
   </div>
 </div>
 
@@ -47,30 +51,17 @@
     Master complex forms
   </div>
   <div class="usp--description">
-    Submit forms <%= hyperlink 'without leaving the page', '/up-submit' %>.
-    Work with <%= hyperlink 'forms within modals', '/subinteractions' %>,
-    <%= hyperlink 'validate forms', '/up-validate' %> and
-    <%= hyperlink 'update dependent fields', '/dependent-fields' %>
-    using short HTML attributes.
+    <span class="line-on-wide">
+      Submit forms <%= hyperlink 'without leaving the page', '/up-submit' %>.
+    </span>
+    <span>
+      <%= hyperlink 'Validate forms', '/validation' %>,
+      <%= hyperlink 'update dependent fields', '/dependent-fields' %>
+      and use <%= hyperlink 'multi-step forms within modals', '/subinteractions' %>.
+    </span>
   </div>
 </div>
 
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-flash"></i>
-  </div>
-
-  <div class="usp--title">
-    Faster response times
-  </div>
-  <div class="usp--description">
-    Outsmart latency by
-    <%= hyperlink 'preloading pages', '/up-preload' %>,
-    <%= hyperlink 'caching responses', '/caching' %>,
-    <%= hyperlink 'following links earlier', '/up-instant' %>
-    and keeping a persistent CSS / JS environment.
-  </div>
-</div>
 
 <div class="usp">
   <div class="usp--icon">
@@ -80,9 +71,59 @@
     Branch off into layers
   </div>
   <div class="usp--description">
-    Branch off <%= hyperlink 'subinteractions', '/subinteractions' %> into
-    <%= hyperlink 'overlays', '/up.layer' %>.
-    Return to the main page when you're done.
+    <span class="line-on-wide">
+      Branch off <%= hyperlink 'subinteractions', '/subinteractions' %> into
+      <%= hyperlink 'overlays', '/up.layer' %>.
+    </span>
+    <span class="line-on-wide">
+      Return to the main page when you're done.
+    </span>
+  </div>
+</div>
+
+
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-magic"></i>
+  </div>
+
+  <div class="usp--title">
+    Outsmart server latency
+  </div>
+  <div class="usp--description">
+    <span class="line-on-wide">
+      Shorten response times by
+      <%= hyperlink 'preloading pages', '/up-preload' %>,
+      <%= hyperlink 'caching responses', '/caching' %> and
+      <%= hyperlink 'following links earlier', '/up-instant' %>.
+    </span>
+    <span class="line-on-wide">
+      Cached content is
+      <%= hyperlink 'kept fresh', '/caching#revalidation' %>
+      and <%= hyperlink 'remains available when offline', '/network-issues' %>.
+    </span>
+  </div>
+</div>
+
+<div class="usp">
+  <div class="usp--icon">
+    <i class="fa fa-flash"></i>
+  </div>
+
+  <div class="usp--title">
+    Client-side interaction feedback
+  </div>
+  <div class="usp--description">
+    <span class="line-on-wide">
+      Instantly show <%= hyperlink 'placeholders', '/placeholders' %>,
+      <%= hyperlink 'disable forms', '/disabling-forms' %> or define
+      <%= hyperlink 'arbitrary loading state', '/previews' %>.
+    </span>
+    <span class="line-on-wide">
+      You can even do
+      <%= hyperlink 'optimistic rendering', '/optimistic-rendering' %> with
+      <%= hyperlink 'client-side templates', '/templates' %>.
+    </span>
   </div>
 </div>
 
@@ -94,10 +135,14 @@
     Organize your JavaScript snippets
   </div>
   <div class="usp--description">
-    Organize your Javascripts in
-    <%= hyperlink 'compilers', '/up.compiler' %>
-    to pair HTML elements with JavaScript behavior.
-    Enhance existing HTML tags or create new elements.
+    <span class="line-on-wide">
+      Organize your Javascripts in
+      <%= hyperlink 'compilers', '/up.compiler' %>
+      to pair HTML elements with JavaScript behavior.
+    </span>
+    <span class="line-on-wide">
+      Enhance existing HTML tags or create new elements.
+    </span>
 
   </div>
 </div>
