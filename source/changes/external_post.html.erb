@@ -14,7 +14,7 @@ layout: false
 <%= release.version %>
 <%= '=' * release.version.size %>
 
-<%= h urlify_paths_in_markdown(autolink_code_in_markdown(release.markdown)) %>
+<%= h urlify_paths_in_markdown(autolink_code_in_markdown(remove_mark_phrase_comments(release.markdown))) %>
 
 <%- end -%>
 </pre>
