@@ -24,6 +24,14 @@ module Unpoly
 
       private
 
+      def textualize_prefixes(heading)
+        heading.css('.heading-prefix').each do |prefix|
+          prefix.name = 'span'
+          prefix.remove_attribute('class')
+          prefix.content += ':'
+        end
+      end
+
       def text_size_before(root, stop_element)
         text_size_before_inner(0, root, stop_element)
         raise "Stop element (#{stop_element}) not found"
@@ -71,10 +79,13 @@ module Unpoly
       end
 
       def insert_toc_before(position_after, headings)
+        headings = headings.map(&:dup)
+
         html = ''
         html << '<nav class="toc">'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
+          textualize_prefixes(heading)
           html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.inner_html}</a></div>"
         end
         html << '</nav>'
