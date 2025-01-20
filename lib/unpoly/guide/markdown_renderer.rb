@@ -67,6 +67,10 @@ module Unpoly
         html
       end
 
+      def fix_relative_image_path(path)
+        path.sub(/^images/, "/images/api")
+      end
+
       private
 
       def preprocess_markdown(markdown)
@@ -111,7 +115,7 @@ module Unpoly
 
         if fix_relative_image_paths
           nokogiri_doc.css('img[src^="images/"], video[src^="images/"]').each do |element|
-            element[:src] = element[:src].sub(/^images/, "/images/api")
+            element[:src] = fix_relative_image_path(element[:src])
           end
         end
 

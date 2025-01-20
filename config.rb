@@ -195,13 +195,17 @@ helpers do
   end
 
   def urlify_paths_in_markdown(markdown)
-    markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) do
-      url = $1
-      if url.include?('://')
-        url
-      else
-        "https://unpoly.com#{url}"
-      end
+    markdown = markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) { fully_qualify_url($1) }
+    markdown = markdown.gsub(/(?<=<video src=")([^"]+)(?=")/) { fully_qualify_url($1) }
+    markdown
+  end
+
+  def fully_qualify_url(url)
+    if url.include?('://')
+      url
+    else
+      absolute_path = markdown_renderer.fix_relative_image_path(url)
+      "https://unpoly.com#{absolute_path}"
     end
   end
 
