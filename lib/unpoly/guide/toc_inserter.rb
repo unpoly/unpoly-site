@@ -24,11 +24,20 @@ module Unpoly
 
       private
 
-      def textualize_prefixes(heading)
-        heading.css('.heading-prefix').each do |prefix|
-          prefix.name = 'span'
+      def textualize_heading(heading)
+        heading.css('*').each do |prefix|
+
+          if prefix.classes.include?('heading-prefix')
+            prefix.content += ':'
+          end
+
+          unless prefix.name == 'code'
+            prefix.name = 'span'
+          end
+
+          prefix.remove_attribute('id')
           prefix.remove_attribute('class')
-          prefix.content += ':'
+          prefix.remove_attribute('href')
         end
       end
 
@@ -85,7 +94,7 @@ module Unpoly
         html << '<nav class="toc">'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
-          textualize_prefixes(heading)
+          textualize_heading(heading)
           html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.inner_html}</a></div>"
         end
         html << '</nav>'
