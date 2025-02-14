@@ -5,151 +5,178 @@
 <h1><%= page_title 'Upgrading Unpoly' %></h1>
 
 <div class="prose">
-  <p>
-    New Unpoly releases will occasionally rename or remove an existing function, event or HTML attribute.
-  </p>
+  <% auto_toc do %>
 
-  <p>
-    To <b>polyfill old APIs</b>, load the file <code>unpoly-migrate.js</code>:
-  </p>
-
-  <table>
-    <tr>
-      <th>Development</th>
-      <th colspan="2">Production</th>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-migrate.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-migrate.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped
-      </td>
-    </tr>
-  </table>
-
-  <p>
-    By loading <code>unpoly-migrate.js</code>, calls to most old APIs will be forwarded to the
-    new version. A deprecation notice will be logged to your browser console:
-  </p>
-
-  <%= image_tag 'changes/log-deprecation.png', class: 'picture has_border', width: 700 %>
-
-  <p>
-    This way you can upgrade Unpoly, revive your application with a few changes,
-    then replace deprecated API calls under green tests.
-  </p>
-
-  <% admonition(:tip) do %>
     <p>
+      New Unpoly releases will occasionally rename or remove an existing function, event or HTML attribute.
+      To assist with upgrading, <code>unpoly-migrate.js</code> polyfills changed APIs.
+    </p>
+
+    <h2 id="how-it-works">How it works</h2>
+
+    <p>
+      After upgrading Unpoly, add <code>unpoly-migrate.js</code> to your build.
+      When your application calls an old API, a polyfill will
+      forward the call to the new version automatically.
+      A deprecation notice will be logged to your browser console:
+    </p>
+
+    <%= image_tag 'changes/log-deprecation.png', class: 'picture has_border', width: 700 %>
+
+    <p>
+      You can now upgrade deprecated call sites by following the log.
+      Your application will remain functional during the whole process.
+    </p>
+
+    <% admonition(:tip) do %>
+      <p>
       <span class="line-on-wide">
         We recommend to temporarily load <code>unpoly-migrate.js</code> for every upgrade, even for minor version bumps.
       </span>
-      <span class="line-on-wide">
+        <span class="line-on-wide">
         Changes handled by <code>unpoly-migrate.js</code> are not considered breaking changes.
       </span>
-    </p>
-  <% end %>
+      </p>
+    <% end %>
 
-  <h2 id="installation">Installing the polyfills</h2>
+    <h2 id="installation">Installing the polyfills</h2>
 
-  <p><code>unpoly-migrate.js</code> must be loaded <i>after</i> Unpoly, but <i>before</i> your own code. For example:</p>
+    <p><code>unpoly-migrate.js</code> is included in Unpoly's <a href="/install/npm">npm package</a>. It is also available over a <a href="/install/cdn">CDN</a>:</p>
 
-  <pre><code>&lt;script src="unpoly.js"&gt;&lt;/script&gt;
+    <table>
+      <tr>
+        <th>Development</th>
+        <th colspan="2">Production</th>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to_cdn_file('unpoly-migrate.js') %>
+        </td>
+        <td>
+          <%= link_to_cdn_file('unpoly-migrate.min.js') %>
+        </td>
+        <td align="right" class="dimmed">
+          <%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped
+        </td>
+      </tr>
+    </table>
+
+    <p>Load <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code. For example:</p>
+
+    <pre><code>&lt;script src="unpoly.js"&gt;&lt;/script&gt;
 &lt;script src="unpoly-migrate.js"&gt;&lt;/script&gt; &lt;!-- mark-line --&gt;
 &lt;script src="app.js"&gt;&lt;/script&gt;</code></pre>
 
-  <h2>Covered functionality</h2>
 
-  <h3>Removed functions are polyfilled</h3>
+    <h2 id="with-tests">Upgrading with automated tests</h2>
 
-  <p>
-    If a function was removed without replacement, <code>unpoly-migrate.js</code> will provide a polyfill.
-  </p>
+    <p>
+      If your app has good test coverage you can configure <code>unpoly-migrate.js</code>
+      to log an <em>error</em> (instead of a warning) whenever a deprecated API is called:
+    </p>
 
-  <p>
-    E.g. Unpoly no longer supports <code>up.util.times()</code>, but the function is
-    re-added by <code>unpoly-migrate.js</code>.
-  </p>
-
-  <h3>Renamed functions are aliased</h3>
-
-  <p>
-    Calls to deprecated functions will be forwarded if there is an equivalent function
-    in the current version.
-  </p>
-
-  <p>
-    E.g. <code>up.modal.close()</code> will call <code>up.layer.dismiss()</code>.
-  </p>
-
-  <h3>Renamed options are aliased</h3>
-
-  <p>
-    Usage of deprecated options will be rewritten if there is an equivalent option
-    in the current version.
-  </p>
-
-  <p>
-    E.g. <code>{ reveal: false }</code> will be renamed to <code>{ scroll: false }</code>.
-  </p>
-
-  <h3>Renamed packages are aliased</h3>
-
-  <p>
-    Usage of deprecated pcakages will be rewritten if there is an equivalent packages
-    in the current version.
-  </p>
-
-  <p>
-    E.g. <code>up.proxy.config</code> will return <code>up.network.config</code>.
-  </p>
-
-  <p>
-    Occasionally a package will be removed
-  </p>
-
-  <h3>Renamed HTML attributes are aliased</h3>
-
-  <p>
-    E.g. <code>&lt;a up-close&gt;</code> will translate to <code>&lt;a up-dismiss&gt;</code>
-  </p>
-
-  <h3>Renamed events are aliased</h3>
-
-  <p>
-    E.g.
-    <code>up.on('up:proxy:load')</code> will bind to <code>up:request:load</code>.
-  </p>
-
-  <p>
-    Note that event aliases are only used when registering listeners with <a href="/up.on"><code>up.on()</code></a>,
-    but not with the native <code>Element#addEventListener()</code>.
-  </p>
-
-  <h2 id="detecting-deprecated-apis-with-tests">Detecting use of deprecated APIs with automated tests</h2>
-
-  <p>
-    If your app has good test coverage you can configure <code>unpoly-migrate.js</code>
-    to log an <em>error</em> (instead of a warning) whenever a deprecated API is called:
-  </p>
-
-  <pre><code>up.migrate.config.logLevel = 'error' // log to the error console
+    <pre><code>up.migrate.config.logLevel = 'error' // log to the error console
 up.log.config.format = false         // log unformatted text for easier extraction</code></pre>
 
-  <p>
-    You can now detect which code needs to be upgraded by following test failures.
-  </p>
-
-  <% admonition(:tip) do %>
     <p>
-      Your E2E tests can
-      <a href="https://makandracards.com/makandra/55056-raising-javascript-errors-in-cucumber-scenarios-and-how-to-silence-them-for-particular-scenarios">check if the browser console shows an error</a>
-      using the Selenium API.
+      You can now detect which code needs to be upgraded by following test failures.
     </p>
-  <% end %>
+
+    <% admonition(:tip) do %>
+      <p>
+        Your E2E tests can
+        <a href="https://makandracards.com/makandra/55056-raising-javascript-errors-in-cucumber-scenarios-and-how-to-silence-them-for-particular-scenarios">check if the browser console shows an error</a>
+        using the Selenium API.
+      </p>
+    <% end %>
+
+
+    <h2 id="permanent">Keeping the polyfills permanently</h2>
+
+    <p>
+      If you prefer to upgrade at your own pace, it is possible to keep <code>unpoly-migrate.js</code> loaded permanently.
+      This will add <%= unpoly_library_size('unpoly-migrate.min.js') %> (gzipped) to your production build.
+    </p>
+
+    <p>
+      You can remove the deprecation warnings from the browser log like so:
+    </p>
+
+    <pre><code>up.migrate.config.logLevel = 'none'</code></pre>
+
+    <% admonition(:note) do %>
+      <p>
+        While we have traditionally supported old APIs for years,
+        polyfills may be dropped from <code>unpoly-migrate.js</code> in any major version.
+      </p>
+    <% end %>
+
+    <h2 id="coverage">Covered functionality</h2>
+
+    <h3>Removed functions are polyfilled</h3>
+
+    <p>
+      If a function was removed without replacement, <code>unpoly-migrate.js</code> will provide a polyfill.
+    </p>
+
+    <p>
+      E.g. Unpoly no longer supports <code>up.util.times()</code>, but the function is
+      re-added by <code>unpoly-migrate.js</code>.
+    </p>
+
+    <h3>Renamed HTML attributes are aliased</h3>
+
+    <p>
+      E.g. <code>&lt;a up-close&gt;</code> will translate to <code>&lt;a up-dismiss&gt;</code>
+    </p>
+
+    <h3>Renamed functions are aliased</h3>
+
+    <p>
+      Calls to deprecated functions will be forwarded if there is an equivalent function
+      in the current version.
+    </p>
+
+    <p>
+      E.g. <code>up.modal.close()</code> will call <code>up.layer.dismiss()</code>.
+    </p>
+
+    <h3>Renamed options are aliased</h3>
+
+    <p>
+      Usage of deprecated options will be rewritten if there is an equivalent option
+      in the current version.
+    </p>
+
+    <p>
+      E.g. <code>{ reveal: false }</code> will be renamed to <code>{ scroll: false }</code>.
+    </p>
+
+    <h3>Renamed events are aliased</h3>
+
+    <p>
+      E.g.
+      <code>up.on('up:proxy:load')</code> will bind to <code>up:request:load</code>.
+    </p>
+
+    <% admonition(:important) do %>
+      <p>
+        Event aliases are only used when registering listeners with <a href="/up.on"><code>up.on()</code></a>,
+        but not with the native <code>Element#addEventListener()</code>.
+      </p>
+    <% end %>
+
+    <h3>Renamed packages are aliased</h3>
+
+    <p>
+      Usage of deprecated packages will be rewritten if there is an equivalent package
+      in the current version.
+    </p>
+
+    <p>
+      E.g. <code>up.proxy.config</code> will return <code>up.network.config</code>.
+    </p>
+
+<% end %>
 
 </div>
