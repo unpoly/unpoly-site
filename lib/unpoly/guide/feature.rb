@@ -216,6 +216,10 @@ module Unpoly
         str
       end
 
+      def find_param_by_name!(param_name)
+        params.detect { |param| param.name == param_name } or raise "Feature #{name} has no param #{param_name}"
+      end
+
       memoize def param_groups
         groups = params.group_by { |param| param.option_hash_name || param.name }
         groups.map { |group|

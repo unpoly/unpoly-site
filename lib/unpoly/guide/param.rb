@@ -11,9 +11,11 @@ module Unpoly
         @name = name
         @types = []
         @guide_markdown = ''
-        @optional = false
+        @optional = nil
         @default = nil
         @feature = nil
+        @explicit_visibility = nil
+        @like_name
       end
 
       attr_accessor :optional
@@ -22,11 +24,19 @@ module Unpoly
       attr_accessor :guide_markdown
       attr_accessor :default
       attr_accessor :feature
+      attr_accessor :like_name
+      attr_accessor :explicit_visibility
 
-      alias_method :optional?, :optional
+      def optional?
+        if @optional.nil?
+          false
+        else
+          @optional
+        end
+      end
 
       def required?
-        not optional?
+        !optional?
       end
 
       def default?
@@ -90,9 +100,31 @@ module Unpoly
       end
 
       def visibility
-        @visibility || feature.visibility
+        explicit_visibility || feature.visibility
       end
 
+      def merge!(other_param)
+        if optional.nil?
+          self.optional = other_param.optional
+        end
+
+        if default.nil?
+          self.default = other_param.default
+        end
+
+        if types.blank?
+          self.types = other_param.types
+        end
+
+        if explicit_visibility.nil?
+          self.explicit_visibility = other_param.explicit_visibility
+        end
+
+        if guide_markdown.strip.blank?
+          self.guide_markdown = other_param.guide_markdown
+        end
+
+      end
     end
   end
 end

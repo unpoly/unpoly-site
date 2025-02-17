@@ -6,6 +6,7 @@ module Unpoly
 
       class Error < StandardError; end
       class CannotParse < Error; end
+      class CannotMerge < Error; end
       class MissingVisibility < CannotParse; end
 
       BLOCK_PATTERN = %r{
@@ -54,6 +55,14 @@ module Unpoly
         \          # space
         (.+)       # partial name ($2)
         (\n|\z)    # remove line feed as partial markdown already ends in line feed
+      }x
+
+      LIKE_PATTERN = %r{
+        \@like          # @like
+        \               # space
+        ([^\ ]+)        # index_name of referenced documentable ($1)
+        [\ \t]*         # trailing spaces and tabs
+        (\n|$)          # line break or EOF
       }x
 
       FEATURE_PATTERN = %r{
@@ -350,6 +359,13 @@ module Unpoly
         end
       end
 
+      def parse_like_name!(block)
+        if block.sub!(LIKE_PATTERN, '')
+          name = $1
+          name
+        end
+      end
+
       def parse_title!(block)
         if block.sub!(TITLE_PATTERN, '')
           title = $1
@@ -385,8 +401,12 @@ module Unpoly
           end
 
           if (visibility = parse_visibility!(param_spec))
-            param.visibility = visibility[:visibility]
+            param.explicit_visibility = visibility[:visibility]
             param.visibility_comment = visibility[:comment]
+          end
+
+          if (like_name = parse_like_name!(param_spec))
+            param.like_name = like_name
           end
 
           markdown = Util.unindent_hanging(param_spec)
@@ -437,18 +457,18 @@ module Unpoly
         if param_spec.sub!(PARAM_NAME_PATTERN, '')
           optional_param_name = $1
           default_value = $2
-          required_param_name = $3
+          probably_required_param_name = $3
 
           # raise "WTF" if optional_param_name && optional_param_name.include?('=')
           # log("param name", optional_param_name, default_value, required_param_name)
 
-          if required_param_name
-            { name: required_param_name,
-              optional: false }
-          else
+          if optional_param_name
             { name: optional_param_name,
               optional: true,
               default: default_value }
+          else
+            # Probably required, but may be overriden latter via `@like other-feature`
+            { name: probably_required_param_name }
           end
         end
       end
@@ -479,6 +499,7 @@ module Unpoly
       end
 
       def postprocess!(documentable)
+        merge_params_like!(documentable)
         markdown = documentable.guide_markdown
 
         markdown = unescape_hash_headlines(markdown) if documentable.text_source.coffee_script?
@@ -486,6 +507,18 @@ module Unpoly
         markdown = markdown.strip + "\n"
 
         documentable.guide_markdown = markdown
+      end
+
+      def merge_params_like!(documentable)
+        return unless documentable.is_a?(Feature)
+        documentable.params.each do |param|
+          if param.like_name
+            other_feature = find_by_index_name!(param.like_name)
+            other_param = other_feature.find_param_by_name!(param.name)
+            param.merge!(other_param)
+          end
+
+        end
       end
 
       def include_partials!(markdown)
