@@ -96,8 +96,12 @@ $meta_width: 170px
 
     td, th
       vertical-align: top
-      +horizontal-padding(0.7em)
-      +vertical-padding(0.45em)
+
+      $padding-x: 0.7em
+      $padding-y: 0.45em
+
+      +horizontal-padding($padding-x)
+      +vertical-padding($padding-y)
 
       border: 1px solid $table-border-color
 

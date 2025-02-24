@@ -4,6 +4,7 @@ module Unpoly
       include Documentable
       include Logger
       include Referencer
+      include Mimic
 
       OPTION_PREFIX = /^(options|opts|request|response|params|config|attrs|attributes|props|properties|eventProps)\./
 
@@ -15,7 +16,6 @@ module Unpoly
         @default = nil
         @feature = nil
         @explicit_visibility = nil
-        @like_name
       end
 
       attr_accessor :optional
@@ -24,7 +24,6 @@ module Unpoly
       attr_accessor :guide_markdown
       attr_accessor :default
       attr_accessor :feature
-      attr_accessor :like_name
       attr_accessor :explicit_visibility
 
       def optional?
@@ -103,7 +102,7 @@ module Unpoly
         explicit_visibility || feature.visibility
       end
 
-      def merge!(other_param)
+      def mimic!(other_param)
         if optional.nil?
           self.optional = other_param.optional
         end
@@ -123,7 +122,6 @@ module Unpoly
         if guide_markdown.strip.blank?
           self.guide_markdown = other_param.guide_markdown
         end
-
       end
     end
   end

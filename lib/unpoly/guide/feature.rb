@@ -217,7 +217,7 @@ module Unpoly
       end
 
       def find_param_by_name!(param_name)
-        params.detect { |param| param.name == param_name } or raise "Feature #{name} has no param #{param_name}"
+        params.detect { |param| param.name == param_name } or raise "Feature #{name} has no param #{param_name.inspect}"
       end
 
       memoize def param_groups

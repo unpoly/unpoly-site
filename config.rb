@@ -339,11 +339,13 @@ helpers do
   #   "sha384-#{hash_base64}"
   # end
 
-  def type(type_or_types)
+  def types(type_or_types)
     types = Array.wrap(type_or_types)
     parts = types.map { |type|
-      type = h(type)
-      type.gsub(/[a-z\.]+/i) { |subtype|
+      # type = h(type)
+
+      # Markup composite types like `Function(up.Result): string`
+      content = type.gsub(/[a-z\.]+/i) { |subtype|
 
         location = guide.code_to_location(subtype)
 
@@ -353,11 +355,15 @@ helpers do
           subtype
         end
       }
+
+      "<span class='types__type'>#{content}</span>"
     }
 
-    or_tag = "<span class='type__or'>|</span>"
+    "<span class='types'>#{parts.join('')}</span>"
 
-    "<span class='type'>#{parts.join(or_tag)}</span>"
+    # or_tag = "<span class='type__or'>|</span>"
+    #
+    # "<span class='type'>#{parts.join('')}</span>"
   end
 
   def edit_button(documentable)
@@ -424,6 +430,22 @@ helpers do
       <span class="tag is_experimental">
         <i class="fa fa-flask"></i>
         experimental
+      </span>
+    HTML
+  end
+
+  def optional_tag
+    <<~HTML
+      <span class="tag is_light_gray">
+        optional
+      </span>
+    HTML
+  end
+
+  def required_tag
+    <<~HTML
+      <span class="tag is_teal">
+        required
       </span>
     HTML
   end

@@ -1,5 +1,8 @@
 @import ../../environment
 
+$param-spacing: $BLOCK_SPACING * 0.85
+
+
 .feature
 
   &+.feature
@@ -11,8 +14,11 @@
   display: inline-block
   white-space: nowrap
 
+.feature__prose
+  +vertical-margin(25px)
+
 .feature__param
-  +vertical-margin($BLOCK_SPACING * 0.85)
+  +vertical-margin($param-spacing)
 
   &:target, &.hash-target
     // When directly jumping to the param, highlight it.
@@ -20,8 +26,7 @@
     // due to a bug in Webkit and Firefox :(
     background-color: $COLOR_MARK
 
-.feature__prose
-  +vertical-margin(25px)
+.feature__param_info
 
 .feature__param_name
   +monospace-font
@@ -29,9 +34,61 @@
   +bold
   color: #707070
 
-.feature__param_type
+.feature__param_experimental_icon
+  color: #707070
+
+.feature__param_types
+  margin-top: 16px
 
 .feature__param_prose
+
   //margin-top: 4px
-  margin-left: 20px
+  //margin-left: 20px
+
+  .prose
+    +hide-first-margins
+    +hide-last-margins
+
+    table
+      th, td
+        +horizontal-padding(0.5em)
+        +vertical-padding(0.3em)
+
+
+.feature__param_optionality
+  float: right
+  margin-bottom: 15px
+  margin-left: 15px
+
+  &+p
+    margin-top: 0 !important
+
+
+
+$table-breakpoint: 1000px
+
++narrower_than($table-breakpoint)
+  .feature__param_info
+    display: flex
+    gap: 15px
+    flex-wrap: wrap
+
+  .feature__param_details
+    margin-left: 30px
+
+  .feature__param_optionality
+    display: none
+
++wider_than($table-breakpoint)
+  .feature__param
+    display: flex
+
+    &+.feature__param
+      padding-top: $param-spacing
+      border-top: 1px solid rgba(0, 0, 0, 0.2)
+
+  .feature__param_info
+    flex: 0 0 350px
+  .feature__param_details
+    flex: 1 1 0
 

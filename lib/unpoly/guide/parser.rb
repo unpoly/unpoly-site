@@ -245,6 +245,7 @@ module Unpoly
       end
 
       def find_by_index_name!(index_name)
+        index_name = index_name.sub('#', '.prototype.')
         @documentables_by_index_name.fetch(index_name)
       end
 
@@ -319,6 +320,7 @@ module Unpoly
 
           if (response = parse_response!(text))
             feature.response = response
+            response.feature = feature
           end
 
           if (visibility = parse_visibility!(text))
@@ -441,9 +443,15 @@ module Unpoly
           type_spec = $2
           response_spec = Util.unindent($4)
           response = Response.new
-          if types = parse_types!(type_spec)
+
+          if (types = parse_types!(type_spec))
             response.types = types
           end
+
+          if (like_name = parse_like_name!(response_spec))
+            response.like_name = like_name
+          end
+
           markdown = Util.unindent_hanging(response_spec)
           response.guide_markdown = markdown
           response
@@ -499,7 +507,10 @@ module Unpoly
       end
 
       def postprocess!(documentable)
-        merge_params_like!(documentable)
+        if documentable.is_a?(Feature)
+          merge_likes_in_signature!(documentable)
+        end
+
         markdown = documentable.guide_markdown
 
         markdown = unescape_hash_headlines(markdown) if documentable.text_source.coffee_script?
@@ -509,15 +520,38 @@ module Unpoly
         documentable.guide_markdown = markdown
       end
 
-      def merge_params_like!(documentable)
-        return unless documentable.is_a?(Feature)
-        documentable.params.each do |param|
-          if param.like_name
-            other_feature = find_by_index_name!(param.like_name)
-            other_param = other_feature.find_param_by_name!(param.name)
-            param.merge!(other_param)
-          end
+      def merge_likes_in_signature!(feature)
+        feature.params.each do |param|
+          mimic_param!(param)
+        end
+        if (response = feature.response)
+          mimic_response!(response)
+        end
+      end
 
+      def mimic_param!(param)
+        like_name = param.like_name
+
+        if like_name
+          other_feature_name, other_param_name = like_name.split('/')
+          other_param_name ||= param.name
+
+          other_feature = find_by_index_name!(other_feature_name)
+          other_param = other_feature.find_param_by_name!(other_param_name)
+          mimic_param!(other_param)
+          param.mimic!(other_param)
+        end
+      end
+
+      def mimic_response!(response)
+        like_name = response.like_name
+
+        if like_name
+          other_feature = find_by_index_name!(like_name)
+          # In the other feature, find a Param or Response with the same name.
+          other_response = other_feature.response or raise Error, "Feature #{other_feature.name} has no response to mimic"
+          mimic_response!(other_response)
+          response.mimic!(other_response)
         end
       end
 

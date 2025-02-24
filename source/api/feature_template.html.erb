@@ -83,59 +83,80 @@
 
         <% feature.published_params.each do |param| %>
           <div class="feature__param" id="<%= param.guide_anchor %>" anchor-link>
-            <div class="feature__param_name">
-              <%= param.signature -%>
-              <% if param.types.present? %>
-                <span class="feature__param_type">
-                  <%= type param.types %>
-                </span>
-              <% end %>
-              <% if param.optional? %>
-                <span class="tag is_light_gray">
-                  optional
-                </span>
-              <% end %>
+
+
+            <div class="feature__param_info">
+              <span class="feature__param_name">
+                <%= param.signature %>
+              </span>
               <% if param.experimental? && !feature.experimental? %>
-                <%= experimental_tag %>
+                <span class="feature__param_experimental_icon" title="Experimental">
+                  <i class="fa fa-flask"></i>
+                </span>
               <% end %>
             </div>
-            <div class="feature__param_prose">
 
-              <div class="prose">
-                <%= markdown(param.guide_markdown) %>
-                <% if param.references? %>
-                  <p>
-                    See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
-                  </p>
+            <div class="feature__param_details">
+
+              <span class="feature__param_optionality">
+                <% if param.optional? %>
+                  <span class="tag is_gray is_ghost">optional</span>
                 <% end %>
+
+                <% if param.required? %>
+                  <span class="tag is_teal">required</span>
+                <% end %>
+              </span>
+
+              <div class="feature__param_prose">
+                <div class="prose">
+                <%= markdown(param.guide_markdown) %>
+                  <% if param.references? %>
+                    <p>
+                      See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
+                    </p>
+                  <% end %>
+                </div>
               </div>
 
-            </div>
-          </div>
+              <% if param.types.present? %>
+                <div class="feature__param_types">
+                  <%= types param.types %>
+                </div>
+              <% end %>
+
+            </div> <!-- .feature__param_details -->
+
+          </div> <!-- .feature__param -->
         <% end %>
 
       <% end %>
 
       <% if feature.response %>
-
         <h2 id="return-value">
           Return value
         </h2>
 
-        <% if feature.response.types.present? %>
-          <div>
-            <%= type(feature.response.types) %>
+        <div class="feature__param">
+          <div class="feature__param_info">
+            <!-- empty for response -->
           </div>
-        <% end %>
 
-        <div class="feature__param_prose">
-          <%= markdown_prose(feature.response.guide_markdown) %>
+          <div class="feature__param_details">
+            <div class="feature__param_prose">
+              <%= markdown_prose(feature.response.guide_markdown) %>
+            </div>
+            <% if feature.response.types.present? %>
+              <div class="feature__param_types">
+                <%= types(feature.response.types) %>
+              </div>
+            <% end %>
+          </div>
         </div>
       <% end %>
 
-
     <% end %>
 
-  <% end %>
+  <% end %> <%# auto_toc %>
 
 </div>

@@ -24,7 +24,11 @@ module Unpoly
         end
 
         def first_markdown_paragraph(markdown)
-          markdown.strip.split(/\n\n/).first
+          markdown_intro_and_rest(markdown).first
+        end
+
+        def markdown_intro_and_rest(markdown)
+          markdown.strip.split("\n\n", 2)
         end
 
         # Takes a multi-line string (or an Array of single lines)
