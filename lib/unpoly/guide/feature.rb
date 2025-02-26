@@ -235,6 +235,14 @@ module Unpoly
         param_groups.select { |group| group.is_a?(OptionsParam) }
       end
 
+      def param_sections
+        sections_for_params(params)
+      end
+
+      def published_param_sections
+        sections_for_params(published_params)
+      end
+
       def children
         super + params
       end
@@ -245,6 +253,12 @@ module Unpoly
 
       def guide_page?
         !internal?
+      end
+
+      private
+
+      def sections_for_params(params)
+        params.chunk(&:section_title).map { |title, params| ParamSection.new(title, params) }
       end
 
     end

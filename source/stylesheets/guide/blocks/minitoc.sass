@@ -1,0 +1,25 @@
+@import ../../environment
+
+.minitoc__heading
+  +hide-first-margins
+
+.minitoc__items
+  flex: 1 1 auto
+
+  display: flex
+  flex-wrap: wrap
+  gap: 2px 12px
+
+
++wider-than(1000px)
+  .minitoc
+    display: flex
+    gap: clamp(30px, 20%, 300px)
+    align-items: center
+    justify-content: space-between
+
+  .minitoc__heading
+    flex: 0 0 auto
+
+  .minitoc__items
+    justify-content: end

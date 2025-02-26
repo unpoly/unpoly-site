@@ -16,6 +16,7 @@ module Unpoly
         @default = nil
         @feature = nil
         @explicit_visibility = nil
+        @section_title = nil
       end
 
       attr_accessor :optional
@@ -25,6 +26,7 @@ module Unpoly
       attr_accessor :default
       attr_accessor :feature
       attr_accessor :explicit_visibility
+      attr_accessor :section_title
 
       def optional?
         if @optional.nil?

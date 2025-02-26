@@ -1,6 +1,7 @@
 @import ../../environment
 
-$param-spacing: $BLOCK_SPACING * 0.85
+$param-spacing: $BLOCK_SPACING * 1.1
+$param-border: 1px solid rgba(0, 0, 0, 0.15)
 
 
 .feature
@@ -17,8 +18,35 @@ $param-spacing: $BLOCK_SPACING * 0.85
 .feature__prose
   +vertical-margin(25px)
 
+
+.feature__param_section
+  //border: 1px solid rgba(0, 0, 0, 0.2)
+  //padding: 15px 15px
+  //border-radius: 3px
+  //+hide-first-margins
+  //+hide-last-margins
+  //+vertical-margin(20px)
+
+.feature__param_section_title
+  //border-bottom: 1px solid currentColor
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3)
+  padding-bottom: 5px
+
 .feature__param
   +vertical-margin($param-spacing)
+  //+vertical-padding($param-spacing)
+  //border-top: $param-border
+  //border-bottom: $param-border
+
+  //margin-top: $param-spacing
+
+  //&+.feature__param
+  //  margin-top: $param-spacing
+
+  &+.feature__param
+    //  //border-top: 0
+    border-top: $param-border
+    padding-top: $param-spacing
 
   &:target, &.hash-target
     // When directly jumping to the param, highlight it.
@@ -83,12 +111,9 @@ $table-breakpoint: 1000px
   .feature__param
     display: flex
 
-    &+.feature__param
-      padding-top: $param-spacing
-      border-top: 1px solid rgba(0, 0, 0, 0.2)
-
   .feature__param_info
     flex: 0 0 350px
+
   .feature__param_details
     flex: 1 1 0
 

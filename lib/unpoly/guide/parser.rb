@@ -153,6 +153,14 @@ module Unpoly
         )
       }x
 
+      SECTION_PATTERN = %r{
+        (^[ \t]*)    # first line indent ($1)
+        @section     # @section
+        \s+          # whitespace
+        (.+?)        # title ($2)
+        $            # end of line
+      }x
+
       PARAM_PATTERN = %r{
         (^[ \t]*)      # first line indent ($1)
         \@param\b      # @param, but not @params-note
@@ -174,6 +182,8 @@ module Unpoly
           )*
         )
       }x
+
+      PARAM_OR_SECTION_PATTERN = Regexp.union(PARAM_PATTERN, SECTION_PATTERN)
 
       PARAM_NAME_PATTERN = %r{
         (?:
@@ -213,7 +223,6 @@ module Unpoly
         @repository = repository
         @last_interface = nil
 
-        # TODO: We already know the repository. We don't need to track documentables ourselves.
         @documentables_by_index_name = {}
       end
 
@@ -313,9 +322,19 @@ module Unpoly
 
           feature = Feature.new(feature_kind, feature_name)
 
-          while (param = parse_param!(text))
-            param.feature = feature
-            feature.params << param
+          current_section_title = 'General'
+
+          while text.sub!(PARAM_OR_SECTION_PATTERN, '')
+            match = $& + "\n"
+
+            if match.include?('@section')
+              current_section_title = parse_section_title!(match)
+            else
+              param = parse_param!(match)
+              param.section_title = current_section_title
+              param.feature = feature
+              feature.params << param
+            end
           end
 
           if (response = parse_response!(text))
@@ -379,6 +398,13 @@ module Unpoly
         if block.sub!(MENU_TITLE_PATTERN, '')
           menu_title = $1
           menu_title
+        end
+      end
+
+      def parse_section_title!(block)
+        if block.sub!(SECTION_PATTERN, '')
+          title = $2
+          title
         end
       end
 

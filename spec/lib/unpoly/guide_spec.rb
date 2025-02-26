@@ -82,6 +82,22 @@ describe Unpoly::Guide do
           EOT
         end
 
+        it 'parses param sections' do
+          function = find_by_name!('test.module.paramSections')
+          expect(function.params[0].name).to eq('options.foo')
+          expect(function.params[0].section_title).to eq('First section')
+          expect(function.params[1].name).to eq('options.bar')
+          expect(function.params[1].section_title).to eq('First section')
+          expect(function.params[2].name).to eq('options.baz')
+          expect(function.params[2].section_title).to eq('Second section')
+
+          expect(function.param_sections.size).to eq(2)
+          expect(function.param_sections[0].title).to eq('First section')
+          expect(function.param_sections[0].params).to eq [function.params[0], function.params[1]]
+          expect(function.param_sections[1].title).to eq('Second section')
+          expect(function.param_sections[1].params).to eq [function.params[2]]
+        end
+
       end
 
       describe 'selectors' do

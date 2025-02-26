@@ -3,20 +3,20 @@
   feature = guide.find_by_guide_id!(feature_id)
   @page_title = feature.title
 
-  params_section_visible = feature.params.present? || feature.params_note.present?
+  params_segment_visible = feature.params.present? || feature.params_note.present?
 
   if feature.selector?
     params_section_title = 'Modifying attributes'
-    params_section_id = 'attributes'
+    params_segment_id = 'attributes'
   elsif feature.property?
     params_section_title = 'Value'
-    params_section_id = 'value'
+    params_segment_id = 'value'
   elsif feature.event?
     params_section_title = 'Event properties'
-    params_section_id = 'properties'
+    params_segment_id = 'properties'
   else
     params_section_title = 'Parameters'
-    params_section_id = 'parameters'
+    params_segment_id = 'parameters'
   end
 %>
 
@@ -66,22 +66,56 @@
 
     <%= partial 'see_also', locals: { referencer: feature } %>
 
-    <% if params_section_visible || feature.response %>
+    <% if params_segment_visible %>
       <hr class="separator">
 
-      <% if params_section_visible %>
+      <%
+        params = feature.published_params
+        param_sections = feature.published_param_sections
+        show_param_section_titles = param_sections.size > 1 && params.size > 3
+      %>
 
-        <h2 id="<%= slugify(params_section_id) %>"><%= params_section_title %></h2>
-
-        <% if feature.params_note.present? %>
-          <div class="feature__params_note">
-            <% admonition(:info) do %>
-              <%= markdown_prose(feature.params_note) %>
+      <% if show_param_section_titles %>
+        <div class="minitoc">
+          <div class="minitoc__heading">
+            <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>
+          </div>
+          <div class="minitoc__items">
+            <% param_sections.each do |param_section| %>
+              <div class="minitoc__item">
+                <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="hyperlink is_secondary">
+                  <%= param_section.title %>
+                </a>
+              </div>
             <% end %>
           </div>
+        </div>
+      <% else %>
+        <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>
+      <% end %>
+
+      <% if feature.params_note.present? %>
+        <div class="feature__params_note">
+          <% admonition(:info) do %>
+            <%= markdown_prose(feature.params_note) %>
+          <% end %>
+        </div>
+      <% end %>
+
+
+      <% param_sections.each do |param_section| %>
+
+        <% if show_param_section_titles %>
+          <h3 class="inset_title" id="<%= param_section.guide_anchor(params_segment_id) %>" anchor-link>
+            <span class="inset_title__text">
+              <%# <i class="fa fa-clone"></i> %>
+              <%= param_section.title %>
+            </span>
+            <span class="inset_title__divider"></span>
+          </h3>
         <% end %>
 
-        <% feature.published_params.each do |param| %>
+        <% param_section.params.each do |param| %>
           <div class="feature__param" id="<%= param.guide_anchor %>" anchor-link>
 
 
@@ -125,37 +159,41 @@
                 </div>
               <% end %>
 
-            </div> <!-- .feature__param_details -->
+            </div> <%# .feature__param_details %>
 
-          </div> <!-- .feature__param -->
-        <% end %>
+          </div> <%# .feature__param %>
+        <% end %> <%# each param %>
 
-      <% end %>
+      <% end %> <%# each param_section %>
 
-      <% if feature.response %>
-        <h2 id="return-value">
-          Return value
-        </h2>
+    <% end %> <%# params visible %>
 
-        <div class="feature__param">
-          <div class="feature__param_info">
-            <!-- empty for response -->
-          </div>
+    <% if feature.response %>
 
-          <div class="feature__param_details">
-            <div class="feature__param_prose">
-              <%= markdown_prose(feature.response.guide_markdown) %>
-            </div>
-            <% if feature.response.types.present? %>
-              <div class="feature__param_types">
-                <%= types(feature.response.types) %>
-              </div>
-            <% end %>
-          </div>
+      <hr class="separator">
+
+      <h2 id="return-value">
+        Return value
+      </h2>
+
+      <div class="feature__param">
+        <div class="feature__param_info">
+          <!-- empty for response -->
         </div>
-      <% end %>
 
+        <div class="feature__param_details">
+          <div class="feature__param_prose">
+            <%= markdown_prose(feature.response.guide_markdown) %>
+          </div>
+          <% if feature.response.types.present? %>
+            <div class="feature__param_types">
+              <%= types(feature.response.types) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     <% end %>
+
 
   <% end %> <%# auto_toc %>
 

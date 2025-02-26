@@ -3,26 +3,29 @@
 .types
   display: inline-flex
   flex-wrap: wrap
-  gap: 3px
+  padding-left: 1px
+  padding-top: 1px
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05)
 
 .types__type
   padding: 0 8px 1px
-  //border-radius: 20px
+  margin-left: -1px
+  margin-top: -1px
+  word-spacing: -0.2em
 
   +monospace-font
   font-size: $FONT_SIZE - 4px
-  //font-style: italic
   +bold
 
-  //background-color: rgba(0, 0, 0, 0.08)
-  //color: #505050
 
-  border-radius: 2px
+  //border-radius: 2px
+  //background-color: desaturate(lighten($COLOR_SECONDARY, 15%), 15%)
+  //color: white
+  //box-shadow: inset 0 12px 0 rgba(255,255,255,0.1)
 
-  background-color: desaturate(lighten($COLOR_SECONDARY, 15%), 15%)
-  color: white
+  color: #666
+  border: 1px solid #bbb
 
-  box-shadow: inset 0 12px 0 rgba(255,255,255,0.1)
 
   //--p: 6px
   //clip-path: polygon(var(--p) 0, 100% 0, calc(100% - var(--p)) 100%, 0 100%)
@@ -33,10 +36,3 @@
   a
     +hover
       text-decoration: underline
-
-  //a
-  //  +hyperlink($color)
-
-//.type__or
-//  opacity: 0.6
-//  +horizontal_margin(3px)

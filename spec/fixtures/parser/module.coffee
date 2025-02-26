@@ -98,6 +98,19 @@
   ###
 
   ###-
+  @function test.module.paramSections
+  @section First section
+    @param options.foo
+      Foo description
+    @param options.bar
+      Bar description
+  @section Second section
+    @param options.baz
+      Baz description
+  @stable
+  ###
+
+  ###-
   Line before partial
   @include test.partial
   Line after partial
