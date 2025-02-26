@@ -60,7 +60,7 @@ module Unpoly
       LIKE_PATTERN = %r{
         \@like          # @like
         \               # space
-        ([^\ ]+)        # index_name of referenced documentable ($1)
+        ([^\ \t\n]+)    # index_name of referenced documentable ($1)
         [\ \t]*         # trailing spaces and tabs
         (\n|$)          # line break or EOF
       }x
@@ -227,8 +227,26 @@ module Unpoly
       end
 
       def parse_all(paths)
-        paths.each do |source_path|
-          parse(source_path)
+        doc_comments = paths.flat_map { |path| DocComment.find_in_path(path) }
+
+        # First, parse all the partials so other documentables can @include partials
+        # before further parsing.
+        doc_comments.each do |doc_comment|
+          partials = parse_partial!(doc_comment) || []
+          partials.each do |partial|
+            partial.text_source = doc_comment.text_source
+            index_documentable(partial)
+          end
+        end
+
+        doc_comments.each do |doc_comment|
+          doc_comment.text = include_partials!(doc_comment.text)
+
+          documentables_from_comment = parse_interface!(doc_comment) || parse_feature!(doc_comment) || parse_partial!(doc_comment) || cannot_parse!(doc_comment)
+          documentables_from_comment.each do |documentable|
+            documentable.text_source = doc_comment.text_source
+            index_documentable(documentable)
+          end
         end
 
         documentables.each do |documentable|
@@ -237,17 +255,6 @@ module Unpoly
       end
 
       private
-
-      def parse(path)
-        doc_comments = DocComment.find_in_path(path)
-        doc_comments.each do |doc_comment|
-          documentables_from_comment = parse_interface!(doc_comment) || parse_feature!(doc_comment) || parse_partial!(doc_comment) || cannot_parse!(doc_comment)
-          documentables_from_comment.each do |documentable|
-            documentable.text_source = doc_comment.text_source
-            index_documentable(documentable)
-          end
-        end
-      end
 
       def index_documentable(documentable)
         @documentables_by_index_name[documentable.index_name] = documentable
@@ -263,7 +270,7 @@ module Unpoly
       end
 
       def parse_partial!(doc_comment)
-        text = doc_comment.text
+        text = doc_comment.text.dup
 
         if text.sub!(PARTIAL_PATTERN, '')
           partial_name = $1.strip
@@ -278,7 +285,7 @@ module Unpoly
       end
 
       def parse_interface!(doc_comment)
-        block = doc_comment.text
+        block = doc_comment.text.dup
 
         if block.sub!(INTERFACE_PATTERN, '')
           interface_kind = $1.strip
@@ -313,7 +320,7 @@ module Unpoly
       end
 
       def parse_feature!(doc_comment)
-        text = doc_comment.text
+        text = doc_comment.text.dup
 
         if text.sub!(FEATURE_PATTERN, '')
           feature_kind = $1.strip
@@ -538,11 +545,8 @@ module Unpoly
         end
 
         markdown = documentable.guide_markdown
-
         markdown = unescape_hash_headlines(markdown) if documentable.text_source.coffee_script?
-        markdown = include_partials!(markdown)
         markdown = markdown.strip + "\n"
-
         documentable.guide_markdown = markdown
       end
 
@@ -585,11 +589,12 @@ module Unpoly
         markdown.gsub(INCLUDE_PATTERN) do
           indent = $1
           name = $2
-          indent_size = indent.gsub("\t", ' ').size
+          indent_size = indent.gsub("\t", '  ').size
 
           partial = find_by_index_name!(name)
 
           text = partial.guide_markdown
+          text = include_partials!(text)
           text.indent(indent_size)
         end
       end
@@ -607,7 +612,7 @@ module Unpoly
       end
 
       def cannot_parse!(doc_comment)
-        raise CannotParse, "Doc comment is neither interface nor feature: #{doc_comment.path_with_lines}"
+        raise CannotParse, "Doc comment with unknown @type: #{doc_comment.path_with_lines}"
       end
 
     end

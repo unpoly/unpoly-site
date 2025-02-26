@@ -98,6 +98,13 @@ describe Unpoly::Guide do
           expect(function.param_sections[1].params).to eq [function.params[2]]
         end
 
+        it 'includes a partial with params' do
+          function = find_by_name!('test.module.featureIncludingStructuralPartial')
+          expect(function.params[0].name).to eq('fooFromPartial')
+          expect(function.params[1].name).to eq('barFromPartial')
+
+        end
+
       end
 
       describe 'selectors' do

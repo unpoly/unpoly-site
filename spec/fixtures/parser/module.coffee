@@ -118,3 +118,16 @@
   @function test.module.featureIncludingPartial
   @experimental
   ###
+
+  ###-
+  @partial test.structuralPartial
+
+  @param fooFromPartial
+  @param barFromPartial
+  ###
+
+  ###-
+  @function test.module.featureIncludingStructuralPartial
+  @include test.structuralPartial
+  @experimental
+  ###
