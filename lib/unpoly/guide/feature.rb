@@ -255,10 +255,6 @@ module Unpoly
         !internal?
       end
 
-      def section_title
-        @section_title || 'General'
-      end
-
       private
 
       def sections_for_params(params)

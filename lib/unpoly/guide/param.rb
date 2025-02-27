@@ -26,7 +26,11 @@ module Unpoly
       attr_accessor :default
       attr_accessor :feature
       attr_accessor :explicit_visibility
-      attr_accessor :section_title
+      attr_writer :section_title
+
+      def section_title
+        @section_title || 'General'
+      end
 
       def optional?
         if @optional.nil?
