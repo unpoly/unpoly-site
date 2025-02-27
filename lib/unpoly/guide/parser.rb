@@ -9,11 +9,20 @@ module Unpoly
       class CannotMerge < Error; end
       class MissingVisibility < CannotParse; end
 
-      BLOCK_PATTERN = %r{
-        ^[\ \t]*\#\#\#\*[\ \t]*\n  # YUIDoc begin symbol
-        ((?:.|\n)*?)               # block content ($1)
-        ^[\ \t]*\#\#\#[\ \t]*\n    # YUIDoc end symbol
-      }x
+      # Must be a string because we contain a backreference to a capture
+      # group that will only exist later (\1)
+      INDENTED_BODY_PATTERN = '
+        (?:
+          \n
+          (?:
+            \1[\ \t]+  # .. subsequent lines that are indented further than the first line
+            .*
+            |
+            [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
+          )
+          $
+        )*
+      '
 
       INTERFACE_PATTERN = %r{
         \@(class|module|page)  # kind ($1)
@@ -79,18 +88,9 @@ module Unpoly
           internal|
           deprecated
         )
-        (                # visibility comment, mostly for deprecation ($3)
-          .*$            # .. remainder of first line
-          (?:
-            \n
-            (?:
-              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
-              .*
-              |
-              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
-            )
-            $
-          )*
+        (                           # visibility comment, mostly for deprecation ($3)
+          .*$                       # .. remainder of first line
+          #{INDENTED_BODY_PATTERN}  # subsequent lines that are indented further than the first line
         )
       }x
 
@@ -102,20 +102,11 @@ module Unpoly
       # }x
 
       PARAMS_NOTE_PATTERN = %r{
-        (^[ \t]*)        # first line indent ($1)
-        \@(params-note)  # tag ($2)
-        (                # note markdown ($3)
-          .*$            # .. remainder of first line
-          (?:
-            \n
-            (?:
-              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
-              .*
-              |
-              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
-            )
-            $
-          )*
+        (^[ \t]*)                   # first line indent ($1)
+        \@(params-note)             # tag ($2)
+        (                           # note markdown ($3)
+          .*$                       # .. remainder of first line
+          #{INDENTED_BODY_PATTERN}  # subsequent lines that are indented further than the first line
         )
       }x
 
@@ -138,27 +129,19 @@ module Unpoly
           [ \t]+
           #{TYPES_PATTERN}
         )?
-        (              # response spec ($4)
-          .*$          # .. remainder of first line
-          (?:
-            \n
-            (?:
-              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
-              .*
-              |
-              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
-            )
-            $
-          )*
+        (                           # response spec ($4)
+          .*$                       # .. remainder of first line
+          #{INDENTED_BODY_PATTERN}  # subsequent lines that are indented further than the first line
         )
       }x
 
       SECTION_PATTERN = %r{
-        (^[ \t]*)    # first line indent ($1)
-        @section     # @section
-        \s+          # whitespace
-        (.+?)        # title ($2)
-        $            # end of line
+        (^[ \t]*)                  # first line indent ($1)
+        @section                   # @section
+        \s+                        # whitespace
+        (.+?)                      # title ($2)
+        $                          # end of line
+        (#{INDENTED_BODY_PATTERN}) # indented body ($3)
       }x
 
       PARAM_PATTERN = %r{
@@ -170,20 +153,20 @@ module Unpoly
         )?
         (              # param spec ($4)
           .+$          # .. remainder of first line
-          (?:
-            \n
-            (?:
-              \1[\ \t]+  # .. subsequent lines that are indented further than the first line
-              .*
-              |
-              [\ \t]*    # ... or an entirely blank line, even if it is not indented enough
-            )
-            $
-          )*
+          #{INDENTED_BODY_PATTERN}  # subsequent lines that are indented further than the first line
         )
       }x
 
-      PARAM_OR_SECTION_PATTERN = Regexp.union(PARAM_PATTERN, SECTION_PATTERN)
+      PARAM_OR_SECTION_PATTERN = %r{
+        (^[ \t]*)                      # first line indent ($1)
+        (@param|@section|@merge)       # @directive ($2), but not @params-note
+        [ \t]+                         # whitespace after directive
+        (                              # full spec ($3)
+          (.+$)                        # .. remainder of first line after @directive ($4)
+          (#{INDENTED_BODY_PATTERN})   # indented body ($5)
+        )
+      }x
+
 
       PARAM_NAME_PATTERN = %r{
         (?:
@@ -210,15 +193,6 @@ module Unpoly
         (\n|$)
       }x
 
-      # EXAMPLE_PATTERN = %r{
-      #   (^[ \t]*)     # first line indent ($1)
-      #   \@example     # @example
-      #   (             # example body ($1)
-      #     .+\n        # .. remainder of first line
-      #     \1[\ \t]+   # .. subsequent lines that are indented further than the first line
-      #   )
-      # }x
-
       def initialize(repository)
         @repository = repository
         @last_interface = nil
@@ -232,7 +206,7 @@ module Unpoly
         # First, parse all the partials so other documentables can @include partials
         # before further parsing.
         doc_comments.each do |doc_comment|
-          partials = parse_partial!(doc_comment) || []
+          partials = parse_partial(doc_comment) || []
           partials.each do |partial|
             partial.text_source = doc_comment.text_source
             index_documentable(partial)
@@ -242,7 +216,7 @@ module Unpoly
         doc_comments.each do |doc_comment|
           doc_comment.text = include_partials!(doc_comment.text)
 
-          documentables_from_comment = parse_interface!(doc_comment) || parse_feature!(doc_comment) || parse_partial!(doc_comment) || cannot_parse!(doc_comment)
+          documentables_from_comment = parse_interface(doc_comment) || parse_feature(doc_comment) || parse_partial(doc_comment) || cannot_parse!(doc_comment)
           documentables_from_comment.each do |documentable|
             documentable.text_source = doc_comment.text_source
             index_documentable(documentable)
@@ -269,7 +243,7 @@ module Unpoly
         @documentables_by_index_name.values
       end
 
-      def parse_partial!(doc_comment)
+      def parse_partial(doc_comment)
         text = doc_comment.text.dup
 
         if text.sub!(PARTIAL_PATTERN, '')
@@ -284,7 +258,7 @@ module Unpoly
         end
       end
 
-      def parse_interface!(doc_comment)
+      def parse_interface(doc_comment)
         block = doc_comment.text.dup
 
         if block.sub!(INTERFACE_PATTERN, '')
@@ -319,7 +293,7 @@ module Unpoly
         end
       end
 
-      def parse_feature!(doc_comment)
+      def parse_feature(doc_comment)
         text = doc_comment.text.dup
 
         if text.sub!(FEATURE_PATTERN, '')
@@ -332,16 +306,23 @@ module Unpoly
           current_section_title = 'General'
 
           while text.sub!(PARAM_OR_SECTION_PATTERN, '')
-            match = $& + "\n"
+            directive = $2
+            full_match = $& + "\n"
 
-            if match.include?('@section')
-              current_section_title = parse_section_title!(match)
+            if directive == '@section'
+              section_attrs = parse_section!(full_match)
+              current_section_title = section_attrs[:title]
+              new_params = section_attrs[:params]
             else
-              param = parse_param!(match)
-              param.section_title = current_section_title
-              param.feature = feature
-              feature.params << param
+              new_params = parse_params!(full_match)
             end
+
+            new_params.each do |new_param|
+              new_param.section_title = current_section_title
+              new_param.feature = feature
+              feature.params << new_param
+            end
+
           end
 
           if (response = parse_response!(text))
@@ -408,10 +389,17 @@ module Unpoly
         end
       end
 
-      def parse_section_title!(block)
+      def parse_section!(block)
         if block.sub!(SECTION_PATTERN, '')
           title = $2
-          title
+          body = $3
+
+          params = parse_params!(body)
+
+          {
+            title: title,
+            params: params,
+          }
         end
       end
 
@@ -419,8 +407,10 @@ module Unpoly
       #   !!block.sub!(ESSENTIAL_PATTERN, '')
       # end
 
-      def parse_param!(block)
-        if block.sub!(PARAM_PATTERN, '')
+      def parse_params!(block)
+        params = []
+
+        while block.sub!(PARAM_PATTERN, '')
           type_spec = $2
           param_spec = Util.unindent($4)
           param = Param.new
@@ -449,8 +439,10 @@ module Unpoly
           parse_references!(markdown, param)
 
           param.guide_markdown = markdown
-          param
+          params << param
         end
+
+        params
       end
 
       def parse_references!(block, referencer)
