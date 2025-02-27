@@ -48,11 +48,14 @@ module Unpoly
         !!(name =~ OPTION_PREFIX)
       end
 
-      def signature(with_default: true)
-        signature = ""
+      def signature(with_default: true, em_name: false)
+        signature = "".html_safe
+        signature << "[" if optional?
+        signature << '<em>'.html_safe if em_name
         signature << name
+        signature << '</em>'.html_safe if em_name
         signature << "=#{default}" if with_default && default?
-        signature = "[#{signature}]" if optional?
+        signature << "]" if optional?
         signature
       end
 

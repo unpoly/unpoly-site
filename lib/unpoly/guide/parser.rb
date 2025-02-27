@@ -190,7 +190,7 @@ module Unpoly
           \]           # closing bracket
         )
         |
-        ([^\ \t]+)      # required param name ($3)
+        ([^\ \t\n]+)      # required param name ($3), possibly followed by a description on the same line
       }x
 
       REFERENCE_PATTERN = %r{
@@ -395,12 +395,12 @@ module Unpoly
         end
       end
 
-      def parse_params!(block)
+      def parse_param_literals!(block)
         params = []
 
         while block.sub!(PARAM_PATTERN, '')
           type_spec = $2
-          param_spec = Util.unindent($4)
+          param_spec = $4
           param = Param.new
 
           if (types = parse_types!(type_spec))
@@ -422,6 +422,8 @@ module Unpoly
             param.like_name = like_name
           end
 
+          # Params can either be described in the signature line
+          # or in the indented body below it.
           markdown = Util.unindent_hanging(param_spec)
 
           parse_references!(markdown, param)
@@ -444,7 +446,7 @@ module Unpoly
           when '@section'
             parse_section_params!(full_match)
           when '@param'
-            parse_params!(full_match)
+            parse_param_literals!(full_match)
           when '@mix'
             parse_mixed_params!(full_match)
           else
@@ -465,8 +467,8 @@ module Unpoly
           documentable = find_by_index_name!(documentable_name)
           documentable_source = including_partials(documentable.text_source.text.dup)
 
-          documentable_params = parse_params!(documentable_source)
-          override_params = parse_params!(override_spec)
+          documentable_params = parse_param_literals!(documentable_source)
+          override_params = parse_param_literals!(override_spec)
 
           mixed_params = documentable_params.map { |documentable_param|
             override_index = override_params.index { |override_param| override_param.name == documentable_param.name }
