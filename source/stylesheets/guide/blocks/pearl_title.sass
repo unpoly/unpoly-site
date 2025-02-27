@@ -1,0 +1,25 @@
+@import ../../environment
+
+$background: lighten(desaturate($COLOR_SECONDARY, 9%), 7%)
+
+.pearl_title
+  +font-size(18px)
+  text-transform: uppercase
+  display: flex
+  align-items: center
+  margin: 30px 0 15px 0
+
+.pearl_title__text
+  flex: 0 0 auto
+  padding: 4px 10px
+  border-radius: 3px
+  background-color: $background
+  color: white
+
+.pearl_title__divider
+  background-color: $background
+  height: 2px
+  flex: 1 1 0
+
+
+
