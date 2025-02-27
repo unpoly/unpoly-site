@@ -6,7 +6,6 @@ module Unpoly
 
       class Error < StandardError; end
       class CannotParse < Error; end
-      class CannotMerge < Error; end
       class MissingVisibility < CannotParse; end
 
       # Must be a string because we contain a backreference to a capture
@@ -135,7 +134,7 @@ module Unpoly
         )
       }x
 
-      SECTION_PATTERN = %r{
+      PARAM_SECTION_PATTERN = %r{
         (^[ \t]*)                  # first line indent ($1)
         @section                   # @section
         \s+                        # whitespace
@@ -157,16 +156,24 @@ module Unpoly
         )
       }x
 
-      PARAM_OR_SECTION_PATTERN = %r{
+      MIX_PARAMS_PATTERN = %r{
+        (^[ \t]*)                  # first line indent ($1)
+        @mix                       # @nix
+        [ \t]+                     # whitespace
+        (.+?)                      # documentable name ($2)
+        $                          # end of line
+        (#{INDENTED_BODY_PATTERN}) # indented body ($3)
+      }x
+
+      PARAM_SOURCE_PATTERN = %r{
         (^[ \t]*)                      # first line indent ($1)
-        (@param|@section|@merge)       # @directive ($2), but not @params-note
+        (@param|@section|@mix)         # @directive ($2), but not @params-note
         [ \t]+                         # whitespace after directive
         (                              # full spec ($3)
           (.+$)                        # .. remainder of first line after @directive ($4)
           (#{INDENTED_BODY_PATTERN})   # indented body ($5)
         )
       }x
-
 
       PARAM_NAME_PATTERN = %r{
         (?:
@@ -214,7 +221,7 @@ module Unpoly
         end
 
         doc_comments.each do |doc_comment|
-          doc_comment.text = include_partials!(doc_comment.text)
+          doc_comment.text = including_partials(doc_comment.text)
 
           documentables_from_comment = parse_interface(doc_comment) || parse_feature(doc_comment) || parse_partial(doc_comment) || cannot_parse!(doc_comment)
           documentables_from_comment.each do |documentable|
@@ -303,27 +310,12 @@ module Unpoly
 
           feature = Feature.new(feature_kind, feature_name)
 
-          current_section_title = 'General'
-
-          while text.sub!(PARAM_OR_SECTION_PATTERN, '')
-            directive = $2
-            full_match = $& + "\n"
-
-            if directive == '@section'
-              section_attrs = parse_section!(full_match)
-              current_section_title = section_attrs[:title]
-              new_params = section_attrs[:params]
-            else
-              new_params = parse_params!(full_match)
-            end
-
-            new_params.each do |new_param|
-              new_param.section_title = current_section_title
-              new_param.feature = feature
-              feature.params << new_param
-            end
-
+          new_params = parse_param_sources!(text)
+          new_params.each do |new_param|
+            new_param.feature = feature
+            feature.params << new_param
           end
+
 
           if (response = parse_response!(text))
             feature.response = response
@@ -389,23 +381,19 @@ module Unpoly
         end
       end
 
-      def parse_section!(block)
-        if block.sub!(SECTION_PATTERN, '')
+      def parse_section_params!(block)
+        if block.sub!(PARAM_SECTION_PATTERN, '')
           title = $2
           body = $3
 
-          params = parse_params!(body)
+          params = parse_param_sources!(body)
+          params.each do |param|
+            param.section_title = title
+          end
 
-          {
-            title: title,
-            params: params,
-          }
+          params
         end
       end
-
-      # def parse_essential!(block)
-      #   !!block.sub!(ESSENTIAL_PATTERN, '')
-      # end
 
       def parse_params!(block)
         params = []
@@ -443,6 +431,62 @@ module Unpoly
         end
 
         params
+      end
+
+      def parse_param_sources!(text)
+        all_params = []
+
+        while text.sub!(PARAM_SOURCE_PATTERN, '')
+          directive = $2
+          full_match = $& + "\n"
+
+          source_params = case directive
+          when '@section'
+            parse_section_params!(full_match)
+          when '@param'
+            parse_params!(full_match)
+          when '@mix'
+            parse_mixed_params!(full_match)
+          else
+            raise CannotParse, "Unknown directive: #{directive}"
+          end
+
+          all_params.concat(source_params)
+        end
+
+        all_params
+      end
+
+      def parse_mixed_params!(block)
+        if block.sub!(MIX_PARAMS_PATTERN, '')
+          documentable_name = $2
+          override_spec = $3
+
+          documentable = find_by_index_name!(documentable_name)
+          documentable_source = including_partials(documentable.text_source.text.dup)
+
+          documentable_params = parse_params!(documentable_source)
+          override_params = parse_params!(override_spec)
+
+          mixed_params = documentable_params.map { |documentable_param|
+            override_index = override_params.index { |override_param| override_param.name == documentable_param.name }
+            if override_index
+              # Remember which params found their override parent, so we can raise if something didn't match.
+              override_param = override_params.delete_at(override_index)
+              # Allow to override some properties, while inheriting the reset
+              override_param.mimic!(documentable_param)
+              override_param
+            else
+              documentable_param
+            end
+          }
+
+          unless override_params.empty?
+            raise Error, "Tried to override params from #{documentable_name}, but could not find param #{override_params.first.name}"
+          end
+
+          mixed_params
+        end
       end
 
       def parse_references!(block, referencer)
@@ -533,7 +577,7 @@ module Unpoly
 
       def postprocess!(documentable)
         if documentable.is_a?(Feature)
-          merge_likes_in_signature!(documentable)
+          mimic_likes_in_signature!(documentable)
         end
 
         markdown = documentable.guide_markdown
@@ -542,7 +586,7 @@ module Unpoly
         documentable.guide_markdown = markdown
       end
 
-      def merge_likes_in_signature!(feature)
+      def mimic_likes_in_signature!(feature)
         feature.params.each do |param|
           mimic_param!(param)
         end
@@ -577,7 +621,7 @@ module Unpoly
         end
       end
 
-      def include_partials!(markdown)
+      def including_partials(markdown)
         markdown.gsub(INCLUDE_PATTERN) do
           indent = $1
           name = $2
@@ -586,7 +630,7 @@ module Unpoly
           partial = find_by_index_name!(name)
 
           text = partial.guide_markdown
-          text = include_partials!(text)
+          text = including_partials(text)
           text.indent(indent_size)
         end
       end

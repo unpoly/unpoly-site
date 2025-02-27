@@ -102,7 +102,22 @@ describe Unpoly::Guide do
           function = find_by_name!('test.module.featureIncludingStructuralPartial')
           expect(function.params[0].name).to eq('fooFromPartial')
           expect(function.params[1].name).to eq('barFromPartial')
+        end
 
+        it 'mixes params from a partial, overriding selected params' do
+          function = find_by_name!('test.module.featureMixingPartial')
+          expect(function.params[0].name).to eq('fooFromPartial')
+          expect(function.params[0].guide_markdown.strip).to eq('Foo description from partial')
+          expect(function.params[1].name).to eq('barFromPartial')
+          expect(function.params[1].guide_markdown.strip).to eq('Foo description override')
+        end
+
+        it 'mixes params from a partial within a @section' do
+          function = find_by_name!('test.module.featureMixingPartialInSection')
+          expect(function.params[0].name).to eq('fooFromPartial')
+          expect(function.params[0].guide_markdown.strip).to eq('Foo description from partial')
+          expect(function.params[1].name).to eq('barFromPartial')
+          expect(function.params[1].guide_markdown.strip).to eq('Foo description override')
         end
 
       end

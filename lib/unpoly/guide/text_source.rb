@@ -3,7 +3,7 @@ module Unpoly
     class TextSource
 
       def initialize(text, path: nil, start_line: nil, end_line: nil)
-        @text = text
+        @text = text # todo: freeze
         @path = path
         @start_line = start_line
         @end_line = end_line

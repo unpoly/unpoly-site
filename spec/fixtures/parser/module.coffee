@@ -123,11 +123,30 @@
   @partial test.structuralPartial
 
   @param fooFromPartial
+    Foo description from partial
   @param barFromPartial
+    Bar description from partial
   ###
 
   ###-
   @function test.module.featureIncludingStructuralPartial
   @include test.structuralPartial
+  @experimental
+  ###
+
+  ###-
+  @function test.module.featureMixingPartial
+  @mix test.structuralPartial
+    @param barFromPartial
+      Foo description override
+  @experimental
+  ###
+
+  ###-
+  @function test.module.featureMixingPartialInSection
+  @section Arguments
+    @mix test.structuralPartial
+      @param barFromPartial
+        Foo description override
   @experimental
   ###
