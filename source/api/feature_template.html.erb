@@ -72,7 +72,7 @@
       <%
         params = feature.published_params
         param_sections = feature.published_param_sections
-        show_param_section_titles = param_sections.size > 1 && params.size > 3
+        show_param_section_titles = param_sections.size > 1
       %>
 
       <% if show_param_section_titles %>
@@ -129,28 +129,36 @@
               <% end %>
             </div>
 
-            <div class="feature__param_details">
+            <% show_prose = param.guide_markdown? || param.references? %>
+            <% show_optional_tag = param.optional? %>
+            <% show_required_tag = param.required? && !feature.property? %>
 
-              <span class="feature__param_optionality">
-                <% if param.optional? %>
-                  <span class="tag is_gray is_ghost">optional</span>
-                <% end %>
+            <div class="feature__param_details <%= show_prose ? 'with_prose' : 'without_prose' %>">
 
-                <% if param.required? %>
-                  <span class="tag is_teal">required</span>
-                <% end %>
-              </span>
-
-              <div class="feature__param_prose">
-                <div class="prose">
-                <%= markdown(param.guide_markdown) %>
-                  <% if param.references? %>
-                    <p>
-                      See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
-                    </p>
+              <% if show_optional_tag || show_required_tag %>
+                <span class="feature__param_optionality">
+                  <% if show_optional_tag %>
+                    <span class="tag is_gray is_ghost">optional</span>
                   <% end %>
+
+                  <% if show_required_tag %>
+                    <span class="tag is_teal">required</span>
+                  <% end %>
+                </span>
+              <% end %>
+
+              <% if param.guide_markdown? %>
+                <div class="feature__param_prose">
+                  <div class="prose">
+                  <%= markdown(param.guide_markdown) %>
+                    <% if param.references? %>
+                      <p>
+                        See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
+                      </p>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
+              <% end %>
 
               <% if param.types.present? %>
                 <div class="feature__param_types">
@@ -171,19 +179,21 @@
 
       <hr class="separator">
 
-      <h2 id="return-value">
-        Return value
-      </h2>
-
-      <div class="feature__param">
+      <div class="feature__param is_response">
         <div class="feature__param_info">
-          <!-- empty for response -->
+          <h2 id="return-value">
+            Return value
+          </h2>
         </div>
 
-        <div class="feature__param_details">
-          <div class="feature__param_prose">
-            <%= markdown_prose(feature.response.guide_markdown) %>
-          </div>
+        <% show_prose = feature.response.guide_markdown? %>
+
+        <div class="feature__param_details <%= show_prose ? 'with_prose' : 'without_prose' %>">
+          <% if show_prose %>
+            <div class="feature__param_prose">
+              <%= markdown_prose(feature.response.guide_markdown) %>
+            </div>
+          <% end %>
           <% if feature.response.types.present? %>
             <div class="feature__param_types">
               <%= types(feature.response.types) %>

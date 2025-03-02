@@ -55,6 +55,8 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
     background-color: $COLOR_MARK
 
 .feature__param_info
+  // For the response, the headline is in there
+  +hide-first-margins
 
 .feature__param_name
   +monospace-font
@@ -69,7 +71,11 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
   color: #707070
 
 .feature__param_types
-  margin-top: 16px
+  .feature__param:not(.is_response) .feature__param_details.without_prose &
+      margin-top: -2px // vertically align with param name
+
+  .feature__param_details.with_prose &
+    margin-top: 16px
 
 .feature__param_prose
 
@@ -85,6 +91,9 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
         +horizontal-padding(0.5em)
         +vertical-padding(0.3em)
 
+    //pre
+    //  code
+    //    white-space: pre-wrap
 
 .feature__param_optionality
   float: right
@@ -103,6 +112,7 @@ $table-breakpoint: 1000px
     display: flex
     gap: 15px
     flex-wrap: wrap
+    margin-bottom: 12px
 
   .feature__param_details
     margin-left: 30px
@@ -114,9 +124,16 @@ $table-breakpoint: 1000px
   .feature__param
     display: flex
 
+    //&.is_response
+    //  margin-top: -45px
+
   .feature__param_info
     flex: 0 0 350px
 
   .feature__param_details
     flex: 1 1 0
+    // Prevent code blocks from causing the item to overflow horizontally.
+    // We want to show horizontal scroll bars instead (from the +code-block
+    // function).
+    min-width: 0
 

@@ -467,8 +467,8 @@ module Unpoly
           documentable = find_by_index_name!(documentable_name)
           documentable_source = including_partials(documentable.text_source.text.dup)
 
-          documentable_params = parse_param_literals!(documentable_source)
-          override_params = parse_param_literals!(override_spec)
+          documentable_params = parse_param_sources!(documentable_source)
+          override_params = parse_param_sources!(override_spec)
 
           mixed_params = documentable_params.map { |documentable_param|
             override_index = override_params.index { |override_param| override_param.name == documentable_param.name }
@@ -601,6 +601,7 @@ module Unpoly
         like_name = param.like_name
 
         if like_name
+          param.like_name = nil
           other_feature_name, other_param_name = like_name.split('/')
           other_param_name ||= param.name
 

@@ -9,6 +9,10 @@ module Unpoly
       attr_accessor :text_source
       attr_accessor :explicit_parent_name
 
+      def guide_markdown?
+        guide_markdown.strip.present?
+      end
+
       def long_kind
         kind.capitalize
       end
