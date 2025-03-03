@@ -169,6 +169,21 @@ module Unpoly
         end
       end
 
+      def should_document_types?
+        if name.start_with?('test.')
+          return
+        end
+
+        case kind
+        when 'selector', 'header', 'cookie'
+          false
+        when 'function', 'constructor', 'property', 'event'
+          true
+        else
+          "Unhandled feature kind: #{kind}"
+        end
+      end
+
       # def preventable?
       #   @preventable
       # end

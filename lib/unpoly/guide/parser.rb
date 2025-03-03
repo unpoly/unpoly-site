@@ -7,6 +7,7 @@ module Unpoly
       class Error < StandardError; end
       class CannotParse < Error; end
       class MissingVisibility < CannotParse; end
+      class MissingType < CannotParse; end
 
       # Must be a string because we contain a backreference to a capture
       # group that will only exist later (\1)
@@ -580,6 +581,7 @@ module Unpoly
       def postprocess!(documentable)
         if documentable.is_a?(Feature)
           mimic_likes_in_signature!(documentable)
+          verify_types_documented!(documentable)
         end
 
         markdown = documentable.guide_markdown
@@ -594,6 +596,19 @@ module Unpoly
         end
         if (response = feature.response)
           mimic_response!(response)
+        end
+      end
+
+      def verify_types_documented!(feature)
+        feature.params.each do |param|
+          if param.should_document_types? && param.types.blank?
+            raise MissingType, "Undocumented type: #{feature.name}/#{param.name}"
+          end
+        end
+        if (response = feature.response)
+          if response.should_document_types? && response.types.blank?
+            raise MissingType, "Undocumented type: #{feature.name}/return"
+          end
         end
       end
 

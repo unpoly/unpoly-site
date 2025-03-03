@@ -21,6 +21,8 @@ module Unpoly
         raise "A Response has no name"
       end
 
+      delegate :should_document_types?, to: :feature
+
       def guide_page?
         # Responses are rendered on the feature page.
         false

@@ -52,6 +52,15 @@ module Unpoly
         !!(name =~ OPTION_PREFIX)
       end
 
+      def should_document_types?
+        if feature.event?
+          # For events we sometimes document event.preventDefault() as a @param
+          feature.should_document_types? && !name.include?('(')
+        else
+          feature.should_document_types?
+        end
+      end
+
       def signature(with_default: true, em_name: false)
         signature = "".html_safe
         signature << "[" if optional?
