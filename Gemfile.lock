@@ -152,7 +152,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (5.1.0)
     nio4r (2.5.8)
-    nokogiri (1.15.6)
+    nokogiri (1.15.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nokogumbo (2.0.5)
