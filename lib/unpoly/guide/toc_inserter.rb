@@ -3,6 +3,7 @@ require 'nokogiri'
 module Unpoly
   module Guide
     class TOCInserter
+      CONTENT_HEADING_SELECTOR = 'h1, h2, h3:not(.pearl__title), h4:not(.admonition--title), h5, h6'
 
       def auto_insert(html)
         nokogiri_doc = Nokogiri::HTML.fragment(html)
@@ -10,12 +11,11 @@ module Unpoly
 
         return html if headings.blank?
 
-        last_heading = headings.last
+        insert_position = nokogiri_doc.css([CONTENT_HEADING_SELECTOR, 'hr'].join(',')).first
+        chars_before_insert_position = text_size_before(nokogiri_doc, insert_position)
 
-        chars_before_last_heading = text_size_before(nokogiri_doc, last_heading)
-
-        if (headings.size >= 4) || (chars_before_last_heading >= 1000 && headings.size > 1)
-          insert_toc_before(headings.first, headings)
+        if (headings.size >= 4) || (chars_before_insert_position >= 1000 && headings.size > 1)
+          insert_toc_before(insert_position, headings)
           nokogiri_doc.to_html
         else
           html
@@ -108,7 +108,7 @@ module Unpoly
       end
 
       def find_headings(nokogiri_doc)
-        nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup
+        nokogiri_doc.css(CONTENT_HEADING_SELECTOR).to_a.dup
       end
 
       def find_top_level_headings_with_id(nokogiri_doc)
