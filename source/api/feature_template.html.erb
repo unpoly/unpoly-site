@@ -70,9 +70,8 @@
       <hr class="separator">
 
       <%
-        params = feature.published_params
         param_sections = feature.published_param_sections
-        show_param_section_titles = param_sections.size > 1
+        show_param_section_titles = param_sections.size > 1 || (param_sections.one? && param_sections.first.title != 'General')
       %>
 
       <% if show_param_section_titles %>
