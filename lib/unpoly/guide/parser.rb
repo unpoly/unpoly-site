@@ -211,6 +211,9 @@ module Unpoly
       def parse_all(paths)
         doc_comments = paths.flat_map { |path| DocComment.find_in_path(path) }
 
+        total_size = doc_comments.sum { |dc| dc.text.size }
+        puts "TOTAL SIZE OF COMMENTS: #{total_size} characters"
+
         # First, parse all the partials so other documentables can @include partials
         # before further parsing.
         doc_comments.each do |doc_comment|
