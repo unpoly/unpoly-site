@@ -72,6 +72,14 @@ module Unpoly
         signature
       end
 
+      # def types
+      #   if feature&.selector?
+      #     ['Attribute']
+      #   else
+      #     @types
+      #   end
+      # end
+
       def title
         signature(with_default: false)
       end
