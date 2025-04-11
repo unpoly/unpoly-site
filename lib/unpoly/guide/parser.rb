@@ -116,6 +116,18 @@ module Unpoly
         \}        # closing brace
       }x
 
+      # TYPE_PATTERN = %r{
+      #   (
+      #     [^|]+ |
+      #     \(
+      #       (
+      #         [^)]+ |
+      #         \([^)]*\)
+      #       )
+      #     \)
+      #   )+
+      # }x
+
       TYPES_SEPARATOR = %r{
         [\ \t]*  # whitespace
         \|       # pipe symbol
@@ -576,8 +588,40 @@ module Unpoly
 
       def parse_types!(block)
         if block&.sub!(TYPES_PATTERN, '')
-          types = $1.split(TYPES_SEPARATOR)
+          types = split_types_expression($1)
           types
+        end
+      end
+
+      def split_types_expression(expression)
+        variables = []
+
+        braces_pattern = /(<[^<>]*>|\([^()]*\))/
+        variable_pattern = /§(\d+)/
+
+        while expression =~ braces_pattern
+          expression = expression.sub(braces_pattern) do |match|
+            variables << match
+            '§' + (variables.size - 1).to_s
+          end
+        end
+
+        types = expression.split(TYPES_SEPARATOR)
+
+        types.map do |type|
+          while type =~ variable_pattern
+            type = type.sub(variable_pattern) do |_match|
+              index = $1.to_i
+              variable = variables[index]
+              variable
+            end
+          end
+
+          if type[0] == '('
+            type = type[1..-2]
+          end
+
+          type
         end
       end
 
@@ -605,12 +649,12 @@ module Unpoly
       def verify_types_documented!(feature)
         feature.params.each do |param|
           if param.should_document_types? && param.types.blank?
-            raise MissingType, "Undocumented type: #{feature.name}/#{param.name}"
+            raise MissingType, "Undocumented param type: #{feature.name}/#{param.name}"
           end
         end
         if (response = feature.response)
           if response.should_document_types? && response.types.blank?
-            raise MissingType, "Undocumented type: #{feature.name}/return"
+            raise MissingType, "Undocumented param type: #{feature.name}/return"
           end
         end
       end
