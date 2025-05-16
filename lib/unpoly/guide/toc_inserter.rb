@@ -14,7 +14,7 @@ module Unpoly
         insert_position = nokogiri_doc.css([CONTENT_HEADING_SELECTOR, 'hr'].join(',')).first
         chars_before_insert_position = text_size_before(nokogiri_doc, insert_position)
 
-        if (headings.size >= 4) || (chars_before_insert_position >= 1000 && headings.size > 1)
+        if (headings.size >= 3) || (chars_before_insert_position >= 1000 && headings.size > 1)
           insert_toc_before(insert_position, headings)
           nokogiri_doc.to_html
         else
