@@ -342,17 +342,16 @@ helpers do
   def types(type_or_types)
     types = Array.wrap(type_or_types)
     parts = types.map { |type|
-      # type = h(type)
-
       # Markup composite types like `Function(up.Result): string`
-      content = type.gsub(/[a-z\.]+/i) { |subtype|
+      content = type.gsub(/[a-z\.]+|[^a-z\.]+/i) { |subtype_or_between|
 
-        location = guide.code_to_location(subtype)
+        location = location =~ /^[a-z]/i && guide.code_to_location(subtype_or_between)
 
         if location
-          "<a href='#{h location[:full_path]}'>#{subtype}</a>"
+          "<a href='#{h location[:full_path]}'>#{h subtype_or_between}</a>"
         else
-          subtype
+          # We either could not look up a location or we got a separator like "<"
+          h(subtype_or_between)
         end
       }
 

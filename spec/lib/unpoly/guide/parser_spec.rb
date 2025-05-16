@@ -20,6 +20,10 @@ module Unpoly
           expect(subject.send(:split_types_expression, 'List<Element|string>')).to eq(['List<Element|string>'])
         end
 
+        it 'parses a collection type parameterized with a union type that contains a function' do
+          expect(subject.send(:split_types_expression, 'Array<boolean|string|Function(Element)>')).to eq(['Array<boolean|string|Function(Element)>'])
+        end
+
         it 'parses a collection type parameterized with a union type, in a union with other types' do
           expect(subject.send(:split_types_expression, 'List<Element|string>|number')).to eq(['List<Element|string>', 'number'])
         end

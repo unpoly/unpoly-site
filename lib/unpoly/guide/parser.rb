@@ -116,6 +116,7 @@ module Unpoly
         \}        # closing brace
       }x
 
+
       # TYPE_PATTERN = %r{
       #   (
       #     [^|]+ |
