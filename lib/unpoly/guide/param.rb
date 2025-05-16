@@ -61,13 +61,16 @@ module Unpoly
         end
       end
 
-      def signature(with_default: true, em_name: false)
+      def signature(with_default: true, em_name: false, wbr: false)
         signature = "".html_safe
         signature << "[" if optional?
         signature << '<em>'.html_safe if em_name
         signature << name
         signature << '</em>'.html_safe if em_name
-        signature << "=#{default}" if with_default && default?
+        if with_default && default?
+          signature << "<wbr>".html_safe if wbr
+          signature << "=#{default}"
+        end
         signature << "]" if optional?
         signature
       end
