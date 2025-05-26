@@ -17,6 +17,7 @@ module Unpoly
         @admonitions = options.fetch(:admonitions, true)
         @link_current_path = options.fetch(:link_current_path, false)
         @current_path = options.fetch(:current_path) if autolink_code && !link_current_path
+        @normalize_heading_level = options.fetch(:normalize_heading_level, true)
         @shift_heading_level = options.fetch(:shift_heading_level, 0)
         # @auto_toc = options.fetch(:auto_toc, false)
         # @mark_code = options.fetch(:mark_code, true)
@@ -33,6 +34,7 @@ module Unpoly
       attr_reader :autolink_github_issues
       attr_reader :autolink_github_users
       attr_reader :shift_heading_level
+      attr_reader :normalize_heading_level
       # attr_reader :auto_toc
       # attr_reader :mark_code
 
@@ -139,6 +141,10 @@ module Unpoly
           end
         end
 
+        if normalize_heading_level
+          do_normalize_heading_level(nokogiri_doc)
+        end
+
         if shift_heading_level != 0
           do_shift_heading_level(nokogiri_doc, shift_heading_level)
         end
@@ -190,13 +196,31 @@ module Unpoly
       #   find_headings(nokogiri_doc).select { |heading| heading_level(heading) == min_heading_level }
       # end
 
+      def do_normalize_heading_level(nokogiri_doc, min: 2, max: 4)
+        headings = nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup
+
+        min_level_in_prose = headings.map { |heading| heading_level(heading) }.min
+        headings.each do |heading|
+          level = heading_level(heading)
+          new_level = [level - min_level_in_prose + min, max].min
+          heading.name = "h#{new_level}"
+          # heading['class'] = "h#{new_level - 1}"
+        end
+
+        nokogiri_doc
+      end
+
       def find_headings(nokogiri_doc)
         nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup
       end
 
+      def heading_level(heading)
+        heading.name[1].to_i
+      end
+
       def do_shift_heading_level(nokogiri_doc, diff)
         find_headings(nokogiri_doc).each do |heading|
-          level = heading.name[1].to_i
+          level = heading_level(heading)
           heading.name = "h#{level + diff}"
         end
       end
