@@ -1,34 +1,14 @@
-// let markedElement = null
-//
-// window.addEventListener('hashchange', function () {
-//   if (var previousElement = e.)
-//   if (markedElement) {
-//     markedElement.classList.remove('hash-target')
-//   }
-//
-//   if (location.hash && (markedElement = document.querySelector(location.hash))) {
-//     markedElement.classList.add('hash-target')
-//   }
-// });
+function test(elementWithID) {
+  let hash = location.hash
+  let id = elementWithID.id
 
-let markedElement = null
+  let isTarget = (hash) && (hash !== '#') && (hash === "#" + id)
 
-up.compiler('[id]', { batch: true }, function(elements) {
-  if (markedElement) {
-    markedElement.classList.remove('hash-target')
-  }
+  elementWithID.classList.toggle('hash-target', isTarget)
+}
 
-  var hash = location.hash
-
-  if (!hash) {
-    return
-  }
-
-  var matchesHash = function(element) { return hash === "#" + element.getAttribute('id') }
-  var newElement = up.util.find(elements, matchesHash)
-
-  if (newElement) {
-    newElement.classList.add('hash-target')
-    markedElement = newElement
-  }
+up.compiler('[id]', function(element) {
+  let doTest = () => test(element)
+  doTest()
+  return up.on('up:location:changed', doTest)
 })

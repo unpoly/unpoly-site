@@ -7,10 +7,19 @@
 
 .heading-anchor--link
   text-decoration: none !important
-  color: #bbb !important
+  color: #aaa !important
+  opacity: 0.6
   visibility: hidden // don't show the link while not hovering, but let it take up space so we can hover over it
+  &:hover
+    opacity: 0.8
 
 h1, h2, h3, h4, h5, [anchor-link], .heading-anchor
   &:hover
     .heading-anchor--link
       visibility: visible
+
+  &.hash-target
+    .heading-anchor--link
+      visibility: visible
+      color: $COLOR_TERTIARY !important
+

@@ -48,11 +48,9 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
     border-top: $param-border
     padding-top: $param-spacing
 
-  &:target, &.hash-target
-    // When directly jumping to the param, highlight it.
-    // Unfortunately that does not work after the initial page load,
-    // due to a bug in Webkit and Firefox :(
-    background-color: $COLOR_MARK
+  //&.hash-target
+  //  // When directly jumping to the param, highlight it.
+  //  background-color: $COLOR_MARK
 
 .feature__param_info
   // For the response, the headline is in there
