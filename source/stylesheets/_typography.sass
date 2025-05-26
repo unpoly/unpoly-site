@@ -33,13 +33,18 @@ h1, .h1
 
 h2, .h2
   +font-size(24px)
+  $border-color: #e0e0e0
   color: #555
   margin-top: $BLOCK_SPACING * 1.3
   margin-bottom: $BLOCK_SPACING * 0.75
   position: relative
   +bold
 
-  //h1 + &,
+  .prose &
+    border-top: 1px solid #e0e0e0
+    padding-top: $BLOCK_SPACING * 1
+
+//h1 + &,
   //h1 + div>&,
   //h1 + div>div>&
   //h1 + div>div>div>&
