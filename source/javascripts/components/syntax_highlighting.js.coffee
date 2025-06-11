@@ -4,20 +4,22 @@
 hljs.configure
   languages: ['javascript', 'html', 'css', 'ruby', 'http']
 
-up.compiler 'pre code', (fragment) ->
-  hljs.highlightElement(fragment)
+up.compiler 'pre code', (codeElement) ->
+  preElement = codeElement.closest('pre')
 
-  html = fragment.innerHTML
+  hljs.highlightElement(codeElement)
 
-  markedHTML = html
+  html = codeElement.innerHTML
 
-  markedHTML = markedHTML.replaceAll(
-    /^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-line\b.*?<\/span>$/mg,
+  postprocessedHTML = html
+
+  postprocessedHTML = postprocessedHTML.replaceAll(
+    /^(\s*)(.+?)\s*<span class="hljs-comment">.{0,10}\bmark-line\b.*?<\/span>$/mg,
     '$1<mark>$2</mark>'
   )
 
-  markedHTML = markedHTML.replaceAll(
-    /^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-phrase (?:"([^"]+)"|'([^']+)').*?<\/span>(<span class="language-\w+">)?$/mg,
+  postprocessedHTML = postprocessedHTML.replaceAll(
+    /^(\s*)(.+?)\s*<span class="hljs-comment">.{0,10}\bmark-phrase (?:"([^"]+)"|'([^']+)').*?<\/span>(<span class="language-\w+">)?$/mg,
     (match, indent, code, phrase1, phrase2, nextLanguage) ->
       phrase = (phrase1 || phrase2).trim()
       suffix = (nextLanguage || '')
@@ -31,5 +33,30 @@ up.compiler 'pre code', (fragment) ->
 #      indent + code.replace(phrase, '<mark>$&</mark>')
 #  )
 
-  if html != markedHTML
-    fragment.innerHTML = markedHTML
+  postprocessedHTML = postprocessedHTML.replace(
+    /^<span class="hljs-comment">.{0,10}\blabel (?:"([^"]+)"|'([^']+)')[^\n]*\n/,
+    (match, label1, label2) ->
+      labelText = label1 || label2
+      labelUID = "code-block-label-" + up.util.uid()
+      labelElement = up.element.createFromSelector('.code-block-label', text: labelText, id: labelUID)
+      preElement.prepend(labelElement)
+      preElement.setAttribute('aria-describedby', labelUID)
+      return '' # remove comment + newline
+  )
+
+  if html != postprocessedHTML
+    codeElement.innerHTML = postprocessedHTML
+
+#  firstCodeChild = codeElement.children[0]
+#
+#  labelPattern = /^.{0,10}\blabel (?:"([^"]+)"|'([^']+)')/
+#
+#  if (firstCodeChild && firstCodeChild.matches('.hljs-comment'))
+#    labelPatternMatch = labelPattern.exec(firstCodeChild.innerText)
+#    if labelPatternMatch
+#      preElement = codeElement.closest('pre')
+#      firstCodeChild.remove()
+#      labelText = labelPatternMatch[1] || labelPatternMatch[2]
+#      labelElement = up.element.createFromSelector('.code-block-label', text: labelText)
+#      preElement.prepend(labelElement)
+#      preElement.setAttribute('aria-label', labelText)
