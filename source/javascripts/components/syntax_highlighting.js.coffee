@@ -4,6 +4,13 @@
 hljs.configure
   languages: ['javascript', 'html', 'css', 'ruby', 'http']
 
+removeCommentDelimiters = (phrase) ->
+  phrase = phrase.trim()
+  phrase = phrase.replace(/^(\<!--|&lt;!--|#|\/\/|\/\*)/, '')
+  phrase = phrase.replace(/(-->|--&gt;|\*\/)$/, '')
+  phrase = phrase.trim()
+  phrase
+
 up.compiler 'pre code', (codeElement) ->
   preElement = codeElement.closest('pre')
 
@@ -19,24 +26,25 @@ up.compiler 'pre code', (codeElement) ->
   )
 
   postprocessedHTML = postprocessedHTML.replaceAll(
-    /^(\s*)(.+?)\s*<span class="hljs-comment">.{0,10}\bmark-phrase (?:"([^"]+)"|'([^']+)').*?<\/span>(<span class="language-\w+">)?$/mg,
-    (match, indent, code, phrase1, phrase2, nextLanguage) ->
-      phrase = (phrase1 || phrase2).trim()
+    /^(\s*)(.+?)\s*<span class="hljs-comment">.{0,10}\bmark-phrase:\s+(.+)<\/span>(<span class="language-\w+">)?$/mg,
+    (match, indent, code, phrase, nextLanguage) ->
+      phrase = removeCommentDelimiters(phrase)
       suffix = (nextLanguage || '')
       indent + code.replace(phrase, '<mark>$&</mark>') + suffix
   )
 
-#  markedHTML = markedHTML.replaceAll(
-#    /^(\s*)(.+?)\s*<span class="hljs-comment">.*?\bmark-pattern \/([^\/])\/.*?<\/span>$/mg,
-#    (match, indent, code, pattern) ->
-#      pattern = new RegExp(pattern)
-#      indent + code.replace(phrase, '<mark>$&</mark>')
-#  )
+  postprocessedHTML = postprocessedHTML.replaceAll(
+    /^(\s*)(.+?\s*)<span class="hljs-comment">.{0,10}\b(chip|result):\s+(.+)<\/span>(<span class="language-\w+">)?$/mg,
+    (match, indent, code, kind, phrase, nextLanguage) ->
+      phrase = removeCommentDelimiters(phrase)
+      suffix = (nextLanguage || '')
+      indent + code + ('<span class="code-chip -' + kind + '">') + phrase + '</span>' + suffix
+  )
 
   postprocessedHTML = postprocessedHTML.replace(
-    /^<span class="hljs-comment">.{0,10}\blabel (?:"([^"]+)"|'([^']+)')[^\n]*\n/,
-    (match, label1, label2) ->
-      labelText = label1 || label2
+    /^<span class="hljs-comment">.{0,10}\blabel:\s+([^\n]+?)<\/span>\n/,
+    (match, labelText) ->
+      labelText = removeCommentDelimiters(labelText)
       labelUID = "code-block-label-" + up.util.uid()
       labelElement = up.element.createFromSelector('.code-block-label', text: labelText, id: labelUID)
       preElement.prepend(labelElement)
@@ -46,17 +54,3 @@ up.compiler 'pre code', (codeElement) ->
 
   if html != postprocessedHTML
     codeElement.innerHTML = postprocessedHTML
-
-#  firstCodeChild = codeElement.children[0]
-#
-#  labelPattern = /^.{0,10}\blabel (?:"([^"]+)"|'([^']+)')/
-#
-#  if (firstCodeChild && firstCodeChild.matches('.hljs-comment'))
-#    labelPatternMatch = labelPattern.exec(firstCodeChild.innerText)
-#    if labelPatternMatch
-#      preElement = codeElement.closest('pre')
-#      firstCodeChild.remove()
-#      labelText = labelPatternMatch[1] || labelPatternMatch[2]
-#      labelElement = up.element.createFromSelector('.code-block-label', text: labelText)
-#      preElement.prepend(labelElement)
-#      preElement.setAttribute('aria-label', labelText)

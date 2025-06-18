@@ -1,0 +1,36 @@
+@import ../../environment
+
+.code-chip
+  display: inline-block
+  +font-size(13px)
+  color: #555
+  border: 1px solid #989898
+  padding: 1px 4px
+  border-radius: 2px
+  background-color: white
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.03)
+
+  user-select: none
+
+  &.-result
+    &:before
+      content: "🠊"
+      margin-right: 0.3em
+      color: #aaa
+      //line-height: 1em
+
+  //&:hover
+  //  transform: scale(1.4)
+  //  z-index: 9999999
+  //  user-select: text
+
+  //
+  //&.-result
+  //  &:before
+  //    content: "\f105"
+  //    //font-size: 0.8em
+  //    font-family: FontAwesome
+  //    margin-right: 0.3em
+  //    color: #777
+  //    //line-height: 1em
+  //
