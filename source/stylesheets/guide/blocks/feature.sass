@@ -56,14 +56,18 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
   // For the response, the headline is in there
   +hide-first-margins
 
-.feature__param_name
+.feature__param_signature
   +monospace-font
   font-size: $FONT_SIZE
   +bold
   color: #a0a0a0
-  em
-    color: #545454
 
+.feature__param_name
+  white-space: nowrap
+  color: #545454
+
+.feature__param_default
+  white-space: nowrap
 
 .feature__param_experimental_icon
   color: #707070

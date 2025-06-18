@@ -118,8 +118,8 @@
 
 
             <div class="feature__param_info">
-              <span class="feature__param_name">
-                <%= param.signature(em_name: true, wbr: true) %>
+              <span class="feature__param_signature">
+                <%= param.signature(html_class_prefix: 'feature__param', wbr: true) %>
               </span>
               <% if param.experimental? && !feature.experimental? %>
                 <span class="feature__param_experimental_icon" title="Experimental">

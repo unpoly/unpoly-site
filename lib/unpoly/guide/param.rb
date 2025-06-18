@@ -61,15 +61,18 @@ module Unpoly
         end
       end
 
-      def signature(with_default: true, em_name: false, wbr: false)
+      def signature(with_default: true, html_class_prefix: nil, wbr: false)
         signature = "".html_safe
         signature << "[" if optional?
-        signature << '<em>'.html_safe if em_name
+        signature << "<span class='#{html_class_prefix}_name'>".html_safe if html_class_prefix
         signature << name
-        signature << '</em>'.html_safe if em_name
+        signature << '</span>'.html_safe if html_class_prefix
         if with_default && default?
+          signature << "="
           signature << "<wbr>".html_safe if wbr
-          signature << "=#{default}"
+          signature << "<span class='#{html_class_prefix}_default'>".html_safe if html_class_prefix
+          signature << default
+          signature << '</span>'.html_safe if html_class_prefix
         end
         signature << "]" if optional?
         signature
