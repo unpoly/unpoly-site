@@ -26,7 +26,7 @@ up.compiler 'pre code', (codeElement) ->
   )
 
   postprocessedHTML = postprocessedHTML.replaceAll(
-    /^(\s*)(.+?)\s*<span class="hljs-comment">.{0,10}\bmark-phrase:\s+(.+)<\/span>(<span class="language-\w+">)?$/mg,
+    /^(\s*)(.+?)\s*<span class="hljs-comment">.{0,10}\bmark:\s+(.+)<\/span>(<span class="language-\w+">)?$/mg,
     (match, indent, code, phrase, nextLanguage) ->
       phrase = removeCommentDelimiters(phrase)
       suffix = (nextLanguage || '')

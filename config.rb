@@ -210,7 +210,7 @@ helpers do
   end
 
   # def remove_mark_phrase_comments(markdown)
-  #   markdown.gsub(/\s*(<!--|\/*|\/\/|<%=#|#)\s+mark-phrase ["'][^\n]+/, '')
+  #   markdown.gsub(/\s*(<!--|\/*|\/\/|<%=#|#)\s+mark ["'][^\n]+/, '')
   # end
 
   def normalized_current_path
