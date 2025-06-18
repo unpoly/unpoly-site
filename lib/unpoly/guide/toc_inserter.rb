@@ -119,9 +119,10 @@ module Unpoly
           level = heading_level(heading)
 
           # A lot of legacy pages start out with <h3> levels, but have <h2> farther down
-          if heading[:id].present? && heading[:toc] != 'false' && (min_level.nil? || level <= min_level)
+          if heading[:id].present? && heading[:toc] != 'false' && (min_level.nil? || level <= min_level || heading[:toc] == 'true')
             results << heading
-            min_level = level
+            min_level ||= level
+            min_level = [min_level, level].min
           end
         end
 
