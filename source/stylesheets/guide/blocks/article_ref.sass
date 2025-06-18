@@ -1,51 +1,42 @@
 @import ../../environment
 
 a.article-ref
-  +vertical_margin(1.1em)
   font-style: italic
-  //background-color: #eee
-  display: block
-  //border-top: 1px solid #999
-  //padding-top: 0.5em
-  //border-bottom: 1px solid #999
-  //padding-bottom: 0.5em
-  //padding: 0.3em 0.6em
-  //border: 1px solid #aaa
-  //border-radius: 2px
-  //background-color: #999
-  //color: white
+  display: table
+
+  // Add some padding to make it pretty when active
+  $padding-y: 0.05em
+  $padding-x: 0.2em
+  padding: $padding-y $padding-x
+  border-radius: 2px
+  margin-left: 1em - $padding-x
+  +vertical_margin(1.1em - $padding-y)
 
   &, .prose &
     +hyperlink($COLOR_SECONDARY)
     //+bold
 
-  &:before
-    margin-left: 1em
+  &::before
     content: "\f0a4"
     font-family: FontAwesome
     font-style: normal
-    //font-weight: normal
     float: left
-    margin-right: 0.2em
+    margin-right: 0.3em
     color: $COLOR_TEXT !important
+    margin-top: -0.03em
 
-  &:active:before
-    color: white !important
-
-
-  &:after
+  &::after
     content: attr(data-label, 'Main article') ":"
     float: left
-    margin-right: 0.2em
-    //font-weight: normal
+    margin-right: 0.3em
     color: $COLOR_TEXT !important
 
-  &:active:after
-    color: white !important
+  &.up-active::before,
+  &.up-active::after
+    color: rgba(255, 255, 255, 0.7) !important
 
   //a
   //  +hyperlink($COLOR_SECONDARY)
-
 
   //a, .prose & a
   //  +hyperlink(white)
@@ -54,3 +45,19 @@ a.article-ref
   //  text-transform: uppercase
   //  font-size: 0.8em
   //  +bold
+
+  &:has(+&)
+    float: left
+    +vertical-margin(0)
+    &:after
+      content: attr(data-label, 'Main articles') ":"
+
+  &+&
+    margin-left: 0
+    //padding-left: 0
+
+    &:before
+      display: none
+    &:after
+      display: none
+
