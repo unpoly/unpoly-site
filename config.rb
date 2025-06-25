@@ -344,8 +344,7 @@ helpers do
     parts = types.map { |type|
       # Markup composite types like `Function(up.Result): string`
       content = type.gsub(/[a-z\.]+|[^a-z\.]+/i) { |subtype_or_between|
-
-        location = location =~ /^[a-z]/i && guide.code_to_location(subtype_or_between)
+        location = (subtype_or_between =~ /^[a-z]/i) && guide.code_to_location(subtype_or_between)
 
         if location
           "<a href='#{h location[:full_path]}'>#{h subtype_or_between}</a>"

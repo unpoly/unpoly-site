@@ -310,6 +310,12 @@ describe Unpoly::Guide do
       expect(location[:full_path]).to eq('/up.fragment.config#config.mainTargets')
     end
 
+    it 'matches a class' do
+      location = subject.code_to_location('List')
+      expect(location).to be_present
+      expect(location[:full_path]).to eq('/List')
+    end
+
   end
 
 end
