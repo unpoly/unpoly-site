@@ -228,8 +228,19 @@
         >*:first-child
           margin-top: 0 !important
 
+=hide-margins-y
+  +hide-first-margins
+  +hide-last-margins
+
 =subtle-shadow
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+  box-shadow: $SUBTLE_SHADOW
+
+=card
+  border: $CARD_BORDER
+  padding: $CARD_PADDING
+  border-radius: $CARD_ROUNDNESS
+  box-shadow: $CARD_SHADOW
+  +vertical_margin($CARD_SPACING)
 
 =when-stable
   .is_stable &

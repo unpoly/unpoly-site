@@ -1,6 +1,6 @@
 @import ../../environment
 
-$section_spacing: 10px
+$section_spacing: 15px
 
 =underline-section($color)
   box-shadow: inset 0 -2px 0 $color
@@ -12,6 +12,9 @@ $section_spacing: 10px
   position: relative
   width: 100%
   +clearfix
+  display: flex
+  align-items: center
+  gap: $section_spacing
 
 .top_nav__section
   color: white
@@ -21,8 +24,8 @@ $section_spacing: 10px
   display: inline-block
   margin-top: 1px
 
-  + .top_nav__section
-    margin-left: $section_spacing
+  //+ .top_nav__section
+  //  margin-left: $section_spacing
 
   &.up-current
     +underline-section(rgba(255, 255, 255, 0.4))
@@ -33,11 +36,18 @@ $section_spacing: 10px
   +on_narrow
     display: none
 
+  &.is_support
+    background-color: white
+    border-radius: 5px
+    padding: 3px 5px 1px 5px
+    margin-top: -1px
+    color: $COLOR_MAIN
+
 //.top_nav__version
 //  opacity: 0.5
 
 .top_nav__right
-  float: right
+  margin-left: auto
 
   +narrower_than(1000px)
     display: none
@@ -51,6 +61,7 @@ $section_spacing: 10px
 
 .is_hamburger
   display: none
-  float: right
+  margin-left: auto
+
   +on_narrow
     display: inline

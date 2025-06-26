@@ -12,6 +12,8 @@ RewriteRule ^(.+?)$  /$1/index.html [L]
 RedirectPermanent /install/rails /install/ruby
 RedirectPermanent /install/zip /install/download
 
+RedirectPermanent /community /support
+
 <%= guide.migrate_redirects %>
 
 Header set Cache-Control "max-age=0, private"

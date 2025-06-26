@@ -1,0 +1,39 @@
+@import ../../environment
+
+.service
+  +card
+  display: grid
+  grid-template-columns: 1fr 130px
+  grid-template-rows: auto 1fr auto
+  gap: 14px 20px
+  grid-template-areas: "title pricing-title" "description pricing-details" "description action"
+  max-width: 800px
+
+.service--title
+  margin: 0
+  grid-area: title
+
+.service--description
+  grid-area: description
+  +hide-margins-y
+  p, ul
+    +vertical-margin(0.6em)
+
+.service--pricing-title
+  grid-area: pricing-title
+  +bold
+  color: #666
+  text-transform: uppercase
+  font-size: 0.95em
+  letter-spacing: 0.05em
+
+.service--pricing-details
+  grid-area: pricing-details
+
+.service--pricing-fineprint
+  margin-top: 5px
+  +font-size(13px)
+
+.service--area
+  grid-area: area
+
