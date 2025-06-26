@@ -97,7 +97,7 @@ module Unpoly
         # end
 
         if pictures
-          nokogiri_doc.css('img:not([class])').each do |element|
+          nokogiri_doc.css('img:not([class]):not([picture=false])').each do |element|
             element[:class] = 'picture has_border'
           end
         end
