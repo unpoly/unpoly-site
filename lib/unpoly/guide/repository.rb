@@ -107,6 +107,10 @@ module Unpoly
         end
       end
 
+      def stable_version
+        version.sub(/-.+$/, '')
+      end
+
       def short_version
         # version.sub(/-.+$/, '')
         version.scan(/^\d+\.\d+/)[0]

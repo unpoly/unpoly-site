@@ -1,7 +1,7 @@
 <div class="hero">
 
   <div class="hero--notification notification">
-    <p>Unpoly <a href="/changes/<%= guide.version %>"><%= guide.version %></a> is now available.</p>
+    <p>Unpoly <a href="/changes/<%= guide.stable_version %>"><%= guide.stable_version %></a> is now available.</p>
     <p>To stay up to date, <a href="/support/discussions" up-layer="new modal" up-size="medium">watch GitHub Discussions</a> or <a href="https://x.com/unpolyjs">follow us on 𝕏</a>.</p>
   </div>
 
@@ -56,7 +56,7 @@
     </span>
     <span>
       <%= hyperlink 'Validate forms', '/validation' %>,
-      <%= hyperlink 'update dependent fields', '/dependent-fields' %>
+      <%= hyperlink 'update dependent fields', '/reactive-server-forms' %>
       and use <%= hyperlink 'multi-step forms within modals', '/subinteractions' %>.
     </span>
   </div>
@@ -212,7 +212,7 @@
     Avoid real-world race conditions by
 
     <%= hyperlink 'smart aborting', '/aborting-requests' %>,
-    <%= hyperlink 'batched validations', '/dependent-fields#preventing-race-conditions' %> and
+    <%= hyperlink 'batched validations', '/reactive-server-forms#preventing-race-conditions' %> and
     <%= hyperlink 'disabling submitted forms', '/disabling-forms' %>.
   </div>
 </div>
