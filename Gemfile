@@ -4,7 +4,8 @@ gem 'memoized'
 gem 'andand'
 gem 'nokogiri'
 
-gem "middleman", '<5'
+gem 'webrick'
+gem "middleman", '=4.6.1'
 gem 'kramdown-parser-gfm'
 
 gem "middleman-sprockets"
@@ -16,7 +17,7 @@ gem 'terser'
 gem 'naturally'
 
 gem 'byebug'
-gem 'rack', '=2.0.8'
+gem 'rack'
 
 gem 'algolia'
 

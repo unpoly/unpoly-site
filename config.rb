@@ -52,7 +52,8 @@ configure :build do
         begin
           require 'html-proofer'
           HTMLProofer.check_directory('.', {
-            assume_extension: true, url_ignore: [/github\.com/],
+            assume_extension: '.html',
+            url_ignore: [/github\.com/],
             file_ignore: [
               './CHANGELOG.md',
               './changes/google_groups/index.html',
@@ -60,6 +61,7 @@ configure :build do
               # %r(^./changes/[\d\.]+(-[a-z0-9]+)?/),
             ],
             disable_external: true,
+            enforce_https: false,
             checks_to_ignore: ['ImageCheck']
           }).run
           puts "All links OK."
