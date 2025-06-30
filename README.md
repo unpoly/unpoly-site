@@ -38,19 +38,6 @@ The `up.link` module lets you build links that update fragments instead of entir
 */
 ```
 
-In a CoffeeScript file (`.coffee`) they will look like this::
-
-```
-###-
-Linking to fragments
-====================
-
-The `up.link` module lets you build links that update fragments instead of entire pages.
-
-@module up.link
-###
-```
-
 The documentation syntax is inspired by [YUIDoc](http://yui.github.io/yuidoc/syntax/). We added many extensions to that syntax to document events, selectors, etc.
 
 Documentation changes should be picked up by reloading. You probably need to restart your development server when you create a *new* API reference page.
