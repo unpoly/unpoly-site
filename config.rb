@@ -261,7 +261,7 @@ helpers do
     require 'active_support/gzip'
     source = ''
     paths.each do |path|
-      File.exists?(path) or raise "Asset not found: #{path}"
+      File.exist?(path) or raise "Asset not found: #{path}"
       source << File.read(path)
     end
     kbs = (ActiveSupport::Gzip.compress(source).length / 1024.0).round(1)

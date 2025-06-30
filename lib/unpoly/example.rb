@@ -108,7 +108,7 @@ module Unpoly
 
     memoize def config
       path = "#{@folder}/example.yml"
-      if File.exists?(path)
+      if File.exist?(path)
         YAML.load_file(path)
       else
         {}

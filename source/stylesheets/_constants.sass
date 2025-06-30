@@ -1,3 +1,6 @@
+@function shift-rgb($color, $amount)
+  @return adjust-color($color, $red: $amount, $green: $amount, $blue: $amount)
+
 $COLOR_TURQUOISE: #1ABC9C
 $COLOR_GREEN_SEA: #16A085
 $COLOR_EMERALD: #2ECC71
@@ -30,11 +33,11 @@ $COLOR_MUTED_BLUE: #3182bd
 
 // Palette: https://coolors.co/a6ebc9-61ff7e-5eeb5b-62ab37-393424
 
-$COLOR_MAIN: $COLOR_ALIZARIN - 10
+$COLOR_MAIN: shift-rgb($COLOR_ALIZARIN, -10)
 $COLOR_MAIN: hsl(13, 100%, 46%)
 $COLOR_MAIN: hsl(0, 86%, 55%)
 $COLOR_MAIN: hsl(0, 86%, 53%)
-$COLOR_SECONDARY: desaturate($COLOR_ALIZARIN - 40, 50%)
+$COLOR_SECONDARY: desaturate(shift-rgb($COLOR_ALIZARIN, -40), 50%)
 $COLOR_SECONDARY: hsl(234, 20%, 40%)
 $COLOR_SECONDARY: hsl(337, 23%, 35%)
 $COLOR_SECONDARY: hsl(337, 41%, 35%)
@@ -61,7 +64,7 @@ $COLOR_QUATERNARY: hsl(37, 82%, 61%)
 //$COLOR_SECONDARY: $COLOR_WISTERIA
 
 $COLOR_LINK: $COLOR_MAIN
-$COLOR_HOVER: $COLOR_MAIN + 20
+$COLOR_HOVER: shift-rgb($COLOR_MAIN, +20)
 $COLOR_MARK: #fff668
 
 $COLOR_LEFT: $COLOR_SECONDARY

@@ -5,7 +5,7 @@ gem 'andand'
 gem 'nokogiri'
 
 gem 'webrick'
-gem "middleman", '=4.6.1'
+gem "middleman", '<5'
 gem 'kramdown-parser-gfm'
 
 gem "middleman-sprockets"
@@ -24,7 +24,7 @@ gem 'algolia'
 group :deploy do
   gem "capistrano", '<4'
   gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'
-  gem 'html-proofer'
+  gem 'html-proofer', '<4'
 end
 
 group :test do

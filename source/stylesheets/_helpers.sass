@@ -1,3 +1,6 @@
+@function shift-rgb($color, $amount)
+  @return adjust-color($color, $red: $amount, $green: $amount, $blue: $amount)
+
 =hover
   &:hover, &:focus
     @content
