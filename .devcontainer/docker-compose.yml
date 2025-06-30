@@ -1,12 +1,12 @@
 ---
 version: "3.7"
-services: 
+services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        VARIANT: "2.6"
+        VARIANT: "3.4.4"
     command: "/bin/bash -c '(bundle check || bundle install) && bundle exec middleman serve'"
     volumes:
       - "../../unpoly:/workspaces/unpoly"
