@@ -1,11 +1,5 @@
 let index
 
-try {
-  const client = algoliasearch('HQEWMGFXBZ', 'c46b02ab3bf1018d8b2a240e8f70f101')
-  index = client.initIndex(<%= algolia_index.to_json %>)
-} catch (error) {
-  console.error('Could not initialize Algolia index', error)
-}
 
 const SEARCH_CONFIG = {
   hitsPerPage: 15,
@@ -17,7 +11,23 @@ const SEARCH_CONFIG = {
   highlightPostTag: '</mark>'
 }
 
-up.compiler('.content_search', function(container) {
+function getIndex(name) {
+  return window.ALGOLIA_INDEX ||= buildIndex(name)
+}
+
+function buildIndex(name) {
+  try {
+    if (!name) throw new Error('No Algolia index name given')
+    const client = algoliasearch('HQEWMGFXBZ', 'c46b02ab3bf1018d8b2a240e8f70f101')
+    return client.initIndex(name)
+  } catch (error) {
+    console.error('Error building Algolia index: %o', error)
+  }
+}
+
+up.compiler('.content_search', function(container, data) {
+  let index = getIndex(data.algoliaIndex)
+
   if (!index) {
     up.element.hide(container)
     document.querySelectorAll('.content_search__related').forEach(up.element.hide)

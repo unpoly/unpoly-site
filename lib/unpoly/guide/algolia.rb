@@ -8,19 +8,18 @@ module Unpoly
       def push_all
         key = ENV['ALGOLIA_KEY'] or raise CannotPush, "Requires environment variable ALGOLIA_KEY with the Algolia admin key"
         stage = ENV['ALGOLIA_STAGE'] || ENV['STAGE'] or raise "Requires ALGOLIA_STAGE or STAGE (from Capistrano)"
-        index = "unpoly-site_#{stage}"
+        index_name = "unpoly-site_#{stage}"
 
-        client = ::Algolia::Search::Client.create('HQEWMGFXBZ', key)
+        client = ::Algolia::SearchClient.create('HQEWMGFXBZ', key)
 
-        index = client.init_index(index)
-        index.clear_objects
+        client.clear_objects(index_name)
 
         guide = Guide.current
 
         documentables = guide.interfaces + guide.features
         documentables.select!(&:guide_page?)
         objects = documentables.map { |documentable| documentable_to_algolia_object(documentable) }
-        response = index.save_objects(objects)
+        response = client.save_objects(index_name, objects, true)
         p response
       end
 
