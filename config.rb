@@ -240,7 +240,7 @@ helpers do
     page_title = @page_title || current_page.data.title
 
     if page_title.present?
-      "#{page_title} | Unpoly"
+      "#{page_title} - Unpoly"
     else
       "Unpoly - Progressive enhancement for HTML"
     end
