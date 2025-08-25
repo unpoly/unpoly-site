@@ -13,6 +13,24 @@ const removeCommentCloser = function(phrase) {
   return phrase
 }
 
+function markOutsideMask(string) {
+  let parts = string.split(/(§\d+)/)
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      parts[i] = '<mark>' + parts[i] + '</mark>'
+    }
+  }
+  return parts.join('')
+}
+
+function markInHighlightedHTML(html, phrase) {
+  let { masked, restore } = up.util.maskPattern(html, [/(<[^>]+>)+/g])
+  let interruptedPhrasePattern = phrase.replaceAll(/([a-z]+|[0-9]+|.)/gi, (match) => up.util.escapeRegExp(match) + '(§\\d+)?')
+  let interruptedPhraseRegExp = new RegExp(interruptedPhrasePattern)
+  let marked = masked.replace(interruptedPhraseRegExp, markOutsideMask)
+  return restore(marked)
+}
+
 up.compiler('pre code', function(codeElement) {
   const preElement = codeElement.closest('pre')
 
@@ -37,7 +55,9 @@ up.compiler('pre code', function(codeElement) {
     function(match, indent, code, phrase, nextLanguage) {
       phrase = removeCommentCloser(phrase)
       const suffix = (nextLanguage || '')
-      return indent + code.replace(phrase, '<mark>$&</mark>') + suffix
+      return indent + markInHighlightedHTML(code, phrase) + suffix
+
+      // return indent + code.replace(phrase, '<mark>$&</mark>') + suffix
   })
 
   postprocessedHTML = postprocessedHTML.replaceAll(
