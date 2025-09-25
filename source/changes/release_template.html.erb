@@ -31,6 +31,6 @@
     <%= release_html %>
   </div>
 
-  <%= partial('changes/upgrading_teaser') %>
+  <%= partial('changes/upgrading_teaser', locals: { release: release }) %>
 
 <% end %>

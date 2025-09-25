@@ -61,7 +61,14 @@ module Unpoly
         end
 
         memoize def commit_count
-          if first_commit && last_commit
+          if version == "0.1.0"
+            in_repository do
+              raw = `git rev-list --count #{last_commit}`.strip
+              if raw.present? && raw != '0'
+                raw.to_i
+              end
+            end
+          elsif first_commit && last_commit
             in_repository do
               raw = `git log --pretty=oneline #{first_commit}...#{last_commit} | wc -l`.strip
               if raw.present? && raw != '0'
@@ -73,6 +80,10 @@ module Unpoly
 
         def in_repository(&block)
           Dir.chdir(@repository_path, &block)
+        end
+
+        def can_unpoly_migrate?
+          !version.starts_with?("0.") && !version.starts_with?("1.")
         end
 
       end
@@ -118,7 +129,7 @@ module Unpoly
 
           releases << Release.new(
             version: version,
-            markdown: release_markdown,
+            markdown: release_markdown.strip,
             repository_path: repository_path,
             is_current_major: (current_major == release_major),
           )
