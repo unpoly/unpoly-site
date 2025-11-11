@@ -1,0 +1,25 @@
+---
+layout: false
+---
+<!doctype html>
+<html>
+  <head>
+    <%= partial 'layouts/meta' %>
+  </head>
+  <body>
+    <% guide.reload if development? %>
+
+<pre>
+<%- guide.releases.each do |release| -%>
+<%- release_title = release.version + ' (' + release.date.to_s + ') (' + pluralize(release.commit_count, 'commit', 'commits') + ')' %>
+<%= release_title %>
+<%= '-' * release_title.size %>
+
+<%= h release.markdown %>
+
+
+<%- end -%>
+</pre>
+
+  </body>
+</html>
