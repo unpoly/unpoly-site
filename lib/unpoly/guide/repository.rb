@@ -7,8 +7,8 @@ module Unpoly
 
       PROMOTED_INTERFACE_NAMES = %w[
         up.link
-        up.script
         up.form
+        up.script
         up.layer
         up.fragment
         up.radio
