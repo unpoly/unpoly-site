@@ -1,7 +1,8 @@
 <div class="hero">
 
   <div class="hero--notification notification">
-    <p>Unpoly <a href="/changes/<%= guide.stable_version %>"><%= guide.stable_version %></a> is now available.</p>
+    <% promoted_version_info = guide.promoted_version_info %>
+    <p>Unpoly <a href="/changes/<%= promoted_version_info[:version] %>"><%= promoted_version_info[:label] %></a> is now available.</p>
     <p>To stay up to date, <a href="/support/discussions" up-layer="new modal" up-size="medium">watch GitHub Discussions</a> or <a href="https://x.com/unpolyjs">follow us on 𝕏</a>.</p>
   </div>
 

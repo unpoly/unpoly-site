@@ -106,6 +106,22 @@ module Unpoly
         end
       end
 
+      def promoted_version_info
+        match = stable_version.match(/^(\d+\.\d+\.)(\d+)$/)
+
+        if match
+          prefix, patch_level = match.captures
+          if patch_level.to_i > 0
+            feature_version = prefix + "0"
+            if versions.include?(feature_version)
+              return { version: feature_version, label: prefix + "x" }
+            end
+          end
+        end
+
+        { version: stable_version, label: stable_version }
+      end
+
       def stable_version
         version.sub(/-.+$/, '')
       end
