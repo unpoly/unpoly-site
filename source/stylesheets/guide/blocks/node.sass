@@ -105,7 +105,8 @@ a.node__self
   +hover
     color: $COLOR_HOVER
 
-  .node > .node &
+  .node > .node &,
+  .node:not(:has(.node)) &
     +highlighted
       background-color: var(--node-color)
       color: white
