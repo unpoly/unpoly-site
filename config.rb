@@ -319,7 +319,7 @@ helpers do
   end
 
   def cdn_js_include(file)
-    %Q(<script src="#{cdn_url(file)}"></script>)
+    %Q(<script src="#{cdn_url(file)}" defer></script>)
   end
 
   def cdn_css_include(file)

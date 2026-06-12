@@ -1,0 +1,102 @@
+<% @menu_path = '/install/menu' %>
+
+<h1><%= page_title 'Optional server bindings' %></h1>
+
+<div class="prose">
+  <p>
+    You backend can implement an <a href="/up.protocol">optional protocol</a>
+    to inspect and manipulate Unpoly's rendering through simple HTTP headers.
+  </p>
+
+  <h2 id="implementations">Existing implementations</h2>
+
+  <p>
+    If you want to use the optional protocol,
+    but don't want to <a href="/up.protocol">implement it yourself</a>,
+    you can use an existing library:
+  </p>
+
+  <table>
+    <tr>
+      <th>Language</th>
+      <th>Framework</th>
+      <th>Protocol implementation</th>
+    </tr>
+
+    <tr>
+      <td>Elixir</td>
+      <td>Plug (Phoenix, Dynamo, Sugar)</td>
+      <td><a href="https://github.com/webstronauts/ex_unpoly"><code>ex_unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Groovy</td>
+      <td>Grace (Grails)</td>
+      <td><a href="https://github.com/grace-plugins/grace-unpoly"><code>grace-unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Node.js</td>
+      <td>AdonisJS</td>
+      <td><a href="https://github.com/batosai/adonis-unpoly"><code>adonis-unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>PHP</td>
+      <td>Middleware (Symfony, Laravel, Stack)</td>
+      <td><a href="https://github.com/webstronauts/php-unpoly"><code>php-unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Python</td>
+      <td>Framework-agnostic (Django, Starlette, …)</td>
+      <td><a href="https://gitlab.com/rocketduck/python-unpoly"><code>unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Python</td>
+      <td>Django</td>
+      <td><a href="https://github.com/jwaschkau/django-unpoly"><code>django-unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Python</td>
+      <td>Django</td>
+      <td><a href="https://github.com/thinkwelltwd/unpoly_django"><code>unpoly_django</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Ruby</td>
+      <td>Ruby on Rails</td>
+      <td><a href="https://github.com/unpoly/unpoly-rails"><code>unpoly-rails</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Ruby</td>
+      <td>Roda</td>
+      <td><a href="https://github.com/adam12/roda-unpoly"><code>roda-unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Ruby</td>
+      <td>Rack (Hanami, Padrino, Sinatra)</td>
+      <td><a href="https://github.com/adam12/rack-unpoly"><code>rack-unpoly</code></a></td>
+    </tr>
+
+    <tr>
+      <td>Rust</td>
+      <td>Axum</td>
+      <td><a href="https://crates.io/crates/unpoly"><code>unpoly</code></a></td>
+    </tr>
+
+  </table>
+
+  <h3>Adding implementations to the list</h3>
+
+  <p>
+    If you have discovered a new implementation, please
+    <a href="https://github.com/unpoly/unpoly-site/blob/master/source/install/server-bindings.html.erb">edit this page on GitHub</a>
+    and send a pull request.
+  </p>
+
+</div>

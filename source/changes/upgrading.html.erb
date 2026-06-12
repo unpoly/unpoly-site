@@ -61,12 +61,20 @@
       </tr>
     </table>
 
-    <p>Load <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code. For example:</p>
+    <p>Load <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code:</p>
 
     <pre><code>&lt;script src="unpoly.js"&gt;&lt;/script&gt;
 &lt;script src="unpoly-migrate.js"&gt;&lt;/script&gt; &lt;!-- mark-line --&gt;
 &lt;script src="app.js"&gt;&lt;/script&gt;</code></pre>
 
+    <p>
+      If you're using <a href="/install#npm"Unpoly from npm></a>, import <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code:
+    </p>
+
+    <pre><code>import 'unpoly/unpoly.js'
+import 'unpoly/unpoly-migrate.js' // mark-line
+import './your-scripts.js'
+</code></pre>
 
     <h2 id="with-tests">Upgrading with automated tests</h2>
 

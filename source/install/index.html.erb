@@ -2,256 +2,144 @@
 
 <h1><%= page_title 'Installing Unpoly' %></h1>
 
+
 <div class="prose">
 
-  <h2>No dependencies</h2>
-
-  <p>Unpoly has <b>no dependencies</b> on the client or server.</p>
-
   <p>
-    You can write your server-side code in <b>any programming language</b> like Ruby, Node.js, PHP or Python.
-    By loading the <a href="#files">frontend files</a> below, Unpoly's API becomes available to your HTML templates and JavaScripts.
-
-    <b>No server-side integration is required</b>.
+    <span class="line-on-wide">
+      Unpoly consists of one JavaScript file and one CSS file
+      that you can require in your <code>&lt;head&gt;</code>.
+    </span>
+      <span class="line-on-wide">
+      It has no dependencies and doesn't require a build tool.
+    </span>
   </p>
 
   <p>
-    Unpoly also works great with static sites.
+    <span class="line-on-wide">
+      Unpoly works with any server that can render HTML, or with static sites.
+    </span>
+  <span class="line-on-wide">
+      You do not need additional software on your backend.
+    </span>
   </p>
 
-  <h2 id="files">Frontend files</h2>
+  <% auto_toc do %>
 
-  <p>
-    Unpoly consists one JavaScript file and one CSS file:
-  </p>
+    <!--
+    <table>
+      <tr>
+        <th>Development</th>
+        <th colspan="2">Production</th>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to_cdn_file('unpoly.js') %>
+        </td>
+        <td>
+          <%= link_to_cdn_file('unpoly.min.js') %>
+        </td>
+        <td align="right" class="dimmed">
+          <%= unpoly_library_size('unpoly.min.js') %> gzipped
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to_cdn_file('unpoly.css') %>
+        </td>
+        <td>
+          <%= link_to_cdn_file('unpoly.min.css') %>
+        </td>
+        <td align="right" class="dimmed">
+          <%= unpoly_library_size('unpoly.min.css') %> gzipped
+        </td>
+      </tr>
+    </table>
+    -->
 
-  <table>
-    <tr>
-      <th>Development</th>
-      <th colspan="2">Production</th>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly.min.js') %> gzipped
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly.css') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly.min.css') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly.min.css') %> gzipped
-      </td>
-    </tr>
-  </table>
+    <h2 id="initialization">Initialization</h2>
 
-  <p>
-    <code>unpoly.js</code> is transpiled to ES2020 and will work in all modern browsers.<br>
-    If Internet Explorer 11 or legacy Safari versions are a concern for you, see <a href="#legacy-browsers">legacy browser support</a>.
-  </p>
+    <p>
+      Include Unpoly before your own JavaScripts and stylesheets:
+    </p>
 
-
-  <h2 id="initialization">Initialization</h2>
-
-  <p>
-    Include Unpoly before your own stylesheets and JavaScripts:
-  </p>
-
-  <pre><code>&lt;!DOCTYPE html&gt;
+    <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
-    &lt;link rel="stylesheet" href="unpoly.css" /&gt;
-    &lt;link rel="stylesheet" href="script.css" /&gt;
-    &lt;script src="unpoly.js"&gt;&lt;/script&gt;
-    &lt;script src="scripts.js"&gt;&lt;/script&gt;
+    <%= h cdn_css_include('unpoly.css') %> &lt;!-- mark-line --&gt;
+    <%= h cdn_js_include('unpoly.js') %> &lt;!-- mark-line --&gt;
+    &lt;link rel="stylesheet" href="your-styles.css" /&gt;
+    &lt;script src="your-scripts.js" defer&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;!-- HTML here may use Unpoly attributes like [up-follow] --&gt;
+    &lt;!-- Use Unpoly attributes in your HTML --&gt;
+    &lt;a href="/page" up-follow&gt;Follow me with Unpoly&lt;a&gt; &lt;!-- mark: up-follow --&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
+    </p>
 
-  <p>
-    You may also load Unpoly with <code>&lt;script defer&gt;</code> or <code>&lt;script type="module"&gt;</code>.
-  </p>
+    <p>
+      Unpoly initializes on <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event"><code>DOMContentLoaded</code></a>
+      and enhances the HTML on your page. You can also <a href="/up-boot-manual">boot Unpoly manually</a> at a time of your choice.
+    </p>
 
-  <p>
-    By default, Unpoly automatically initializes on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event"><code>DOMContentLoaded</code></a>
-    event and runs your <a href="/up.compiler">compilers</a> on the initial page.
-    For <b>manual</b> initialization, load Unpoly with <a href="/up-boot-manual">&lt;script up-boot="manual"&gt;</a> and later call <a href="/up.boot"><code>up.boot()</code></a>.
-  </p>
+    <h2 id="npm">Installing from npm</h2>
 
-  <p>
-    <code>unpoly.js</code> defines a single global property <code>window.up</code> to expose its <a href="/api">API</a> to your JavaScripts.
-  </p>
+    <p>
+      Instead of loading Unpoly from a CDN, you can install it as an <a href="https://www.npmjs.com/package/unpoly">npm package</a>:
+    </p>
 
+    <pre><code class="nohighlight">npm install unpoly<%= '@next' if pre_release? %> --save</code></pre>
 
-  <h2 id="methods">Installation methods</h2>
+    <p>
+      Now import Unpoly before your own JavaScripts and stylesheets:
+    </p>
 
-  <p>
-    You have multiple options for downloading and integrating Unpoly:
-  </p>
+    <pre><code>import 'unpoly/unpoly.js'  // mark-line
+import 'unpoly/unpoly.css' // mark-line
+import './your-scripts.js'
+import './your-styles.css'
+</code></pre>
 
-  <ul>
-    <li><%= hyperlink 'Link to a CDN', '/install/cdn' %> (great to test-drive)</li>
-    <li><%= hyperlink 'Download', '/install/download' %></li>
-    <li><%= hyperlink 'Install with npm', '/install/npm' %></li>
-    <li><%= hyperlink 'Install with Ruby', '/install/ruby' %></li>
-    <li><%= hyperlink 'Install with PHP', '/install/php' %></li>
-    <li><%= hyperlink 'Install with Python', '/install/python' %></li>
-    <li><%= hyperlink 'Install with Elixir', '/install/elixir' %></li>
-  </ul>
+    <h2 id="javascript-api">JavaScript API</h2>
 
+    <p>
+      <span class="line-on-wide">
+        Most of Unpoly's functionality is provided as new attributes
+        that you can add to any HTML element.
+      </span>
+      <span class="line-on-wide">
+        Unpoly also provides a JavaScript API to extend Unpoly or <a href="/up.script">integrate your custom scripts</a>.
+      </span>
+    </p>
 
-  <h2 id="legacy-browsers">Legacy browser support</h2>
+    <p>
+      Unpoly's JavaScript API can be accessed through the <code>window.up</code> global, without an explicit <code>import</code>:
+    </p>
 
-  <p>Recent versions of Unpoly supports <%= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.</p>
+    <pre><code>up.compiler('.click-to-hide', function(element) {
+  let hide = () => element.style.display = 'none'
+  element.addEventListener('click', hide)
+})</code></pre>
 
-  <p>
-    The last version with support for Internet Explorer 11 is <a href="/changes/2.7.1">2.7</a>.
-  </p>
+    <h2 id="extensions">Optional extensions</h2>
 
-  <p>
-    <code>unpoly.js</code> also uses modern JavaScript syntax that may not supported by some legacy browsers or build pipelines.
-    If you're not already working around this with a transpiler like <a href="https://babeljs.io/">Babel</a>,
-    you may also use the ES6 build of Unpoly:
-  </p>
+    <p>
+      You know have everything you need to start using Unpoly!
+    </p>
 
-  <table>
-    <tr>
-      <th>Development</th>
-      <th colspan="2">Production</th>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly.es6.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly.es6.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly.es6.min.js') %> gzipped
-      </td>
-    </tr>
-  </table>
+    <p>
+      We provide a number of <b>optional</b> extensions:
+    </p>
 
-  <p>
-    The ES6 build does not contain any polyfills.
-  </p>
+    <ul>
+      <li><a href="/install/server-bindings">Optional server bindings</a>: Inspect or manipulate Unpoly's rendering through HTTP headers</li>
+      <li><a href="/install/legacy-browsers">Legacy browsers support</a>: Support for ancient browsers and build tools</li>
+      <li><a href="/install/bootstrap">Bootstrap integration</a>: Configure Unpoly to use Bootstrap classes</li>
+      <li><a href="/changes/upgrading">Upgrade shim</a>: Polyfills for deprecated Unpoly APIs</li>
+    </ul>
 
-  <h2 id="bootstrap">Bootstrap integration</h2>
-
-  <p>
-    If you're using <a href="https://getbootstrap.com/">Bootstrap</a>, there are some <b>optional</b> files that configures
-    Unpoly to use Bootstrap's CSS classes:
-  </p>
-
-  <table>
-    <tr>
-      <th>Development</th>
-      <th colspan="2">Production</th>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap3.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap3.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-bootstrap3.min.js') %> gzipped
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap3.css') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap3.min.css') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-bootstrap3.min.css') %> gzipped
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap4.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap4.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-bootstrap4.min.js') %> gzipped
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap4.css') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap4.min.css') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-bootstrap4.min.css') %> gzipped
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap5.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap5.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-bootstrap5.min.js') %> gzipped
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap5.css') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-bootstrap5.min.css') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-bootstrap5.min.css') %> gzipped
-      </td>
-    </tr>
-  </table>
-
-  <h2 id="upgrading">Upgrade shim</h2>
-
-  <p>
-    If you're <a href="/changes/upgrading">upgrading from an older version</a> you should also load <code>unpoly-migrate.js</code>
-    to polyfill deprecated APIs:
-  </p>
-
-  <table>
-    <tr>
-      <th>Development</th>
-      <th colspan="2">Production</th>
-    </tr>
-    <tr>
-      <td>
-        <%= link_to_cdn_file('unpoly-migrate.js') %>
-      </td>
-      <td>
-        <%= link_to_cdn_file('unpoly-migrate.min.js') %>
-      </td>
-      <td align="right" class="dimmed">
-        <%= unpoly_library_size('unpoly-migrate.min.js') %> gzipped
-      </td>
-    </tr>
-  </table>
-
+  <% end %>
 
 </div>
 

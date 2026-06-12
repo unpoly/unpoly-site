@@ -1,0 +1,45 @@
+<% @menu_path = '/install/menu' %>
+
+<h1><%= page_title 'Legacy browser support' %></h1>
+
+<div class="prose">
+  <p>Recent versions of Unpoly supports <%= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.</p>
+
+  <p>
+    The last version with support for Internet Explorer 11 is <a href="/changes/2.7.1">2.7</a>.
+  </p>
+
+  <h2 id="es6-build">ES6 build</h2>
+
+  <p>
+    <span class="line-on-wide">
+      <code>unpoly.js</code> uses ES2020 that may not supported by (very) old browsers or build tools.
+    </span>
+    <span class="line-on-wide">
+      If you're not already working around this with a transpiler like <a href="https://babeljs.io/">Babel</a>,
+      you may also use the ES6 build of Unpoly:
+    </span>
+  </p>
+
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly.es6.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly.es6.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly.es6.min.js') %> gzipped
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    The ES6 build does not contain any polyfills.
+  </p>
+</div>

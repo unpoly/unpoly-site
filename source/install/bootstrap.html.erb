@@ -1,0 +1,83 @@
+<% @menu_path = '/install/menu' %>
+
+<h1><%= page_title 'Bootstrap integration' %></h1>
+
+<div class="prose">
+  <p>
+    If you're using <a href="https://getbootstrap.com/">Bootstrap</a>, there are some <b>optional</b> files that configures
+    Unpoly to use Bootstrap's CSS classes:
+  </p>
+
+  <table>
+    <tr>
+      <th>Development</th>
+      <th colspan="2">Production</th>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap3.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap3.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap3.min.js') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap3.css') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap3.min.css') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap3.min.css') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap4.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap4.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap4.min.js') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap4.css') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap4.min.css') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap4.min.css') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap5.js') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap5.min.js') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap5.min.js') %> gzipped
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap5.css') %>
+      </td>
+      <td>
+        <%= link_to_cdn_file('unpoly-bootstrap5.min.css') %>
+      </td>
+      <td align="right" class="dimmed">
+        <%= unpoly_library_size('unpoly-bootstrap5.min.css') %> gzipped
+      </td>
+    </tr>
+  </table>
+</div>
