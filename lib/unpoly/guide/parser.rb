@@ -710,7 +710,7 @@ module Unpoly
       end
 
       def looks_like_published_feature?(feature_name)
-        feature_name =~ /^(x-)up[\.\:\-]/i
+        feature_name =~ /^(x-)?up[\.\:\-]/i
       end
 
       def cannot_parse!(doc_comment)
