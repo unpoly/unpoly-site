@@ -1,23 +1,27 @@
+# Must be loaded before the first example, so that Capybara's own `before` hook
+# is registered in time to switch the driver for examples tagged `js: true`.
+require 'capybara/rspec'
+
+Capybara.register_driver :selenium do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless=new') unless ENV.key?('NO_HEADLESS')
+  options.add_argument('--disable-infobars')
+  options.add_emulation(device_metrics: { width: 1280, height: 960, touch: false })
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Selenium::WebDriver.logger.level = :error
+
+Capybara.javascript_driver = :selenium
+# Capybara.server = :webrick
+
+# Booting Middleman takes a moment, so we only do it once, and only when a feature
+# spec actually runs.
 def configure_capybara_once
   return if Capybara.app
 
-  require 'capybara/rspec'
   require 'middleman-core'
   require 'middleman-core/rack'
-
-  Capybara.register_driver :selenium do |app|
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless') unless ENV.key?('NO_HEADLESS')
-    options.add_argument('--disable-infobars')
-    options.add_option('w3c', false)
-    options.add_emulation(device_metrics: { width: 1280, height: 960, touch: false })
-    Capybara::Selenium::Driver.new(app, browser: :chrome , options: options)
-  end
-
-  Selenium::WebDriver.logger.level = :error
-
-  Capybara.javascript_driver = :selenium
-  # Capybara.server = :webrick
 
   middleman_app = ::Middleman::Application.new do
     set :root, File.expand_path(File.join(File.dirname(__FILE__), '..'))

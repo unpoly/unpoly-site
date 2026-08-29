@@ -1,11 +1,11 @@
 GIT
   remote: https://github.com/makandra/capistrano-middleman.git
-  revision: 26cb59981e0ae2f300625b39c9e78732ced5d38c
+  revision: 8c4a8630a8570d5a655d46d12804cfe289ecf62e
   specs:
     capistrano-middleman (0.2.0)
       capistrano (~> 3)
       middleman (~> 4.0)
-      rubyzip (~> 1.1.7)
+      rubyzip (>= 1.1.7, < 3)
 
 GEM
   remote: https://rubygems.org/
@@ -50,8 +50,6 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
-    childprocess (0.9.0)
-      ffi (~> 1.0, >= 1.0.11)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -198,7 +196,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.4)
-    rubyzip (1.1.7)
+    rubyzip (2.4.1)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -207,9 +205,12 @@ GEM
     sassc (2.4.0)
       ffi (~> 1.9)
     securerandom (0.4.1)
-    selenium-webdriver (3.8.0)
-      childprocess (~> 0.5)
-      rubyzip (~> 1.0)
+    selenium-webdriver (4.48.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 4.0)
+      websocket (~> 1.0)
     servolux (0.13.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
@@ -237,6 +238,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     uri (1.0.3)
     webrick (1.9.1)
+    websocket (1.2.11)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yell (2.2.2)
@@ -264,7 +266,7 @@ DEPENDENCIES
   rack
   rspec
   sass
-  selenium-webdriver (>= 3)
+  selenium-webdriver (>= 4)
   terser
   webrick
 

@@ -30,7 +30,7 @@ end
 group :test do
   gem 'rspec'
   gem 'capybara'
-  gem 'selenium-webdriver', '>=3'
+  gem 'selenium-webdriver', '>= 4'
   gem 'puma'
   # gem 'webrick'
 end
