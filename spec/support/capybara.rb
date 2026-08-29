@@ -13,6 +13,10 @@ end
 Selenium::WebDriver.logger.level = :error
 
 Capybara.javascript_driver = :selenium
+
+# The menu is a ~370 KB fragment that the development server needs more than a second
+# to render, so waiting for it can exceed Capybara's default of 2 seconds.
+Capybara.default_max_wait_time = 8
 # Capybara.server = :webrick
 
 # Booting Middleman takes a moment, so we only do it once, and only when a feature
