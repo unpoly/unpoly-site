@@ -15,7 +15,9 @@ module Unpoly
         end
 
         attr_reader :version, :markdown
-        attr_accessor :previous_release
+        # The release with the next lower version *number*, which may not be the
+        # release before it in time: we sometimes release a patch for an older major.
+        attr_accessor :previous_release_by_version
 
         memoize def date
           @date ||= begin
@@ -53,7 +55,7 @@ module Unpoly
         end
 
         def first_commit
-          previous_release&.git_tag
+          previous_release_by_version&.git_tag
         end
 
         def last_commit
@@ -146,8 +148,7 @@ module Unpoly
 
         releases_by_version.each_with_index do |release, index|
           if index > 0
-            previous_release = releases_by_version[index - 1]
-            release.previous_release = previous_release
+            release.previous_release_by_version = releases_by_version[index - 1]
           end
         end
       end
