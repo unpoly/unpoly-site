@@ -5,7 +5,7 @@ $section_spacing: 15px
 =underline-section($color)
   box-shadow: inset 0 -2px 0 $color
 
-.top_nav
+.top-nav
   font-size: 20px
   +bold
   +uppercase
@@ -16,7 +16,7 @@ $section_spacing: 15px
   align-items: center
   gap: $section_spacing
 
-.top_nav__section
+.top-nav--section
   color: white
 
   // Uppercase letters have no descendants, so push the links a little down
@@ -24,7 +24,7 @@ $section_spacing: 15px
   display: inline-block
   margin-top: 1px
 
-  //+ .top_nav__section
+  //+ .top-nav--section
   //  margin-left: $section_spacing
 
   &.up-current
@@ -36,30 +36,30 @@ $section_spacing: 15px
   +on_narrow
     display: none
 
-  &.is_support
+  &.-support
     background-color: white
     border-radius: 5px
     padding: 3px 5px 1px 5px
     margin-top: -1px
     color: $COLOR_MAIN
 
-//.top_nav__version
+//.top-nav--version
 //  opacity: 0.5
 
-.top_nav__right
+.top-nav--right
   margin-left: auto
 
   +narrower_than(1000px)
     display: none
 
-.is_social
+.-social
   opacity: 0.75
 
   +narrower_than(1200px)
-    .top_nav__label
+    .top-nav--label
       display: none
 
-.is_hamburger
+.-hamburger
   display: none
   margin-left: auto
 

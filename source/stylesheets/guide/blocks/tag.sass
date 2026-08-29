@@ -14,33 +14,33 @@
   color: white
   border-radius: 2px
 
-  &.is_ghost
+  &.-ghost
     padding: 1px 4px
     background-color: transparent
     color: var(--color)
     border: 1px solid var(--color)
 
-  &.is_gray
+  &.-gray
     // base styles are already gray
 
-  &.is_gray_blue
+  &.-gray-blue
     --color: lighten(desaturate($COLOR_SECONDARY, 10%), 10%)
 
-  &.is_light_gray
+  &.-light-gray
     --color: #aaa
 
-  &.is_red
+  &.-red
     --color: #{$COLOR_ALIZARIN}
 
-  &.is_teal
+  &.-teal
     --color: #{$COLOR_GREEN_SEA}
 
-  &.is_internal,
-  &.is_deprecated,
-  &.is_experimental
+  &.-internal,
+  &.-deprecated,
+  &.-experimental
     --color: #{$COLOR_PROTECTED}
 
-  //&.is_large
+  //&.-large
   //  +font-size(14px)
   //  padding: 2px 6px 1px 6px
   //  +bold

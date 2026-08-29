@@ -1,11 +1,11 @@
 <% menu do %>
-  <div class="menu__search">
+  <div class="menu--search">
     <%= partial 'api/search' %> <%# must be part of .menu because that is loaded lazily %>
   </div>
 
-  <div class="menu__nodes">
+  <div class="menu--nodes">
     <%= partial 'api/nodes/all' %>
   </div>
 
-  <div class="content_search" data-algolia-index="<%= algolia_index %>"></div>
+  <div class="content-search" data-algolia-index="<%= algolia_index %>"></div>
 <% end %>

@@ -64,13 +64,13 @@ module Unpoly
       def signature(with_default: true, html_class_prefix: nil, wbr: false)
         signature = "".html_safe
         signature << "[" if optional?
-        signature << "<span class='#{html_class_prefix}_name'>".html_safe if html_class_prefix
+        signature << "<span class='#{html_class_prefix}-name'>".html_safe if html_class_prefix
         signature << name
         signature << '</span>'.html_safe if html_class_prefix
         if with_default && default?
           signature << "="
           signature << "<wbr>".html_safe if wbr
-          signature << "<span class='#{html_class_prefix}_default'>".html_safe if html_class_prefix
+          signature << "<span class='#{html_class_prefix}-default'>".html_safe if html_class_prefix
           signature << default
           signature << '</span>'.html_safe if html_class_prefix
         end

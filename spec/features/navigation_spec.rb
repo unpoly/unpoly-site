@@ -12,10 +12,10 @@ describe 'navigation', type: :feature, js: true do
   it 'follows a link from the menu without a full page load' do
     visit '/up.fragment'
     # The menu is loaded lazily, replacing a placeholder.
-    expect(page).to have_css('.menu__nodes')
+    expect(page).to have_css('.menu--nodes')
     mark_document
 
-    within '.menu__nodes' do
+    within '.menu--nodes' do
       click_link 'up.render()'
     end
 
@@ -27,7 +27,7 @@ describe 'navigation', type: :feature, js: true do
   it 'follows a code reference from the prose to the page of that feature' do
     visit '/up.render'
 
-    within '.feature__prose' do
+    within '.feature--prose' do
       first('a[href="/up.navigate"]').click
     end
 

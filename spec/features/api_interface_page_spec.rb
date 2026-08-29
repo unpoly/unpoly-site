@@ -15,7 +15,7 @@ describe 'interface page', type: :feature, js: true do
 
   it 'promotes essential features before listing all features' do
     expect(page).to have_css('#essential-features')
-    expect(page).to have_css('.essential_features a[href="/up.render"]', text: 'up.render')
+    expect(page).to have_css('.essential-features a[href="/up.render"]', text: 'up.render')
     expect(page).to have_css('#features')
   end
 

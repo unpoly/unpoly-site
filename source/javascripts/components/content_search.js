@@ -25,12 +25,12 @@ function buildIndex(name) {
   }
 }
 
-up.compiler('.content_search', function(container, data) {
+up.compiler('.content-search', function(container, data) {
   let index = getIndex(data.algoliaIndex)
 
   if (!index) {
     up.element.hide(container)
-    document.querySelectorAll('.content_search__related').forEach(up.element.hide)
+    document.querySelectorAll('.content-search--related').forEach(up.element.hide)
     return
   }
 
@@ -40,21 +40,21 @@ up.compiler('.content_search', function(container, data) {
 
   function renderAlgoliaHit(hit) {
     return `
-      <a class="content_search__hit is_${hit.visibility}" href="${hit.path}">
-        <div class="content_search__hit_head">
-          <span class="content_search__hit_title">${hit._snippetResult.title.value}</span>
-          <span class="content_search__hit_visibility">
-            <span class="tag is_${hit.visibility}">${hit.visibility}</span>
+      <a class="content-search--hit -${hit.visibility}" href="${hit.path}">
+        <div class="content-search--hit-head">
+          <span class="content-search--hit-title">${hit._snippetResult.title.value}</span>
+          <span class="content-search--hit-visibility">
+            <span class="tag -${hit.visibility}">${hit.visibility}</span>
           </span>
         </div>
-        <div class="content_search__hit_text">${hit._snippetResult.text.value}</div>
+        <div class="content-search--hit-text">${hit._snippetResult.text.value}</div>
       </a>
     `
   }
 
   function renderNoHits(query) {
     return `
-      <div class="content_search__no_hits">
+      <div class="content-search--no-hits">
         No text results for <b>${query}</b>
       </div>
     `

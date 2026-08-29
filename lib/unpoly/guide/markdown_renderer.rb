@@ -98,7 +98,7 @@ module Unpoly
 
         if pictures
           nokogiri_doc.css('img:not([class]):not([picture=false])').each do |element|
-            element[:class] = 'picture has_border'
+            element[:class] = 'picture -border'
           end
         end
 
@@ -125,7 +125,7 @@ module Unpoly
           text_nodes_outside_code(nokogiri_doc).each do |text_node|
             html = CGI.escapeHTML(text_node.content)
             html = html.gsub(/\b(issue|close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved|revert|reverts|reverted) #(\d+)/i) do
-              "#{$1} <a href='https://github.com/unpoly/unpoly/issues/#{$2}' class='is_secondary'>##{$2}</a>"
+              "#{$1} <a href='https://github.com/unpoly/unpoly/issues/#{$2}' class='-secondary'>##{$2}</a>"
             end
             text_node.replace(html)
           end
@@ -135,7 +135,7 @@ module Unpoly
           text_nodes_outside_code(nokogiri_doc).each do |text_node|
             html = CGI.escapeHTML(text_node.content)
             html = html.gsub(/@([a-z\d][a-z\d-]{2,38})\b/) do
-              "<a href='https://github.com/#{$1}' class='is_secondary'>@#{$1}</a>"
+              "<a href='https://github.com/#{$1}' class='-secondary'>@#{$1}</a>"
             end
             text_node.replace(html)
           end

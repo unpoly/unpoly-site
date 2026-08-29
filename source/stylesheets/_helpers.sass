@@ -246,21 +246,21 @@
   +vertical_margin($CARD_SPACING)
 
 =when-stable
-  .is_stable &
+  .-stable &
     @content
 
 =when-unstable
-  &.is_internal,
-  .is_internal &,
-  &.is_experimental,
-  .is_experimental &,
-  &.is_deprecated,
-  .is_deprecated
+  &.-internal,
+  .-internal &,
+  &.-experimental,
+  .-experimental &,
+  &.-deprecated,
+  .-deprecated
     @content
 
 =when-deprecated
-  &.is_deprecated,
-  .is_deprecated &
+  &.-deprecated,
+  .-deprecated &
     @content
 
 =selection

@@ -3,10 +3,10 @@
 .hyperlink
   +hyperlink
 
-  &.is_gray
+  &.-gray
     +hyperlink(#888)
 
-  &.is_secondary
+  &.-secondary
     +hyperlink($COLOR_SECONDARY)
 
 //  +tint_hyperlink($COLOR_ALIZARIN)
@@ -16,22 +16,22 @@
     background-color: #fe9
     +tint_hyperlink($COLOR_ALIZARIN)
 
-  //&.is_blue
+  //&.-blue
   //  +tint_hyperlink($COLOR_PETER_RIVER)
   //
   //
-  &.is_white
+  &.-white
     +tint_hyperlink(#eee)
     +hover
       background-color: transparent
       +tint_hyperlink($COLOR_SUN_FLOWER)
   //
   //
-  //&.is_light_gray
+  //&.-light-gray
   //  +tint_hyperlink(#ccc)
   //  +hover
   //    background-color: transparent
   //    +tint_hyperlink($COLOR_SUN_FLOWER)
   //
-  //&.has_no_decoration
+  //&.-no-decoration
   //  border-bottom: none

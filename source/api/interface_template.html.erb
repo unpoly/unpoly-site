@@ -56,16 +56,16 @@
       <% if essential_features.present? %>
         <h3 id="essential-features">Essentials</h3>
 
-        <div class="essential_features">
+        <div class="essential-features">
           <% essential_features.each do |feature| %>
-            <a class="essential_feature <%= 'is_code' if feature.code? %>" href="<%= feature.guide_path %>">
-              <div class="essential_feature__signature">
+            <a class="essential-feature <%= '-code' if feature.code? %>" href="<%= feature.guide_path %>">
+              <div class="essential-feature--signature">
                 <%= feature.short_signature %>
               </div>
-              <div class="essential_feature__kind" title="<%= feature.long_kind %>">
+              <div class="essential-feature--kind" title="<%= feature.long_kind %>">
                 <%= feature.short_kind %>
               </div>
-              <div class="essential_feature__summary">
+              <div class="essential-feature--summary">
                 <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
               </div>
             </a>

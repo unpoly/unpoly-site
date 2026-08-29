@@ -11,12 +11,12 @@ isAnyFieldFocused = ->
   focusedField && focusedField.matches(up.form.fieldSelector())
 
 up.compiler '.search', (searchForm) ->
-  input = searchForm.querySelector('.search__input')
-  hotKeyInfo = searchForm.querySelector('.search__hot_key')
-  resetButton = searchForm.querySelector('.search__reset')
-  expandHelp = searchForm.querySelector('.search__expand_help')
+  input = searchForm.querySelector('.search--input')
+  hotKeyInfo = searchForm.querySelector('.search--hot-key')
+  resetButton = searchForm.querySelector('.search--reset')
+  expandHelp = searchForm.querySelector('.search--expand-help')
   menu = document.querySelector('.menu')
-  contentSearch = document.querySelector('.content_search')
+  contentSearch = document.querySelector('.content-search')
   expanded = false
 
   normalizedQuery = ->

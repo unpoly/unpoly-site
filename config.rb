@@ -284,10 +284,10 @@ helpers do
   end
 
   def node_link(*args, **options, &block)
-    options[:class] = "node__self #{options[:class]}"
+    options[:class] = "node--self #{options[:class]}"
 
     unless block
-      args[0] = content_tag(:span, args[0], class: 'node__title')
+      args[0] = content_tag(:span, args[0], class: 'node--title')
     end
 
     link_to(*args, **options, &block)
@@ -296,7 +296,7 @@ helpers do
   def node_meta(&block)
     meta = capture_html(&block).strip
     if meta.present?
-      meta = content_tag(:span, meta, class: 'node__meta')
+      meta = content_tag(:span, meta, class: 'node--meta')
       concat_content(meta)
     end
   end
@@ -356,12 +356,12 @@ helpers do
         end
       }
 
-      "<span class='types__type'>#{content}</span>"
+      "<span class='types--type'>#{content}</span>"
     }
 
     "<span class='types'>#{parts.join('')}</span>"
 
-    # or_tag = "<span class='type__or'>|</span>"
+    # or_tag = "<span class='type--or'>|</span>"
     #
     # "<span class='type'>#{parts.join('')}</span>"
   end
@@ -370,12 +370,12 @@ helpers do
     # commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
     commit = guide.git_revision
     url = documentable.text_source.github_url(guide, commit: commit)
-    link_to '<i class="fa fa-edit"></i> Edit <span class="edit_link__etc">this page</span>', url, target: '_blank', class: 'hyperlink edit_link'
+    link_to '<i class="fa fa-edit"></i> Edit <span class="edit-link--etc">this page</span>', url, target: '_blank', class: 'hyperlink edit-link'
   end
 
   def revision_on_github_button(revision)
     url = revision.github_browse_url
-    link_to '<i class="fa fa-code"></i> Revision code', url, target: '_blank', class: 'hyperlink edit_link'
+    link_to '<i class="fa fa-code"></i> Revision code', url, target: '_blank', class: 'hyperlink edit-link'
   end
 
   def feature_preview(feature)
@@ -418,7 +418,7 @@ helpers do
       experimental_tag
     else
       <<~HTML
-      <span class="tag is_experimental">
+      <span class="tag -experimental">
         #{visibility}
       </span>
       HTML
@@ -427,7 +427,7 @@ helpers do
 
   def experimental_tag
     <<~HTML
-      <span class="tag is_experimental">
+      <span class="tag -experimental">
         <i class="fa fa-flask"></i>
         experimental
       </span>
@@ -436,7 +436,7 @@ helpers do
 
   def optional_tag
     <<~HTML
-      <span class="tag is_light_gray">
+      <span class="tag -light-gray">
         optional
       </span>
     HTML
@@ -444,7 +444,7 @@ helpers do
 
   def required_tag
     <<~HTML
-      <span class="tag is_teal">
+      <span class="tag -teal">
         required
       </span>
     HTML

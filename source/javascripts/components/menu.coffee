@@ -11,7 +11,7 @@ class Node
   PAGE_ICON = 'fa-file-text-o'
 
   constructor: (@element, @parentNode) ->
-    @self = findChildren(@element, '.node__self')[0]
+    @self = findChildren(@element, '.node--self')[0]
     text = @self.textContent
     @searchText = text.toLowerCase()
 
@@ -27,7 +27,7 @@ class Node
 
   createCollapser: ->
     return if @isGroup()
-    @collapser = up.element.createFromSelector('span.node__collapser.fa.fa-fw')
+    @collapser = up.element.createFromSelector('span.node--collapser.fa.fa-fw')
     @self.prepend(@collapser)
     @collapser.addEventListener 'up:click', (event) => @onCollapserClicked(event)
 
@@ -36,14 +36,14 @@ class Node
 
     @toggleExpanded()
     if @isMatch()
-      @element.classList.add('is_force_toggled')
+      @element.classList.add('-force-toggled')
 
   toggleExpanded: (forcedState) =>
     if @isGroup()
       forcedState = true
 
     @isExpanded = forcedState ? !@isExpanded # toggle when not given
-    @element.classList.toggle('is_expanded', @isExpanded)
+    @element.classList.toggle('-expanded', @isExpanded)
 
     if @collapser
       if @childNodes?.length
@@ -60,10 +60,10 @@ class Node
       @parentNode?.toggleExpanded(true)
 
   isGroup: =>
-    @element.matches('.is_group')
+    @element.matches('.-group')
 
   isPage: =>
-    @element.matches('.is_page')
+    @element.matches('.-page')
 
   isRoot: =>
     not @parentNode
@@ -72,7 +72,7 @@ class Node
     not @isRoot()
 
   isMatch: =>
-    @element.matches('.is_match')
+    @element.matches('.-match')
 
   root: =>
     if @isRoot()
@@ -99,13 +99,13 @@ class Node
     @marker().unmark()
 
   notifyIsMatch: (words) =>
-    @element.classList.add('is_match')
+    @element.classList.add('-match')
     @toggleExpanded(false)
     @parentNode.notifyIsMatch(words) unless @isRoot()
 
   resetMatch: =>
     @unhighlight()
-    @element.classList.remove('is_match', 'is_force_toggled')
+    @element.classList.remove('-match', '-force-toggled')
     for childNode in @childNodes
       childNode.resetMatch()
 
@@ -121,7 +121,7 @@ class Node
       else
         false
     else
-      @element.matches('.is_match')
+      @element.matches('.-match')
 
   isCurrent: =>
     @self.matches('.up-current')
@@ -140,11 +140,11 @@ class Node
 
 
 up.compiler '.menu', (menu) ->
-  if menu.matches('.is_placeholder')
+  if menu.matches('.-placeholder')
     # will be loaded by [wants-menu-path]
     return
 
-  nodesContainer = menu.querySelector('.menu__nodes')
+  nodesContainer = menu.querySelector('.menu--nodes')
   rootNodes = findChildren(nodesContainer, '.node')
   rootNodes = Node.newAll(rootNodes)
 
@@ -164,7 +164,7 @@ up.compiler '.menu', (menu) ->
 
   markQueryState = (hasQuery) ->
     for rootNode in rootNodes
-      rootNode.element.classList.toggle('has_query', hasQuery)
+      rootNode.element.classList.toggle('-query', hasQuery)
 
   revealCurrentNode = ->
     u.task ->
@@ -185,8 +185,8 @@ up.compiler '.menu', (menu) ->
   menu.resetFilter = resetFilter
   menu.toggleNodes = toggleNodes
 
-#  document.querySelector('.search__input').value = 'overlay vlaue'
-#  up.emit(document.querySelector('.search__input'), 'input')
+#  document.querySelector('.search--input').value = 'overlay vlaue'
+#  up.emit(document.querySelector('.search--input'), 'input')
 #  up.emit('query:expand', { query: 'overlay value' })
 
 

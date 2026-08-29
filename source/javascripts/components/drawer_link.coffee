@@ -1,5 +1,5 @@
 makeDrawerLink = (link) ->
-  target = link.getAttribute('drawer-link') || '.drawer_content'
+  target = link.getAttribute('drawer-link') || '.drawer-content'
   attrs =
     'up-drawer': target
     'up-preload': ''

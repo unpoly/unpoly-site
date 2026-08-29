@@ -1,15 +1,15 @@
 <h1>API</h1>
 
 <% guide.promoted_interfaces.each do |interface| %>
-  <div class="interface_preview">
-    <h3 class="interface_preview__head">
-      <%= hyperlink interface.title, interface.guide_path, class: 'interface_preview__title' %>
-      <span class="interface_preview__name"><%= interface.name %></span>
+  <div class="interface-preview">
+    <h3 class="interface-preview--head">
+      <%= hyperlink interface.title, interface.guide_path, class: 'interface-preview--title' %>
+      <span class="interface-preview--name"><%= interface.name %></span>
     </h3>
 
     <%= markdown_prose(interface.summary_markdown, strip_links: true) %>
 
-    <ul class="interface_preview__topics topics">
+    <ul class="interface-preview--topics topics">
       <% interface.all_topics.each do |sub_topic| %>
         <li><%= link_to content_tag(:i, '', class: "fa fa-file-text-o") + ' ' + sub_topic.menu_title, sub_topic.guide_path %></li>
       <% end %>

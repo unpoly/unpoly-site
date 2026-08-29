@@ -108,7 +108,7 @@ describe Unpoly::Guide::MarkdownRenderer do
     it 'styles an image that has no explicit class' do
       html = render('![Alt text](images/example.png)')
 
-      expect(Nokogiri::HTML.fragment(html).at_css('img')[:class]).to eq('picture has_border')
+      expect(Nokogiri::HTML.fragment(html).at_css('img')[:class]).to eq('picture -border')
     end
 
     it 'leaves an absolute path alone' do

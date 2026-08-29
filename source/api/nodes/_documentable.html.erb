@@ -1,19 +1,19 @@
-<div class="node <%= documentable.menu_modifiers.map { |m| "is_#{m}" }.join(' ') %>">
+<div class="node <%= documentable.menu_modifiers.map { |m| "-#{m}" }.join(' ') %>">
   <% node_link documentable.guide_path do %>
-    <span class="node__title">
+    <span class="node--title">
       <%= documentable.menu_title %>
     </span>
 
     <% node_meta do %>
       <% if documentable.experimental? %>
-        <i class="fa fa-flask node__visibility_icon"></i>
+        <i class="fa fa-flask node--visibility-icon"></i>
       <% end %>
 
       <% if !documentable.deprecated? %>
         <% if documentable.class? %>
-          <span class="node__tag">class</span>
+          <span class="node--tag">class</span>
         <% elsif documentable.config? %>
-          <span class="node__tag">config</span>
+          <span class="node--tag">config</span>
         <% end %>
       <% end %>
     <% end %>

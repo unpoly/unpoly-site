@@ -10,27 +10,27 @@
 
       <div class="example">
 
-        <div class="example__info">
+        <div class="example--info">
 
-          <div class="example__back">
+          <div class="example--back">
             <a href="/" up-dismiss class="action">Back</a>
           </div>
-          <div class="example__title"><%= example.title %></div>
+          <div class="example--title"><%= example.title %></div>
 
           <% if example.explanation.present? %>
-            <div class="example__explanation prose">
+            <div class="example--explanation prose">
               <%= example.highlight markdown(example.explanation) %>
             </div>
           <% end %>
 
           <% (example.pages + example.javascripts).each do |asset| %>
-            <div class="example__file">
-              <div class="example__filename"><%= asset.name %></div>
-              <pre class="example__code"><code><%= example.highlight(h asset.text) %></code></pre>
+            <div class="example--file">
+              <div class="example--filename"><%= asset.name %></div>
+              <pre class="example--code"><code><%= example.highlight(h asset.text) %></code></pre>
             </div>
           <% end %>
         </div>
-        <iframe class="example__demo" src="<%= example.demo_path %>"></iframe>
+        <iframe class="example--demo" src="<%= example.demo_path %>"></iframe>
       </div>
     </div>
 

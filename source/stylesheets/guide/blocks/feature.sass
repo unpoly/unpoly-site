@@ -11,15 +11,15 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
     padding-top: 20px
     border-top: 1px solid #ccc
 
-.feature__tags
+.feature--tags
   display: inline-block
   white-space: nowrap
 
-.feature__prose
+.feature--prose
   +vertical-margin(25px)
 
 
-.feature__param_section
+.feature--param-section
   //border: 1px solid rgba(0, 0, 0, 0.2)
   //padding: 15px 15px
   //border-radius: 3px
@@ -27,12 +27,12 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
   //+hide-last-margins
   //+vertical-margin(20px)
 
-.feature__param_section_title
+.feature--param-section-title
   //border-bottom: 1px solid currentColor
   border-bottom: 2px solid rgba(0, 0, 0, 0.3)
   padding-bottom: 5px
 
-.feature__param
+.feature--param
   +vertical-margin($param-spacing)
   //+vertical-padding($param-spacing)
   //border-top: $param-border
@@ -40,10 +40,10 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 
   //margin-top: $param-spacing
 
-  //&+.feature__param
+  //&+.feature--param
   //  margin-top: $param-spacing
 
-  &+.feature__param
+  &+.feature--param
     //  //border-top: 0
     border-top: $param-border
     padding-top: $param-spacing
@@ -52,34 +52,34 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
   //  // When directly jumping to the param, highlight it.
   //  background-color: $COLOR_MARK
 
-.feature__param_info
+.feature--param-info
   // For the response, the headline is in there
   +hide-first-margins
 
-.feature__param_signature
+.feature--param-signature
   +monospace-font
   font-size: $FONT_SIZE
   +bold
   color: #a0a0a0
 
-.feature__param_name
+.feature--param-name
   white-space: nowrap
   color: #545454
 
-.feature__param_default
+.feature--param-default
   //white-space: nowrap
 
-.feature__param_experimental_icon
+.feature--param-experimental-icon
   color: #707070
 
-.feature__param_types
-  .feature__param:not(.is_response) .feature__param_details.without_prose &
+.feature--param-types
+  .feature--param:not(.-response) .feature--param-details.-without-prose &
       margin-top: -2px // vertically align with param name
 
-  .feature__param_details.with_prose &
+  .feature--param-details.-with-prose &
     margin-top: 16px
 
-.feature__param_prose
+.feature--param-prose
 
   //margin-top: 4px
   //margin-left: 20px
@@ -97,7 +97,7 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
     //  code
     //    white-space: pre-wrap
 
-.feature__param_optionality
+.feature--param-optionality
   float: right
   margin-bottom: 15px
   margin-left: 15px
@@ -110,30 +110,30 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 $table-breakpoint: 1000px
 
 +narrower_than($table-breakpoint)
-  .feature__param_info
+  .feature--param-info
     display: flex
     gap: 15px
     flex-wrap: wrap
     margin-bottom: 12px
 
-  .feature__param_details
+  .feature--param-details
     margin-left: 30px
 
-  .feature__param_optionality
+  .feature--param-optionality
     display: none
 
 +wider_than($table-breakpoint)
-  .feature__param
+  .feature--param
     display: flex
     gap: 15px
 
-    //&.is_response
+    //&.-response
     //  margin-top: -45px
 
-  .feature__param_info
+  .feature--param-info
     flex: 0 0 335px
 
-  .feature__param_details
+  .feature--param-details
     flex: 1 1 0
     // Prevent code blocks from causing the item to overflow horizontally.
     // We want to show horizontal scroll bars instead (from the +code-block

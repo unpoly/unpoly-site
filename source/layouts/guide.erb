@@ -11,37 +11,37 @@
 
       <div class="guide">
 
-        <div class="guide__head" up-fixed="top">
+        <div class="guide--head" up-fixed="top">
 
           <div class="viewport">
 
-            <div class="guide__logo">
+            <div class="guide--logo">
 
               <a class="logo" href="/">
-                <%= image_tag 'unpoly_logo.svg', class: 'logo__pixels', alt: 'Unpoly' %>
+                <%= image_tag 'unpoly_logo.svg', class: 'logo--pixels', alt: 'Unpoly' %>
               </a>
 
             </div>
 
-            <div class="guide__version_nav">
-              <a href="/version_choice" class="version_nav" up-layer="new popup" up-target=".choice">
+            <div class="guide--version-nav">
+              <a href="/version_choice" class="version-nav" up-layer="new popup" up-target=".choice">
                 <%= guide.short_version %> <i class="fa fa-angle-down"></i>
               </a>
             </div>
 
-            <div class="guide__top_nav">
+            <div class="guide--top-nav">
 
-              <div class="top_nav" up-nav>
-                <a href="/api" class="top_nav__section" up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
-                <a href="/tutorial" class="top_nav__section">Tutorial</a>
-                <a href="https://demo.unpoly.com" class="top_nav__section" target="_blank">Demo</a>
-                <a href="/install" class="top_nav__section" up-alias="/install/*">Install</a>
-                <a href="/changes" class="top_nav__section" up-alias="/changes/*">Changes</a>
-                <a href="/support" class="top_nav__section is_support">Support</a>
-                <span class="top_nav__right">
-                  <a href="https://github.com/unpoly/unpoly" class="top_nav__section is_social"><i class="fa fa-github"></i><span class="top_nav__label"> GitHub</span></a>
+              <div class="top-nav" up-nav>
+                <a href="/api" class="top-nav--section" up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
+                <a href="/tutorial" class="top-nav--section">Tutorial</a>
+                <a href="https://demo.unpoly.com" class="top-nav--section" target="_blank">Demo</a>
+                <a href="/install" class="top-nav--section" up-alias="/install/*">Install</a>
+                <a href="/changes" class="top-nav--section" up-alias="/changes/*">Changes</a>
+                <a href="/support" class="top-nav--section -support">Support</a>
+                <span class="top-nav--right">
+                  <a href="https://github.com/unpoly/unpoly" class="top-nav--section -social"><i class="fa fa-github"></i><span class="top-nav--label"> GitHub</span></a>
                 </span>
-                <a href="/menu/narrow" class="top_nav__section is_hamburger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><i class="fa fa-bars"></i> Menu</a>
+                <a href="/menu/narrow" class="top-nav--section -hamburger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><i class="fa fa-bars"></i> Menu</a>
               </div>
 
             </div>
@@ -50,42 +50,42 @@
 
         </div>
 
-        <div class="guide__torso">
+        <div class="guide--torso">
 
           <div class="viewport">
 
-            <div class="guide__left">
+            <div class="guide--left">
 
-              <div class="guide__menu" up-viewport>
+              <div class="guide--menu" up-viewport>
                 <% if @menu_html %>
                   <%= @menu_html %>
                 <% else %>
-                  <div class="menu is_placeholder">
-                    <a href="<%= @menu_path %>" class="hyperlink is_gray">Menu</a>
+                  <div class="menu -placeholder">
+                    <a href="<%= @menu_path %>" class="hyperlink -gray">Menu</a>
                   </div>
                 <% end %>
               </div>
             </div>
 
-            <div class="guide__main" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
+            <div class="guide--main" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
 
-              <div class="guide__content" up-main="modal">
+              <div class="guide--content" up-main="modal">
                 <%= yield %>
               </div>
 
-              <div class="guide__fineprint">
+              <div class="guide--fineprint">
                 <div class="fineprint">
-                  <div class="fineprint__item">
+                  <div class="fineprint--item">
                     Made by
-                    <a href="https://twitter.com/triskweline" class="hyperlink is_gray">Henning Koch</a>
+                    <a href="https://twitter.com/triskweline" class="hyperlink -gray">Henning Koch</a>
                   </div>
 
-                  <div class="fineprint__item">
-                    <a href="/imprint" class="hyperlink is_gray">Imprint</a>
+                  <div class="fineprint--item">
+                    <a href="/imprint" class="hyperlink -gray">Imprint</a>
                   </div>
 
-                  <div class="fineprint__item">
-                    <a href="/privacy" class="hyperlink is_gray">Privacy policy</a>
+                  <div class="fineprint--item">
+                    <a href="/privacy" class="hyperlink -gray">Privacy policy</a>
                   </div>
                 </div>
               </div>

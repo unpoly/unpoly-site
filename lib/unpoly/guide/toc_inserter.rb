@@ -3,7 +3,7 @@ require 'nokogiri'
 module Unpoly
   module Guide
     class TOCInserter
-      CONTENT_HEADING_SELECTOR = 'h1, h2, h3:not(.pearl__title), h4:not(.admonition--title), h5, h6'
+      CONTENT_HEADING_SELECTOR = 'h1, h2, h3:not(.pearl-title), h4:not(.admonition--title), h5, h6'
 
       def auto_insert(html)
         nokogiri_doc = Nokogiri::HTML.fragment(html)

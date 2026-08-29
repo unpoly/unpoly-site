@@ -20,7 +20,7 @@
   end
 %>
 
-<div class="feature is_<%= feature.visibility %>">
+<div class="feature -<%= feature.visibility %>">
 
   <%= edit_button(feature) %>
 
@@ -59,7 +59,7 @@
   <% auto_toc do %>
 
     <% if feature.guide_markdown.present? %>
-      <div class="feature__prose">
+      <div class="feature--prose">
         <%= markdown_prose(feature.guide_markdown) %>
       </div>
     <% end %>
@@ -76,13 +76,13 @@
 
       <% if show_param_section_titles %>
         <div class="minitoc">
-          <div class="minitoc__heading">
+          <div class="minitoc--heading">
             <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>
           </div>
-          <div class="minitoc__items">
+          <div class="minitoc--items">
             <% param_sections.each do |param_section| %>
-              <div class="minitoc__item">
-                <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="hyperlink is_secondary">
+              <div class="minitoc--item">
+                <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="hyperlink -secondary">
                   <%= param_section.title %>
                 </a>
               </div>
@@ -94,7 +94,7 @@
       <% end %>
 
       <% if feature.params_note.present? %>
-        <div class="feature__params_note">
+        <div class="feature--params-note">
           <% admonition(:info) do %>
             <%= markdown_prose(feature.params_note) %>
           <% end %>
@@ -105,24 +105,24 @@
       <% param_sections.each do |param_section| %>
 
         <% if show_param_section_titles %>
-          <h3 class="pearl_title" id="<%= param_section.guide_anchor(params_segment_id) %>" anchor-link>
-            <span class="pearl_title__text">
+          <h3 class="pearl-title" id="<%= param_section.guide_anchor(params_segment_id) %>" anchor-link>
+            <span class="pearl-title--text">
               <%= param_section.title %>
             </span>
-            <span class="pearl_title__divider"></span>
+            <span class="pearl-title--divider"></span>
           </h3>
         <% end %>
 
         <% param_section.params.each do |param| %>
-          <div class="feature__param" id="<%= param.guide_anchor %>" anchor-link>
+          <div class="feature--param" id="<%= param.guide_anchor %>" anchor-link>
 
 
-            <div class="feature__param_info">
-              <span class="feature__param_signature">
-                <%= param.signature(html_class_prefix: 'feature__param', wbr: true) %>
+            <div class="feature--param-info">
+              <span class="feature--param-signature">
+                <%= param.signature(html_class_prefix: 'feature--param', wbr: true) %>
               </span>
               <% if param.experimental? && !feature.experimental? %>
-                <span class="feature__param_experimental_icon" title="Experimental">
+                <span class="feature--param-experimental-icon" title="Experimental">
                   <i class="fa fa-flask"></i>
                 </span>
               <% end %>
@@ -132,22 +132,22 @@
             <% show_optional_tag = param.optional? %>
             <% show_required_tag = param.required? && !feature.property? %>
 
-            <div class="feature__param_details <%= show_prose ? 'with_prose' : 'without_prose' %>">
+            <div class="feature--param-details <%= show_prose ? '-with-prose' : '-without-prose' %>">
 
               <% if show_optional_tag || show_required_tag %>
-                <span class="feature__param_optionality">
+                <span class="feature--param-optionality">
                   <% if show_optional_tag %>
-                    <span class="tag is_gray is_ghost">optional</span>
+                    <span class="tag -gray -ghost">optional</span>
                   <% end %>
 
                   <% if show_required_tag %>
-                    <span class="tag is_teal">required</span>
+                    <span class="tag -teal">required</span>
                   <% end %>
                 </span>
               <% end %>
 
               <% if param.guide_markdown? %>
-                <div class="feature__param_prose">
+                <div class="feature--param-prose">
                   <div class="prose">
                   <%= markdown(param.guide_markdown) %>
                     <% if param.references? %>
@@ -160,14 +160,14 @@
               <% end %>
 
               <% if param.types.present? %>
-                <div class="feature__param_types">
+                <div class="feature--param-types">
                   <%= types param.types %>
                 </div>
               <% end %>
 
-            </div> <%# .feature__param_details %>
+            </div> <%# .feature--param-details %>
 
-          </div> <%# .feature__param %>
+          </div> <%# .feature--param %>
         <% end %> <%# each param %>
 
       <% end %> <%# each param_section %>
@@ -178,8 +178,8 @@
 
       <hr class="separator">
 
-      <div class="feature__param is_response">
-        <div class="feature__param_info">
+      <div class="feature--param -response">
+        <div class="feature--param-info">
           <h2 id="return-value">
             Return value
           </h2>
@@ -187,14 +187,14 @@
 
         <% show_prose = feature.response.guide_markdown? %>
 
-        <div class="feature__param_details <%= show_prose ? 'with_prose' : 'without_prose' %>">
+        <div class="feature--param-details <%= show_prose ? '-with-prose' : '-without-prose' %>">
           <% if show_prose %>
-            <div class="feature__param_prose">
+            <div class="feature--param-prose">
               <%= markdown_prose(feature.response.guide_markdown) %>
             </div>
           <% end %>
           <% if feature.response.types.present? %>
-            <div class="feature__param_types">
+            <div class="feature--param-types">
               <%= types(feature.response.types) %>
             </div>
           <% end %>

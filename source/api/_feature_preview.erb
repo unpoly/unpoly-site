@@ -1,14 +1,14 @@
-<a href="<%= feature.guide_path %>" class="documentable_preview is_<%= feature.visibility %>">
+<a href="<%= feature.guide_path %>" class="documentable-preview -<%= feature.visibility %>">
 
-  <span class="documentable_preview__kind" title="<%= feature.long_kind %>"><%= feature.short_kind %></span>
+  <span class="documentable-preview--kind" title="<%= feature.long_kind %>"><%= feature.short_kind %></span>
 
-  <div class="documentable_preview__title">
-    <span class="documentable_preview__signature"><%= h(feature.signature) %></span>
-    <span class="documentable_preview__visibility"><%= visibility_tag(feature.visibility) %></span>
+  <div class="documentable-preview--title">
+    <span class="documentable-preview--signature"><%= h(feature.signature) %></span>
+    <span class="documentable-preview--visibility"><%= visibility_tag(feature.visibility) %></span>
   </div>
 
   <% if feature.summary_markdown.present? %>
-    <div class="documentable_preview__summary">
+    <div class="documentable-preview--summary">
       <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
     </div>
   <% end %>

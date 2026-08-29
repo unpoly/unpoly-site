@@ -1,16 +1,16 @@
 <% example.reload if development? %>
 
-<div class="example_embed">
+<div class="example-embed">
 
-  <h3 class="example_embed__title">
+  <h3 class="example-embed--title">
     <% if defined?(title) %>
       <%= title %>
     <% else %>
       Example: <%= example.title %>
     <% end %>
 
-    <div class="example_embed__maximize" up-tooltip="View example in fullscreen">
-      <a class="hyperlink is_small" href="<%= example.short_index_path %>" up-layer="new cover">
+    <div class="example-embed--maximize" up-tooltip="View example in fullscreen">
+      <a class="hyperlink -small" href="<%= example.short_index_path %>" up-layer="new cover">
         <i class="fa fa-window-maximize"></i> Fullscreen
       </a>
     </div>
@@ -18,25 +18,25 @@
   </h3>
 
   <% if (!defined?(explanation) || explanation != false) && example.explanation.present? %>
-    <div class="example_embed__explanation prose">
+    <div class="example-embed--explanation prose">
       <%= example.highlight markdown(example.explanation) %>
     </div>
   <% end %>
 
-  <div class="example_embed__columns">
+  <div class="example-embed--columns">
 
-    <div class="example_embed__files">
+    <div class="example-embed--files">
 
       <% (example.pages + example.javascripts).each do |asset| %>
-        <div class="example_embed__file">
-          <div class="example_embed__filename"><%= asset.name %></div>
-          <pre class="example_embed__code"><code><%= example.highlight(h asset.text) %></code></pre>
+        <div class="example-embed--file">
+          <div class="example-embed--filename"><%= asset.name %></div>
+          <pre class="example-embed--code"><code><%= example.highlight(h asset.text) %></code></pre>
         </div>
       <% end %>
 
     </div>
 
-    <iframe class="example_embed__demo" src="<%= example.demo_path %>"></iframe>
+    <iframe class="example-embed--demo" src="<%= example.demo_path %>"></iframe>
 
   </div>
 

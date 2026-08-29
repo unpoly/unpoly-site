@@ -6,7 +6,7 @@ $VERSION_NAV_WIDTH: 90px
   display: flex
   flex-direction: column
 
-.guide__head
+.guide--head
   flex: 0 0 auto
   position: fixed
   left: 0
@@ -27,21 +27,21 @@ $VERSION_NAV_WIDTH: 90px
     height: 100% // stretch to $HEAD_HEIGHT, so children can be centered vertically
     flex-wrap: wrap
 
-.guide__logo
+.guide--logo
   flex: 0 0 auto
 
   +on_wide
     background-color: $COLOR_LEFT
     width: calc(#{$LEFT_WIDTH} - #{$VERSION_NAV_WIDTH})
 
-.guide__version_nav
+.guide--version-nav
   flex: 0 0 $VERSION_NAV_WIDTH
   text-align: right
 
   +on_narrow
     display: none
 
-.guide__top_nav
+.guide--top-nav
   flex: 1 0 auto
   background-color: $COLOR_MAIN
   height: 100%
@@ -49,7 +49,7 @@ $VERSION_NAV_WIDTH: 90px
   align-items: center
   padding-left: $SPACING_X
 
-.guide__torso
+.guide--torso
   //margin-top: $HEAD_HEIGHT + 35px
   flex: 1 0 auto
 
@@ -59,14 +59,14 @@ $VERSION_NAV_WIDTH: 90px
     align-items: flex-start
     flex-wrap: nowrap
 
-.guide__left
+.guide--left
   flex: 0 0 $LEFT_WIDTH
   margin-right: $SPACING_X
 
   +on_narrow
     display: none
 
-.guide__menu
+.guide--menu
   position: fixed
   //padding: 24px $SPACING_X 24px 0
   padding: 29px 24px 24px 0
@@ -78,11 +78,11 @@ $VERSION_NAV_WIDTH: 90px
   overflow-x: hidden
   +pretty-scrollbars
 
-.guide__fineprint
+.guide--fineprint
   margin-top: 40px
   margin-bottom: 5px
 
-.guide__main
+.guide--main
   margin-top: $HEAD_HEIGHT
   margin-bottom: 20px
   flex: 1 1 auto
@@ -95,7 +95,7 @@ $VERSION_NAV_WIDTH: 90px
 //  width: 100%
 //  background-color: #fff
 //
-//.guide__head
+//.guide--head
 //  height: 7px
 //  background-color: $COLOR_SECONDARY
 //  position: fixed
@@ -104,23 +104,23 @@ $VERSION_NAV_WIDTH: 90px
 //  width: 100%
 //  z-index: 100
 //
-//.guide__torso
+//.guide--torso
 //  +clear_after
 //
-//.guide__content
+//.guide--content
 //  +horizontal-margin($side-width)
 //  padding: 55px 30px
 //
-//.guide__left
+//.guide--left
 //  float: left
 //  width: $side-width
 //  overflow: hidden
 //  +border-box
 //  padding: 55px 0 55px 30px
 //
-//.guide__logo
+//.guide--logo
 //
-//.guide__hamburger
+//.guide--hamburger
 //  display: none
 //
 //  +narrow_screen
@@ -139,10 +139,10 @@ $VERSION_NAV_WIDTH: 90px
 //      color: $COLOR_ALIZARIN
 //
 //
-//.guide__menu
+//.guide--menu
 //  margin-top: 34px
 //
-//.guide__right
+//.guide--right
 //  float: right
 //  width: $side-width
 //  overflow: hidden
@@ -150,23 +150,23 @@ $VERSION_NAV_WIDTH: 90px
 //  padding: 55px 30px
 //
 //+narrow-screen
-//  .guide__right
+//  .guide--right
 //    display: none
-//  .guide__menu_toggler
+//  .guide--menu-toggler
 //    display: block
-//  .guide__logo
-//  .guide__left
+//  .guide--logo
+//  .guide--left
 //    width: auto
 //    float: none
 //    padding-bottom: 0
 //    padding-top: 35px
-//  .guide__content
+//  .guide--content
 //    +horizontal-margin(0)
 //    padding-top: 40px
-//  .guide__menu
+//  .guide--menu
 //    display: none
 //
-//.guide__fineprint
+//.guide--fineprint
 //  color: #666
 //  margin-top: 50px
 //  border-top: 2px solid #eee
@@ -175,10 +175,10 @@ $VERSION_NAV_WIDTH: 90px
 //  +font-size(16px)
 //
 ////@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
-////  .guide__content
+////  .guide--content
 ////    padding-left: $side-width + $side-spacing
 ////
-////  .guide__side
+////  .guide--side
 ////    width: $side-width
 ////    position: fixed
 ////    margin-bottom: 0

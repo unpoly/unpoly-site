@@ -17,10 +17,10 @@ $meta-breakpoint: 1350px
   font-weight: normal
   margin-bottom: 0
 
-.node:not(.is_group) > .node
+.node:not(.-group) > .node
   margin-left: 20px
 
-.node.is_group
+.node.-group
   $color: $COLOR_TERTIARY
 
   margin-bottom: 4px
@@ -37,7 +37,7 @@ $meta-breakpoint: 1350px
     background-color: lighten($color, 30%)
     z-index: 0
 
-  > .node__self
+  > .node--self
     +font-size($FONT_SIZE - 3px, 3px)
     color: $color
     text-transform: uppercase
@@ -53,51 +53,51 @@ $meta-breakpoint: 1350px
   //  margin-top: 4px
 
 
-//.node:not(.is_group).is_expanded > .node
+//.node:not(.-group).-expanded > .node
 //  display: block !important
 //
-//.node.is_match > .node.is_match
+//.node.-match > .node.-match
 //  display: block
 //
-//.node.is_group:not(.is_match) > .node
+//.node.-group:not(.-match) > .node
 //  display: block
 
-.node:not(.is_match).is_expanded > .node,
-.node.is_match.is_force_toggled.is_expanded > .node
+.node:not(.-match).-expanded > .node,
+.node.-match.-force-toggled.-expanded > .node
   display: block
 
-.node.is_match > .node.is_match
+.node.-match > .node.-match
   display: block
 
-.node__self
+.node--self
   color: #888
   display: block
   align-items: center
   display: flex
   gap: 5px
 
-  //.node:not(.is_group) > &
+  //.node:not(.-group) > &
   //  padding-left: 1.1em
 
   // Truncate long feature names like up.link.makeFollowable
   // +truncate_text
 
-  //.node.is_interface > &
+  //.node.-interface > &
   //  // Allow the root nodes to wrap since they are English sentences
   //  // like "Updating fragments from JavaScript"
   //  white-space: normal
 
 
-a.node__self
+a.node--self
   --node-color: #{desaturate($COLOR_SECONDARY, 5%)}
 
-  .node.is_deprecated &
+  .node.-deprecated &
     --node-color: #{$COLOR_PROTECTED}
 
-  //.node.is_experimental &
+  //.node.-experimental &
   //
 
-  .node.is_deprecated &
+  .node.-deprecated &
     text-decoration: line-through
 
   color: var(--node-color)
@@ -114,7 +114,7 @@ a.node__self
         background-color: $COLOR_HOVER
         color: white
 
-.node__collapser
+.node--collapser
   font-size: 0.8em
   cursor: pointer
   margin-top: 2px
@@ -124,7 +124,7 @@ a.node__self
   //display: block
   //width: 1em
 
-.node__meta
+.node--meta
   white-space: nowrap
   display: flex
   gap: 5px
@@ -134,7 +134,7 @@ a.node__self
   +narrower-than($meta-breakpoint)
     display: none
 
-.node__tag
+.node--tag
   display: inline-block
   +font-size(11px)
   +bold
@@ -145,27 +145,27 @@ a.node__self
   color: #454966
   border: 1px solid #656986
   margin-top: -1px
-  .node__self.up-active &, .node__self.up-current &
+  .node--self.up-active &, .node--self.up-current &
     color: white
     border-color: white
 
-.node__visibility_icon
+.node--visibility-icon
   font-size: 12px
   display: inline-block
   margin-left: 5px
   margin-top: -1px
   text-decoration: none
 
-.node__title
+.node--title
   flex: 1 1 auto
   white-space: nowrap
   overflow-x: hidden
   text-overflow: ellipsis
 
-  &:has(+.node__dots)
+  &:has(+.node--dots)
     flex: 0 0 auto
 
-.node__dots
+.node--dots
   flex: 1 1 0
   border-top: 1px dotted #bbb
   margin-top: 10px
@@ -173,7 +173,7 @@ a.node__self
   +narrower-than($meta-breakpoint)
     display: none
 
-.node__commit_count
+.node--commit-count
   color: #555
   //margin-left: 5px
   //display: inline-block
@@ -194,7 +194,7 @@ a.node__self
 .node mark
   color: $COLOR_ALIZARIN
 
-.node.has_query
+.node.-query
   display: none
-  &.is_match
+  &.-match
     display: block

@@ -3,18 +3,18 @@
 .search
   position: relative
 
-.search__input
+.search--input
   padding-left: 28px !important
   padding-right: 24px !important
 
-.search__icon
+.search--icon
   position: absolute
   top: 7px
   left: 8px
   color: #999
   font-size: 16px
 
-.search__reset
+.search--reset
   position: absolute
   top: 4px
   right: 8px
@@ -22,7 +22,7 @@
   font-size: 26px
   cursor: pointer
 
-.search__hot_key
+.search--hot-key
   $edge: 20px
   position: absolute
   top: 6px
@@ -40,12 +40,12 @@
   border: 1px solid #aaa
   pointer-events: none // allow to click through
 
-.search__expand_help
+.search--expand-help
   margin-top: 8px
   color: #666
   +font-size(15px)
 
-.search__expand_key
+.search--expand-key
   +bold
   display: inline-block
   color: white
@@ -59,7 +59,7 @@
 //.search
 //  +font-size(16px)
 //
-//.search__query
+//.search--query
 //  border: 1px solid #aaa
 //  padding: 5px 7px
 //  +default-font
@@ -68,14 +68,14 @@
 //  width: 100%
 //  border-radius: 2px
 //
-//.search__symbol
+//.search--symbol
 //  display: block
 //  margin-bottom: 1px
 //  white-space: nowrap
 //  +monospace-font
 //  color: $COLOR_MAIN
 //
-//  &.is_experimental
+//  &.-experimental
 //    color: $COLOR_PROTECTED
 //
 //  // Styling .up-current has weird effects since
@@ -83,7 +83,7 @@
 //  .up-active
 //    +bold
 //
-//.search__symbol_kind
+//.search--symbol-kind
 //  display: inline-block
 //  width: 40px
 //  text-align: center
@@ -95,20 +95,20 @@
 //  +bold
 //  +border-box
 //
-//  .search__symbol.is_experimental &
+//  .search--symbol.-experimental &
 //    background-color: $COLOR_PROTECTED
 //
-//.search__symbol:hover
+//.search--symbol:hover
 //  color: $COLOR_ALIZARIN
-//  .search__symbol_kind
+//  .search--symbol-kind
 //    background-color: $COLOR_ALIZARIN
 //
-//.search__symbol_params
+//.search--symbol-params
 //  display: none
 //  opacity: 0.65
-//  .search.has_query .search__symbol.is_match &
+//  .search.-query .search--symbol.-match &
 //    display: block
 //  &:empty
 //    display: none
-//  .search__symbol_kind
+//  .search--symbol-kind
 //    opacity: 0.6

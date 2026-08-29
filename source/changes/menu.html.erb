@@ -1,7 +1,7 @@
 <% menu do %>
-  <div class="menu__title">Changes</div>
+  <div class="menu--title">Changes</div>
 
-  <div class="menu__nodes">
+  <div class="menu--nodes">
     <div class="node">
       <%= node_link "Overview", "/changes" %>
     </div>
@@ -13,14 +13,14 @@
     <% guide.releases.each do |release| %>
       <div class="node">
         <% node_link "/changes/#{release.version}" do %>
-          <span class="node__title">
+          <span class="node--title">
             Version <%= release.version %>
           </span>
 
           <% if (commit_count = release.commit_count) %>
-            <span class="node__dots"></span>
+            <span class="node--dots"></span>
             <% node_meta do %>
-              <span class="node__commit_count" title="<%= pluralize(commit_count, 'commit', 'commits') %>">
+              <span class="node--commit-count" title="<%= pluralize(commit_count, 'commit', 'commits') %>">
                 <%= commit_count %>
                 <i class="fa fa-gg"></i>
               </span>
