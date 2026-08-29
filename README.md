@@ -67,6 +67,76 @@ Documentation changes are picked up by reloading. You need to restart the develo
 server when you add a *new* symbol or page, because the proxies are built at boot.
 
 
+## HTML and CSS structure
+
+- We use the BEM (Block/Element/Modifier) naming convention to prevent name clashes and
+  accidental style inheritance. All components are implemented as BEM blocks. We use the
+  terms "blocks" and "components" interchangeably.
+- We use a custom BEM naming convention that only uses double dashes (`--`), never double
+  underscores (`__`). All names are kebab-cased.
+- Every block lives in a file of its own in `source/stylesheets/guide/blocks`, named after
+  the block. Files there are picked up by `require_tree`, so a new block needs no import.
+
+### Blocks
+
+A simple block is a class on a `<div>`, `<span>` or any other element:
+
+    <a href="/install" class="hyperlink">Install</a>
+
+### Elements
+
+The children of a block ("elements" in BEM lingo) are all prefixed with the block name and
+two dashes (`--`):
+
+    <div class="menu">
+      <div class="menu--search">…</div>
+      <div class="menu--nodes">…</div>
+    </div>
+
+Do not use double underscores (`__`) to separate block and element names.
+
+Where possible, only have a single nesting level (a block with many children). Where deeper
+nesting has big advantages, the class name still only contains a single nesting depth
+(`block--last-element-depth`):
+
+    <div class="feature">
+      <div class="feature--param">
+        <div class="feature--param-info">…</div>
+        <div class="feature--param-details">…</div>
+      </div>
+    </div>
+
+### Modifiers for variants
+
+To offer variants of a block, define modifier classes that can be added to the block class.
+Modifiers are prefixed with a single dash (`-`):
+
+    <span class="tag -teal">required</span>
+
+Both blocks and elements can have modifiers. In SASS a modifier is nested into the block it
+belongs to:
+
+    .tag
+      background-color: var(--color)
+
+      &.-teal
+        --color: #{$COLOR_GREEN_SEA}
+
+Modifiers do NOT use prepositions (NOT like `.is-teal`) and they do NOT prefix the block
+name (NOT like `.tag--teal`).
+
+Many modifiers are generated from parsed documentation: a feature's visibility becomes
+`-stable`, `-experimental`, `-deprecated` or `-internal`, and a menu node's kind becomes
+`-page`, `-group` or `-interface`.
+
+### The same names in Ruby and JavaScript
+
+BEM names are not limited to templates and stylesheets. They are also built in Ruby helpers
+(`config.rb`, `lib/unpoly/guide`) and used by the components in `source/javascripts`, both
+as selectors and as classes toggled at runtime. When you rename a block, grep for its name
+in all four places: stylesheets, ERB templates, Ruby and JavaScript.
+
+
 ## Local development
 
 Every variant below expects `unpoly` and `unpoly-site` to be checked out in the same
