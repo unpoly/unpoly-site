@@ -130,11 +130,29 @@ Once the container is running, you can browse documentation from the outside at
 
 ## Tests
 
-This repo should have a lot more tests.
+Run the test suite with `bundle exec rspec`. It also runs on GitHub Actions for every
+push to `master` and for every pull request.
 
-The code that parses documentation comments is covered in `spec/lib`. There are a few
-Capybara feature specs for the site itself in `spec/features`.\
-Run them all with `bundle exec rspec`.
+Tests read the documentation through `vendor/unpoly-local` like the site does, so they see
+the content of whatever revision is checked out there. A missing `@stable` tag in the
+Unpoly sources will fail the suite here.
+
+- **`spec/lib`** covers the parser and the objects it builds (the `Unpoly::Guide`
+  namespace) with fast unit tests. What is worth covering here is what the HTML templates
+  call: the `guide_path` of a documentable, the HTML that `MarkdownRenderer` produces, the
+  features and topics an interface offers to the menu.
+- **`spec/features`** covers the site itself with Capybara feature specs. They all run in a
+  headless Chrome (`js: true`), since most of what the site does — loading the menu,
+  filtering it, updating fragments instead of reloading — only happens with JavaScript.
+  Use `NO_HEADLESS=1 bundle exec rspec` to watch them in a visible browser.
+- **`spec/fixtures/parser`** holds doc comments that the parser reads *in addition to* the
+  Unpoly sources, as test data for parsing rules. Note that they are parsed in a
+  production build as well, where they become pages of their own.
+
+We aim for a middle ground on coverage: describe public API and behavior rather than
+implementation details, and keep the browser tests to core journeys that a unit test
+cannot reach. A parsing rule is worth a fixture and one expectation; it does not need a
+feature spec of its own.
 
 
 ## Deployment
