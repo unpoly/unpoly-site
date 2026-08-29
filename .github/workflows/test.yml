@@ -1,0 +1,65 @@
+---
+name: Tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    name: RSpec
+    env:
+      # The deploy group is only needed for `cap deploy` and pulls a gem from git.
+      BUNDLE_WITHOUT: deploy
+    defaults:
+      run:
+        working-directory: unpoly-site
+    steps:
+      # The committed symlink `vendor/unpoly-local` points at `../unpoly`, so both
+      # repositories must be checked out next to each other. The site is unusable
+      # without it: the specs parse their documentation from that checkout, and the
+      # site's own frontend is served from its build in `unpoly/dist`.
+      - name: Check out unpoly-site
+        uses: actions/checkout@v4
+        with:
+          path: unpoly-site
+
+      - name: Check out unpoly
+        uses: actions/checkout@v4
+        with:
+          repository: unpoly/unpoly
+          path: unpoly
+
+      - name: Install Ruby from .ruby-version
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: unpoly-site
+          ruby-version: ".ruby-version"
+          bundler-cache: true
+
+      - name: Install Node.js from unpoly's .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: unpoly/.nvmrc
+          cache: npm
+          cache-dependency-path: unpoly/package-lock.json
+
+      - name: Install npm dependencies of unpoly
+        run: npm ci
+        working-directory: unpoly
+
+      # `unpoly/dist` is not committed, but the asset pipeline requires `unpoly.js`
+      # from it when a feature spec renders a page with JavaScript.
+      - name: Build unpoly
+        run: npm run build
+        working-directory: unpoly
+
+      # Chrome and chromedriver for the `js: true` feature specs are preinstalled
+      # on the runner image.
+      - name: Run tests
+        run: bundle exec rspec
