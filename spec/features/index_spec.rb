@@ -1,4 +1,4 @@
-describe 'index', type: :feature do
+describe 'index', type: :feature, js: true do
   before do
     visit '/'
   end
