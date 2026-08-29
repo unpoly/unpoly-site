@@ -1,120 +1,149 @@
 # Unpoly guide and API
 
-These are the sources for [unpoly.com](https://unpoly.com).
+These are the sources for [unpoly.com](https://unpoly.com): the site's parser, templates,
+stylesheets and JavaScript.
 
-If you are looking for the source code of the Unpoly framework, visit [github.com/unpoly/unpoly](https://github.com/unpoly/unpoly).
+If you are looking for the source code of the Unpoly framework, visit
+[github.com/unpoly/unpoly](https://github.com/unpoly/unpoly).
+
+
+## What lives where
+
+The [unpoly.com](https://unpoly.com) site is implemented by two repositories:
+
+-  **[`unpoly/unpoly`](https://github.com/unpoly/unpoly)** holds most of the textual content (API references, guide pages).\
+   Written as Markdown with JSDoc-like directives.
+- **`unpoly/unpoly-site`** (this repo) holds the HTML templates, CSS, and JS.\
+  It also implements a parser that reads content from `unpoly/unpoly`.
+
+Documentation content is written **in the `unpoly/unpoly` repository, next to the code it
+describes**, so that a change to a feature and a change to its documentation happen in the
+same commit and cannot drift apart. Nothing in `source/api` is a page you write; those are
+templates that the parser fills.
+
+The `unpoly/unpoly-site` repo only holds content for a few pages, all implemented in `source/`:
+
+- the start page
+- `/install`
+- `/tutorial`
+- `/support`
 
 
 ## Project overview
 
 - [unpoly.com](https://unpoly.com) is a static site. It uses Unpoly for its frontend.
-- We use [Middleman](https://middlemanapp.com/), a static site generator based on Ruby. 
+- We use [Middleman](https://middlemanapp.com/), a static site generator based on Ruby.
 - Page sources can be found in `source`. We mostly use ERB templates.
-- All API references and package overviews are parsed live from the Unpoly source code. See *Updating API documentation* and *How API documentation is parsed*.
-- There is a symlink pointing to a local copy of the Unpoly source code in `vendor/unpoly-local`. This code is used both to parse the API documentation *and* to provide the Unpoly JavaScript and stylesheets for the site. See *Setting up local development* below.
-- Frontend assets can be found in `source/javascripts` and `source/stylesheets`. They are compiled with Sprockets, there is no Webpack or another bundler. The sprockets integration in Middleman 4 works just like the classic Rails asset pipeline.
+- API references and module overviews are not Middleman pages. They are parsed live from
+  the Unpoly source code. See *How API documentation is parsed*.
+- There is a symlink pointing to a local copy of the Unpoly source code in
+  `vendor/unpoly-local`. This code is used both to parse the documentation *and* to
+  provide the Unpoly JavaScript and stylesheets for the site itself. See *Local
+  development* below.
+- Frontend assets can be found in `source/javascripts` and `source/stylesheets`. They are
+  compiled with Sprockets, there is no Webpack or another bundler. The Sprockets
+  integration in Middleman 4 works just like the classic Rails asset pipeline.
 - Helper functions and Middleman configuration can be found in `config.rb`.
-- The site is deployed by copying the static build files to [unpoly.com](https://unpoly.com).  We use Capistrano to build and deploy with a single command. See *Deployment*.
-  
-
-## Updating API documentation
-
-The API docs for Unpoly functions, selectors, etc. are not maintained in *this* repo but in documentation comments in [unpoly/unpoly](https://github.com/unpoly/unpoly). Every API page on [unpoly.com](https://unpoly.com) will have a *Change this page* link leading to the underlying comment on GitHub.
-
-**When you make a change to an API documentation, make a PR in [unpoly/unpoly](https://github.com/unpoly/unpoly). Make sure to edit files in `lib` and not in `dist`.** Files in `dist` are rewritten with every release.
-
-Accordingly all API references and package overviews are *not* built as Middleman pages. Instead the info is parsed from documentation comments in the Unpoly source code in `vendor/unpoly-local`.
-
-Documentation comments look like this in JavaScript files (`.js`):
-
-```
-/*-
-Linking to fragments
-====================
-
-The `up.link` module lets you build links that update fragments instead of entire pages.
-
-@module up.link
-*/
-```
-
-The documentation syntax is inspired by [YUIDoc](http://yui.github.io/yuidoc/syntax/). We added many extensions to that syntax to document events, selectors, etc.
-
-Documentation changes should be picked up by reloading. You probably need to restart your development server when you create a *new* API reference page.
+- The site is deployed by copying the static build files to
+  [unpoly.com](https://unpoly.com). We use Capistrano to build and deploy with a single
+  command. See *Deployment*.
 
 
 ## How API documentation is parsed
 
-There is Ruby code in `lib/unpoly/guide` that parses documentation comments into an AST-like structure (`Unpoly::Guide` namespace).
+Ruby code in `lib/unpoly/guide` parses documentation comments into an AST-like structure
+(the `Unpoly::Guide` namespace).
 
-Middleman proxies have been setup in `config.rb` so one Middleman page is dynamically created for each symbol in the API comments.
+It scans every `.js` and `.md` file under `vendor/unpoly-local/src`. In a `.js` file it
+picks up comments opening with `/*-`; a `.md` file is one documentation block in its
+entirety. Each block declares what it documents (`@function`, `@selector`, `@page`, …),
+and the parser resolves cross-references, partials and inherited params between them.
 
+Middleman proxies set up in `config.rb` then create one page per parsed symbol, rendered
+through `source/api/feature_template.html.erb` and
+`source/api/interface_template.html.erb`.
 
-
-## Interactive examples
-
-You can create CodePen-like, interactive examples by adding a folder in the `examples` directory.
-
-This is currently only used by the [Tutorial](https://unpoly.com/tutorial).
-
-Examples are limited in that there is no active server component, your example needs to work with static files alone. We should probably move our examples to something like [Glitch](https://glitch.com/) because of this.
-
-
-## Renaming paths
-
-When you rename anything with a URL, e.g. by renaming an API function, please add a `RewriteRule` to `source/.htaccess` to existing links will keep working.
+Documentation changes are picked up by reloading. You need to restart the development
+server when you add a *new* symbol or page, because the proxies are built at boot.
 
 
-## Setting up local development
+## Local development
 
-- Check out the repo
-- Make sure that the symlink `vendor/unpoly-local` points to a copy  of the source codes for the Unpoly framework. By default it is expected
-  that the `unpoly` and `unpoly-site` repositories are checked out in the same parent folder:
-  
-      projects/
-        unpoly/
-        unpoly-site/
+Every variant below expects `unpoly` and `unpoly-site` to be checked out in the same
+parent folder:
 
-- Make sure you have recent build compiled in `unpoly/dist`. Otherwise run `npm run build` in the `unpoly` directory.
-- Install the Ruby version from `.ruby-version`
-- Install dependencies with `bundle install`
-- Start a development server with `bundle exec middleman server`
-- Test your changes on `http://localhost:4567`
+    projects/
+      unpoly/
+      unpoly-site/
 
-## Local development using a DevContainer
+That's because the symlink `vendor/unpoly-local` — committed in this repo — points at
+`../unpoly`, and everything is read through it: the documentation content, and the Unpoly
+build in `unpoly/dist` that the site uses for its own frontend.
 
-If you're using an editor such as VSCode and have Docker available, you can use the DevContainer configuration provided without requiring any dependencies.
+### Recommended: boot the dev environment in `unpoly`
 
-1. Checkout `unpoly-site` alongside `unpoly` in the same parent folder (as above).
-2. Open project in VSCode.
-3. When prompted, choose to Reopen in Devcontainer.
+Best when you are writing documentation, and still fine when you are working on the site.
 
-Once inside the DevContainer, use `bundle exec middleman server` and `bundle exec rspec` as you normally would.
+Install the Ruby version from `.ruby-version` and run `bundle install` here once. Then, in
+the `unpoly` directory:
 
+    bin/dev
 
-## Local development using Docker Compose
+This boots this site at <http://localhost:4567> alongside Unpoly's own build watcher, so
+`unpoly/dist` stays current as you edit the framework — no manual build, and no second
+terminal. See
+[Setting up a dev environment](https://github.com/unpoly/unpoly/blob/master/docs/contributing/dev-environment.md)
+in that repository.
 
-You can use Docker to run the development dependencies and middleman sever.
+### Alternative: a Middleman server on its own
 
-1. Checkout `unpoly-site` alongside `unpoly` in the same parent folder (as above).
-2. From inside the `unpoly-site` folder, run the command below.
+Use this when you only want to work on the site and don't need a live build of the
+framework. You are responsible for `unpoly/dist` yourself: if it's missing or stale, run
+`npm run build` in the `unpoly` directory.
 
-        docker compose -p unpoly-site -f .devcontainer/docker-compose.yml run --service-ports app
+- Install the Ruby version from `.ruby-version`.
+- Install dependencies with `bundle install`.
+- Start a development server with `bundle exec middleman server`.
+- Test your changes on <http://localhost:4567>.
 
-Once the container is running, you can browse documentation from the outside at https://localhost:4567
+### Alternative: a DevContainer
+
+Same scope as above — the site alone, with `unpoly/dist` your responsibility — but without
+installing Ruby. If you're using an editor such as VSCode and have Docker available, you
+can use the DevContainer configuration provided.
+
+1. Open the project in VSCode.
+2. When prompted, choose to Reopen in Devcontainer.
+
+Once inside the DevContainer, use `bundle exec middleman server` and `bundle exec rspec` as
+you normally would.
+
+### Alternative: Docker Compose
+
+The same container without VSCode. From inside the `unpoly-site` folder:
+
+    docker compose -p unpoly-site -f .devcontainer/docker-compose.yml run --service-ports app
+
+Once the container is running, you can browse documentation from the outside at
+<http://localhost:4567>.
+
 
 ## Tests
 
 This repo should have a lot more tests.
 
-The code that parses documentation comments has a few tests in `spec`.\
-Run them with `bundle exec rspec`.
-
-There are no E2E tests for the site itself. We should have feature specs with Capybara for that.
+The code that parses documentation comments is covered in `spec/lib`. There are a few
+Capybara feature specs for the site itself in `spec/features`.\
+Run them all with `bundle exec rspec`.
 
 
 ## Deployment
 
 1. Commit and push changes in `unpoly-site`.
-2. Commit and push changes in `unpoly`, which you might have changed while reviewing the documentation output.
-3. Run `bundle exec cap latest deploy` to push the changes to <https://unpoly.com>. Static files will be built during deployment.
+2. Commit and push changes in `unpoly`, which you might have changed while reviewing the
+   documentation output.
+3. Run `bundle exec cap v3 deploy` to push the changes to <https://unpoly.com>. Static
+   files will be built during deployment, including a broken-link check over the whole
+   site.
+4. Update the full text index as printed at the end of the deploy:
+   `STAGE=v3 ALGOLIA_KEY=secret bundle exec rake algolia:push_all`
