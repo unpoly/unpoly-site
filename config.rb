@@ -55,7 +55,7 @@ configure :build do
             assume_extension: '.html',
             url_ignore: [/github\.com/],
             file_ignore: [
-              './CHANGELOG.md',
+              %r(CHANGELOG.*\.md$),
               './changes/google_groups/index.html',
               %r(^./images/.+\.html$),
               # %r(^./changes/[\d\.]+(-[a-z0-9]+)?/),
