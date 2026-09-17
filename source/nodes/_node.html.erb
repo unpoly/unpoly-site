@@ -1,0 +1,30 @@
+<%#
+  One node of the menu tree. Nodes come from the TOC manifest (topics and groups) and
+  from parsed documentation (modules, pages, features) — this template only asks them
+  what every node can answer.
+%>
+<div class="node <%= node.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
+  <% if node.menu_path %>
+    <% node_link node.menu_path do %>
+      <span class="node--title"><%= node.menu_title %></span>
+
+      <% node_meta do %>
+        <% if node.menu_experimental? %>
+          <i class="fa fa-flask node--visibility-icon"></i>
+        <% end %>
+
+        <% node.menu_tags.each do |tag| %>
+          <span class="node--tag"><%= tag %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <span class="node--self">
+      <span class="node--title"><%= node.menu_title %></span>
+    </span>
+  <% end %>
+
+  <% node.menu_children.each do |child| %>
+    <%= partial 'nodes/node', locals: { node: child } %>
+  <% end %>
+</div>

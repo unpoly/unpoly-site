@@ -5,10 +5,6 @@
     <!--  </div>-->
 
     <div class="node">
-      <%= node_link 'Tutorial', '/tutorial' %>
-    </div>
-
-    <div class="node">
       <%= node_link 'Demo', 'https://demo.unpoly.com' %>
     </div>
 
@@ -20,7 +16,17 @@
       <%= node_link 'Support', '/support' %>
     </div>
 
-    <%= partial 'api/nodes/all' %>
+    <% guide.toc.areas.each do |area| %>
+      <div class="node -group">
+        <span class="node--self">
+          <span class="node--title"><%= area.title %></span>
+        </span>
+      </div>
+
+      <% area.topics.each do |topic| %>
+        <%= partial 'nodes/node', locals: { node: topic } %>
+      <% end %>
+    <% end %>
 
     <div class="node">
       <%= node_link 'Changes', '/changes' %>

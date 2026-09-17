@@ -9,8 +9,8 @@ describe 'interface page', type: :feature, js: true do
     expect(page).to have_css('h1 .subtitle', text: 'up.fragment')
   end
 
-  it 'links to the guide pages of the module' do
-    expect(page).to have_css('.topics a[href="/navigation"]')
+  it 'links to the guide pages that explain the module in context' do
+    expect(page).to have_css('.learn-refs a[href="/navigation"]')
   end
 
   it 'promotes essential features before listing all features' do

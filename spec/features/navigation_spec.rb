@@ -41,4 +41,18 @@ describe 'navigation', type: :feature, js: true do
     expect(page).to have_css('.menu .up-current', text: 'up.render()')
   end
 
+  it 'expands the current module one level, as an accordion' do
+    visit '/up.fragment'
+
+    within '.menu' do
+      # The current node expands one level: its feature groups are visible ...
+      expect(page).to have_css('.node.-expanded', text: 'up.fragment')
+      expect(page).to have_link('up.render()')
+
+      # ... but everything outside its ancestry stays collapsed.
+      expect(page).to have_css('.node:not(.-expanded)', text: 'up.form', visible: :all)
+      expect(page).to_not have_link('up.submit()')
+    end
+  end
+
 end

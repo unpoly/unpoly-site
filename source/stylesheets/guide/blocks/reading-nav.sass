@@ -1,0 +1,29 @@
+@import ../../environment
+
+// The previous/next widget at the end of every Learn page.
+//
+// TODO(css): provisional styling by the Structure station — restyle with the
+// new visual system (spacing tokens) and delete this note.
+.reading-nav
+  display: flex
+  justify-content: space-between
+  gap: 1em
+  // TODO(css): literal margins, no spacer variables exist yet
+  margin-top: 2.2em
+
+.reading-nav--link
+  display: block
+  text-decoration: none
+  +hyperlink($COLOR_SECONDARY)
+
+  &.-next
+    margin-left: auto
+    text-align: right
+
+.reading-nav--role
+  display: block
+  font-size: 0.85em
+  color: $COLOR_TEXT
+
+.reading-nav--title
+  +bold

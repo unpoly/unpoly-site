@@ -1,0 +1,28 @@
+<%#
+  The path through a linear area: where the reader came from, and where the next page is.
+  Lookup areas like the API reference have no reading order and render nothing.
+%>
+<% if area.linear? %>
+  <%
+    previous_page = guide.toc.previous_page(documentable)
+    next_page = guide.toc.next_page(documentable)
+  %>
+
+  <% if previous_page || next_page %>
+    <nav class="reading-nav">
+      <% if previous_page %>
+        <a class="reading-nav--link -previous" href="<%= previous_page.guide_path %>">
+          <span class="reading-nav--role">Previous</span>
+          <span class="reading-nav--title"><%= previous_page.title %></span>
+        </a>
+      <% end %>
+
+      <% if next_page %>
+        <a class="reading-nav--link -next" href="<%= next_page.guide_path %>">
+          <span class="reading-nav--role">Next</span>
+          <span class="reading-nav--title"><%= next_page.title %></span>
+        </a>
+      <% end %>
+    </nav>
+  <% end %>
+<% end %>

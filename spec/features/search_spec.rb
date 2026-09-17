@@ -4,13 +4,13 @@ describe 'search', type: :feature do
     visit '/'
 
     expect(page).to have_css('.search')
-    expect(page).to have_css('.menu', text: 'Layers')
-    expect(page).to have_css('.menu', text: 'Form')
+    expect(page).to have_css('.menu', text: 'Overlays')
+    expect(page).to have_css('.menu', text: 'Forms')
 
-    fill_in('search', with: 'Layers')
+    fill_in('search', with: 'Overlays')
 
-    expect(page).to have_css('.menu', text: 'Layers')
-    expect(page).to_not have_css('.menu', text: 'Form')
+    expect(page).to have_css('.menu', text: 'Overlays')
+    expect(page).to_not have_css('.menu', text: 'Forms')
   end
 
   it 'allows to expand the search to a full-text search', js: true do

@@ -3,7 +3,7 @@
 
   <% guide.ensure_fresh! if development? # reload guide if we have rendered a page with it before %>
   <%= partial 'layouts/head' %>
-  <% @menu_path = '/api/menu' if @menu_path.nil? && @menu_html.nil? %>
+  <% @menu_path = '/learn/menu' if @menu_path.nil? && @menu_html.nil? %>
 
   <body>
 
@@ -32,10 +32,10 @@
             <div class="guide--top-nav">
 
               <div class="top-nav" up-nav>
+                <a href="/learn" class="top-nav--section">Learn</a>
                 <a href="/api" class="top-nav--section" up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
-                <a href="/tutorial" class="top-nav--section">Tutorial</a>
                 <a href="https://demo.unpoly.com" class="top-nav--section" target="_blank">Demo</a>
-                <a href="/install" class="top-nav--section" up-alias="/install/*">Install</a>
+                <a href="/install" class="top-nav--section">Install</a>
                 <a href="/changes" class="top-nav--section" up-alias="/changes/*">Changes</a>
                 <a href="/support" class="top-nav--section -support">Support</a>
                 <span class="top-nav--right">

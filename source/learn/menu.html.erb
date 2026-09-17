@@ -4,7 +4,7 @@
   </div>
 
   <div class="menu--nodes">
-    <% guide.toc.api.topics.each do |topic| %>
+    <% guide.toc.learn.topics.each do |topic| %>
       <%= partial 'nodes/node', locals: { node: topic } %>
     <% end %>
   </div>

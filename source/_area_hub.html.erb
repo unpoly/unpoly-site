@@ -1,0 +1,41 @@
+<%#
+  The landing page of an area. Both /learn and /api render this: the model knows which
+  topics an area has and what each topic is called, so this template does not.
+  Blurbs are derived from each topic's start page; the hub carries no copy of its own.
+%>
+<% @menu_path = area.menu_path %>
+
+<h1><%= page_title area.title %></h1>
+
+<% area.topics.each do |topic| %>
+  <div class="topic-preview">
+    <h2 class="topic-preview--head">
+      <% if topic.menu_path %>
+        <%= hyperlink topic.title, topic.menu_path, class: 'topic-preview--title' %>
+      <% else %>
+        <span class="topic-preview--title"><%= topic.title %></span>
+      <% end %>
+
+      <% if topic.subtitle %>
+        <span class="topic-preview--subtitle"><%= topic.subtitle %></span>
+      <% end %>
+    </h2>
+
+    <% if topic.summary_markdown.present? %>
+      <%= markdown_prose(topic.summary_markdown, strip_links: true) %>
+    <% end %>
+
+    <ul class="topic-preview--children topics">
+      <% topic.menu_children.each do |child| %>
+        <li>
+          <% if child.menu_path %>
+            <%= link_to content_tag(:i, '', class: 'fa fa-file-text-o') + ' ' + child.menu_title, child.menu_path %>
+          <% else %>
+            <span class="topic-preview--group"><%= child.menu_title %></span>
+            <span class="topic-preview--count"><%= child.menu_children.size %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -37,6 +37,8 @@ class Node
     @toggleExpanded()
     if @isMatch()
       @element.classList.add('-force-toggled')
+    else if @isExpanded
+      @accordion()
 
   toggleExpanded: (forcedState) =>
     if @isGroup()
@@ -58,6 +60,28 @@ class Node
     if @isExpanded
       # To ensure this node is visible, we need to expand our ancestry
       @parentNode?.toggleExpanded(true)
+
+  # The menu is an accordion: expanding a node collapses everything
+  # outside its ancestry. Groups always stay expanded.
+  accordion: =>
+    keep = @ancestry()
+    for rootNode in @root().rootSiblings || [@root()]
+      rootNode.collapseExcept(keep)
+    return
+
+  ancestry: =>
+    if @parentNode
+      [this].concat(@parentNode.ancestry())
+    else
+      [this]
+
+  collapseExcept: (keep) =>
+    # Groups force their expansion (and would re-expand their ancestry), so we
+    # only collapse real nodes. A group disappears with its collapsed parent.
+    @toggleExpanded(false) unless @isGroup() || this in keep
+    for childNode in @childNodes
+      childNode.collapseExcept(keep)
+    return
 
   isGroup: =>
     @element.matches('.-group')
@@ -127,8 +151,12 @@ class Node
     @self.matches('.up-current')
 
   revealCurrent: =>
-    if @isChild() && @isCurrent() && !@parentNode.isMatch()
-      @parentNode.toggleExpanded(true)
+    if @isCurrent() && !@parentNode?.isMatch()
+      # Show where we are: collapse everything outside our ancestry, then
+      # expand the current node one level (children, not descendants).
+      @accordion()
+      @parentNode?.toggleExpanded(true)
+      @toggleExpanded(true) if @childNodes.length
       up.reveal(@element, padding: 40)
     else
       for childNode in @childNodes
@@ -147,6 +175,8 @@ up.compiler '.menu', (menu) ->
   nodesContainer = menu.querySelector('.menu--nodes')
   rootNodes = findChildren(nodesContainer, '.node')
   rootNodes = Node.newAll(rootNodes)
+  for rootNode in rootNodes
+    rootNode.rootSiblings = rootNodes
 
   filter = (query) ->
     words = query.split(/\s+/)

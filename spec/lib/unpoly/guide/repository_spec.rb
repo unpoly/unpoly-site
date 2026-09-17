@@ -44,16 +44,18 @@ describe Unpoly::Guide::Repository do
 
   end
 
-  describe '#promoted_interfaces' do
+  describe '#documented_module_names' do
 
-    it 'returns the interfaces that make up the top level of the menu' do
-      names = subject.promoted_interfaces.map(&:name)
-
-      expect(names).to eq(described_class::PROMOTED_INTERFACE_NAMES)
+    it 'returns the modules that make up the API reference' do
+      expect(subject.documented_module_names).to include('up.link', 'up.form', 'up.fragment')
     end
 
-    it 'returns interfaces, not features' do
-      expect(subject.promoted_interfaces).to all(be_a(Unpoly::Guide::Interface))
+    it 'omits internal modules' do
+      expect(subject.documented_module_names).not_to include('up.browser', 'up.migrate', 'up.tooltip')
+    end
+
+    it 'omits modules parsed from spec fixtures' do
+      expect(subject.documented_module_names).not_to include('test.module')
     end
 
   end
