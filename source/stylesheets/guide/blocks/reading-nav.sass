@@ -12,18 +12,17 @@
   margin-top: 2.2em
 
 .reading-nav--link
-  display: block
+  display: flex
+  align-items: center
+  gap: 0.4em
   text-decoration: none
   +hyperlink($COLOR_SECONDARY)
 
   &.-next
     margin-left: auto
-    text-align: right
 
-.reading-nav--role
-  display: block
-  font-size: 0.85em
-  color: $COLOR_TEXT
+.reading-nav--icon
+  font-size: 0.8em
 
 .reading-nav--title
   +bold

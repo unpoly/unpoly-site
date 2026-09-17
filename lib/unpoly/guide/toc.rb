@@ -263,11 +263,6 @@ module Unpoly
         def summary_markdown
           start_page&.summary_markdown
         end
-
-        # A second line next to the title, e.g. a module's JavaScript name.
-        def subtitle
-          nil
-        end
       end
 
       # A hand-curated list of guide pages, e.g. a Learn chapter.
@@ -305,11 +300,6 @@ module Unpoly
           pages - [start_page].compact
         end
 
-        # Without a start page this is a bare label that only expands, like the group
-        # headers in the reference tree.
-        def menu_modifiers
-          start_page ? super : super + ['group']
-        end
       end
 
       # A module of the Unpoly source, with its features grouped by kind.
@@ -338,26 +328,22 @@ module Unpoly
           repository.find_module!(module_name)
         end
 
+        # The sidebar and the /api hub identify a module by its JavaScript name
+        # (`up.link`), not its prose title ("Linking and following"). The prose title
+        # stays the headline of the module's own page.
         def title
-          interface.title
+          interface.name
         end
 
         def start_page
           interface
         end
 
-        # Deprecated features are folded into one collapsed group at the end, so the
-        # reference tree leads with the current API.
         def children
-          current, deprecated = interface.menu_children.partition { |feature| !feature.deprecated? }
-
-          groups = FEATURE_GROUPS.filter_map do |title, kinds|
-            members = current.select { |feature| feature.kind?(*kinds) }.sort
+          FEATURE_GROUPS.filter_map do |title, kinds|
+            members = interface.menu_children.select { |feature| feature.kind?(*kinds) }.sort
             Group.new(title, members) if members.present?
           end
-
-          groups << Group.new('Deprecated', deprecated.sort) if deprecated.present?
-          groups
         end
 
         def includes?(documentable)
@@ -370,10 +356,6 @@ module Unpoly
 
         def menu_modifiers
           super + ['interface']
-        end
-
-        def subtitle
-          interface.name
         end
       end
 

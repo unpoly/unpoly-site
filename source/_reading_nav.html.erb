@@ -1,6 +1,7 @@
 <%#
   The path through a linear area: where the reader came from, and where the next page is.
-  Lookup areas like the API reference have no reading order and render nothing.
+  The next link teases its page title; at a chapter boundary that is the next chapter's
+  overview. Lookup areas like the API reference have no reading order and render nothing.
 %>
 <% if area.linear? %>
   <%
@@ -12,15 +13,16 @@
     <nav class="reading-nav">
       <% if previous_page %>
         <a class="reading-nav--link -previous" href="<%= previous_page.guide_path %>">
+          <i class="fa fa-chevron-left reading-nav--icon"></i>
           <span class="reading-nav--role">Previous</span>
-          <span class="reading-nav--title"><%= previous_page.title %></span>
         </a>
       <% end %>
 
       <% if next_page %>
         <a class="reading-nav--link -next" href="<%= next_page.guide_path %>">
-          <span class="reading-nav--role">Next</span>
+          <span class="reading-nav--role">Next:</span>
           <span class="reading-nav--title"><%= next_page.title %></span>
+          <i class="fa fa-chevron-right reading-nav--icon"></i>
         </a>
       <% end %>
     </nav>
