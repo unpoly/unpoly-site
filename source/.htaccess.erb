@@ -9,18 +9,18 @@ RewriteRule ^(.+?)/$ /$1 [R=301,L]
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)$  /$1/index.html [L]
 
-RedirectPermanent /install/rails /install/server-bindings
-RedirectPermanent /install/ruby /install/server-bindings
-RedirectPermanent /install/php /install/server-bindings
-RedirectPermanent /install/elixir /install/server-bindings
-RedirectPermanent /install/rust /install/server-bindings
+RedirectPermanent /install/rails /server-bindings
+RedirectPermanent /install/ruby /server-bindings
+RedirectPermanent /install/php /server-bindings
+RedirectPermanent /install/elixir /server-bindings
+RedirectPermanent /install/rust /server-bindings
 RedirectPermanent /install/npm /install#npm
 RedirectPermanent /install/zip /install
 RedirectPermanent /install/cdn /install
 RedirectPermanent /install/download /install
 
-RedirectPermanent /install/protocol /install/server-bindings
-RedirectPermanent /install/server-protocol /install/server-bindings
+RedirectPermanent /install/protocol /server-bindings
+RedirectPermanent /install/server-protocol /server-bindings
 
 RedirectPermanent /community /support
 RedirectPermanent /discuss https://github.com/unpoly/unpoly/discussions
