@@ -24,9 +24,10 @@ templates that the parser fills.
 The `unpoly/unpoly-site` repo only holds content for a few pages, all implemented in `source/`:
 
 - the start page
-- `/install`
-- `/tutorial`
 - `/support`
+
+(`/install` used to live here too, but is now a guide page in `unpoly/unpoly`;
+`/tutorial` was retired and redirects into the Learn section.)
 
 
 ## Project overview
@@ -62,6 +63,11 @@ and the parser resolves cross-references, partials and inherited params between 
 Middleman proxies set up in `config.rb` then create one page per parsed symbol, rendered
 through `source/api/feature_template.html.erb` and
 `source/api/interface_template.html.erb`.
+
+The navigation is split into a Learn and an API section. Which pages and modules belong
+where — and in which order — comes from a manifest in the Unpoly repo,
+`src/unpoly/pages/toc.yml`, parsed by `lib/unpoly/guide/toc.rb`. The build fails when
+the manifest and the parsed documentation disagree.
 
 Documentation changes are picked up by reloading. You need to restart the development
 server when you add a *new* symbol or page, because the proxies are built at boot.
@@ -223,6 +229,13 @@ We aim for a middle ground on coverage: describe public API and behavior rather 
 implementation details, and keep the browser tests to core journeys that a unit test
 cannot reach. A parsing rule is worth a fixture and one expectation; it does not need a
 feature spec of its own.
+
+Two rake tasks check the documentation beyond the test suite:
+
+- `bundle exec rake docs:check_urls` verifies that every URL unpoly.com serves today
+  still resolves to a page or a redirect ("no lost URL").
+- `bundle exec rake docs:learn_refs` lists the public selectors and events that no
+  guide page explains yet (no `@learn-ref`).
 
 
 ## Deployment
