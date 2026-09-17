@@ -49,20 +49,17 @@ module Unpoly
         kind != 'page'
       end
 
+      # Internal interfaces (e.g. up.browser) render no page and no menu node,
+      # and mentions of them are left unlinked.
+      def guide_page?
+        !internal?
+      end
+
       def guide_filename(extension)
         "#{@name}#{extension}"
       end
 
       attr_accessor :guide_markdown
-
-      # def essential_features
-      #   features.select(&:essential?)
-      # end
-
-      def essential_features
-        # We're using @see feature to list an essential feature.
-        references
-      end
 
       def constructor
         features.detect(&:constructor?)
@@ -112,7 +109,11 @@ module Unpoly
         self.explicit_title ||= new_interface.explicit_title
         self.explicit_menu_title ||= new_interface.explicit_menu_title
         self.reference_names += new_interface.reference_names
+        self.learn_ref_specs.concat(new_interface.learn_ref_specs)
         self.explicit_parent_name ||= new_interface.explicit_parent_name
+        # A repeated declaration may carry the visibility tag (e.g. @module up.browser
+        # is declared in both unpoly and unpoly-migrate, and both say @internal).
+        self.visibility = new_interface.declared_visibility if declared_visibility.nil?
       end
 
       def children
@@ -141,33 +142,11 @@ module Unpoly
         features.select(&:guide_page?)
       end
 
+      # TODO(content): @see is being retired. These feature targets keep rendering as
+      # "Essentials" cards until the Content station replaces each module's cards with
+      # intro prose and deletes the @see machinery in that same pass.
       def essential_features
         references.select { |reference| reference.kind?(:feature) }
-      end
-
-      def overview_topic
-        copy = dup
-        def copy.children
-          []
-        end
-
-        def copy.menu_title
-          'Overview'
-        end
-
-        def copy.menu_modifiers
-          ['page']
-        end
-
-        copy
-      end
-
-      def sub_topics
-        references.select { |reference| reference.kind?(:page) }
-      end
-
-      def all_topics
-        [overview_topic] + sub_topics
       end
 
     end

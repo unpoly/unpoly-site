@@ -24,6 +24,12 @@ module Unpoly
         path && path.ends_with?('.coffee')
       end
 
+      # Doc comments below spec/fixtures are parser test data that happens to become
+      # pages in a build. They are exempt from the checks over real site content.
+      def fixture?
+        path.to_s.start_with?('spec/fixtures')
+      end
+
     end
   end
 end

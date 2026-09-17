@@ -41,39 +41,17 @@ describe Unpoly::Guide::Interface do
         expect(interface.essential_features.map(&:name)).to include('up.render')
       end
 
-      it 'returns no pages, which are listed as topics instead' do
+      it 'returns no pages, which the learn-refs point to instead' do
         expect(interface.essential_features.select(&:page?)).to be_empty
       end
 
     end
 
-    describe '#sub_topics' do
+    describe '#learn_refs' do
 
-      it 'returns the referenced guide pages' do
-        expect(interface.sub_topics).to be_present
-        expect(interface.sub_topics).to all(be_page)
-      end
-
-    end
-
-    describe '#all_topics' do
-
-      it 'prepends an overview topic for the interface page itself' do
-        overview = interface.all_topics.first
-
-        expect(overview.menu_title).to eq('Overview')
-        expect(overview.guide_path).to eq(interface.guide_path)
-      end
-
-      it 'renders the overview as a leaf node, so the menu does not repeat the interface below itself' do
-        overview = interface.all_topics.first
-
-        expect(overview.children).to be_empty
-        expect(overview.menu_modifiers).to eq(['page'])
-      end
-
-      it 'lists the sub topics below the overview' do
-        expect(interface.all_topics.drop(1)).to eq(interface.sub_topics)
+      it 'points at the Learn pages that explain the module' do
+        expect(interface.learn_refs).to be_present
+        expect(interface.learn_refs.map(&:path)).to all(start_with('/'))
       end
 
     end

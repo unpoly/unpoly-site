@@ -6,6 +6,80 @@ module Unpoly
         described_class.new('.')
       end
 
+      # These come from spec/fixtures/parser, which is parsed alongside the Unpoly sources.
+      describe '@learn-ref' do
+
+        let(:repository) { Guide.current }
+
+        it 'collects every reference in the order they were declared' do
+          feature = repository.find_by_name!('test.module.functionWithLearnRefs')
+
+          expect(feature.learn_ref_specs.map { |spec| spec[:spec] }).to eq(['test.page', 'test.page#fixture-section'])
+        end
+
+        it 'resolves a reference to a page, deriving its label' do
+          feature = repository.find_by_name!('test.module.functionWithLearnRefs')
+          learn_ref = feature.learn_refs.first
+
+          expect(learn_ref.path).to eq('/test.page')
+          expect(learn_ref.label).to eq('Test Page')
+        end
+
+        it 'names the heading of an anchored reference' do
+          feature = repository.find_by_name!('test.module.functionWithLearnRefs')
+          learn_ref = feature.learn_refs.last
+
+          expect(learn_ref.path).to eq('/test.page#fixture-section')
+          expect(learn_ref.label).to eq('Test Page › Fixture section')
+        end
+
+        it 'takes a label written below the directive' do
+          feature = repository.find_by_name!('test.module.functionWithLabelledLearnRef')
+
+          expect(feature.learn_refs.first.label).to eq('A label of our own')
+        end
+
+        it 'leaves no trace in the prose' do
+          feature = repository.find_by_name!('test.module.functionWithLearnRefs')
+
+          expect(feature.guide_markdown).not_to include('learn-ref')
+        end
+
+      end
+
+      describe 'dynamic tokens' do
+
+        it 'substitutes [[=version]] in doc comment prose' do
+          feature = Guide.current.find_by_name!('test.module.functionWithDynamicToken')
+
+          expect(feature.guide_markdown).to include("Built for version #{Guide.current.version}.")
+        end
+
+      end
+
+      describe 'interface visibility' do
+
+        it 'parses @internal on a module, removing its page and menu node' do
+          interface = Guide.current.find_by_name!('up.browser')
+
+          expect(interface).to be_internal
+          expect(interface).not_to be_guide_page
+        end
+
+        it 'keeps pages for public modules' do
+          interface = Guide.current.find_by_name!('up.form')
+
+          expect(interface).to be_guide_page
+        end
+
+        it 'parents up.Layer methods from unpoly-migrate under up.Layer, not the module parsed before' do
+          feature = Guide.current.find_by_name!('up.Layer.prototype.isOpen')
+
+          expect(feature.interface.name).to eq('up.Layer')
+        end
+
+      end
+
       describe '#split_types_expression' do
 
         it 'parses a simple type' do

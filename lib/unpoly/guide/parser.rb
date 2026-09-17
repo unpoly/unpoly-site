@@ -214,6 +214,15 @@ module Unpoly
         (\n|$)
       }x
 
+      LEARN_REF_PATTERN = %r{
+        (^[ \t]*)                  # first line indent ($1)
+        \@learn-ref
+        [ \t]+
+        (\S+)                      # page slug, optionally with #anchor ($2)
+        [ \t]*$
+        (#{INDENTED_BODY_PATTERN}) # optional explicit label ($3)
+      }x
+
       def initialize(repository)
         @repository = repository
         @last_interface = nil
@@ -306,6 +315,8 @@ module Unpoly
 
           parse_references!(block, interface)
 
+          parse_learn_refs!(block, interface)
+
           parse_explicit_parent!(block, interface)
 
           # All the remaining text is guide prose
@@ -349,6 +360,8 @@ module Unpoly
           # feature.essential = parse_essential!(block)
 
           parse_references!(text, feature)
+
+          parse_learn_refs!(text, feature)
 
           feature.params_note = parse_params_note!(text)
 
@@ -514,6 +527,14 @@ module Unpoly
         end
       end
 
+      def parse_learn_refs!(block, documentable)
+        while block.sub!(LEARN_REF_PATTERN, '')
+          spec = $2
+          label = Util.unindent($3.to_s).strip.presence
+          documentable.learn_ref_specs << { spec: spec, label: label }
+        end
+      end
+
       def parse_explicit_parent!(block, documentable)
         if block.sub!(EXPLICIT_PARENT_PATTERN, '')
           documentable.explicit_parent_name = $1
@@ -634,6 +655,7 @@ module Unpoly
 
         markdown = documentable.guide_markdown
         markdown = unescape_hash_headlines(markdown) if documentable.text_source.coffee_script?
+        markdown = DynamicTokens.substitute(markdown, repository: @repository, source: documentable.text_source&.local_position)
         markdown = markdown.strip + "\n"
         documentable.guide_markdown = markdown
       end

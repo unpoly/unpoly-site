@@ -5,26 +5,6 @@ module Unpoly
     class Repository
       include Logger
 
-      PROMOTED_INTERFACE_NAMES = %w[
-        up.link
-        up.form
-        up.script
-        up.layer
-        up.fragment
-        up.radio
-        up.motion
-        up.status
-        up.network
-        up.event
-        up.protocol
-        up.element
-        up.viewport
-        up.history
-        up.util
-        up.framework
-        up.log
-      ].freeze
-
       BUILTIN_TYPE_URLS = {
         # 'string' => 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String',
         # 'undefined' => 'https://developer.mozilla.org/en-US/docs/Glossary/undefined',
@@ -68,10 +48,78 @@ module Unpoly
           log "reload()"
           @interfaces = []
           @changelog = nil
-          @promoted_interfaces = nil
+          @toc = nil
           unindex
           parse
           @fresh = true
+          check_references!
+          toc
+        end
+      end
+
+      # The site structure, parsed from toc.yml. Building it validates the manifest
+      # against what we parsed, so a page or module that nobody listed fails the build.
+      def toc
+        synchronize do
+          @toc ||= Toc.load(self)
+        end
+      end
+
+      def pages
+        interfaces.select(&:page?)
+      end
+
+      def modules
+        interfaces.select(&:module?)
+      end
+
+      def find_page(slug)
+        pages.detect { |page| page.guide_id == slug }
+      end
+
+      def find_page!(slug)
+        find_page(slug) or raise Unknown, "No @page with slug '#{slug}'"
+      end
+
+      def find_module!(name)
+        interface = find_by_name!(name)
+        interface.module? or raise Unknown, "'#{name}' is not a @module"
+        interface
+      end
+
+      # Pages that toc.yml must account for. Doc comments parsed from the spec
+      # fixtures are test data, not site content, so they are not required here.
+      def documented_pages
+        pages.reject(&:fixture?)
+      end
+
+      def documented_page_slugs
+        documented_pages.map(&:guide_id)
+      end
+
+      # Modules that toc.yml must account for: visibility is the signal. An @internal
+      # module (up.browser, up.migrate, up.tooltip) has no page and is not listed.
+      def documented_module_names
+        modules.reject(&:fixture?).select(&:guide_page?).map(&:name)
+      end
+
+      # Every @learn-ref and [[wikilink]] must resolve to a document and, where given,
+      # to one of its headings. This runs right after parsing, so a dangling reference
+      # fails the build (and the development server) instead of producing a broken page.
+      def check_references!
+        (interfaces + features).reject(&:fixture?).each do |documentable|
+          documentable.learn_refs(repository: self)
+          check_wikilinks!(documentable)
+
+          if documentable.is_a?(Feature)
+            documentable.params.each { |param| check_wikilinks!(param) }
+            check_wikilinks!(documentable.response) if documentable.response
+          end
+        end
+
+        missing = features_without_learn_ref
+        if missing.any?
+          warn "#{missing.size} public selectors/events have no @learn-ref (list with `rake docs:learn_refs`)."
         end
       end
 
@@ -85,16 +133,6 @@ module Unpoly
 
       def github_url
         'https://github.com/unpoly/unpoly'
-      end
-
-      def promoted_interfaces
-        synchronize do
-          @promoted_interfaces ||= begin
-            PROMOTED_INTERFACE_NAMES.map do |interface_name|
-              find_by_name!(interface_name)
-            end
-          end
-        end
       end
 
       def version
@@ -304,7 +342,41 @@ module Unpoly
         File.read(htaccess_path)
       end
 
+      # Public selectors and events that no guide page explains yet. These only warn:
+      # functions, properties and headers are exempt for now.
+      def features_without_learn_ref
+        features.select { |feature|
+          !feature.fixture? &&
+            feature.kind?(:selector, :event) &&
+            feature.published? && !feature.deprecated? &&
+            !feature.learn_refs?
+        }
+      end
+
+      # The gzipped size of a file in the local dist/ build, e.g. "12.3 KB".
+      # Backs the [[=size FILE]] token and the unpoly_library_size() helper.
+      def library_size(*files)
+        files = files.flatten.presence || ['unpoly.min.js', 'unpoly.min.css']
+        paths = files.map { |file| File.join(path, 'dist', file) }
+
+        unless paths.all? { |file_path| File.file?(file_path) }
+          return '?? KB'
+        end
+
+        require 'active_support/gzip'
+        source = paths.map { |file_path| File.read(file_path) }.join
+        kbs = (ActiveSupport::Gzip.compress(source).length / 1024.0).round(1)
+        "#{kbs} KB"
+      end
+
       private
+
+      def check_wikilinks!(documentable)
+        Wikilink.specs(documentable.guide_markdown).each do |spec|
+          source = documentable.text_source&.local_position if documentable.respond_to?(:text_source)
+          PageRef.parse(spec, repository: self, source: source)
+        end
+      end
 
       def unindex
         @documentables_by_guide_id = nil

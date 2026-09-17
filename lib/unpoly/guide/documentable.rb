@@ -13,6 +13,39 @@ module Unpoly
         guide_markdown.strip.present?
       end
 
+      def fixture?
+        !!text_source&.fixture?
+      end
+
+      # The headings of this document's prose, addressable by `#anchor`.
+      def headings
+        @headings ||= Heading.parse(guide_markdown)
+      end
+
+      def heading(id)
+        headings.detect { |heading| heading.id == id }
+      end
+
+      # Raw `@learn-ref` directives, as { spec:, label: } hashes.
+      def learn_ref_specs
+        @learn_ref_specs ||= []
+      end
+
+      # The Learn pages this document points at, in the order they were declared.
+      #
+      # The repository is passed explicitly where we resolve during a build, because
+      # `Guide.current` is still being constructed at that point.
+      def learn_refs(repository: Guide.current)
+        learn_ref_specs.map do |spec|
+          page_ref = PageRef.parse(spec[:spec], repository: repository, source: text_source&.local_position)
+          LearnRef.new(page_ref, spec[:label])
+        end
+      end
+
+      def learn_refs?
+        learn_ref_specs.present?
+      end
+
       def long_kind
         kind.capitalize
       end
@@ -47,6 +80,29 @@ module Unpoly
 
       def menu_modifiers
         []
+      end
+
+      # Where clicking this node in the menu leads. Nodes without a page of their own
+      # (group labels) return nil.
+      def menu_path
+        guide_path
+      end
+
+      # Short labels the menu shows next to the title.
+      def menu_tags
+        return [] if deprecated?
+
+        if class?
+          ['class']
+        elsif config?
+          ['config']
+        else
+          []
+        end
+      end
+
+      def menu_experimental?
+        experimental?
       end
 
       def summary_markdown
@@ -166,7 +222,7 @@ module Unpoly
       end
 
       def menu_children
-        children.select(&:menu_node?)
+        children.select(&:menu_node?).sort
       end
 
       def menu_node?
@@ -179,6 +235,11 @@ module Unpoly
 
       def visibility
         @visibility || 'stable'
+      end
+
+      # The visibility as declared, nil when the doc comment carries no tag.
+      def declared_visibility
+        @visibility
       end
 
       attr_writer :visibility

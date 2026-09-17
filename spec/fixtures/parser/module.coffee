@@ -53,6 +53,27 @@
   ###
 
   ###-
+  @function test.module.functionWithLearnRefs
+  @learn-ref test.page
+  @learn-ref test.page#fixture-section
+  @stable
+  ###
+
+  ###-
+  @function test.module.functionWithLabelledLearnRef
+  @learn-ref test.page
+    A label of our own
+  @stable
+  ###
+
+  ###-
+  Built for version [[=version]].
+
+  @function test.module.functionWithDynamicToken
+  @stable
+  ###
+
+  ###-
   @selector [test-module-selector]
   @stable
   ###

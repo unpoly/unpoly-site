@@ -15,6 +15,7 @@ module Unpoly
         @video_player = options.fetch(:video_player, true)
         @fix_relative_image_paths = options.fetch(:fix_relative_image_paths, true)
         @admonitions = options.fetch(:admonitions, true)
+        @wikilinks = options.fetch(:wikilinks, true)
         @link_current_path = options.fetch(:link_current_path, false)
         @current_path = options.fetch(:current_path) if autolink_code && !link_current_path
         @normalize_heading_level = options.fetch(:normalize_heading_level, true)
@@ -33,6 +34,7 @@ module Unpoly
       attr_reader :admonitions
       attr_reader :autolink_github_issues
       attr_reader :autolink_github_users
+      attr_reader :wikilinks
       attr_reader :shift_heading_level
       attr_reader :normalize_heading_level
       # attr_reader :auto_toc
@@ -76,6 +78,9 @@ module Unpoly
       private
 
       def preprocess_markdown(markdown)
+        # Expand [[wikilinks]] to regular Markdown links before Kramdown runs.
+        # With strip_links the expanded link is stripped again below, leaving its label.
+        markdown = Wikilink.expand(markdown) if wikilinks
         markdown
       end
 

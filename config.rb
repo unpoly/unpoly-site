@@ -58,7 +58,9 @@ configure :build do
               %r(CHANGELOG.*\.md$),
               './changes/google_groups/index.html',
               %r(^./images/.+\.html$),
-              # %r(^./changes/[\d\.]+(-[a-z0-9]+)?/),
+              # Release notes of older majors link to pages of their time (e.g. /up.tooltip).
+              # Only the current major's notes are link-checked and kept fixed.
+              %r(^./changes/[012]\.),
             ],
             disable_external: true,
             enforce_https: false,
@@ -236,6 +238,21 @@ helpers do
     "<div class='prose'>#{markdown(text, **options)}</div>"
   end
 
+  # A document's prose, with its @learn-ref links placed in the intro slot:
+  # below the lead paragraphs, before the first heading and the auto-TOC.
+  def documented_prose(documentable, **options)
+    html = markdown(documentable.guide_markdown, **options)
+    html = Unpoly::Guide::IntroInserter.insert(html, learn_refs_html(documentable))
+    "<div class='prose'>#{html}</div>"
+  end
+
+  def learn_refs_html(documentable)
+    learn_refs = documentable.learn_refs
+    return nil if learn_refs.empty?
+
+    partial('learn_refs', locals: { learn_refs: learn_refs })
+  end
+
   def window_title
     page_title = @page_title || current_page.data.title
 
@@ -247,25 +264,7 @@ helpers do
   end
 
   def unpoly_library_size(files = nil)
-    files ||= [
-      'unpoly.min.js',
-      'unpoly.min.css'
-    ]
-    files = Array.wrap(files)
-    paths = files.map { |file| local_library_file_path(file) }
-
-    unless paths.all? { |path| File.file?(path) }
-      return '?? KB'
-    end
-
-    require 'active_support/gzip'
-    source = ''
-    paths.each do |path|
-      File.exist?(path) or raise "Asset not found: #{path}"
-      source << File.read(path)
-    end
-    kbs = (ActiveSupport::Gzip.compress(source).length / 1024.0).round(1)
-    "#{kbs} KB"
+    guide.library_size(*Array.wrap(files))
   end
 
   def local_library_file_path(file)

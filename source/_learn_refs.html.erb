@@ -1,0 +1,9 @@
+<%# Where a reference document points at the guides that explain it in context (@learn-ref). %>
+<%# The label wording ("Guide"/"Guides") is carried over from the retired {:.article-ref} marker. %>
+<nav class="learn-refs">
+  <span class="learn-refs--label"><%= learn_refs.size == 1 ? 'Guide' : 'Guides' %>:</span>
+
+  <% learn_refs.each do |learn_ref| %>
+    <a class="learn-refs--link" href="<%= learn_ref.path %>"><%= learn_ref.label %></a>
+  <% end %>
+</nav>

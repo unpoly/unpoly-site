@@ -2,6 +2,7 @@
   guide.reload if development?
   feature = guide.find_by_guide_id!(feature_id)
   @page_title = feature.title
+  @menu_path = guide.toc.area_for(feature).menu_path
 
   params_segment_visible = feature.params.present? || feature.params_note.present?
 
@@ -60,7 +61,7 @@
 
     <% if feature.guide_markdown.present? %>
       <div class="feature--prose">
-        <%= markdown_prose(feature.guide_markdown) %>
+        <%= documented_prose(feature) %>
       </div>
     <% end %>
 
