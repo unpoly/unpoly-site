@@ -16,11 +16,11 @@ $meta_width: 170px
     white-space: nowrap
 
   pre
-    +vertical_margin($CODE_BLOCK_SPACING)
+    +vertical_margin($SPACE_S)
     line-height: 22px
     //margin-left: 20px
     padding: 0.85em 1.1em
-    background-color: $CODE_BLOCK_BACKGROUND
+    background-color: $BACKGROUND_LIGHT
     //border-top-right-radius: 20px
     //border-bottom-right-radius: 20px
     position: relative
@@ -42,26 +42,26 @@ $meta_width: 170px
     @extend .hyperlink
 
   p, ul, ol, dl
-    +vertical_margin($SMALL_BLOCK_SPACING)
+    +vertical_margin($SPACE_XS)
 
   ul:not([class])
     @extend .bullets
 
   dl:not([class])
     dt
-      +bold
+      font-weight: bold
       //code
-      //  +bold
+      //  font-weight: bold
       margin-bottom: 0
-      margin-top: $LIST_ITEM_SPACING * 1.4
+      margin-top: $SPACE_2XS
     dd
-      margin-bottom: $LIST_ITEM_SPACING * 1.4
+      margin-bottom: $SPACE_2XS
 
   ol:not([class])
     list-style-type: decimal
     padding-left: 1.6em
     li
-      +vertical-margin($LIST_ITEM_SPACING)
+      +vertical-margin($SPACE_3XS)
 
   ul, ol, dl
     ul, ol, dl
@@ -72,21 +72,21 @@ $meta_width: 170px
     background-color: #ddd
     border: none
     height: 2px
-    +vertical-margin($LARGE_BLOCK_SPACING)
+    +vertical-margin($SPACE_S)
 
   img
     max-width: 100%
 
 
   strong, b
-    +bold
+    font-weight: bold
 
   i, em
     font-style: italic
 
 
   table
-    +vertical_margin($TABLE_SPACING)
+    +vertical_margin($SPACE_S)
     border-collapse: collapse
 
     $table-border-color: #ccc
@@ -108,7 +108,7 @@ $meta_width: 170px
         text-align: right
 
     th
-      +bold
+      font-weight: bold
       +font-size(16px, 4px)
       color: #666
       text-align: left

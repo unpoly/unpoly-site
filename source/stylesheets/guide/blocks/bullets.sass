@@ -2,11 +2,11 @@
 
 ul.bullets
 
-  +vertical_margin($LARGE_BLOCK_SPACING)
+  +vertical_margin($SPACE_S)
 
   li
     padding-left: 0.9em
-    +vertical_margin($LIST_ITEM_SPACING)
+    +vertical_margin($SPACE_3XS)
     position: relative
 
     &:before
@@ -16,7 +16,7 @@ ul.bullets
       //background-color: rgba(0,0,0,0.1)
       left: 0
       top: 0.1em
-      +bold
+      font-weight: bold
       //font-size: 16px
       //color: #999
       color: desaturate($COLOR_SECONDARY, 20%)

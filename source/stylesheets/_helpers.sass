@@ -67,6 +67,12 @@
   font-size: $size
   line-height: $size + (2 * $line_height_padding)
 
+// Preferred over +font_size: a step from the $TEXT_* scale plus a unitless
+// leading, so a line box scales with its own font size.
+=type($size, $leading: $LEADING_HEADING)
+  font-size: $size
+  line-height: $leading
+
 =steal_horizontal_space($amount)
   +horizontal_margin(-$amount)
   +horizontal_padding($amount)
@@ -83,12 +89,20 @@
   @media (max-width: $width - 1)
     @content
 
+// The sidebar breakpoint, the site's one structural switch. Named for the
+// viewport for now; the capability names live on the tokens themselves.
 =on_narrow
-  +narrower_than($GUIDE_BREAKPOINT)
+  +narrower_than($bp-sidebar)
     @content
 
 =on_wide
-  +wider_than($GUIDE_BREAKPOINT)
+  +wider_than($bp-sidebar)
+    @content
+
+// The second structural switch: wide enough to park the page's contents in a
+// rail of their own beside the text.
+=with_toc_rail
+  +wider_than($bp-toc)
     @content
 
 =pretty-scrollbars($width: 10px)
@@ -129,7 +143,7 @@
 
 =title-font
   //font-family: 'Ubuntu Mono', 'Orbitron', sans-serif
-  //+bold
+  //font-weight: bold
   //font-family: 'Comfortaa', sans-serif
   //font-family: 'Orbitron', sans-serif
   //+uppercase
@@ -184,9 +198,6 @@
     display: table
     clear: both
 
-=bold
-  font-weight: 500
-
 =tint_hyperlink($color)
   text-decoration-color: transparentize($color, 0.3)
   &, & code
@@ -240,10 +251,10 @@
 
 =card
   border: $CARD_BORDER
-  padding: $CARD_PADDING
-  border-radius: $CARD_ROUNDNESS
-  box-shadow: $CARD_SHADOW
-  +vertical_margin($CARD_SPACING)
+  padding: $SPACE_S
+  border-radius: $RADIUS_M
+  box-shadow: $SUBTLE_SHADOW
+  +vertical_margin($SPACE_S)
 
 =when-stable
   .-stable &

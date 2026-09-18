@@ -1,6 +1,6 @@
 @import ../../environment
 
-$spacing: $BLOCK_SPACING * 0.8
+$spacing: $SPACE_S
 $padding: 15px 16px
 $roundness: 5px
 $border-color: #b8b8b8
@@ -19,9 +19,9 @@ $border-color: #b8b8b8
   position: relative
 
 .essential-feature--signature
-  +bold
+  font-weight: bold
   color: $COLOR_MAIN
-  +font-size($FONT_SIZE)
+  +type($TEXT_M, $LEADING_UI)
   //.essential-feature.-code &
   //  +monospace-font
 
@@ -35,7 +35,7 @@ $border-color: #b8b8b8
 //  border-radius: 0 $roundness 0 $roundness
 //  +font-size(14px)
 //  border: 1px solid $border-color
-//  +bold
+//  font-weight: bold
 //  box-shadow: inset 5px -5px 10px -3px rgba(0, 0, 0, 0.15)
 
 .essential-feature--kind
@@ -48,7 +48,7 @@ $border-color: #b8b8b8
   border-radius: 0 $roundness 0 $roundness
   +font-size(12px)
   border: 1px solid $border-color
-  +bold
+  font-weight: bold
   //box-shadow: inset 5px -5px 10px -3px rgba(0, 0, 0, 0.15)
 
 .essential-feature--summary

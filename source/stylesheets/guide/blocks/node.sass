@@ -8,12 +8,12 @@ $meta-breakpoint: 1350px
 
 .node
   position: relative
-  +font-size($FONT_SIZE + 1px, 4px)
-  +bold
+  +font-size($TEXT_M + 1px, 4px)
+  font-weight: bold
 
 .node > .node
   display: none
-  +font-size($FONT_SIZE, 3.5px)
+  +font-size($TEXT_M, 3.5px)
   font-weight: normal
   margin-bottom: 0
 
@@ -38,7 +38,7 @@ $meta-breakpoint: 1350px
     z-index: 0
 
   > .node--self
-    +font-size($FONT_SIZE - 3px, 3px)
+    +font-size($TEXT_M - 3px, 3px)
     color: $color
     text-transform: uppercase
     background-color: white
@@ -47,7 +47,7 @@ $meta-breakpoint: 1350px
     z-index: 1
     display: inline-block
     margin-bottom: 2px
-    +bold
+    font-weight: bold
 
   //+ .node
   //  margin-top: 4px
@@ -137,7 +137,7 @@ a.node--self
 .node--tag
   display: inline-block
   +font-size(11px)
-  +bold
+  font-weight: bold
   text-transform: uppercase
   vertical-align: middle
   padding: 1px 3px 0 3px

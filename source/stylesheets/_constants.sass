@@ -1,4 +1,13 @@
-// Palette roles:
+// Design constants for unpoly.com.
+//
+// One scale per dimension, so a block picks a step instead of inventing a
+// value. A name that would only mirror a step does not exist: blocks reach for
+// $SPACE_M rather than a $BLOCK_SPACING that means the same thing.
+
+
+// ---------------------------------------------------------------- palette
+//
+// Roles:
 //
 // - $COLOR_MAIN        red         brand color, links
 // - $COLOR_SECONDARY   dark blue   sidebar ($COLOR_LEFT), headings
@@ -31,40 +40,125 @@ $COLOR_MARK: #fff668
 
 $COLOR_LEFT: $COLOR_SECONDARY
 
+
+// ---------------------------------------------------------------- neutrals
+//
+// Replaces the two dozen hand-picked gray literals the stylesheets used to
+// carry (#555 #666 #777 #888 #999 #aaa #bbb #ccc #ddd #e0e0e0 #eee #f2f2f2
+// #f8f8f8 …). The hue is the same warm 315 as the body text, so the grays sit
+// together instead of clashing.
+//
+// Roles, so a block can tell which step it wants:
+//
+//   900  body text            800  headings           700  strong muted text
+//   600  muted text           500  icons, disabled    400  borders
+//   300  hairlines            200  tints              100  surfaces
+
+$GRAY_900: hsl(315, 7%, 25%)
+$GRAY_800: hsl(315, 6%, 33%)
+$GRAY_700: hsl(315, 5%, 42%)
+$GRAY_600: hsl(315, 4%, 55%)
+$GRAY_500: hsl(315, 4%, 68%)
+$GRAY_400: hsl(315, 4%, 80%)
+$GRAY_300: hsl(315, 4%, 88%)
+$GRAY_200: hsl(315, 5%, 94%)
+$GRAY_100: hsl(315, 6%, 97%)
+
+$WHITE: #fff
+
 $BACKGROUND_LIGHT: rgba(0, 0, 0, 0.03)
 
-$LEFT_WIDTH: clamp(250px, 27vw, 360px)
+
+// ---------------------------------------------------------------- spacing
+//
+// A ~1.55 ratio anchored on $SPACE_M: 25px, the rhythm the docs have always
+// had. Values that used to sit between steps are snapped onto one.
+//
+// $SPACE_M IS THE DEFAULT. A block that separates one thing from the next uses
+// it unless it has a reason not to: tighter steps below, looser above. It
+// inherits the role the old $BLOCK_SPACING played, so the question of what
+// "normal" spacing is does not have to be answered again per block.
+
+$SPACE_3XS: 4px
+$SPACE_2XS: 8px
+$SPACE_XS: 12px
+$SPACE_S: 16px
+$SPACE_M: 25px
+$SPACE_L: 40px
+$SPACE_XL: 64px
+$SPACE_2XL: 96px
+$SPACE_3XL: 140px
+
+
+// ---------------------------------------------------------------- type
+//
+// A ~1.2 modular scale anchored on $TEXT_M: 17px, the size the site has always
+// set on <body>. The top two steps are the landing hero.
+
+$TEXT_3XS: 12px
+$TEXT_2XS: 13px
+$TEXT_XS: 14px
+$TEXT_S: 15px
+$TEXT_M: 17px
+$TEXT_L: 20px
+$TEXT_XL: 24px
+$TEXT_2XL: 30px
+$TEXT_3XL: 38px
+$TEXT_4XL: 48px
+
+// Unitless, so a line box scales with its own font size. Big type needs less
+// leading than running prose: at display sizes 1.55 tears the lines apart.
+$LEADING_DISPLAY: 1.1   // $TEXT_3XL and up
+$LEADING_HEADING: 1.25  // $TEXT_L … $TEXT_2XL
+$LEADING_UI: 1.35       // menus, tables, chips — dense, not read in long runs
+$LEADING_BODY: 1.55     // running prose
+
+// Comfortable line length for running prose. The old layout let text run the
+// full width of the viewport, which is why long pages read as walls.
+$MEASURE_PROSE: 72ch
+
+
+// ---------------------------------------------------------------- shape
+
+$RADIUS_S: 3px
+$RADIUS_M: 6px
+$RADIUS_L: 10px
+$RADIUS_PILL: 999px
+
+$SUBTLE_SHADOW: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+// Cards are drawn by the +card mixin in several blocks, so their border is a
+// shared decision rather than one block's choice.
+$CARD_BORDER: 1px solid $GRAY_400
+
+
+// ---------------------------------------------------------------- breakpoints
+//
+// Two, and they are named after what changes rather than after a size. Each one
+// marks a place where the layout changes SHAPE; everything else adapts on its
+// own through clamp(), wrapping flex and auto-fit grids. Adding a third means
+// another width to check every page at, so it needs an argument.
+//
+// Both values are measured, not inherited: the sidebar tree needs 228px before
+// its labels wrap, a reference page's widest code block wants 820px, and its
+// parameter tables collapse to 259px. At $bp-sidebar the two-column layout
+// still leaves ~734px for the text, which is comfortable for prose and tables
+// and costs code blocks a little scrolling; below it the drawer serves better.
+
+$bp-sidebar: 1024px // sidebar ↔ the drawer behind the burger
+$bp-toc: 1280px     // in-page contents ↔ the right rail
+
+
+// ---------------------------------------------------------------- layout
+
+$LEFT_WIDTH: clamp(250px, 22vw, 300px)
 
 $HEAD_HEIGHT: 43px
 $HEAD_STRATUM: 99
-$GUIDE_BREAKPOINT: 920px
 
 $MAX_VIEWPORT_CONTENT_WIDTH: 1550px
 $VIEWPORT_PADDING: clamp(20px, 3%, 40px)
 
-$BLOCK_SPACING: 25px
-$LARGE_BLOCK_SPACING: $BLOCK_SPACING * 0.8
-$SMALL_BLOCK_SPACING: $BLOCK_SPACING * 0.5
-
-$CODE_BLOCK_SPACING: $BLOCK_SPACING * 0.65
-$CODE_BLOCK_BACKGROUND: $BACKGROUND_LIGHT
-
-$TABLE_SPACING: $LARGE_BLOCK_SPACING
-$LIST_ITEM_SPACING: $BLOCK_SPACING * 0.2
-
-$FONT_SIZE: 17px
-
-$COLOR_TEXT: hsl(315, 7%, 25%) // jet
-
 $NOTIFICATION_PADDING: 0.65em 0.9em
 $NOTIFICATION_COLOR: #6a4b16
 $NOTIFICATION_BACKGROUND: #ffefb7
-
-$SPACING_X: 32px
-
-$SUBTLE_SHADOW: 0 2px 4px rgba(0, 0, 0, 0.1)
-$CARD_ROUNDNESS: 5px
-$CARD_BORDER: 1px solid #b8b8b8
-$CARD_PADDING: 15px 17px
-$CARD_SHADOW: $SUBTLE_SHADOW
-$CARD_SPACING: $BLOCK_SPACING * 0.8

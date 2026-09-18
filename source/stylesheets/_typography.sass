@@ -1,30 +1,31 @@
 @import helpers
 
+// Global type. Sizes come from the $TEXT_* scale, leading from $LEADING_*,
+// heading color from the $GRAY_* ramp — see _tokens.sass.
+
 body
   +default-font
-  +font-size($FONT_SIZE, 3px)
-  //line-height: 1.3
-  color: $COLOR_TEXT
+  +type($TEXT_M, $LEADING_BODY)
+  color: $GRAY_900
 
 b
-  +bold
+  font-weight: bold
 
 h1, .h1
   +title-font
-  +font-size(36px, 1px)
-  +bold
+  +type($TEXT_3XL, $LEADING_DISPLAY)
+  font-weight: bold
   text-wrap: pretty
-  margin-top: 30px
-  margin-bottom: 28px
-  // margin-bottom: $BLOCK_SPACING * 0.8
-  color: #555
+  margin-top: $SPACE_M
+  margin-bottom: $SPACE_M
+  color: $GRAY_800
 
   up-modal &
     margin-top: 0
 
   code
     +monospace-font
-    font-size: 36px - 4px
+    font-size: $TEXT_2XL
     word-spacing: -6px // make spaces look less epic
 
   &+*
@@ -33,64 +34,49 @@ h1, .h1
 
 
 h2, .h2
-  +font-size(24px)
-  $border-color: #e0e0e0
-  color: #555
+  +type($TEXT_XL, $LEADING_HEADING)
+  color: $GRAY_800
   text-wrap: pretty
-  margin-top: $BLOCK_SPACING * 1.25
-  margin-bottom: $BLOCK_SPACING * 0.75
+  margin-top: $SPACE_L
+  margin-bottom: $SPACE_S
   position: relative
-  +bold
+  font-weight: bold
 
   .prose &,
   &.-separator
-    border-top: 1px solid #e0e0e0
-    padding-top: $BLOCK_SPACING * 1
-
-//h1 + &,
-  //h1 + div>&,
-  //h1 + div>div>&
-  //h1 + div>div>div>&
-  //  margin-top: 0
+    border-top: 1px solid $GRAY_300
+    padding-top: $SPACE_M
 
 
 h3, .h3
-  +font-size(20px)
-  color: #555
+  +type($TEXT_L, $LEADING_HEADING)
+  color: $GRAY_800
   text-wrap: pretty
-  margin-top: $BLOCK_SPACING * 1.1
-  margin-bottom: $BLOCK_SPACING * 0.6
-  +bold
-
-  //h2 + &, .h2 + &
-  //  margin-top: 0
+  margin-top: $SPACE_M
+  margin-bottom: $SPACE_XS
+  font-weight: bold
 
   code
-    color: #555 !important
-    +bold
+    color: $GRAY_800 !important
+    font-weight: bold
 
 h4, .h4
-  +font-size(18px)
-  //color: #777
+  +type($TEXT_M, $LEADING_UI)
   text-wrap: pretty
-  margin-top: $BLOCK_SPACING * 0.9
-  margin-bottom: $BLOCK_SPACING * 0.4
-  text-decoration: underline
+  margin-top: $SPACE_M
+  margin-bottom: $SPACE_2XS
+  font-weight: bold
 
   code
-    color: #777
-    +bold
-
-//h1, .h1, h2, .h2, h3, .h3, h4, .h4
-//  &.hash-target
-//    background-color: $COLOR_MARK
+    color: $GRAY_700
+    font-weight: bold
 
 mark
   background: $COLOR_MARK
   color: inherit
 
 small
-  font-size: 0.8em
+  font-size: $TEXT_S
 
 +selection
   color: white
