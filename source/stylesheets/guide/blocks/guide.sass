@@ -2,10 +2,19 @@
 
 $VERSION_NAV_WIDTH: 90px
 
+// Width of the column the in-page table of contents moves into on wide screens.
+$TOC_RAIL_WIDTH: 220px
+
+// How wide running documentation gets before it stops being comfortable to read.
+$CONTENT_WIDTH: 820px
+
 .guide
   display: flex
   flex-direction: column
 
+// One header, fixed and full width, on every page. Its left segment carries the
+// logo and the version switcher and is exactly as wide as the sidebar below it,
+// so the two read as one column.
 .guide--head
   flex: 0 0 auto
   position: fixed
@@ -15,170 +24,120 @@ $VERSION_NAV_WIDTH: 90px
   height: $HEAD_HEIGHT
   z-index: $HEAD_STRATUM
   background: $COLOR_MAIN
-  box-shadow: 0 3px 15px rgba(0,0,0,0.15)
-
-  +on_wide
-    background: linear-gradient(to right, $COLOR_LEFT 0%, $COLOR_LEFT 50%, $COLOR_MAIN 50%, $COLOR_MAIN 100%)
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15)
 
   .viewport
     display: flex
     flex-direction: row
     align-items: center
     height: 100% // stretch to $HEAD_HEIGHT, so children can be centered vertically
-    flex-wrap: wrap
+    flex-wrap: nowrap
+    max-width: none
+    +horizontal-padding(0)
 
 .guide--logo
   flex: 0 0 auto
+  +horizontal-padding($SPACE_S)
 
   +on_wide
     background-color: $COLOR_LEFT
+    +border-box
     width: calc(#{$LEFT_WIDTH} - #{$VERSION_NAV_WIDTH})
+    padding-right: 0
 
 .guide--version-nav
   flex: 0 0 $VERSION_NAV_WIDTH
   text-align: right
+  +horizontal-padding($SPACE_2XS)
+
+  +on_wide
+    background-color: $COLOR_LEFT
+    +border-box
 
   +on_narrow
     display: none
 
 .guide--top-nav
-  flex: 1 0 auto
+  flex: 1 1 auto
+  min-width: 0
   background-color: $COLOR_MAIN
   height: 100%
   display: flex
   align-items: center
-  padding-left: $SPACING_X
+  +horizontal-padding($SPACE_S)
+
+  +on_wide
+    padding-left: $SPACE_M
 
 .guide--torso
-  //margin-top: $HEAD_HEIGHT + 35px
   flex: 1 0 auto
 
   .viewport
-    display: flex
-    flex-direction: row
-    align-items: flex-start
-    flex-wrap: nowrap
+    display: block
+    max-width: none
+    +horizontal-padding(0)
 
+// The sidebar is pinned to the left edge of the window; the documentation is
+// centred in what is left. Below the breakpoint it disappears into the drawer
+// the header's burger opens.
 .guide--left
-  flex: 0 0 $LEFT_WIDTH
-  margin-right: $SPACING_X
+  +on_wide
+    position: fixed
+    left: 0
+    top: $HEAD_HEIGHT
+    bottom: 0
+    width: $LEFT_WIDTH
+    z-index: 1
 
   +on_narrow
     display: none
 
 .guide--menu
-  position: fixed
-  //padding: 24px $SPACING_X 24px 0
-  padding: 29px 24px 24px 0
-  top: $HEAD_HEIGHT
-  width: $LEFT_WIDTH
+  position: absolute
+  inset: 0
+  padding: $SPACE_M $SPACE_S $SPACE_M $SPACE_S
   +border-box
-  bottom: 0
-  overflow-y: scroll
+  overflow-y: auto
   overflow-x: hidden
   +pretty-scrollbars
 
-.guide--fineprint
-  margin-top: 40px
-  margin-bottom: 5px
-
 .guide--main
   margin-top: $HEAD_HEIGHT
-  margin-bottom: 20px
-  flex: 1 1 auto
+  margin-bottom: $SPACE_M
   min-width: 0
+  +horizontal-padding($VIEWPORT_PADDING)
 
-//$side-width: 290px - 30px
-//$side-spacing: 0
-//
-//.guide
-//  width: 100%
-//  background-color: #fff
-//
-//.guide--head
-//  height: 7px
-//  background-color: $COLOR_SECONDARY
-//  position: fixed
-//  left: 0
-//  top: 0
-//  width: 100%
-//  z-index: 100
-//
-//.guide--torso
-//  +clear_after
-//
-//.guide--content
-//  +horizontal-margin($side-width)
-//  padding: 55px 30px
-//
-//.guide--left
-//  float: left
-//  width: $side-width
-//  overflow: hidden
-//  +border-box
-//  padding: 55px 0 55px 30px
-//
-//.guide--logo
-//
-//.guide--hamburger
-//  display: none
-//
-//  +narrow_screen
-//    position: absolute
-//    top: 31px
-//    right: 30px
-//    +font-size(24px)
-//    margin-top: 10px
-//    color: $COLOR_MAIN
-//    text-transform: uppercase
-//    +bold
-//    display: block
-//    +title-font
-//
-//    &:hover
-//      color: $COLOR_ALIZARIN
-//
-//
-//.guide--menu
-//  margin-top: 34px
-//
-//.guide--right
-//  float: right
-//  width: $side-width
-//  overflow: hidden
-//  +border-box
-//  padding: 55px 30px
-//
-//+narrow-screen
-//  .guide--right
-//    display: none
-//  .guide--menu-toggler
-//    display: block
-//  .guide--logo
-//  .guide--left
-//    width: auto
-//    float: none
-//    padding-bottom: 0
-//    padding-top: 35px
-//  .guide--content
-//    +horizontal-margin(0)
-//    padding-top: 40px
-//  .guide--menu
-//    display: none
-//
-//.guide--fineprint
-//  color: #666
-//  margin-top: 50px
-//  border-top: 2px solid #eee
-//  max-width: 400px
-//  padding-top: 10px
-//  +font-size(16px)
-//
-////@media (min-width: $MIN_WIDTH_FOR_SIDE_BY_SIDE) and (min-height: 580px)
-////  .guide--content
-////    padding-left: $side-width + $side-spacing
-////
-////  .guide--side
-////    width: $side-width
-////    position: fixed
-////    margin-bottom: 0
+  +on_wide
+    margin-left: $LEFT_WIDTH
+
+  // A page with a table of contents reserves the rail it moves into, so the
+  // text stays centred in the space that is actually left for it.
+  +with_toc_rail
+    &:has(.toc)
+      // The rail is inset from the window edge by the viewport padding, so the
+      // reserve must cover that too or the text ends up against it.
+      padding-right: calc(#{$TOC_RAIL_WIDTH} + #{$SPACE_L} + #{$VIEWPORT_PADDING})
+
+.guide--content,
+.guide--fineprint
+  max-width: $CONTENT_WIDTH
+  +horizontal-margin(auto)
+
+.guide--fineprint
+  margin-top: $SPACE_L
+  margin-bottom: $SPACE_3XS
+
+// The landing page runs without the sidebar and draws its own full-bleed
+// sections, so nothing may cage it.
+.guide--torso.-full-width
+  .guide--main
+    margin-left: 0
+    margin-bottom: 0
+    +horizontal-padding(0)
+
+  .guide--content
+    max-width: none
+
+  .guide--fineprint
+    max-width: 880px
+    +horizontal-padding($SPACE_M)

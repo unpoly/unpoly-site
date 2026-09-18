@@ -1,4 +1,10 @@
 <% menu do %>
+  <%# On a narrow screen the burger is the only way in, so the drawer carries the
+      same search field and result list the sidebar has on a wide one. %>
+  <div class="menu--search">
+    <%= partial 'api/search' %>
+  </div>
+
   <div class="menu--nodes">
     <!--  <div class="node">-->
     <%#= node_link 'API', '/api' %>
@@ -33,4 +39,6 @@
     </div>
 
   </div>
+
+  <div class="content-search" data-algolia-index="<%= algolia_index %>"></div>
 <% end %>

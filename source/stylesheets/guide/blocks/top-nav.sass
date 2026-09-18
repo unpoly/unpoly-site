@@ -1,20 +1,19 @@
 @import ../../environment
 
-$section_spacing: 15px
-
 =underline-section($color)
   box-shadow: inset 0 -2px 0 $color
 
+// Type and gaps scale with the viewport instead of stepping at a breakpoint, so
+// the bar fits from the sidebar breakpoint upwards without a rule per width.
 .top-nav
-  font-size: 20px
-  +bold
+  font-size: clamp(15px, 1.15vw, 20px)
+  font-weight: bold
   +uppercase
   position: relative
   width: 100%
-  +clearfix
   display: flex
   align-items: center
-  gap: $section_spacing
+  gap: clamp(8px, 0.9vw, 16px)
 
 .top-nav--section
   color: white
@@ -23,9 +22,6 @@ $section_spacing: 15px
   // to center them vertically.
   display: inline-block
   margin-top: 1px
-
-  //+ .top-nav--section
-  //  margin-left: $section_spacing
 
   &.up-current
     +underline-section(rgba(255, 255, 255, 0.4))
@@ -43,21 +39,11 @@ $section_spacing: 15px
     margin-top: -1px
     color: $COLOR_MAIN
 
-//.top-nav--version
-//  opacity: 0.5
-
 .top-nav--right
   margin-left: auto
 
-  +narrower_than(1000px)
-    display: none
-
 .-social
   opacity: 0.75
-
-  +narrower_than(1200px)
-    .top-nav--label
-      display: none
 
 .-hamburger
   display: none

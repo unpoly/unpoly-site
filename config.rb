@@ -259,7 +259,7 @@ helpers do
     if page_title.present?
       "#{page_title} - Unpoly"
     else
-      "Unpoly - Progressive enhancement for HTML"
+      "Unpoly - The missing application layer for HTML"
     end
   end
 

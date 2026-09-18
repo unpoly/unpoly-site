@@ -1,23 +1,46 @@
 @import ../../environment
-
-$depth-indent: 15px
+@import guide
 
 .toc
   padding: $NOTIFICATION_PADDING
-  +vertical-margin($BLOCK_SPACING)
-  border-radius: 3px
+  +vertical-margin($SPACE_M)
+  border-radius: $RADIUS_S
   width: fit-content
-  background-color: rgba(0, 0, 0, 0.03)
-  //background-color: #f8f8f8
-  border: 1px solid #d2d2d2
+  background-color: $BACKGROUND_LIGHT
+  border: 1px solid $GRAY_400
   box-shadow: inset 0 1px 0 white
+
+  // On a wide screen the contents move into a rail beside the text. The markup
+  // does not change: the nav still sits above the first heading, where it reads
+  // correctly without CSS and where a narrow screen keeps it.
+  +with_toc_rail
+    // Naked in the rail: no box, so no padding to widen it past its width.
+    padding: 0
+    position: fixed
+    top: $HEAD_HEIGHT + $SPACE_M
+    right: $VIEWPORT_PADDING
+    width: $TOC_RAIL_WIDTH
+    max-height: calc(100vh - #{$HEAD_HEIGHT} - #{$SPACE_M * 2})
+    overflow-y: auto
+    +vertical-margin(0)
+    background: none
+    border: none
+    box-shadow: none
+    +pretty-scrollbars(8px)
 
 .toc--title
   margin-bottom: 0.4em
   margin-top: 0
   text-decoration: none !important
   font-size: inherit
-  +bold
+  font-weight: bold
+
+  +with_toc_rail
+    +uppercase
+    font-size: $TEXT_3XS
+    letter-spacing: 0.08em
+    color: $GRAY_600
+    margin-bottom: $SPACE_2XS
 
 .toc--item
   i.fa
@@ -27,12 +50,16 @@ $depth-indent: 15px
     text-decoration: none
     color: $COLOR_LINK
 
-  //&.-depth-1
-  //  margin-left: $depth-indent
-  //  display: none
-  //&.-depth-2
-  //  margin-left: 2 * $depth-indent
-  //  display: none
-  //&.-depth-3
-  //  margin-left: 3 * $depth-indent
-  //  display: none
+  +with_toc_rail
+    font-size: $TEXT_S
+    line-height: $LEADING_UI
+    margin-bottom: $SPACE_3XS
+
+    i.fa
+      display: none
+
+    a
+      color: $GRAY_700
+
+      +hover
+        color: $COLOR_LINK
