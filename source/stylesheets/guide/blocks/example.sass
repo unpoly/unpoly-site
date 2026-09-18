@@ -1,6 +1,6 @@
 @import ../../environment
 
-$background-color: $GRAY_100
+$background-color: $gray-100
 $border-color: shift-ergb($background-color, -50)
 
 .example
@@ -32,9 +32,9 @@ $border-color: shift-ergb($background-color, -50)
     height: 100vh
 
 .example--title
-  +type($TEXT_XL, $LEADING_UI)
-  color: $GRAY_800
-  margin-bottom: $SPACE_S
+  +type($text-xl, $leading-ui)
+  color: $gray-800
+  margin-bottom: $space-4
   // font-weight: bold
 
 .example--back
@@ -59,7 +59,7 @@ $border-color: shift-ergb($background-color, -50)
     right: 0
 
 .example--filename
-  color: $GRAY_700
+  color: $gray-700
   text-shadow: 0 1px 0 rgba(255,255,255,1)
   background-color: $background-color
   padding: 0 4px
@@ -73,5 +73,5 @@ $border-color: shift-ergb($background-color, -50)
   +font-size(14px, 1px)
   +monospace-font
   code
-    color: $GRAY_700
+    color: $gray-700
     +code-block

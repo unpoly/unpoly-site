@@ -2,14 +2,14 @@
 
 .video-player
   // Have this extra container so margins can collapse
-  +vertical-margin($SPACE_S)
+  +vertical-margin($space-4)
 
 .video-player--inner
   display: inline-block
   font-size: 0
   line-height: 0
   position: relative
-  border: 1px solid $GRAY_500
+  border: 1px solid $gray-500
   border-radius: 2px
 
 .video-player--video
@@ -32,11 +32,11 @@
     line-height: 60px
     color: white
     border-radius: 100%
-    background-color: $COLOR_SECONDARY
+    background-color: $indigo-800
     box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.7)
 
     &:before
       padding-left: 7px
 
   &:hover i
-    background-color: shift-rgb($COLOR_SECONDARY, +20)
+    background-color: shift-rgb($indigo-800, +20)

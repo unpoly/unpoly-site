@@ -1,31 +1,31 @@
 @import helpers
 
-// Global type. Sizes come from the $TEXT_* scale, leading from $LEADING_*,
-// heading color from the $GRAY_* ramp — see _tokens.sass.
+// Global type. Sizes come from the $text-* scale, leading from $leading-*,
+// heading color from the $gray-* ramp — see _tokens.sass.
 
 body
   +default-font
-  +type($TEXT_M, $LEADING_BODY)
-  color: $GRAY_900
+  +type($text-md, $leading-body)
+  color: $gray-900
 
 b
   font-weight: bold
 
 h1, .h1
   +title-font
-  +type($TEXT_3XL, $LEADING_DISPLAY)
+  +type($text-3xl, $leading-display)
   font-weight: bold
   text-wrap: pretty
-  margin-top: $SPACE_M
-  margin-bottom: $SPACE_M
-  color: $GRAY_800
+  margin-top: $space-5
+  margin-bottom: $space-5
+  color: $gray-800
 
   up-modal &
     margin-top: 0
 
   code
     +monospace-font
-    font-size: $TEXT_2XL
+    font-size: $text-2xl
     word-spacing: -6px // make spaces look less epic
 
   &+*
@@ -34,50 +34,50 @@ h1, .h1
 
 
 h2, .h2
-  +type($TEXT_XL, $LEADING_HEADING)
-  color: $GRAY_800
+  +type($text-xl, $leading-heading)
+  color: $gray-800
   text-wrap: pretty
-  margin-top: $SPACE_L
-  margin-bottom: $SPACE_S
+  margin-top: $space-6
+  margin-bottom: $space-4
   position: relative
   font-weight: bold
 
   .prose &,
   &.-separator
-    border-top: 1px solid $GRAY_300
-    padding-top: $SPACE_M
+    border-top: 1px solid $gray-300
+    padding-top: $space-5
 
 
 h3, .h3
-  +type($TEXT_L, $LEADING_HEADING)
-  color: $GRAY_800
+  +type($text-lg, $leading-heading)
+  color: $gray-800
   text-wrap: pretty
-  margin-top: $SPACE_M
-  margin-bottom: $SPACE_XS
+  margin-top: $space-5
+  margin-bottom: $space-3
   font-weight: bold
 
   code
-    color: $GRAY_800 !important
+    color: $gray-800 !important
     font-weight: bold
 
 h4, .h4
-  +type($TEXT_M, $LEADING_UI)
+  +type($text-md, $leading-ui)
   text-wrap: pretty
-  margin-top: $SPACE_M
-  margin-bottom: $SPACE_2XS
+  margin-top: $space-5
+  margin-bottom: $space-2
   font-weight: bold
 
   code
-    color: $GRAY_700
+    color: $gray-700
     font-weight: bold
 
 mark
-  background: $COLOR_MARK
+  background: $color-mark
   color: inherit
 
 small
-  font-size: $TEXT_S
+  font-size: $text-sm
 
 +selection
   color: white
-  background: $COLOR_TERTIARY
+  background: $blue-700

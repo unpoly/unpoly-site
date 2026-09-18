@@ -12,11 +12,11 @@
   position: absolute
   left: 0
   top: 2px
-  background-color: $GRAY_200
-  border: 1px solid $GRAY_500
-  color: $GRAY_600
+  background-color: $gray-200
+  border: 1px solid $gray-500
+  color: $gray-600
   border-radius: 3px
-  +type($TEXT_2XS, $LEADING_UI)
+  +type($text-2xs, $leading-ui)
   font-weight: bold
   text-align: center
   width: 45px
@@ -25,19 +25,19 @@
 .documentable-preview--signature
   //+monospace-font
   font-weight: bold
-  +type($TEXT_M, $LEADING_UI)
+  +type($text-md, $leading-ui)
 
-  color: $COLOR_MAIN
+  color: $red-600
 
   +when-unstable
-    color: $COLOR_PROTECTED
+    color: $gray-600
 
   +when_deprecated
     text-decoration: line-through
-    color: $COLOR_PROTECTED
+    color: $gray-600
 
   &:hover
-    color: $COLOR_HOVER !important
+    color: $color-hover !important
 
 .documentable-preview--summary
   margin-top: 2px
@@ -46,7 +46,7 @@
     margin: 0 !important
     a
       +when-unstable
-        +hyperlink($COLOR_PROTECTED)
+        +hyperlink($gray-600)
 
 .documentable-preview--visibility
   display: inline-block

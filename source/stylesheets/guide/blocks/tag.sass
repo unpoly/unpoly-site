@@ -3,13 +3,13 @@
 .tag
   display: inline-block
   +default-font
-  +type($TEXT_3XS, $LEADING_UI)
+  +type($text-3xs, $leading-ui)
   font-weight: bold
   text-transform: uppercase
   color: white
   vertical-align: middle
   padding: 2px 5px
-  --color: #{$GRAY_600}
+  --color: #{$gray-600}
   background-color: var(--color)
   color: white
   border-radius: 2px
@@ -24,22 +24,22 @@
     // base styles are already gray
 
   &.-gray-blue
-    --color: lighten(desaturate($COLOR_SECONDARY, 10%), 10%)
+    --color: #{lighten(desaturate($indigo-800, 10%), 10%)}
 
   &.-light-gray
-    --color: #{$GRAY_500}
+    --color: #{$gray-500}
   &.-red
-    --color: #{$COLOR_ALIZARIN}
+    --color: #{$red-600}
 
   &.-teal
-    --color: #{$COLOR_GREEN_SEA}
+    --color: #{$teal-700}
 
   &.-internal,
   &.-deprecated,
   &.-experimental
-    --color: #{$COLOR_PROTECTED}
+    --color: #{$gray-600}
 
   //&.-large
-  //  +type($TEXT_XS, $LEADING_UI)
+  //  +type($text-xs, $leading-ui)
   //  padding: 2px 6px 1px 6px
   //  font-weight: bold

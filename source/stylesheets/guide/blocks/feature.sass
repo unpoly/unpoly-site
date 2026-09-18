@@ -1,6 +1,6 @@
 @import ../../environment
 
-$param-spacing: $SPACE_M
+$param-spacing: $space-5
 $param-border: 1px solid rgba(0, 0, 0, 0.15)
 
 
@@ -9,7 +9,7 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
   &+.feature
     margin-top: 20px
     padding-top: 20px
-    border-top: 1px solid $GRAY_400
+    border-top: 1px solid $gray-400
 
 .feature--tags
   display: inline-block
@@ -50,7 +50,7 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 
   //&.hash-target
   //  // When directly jumping to the param, highlight it.
-  //  background-color: $COLOR_MARK
+  //  background-color: $color-mark
 
 .feature--param-info
   // For the response, the headline is in there
@@ -58,7 +58,7 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 
 .feature--param-signature
   +monospace-font
-  font-size: $TEXT_M
+  font-size: $text-md
   font-weight: bold
   color: #a0a0a0
 
@@ -113,12 +113,12 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 +on_narrow
   .feature--param-info
     display: flex
-    gap: $SPACE_S
+    gap: $space-4
     flex-wrap: wrap
-    margin-bottom: $SPACE_XS
+    margin-bottom: $space-3
 
   .feature--param-details
-    margin-left: $SPACE_M
+    margin-left: $space-5
 
   .feature--param-optionality
     display: none
@@ -126,7 +126,7 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 +on_wide
   .feature--param
     display: flex
-    gap: $SPACE_S
+    gap: $space-4
 
     //&.-response
     //  margin-top: -45px

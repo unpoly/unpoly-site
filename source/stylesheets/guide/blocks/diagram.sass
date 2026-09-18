@@ -4,7 +4,7 @@
 // and its colors come from the palette.
 
 .diagram
-  margin: $SPACE_L 0
+  margin: $space-6 0
   // Shrunk to a phone's width the labels stop being readable, so the diagram
   // keeps a floor and scrolls instead.
   overflow-x: auto
@@ -17,31 +17,31 @@
   display: block
 
 .diagram--band
-  fill: $GRAY_100
+  fill: $gray-100
 
 .diagram--column
   font-size: 19px
   font-weight: bold
-  fill: $GRAY_900
+  fill: $gray-900
   letter-spacing: 0.01em
 
 .diagram--method
   font-size: 17px
   font-weight: bold
-  fill: $GRAY_500
+  fill: $gray-500
 
 .diagram--path
   font-size: 18px
   font-weight: bold
-  fill: $GRAY_900
+  fill: $gray-900
 
 .diagram--note
   font-size: 14px
-  fill: $GRAY_700
+  fill: $gray-700
 
 // A page's outline, and the parts that make it up. -base is the screen as it
 // already was; -changed and -later are what each request replaced.
-$diagram-roles: ('base': $COLOR_TERTIARY, 'changed': $COLOR_MAIN, 'later': $COLOR_QUATERNARY)
+$diagram-roles: ('base': $blue-700, 'changed': $red-600, 'later': $orange-500)
 
 @each $role, $color in $diagram-roles
   .diagram--frame.-#{$role}
@@ -59,13 +59,13 @@ $diagram-roles: ('base': $COLOR_TERTIARY, 'changed': $COLOR_MAIN, 'later': $COLO
     stroke-width: 1.5
 
 .diagram--arrow
-  fill: $GRAY_400
+  fill: $gray-400
 
 .diagram--badge
-  fill: $COLOR_MAIN
+  fill: $red-600
 
 .diagram--badge-text
   font-size: 12px
   font-weight: bold
-  fill: $WHITE
+  fill: $white
   letter-spacing: 0.06em

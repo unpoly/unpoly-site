@@ -1,9 +1,9 @@
 @import ../../environment
 
 .notification
-  background-color: $NOTIFICATION_BACKGROUND
-  padding: $NOTIFICATION_PADDING
-  color: $NOTIFICATION_COLOR
+  background-color: $notification-background
+  padding: $notification-padding
+  color: $notification-color
   border-radius: 3px
   +vertical-margin(25px)
 
@@ -15,9 +15,9 @@
 
   a
     //xtext-decoration: underline
-    //border-bottom: 1px solid $COLOR_MAIN
-    //color: $COLOR_MAIN
-    +hyperlink($COLOR_MAIN)
+    //border-bottom: 1px solid $red-600
+    //color: $red-600
+    +hyperlink($red-600)
 
 .notification--subline
-  +type($TEXT_S, $LEADING_UI)
+  +type($text-sm, $leading-ui)

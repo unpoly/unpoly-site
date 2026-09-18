@@ -1,0 +1,157 @@
+// Design tokens for unpoly.com.
+//
+// One scale per dimension, so a block picks a step instead of inventing a value.
+// A name that would only mirror a step does not exist, and a semantic name
+// exists only where two or more blocks have to agree on the same decision.
+
+
+// Nudges a color toward white or black without changing its hue, which is how
+// the site has always derived its hover states.
+@function shift-rgb($color, $amount)
+  @return adjust-color($color, $red: $amount, $green: $amount, $blue: $amount)
+
+
+// ---------------------------------------------------------------- color
+//
+// Every hue runs on one ladder of lightness, so the same index means the same
+// weight whatever the hue:
+//
+//   100  97%    200  93%    300  87%    400  78%    500  66%
+//   600  54%    700  43%    800  33%    900  24%
+//
+// 500 is the middle of that ladder. The brand colors are not redefined to sit
+// at it: each one keeps its hue and saturation and takes the index its own
+// lightness already had, which is why the reds are 600 and the sidebar is 800.
+//
+// Only the steps something uses are defined. A step nobody has asked for is a
+// color nobody has chosen, and this file is read far more often than extended.
+
+$gray-100: hsl(315, 6%, 97%) // surfaces
+$gray-200: hsl(315, 5%, 93%) // tints
+$gray-300: hsl(315, 4%, 87%) // hairlines
+$gray-400: hsl(315, 4%, 78%) // borders
+$gray-500: hsl(315, 4%, 66%) // icons, disabled
+$gray-600: hsl(315, 4%, 54%) // muted text, and features that are not stable
+$gray-700: hsl(315, 5%, 43%) // strong muted text
+$gray-800: hsl(315, 6%, 33%) // headings
+$gray-900: hsl(315, 7%, 24%) // body text
+
+$white: #fff
+
+$red-600: hsl(0, 86%, 54%)     // the brand red: links, buttons, the header
+
+$blue-600: hsl(204, 70%, 54%)  // code samples in the example viewer
+$blue-700: hsl(201, 67%, 43%)  // accents, admonitions, the diagram's base state
+
+$indigo-800: hsl(233, 24%, 33%) // the sidebar and its header segment
+
+$orange-500: hsl(37, 82%, 66%) // the progress bar, the diagram's third state
+$orange-600: hsl(37, 90%, 54%) // the support page's accent
+
+$yellow-200: hsl(45, 100%, 93%) // notification ground
+$yellow-500: hsl(56, 100%, 66%) // marked text
+$yellow-600: hsl(48, 89%, 54%)  // a hyperlink on a dark ground
+$yellow-900: hsl(39, 66%, 24%)  // notification text
+
+$teal-700: hsl(168, 76%, 43%)  // the tag for a feature under discussion
+
+$background-light: rgba(0, 0, 0, 0.03)
+
+
+// ---------------------------------------------------------------- spacing
+//
+// A ~1.55 ratio. $space-5 IS THE DEFAULT: a block separating one thing from the
+// next uses it unless it has a reason not to, tighter below and looser above.
+// It carries the 25px rhythm the documentation has always had, so the question
+// of what normal spacing is does not get answered again per block.
+
+$space-1: 4px
+$space-2: 8px
+$space-3: 12px
+$space-4: 16px
+$space-5: 25px
+$space-6: 40px
+$space-7: 64px
+$space-8: 96px
+$space-9: 140px
+
+
+// ---------------------------------------------------------------- type
+//
+// A ~1.2 modular scale anchored on $text-md: 17px, the size the site has always
+// set on <body>. The top two steps are the landing hero.
+
+$text-3xs: 12px
+$text-2xs: 13px
+$text-xs: 14px
+$text-sm: 15px
+$text-md: 17px
+$text-lg: 20px
+$text-xl: 24px
+$text-2xl: 30px
+$text-3xl: 38px
+$text-4xl: 48px
+
+// Unitless, so a line box scales with its own font size. Big type needs less
+// leading than running prose: at display sizes 1.55 tears the lines apart.
+$leading-display: 1.1  // $text-3xl and up
+$leading-heading: 1.25 // $text-lg … $text-2xl
+$leading-ui: 1.35      // menus, tables, chips — dense, not read in long runs
+$leading-body: 1.55    // running prose
+
+// Comfortable line length for running prose.
+$measure-prose: 72ch
+
+
+// ---------------------------------------------------------------- shape
+
+$radius-sm: 3px
+$radius-md: 6px
+$radius-lg: 10px
+$radius-pill: 999px
+
+$subtle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+
+// ---------------------------------------------------------------- breakpoints
+//
+// Two, and they are named after what changes rather than after a size. Each one
+// marks a place where the layout changes SHAPE; everything else adapts on its
+// own through clamp(), wrapping flex and auto-fit grids. Adding a third means
+// another width to check every page at, so it needs an argument.
+//
+// Both values are measured: the sidebar tree needs 228px before its labels
+// wrap, a reference page's widest code block wants 820px, and its parameter
+// tables collapse to 259px. At $bp-sidebar the two-column layout still leaves
+// ~734px for the text, which is comfortable for prose and tables and costs code
+// blocks a little scrolling; below it the drawer serves better.
+
+$bp-sidebar: 1024px // sidebar ↔ the drawer behind the burger
+$bp-toc: 1280px     // in-page contents ↔ the right rail
+
+
+// ---------------------------------------------------------------- layout
+
+$left-width: clamp(250px, 22vw, 300px)
+
+$head-height: 43px
+$head-stratum: 99
+
+$max-content-width: 1550px
+$viewport-padding: clamp(20px, 3%, 40px)
+
+
+// ---------------------------------------------------------------- semantics
+//
+// Names for decisions that more than one block has to agree on. A role only one
+// block knows about belongs in that block, pointing at a token above.
+
+$color-link: $red-600
+$color-hover: shift-rgb($red-600, +20)
+$color-mark: $yellow-500
+
+$card-border: 1px solid $gray-400
+
+$notification-padding: 0.65em 0.9em
+$notification-color: $yellow-900
+$notification-background: $yellow-200

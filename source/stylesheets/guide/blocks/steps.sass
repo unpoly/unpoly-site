@@ -7,11 +7,11 @@ $spacing: 15px
 
 .steps
   list-style-type: none
-  +vertical-margin($SPACE_M)
+  +vertical-margin($space-5)
   counter-reset: steps
 
   li
-    +vertical-margin($SPACE_XS)
+    +vertical-margin($space-3)
     padding-left: $counter-edge + $spacing
 
     position: relative
@@ -23,21 +23,21 @@ $spacing: 15px
       font-weight: bold
       counter-increment: steps
       content: counter(steps)
-      //background-color: $GRAY_700
+      //background-color: $gray-700
       //border-radius: 200px
       text-align: center
       margin-right: 8px
       color: white
-      color: $COLOR_MAIN
-      color: $GRAY_500
-      border: 2px solid $GRAY_400
+      color: $red-600
+      color: $gray-500
+      border: 2px solid $gray-400
       position: absolute
       left: 0
       top: 1px
 
 
 //.steps
-//  +vertical-margin($SPACE_M)
+//  +vertical-margin($space-5)
 //
 //.steps--inner
 //  display: flex
@@ -54,4 +54,4 @@ $spacing: 15px
 //
 //.step--subtext
 //  margin-top: 10px
-//  color: $GRAY_700
+//  color: $gray-700

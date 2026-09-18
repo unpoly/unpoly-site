@@ -3,31 +3,31 @@
 // One topic on the /learn and /api hub pages. Successor of the interface-preview
 // block, which only knew modules.
 .topic-preview
-  +vertical-margin($SPACE_L)
+  +vertical-margin($space-6)
 
   & + &
-    padding-top: $SPACE_L
-    border-top: 1px solid $GRAY_300
+    padding-top: $space-6
+    border-top: 1px solid $gray-300
 
 .topic-preview--head
-  +type($TEXT_L, $LEADING_HEADING)
+  +type($text-lg, $leading-heading)
   font-weight: bold
-  margin: 0 0 $SPACE_2XS
+  margin: 0 0 $space-2
 
   &, a
     text-decoration: none
-    color: $GRAY_900
+    color: $gray-900
 
   a:hover
-    color: $COLOR_LINK
+    color: $color-link
 
 .topic-preview--children
   +hide_last-margins
   display: flex
   flex-wrap: wrap
-  gap: $SPACE_3XS $SPACE_S
-  margin-top: $SPACE_2XS
-  font-size: $TEXT_S
+  gap: $space-1 $space-4
+  margin-top: $space-2
+  font-size: $text-sm
 
   li
     margin: 0
@@ -35,18 +35,18 @@
   // A topic's pages are a table of contents, not a paragraph of links: the red
   // of a link in prose turns a list this dense into a wall of it.
   a
-    color: $GRAY_800
+    color: $gray-800
     text-decoration: none
 
     +hover
-      color: $COLOR_LINK
+      color: $color-link
 
   .fa
-    color: $GRAY_500
+    color: $gray-500
 
 .topic-preview--group
   font-weight: bold
 
 .topic-preview--count
-  color: $GRAY_600
-  margin-left: $SPACE_3XS
+  color: $gray-600
+  margin-left: $space-1

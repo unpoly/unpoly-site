@@ -7,12 +7,12 @@
 
 .node
   position: relative
-  +font-size($TEXT_M + 1px, 4px)
+  +font-size($text-md + 1px, 4px)
   font-weight: bold
 
 .node > .node
   display: none
-  +font-size($TEXT_M, 3.5px)
+  +font-size($text-md, 3.5px)
   font-weight: normal
   margin-bottom: 0
 
@@ -20,7 +20,7 @@
   margin-left: 20px
 
 .node.-group
-  $color: $COLOR_TERTIARY
+  $color: $blue-700
 
   margin-bottom: 4px
   margin-top: 4px
@@ -37,7 +37,7 @@
     z-index: 0
 
   > .node--self
-    +font-size($TEXT_M - 3px, 3px)
+    +font-size($text-md - 3px, 3px)
     color: $color
     text-transform: uppercase
     background-color: white
@@ -69,7 +69,7 @@
   display: block
 
 .node--self
-  color: $GRAY_600
+  color: $gray-600
   display: block
   align-items: center
   display: flex
@@ -88,10 +88,10 @@
 
 
 a.node--self
-  --node-color: #{desaturate($COLOR_SECONDARY, 5%)}
+  --node-color: #{desaturate($indigo-800, 5%)}
 
   .node.-deprecated &
-    --node-color: #{$COLOR_PROTECTED}
+    --node-color: #{$gray-600}
 
   //.node.-experimental &
   //
@@ -102,7 +102,7 @@ a.node--self
   color: var(--node-color)
 
   +hover
-    color: $COLOR_HOVER
+    color: $color-hover
 
   .node > .node &,
   .node:not(:has(.node)) &
@@ -110,7 +110,7 @@ a.node--self
       background-color: var(--node-color)
       color: white
       +hover
-        background-color: $COLOR_HOVER
+        background-color: $color-hover
         color: white
 
 .node--collapser
@@ -128,14 +128,14 @@ a.node--self
 .node--meta
   white-space: nowrap
   display: flex
-  gap: $SPACE_3XS
+  gap: $space-1
   align-items: center
   margin-right: 4px
 
 
 .node--tag
   display: inline-block
-  +type($TEXT_3XS, $LEADING_UI)
+  +type($text-3xs, $leading-ui)
   font-weight: bold
   text-transform: uppercase
   vertical-align: middle
@@ -166,30 +166,30 @@ a.node--self
 
 .node--dots
   flex: 1 1 0
-  border-top: 1px dotted $GRAY_500
+  border-top: 1px dotted $gray-500
   margin-top: 10px
 
 
 .node--commit-count
-  color: $GRAY_800
+  color: $gray-800
   //margin-left: 5px
   //display: inline-block
   font-size: 13px
   font-weight: normal
 
   .fa
-    color: $GRAY_600
+    color: $gray-600
 
   //border-radius: 10px
-  //border: 1px solid $GRAY_500
-  //+type($TEXT_2XS, $LEADING_UI)
+  //border: 1px solid $gray-500
+  //+type($text-2xs, $leading-ui)
   //
   //padding: 2px 5px 1px 5px
-  //+type($TEXT_3XS, $LEADING_UI)
+  //+type($text-3xs, $leading-ui)
 
 
 .node mark
-  color: $COLOR_ALIZARIN
+  color: $red-600
 
 .node.-query
   display: none

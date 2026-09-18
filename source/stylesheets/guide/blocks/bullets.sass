@@ -2,11 +2,11 @@
 
 ul.bullets
 
-  +vertical_margin($SPACE_S)
+  +vertical_margin($space-4)
 
   li
     padding-left: 0.9em
-    +vertical_margin($SPACE_3XS)
+    +vertical_margin($space-1)
     position: relative
 
     &:before
@@ -18,11 +18,11 @@ ul.bullets
       top: 0.1em
       font-weight: bold
       //font-size: 16px
-      //color: $GRAY_600
-      color: desaturate($COLOR_SECONDARY, 20%)
+      //color: $gray-600
+      color: desaturate($indigo-800, 20%)
 
   //
   //&.-blue
   //  li
   //    &:before
-  //      color: desaturate($COLOR_PETER_RIVER, 20%)
+  //      color: desaturate($blue-600, 20%)

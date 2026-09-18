@@ -9,36 +9,36 @@
 // block leaned on them for its padding and had to be undone by hand.
 .action
   display: inline-block
-  border-radius: $RADIUS_S
+  border-radius: $radius-sm
   color: white !important
   font-weight: bold
-  +type($TEXT_S, $LEADING_UI)
-  padding: $SPACE_2XS $SPACE_S
-  +tint-action($COLOR_MAIN)
-  box-shadow: $SUBTLE_SHADOW
+  +type($text-sm, $leading-ui)
+  padding: $space-2 $space-4
+  +tint-action($red-600)
+  box-shadow: $subtle-shadow
   cursor: pointer
 
   &:active
     transform: translate(0, 1px)
 
   &.-gray
-    +tint-action($GRAY_600)
+    +tint-action($gray-600)
 
   &.-secondary
-    +tint-action($COLOR_SECONDARY)
+    +tint-action($indigo-800)
 
   &.-small
-    font-size: $TEXT_XS
-    padding: $SPACE_3XS $SPACE_XS
+    font-size: $text-xs
+    padding: $space-1 $space-3
 
   // The landing page's call to action, which has to hold its own beside a hero.
   &.-large
-    padding: $SPACE_XS $SPACE_M
+    padding: $space-3 $space-5
 
 .actions
-  +vertical-margin($SPACE_M)
+  +vertical-margin($space-5)
   display: flex
   flex-direction: row
   flex-wrap: wrap
-  gap: $SPACE_2XS
+  gap: $space-2
   align-items: center

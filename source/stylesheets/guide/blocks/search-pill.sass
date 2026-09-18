@@ -6,16 +6,16 @@
 .search-pill
   display: inline-flex
   align-items: center
-  gap: $SPACE_2XS
+  gap: $space-2
   // Gives way before the nav links do when the bar gets tight.
   flex: 0 1 auto
   min-width: 0
   border: 1px solid rgba(255, 255, 255, 0.35)
   background: rgba(255, 255, 255, 0.14)
-  border-radius: $RADIUS_PILL
-  padding: 3px $SPACE_XS
+  border-radius: $radius-pill
+  padding: 3px $space-3
   color: rgba(255, 255, 255, 0.85)
-  font-size: clamp($TEXT_3XS, 0.9vw, $TEXT_XS)
+  font-size: clamp($text-3xs, 0.9vw, $text-xs)
   font-weight: normal
   text-transform: none
   white-space: nowrap
@@ -23,7 +23,7 @@
 
   +hover
     background: rgba(255, 255, 255, 0.24)
-    color: $WHITE
+    color: $white
 
   +on_narrow
     display: none
@@ -37,7 +37,7 @@
 
 .search-pill--key
   +monospace-font
-  font-size: $TEXT_3XS
+  font-size: $text-3xs
   background: rgba(255, 255, 255, 0.2)
   border-radius: 2px
   padding: 0 5px

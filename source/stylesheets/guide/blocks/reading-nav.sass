@@ -6,29 +6,29 @@
 .reading-nav
   display: flex
   flex-wrap: wrap
-  gap: $SPACE_S
-  margin-top: $SPACE_XL
-  padding-top: $SPACE_M
-  border-top: 1px solid $GRAY_300
+  gap: $space-4
+  margin-top: $space-7
+  padding-top: $space-5
+  border-top: 1px solid $gray-300
 
 .reading-nav--link
   display: flex
   align-items: baseline
-  gap: $SPACE_3XS
+  gap: $space-1
   max-width: 100%
-  +hyperlink($COLOR_SECONDARY)
+  +hyperlink($indigo-800)
 
   &.-next
     margin-left: auto
     text-align: right
 
 .reading-nav--role
-  color: $GRAY_600
-  font-size: $TEXT_S
+  color: $gray-600
+  font-size: $text-sm
 
 .reading-nav--icon
-  font-size: $TEXT_3XS
-  color: $GRAY_500
+  font-size: $text-3xs
+  color: $gray-500
 
 .reading-nav--title
   font-weight: bold

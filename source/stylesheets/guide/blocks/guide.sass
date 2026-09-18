@@ -1,12 +1,12 @@
 @import ../../environment
 
-$VERSION_NAV_WIDTH: 90px
+$version-nav-width: 90px
 
 // Width of the column the in-page table of contents moves into on wide screens.
-$TOC_RAIL_WIDTH: 220px
+$toc-rail-width: 220px
 
 // How wide running documentation gets before it stops being comfortable to read.
-$CONTENT_WIDTH: 820px
+$content-width: 820px
 
 .guide
   display: flex
@@ -21,37 +21,37 @@ $CONTENT_WIDTH: 820px
   left: 0
   top: 0
   right: 0
-  height: $HEAD_HEIGHT
-  z-index: $HEAD_STRATUM
-  background: $COLOR_MAIN
+  height: $head-height
+  z-index: $head-stratum
+  background: $red-600
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15)
 
   .viewport
     display: flex
     flex-direction: row
     align-items: center
-    height: 100% // stretch to $HEAD_HEIGHT, so children can be centered vertically
+    height: 100% // stretch to $head-height, so children can be centered vertically
     flex-wrap: nowrap
     max-width: none
     +horizontal-padding(0)
 
 .guide--logo
   flex: 0 0 auto
-  +horizontal-padding($SPACE_S)
+  +horizontal-padding($space-4)
 
   +on_wide
-    background-color: $COLOR_LEFT
+    background-color: $indigo-800
     +border-box
-    width: calc(#{$LEFT_WIDTH} - #{$VERSION_NAV_WIDTH})
+    width: calc(#{$left-width} - #{$version-nav-width})
     padding-right: 0
 
 .guide--version-nav
-  flex: 0 0 $VERSION_NAV_WIDTH
+  flex: 0 0 $version-nav-width
   text-align: right
-  +horizontal-padding($SPACE_2XS)
+  +horizontal-padding($space-2)
 
   +on_wide
-    background-color: $COLOR_LEFT
+    background-color: $indigo-800
     +border-box
 
   +on_narrow
@@ -60,14 +60,14 @@ $CONTENT_WIDTH: 820px
 .guide--top-nav
   flex: 1 1 auto
   min-width: 0
-  background-color: $COLOR_MAIN
+  background-color: $red-600
   height: 100%
   display: flex
   align-items: center
-  +horizontal-padding($SPACE_S)
+  +horizontal-padding($space-4)
 
   +on_wide
-    padding-left: $SPACE_M
+    padding-left: $space-5
 
 .guide--torso
   flex: 1 0 auto
@@ -84,9 +84,9 @@ $CONTENT_WIDTH: 820px
   +on_wide
     position: fixed
     left: 0
-    top: $HEAD_HEIGHT
+    top: $head-height
     bottom: 0
-    width: $LEFT_WIDTH
+    width: $left-width
     z-index: 1
 
   +on_narrow
@@ -95,20 +95,20 @@ $CONTENT_WIDTH: 820px
 .guide--menu
   position: absolute
   inset: 0
-  padding: $SPACE_M $SPACE_S $SPACE_M $SPACE_S
+  padding: $space-5 $space-4 $space-5 $space-4
   +border-box
   overflow-y: auto
   overflow-x: hidden
   +pretty-scrollbars
 
 .guide--main
-  margin-top: $HEAD_HEIGHT
-  margin-bottom: $SPACE_M
+  margin-top: $head-height
+  margin-bottom: $space-5
   min-width: 0
-  +horizontal-padding($VIEWPORT_PADDING)
+  +horizontal-padding($viewport-padding)
 
   +on_wide
-    margin-left: $LEFT_WIDTH
+    margin-left: $left-width
 
   // A page with a table of contents reserves the rail it moves into, so the
   // text stays centred in the space that is actually left for it.
@@ -116,16 +116,16 @@ $CONTENT_WIDTH: 820px
     &:has(.toc)
       // The rail is inset from the window edge by the viewport padding, so the
       // reserve must cover that too or the text ends up against it.
-      padding-right: calc(#{$TOC_RAIL_WIDTH} + #{$SPACE_L} + #{$VIEWPORT_PADDING})
+      padding-right: calc(#{$toc-rail-width} + #{$space-6} + #{$viewport-padding})
 
 .guide--content,
 .guide--fineprint
-  max-width: $CONTENT_WIDTH
+  max-width: $content-width
   +horizontal-margin(auto)
 
 .guide--fineprint
-  margin-top: $SPACE_L
-  margin-bottom: $SPACE_3XS
+  margin-top: $space-6
+  margin-bottom: $space-1
 
 // The landing page runs without the sidebar and draws its own full-bleed
 // sections, so nothing may cage it.
@@ -140,4 +140,4 @@ $CONTENT_WIDTH: 820px
 
   .guide--fineprint
     max-width: 880px
-    +horizontal-padding($SPACE_M)
+    +horizontal-padding($space-5)

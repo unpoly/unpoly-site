@@ -1,6 +1,3 @@
-@function shift-rgb($color, $amount)
-  @return adjust-color($color, $red: $amount, $green: $amount, $blue: $amount)
-
 =hover
   &:hover, &:focus
     @content
@@ -67,9 +64,9 @@
   font-size: $size
   line-height: $size + (2 * $line_height_padding)
 
-// Preferred over +font_size: a step from the $TEXT_* scale plus a unitless
+// Preferred over +font_size: a step from the $text-* scale plus a unitless
 // leading, so a line box scales with its own font size.
-=type($size, $leading: $LEADING_HEADING)
+=type($size, $leading: $leading-heading)
   font-size: $size
   line-height: $leading
 
@@ -153,7 +150,7 @@
   //+default-font
 
 =inline-code
-  color: $GRAY_800
+  color: $gray-800
   //margin-left: 2px
   //margin-right: 2px
   +monospace-font
@@ -208,7 +205,7 @@
     &, & code
       color: white
 
-=hyperlink($color: $COLOR_LINK, $hover-color: $COLOR_HOVER)
+=hyperlink($color: $color-link, $hover-color: $color-hover)
   text-decoration: underline
   text-decoration-skip-ink: auto
 
@@ -247,14 +244,14 @@
   +hide-last-margins
 
 =subtle-shadow
-  box-shadow: $SUBTLE_SHADOW
+  box-shadow: $subtle-shadow
 
 =card
-  border: $CARD_BORDER
-  padding: $SPACE_S
-  border-radius: $RADIUS_M
-  box-shadow: $SUBTLE_SHADOW
-  +vertical_margin($SPACE_S)
+  border: $card-border
+  padding: $space-4
+  border-radius: $radius-md
+  box-shadow: $subtle-shadow
+  +vertical_margin($space-4)
 
 =when-stable
   .-stable &
