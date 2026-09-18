@@ -11,7 +11,7 @@
   border-radius: 2px
   color: white !important
   text-transform: uppercase
-  +bold
+  font-weight: bold
   padding: 6px 14px 5px 14px // less bottom padding since uppercase doesn't have descendants
   display: inline-block
   +tint-action($COLOR_MAIN)
@@ -35,11 +35,17 @@
     +font-size(14px)
     padding: 5px 9px 4px 9px
 
+  // The landing page's call to action, which has to hold its own beside a hero.
+  &.-large
+    font-size: $TEXT_S
+    padding: 11px $SPACE_M 9px $SPACE_M
+    border-radius: $RADIUS_S
+
   //&:active, .up-active
   //  transform: scale(0.9) translate(0, 2px)
 
 .actions
-  +vertical-margin($BLOCK_SPACING)
+  +vertical-margin($SPACE_M)
   display: flex
   flex-direction: row
   flex-wrap: wrap

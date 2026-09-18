@@ -1,0 +1,116 @@
+<%#
+  Three requests through an Unpoly app: the server answers with full pages, Unpoly
+  keeps only the targeted fragments, and rendering less is an optional optimization.
+
+  Drawn inline rather than embedded as an <img>, so the labels are real <text> in
+  the site's own webfont and take their colors from the palette.
+%>
+<%
+  # One page mockup: an outer frame, a header strip, three sidebar boxes and a
+  # main area. Which parts are filled, and in which role, is what differs between
+  # the columns.
+  page_mock = lambda do |x:, y:, frame:, main: nil, boxes: {}, parts: :all|
+    w, h = 168, 105
+    header_h = 22
+    box_x, box_w, box_h = x + 7, 33, 21
+    main_x, main_w = x + 47, 114
+    svg = +''
+
+    if parts == :all
+      svg << %(<rect class="diagram--frame -#{frame}" x="#{x}" y="#{y}" width="#{w}" height="#{h}" rx="2"/>)
+      svg << %(<line class="diagram--rule -#{frame}" x1="#{x}" y1="#{y + header_h}" x2="#{x + w}" y2="#{y + header_h}"/>)
+      3.times do |i|
+        role = boxes[i] || frame
+        svg << %(<rect class="diagram--part -#{role}" x="#{box_x}" y="#{y + header_h + 6 + i * (box_h + 5)}" width="#{box_w}" height="#{box_h}" rx="1"/>)
+      end
+      svg << %(<rect class="diagram--part -#{main || frame}" x="#{main_x}" y="#{y + header_h + 6}" width="#{main_w}" height="#{h - header_h - 12}" rx="1"/>)
+    else
+      # Only the fragments the optimized response carries.
+      Array(parts).each do |part|
+        if part == :main
+          svg << %(<rect class="diagram--part -#{main || frame}" x="#{main_x}" y="#{y + header_h + 6}" width="#{main_w}" height="#{h - header_h - 12}" rx="1"/>)
+        else
+          role = boxes[part] || frame
+          svg << %(<rect class="diagram--part -#{role}" x="#{box_x}" y="#{y + header_h + 6 + part * (box_h + 5)}" width="#{box_w}" height="#{box_h}" rx="1"/>)
+        end
+      end
+    end
+
+    svg
+  end
+
+  arrow = lambda do |x:, y:|
+    %(<path class="diagram--arrow" d="M#{x - 9} #{y} L#{x + 9} #{y} L#{x} #{y + 11} Z"/>)
+  end
+
+  rows = [
+    { y: 108, role: 'base',    method: 'GET',   path: '/notes',   note: '(initial load)' },
+    { y: 248, role: 'changed', method: 'GET',   path: '/notes/3', note: nil },
+    { y: 388, role: 'later',   method: 'PATCH', path: '/notes/3', note: nil },
+  ]
+
+  columns = { response: 232, used: 500, optimized: 744 }
+%>
+
+<figure class="diagram">
+  <svg class="diagram--canvas" viewBox="0 0 960 512" role="img"
+       aria-labelledby="fragment-updates-title fragment-updates-desc">
+    <title id="fragment-updates-title">How Unpoly uses a server response</title>
+    <desc id="fragment-updates-desc">
+      Three requests, each shown across four columns. The server always responds with a
+      complete page. Unpoly uses only the fragments that changed, leaving the rest of the
+      screen in place. A server may optionally respond with those fragments alone.
+    </desc>
+
+    <rect class="diagram--band" x="200" y="0" width="264" height="512"/>
+    <rect class="diagram--band" x="712" y="0" width="248" height="512"/>
+
+    <text class="diagram--column" x="24" y="46">BROWSER</text>
+    <text class="diagram--column" x="24" y="72">REQUEST</text>
+    <text class="diagram--column" x="232" y="46">SERVER</text>
+    <text class="diagram--column" x="232" y="72">RESPONSE</text>
+    <text class="diagram--column" x="500" y="46">FRAGMENTS</text>
+    <text class="diagram--column" x="500" y="72">USED</text>
+    <text class="diagram--column" x="744" y="46">OPTIMIZED</text>
+    <text class="diagram--column" x="744" y="72">RESPONSE</text>
+
+    <rect class="diagram--badge" x="872" y="14" width="76" height="20" rx="2"/>
+    <text class="diagram--badge-text" x="910" y="28" text-anchor="middle">OPTIONAL</text>
+
+    <% rows.each_with_index do |row, index| %>
+      <text class="diagram--method" x="24" y="<%= row[:y] + 28 %>"><%= row[:method] %></text>
+      <text class="diagram--path" x="24" y="<%= row[:y] + 52 %>"><%= row[:path] %></text>
+      <% if row[:note] %>
+        <text class="diagram--note" x="24" y="<%= row[:y] + 72 %>"><%= row[:note] %></text>
+      <% end %>
+
+      <%# The server always sends a complete page, in the state this request produced. %>
+      <%= page_mock.call(x: columns[:response], y: row[:y], frame: row[:role]) %>
+
+      <%# What the browser ends up showing: the previous screen, with the changed parts swapped in. %>
+      <% if index.zero? %>
+        <%= page_mock.call(x: columns[:used], y: row[:y], frame: 'base') %>
+      <% else %>
+        <%= page_mock.call(x: columns[:used], y: row[:y], frame: 'base',
+                               main: row[:role],
+                               boxes: (index == 2 ? { 1 => row[:role] } : {})) %>
+      <% end %>
+
+      <%# A server may send only the fragments that changed. %>
+      <% if index.zero? %>
+        <%= page_mock.call(x: columns[:optimized], y: row[:y], frame: 'base') %>
+      <% else %>
+        <%= page_mock.call(x: columns[:optimized], y: row[:y], frame: 'base',
+                               main: row[:role],
+                               boxes: (index == 2 ? { 1 => row[:role] } : {}),
+                               parts: (index == 2 ? [1, :main] : [:main])) %>
+      <% end %>
+
+      <% if index < rows.size - 1 %>
+        <% columns.each_value do |x| %>
+          <%= arrow.call(x: x + 84, y: row[:y] + 116) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </svg>
+</figure>

@@ -1,0 +1,243 @@
+@import ../../environment
+@import bullets
+@import hyperlink
+
+// The landing page. It is the one page that runs without the sidebar, so it sets
+// its own rhythm: full-bleed sections, a measure for running text, and type a step
+// or two above what the docs use.
+
+.landing
+  +hide-margins-y
+
+.landing--section
+  +vertical-padding(clamp(#{$SPACE_L}, 6vw, #{$SPACE_XL}))
+
+  &.-hero
+    padding-top: $SPACE_L
+
+  &.-tinted
+    background: $GRAY_100
+    border-block: 1px solid $GRAY_300
+
+  // Two tinted sections in a row would draw a double line between them.
+  &.-tinted + &.-tinted
+    border-top: none
+
+  &.-strip
+    background: $GRAY_100
+    border-block: 1px solid $GRAY_300
+    +vertical-padding($SPACE_L)
+
+.landing--inner
+  // Wide enough for the diagram and the card row, narrow enough that running
+  // text does not need a measure of its own.
+  max-width: 880px
+  +horizontal-margin(auto)
+  +horizontal-padding($SPACE_M)
+
+  p
+    margin-bottom: $SPACE_S
+
+  code
+    +inline-code
+
+  a
+    @extend .hyperlink
+
+.landing--claim
+  +type(clamp(#{$TEXT_2XL}, 4.4vw, #{$TEXT_4XL}), $LEADING_DISPLAY)
+  font-weight: bold
+  color: $GRAY_900
+  text-wrap: balance
+  margin-bottom: $SPACE_S
+
+.landing--byline
+  +type($TEXT_L, $LEADING_HEADING)
+  color: $GRAY_800
+
+.landing--trailer
+  +type($TEXT_M, $LEADING_BODY)
+  color: $GRAY_700
+  max-width: 68ch
+
+  b
+    color: $GRAY_900
+
+.landing--actions
+  margin-top: $SPACE_M
+  gap: $SPACE_XS
+
+.landing--aside
+  color: $GRAY_600
+  font-size: $TEXT_S
+
+.landing--spec
+  color: $GRAY_600
+  font-size: $TEXT_S
+  margin-top: $SPACE_S
+
+.landing--heading
+  +type(clamp(#{$TEXT_XL}, 2.8vw, #{$TEXT_2XL}), $LEADING_HEADING)
+  font-weight: bold
+  color: $GRAY_900
+  text-wrap: balance
+  margin-bottom: $SPACE_S
+
+.landing--subheading
+  +type($TEXT_XL, $LEADING_HEADING)
+  font-weight: bold
+  color: $GRAY_900
+  margin-top: $SPACE_XL
+  margin-bottom: $SPACE_S
+
+// Code samples carry highlight.js class names, so the site's syntax theme colors
+// them; this block only owns the box.
+.landing--code
+  +code-block
+  +vertical-margin($SPACE_M)
+  padding: $SPACE_S
+  background: $BACKGROUND_LIGHT
+  border-radius: $RADIUS_M
+  font-size: $TEXT_S
+  line-height: $LEADING_UI
+  white-space: pre
+
+  mark
+    background: $COLOR_MARK
+    border-radius: 2px
+    padding: 1px 2px
+
+.landing--checklist
+  list-style: none
+  padding: 0
+  margin: 0 0 $SPACE_M
+  max-width: $MEASURE_PROSE
+
+  li
+    position: relative
+    padding-left: $SPACE_M
+    margin-bottom: $SPACE_2XS
+
+    &::before
+      content: "\f00c" // fa-check
+      font-family: FontAwesome
+      position: absolute
+      left: 0
+      top: 1px
+      color: $COLOR_MAIN
+      font-size: 0.85em
+
+.landing--chips
+  display: flex
+  flex-wrap: wrap
+  gap: $SPACE_2XS
+  margin-bottom: $SPACE_M
+
+.landing--chip
+  background: $WHITE
+  border: 1px solid $GRAY_300
+  border-radius: $RADIUS_PILL
+  padding: 4px $SPACE_XS
+  font-size: $TEXT_XS
+  color: $GRAY_800
+  white-space: nowrap
+
+  &.-event
+    +monospace-font
+    color: $COLOR_MAIN
+    font-size: $TEXT_2XS
+
+  .-tinted &
+    background: $WHITE
+
+.landing--cards
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+  gap: $SPACE_S
+  margin-bottom: $SPACE_M
+
+.landing--card
+  border: $CARD_BORDER
+  border-radius: $RADIUS_M
+  padding: $SPACE_S
+  background: $WHITE
+
+  p
+    font-size: $TEXT_S
+    color: $GRAY_700
+    margin-bottom: $SPACE_2XS
+
+  a
+    font-size: $TEXT_S
+
+.landing--card-title
+  +type($TEXT_L, $LEADING_HEADING)
+  font-weight: bold
+  color: $GRAY_900
+  margin-bottom: $SPACE_2XS
+
+.landing--quote
+  border-left: 3px solid $GRAY_400
+  margin: $SPACE_M 0
+  padding-left: $SPACE_S
+  color: $GRAY_700
+
+  p
+    font-style: italic
+    margin-bottom: $SPACE_3XS
+
+  cite
+    font-style: normal
+    font-size: $TEXT_S
+    color: $GRAY_600
+
+.landing--fits
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
+  gap: $SPACE_L
+  margin-top: $SPACE_M
+
+  ul
+    @extend .bullets
+    margin-bottom: 0
+
+  li
+    font-size: $TEXT_S
+
+.landing--fit-title
+  +type($TEXT_L, $LEADING_HEADING)
+  font-weight: bold
+  color: $GRAY_900
+  margin-bottom: $SPACE_2XS
+
+.landing--logos-label
+  font-size: $TEXT_S
+  color: $GRAY_600
+  +uppercase
+  letter-spacing: 0.08em
+  margin-bottom: $SPACE_S
+
+.landing--logo-wall
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: $SPACE_M $SPACE_L
+
+// The wall mixes roundels with wordmarks, so one shared height would make the
+// wide marks tower over the round ones. Both axes are capped instead, and each
+// logo settles at whichever limit it meets first.
+.landing--logo
+  width: auto
+  height: auto
+  max-height: 30px
+  max-width: 120px
+  opacity: 0.6
+
+  &[src*="vw"],
+  &[src*="audi"],
+  &[src*="bosch"]
+    max-height: 34px
+
+  &[src*="siemens"],
+  &[src*="steady"]
+    max-height: 22px

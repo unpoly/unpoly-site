@@ -1,0 +1,71 @@
+@import ../../environment
+
+// The request-flow diagram. Drawn inline so its labels are real text in Roboto
+// and its colors come from the palette.
+
+.diagram
+  margin: $SPACE_L 0
+  // Shrunk to a phone's width the labels stop being readable, so the diagram
+  // keeps a floor and scrolls instead.
+  overflow-x: auto
+  +pretty-scrollbars(8px)
+
+.diagram--canvas
+  width: 100%
+  min-width: 620px
+  height: auto
+  display: block
+
+.diagram--band
+  fill: $GRAY_100
+
+.diagram--column
+  font-size: 19px
+  font-weight: bold
+  fill: $GRAY_900
+  letter-spacing: 0.01em
+
+.diagram--method
+  font-size: 17px
+  font-weight: bold
+  fill: $GRAY_500
+
+.diagram--path
+  font-size: 18px
+  font-weight: bold
+  fill: $GRAY_900
+
+.diagram--note
+  font-size: 14px
+  fill: $GRAY_700
+
+// A page's outline, and the parts that make it up. -base is the screen as it
+// already was; -changed and -later are what each request replaced.
+$diagram-roles: ('base': $COLOR_TERTIARY, 'changed': $COLOR_MAIN, 'later': $COLOR_QUATERNARY)
+
+@each $role, $color in $diagram-roles
+  .diagram--frame.-#{$role}
+    fill: none
+    stroke: $color
+    stroke-width: 2
+
+  .diagram--rule.-#{$role}
+    stroke: $color
+    stroke-width: 2
+
+  .diagram--part.-#{$role}
+    fill: rgba($color, 0.22)
+    stroke: $color
+    stroke-width: 1.5
+
+.diagram--arrow
+  fill: $GRAY_400
+
+.diagram--badge
+  fill: $COLOR_MAIN
+
+.diagram--badge-text
+  font-size: 12px
+  font-weight: bold
+  fill: $WHITE
+  letter-spacing: 0.06em

@@ -1,220 +1,251 @@
-<div class="hero">
+<%#
+  The landing page. Copy comes from the approved mock (docs rework 2026, v11) and is
+  not edited here: wording changes go through the mock and Henning's review.
 
-  <div class="hero--notification notification">
-    <% promoted_version_info = guide.promoted_version_info %>
-    <p>Unpoly <a href="/changes/<%= promoted_version_info[:version] %>"><%= promoted_version_info[:label] %></a> is now available.</p>
-    <p>To stay up to date, <a href="/support/discussions" up-layer="new modal" up-size="medium">watch GitHub Discussions</a> or <a href="https://x.com/unpolyjs">follow us on 𝕏</a>.</p>
-  </div>
+  Code samples carry highlight.js class names by hand rather than going through the
+  `pre code` compiler, so an Unpoly attribute can wear a <mark> next to its explanatory
+  comment. The compiler's own `mark:` convention would eat the comment.
+%>
+<% @full_width = true %>
 
-  <h1 class="hero--claim">
-    Progressive enhancement for HTML
-  </h1>
+<div class="landing">
 
-  <p class="hero--explanation">
-    <span class="hero--explanation-line">
-      Get powerful new HTML attributes to build dynamic UI on the server.
-    </span>
-    <span class="hero--explanation-line">
-      Works with any language. Gracefully degrades without JavaScript.
-    </span>
-  </p>
+  <section class="landing--section -hero">
+    <div class="landing--inner">
+      <h1 class="landing--claim">The missing application layer for&nbsp;HTML</h1>
 
-  <%= partial 'layouts/start_actions' %>
+      <p class="landing--byline">Unpoly expands what links, forms and server-rendered pages can do:</p>
+
+<pre class="hljs landing--code -hero"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/tasks/123"</span> <mark><span class="hljs-attr">up-target</span>=<span class="hljs-string">"#pane"</span></mark>&gt;</span>Details<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>    <span class="hljs-comment">&lt;!-- updates a fragment --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/users/new"</span> <mark><span class="hljs-attr">up-layer</span>=<span class="hljs-string">"new"</span></mark>&gt;</span>Add user<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>      <span class="hljs-comment">&lt;!-- opens in a modal overlay --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">form</span> <mark><span class="hljs-attr">up-validate</span></mark>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>                            <span class="hljs-comment">&lt;!-- validates against your server --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">main</span> <mark><span class="hljs-attr">up-poll</span></mark>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>                              <span class="hljs-comment">&lt;!-- keeps itself fresh --&gt;</span>
+<span class="hljs-comment">&lt;!-- … and dozens more --&gt;</span></pre>
+
+      <p class="landing--trailer">
+        The application stays on <b>your server</b> — any language, any framework.
+        The <b>browser</b> learns just enough to feel like an app.
+        Your <b>HTML</b> keeps its meaning — agents and crawlers can read your app without running JavaScript.
+      </p>
+
+      <div class="actions landing--actions">
+        <a class="action -large" href="/learn">Learn Unpoly</a>
+        <a class="action -large -secondary" href="/api">API Reference</a>
+        <span class="landing--aside">or <%= hyperlink 'see it running in the demo', 'https://demo.unpoly.com', target: '_blank' %></span>
+      </div>
+
+      <p class="landing--spec">One JavaScript file &middot; no build step &middot; MIT</p>
+    </div>
+  </section>
+
+  <section class="landing--section">
+    <div class="landing--inner">
+      <h2 class="landing--heading">Update only what changed</h2>
+
+      <p>Following an Unpoly link doesn't tear down the page. The server responds with HTML —
+         a full page is fine — and Unpoly extracts the targeted fragment, discarding the rest:</p>
+
+      <%= partial 'fragment_updates_diagram' %>
+
+      <p>The rest of the page simply stays: your scroll position, your focus,
+         the form you were halfway through.</p>
+
+      <p>And because every response can be a full page, every URL keeps working on its own —
+         in a new tab, for a bookmark, for a crawler. You don't build separate fragment
+         endpoints. Unpoly works with the routes you already have. Rendering only the fragment
+         is a simple, optional optimization; most screens never need it.</p>
+    </div>
+  </section>
+
+  <section class="landing--section -tinted">
+    <div class="landing--inner">
+      <h2 class="landing--heading">Edge cases included</h2>
+
+      <p>Real applications are full of cases that demos skip: back buttons, racing requests,
+         stale caches, users who double-click. Unpoly's defaults cover them.
+         Here is a single enhanced link:</p>
+
+<pre class="hljs landing--code"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/projects"</span> <mark><span class="hljs-attr">up-follow</span></mark>&gt;</span>Projects<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></pre>
+
+      <p>When it's clicked, Unpoly:</p>
+
+      <ul class="landing--checklist">
+        <li>updates the main fragment and the browser URL</li>
+        <li>preserves scroll positions, focus and half-typed input outside the fragment</li>
+        <li><b>aborts</b> an earlier request racing for the same fragment</li>
+        <li><b>caches</b> the response, and revalidates it when it goes stale</li>
+        <li>restores the exact screen state when the user presses <b>Back</b></li>
+        <li>runs your component <b>teardown</b> before anything is swapped out</li>
+      </ul>
+
+      <p>The same care runs through every feature:</p>
+
+      <div class="landing--chips">
+        <span class="landing--chip">Loading indicators</span>
+        <span class="landing--chip">Preloading</span>
+        <span class="landing--chip">Flaky networks &amp; offline</span>
+        <span class="landing--chip">Conditional requests</span>
+        <span class="landing--chip">Animated transitions</span>
+        <span class="landing--chip">Focus trapping in overlays</span>
+        <span class="landing--chip">CSP-compatible scripting</span>
+        <span class="landing--chip">Accessible defaults</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing--section">
+    <div class="landing--inner">
+      <h2 class="landing--heading">Built for tough requirements</h2>
+
+      <p>These are the screens that usually get an app rewritten in React:</p>
+
+      <div class="landing--cards">
+        <div class="landing--card">
+          <h3 class="landing--card-title">Reactive server forms</h3>
+          <p>Fields that depend on other fields — selects loading their options, previews updating as you type —
+             rendered by your server, wired with one attribute.</p>
+          <%= hyperlink 'Learn more →', '/reactive-server-forms' %>
+        </div>
+        <div class="landing--card">
+          <h3 class="landing--card-title">Optimistic rendering</h3>
+          <p>Update the screen before the server answers, then reconcile with the real response.
+             Previews revert cleanly when anything fails.</p>
+          <%= hyperlink 'Learn more →', '/optimistic-rendering' %>
+        </div>
+        <div class="landing--card">
+          <h3 class="landing--card-title">Complex overlay flows</h3>
+          <p>Branch off into an overlay, complete a multi-page flow there, and return the result
+             to the parent screen — which never went away.</p>
+          <%= hyperlink 'Learn more →', '/subinteractions' %>
+        </div>
+      </div>
+
+      <h3 class="landing--subheading">… and escape hatches everywhere</h3>
+
+      <p>When attributes aren't enough, you can recompose Unpoly's behavior using its
+         extensive JavaScript API. Every attribute has a JavaScript twin —
+         <code>[up-submit]</code> is <code>up.submit()</code>, modifying attributes become options.</p>
+
+<pre class="hljs landing--code"><span class="hljs-comment">// Let the user create a record in an overlay, then use the result:</span>
+<span class="hljs-keyword">let</span> { email } = <span class="hljs-keyword">await</span> up.layer.ask({ url: <span class="hljs-string">'/users/new'</span> })
+up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } })</pre>
+
+      <p>Along the way, Unpoly emits the events you wish the platform had:</p>
+
+      <div class="landing--chips">
+        <span class="landing--chip -event">up:link:follow</span>
+        <span class="landing--chip -event">up:form:validate</span>
+        <span class="landing--chip -event">up:layer:accepted</span>
+        <span class="landing--chip -event">up:fragment:loaded</span>
+        <span class="landing--chip -event">up:fragment:destroyed</span>
+        <span class="landing--chip -event">up:network:late</span>
+        <span class="landing--chip -event">…</span>
+      </div>
+
+      <p>And your own JavaScript plugs in through compilers: enhance existing HTML tags,
+         invent new elements, integrate third-party libraries, bring server-side data into
+         frontend components — or mount a whole React island.</p>
+    </div>
+  </section>
+
+  <section class="landing--section -tinted">
+    <div class="landing--inner">
+      <h2 class="landing--heading">Your HTML keeps its meaning</h2>
+
+      <p>Unpoly enhances HTML elements without changing what they are.
+         A link still navigates and a form still submits — they just learn to do it better.</p>
+
+      <p>Everything that already understands HTML keeps understanding your app:
+         search engines index real pages, agents read real content without executing JavaScript,
+         and screen readers see real links and forms — not clickable <code>&lt;div&gt;</code>s.
+         And since your server can always answer with a complete page, every screen keeps
+         a working address of its own.</p>
+
+      <p>Every feature has a graceful degradation story. For example, when we built lazy loading,
+         we modeled it as a <em>self-loading hyperlink</em> — without JavaScript it's still a link,
+         and the content is one click away instead of gone:</p>
+
+<pre class="hljs landing--code"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/menu"</span> <mark><span class="hljs-attr">up-defer</span></mark>&gt;</span>Load menu<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>   <span class="hljs-comment">&lt;!-- with JS: loads itself. Without: a working link. --&gt;</span></pre>
+
+      <blockquote class="landing--quote">
+        <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
+        <cite>— Carson Gross, creator of htmx</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="landing--section">
+    <div class="landing--inner">
+      <h2 class="landing--heading">Is Unpoly right for you?</h2>
+
+      <p>The hypermedia space has two philosophies. htmx states its own beautifully:</p>
+
+      <blockquote class="landing--quote">
+        <p>“Why should only <code>&lt;a&gt;</code> &amp; <code>&lt;form&gt;</code> be able to make HTTP requests?
+           Why should only <code>click</code> &amp; <code>submit</code> events trigger them?”</p>
+        <cite>— htmx.org, on its motivation</cite>
+      </blockquote>
+
+      <p>Unpoly makes the opposite bet: the elements HTML already gave us are the right ones to make requests —
+         because the whole web already knows what they mean. So instead of generalizing requests to any element,
+         Unpoly makes links and forms <em>more capable</em>, with strong defaults for the cases every app hits.</p>
+
+      <p>Both are coherent trades. Small primitives buy maximum control and a minimal footprint.
+         A higher-level layer buys fewer attributes for standard cases and edge cases handled for you.</p>
+
+      <div class="landing--fits">
+        <div class="landing--fit">
+          <h3 class="landing--fit-title">Unpoly is for you if…</h3>
+          <ul class="bullets">
+            <li>You render HTML on a server — Rails, Django, Laravel, Phoenix, Node, anything — and want to keep it that way.</li>
+            <li>Your app has outgrown full page loads, but an SPA would mean duplicating your product in the browser.</li>
+            <li>You want one mental model for navigation, overlays and forms — not a kit of separate libraries to combine.</li>
+            <li>You want overlays, reactive forms and instant navigation without wiring the plumbing yourself.</li>
+            <li>You expect to maintain this app for years.</li>
+          </ul>
+        </div>
+        <div class="landing--fit">
+          <h3 class="landing--fit-title">Choose another tool when…</h3>
+          <ul class="bullets">
+            <li>Your application state truly belongs in the browser — an editor, a game, offline-first.</li>
+            <li>You want maximum control over every request and DOM change — <%= hyperlink 'htmx', 'https://htmx.org', target: '_blank' %> is excellent for that temperament.</li>
+            <li>You need native iOS/Android shells around your app and don't want to write your own — Hotwire ships ready-made adapters for that.</li>
+            <li>A dedicated frontend team owns a separate client-side product.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing--section -strip">
+    <div class="landing--inner">
+      <p class="landing--logos-label">In production at</p>
+      <div class="landing--logo-wall">
+        <% %w[vw audi siemens bosch arm zendesk steady urban-dictionary tuifly adonisjs].each do |logo| %>
+          <%= image_tag "logos/#{logo}.svg", class: 'landing--logo', alt: '' %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="landing--section">
+    <div class="landing--inner">
+      <h2 class="landing--heading">Start with one screen</h2>
+
+      <p>You don't need to migrate your application. Start where full page loads hurt most —
+         a filter form that resets the page, an edit screen that should be an overlay, a slow report.
+         Enhance one link. Leave the rest alone.</p>
+
+      <p>One script tag, no build step:</p>
+
+<pre class="hljs landing--code"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/unpoly@<%= guide.version %>/unpoly.min.css"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/unpoly@<%= guide.version %>/unpoly.min.js"</span> <span class="hljs-attr">defer</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></pre>
+
+      <div class="actions landing--actions">
+        <a class="action -large" href="/learn">Learn Unpoly</a>
+        <span class="landing--aside">or <%= hyperlink 'install in ten minutes', '/install' %></span>
+      </div>
+    </div>
+  </section>
 
 </div>
-
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-puzzle-piece"></i>
-  </div>
-
-  <div class="usp--title">
-    Links only update changed fragments
-  </div>
-  <div class="usp--description">
-    <span class="line-on-wide">
-      Unpoly enhances your links to
-      <%= hyperlink 'update fragments', '/up.link', class: 'hyperlink' %>
-      instead of full pages.
-    </span>
-    <span>
-      This preserves other page state, like scroll positions or forms.
-    </span>
-  </div>
-</div>
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-wpforms"></i>
-  </div>
-  <div class="usp--title">
-    Master complex forms
-  </div>
-  <div class="usp--description">
-    <span class="line-on-wide">
-      Submit forms <%= hyperlink 'without leaving the page', '/up-submit' %>.
-    </span>
-    <span>
-      <%= hyperlink 'Validate forms', '/validation' %>,
-      <%= hyperlink 'update dependent fields', '/reactive-server-forms' %>
-      and use <%= hyperlink 'multi-step forms within modals', '/subinteractions' %>.
-    </span>
-  </div>
-</div>
-
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-clone"></i>
-  </div>
-  <div class="usp--title">
-    Branch off into layers
-  </div>
-  <div class="usp--description">
-    <span class="line-on-wide">
-      Branch off <%= hyperlink 'subinteractions', '/subinteractions' %> into
-      <%= hyperlink 'overlays', '/up.layer' %>.
-    </span>
-    <span class="line-on-wide">
-      Return to the main page when you're done.
-    </span>
-  </div>
-</div>
-
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-magic"></i>
-  </div>
-
-  <div class="usp--title">
-    Outsmart server latency
-  </div>
-  <div class="usp--description">
-    <span class="line-on-wide">
-      Shorten response times by
-      <%= hyperlink 'preloading pages', '/up-preload' %>,
-      <%= hyperlink 'caching responses', '/caching' %> and
-      <%= hyperlink 'following links earlier', '/up-instant' %>.
-    </span>
-    <span class="line-on-wide">
-      Cached content is
-      <%= hyperlink 'kept fresh', '/caching#revalidation' %>
-      and <%= hyperlink 'remains available when offline', '/network-issues' %>.
-    </span>
-  </div>
-</div>
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-flash"></i>
-  </div>
-
-  <div class="usp--title">
-    Client-side interaction feedback
-  </div>
-  <div class="usp--description">
-    <span class="line-on-wide">
-      Instantly show <%= hyperlink 'placeholders', '/placeholders' %>,
-      <%= hyperlink 'disable forms', '/disabling-forms' %> or define
-      <%= hyperlink 'arbitrary loading state', '/previews' %>.
-    </span>
-    <span class="line-on-wide">
-      You can even do
-      <%= hyperlink 'optimistic rendering', '/optimistic-rendering' %> with
-      <%= hyperlink 'client-side templates', '/templates' %>.
-    </span>
-  </div>
-</div>
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-cubes"></i>
-  </div>
-  <div class="usp--title">
-    Organize your JavaScript snippets
-  </div>
-  <div class="usp--description">
-    <span class="line-on-wide">
-      Organize your Javascripts in
-      <%= hyperlink 'compilers', '/up.compiler' %>
-      to pair HTML elements with JavaScript behavior.
-    </span>
-    <span class="line-on-wide">
-      Enhance existing HTML tags or create new elements.
-    </span>
-
-  </div>
-</div>
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-film"></i>
-  </div>
-
-  <div class="usp--title">
-    Animation
-  </div>
-  <div class="usp--description">
-    <%= hyperlink 'Animate page changes', '/up.motion' %>
-    with fade, swipe or zoom transitions.
-  </div>
-</div>
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-plug"></i>
-  </div>
-  <div class="usp--title">
-    Extensible
-  </div>
-  <div class="usp--description">
-    Hack and extend Unpoly using its comprehensive
-    <%= hyperlink 'render lifecycle', '/render-lifecycle' %>,
-    <%= hyperlink 'JavaScript API', '/up.fragment' %> and
-    <%= hyperlink 'event model', '/up.event' %>.
-  </div>
-</div>
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-handshake-o"></i>
-  </div>
-  <div class="usp--title">
-    Plays nice with existing code
-  </div>
-  <div class="usp--description">
-    Migrate any server-side web application with
-    <%= hyperlink 'manageable changes', '/legacy-scripts' %> to existing JavaScripts.
-  </div>
-</div>
-
-<!--    <div class="usp">-->
-<!--      <div class="usp--icon">-->
-<!--        <i class="fa fa-heart-o"></i>-->
-<!--      </div>-->
-<!--      <div class="usp--title">-->
-<!--        Degrades gracefully-->
-<!--      </div>-->
-<!--      <div class="usp--description">-->
-<!--        Unpoly supports <%#= hyperlink 'all modern browsers', '/up.framework.isSupported' %>.-->
-<!--      </div>-->
-<!--    </div>-->
-
-<div class="usp">
-  <div class="usp--icon">
-    <i class="fa fa-random"></i>
-  </div>
-  <div class="usp--title">
-    Fix concurrency
-  </div>
-  <div class="usp--description">
-    Avoid real-world race conditions by
-
-    <%= hyperlink 'smart aborting', '/aborting-requests' %>,
-    <%= hyperlink 'batched validations', '/reactive-server-forms#race-conditions' %> and
-    <%= hyperlink 'disabling submitted forms', '/disabling-forms' %>.
-  </div>
-</div>
-

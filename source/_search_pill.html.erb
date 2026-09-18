@@ -1,0 +1,16 @@
+<%#
+  The search affordance in the global header.
+
+  It is a plain link to the reference, which is where the site's search lives today.
+  Where the page already carries the sidebar's search field, a compiler upgrades the
+  link into a button that focuses that field instead of navigating — so the pill never
+  promises something the page cannot do.
+
+  The key it advertises is `/`, the shortcut that actually works. When the Search
+  station lands its own search, this same element becomes its trigger.
+%>
+<a class="search-pill" href="/api" aria-label="Search the documentation">
+  <i class="fa fa-search search-pill--icon"></i>
+  <span class="search-pill--label">Search docs…</span>
+  <kbd class="search-pill--key">/</kbd>
+</a>

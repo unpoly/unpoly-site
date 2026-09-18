@@ -1,0 +1,44 @@
+@import ../../environment
+
+// The search affordance in the global header. See source/_search_pill.html.erb
+// for what it does until the site has a search of its own.
+
+.search-pill
+  display: inline-flex
+  align-items: center
+  gap: $SPACE_2XS
+  // Gives way before the nav links do when the bar gets tight.
+  flex: 0 1 auto
+  min-width: 0
+  border: 1px solid rgba(255, 255, 255, 0.35)
+  background: rgba(255, 255, 255, 0.14)
+  border-radius: $RADIUS_PILL
+  padding: 3px $SPACE_XS
+  color: rgba(255, 255, 255, 0.85)
+  font-size: clamp($TEXT_3XS, 0.9vw, $TEXT_XS)
+  font-weight: normal
+  text-transform: none
+  white-space: nowrap
+  cursor: pointer
+
+  +hover
+    background: rgba(255, 255, 255, 0.24)
+    color: $WHITE
+
+  +on_narrow
+    display: none
+
+.search-pill--icon
+  font-size: 0.9em
+  opacity: 0.8
+
+.search-pill--label
+  +truncate_text
+
+.search-pill--key
+  +monospace-font
+  font-size: $TEXT_3XS
+  background: rgba(255, 255, 255, 0.2)
+  border-radius: 2px
+  padding: 0 5px
+  line-height: 1.5
