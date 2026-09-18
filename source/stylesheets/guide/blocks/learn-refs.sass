@@ -1,25 +1,31 @@
 @import ../../environment
+@import hyperlink
 
 // The @learn-ref slot: where a reference document points at the guides that
 // explain it in context. Successor of the retired a.article-ref block.
-//
-// TODO(css): provisional styling by the Structure station — restyle with the
-// new visual system (spacing tokens, type scale) and delete this note.
 .learn-refs
-  display: table
-  // TODO(css): literal margins, no spacer variables exist yet
-  margin-top: 1.1em
-  margin-bottom: 1.1em
+  +vertical-margin($SPACE_M)
+  padding: $SPACE_2XS $SPACE_XS
+  border-left: 2px solid $COLOR_SECONDARY
+  background: $GRAY_100
+  border-radius: 0 $RADIUS_S $RADIUS_S 0
+  font-size: $TEXT_S
 
-  &--label
-    &::before
-      content: "\f0a4"
-      font-family: FontAwesome
-      font-style: normal
-      margin-right: 0.3em
-      color: $GRAY_900
+.learn-refs--label
+  color: $GRAY_700
+  font-weight: bold
+  margin-right: $SPACE_3XS
 
-  &--link
-    font-style: italic
-    margin-left: 0.4em
-    +hyperlink($COLOR_SECONDARY)
+  &::before
+    content: "\f0a4" // fa-hand-o-right
+    font-family: FontAwesome
+    font-style: normal
+    font-weight: normal
+    margin-right: $SPACE_3XS
+    color: $GRAY_500
+
+.learn-refs--link
+  +hyperlink($COLOR_SECONDARY)
+
+  & + &
+    margin-left: $SPACE_2XS

@@ -19,7 +19,7 @@ blockquote.admonition
   border: none
   font-style: normal
   border-radius: 2px
-  background-color: #eee
+  background-color: $GRAY_200
   padding: $NOTIFICATION_PADDING
 
   +hide-last-margins
@@ -43,14 +43,14 @@ blockquote.admonition
     +tint(lighten(desaturate($COLOR_ALIZARIN, 10%), 36%), darken(desaturate($COLOR_ALIZARIN, 20%), 20%))
 
   //&.-tip, &.-hint // lightbulb
-  //  +tint(#f2f2f2, #626262)
+  //  +tint($GRAY_200, $GRAY_700)
 
   &.-info, &.-tip, &.-hint
     +tint(lighten(desaturate($COLOR_MUTED_BLUE, 10%), 47%), darken(desaturate($COLOR_MUTED_BLUE, 20%), 16%))
 
   &.-note
-    //+tint(#f2f2f2, #626262)
-    //+tint(mix(#f2f2f2, $NOTIFICATION_BACKGROUND, 50%), mix(#626262, $NOTIFICATION_COLOR, 50%))
+    //+tint($GRAY_200, $GRAY_700)
+    //+tint(mix($GRAY_200, $NOTIFICATION_BACKGROUND, 50%), mix($GRAY_700, $NOTIFICATION_COLOR, 50%))
     //+tint(#66573c, #66573c)
     +tint(darken(saturate(#f8f0e0, 10%), 0%), darken(#665035, 4%))
 

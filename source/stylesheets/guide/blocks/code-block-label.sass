@@ -1,16 +1,16 @@
 @import ../../environment
 
 //.code-block-label
-//  //border: 1px solid #ddd
+//  //border: 1px solid $GRAY_300
 //  //padding: 2px 5px
 //  display: table
-//  //background: linear-gradient(to bottom, #eee 0%, #eee 75%, #e0e0e0 100%)
-//  background: #eee
+//  //background: linear-gradient(to bottom, $GRAY_200 0%, $GRAY_200 75%, $GRAY_300 100%)
+//  background: $GRAY_200
 //  background: $BACKGROUND_LIGHT
 //  //text-decoration: underline
 //  +default-font
 //  //font-weight: bold
-//  +font-size(14px)
+//  +type($TEXT_XS, $LEADING_UI)
 //  margin: $SPACE_S 0 0 0
 //  letter-spacing: 0.02em
 //  //text-transform: uppercase
@@ -27,21 +27,21 @@
 //
 //  & + pre
 //    margin-top: 0 !important
-//    //border-top: 1px solid #e0e0e0
+//    //border-top: 1px solid $GRAY_300
 
 
 .code-block-label
-  //border: 1px solid #ddd
+  //border: 1px solid $GRAY_300
   //padding: 2px 5px
   display: inline-block
   //text-decoration: underline
   +default-font
   font-weight: bold
-  +font-size(13px)
+  +type($TEXT_2XS, $LEADING_UI)
   margin: 12px 0 0 15px
   letter-spacing: 0.06em
   text-transform: uppercase
-  color: #777
+  color: $GRAY_700
   text-shadow: 1px 1px 1px white
 
   //margin-top: 3px

@@ -1,13 +1,12 @@
 @import ../../environment
 
-$border_color: #b5b5b5
+$border_color: $GRAY_500
 
 .example-embed
   +vertical-margin($SPACE_L)
 
 .example-embed--maximize
-  font-size: 15px
-  +uppercase
+  font-size: $TEXT_S
   font-weight: bold
 
 .example-embed--explanation
@@ -54,25 +53,25 @@ $border_color: #b5b5b5
     content: ''
     position: absolute
     height: 0px
-    border-top: 1px dotted #aaa
+    border-top: 1px dotted $GRAY_500
     //background-color: $border_color
     left: 0
     top: 12px
     right: 0
 
 .example-embed--filename
-  color: #999
+  color: $GRAY_600
   text-shadow: 0 1px 0 rgba(255,255,255,0.8)
   padding-right: 5px
-  background-color: #fff
+  background-color: $WHITE
   display: inline-block
   position: relative
   z-index: 2
   +monospace-font
-  +font-size(14px)
+  +type($TEXT_XS, $LEADING_UI)
 
 
-// +font-size(16px)
+// +type($TEXT_S, $LEADING_UI)
   //font-weight: bold
 .example-embed--code
   margin-top: 14px !important

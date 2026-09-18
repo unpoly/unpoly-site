@@ -13,7 +13,10 @@ $meta_width: 170px
   code
     +inline-code
     font-weight: normal
-    white-space: nowrap
+    // Short symbol names stay on one line because they fit; a long one breaks
+    // rather than pushing the page sideways.
+    white-space: pre-wrap
+    overflow-wrap: break-word
 
   pre
     +vertical_margin($SPACE_S)
@@ -68,8 +71,8 @@ $meta_width: 170px
       +vertical-margin(0)
 
   hr
-    color: #ddd
-    background-color: #ddd
+    color: $GRAY_300
+    background-color: $GRAY_300
     border: none
     height: 2px
     +vertical-margin($SPACE_S)
@@ -88,8 +91,15 @@ $meta_width: 170px
   table
     +vertical_margin($SPACE_S)
     border-collapse: collapse
+    // A table wider than the column scrolls on its own; there is no wrapper
+    // element to give it, and the reader should not have to scroll the page.
+    display: block
+    width: fit-content
+    max-width: 100%
+    overflow-x: auto
+    +pretty-scrollbars(8px)
 
-    $table-border-color: #ccc
+    $table-border-color: $GRAY_400
     $table-head-background-color: opacify($BACKGROUND_LIGHT, 0.05)
 
     td, th
@@ -110,7 +120,7 @@ $meta_width: 170px
     th
       font-weight: bold
       +font-size(16px, 4px)
-      color: #666
+      color: $GRAY_700
       text-align: left
       background-color: $table-head-background-color
 

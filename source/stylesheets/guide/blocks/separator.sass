@@ -1,19 +1,16 @@
 @import ../../environment
 
-$max-distance-to-left-menu: $SPACE_L
-
-$height: 200px
-
+// Divides a reference page's introduction from its body.
+//
+// This used to be a 200px band bleeding 50vw past its container, which is why
+// every reference page scrolled sideways behind `overflow-x: hidden`. The text
+// now runs in a column of its own with a rail beside it, so a band reaching for
+// the window edge has nothing left to reach for.
 .separator
-  border: none // default <hr> style
-
-  padding: 0                          50vw  0                                    $max-distance-to-left-menu
-  margin:  ($SPACE_L)    -50vw  (($SPACE_M) - $height)   (-1 * $max-distance-to-left-menu)
-
-  border-top: 2px solid #dcdcdc
-  box-shadow: inset 0 1px 15px rgba(255, 255, 255, 0.4)
-  background: linear-gradient(to bottom, #f4f4f4 0%, white 100%)
-  height: $height
+  border: none
+  border-top: 1px solid $GRAY_300
+  height: 0
+  +vertical-margin($SPACE_L)
 
   & + *
     margin-top: 0 !important

@@ -11,14 +11,14 @@
   position: absolute
   top: 7px
   left: 8px
-  color: #999
+  color: $GRAY_600
   font-size: 16px
 
 .search--reset
   position: absolute
   top: 4px
   right: 8px
-  color: #888
+  color: $GRAY_600
   font-size: 26px
   cursor: pointer
 
@@ -27,7 +27,7 @@
   position: absolute
   top: 6px
   right: 6px
-  color: #999
+  color: $GRAY_600
   //color: white
   box-sizing: border-box
   border-radius: 2px
@@ -36,31 +36,31 @@
   +height($edge)
   font-weight: bold
   text-align: center
-  //background-color: #ccc
-  border: 1px solid #aaa
+  //background-color: $GRAY_400
+  border: 1px solid $GRAY_500
   pointer-events: none // allow to click through
 
 .search--expand-help
   margin-top: 8px
-  color: #666
-  +font-size(15px)
+  color: $GRAY_700
+  +type($TEXT_S, $LEADING_UI)
 
 .search--expand-key
   font-weight: bold
   display: inline-block
   color: white
-  background-color: #999
+  background-color: $GRAY_600
   border-radius: 2px
   padding: 2px 6px 2px 5px
-  +font-size(13px)
+  +type($TEXT_2XS, $LEADING_UI)
   margin-right: 2px
 
 
 //.search
-//  +font-size(16px)
+//  +type($TEXT_S, $LEADING_UI)
 //
 //.search--query
-//  border: 1px solid #aaa
+//  border: 1px solid $GRAY_500
 //  padding: 5px 7px
 //  +default-font
 //  margin-bottom: 15px

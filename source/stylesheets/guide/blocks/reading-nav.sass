@@ -1,28 +1,34 @@
 @import ../../environment
+@import hyperlink
 
-// The previous/next widget at the end of every Learn page.
-//
-// TODO(css): provisional styling by the Structure station — restyle with the
-// new visual system (spacing tokens) and delete this note.
+// Where the reader came from and where the path goes next, at the end of every
+// Learn page.
 .reading-nav
   display: flex
-  justify-content: space-between
-  gap: 1em
-  // TODO(css): literal margins, no spacer variables exist yet
-  margin-top: 2.2em
+  flex-wrap: wrap
+  gap: $SPACE_S
+  margin-top: $SPACE_XL
+  padding-top: $SPACE_M
+  border-top: 1px solid $GRAY_300
 
 .reading-nav--link
   display: flex
-  align-items: center
-  gap: 0.4em
-  text-decoration: none
+  align-items: baseline
+  gap: $SPACE_3XS
+  max-width: 100%
   +hyperlink($COLOR_SECONDARY)
 
   &.-next
     margin-left: auto
+    text-align: right
+
+.reading-nav--role
+  color: $GRAY_600
+  font-size: $TEXT_S
 
 .reading-nav--icon
-  font-size: 0.8em
+  font-size: $TEXT_3XS
+  color: $GRAY_500
 
 .reading-nav--title
   font-weight: bold

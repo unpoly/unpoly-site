@@ -1,22 +1,19 @@
 @import ../../environment
 
 .menu
-  //width: 100%
-  //overflow: hidden
-
   &.-placeholder
     visibility: hidden
 
 .menu--search
-  margin-bottom: 20px
+  margin-bottom: $SPACE_S
 
 .menu--title
   text-transform: uppercase
   font-weight: bold
   margin-bottom: 10px
-  color: #888
+  color: $GRAY_600
 
 up-drawer .menu
   max-width: $LEFT_WIDTH
   .menu--search
-    margin-right: 20px // leave space for close button
+    margin-right: $SPACE_S // leave space for close button

@@ -9,7 +9,7 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
   &+.feature
     margin-top: 20px
     padding-top: 20px
-    border-top: 1px solid #ccc
+    border-top: 1px solid $GRAY_400
 
 .feature--tags
   display: inline-block
@@ -107,25 +107,26 @@ $param-border: 1px solid rgba(0, 0, 0, 0.15)
 
 
 
-$table-breakpoint: 1000px
-
-+narrower_than($table-breakpoint)
+// Parameters stand in two columns where there is a sidebar, and stack where
+// there is not. That is the same question the sidebar breakpoint already
+// answers, so it does not need one of its own.
++on_narrow
   .feature--param-info
     display: flex
-    gap: 15px
+    gap: $SPACE_S
     flex-wrap: wrap
-    margin-bottom: 12px
+    margin-bottom: $SPACE_XS
 
   .feature--param-details
-    margin-left: 30px
+    margin-left: $SPACE_M
 
   .feature--param-optionality
     display: none
 
-+wider_than($table-breakpoint)
++on_wide
   .feature--param
     display: flex
-    gap: 15px
+    gap: $SPACE_S
 
     //&.-response
     //  margin-top: -45px

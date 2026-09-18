@@ -3,12 +3,12 @@
 =underline-section($color)
   box-shadow: inset 0 -2px 0 $color
 
-// Type and gaps scale with the viewport instead of stepping at a breakpoint, so
-// the bar fits from the sidebar breakpoint upwards without a rule per width.
+// Sentence case, like every other control on the site. Type and gaps scale with
+// the viewport instead of stepping at a breakpoint, so the bar fits from the
+// sidebar breakpoint upwards without a rule per width.
 .top-nav
-  font-size: clamp(15px, 1.15vw, 20px)
+  font-size: clamp(15px, 1.1vw, 18px)
   font-weight: bold
-  +uppercase
   position: relative
   width: 100%
   display: flex
@@ -18,10 +18,7 @@
 .top-nav--section
   color: white
 
-  // Uppercase letters have no descendants, so push the links a little down
-  // to center them vertically.
   display: inline-block
-  margin-top: 1px
 
   &.up-current
     +underline-section(rgba(255, 255, 255, 0.4))
@@ -34,9 +31,8 @@
 
   &.-support
     background-color: white
-    border-radius: 5px
-    padding: 3px 5px 1px 5px
-    margin-top: -1px
+    border-radius: $RADIUS_S
+    padding: 2px $SPACE_2XS
     color: $COLOR_MAIN
 
 .top-nav--right

@@ -3,13 +3,13 @@
 .tag
   display: inline-block
   +default-font
-  +font-size(11px)
+  +type($TEXT_3XS, $LEADING_UI)
   font-weight: bold
   text-transform: uppercase
   color: white
   vertical-align: middle
   padding: 2px 5px
-  --color: #888
+  --color: #{$GRAY_600}
   background-color: var(--color)
   color: white
   border-radius: 2px
@@ -27,8 +27,7 @@
     --color: lighten(desaturate($COLOR_SECONDARY, 10%), 10%)
 
   &.-light-gray
-    --color: #aaa
-
+    --color: #{$GRAY_500}
   &.-red
     --color: #{$COLOR_ALIZARIN}
 
@@ -41,6 +40,6 @@
     --color: #{$COLOR_PROTECTED}
 
   //&.-large
-  //  +font-size(14px)
+  //  +type($TEXT_XS, $LEADING_UI)
   //  padding: 2px 6px 1px 6px
   //  font-weight: bold

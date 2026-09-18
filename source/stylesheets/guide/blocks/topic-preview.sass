@@ -2,27 +2,51 @@
 
 // One topic on the /learn and /api hub pages. Successor of the interface-preview
 // block, which only knew modules.
-//
-// TODO(css): provisional styling by the Structure station — restyle with the
-// new visual system and delete this note.
 .topic-preview
-  +card
-  position: relative
+  +vertical-margin($SPACE_L)
+
+  & + &
+    padding-top: $SPACE_L
+    border-top: 1px solid $GRAY_300
 
 .topic-preview--head
-  margin: 0
+  +type($TEXT_L, $LEADING_HEADING)
   font-weight: bold
+  margin: 0 0 $SPACE_2XS
 
   &, a
     text-decoration: none
     color: $GRAY_900
 
+  a:hover
+    color: $COLOR_LINK
+
 .topic-preview--children
   +hide_last-margins
+  display: flex
+  flex-wrap: wrap
+  gap: $SPACE_3XS $SPACE_S
+  margin-top: $SPACE_2XS
+  font-size: $TEXT_S
+
+  li
+    margin: 0
+
+  // A topic's pages are a table of contents, not a paragraph of links: the red
+  // of a link in prose turns a list this dense into a wall of it.
+  a
+    color: $GRAY_800
+    text-decoration: none
+
+    +hover
+      color: $COLOR_LINK
+
+  .fa
+    color: $GRAY_500
 
 .topic-preview--group
   font-weight: bold
 
 .topic-preview--count
-  color: #777
-  margin-left: 0.3em
+  color: $GRAY_600
+  margin-left: $SPACE_3XS

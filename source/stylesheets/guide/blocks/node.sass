@@ -4,7 +4,6 @@
   &.up-active, &.up-current
     @content
 
-$meta-breakpoint: 1350px
 
 .node
   position: relative
@@ -70,7 +69,7 @@ $meta-breakpoint: 1350px
   display: block
 
 .node--self
-  color: #888
+  color: $GRAY_600
   display: block
   align-items: center
   display: flex
@@ -124,19 +123,19 @@ a.node--self
   //display: block
   //width: 1em
 
+// The tree is a constant 220–270px whatever the window does, and a long title
+// yields to these columns by truncating, so they are always shown.
 .node--meta
   white-space: nowrap
   display: flex
-  gap: 5px
+  gap: $SPACE_3XS
   align-items: center
   margin-right: 4px
 
-  +narrower-than($meta-breakpoint)
-    display: none
 
 .node--tag
   display: inline-block
-  +font-size(11px)
+  +type($TEXT_3XS, $LEADING_UI)
   font-weight: bold
   text-transform: uppercase
   vertical-align: middle
@@ -167,28 +166,26 @@ a.node--self
 
 .node--dots
   flex: 1 1 0
-  border-top: 1px dotted #bbb
+  border-top: 1px dotted $GRAY_500
   margin-top: 10px
 
-  +narrower-than($meta-breakpoint)
-    display: none
 
 .node--commit-count
-  color: #555
+  color: $GRAY_800
   //margin-left: 5px
   //display: inline-block
   font-size: 13px
   font-weight: normal
 
   .fa
-    color: #999
+    color: $GRAY_600
 
   //border-radius: 10px
-  //border: 1px solid #bbb
-  //+font-size(13px)
+  //border: 1px solid $GRAY_500
+  //+type($TEXT_2XS, $LEADING_UI)
   //
   //padding: 2px 5px 1px 5px
-  //+font-size(12px)
+  //+type($TEXT_3XS, $LEADING_UI)
 
 
 .node mark

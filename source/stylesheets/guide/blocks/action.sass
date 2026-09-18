@@ -1,54 +1,44 @@
 @import ../../environment
 
-
 =tint-action($color)
   background-color: $color
   +hover
     background-color: shift-rgb($color, +20)
 
-
+// Buttons are set in sentence case. Nothing here may assume capitals: the old
+// block leaned on them for its padding and had to be undone by hand.
 .action
-  border-radius: 2px
-  color: white !important
-  text-transform: uppercase
-  font-weight: bold
-  padding: 6px 14px 5px 14px // less bottom padding since uppercase doesn't have descendants
   display: inline-block
+  border-radius: $RADIUS_S
+  color: white !important
+  font-weight: bold
+  +type($TEXT_S, $LEADING_UI)
+  padding: $SPACE_2XS $SPACE_S
   +tint-action($COLOR_MAIN)
-  box-shadow: 0 1px 5px rgba(#000, 0.1), inset 0 2px 0 rgba(#fff, 0.3), inset 0 -2px 0 rgba(#000, 0.05)
-
+  box-shadow: $SUBTLE_SHADOW
   cursor: pointer
 
   &:active
-    transform: translate(0, 2px)
+    transform: translate(0, 1px)
 
   &.-gray
-    +tint-action(#999)
+    +tint-action($GRAY_600)
 
   &.-secondary
     +tint-action($COLOR_SECONDARY)
 
-  //&.up-active
-  //  +tint-action($COLOR_SUN_FLOWER)
-
   &.-small
-    +font-size(14px)
-    padding: 5px 9px 4px 9px
+    font-size: $TEXT_XS
+    padding: $SPACE_3XS $SPACE_XS
 
   // The landing page's call to action, which has to hold its own beside a hero.
   &.-large
-    font-size: $TEXT_S
-    padding: 11px $SPACE_M 9px $SPACE_M
-    border-radius: $RADIUS_S
-
-  //&:active, .up-active
-  //  transform: scale(0.9) translate(0, 2px)
+    padding: $SPACE_XS $SPACE_M
 
 .actions
   +vertical-margin($SPACE_M)
   display: flex
   flex-direction: row
   flex-wrap: wrap
-  gap: 5px
+  gap: $SPACE_2XS
   align-items: center
-

@@ -3,15 +3,15 @@
 .breadcrumb
   display: block
   +type($TEXT_M, $LEADING_UI)
-  +font-size(16px)
+  +type($TEXT_S, $LEADING_UI)
   //font-weight: bold
-  color: #888
+  color: $GRAY_600
   margin-bottom: 2px
   +hover
     color: $COLOR_HOVER
   &:after
     content: ' /'
-    color: #bbb
+    color: $GRAY_500
 
   +on-wide
     // On wide screens there is enough context in the left sidebar

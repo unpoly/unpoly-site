@@ -3,7 +3,7 @@
 $background: lighten(desaturate($COLOR_SECONDARY, 9%), 7%)
 
 .pearl-title
-  +font-size(17px)
+  +type($TEXT_M, $LEADING_UI)
   text-transform: uppercase
   display: flex
   align-items: center
@@ -18,6 +18,6 @@ $background: lighten(desaturate($COLOR_SECONDARY, 9%), 7%)
 
 .pearl-title--divider
   background-color: $background
-  //background: linear-gradient(to right, $background 0%, #aaa 100%)
+  //background: linear-gradient(to right, $background 0%, $GRAY_500 100%)
   height: 2px
   flex: 1 1 0
