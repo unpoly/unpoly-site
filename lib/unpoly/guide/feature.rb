@@ -115,6 +115,14 @@ module Unpoly
         params.select(&:published?)
       end
 
+      # The short label for what kind of thing this feature is: the badge on a search
+      # result, the kind column in a module's feature list, the tag on a preview card.
+      #
+      # This is the canonical kind vocabulary. It separates the kinds a reader searches
+      # for separately — an event, a configuration object and a function are all reached
+      # through JavaScript, but nobody looking for `up:link:follow` is helped by being
+      # told "JS", and the reference is full of near-namesakes ([up-follow], up.follow(),
+      # up:link:follow) that a badge can tell apart at a glance.
       def short_kind
         case kind
         when 'selector'
@@ -123,12 +131,18 @@ module Unpoly
           else
             'HTML'
           end
-        when 'function', 'constructor', 'property', 'event'
+        when 'event'
+          'EVENT'
+        when 'property'
+          config? ? 'CONFIG' : 'JS'
+        when 'function', 'constructor'
           'JS'
-        when 'header', 'cookie'
-          'HTTP'
+        when 'header'
+          'HEADER'
+        when 'cookie'
+          'COOKIE'
         else
-          "Unhandled feature kind: #{kind}"
+          raise Error, "Unhandled feature kind: #{kind}"
         end
       end
 

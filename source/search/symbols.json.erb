@@ -1,0 +1,8 @@
+<%#
+  The symbol sidecar: every name a reader might type, with where it lives and what kind
+  of thing it is. The search popup fetches this once and matches names against it before
+  it asks Pagefind about prose.
+
+  It is a Middleman page, not a build artifact, so the preview server and the specs serve
+  the real thing — only the full-text index needs a build.
+%><%= guide.symbol_index.to_json %>
