@@ -1,8 +1,11 @@
 <% menu do %>
-  <%# On a narrow screen the burger is the only way in, so the drawer carries the
-      same search field and result list the sidebar has on a wide one. %>
+  <%# On a narrow screen the burger is the only way in, so the drawer carries the search.
+      The header pill is hidden at this width, and this opens the same popup it does. %>
   <div class="menu--search">
-    <%= partial 'api/search' %>
+    <button type="button" class="search-trigger">
+      <i class="fa fa-search search-trigger--icon" aria-hidden="true"></i>
+      Search docs…
+    </button>
   </div>
 
   <div class="menu--nodes">

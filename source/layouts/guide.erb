@@ -1,5 +1,7 @@
 <!doctype html>
-<html>
+<%# The language is declared for screen readers, and because the search indexer picks its
+    stemmer from it — without it, a search for "overlays" would not find "overlay". %>
+<html lang="en">
 
   <% guide.ensure_fresh! if development? # reload guide if we have rendered a page with it before %>
   <%= partial 'layouts/head' %>
@@ -71,7 +73,7 @@
 
             <div class="guide--main" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
 
-              <div class="guide--content" up-main="modal">
+              <div class="guide--content" up-main="modal" <%= search_body_attrs %>>
                 <%= yield %>
               </div>
 
@@ -101,6 +103,9 @@
       </div>
 
      </div>
+
+    <%# Outside .screen, so that a fragment update can never replace an open popup. %>
+    <%= partial 'search_popup' %>
 
     <%= partial 'layouts/foot' %>
 

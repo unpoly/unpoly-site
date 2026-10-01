@@ -1,0 +1,180 @@
+@import ../../environment
+
+// The site's search, as one popup over the page. See source/_search_popup.html.erb.
+//
+// It sits near the top rather than centred: the list grows downwards as the reader
+// types, and a centred box would jump on every keystroke.
+
+$search-popup-width: 640px
+$search-popup-stratum: $head-stratum + 10
+
+.search-popup
+  position: fixed
+  inset: 0
+  z-index: $search-popup-stratum
+  display: flex
+  justify-content: center
+  // Not the default `stretch`: the window is as tall as its results, so a short list
+  // does not leave a tall empty box hanging over the page.
+  align-items: flex-start
+  padding: $space-6 $space-4
+
+  +on_narrow
+    padding: 0
+
+.search-popup--backdrop
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0.45)
+
+.search-popup--window
+  position: relative
+  display: flex
+  flex-direction: column
+  // Not CSS min(): the Sass compiler claims that name for its own function.
+  width: 100%
+  max-width: $search-popup-width
+  max-height: 70vh
+  background: $white
+  border-radius: $radius-lg
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28)
+  overflow: hidden
+
+  +on_narrow
+    // On a phone the popup is the screen: a floating card would only waste the edges.
+    width: 100%
+    max-height: 100dvh
+    height: 100dvh
+    border-radius: 0
+
+.search-popup--head
+  display: flex
+  align-items: center
+  gap: $space-3
+  padding: $space-3 $space-4
+  border-bottom: 1px solid $gray-200
+
+.search-popup--icon
+  color: $gray-500
+
+.search-popup--input
+  flex: 1 1 auto
+  min-width: 0
+  border: none
+  outline: none
+  background: transparent
+  +type($text-lg, $leading-ui)
+  color: $gray-900
+
+  &::placeholder
+    color: $gray-500
+
+.search-popup--close
+  flex: none
+  border: none
+  background: transparent
+  cursor: pointer
+  color: $gray-500
+  font-size: $text-xl
+  line-height: 1
+  padding: 0 $space-1
+
+  +hover
+    color: $gray-900
+
+.search-popup--results
+  flex: 1 1 auto
+  overflow-y: auto
+  +pretty-scrollbars(9px)
+
+.search-popup--hit
+  display: flex
+  align-items: baseline
+  gap: $space-3
+  padding: $space-2 $space-4
+  color: $gray-900
+  text-decoration: none
+  border-left: 3px solid transparent
+
+  &.-selected
+    background: $background-light
+    border-left-color: $color-link
+
+  // A section sits under the page it belongs to, so it is indented and quieter.
+  &.-section
+    flex-direction: column
+    gap: 2px
+    padding-left: $space-7
+    +type($text-xs, $leading-body)
+
+  &.-deprecated .search-popup--name
+    text-decoration: line-through
+    color: $gray-500
+
+.search-popup--name
+  +truncate_text
+  flex: 0 1 auto
+  +type($text-sm, $leading-ui)
+
+  mark
+    background: $color-mark
+    color: inherit
+
+// A symbol is code and reads as code, and so does a reference page named after one.
+// A guide title is prose and must not pretend otherwise — "Following links" set in
+// monospace looks like an identifier. Same -code convention as .essential-feature.
+.-code > .search-popup--name
+  +monospace-font
+
+// The page a section belongs to, and the feature an attribute belongs to, read as
+// context rather than as the hit itself.
+.search-popup--owner,
+.search-popup--signature
+  +monospace-font
+  +type($text-2xs, $leading-ui)
+  color: $gray-500
+  +truncate_text
+  flex: 0 1 auto
+
+.search-popup--section
+  font-weight: bold
+  color: $gray-800
+
+.search-popup--excerpt
+  color: $gray-600
+
+  mark
+    background: $color-mark
+    color: inherit
+
+.search-popup--badge
+  // Pushed to the far edge, so the eye can read the column of kinds on its own.
+  margin-left: auto
+  flex: none
+
+.search-popup--empty
+  padding: $space-5 $space-4
+  color: $gray-600
+  +type($text-sm, $leading-body)
+
+.search-popup--foot
+  display: flex
+  gap: $space-4
+  padding: $space-2 $space-4
+  border-top: 1px solid $gray-200
+  color: $gray-500
+  +type($text-2xs, $leading-ui)
+
+  +on_narrow
+    display: none
+
+.search-popup--hint kbd
+  +monospace-font
+  background: $gray-100
+  border-radius: 2px
+  padding: 0 4px
+  margin-right: 2px
+
+// The page behind the popup does not scroll while it is open.
+html.-search-open
+  overflow: hidden

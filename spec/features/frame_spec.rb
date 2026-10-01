@@ -102,14 +102,14 @@ describe 'the page frame', type: :feature, js: true do
   end
 
   describe 'the burger menu' do
-    it 'opens a drawer that carries the navigation and a search field' do
+    it 'opens a drawer that carries the navigation and a way into the search' do
       visit '/loading-state'
 
       # The burger is the narrow-screen affordance, so it is hidden here; we
       # follow what it points at.
       visit '/menu/narrow'
 
-      expect(page).to have_css('.menu--search .search--input')
+      expect(page).to have_css('.menu--search .search-trigger')
       expect(page).to have_css('.menu--nodes')
     end
   end

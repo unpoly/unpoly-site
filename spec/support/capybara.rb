@@ -2,13 +2,22 @@
 # is registered in time to switch the driver for examples tagged `js: true`.
 require 'capybara/rspec'
 
-Capybara.register_driver :selenium do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--headless=new') unless ENV.key?('NO_HEADLESS')
-  options.add_argument('--disable-infobars')
-  options.add_emulation(device_metrics: { width: 1280, height: 960, touch: false })
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+def register_chrome_driver(name, width:, height:)
+  Capybara.register_driver name do |app|
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless=new') unless ENV.key?('NO_HEADLESS')
+    options.add_argument('--disable-infobars')
+    options.add_emulation(device_metrics: { width: width, height: height, touch: false })
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  end
 end
+
+register_chrome_driver(:selenium, width: 1280, height: 960)
+
+# Below $bp-sidebar, where the burger replaces the sidebar and the header's search pill.
+# Chrome's device emulation ignores window resizing, so a narrow viewport needs its own
+# driver rather than a resize inside the example. Use with `driver: :selenium_phone`.
+register_chrome_driver(:selenium_phone, width: 390, height: 800)
 
 Selenium::WebDriver.logger.level = :error
 

@@ -6,10 +6,6 @@ normalizeText = (text) ->
   text = text.toLowerCase()
   text
 
-isAnyFieldFocused = ->
-  focusedField = document.activeElement
-  focusedField && focusedField.matches(up.form.fieldSelector())
-
 up.compiler '.search', (searchForm) ->
   input = searchForm.querySelector('.search--input')
   hotKeyInfo = searchForm.querySelector('.search--hot-key')
@@ -59,12 +55,10 @@ up.compiler '.search', (searchForm) ->
   onBlur = ->
     toggleElements()
 
+  # "/" opens the search popup now (components/search_popup.js). The rest of this file
+  # goes when the tree filter it drives does.
   onGlobalKeyDown = (event) ->
-    if event.key == '/' && !isAnyFieldFocused()
-      input.focus()
-      input.select()
-      event.preventDefault()
-    else if event.key == 'Escape' && isFocused()
+    if event.key == 'Escape' && isFocused()
       input.blur()
       event.preventDefault()
 
@@ -77,7 +71,8 @@ up.compiler '.search', (searchForm) ->
     e.toggle(contentSearch, expanded)
     e.toggle(resetButton, hasQueryNow)
     e.toggle(expandHelp, hasQueryNow)
-    e.toggle(hotKeyInfo, !isFocused() && !hasQueryNow)
+    # The "/" hint left with the key itself, which the search popup now owns.
+    e.toggle(hotKeyInfo, !isFocused() && !hasQueryNow) if hotKeyInfo
 
   searchForm.addEventListener('submit', onSubmit)
   input.addEventListener('input', onInput)
