@@ -45,6 +45,17 @@ configure :build do
   #   FileUtils.copy(from, to)
   # end
 
+  # Pagefind reads the HTML we just wrote and emits its own runtime and index into
+  # build/pagefind. It runs after everything else, so that :asset_hash and the minifiers
+  # cannot rewrite pages behind the index — or rename Pagefind's own output — and before
+  # the link check, so that one broken link does not also cost us the index.
+  after_build do
+    unless ENV['SKIP_SEARCH_INDEX']
+      puts "Indexing the site for search. Disable with SKIP_SEARCH_INDEX=1."
+      puts Unpoly::Guide::Pagefind.new.index!('./build').to_s
+    end
+  end
+
   after_build do
     unless ENV['SKIP_CHECK_LINKS']
       puts "Checking for broken links. Disable with SKIP_CHECK_LINKS=1."
@@ -75,6 +86,18 @@ configure :build do
   end
 end
 
+##
+# Development-specific configuration
+#
+configure :development do
+  # The preview server renders pages on the fly and writes no files, so there is nothing
+  # for Pagefind to read and nothing for it to write into. Serve the index of the last
+  # build instead, so that search works in the preview. `rake search:index` refreshes it;
+  # until it has run once, the popup says so rather than failing.
+  # ::Rack, because inside this block `Rack` resolves to Middleman::Rack.
+  use ::Rack::Static, urls: ['/pagefind'], root: 'build'
+end
+
 DEBUG = false
 
 ##
@@ -82,6 +105,7 @@ DEBUG = false
 #
 page '/*.xml', layout: false
 page '/*.json', layout: false
+page '/**/*.json', layout: false # e.g. the search sidecar at /search/symbols.json
 page '/*.txt', layout: false
 page '/*.html', layout: 'guide'
 
@@ -253,6 +277,41 @@ helpers do
     partial('learn_refs', locals: { learn_refs: learn_refs })
   end
 
+  # Search indexes documentation, and only documentation.
+  #
+  # A page is indexed when its template rendered a documentable — a guide page, a module,
+  # a class or a feature. That rule needs no list to maintain: the landing page, the
+  # imprint, the version switcher, the changelog and the example apps render none, so they
+  # stay out by construction, and everything that is in can name the area it belongs to.
+  def search_body_attrs
+    documentable = @search_documentable or return nil
+
+    area = search_area_label(guide.toc.area_for(documentable))
+    badge = search_badge(documentable, area)
+
+    %(data-pagefind-body data-pagefind-filter="area:#{h area}" data-pagefind-meta="badge:#{h badge}")
+  end
+
+  # The area a result belongs to. "API reference" is too long to sit at the end of a
+  # result row; the header nav already calls it "API".
+  def search_area_label(area)
+    area.key == 'api' ? 'API' : area.title
+  end
+
+  # One badge per result, always the most informative one there is. A feature wears its
+  # kind, because the reference is full of near-namesakes — [up-follow], up.follow() and
+  # up:link:follow are three different things sharing one name. Everything else wears its
+  # area, where "API" is already all there is to say.
+  def search_badge(documentable, area)
+    documentable.kind?(:feature) ? documentable.short_kind : area
+  end
+
+  # Chrome that sits inside the indexed body: breadcrumbs, the auto-TOC, the reading nav,
+  # learn-refs, the edit button. Indexing it would let a page match on its own navigation.
+  def search_ignore
+    'data-pagefind-ignore'
+  end
+
   def window_title
     page_title = @page_title || current_page.data.title
 
@@ -301,7 +360,9 @@ helpers do
   end
 
   def breadcrumb_link(label, href)
-    link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true
+    # The breadcrumb sits inside the <h1>, from which the search index takes a page's
+    # title. Without this, every API page would be titled "API reference up.render".
+    link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true, 'data-pagefind-ignore': true
   end
 
   def cdn_url(file)
@@ -369,7 +430,7 @@ helpers do
     # commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
     commit = guide.git_revision
     url = documentable.text_source.github_url(guide, commit: commit)
-    link_to '<i class="fa fa-edit"></i> Edit <span class="edit-link--etc">this page</span>', url, target: '_blank', class: 'hyperlink edit-link'
+    link_to '<i class="fa fa-edit"></i> Edit <span class="edit-link--etc">this page</span>', url, target: '_blank', class: 'hyperlink edit-link', 'data-pagefind-ignore': true
   end
 
   def revision_on_github_button(revision)

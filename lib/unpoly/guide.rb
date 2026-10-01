@@ -27,6 +27,8 @@ require_relative 'guide/toc_inserter'
 require_relative 'guide/intro_inserter'
 require_relative 'guide/response'
 require_relative 'guide/algolia'
+require_relative 'guide/pagefind'
+require_relative 'guide/symbol_index'
 require_relative 'guide/url_check'
 
 module Unpoly

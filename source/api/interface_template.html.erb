@@ -4,6 +4,7 @@
   @page_title = interface.title
   area = guide.toc.area_for(interface)
   @menu_path = area.menu_path
+  @search_documentable = interface
 %>
 
 <%= edit_button(interface) %>
@@ -13,7 +14,7 @@
 
   <% if interface.module? %>
     <%= interface.title %>
-    <div class="subtitle">
+    <div class="subtitle" data-pagefind-ignore>
       <span class="dimmed">module</span>
       <%= interface.name %>
     </div>

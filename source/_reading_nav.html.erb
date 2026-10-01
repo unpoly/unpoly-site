@@ -10,7 +10,7 @@
   %>
 
   <% if previous_page || next_page %>
-    <nav class="reading-nav">
+    <nav class="reading-nav" data-pagefind-ignore>
       <% if previous_page %>
         <a class="reading-nav--link -previous" href="<%= previous_page.guide_path %>">
           <i class="fa fa-chevron-left reading-nav--icon"></i>

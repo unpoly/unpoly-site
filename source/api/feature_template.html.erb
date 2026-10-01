@@ -3,6 +3,7 @@
   feature = guide.find_by_guide_id!(feature_id)
   @page_title = feature.title
   @menu_path = guide.toc.area_for(feature).menu_path
+  @search_documentable = feature
 
   params_segment_visible = feature.params.present? || feature.params_note.present?
 
@@ -30,7 +31,7 @@
 
     <%= h(feature.signature) %>
 
-    <div class="subtitle">
+    <div class="subtitle" data-pagefind-ignore>
       <%= feature.long_kind %>
     </div>
 

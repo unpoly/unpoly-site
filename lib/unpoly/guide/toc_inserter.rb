@@ -91,7 +91,7 @@ module Unpoly
         headings = headings.map(&:dup)
 
         html = ''
-        html << '<nav class="toc">'
+        html << '<nav class="toc" data-pagefind-ignore>'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
           textualize_heading(heading)
