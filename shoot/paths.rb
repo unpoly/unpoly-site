@@ -4,10 +4,10 @@
 Shoot.suite 'paths', widths: [1280, 390], description: 'cross-family navigation and history' do |b|
   phone = b.width < 1024
   nav = ->(label) { b.click('.top-nav--section', text: label) }
-  logo = -> { b.click('.guide--logo a') }
+  logo = -> { b.click('.guide--head a.logo') }
 
   if phone
-    b.visit('/'); b.click('.top-nav--section.-hamburger')
+    b.visit('/'); b.click('.guide--head a[href="/menu/narrow"]')
     b.try_click('up-drawer .node--self', text: 'Support') and b.shot('paths-01-landing-drawer-to-support')
   else
     b.visit('/'); nav.('Learn'); b.shot('paths-01-landing-to-learn')

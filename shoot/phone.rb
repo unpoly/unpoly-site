@@ -1,16 +1,17 @@
-# The phone frame: drawer navigation, search from the drawer, long pages.
+# The phone frame: drawer navigation, search from the header, long pages.
 Shoot.suite 'phone', widths: [390], description: 'drawer, phone search, scrolled pages' do |b|
-  burger = -> { b.click('.top-nav--section.-hamburger') }
+  burger = -> { b.click('.guide--head a[href="/menu/narrow"]') }
   b.visit('/'); burger.(); b.shot('phone-01-landing-drawer')
   b.try_click('up-drawer .node--self', text: 'Support') and b.shot('phone-02-landing-drawer-support')
   b.visit('/'); burger.(); b.try_click('up-drawer .node--collapser'); b.shot('phone-03-drawer-expanded')
   b.visit('/'); b.click('a.action', text: 'Learn Unpoly'); b.shot('phone-04-landing-cta-learn')
   b.visit('/'); b.try_click('a', text: 'Learn more') and b.shot('phone-05-landing-card')
-  b.visit('/up.render'); b.click('.guide--logo a'); b.shot('phone-06-api-to-landing')
+  b.visit('/up.render'); b.click('.guide--head a.logo'); b.shot('phone-06-api-to-landing')
   b.visit('/up.render'); burger.(); b.shot('phone-07-api-drawer')
-  b.try_click('up-drawer .node--self', text: 'Install') and b.shot('phone-08-api-drawer-install')
-  b.visit('/'); burger.()
-  if b.try_click('.search-trigger')
+  b.try_click('up-drawer .node--self', text: 'Changes') and b.shot('phone-08-api-drawer-changes')
+  # The search is in the header at every width, so it can never open behind the drawer.
+  b.visit('/')
+  if b.try_click('.guide--head .search-pill')
     b.js("let i = document.querySelector('.search-popup--input'); i.value = 'render'; i.dispatchEvent(new Event('input'))")
     sleep 2.5
     b.shot('phone-09-search-popup')
@@ -23,5 +24,6 @@ Shoot.suite 'phone', widths: [390], description: 'drawer, phone search, scrolled
       b.js('up.layer.dismiss()') rescue nil
     end
   end
+  b.visit('/up.render'); burger.(); b.js("document.querySelector('up-drawer .menu--nodes > .node:last-child').scrollIntoView()"); sleep 0.3; b.shot('phone-12-drawer-end')
   b.visit('/up.render'); b.js('window.scrollTo(0, 3000)'); sleep 0.5; b.shot('phone-11-apifeat-scrolled')
 end

@@ -1,13 +1,8 @@
 # Search results opened from each family, and the version popup.
-Shoot.suite 'search', widths: [1280], description: 'search hits and version popup per family' do |b|
+Shoot.suite 'search', widths: [1280, 390], description: 'search hits and version popup per family' do |b|
   # Picks the first visible hit matching hit_css, and wearing the badge if one is given.
   search = lambda do |query, hit_css, name, badge: nil|
-    if b.width < 1024
-      b.click('.top-nav--section.-hamburger')
-      b.click('.search-trigger')
-    else
-      b.click('.search-pill')
-    end
+    b.click('.search-pill')
     b.driver.find_element(css: '.search-popup--input').send_keys(query)
     sleep 2.5
     b.shot("#{name}-popup")
