@@ -5,8 +5,15 @@ $version-nav-width: 90px
 // Width of the column the in-page table of contents moves into on wide screens.
 $toc-rail-width: 220px
 
-// How wide running documentation gets before it stops being comfortable to read.
-$content-width: 820px
+// The space between the contents rail and the text.
+$toc-rail-gap: $space-6
+
+// The one text column every documentation and article page sets its text in. It is
+// the widest column that still fits beside both the sidebar and the contents rail at
+// $bp-toc, where the rail appears: 1280 - 281.6 (sidebar, 22vw) - 2 * 38.4 (viewport
+// padding, 3%) - $toc-rail-width - $toc-rail-gap = 661.6, rounded down. The column
+// keeps this width on every page, rail or not, so the text never moves between pages.
+$text-column: 660px
 
 .guide
   display: flex
@@ -110,17 +117,17 @@ $content-width: 820px
   +on_wide
     margin-left: $left-width
 
-  // A page with a table of contents reserves the rail it moves into, so the
-  // text stays centred in the space that is actually left for it.
+  // Every documentation page reserves the rail its contents move into, whether it
+  // has contents or not, so the text column stands at the same place on every page.
+  // Below the breakpoint the contents stay in the text and nothing is reserved.
   +with_toc_rail
-    &:has(.toc)
-      // The rail is inset from the window edge by the viewport padding, so the
-      // reserve must cover that too or the text ends up against it.
-      padding-right: calc(#{$toc-rail-width} + #{$space-6} + #{$viewport-padding})
+    // The rail is inset from the window edge by the viewport padding, so the
+    // reserve must cover that too or the text ends up against it.
+    padding-right: calc(#{$toc-rail-width} + #{$toc-rail-gap} + #{$viewport-padding})
 
 .guide--content,
 .guide--fineprint
-  max-width: $content-width
+  max-width: $text-column
   +horizontal-margin(auto)
 
 // The [up-defer] placeholder that loads the sidebar menu. It is a
