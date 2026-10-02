@@ -146,3 +146,10 @@ $content-width: 820px
   .guide--fineprint
     max-width: 880px
     +horizontal-padding($space-5)
+
+// Pages that are neither documentation nor the landing (support, imprint, privacy):
+// the text column without a sidebar, centred in the window.
+.guide--torso.-article
+  .guide--main
+    margin-left: 0
+    +horizontal-padding($viewport-padding)
