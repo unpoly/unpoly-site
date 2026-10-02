@@ -230,6 +230,12 @@ implementation details, and keep the browser tests to core journeys that a unit 
 cannot reach. A parsing rule is worth a fixture and one expectation; it does not need a
 feature spec of its own.
 
+The frame around a page (sidebar, width mode, text column) is rendered by every response
+inside `.guide--torso`, the root layer's main target. `spec/features/frame_paths_spec.rb`
+checks that each page family gets the frame of a direct load however the reader arrives
+(from another family, a search result, the drawer, the logo, history). Extend it when
+you add a family.
+
 For what a spec can't judge, `bin/shoot` drives a headless Chrome through the scripted
 paths in `shoot/` against a running preview, saves a screenshot per state and prints frame
 probes (sidebar, menu, column, horizontal overflow, content sticking out of the column).
