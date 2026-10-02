@@ -22,3 +22,6 @@ log
 .byebug_history
 
 debug.log
+
+# Screenshot sweeps from bin/shoot and other scratch output
+/tmp

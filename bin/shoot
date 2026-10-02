@@ -1,0 +1,283 @@
+#!/usr/bin/env ruby
+#
+# Screenshots and frame probes of a running preview, for before/after sweeps.
+#
+#     bin/shoot [options] [suite ...]
+#
+# Runs the named suites from shoot/ (all of them when none is given) against a
+# preview server, saves one PNG per state and prints one probe line per state.
+# The probes measure what screenshots tend to hide: which frame a page got after
+# a navigation sequence, horizontal overflow, content sticking out of the text
+# column. The same probes, as JSON, land next to the PNGs in probes.json.
+#
+# Options:
+#     -b, --base URL    Preview to shoot (default: http://localhost:4567)
+#     -o, --out DIR     Where to save shots (default: tmp/shoot/<label>)
+#     -l, --label NAME  Names the default output folder (default: a timestamp)
+#     -w, --width W     Only run each suite at this width (repeatable)
+#         --headed      Show the browser
+#         --list        List the suites and exit
+#
+# Start a preview first, e.g. with `bundle exec middleman server`. A typical
+# before/after sweep:
+#
+#     bin/shoot -l before        # on the old tree
+#     bin/shoot -l after         # on the new tree, then compare tmp/shoot/{before,after}
+
+require 'bundler/setup'
+require 'optparse'
+require 'json'
+require 'fileutils'
+require 'selenium-webdriver'
+
+module Shoot
+
+  ROOT = File.expand_path('..', __dir__)
+
+  Suite = Struct.new(:name, :widths, :description, :block)
+
+  def self.suites
+    @suites ||= {}
+  end
+
+  # Called by the files in shoot/ to register a suite. The block receives a
+  # Browser per width and drives it through the states to shoot.
+  def self.suite(name, widths: [1280], description: nil, &block)
+    suites[name] = Suite.new(name, widths, description, block)
+  end
+
+  # Frame facts for the current state. Kept independent of any one layout's
+  # class names beyond the frame's own BEM blocks, so it works on old and new
+  # trees alike.
+  PROBE = <<~JS
+    const q = s => document.querySelector(s)
+    const box = el => {
+      if (!el) return null
+      const b = el.getBoundingClientRect()
+      return { l: Math.round(b.left), t: Math.round(b.top + scrollY), w: Math.round(b.width), h: Math.round(b.height) }
+    }
+    const visible = el => !!el && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden'
+    const head = q('.guide--head')
+    const content = q('.guide--content')
+    const menu = q('.guide--menu .menu--nodes')?.closest('.menu')
+
+    // Content that pokes out of the text column on the right. Anything inside a
+    // scroll container that is itself within the column scrolls instead of
+    // sticking out, so it doesn't count; neither does anything fixed (the
+    // contents rail is drawn outside the column on purpose).
+    let stickOut = []
+    if (content) {
+      const right = content.getBoundingClientRect().right
+      const exempt = el => {
+        for (let a = el; a && a !== content; a = a.parentElement) {
+          const cs = getComputedStyle(a)
+          if (cs.position === 'fixed') return true
+          if (a !== el && cs.overflowX !== 'visible') return true
+        }
+        return false
+      }
+      // Inline text may end in a space that hangs past the edge (white-space:
+      // pre-wrap does that); only the glyphs count.
+      const glyphRight = el => {
+        if (getComputedStyle(el).display !== 'inline') return el.getBoundingClientRect().right
+        let max = 0
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT)
+        for (let node; (node = walker.nextNode());) {
+          for (let i = 0; i < node.length; i++) {
+            if (/\\s/.test(node.data[i])) continue
+            const range = document.createRange()
+            range.setStart(node, i)
+            range.setEnd(node, i + 1)
+            max = Math.max(max, range.getBoundingClientRect().right)
+          }
+        }
+        return max
+      }
+      for (const el of content.querySelectorAll('*')) {
+        const r = el.getBoundingClientRect()
+        if (r.width && r.right > right + 1 && !exempt(el) && glyphRight(el) > right + 1) {
+          stickOut.push(el.tagName.toLowerCase() + (typeof el.className === 'string' && el.className ? '.' + el.className.split(' ')[0] : '') + '+' + Math.round(glyphRight(el) - right))
+          if (stickOut.length >= 5) break
+        }
+      }
+    }
+
+    return {
+      path: location.pathname + location.hash,
+      torso: [...(q('.guide--torso')?.classList || [])].filter(c => c.startsWith('-')).join(' '),
+      sidebar: visible(q('.guide--left')),
+      menu: menu ? (up.fragment.source(menu) || '?').replace(location.origin, '') : (q('.guide--menu') ? 'pending' : null),
+      content: box(content),
+      h1Gap: (q('.guide--content h1') && head) ? Math.round(q('.guide--content h1').getBoundingClientRect().top - head.getBoundingClientRect().bottom) : null,
+      landing: !!q('.landing'),
+      overflowX: document.documentElement.scrollWidth > innerWidth,
+      stickOut,
+      focus: (a => a === document.body ? 'body' : a.tagName.toLowerCase() + (typeof a.className === 'string' && a.className ? '.' + a.className.split(' ')[0] : ''))(document.activeElement),
+      layers: up.layer.count,
+    }
+  JS
+
+  class Browser
+
+    attr_reader :driver, :width
+
+    def initialize(width, base:, out:, headed: false)
+      @width = width
+      @base = base
+      @out = out
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('--headless=new') unless headed
+      options.add_argument('--hide-scrollbars')
+      height = width < 600 ? 800 : 900
+      options.add_emulation(device_metrics: { width: width, height: height, touch: false, deviceScaleFactor: 1 })
+      @driver = Selenium::WebDriver.for(:chrome, options: options)
+      @driver.manage.timeouts.script_timeout = 30
+      @probes = {}
+    end
+
+    attr_reader :probes
+
+    def quit
+      @driver.quit
+    end
+
+    # Waits until Unpoly has no request in flight and no element is leaving.
+    def settle(extra = 0.4)
+      40.times do
+        busy = js("return !!(window.up && (up.network.isBusy() || document.querySelector('.up-destroying')))") rescue true
+        break unless busy
+        sleep 0.15
+      end
+      sleep extra
+    end
+
+    def visit(path)
+      @driver.navigate.to(@base + path)
+      settle(0.8)
+    end
+
+    # Clicks the first visible element matching css (and containing text).
+    def click(css, text: nil)
+      elements = @driver.find_elements(css: css).select { |e| e.displayed? rescue false }
+      elements = elements.select { |e| e.text.strip.include?(text) } if text
+      raise "Nothing visible matches #{css} #{text}" if elements.empty?
+      js('arguments[0].scrollIntoView({ block: "center" })', elements.first)
+      elements.first.click
+      settle(0.8)
+    end
+
+    # Like click, but logs a missing element instead of aborting the suite.
+    def try_click(css, text: nil)
+      click(css, text: text)
+      true
+    rescue => e
+      puts "  (skipped: #{e.message})"
+      false
+    end
+
+    def js(script, *args)
+      @driver.execute_script(script, *args)
+    end
+
+    def back
+      @driver.navigate.back
+      settle(1.0)
+    end
+
+    def forward
+      @driver.navigate.forward
+      settle(1.0)
+    end
+
+    def scroll_to(css)
+      js('const e = document.querySelector(arguments[0]); if (e) { e.scrollIntoView(); window.scrollBy(0, -60) }', css)
+      sleep 0.5
+    end
+
+    def probe
+      js(PROBE)
+    end
+
+    # Saves a screenshot (full: true for the whole page) and prints its probe.
+    def shot(name, full: false)
+      name = "w#{@width}-#{name}"
+      path = File.join(@out, "#{name}.png")
+      if full
+        metrics = @driver.execute_cdp('Page.getLayoutMetrics')
+        height = [metrics['cssContentSize']['height'].ceil, 12_000].min
+        data = @driver.execute_cdp('Page.captureScreenshot', format: 'png', captureBeyondViewport: true,
+          clip: { x: 0, y: 0, width: @width, height: height, scale: 1 })['data']
+        File.binwrite(path, data.unpack1('m'))
+      else
+        @driver.save_screenshot(path)
+      end
+      state = probe
+      @probes[name] = state
+      puts Shoot.format_probe(name, state)
+      state
+    end
+
+  end
+
+  def self.format_probe(name, s)
+    c = s['content'] || {}
+    format('%-44s %-30s torso=%-12s sidebar=%-5s menu=%-14s col=%s+%s h1gap=%-4s ovx=%-5s stick=%s focus=%s layers=%s',
+      name, s['path'], s['torso'].empty? ? '-' : s['torso'], s['sidebar'], s['menu'] || '-',
+      c['l'], c['w'], s['h1Gap'], s['overflowX'], s['stickOut'].empty? ? '-' : s['stickOut'].join(','), s['focus'], s['layers'])
+  end
+
+  def self.run(argv)
+    base = 'http://localhost:4567'
+    label = Time.now.strftime('%Y%m%d-%H%M%S')
+    out = nil
+    widths = []
+    headed = false
+    list = false
+
+    OptionParser.new do |o|
+      o.on('-b', '--base URL') { |v| base = v.chomp('/') }
+      o.on('-o', '--out DIR') { |v| out = v }
+      o.on('-l', '--label NAME') { |v| label = v }
+      o.on('-w', '--width W', Integer) { |v| widths << v }
+      o.on('--headed') { headed = true }
+      o.on('--list') { list = true }
+    end.parse!(argv)
+
+    Dir[File.join(ROOT, 'shoot', '*.rb')].sort.each { |f| require f }
+
+    if list
+      suites.each_value { |s| puts format('%-16s %-14s %s', s.name, s.widths.join('/'), s.description) }
+      return
+    end
+
+    names = argv.empty? ? suites.keys : argv
+    unknown = names - suites.keys
+    abort "Unknown suite: #{unknown.join(', ')}. Known: #{suites.keys.join(', ')}" if unknown.any?
+
+    out ||= File.join(ROOT, 'tmp', 'shoot', label)
+    FileUtils.mkdir_p(out)
+    all_probes = {}
+
+    names.each do |name|
+      suite = suites[name]
+      (widths.empty? ? suite.widths : widths).each do |width|
+        puts "== #{name} @ #{width}"
+        browser = Browser.new(width, base: base, out: out, headed: headed)
+        begin
+          suite.block.call(browser)
+        rescue => e
+          puts "  SUITE ABORTED: #{e.class}: #{e.message.lines.first}"
+        ensure
+          all_probes.merge!(browser.probes)
+          browser.quit
+        end
+      end
+    end
+
+    File.write(File.join(out, 'probes.json'), JSON.pretty_generate(all_probes))
+    puts "Saved #{all_probes.size} states to #{out}"
+  end
+
+end
+
+Shoot.run(ARGV) if $PROGRAM_NAME == __FILE__

@@ -230,6 +230,12 @@ implementation details, and keep the browser tests to core journeys that a unit 
 cannot reach. A parsing rule is worth a fixture and one expectation; it does not need a
 feature spec of its own.
 
+For what a spec can't judge, `bin/shoot` drives a headless Chrome through the scripted
+paths in `shoot/` against a running preview, saves a screenshot per state and prints frame
+probes (sidebar, menu, column, horizontal overflow, content sticking out of the column).
+Run `bin/shoot --list` for the suites, and `bin/shoot -l before` / `bin/shoot -l after`
+around a change to compare `tmp/shoot/before` with `tmp/shoot/after`.
+
 Two rake tasks check the documentation beyond the test suite:
 
 - `bundle exec rake docs:check_urls` verifies that every URL unpoly.com serves today
