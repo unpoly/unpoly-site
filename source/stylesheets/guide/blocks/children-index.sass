@@ -1,0 +1,36 @@
+@import ../../environment
+
+// Every page or feature one level below a chapter overview or a module page (see
+// source/_children_index.html.erb). It stands in for the sidebar, so it only shows
+// where there is no sidebar.
+.children-index
+  display: flex
+  flex-direction: column
+  gap: $space-1
+  margin-top: $space-6
+  padding-top: $space-5
+  border-top: 1px solid $gray-300
+
+  +on_wide
+    display: none
+
+.children-index--title,
+.children-index--group
+  +uppercase
+  font-size: $text-3xs
+  font-weight: bold
+  letter-spacing: 0.08em
+  color: $gray-600
+
+.children-index--title
+  margin-bottom: $space-2
+
+.children-index--group
+  margin-top: $space-3
+
+.children-index--link
+  +hyperlink
+  width: fit-content
+
+  &.-code
+    +monospace-font

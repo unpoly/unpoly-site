@@ -78,4 +78,9 @@
   <% end %>
 <% end %>
 
+<% topic = guide.toc.topic_of(interface) %>
+<% if topic && topic.start_page == interface %>
+  <%= partial 'children_index', locals: { topic: topic } %>
+<% end %>
+
 <%= partial 'reading_nav', locals: { area: area, documentable: interface } %>

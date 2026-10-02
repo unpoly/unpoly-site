@@ -1,0 +1,25 @@
+<%#
+  Everything one level below a chapter overview or a module page, generated from the
+  TOC manifest and the parsed documentation. Below $bp-sidebar the drawer lists only
+  chapters and modules, so this index takes over the sidebar's job of reaching every
+  page and feature; above it the sidebar is there, so the index is hidden. It is
+  navigation, not content, so the search index skips it.
+
+  Locals: topic (a PageGroup or ModuleTopic whose start page is being rendered).
+%>
+<% if topic.menu_children.present? %>
+  <nav class="children-index" data-pagefind-ignore aria-labelledby="children-index-title">
+    <div class="children-index--title" id="children-index-title"><%= topic.is_a?(Unpoly::Guide::Toc::ModuleTopic) ? 'In this module' : 'In this chapter' %></div>
+
+    <% topic.menu_children.each do |child| %>
+      <% if child.menu_path %>
+        <%= link_to child.menu_title, child.menu_path, class: 'children-index--link' %>
+      <% else %>
+        <div class="children-index--group"><%= child.menu_title %></div>
+        <% child.menu_children.each do |grandchild| %>
+          <%= link_to grandchild.menu_title, grandchild.menu_path, class: "children-index--link #{'-code' if grandchild.respond_to?(:code?) && grandchild.code?}" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </nav>
+<% end %>
