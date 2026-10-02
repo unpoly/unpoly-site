@@ -446,6 +446,30 @@ helpers do
     link_to url, url, options
   end
 
+  # The site's sections, in the order both the header and the drawer show them. One
+  # list, so that the two always use the same words for the same places.
+  #
+  # Learn pages live at the root (`/targeting-fragments`), so the Learn section only
+  # knows it is current from the list of its pages.
+  def site_sections
+    [
+      { label: 'Learn', href: '/learn', alias: guide.toc.learn.pages.map(&:guide_path).join(' ') },
+      { label: 'API', href: '/api', alias: '/up.* /up:* /up-* /*-up-* /has' },
+      { label: 'Demo', href: 'https://demo.unpoly.com', target: '_blank' },
+      { label: 'Changes', href: '/changes', alias: '/changes/*' },
+      { label: 'Support', href: '/support', alias: '/support/*' },
+      { label: 'GitHub', href: 'https://github.com/unpoly/unpoly', icon: 'fa-github' },
+    ]
+  end
+
+  # Earlier major versions, each documented on a site of its own.
+  def older_versions
+    [
+      ['Unpoly 2.x', 'https://v2.unpoly.com'],
+      ['Unpoly 1.x', 'https://v1.unpoly.com'],
+    ]
+  end
+
   def menu(&block)
     nodes = capture_html(&block)
     # [up-id] lets the sidebar's [up-defer] placeholder find this element in the response.

@@ -3,47 +3,38 @@
 =underline-section($color)
   box-shadow: inset 0 -2px 0 $color
 
-// Sentence case, like every other control on the site. Type and gaps scale with
-// the viewport instead of stepping at a breakpoint, so the bar fits from the
-// sidebar breakpoint upwards without a rule per width.
+// The header's sections. Sentence case, like every other control on the site. Type
+// and gaps scale with the viewport instead of stepping at a breakpoint, so the bar
+// fits from the sidebar breakpoint upwards without a rule per width.
 .top-nav
   font-size: clamp(15px, 1.1vw, 18px)
   font-weight: bold
-  position: relative
-  width: 100%
   display: flex
   align-items: center
   gap: clamp(8px, 0.9vw, 16px)
+  white-space: nowrap
 
-.top-nav--section
+.top-nav--section,
+.top-nav--burger
   color: white
 
+.top-nav--section
   display: inline-block
 
+  // The underline says where the reader is. Hovering previews it; keyboard focus gets
+  // the header's ring instead (see .guide--head in guide.sass), so the two never look
+  // alike.
   &.up-current
-    +underline-section(rgba(255, 255, 255, 0.4))
+    +underline-section(rgba(255, 255, 255, 0.5))
 
-  &:focus, &:hover
-    +underline-section(rgba(255, 255, 255, 0.8))
+  &:hover
+    +underline-section(rgba(255, 255, 255, 0.85))
 
   +on_narrow
     display: none
 
-  &.-support
-    background-color: white
-    border-radius: $radius-sm
-    padding: 2px $space-2
-    color: $red-600
-
-.top-nav--right
-  margin-left: auto
-
-.-social
-  opacity: 0.75
-
-.-hamburger
+.top-nav--burger
   display: none
-  margin-left: auto
 
   +on_narrow
-    display: inline
+    display: inline-block

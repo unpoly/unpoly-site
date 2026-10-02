@@ -1,5 +1,8 @@
 <div class="choice">
-  <a class="choice--item" href="https://unpoly.com" up-follow="false">Unpoly <%= guide.short_version %></a>
-  <a class="choice--item" href="https://v2.unpoly.com" up-follow="false">Unpoly 2.x</a>
-  <a class="choice--item" href="https://v1.unpoly.com" up-follow="false">Unpoly 1.x</a>
+  <%# The version these docs belong to, marked like a current page. Its link leaves
+      this site, so [up-nav] could never find it current. %>
+  <a class="choice--item up-current" href="https://unpoly.com" up-follow="false" aria-current="true">Unpoly <%= guide.short_version %></a>
+  <% older_versions.each do |label, href| %>
+    <a class="choice--item" href="<%= href %>" up-follow="false"><%= label %></a>
+  <% end %>
 </div>

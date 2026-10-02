@@ -1,0 +1,10 @@
+<%# The header's sections. The drawer lists the same ones (menu/narrow.html.erb). %>
+<nav class="top-nav" up-nav aria-label="Sections">
+  <% site_sections.each do |section| %>
+    <a href="<%= section[:href] %>" class="top-nav--section"<% if section[:alias] %> up-alias="<%= section[:alias] %>"<% end %><% if section[:target] %> target="<%= section[:target] %>"<% end %>>
+      <% if section[:icon] %><i class="fa <%= section[:icon] %>" aria-hidden="true"></i> <% end %><%= section[:label] %>
+    </a>
+  <% end %>
+
+  <a href="/menu/narrow" class="top-nav--burger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><i class="fa fa-bars" aria-hidden="true"></i> Menu</a>
+</nav>

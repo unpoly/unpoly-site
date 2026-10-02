@@ -19,6 +19,9 @@ register_chrome_driver(:selenium, width: 1280, height: 960)
 # driver rather than a resize inside the example. Use with `driver: :selenium_phone`.
 register_chrome_driver(:selenium_phone, width: 390, height: 800)
 
+# Just above $bp-sidebar, where the header is at its tightest.
+register_chrome_driver(:selenium_small_desktop, width: 1100, height: 900)
+
 Selenium::WebDriver.logger.level = :error
 
 Capybara.javascript_driver = :selenium

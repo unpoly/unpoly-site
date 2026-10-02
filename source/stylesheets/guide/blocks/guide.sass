@@ -1,6 +1,7 @@
 @import ../../environment
 
-$version-nav-width: 90px
+// How wide the header's search gets on a wide screen.
+$search-width: 480px
 
 // Width of the column the in-page table of contents moves into on wide screens.
 $toc-rail-width: 220px
@@ -19,9 +20,11 @@ $text-column: 660px
   display: flex
   flex-direction: column
 
-// One header, fixed and full width, on every page. Its left segment carries the
-// logo and the version switcher and is exactly as wide as the sidebar below it,
-// so the two read as one column.
+// One header, fixed and full width, on every page: one color, everything on it white.
+// Brand left, search centred, sections right (the react.dev arrangement). The brand
+// and the sections share the space beside the search equally, so the search sits in
+// the middle of the bar for as long as both sides fit; neither side ever shrinks below
+// its content, so the logo cannot be clipped.
 .guide--head
   flex: 0 0 auto
   position: fixed
@@ -37,44 +40,44 @@ $text-column: 660px
     display: flex
     flex-direction: row
     align-items: center
+    gap: $space-4
     height: 100% // stretch to $head-height, so children can be centered vertically
-    flex-wrap: nowrap
     max-width: none
-    +horizontal-padding(0)
+    +horizontal-padding($space-4)
 
-.guide--logo
-  flex: 0 0 auto
-  +horizontal-padding($space-4)
-
-  +on_wide
-    background-color: $indigo-800
-    +border-box
-    width: calc(#{$left-width} - #{$version-nav-width})
-    padding-right: 0
-
-.guide--version-nav
-  flex: 0 0 $version-nav-width
-  text-align: right
-  +horizontal-padding($space-2)
-
-  +on_wide
-    background-color: $indigo-800
-    +border-box
-
-  +on_narrow
-    display: none
-
+.guide--brand,
 .guide--top-nav
-  flex: 1 1 auto
-  min-width: 0
-  background-color: $red-600
-  height: 100%
+  flex: 1 1 0
+  min-width: max-content
   display: flex
   align-items: center
-  +horizontal-padding($space-4)
 
-  +on_wide
-    padding-left: $space-5
+.guide--brand
+  gap: $space-3
+
+// A visible ring for every keyboard stop in the bar, in the bar's one foreground color.
+.guide--head
+  a:focus-visible
+    outline: 2px solid white
+    outline-offset: 3px
+    border-radius: $radius-sm
+
+.guide--top-nav
+  justify-content: flex-end
+
+  // Only the burger is left; the brand takes the slack, so the search icon and the
+  // burger sit together on the right.
+  +on_narrow
+    flex: 0 0 auto
+
+.guide--search
+  flex: 0 1 $search-width
+  min-width: 0
+  display: flex
+
+  // Only the icon is left, next to the burger.
+  +on_narrow
+    flex: 0 0 auto
 
 .guide--torso
   flex: 1 0 auto

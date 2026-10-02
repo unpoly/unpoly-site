@@ -1,15 +1,14 @@
 @import ../../environment
 
-// The search affordance in the global header. See source/_search_pill.html.erb
-// for what it does until the site has a search of its own.
+// The search trigger in the global header, at every width. See
+// source/_search_pill.html.erb.
 
 .search-pill
   display: inline-flex
   align-items: center
   gap: $space-2
-  // Gives way before the nav links do when the bar gets tight.
-  flex: 0 1 auto
   min-width: 0
+  width: 100%
   border: 1px solid rgba(255, 255, 255, 0.35)
   background: rgba(255, 255, 255, 0.14)
   border-radius: $radius-pill
@@ -25,8 +24,28 @@
     background: rgba(255, 255, 255, 0.24)
     color: $white
 
+  // Below $bp-sidebar the bar has room for the icon only; the label stays for screen
+  // readers through the link's aria-label.
   +on_narrow
-    display: none
+    width: auto
+    padding: 5px $space-2
+    font-size: $text-sm
+    position: relative
+
+    // The icon is small, but a finger needs a larger target: the hit area spans the
+    // bar's height and 44px across, without changing what is drawn.
+    &::before
+      content: ''
+      position: absolute
+      left: 50%
+      top: 50%
+      width: 44px
+      height: $head-height
+      transform: translate(-50%, -50%)
+
+    .search-pill--label,
+    .search-pill--key
+      display: none
 
 .search-pill--icon
   font-size: 0.9em

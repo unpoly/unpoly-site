@@ -25,37 +25,28 @@
 
         <div class="guide--head" up-fixed="top">
 
+          <%# One bar in one color, arranged like react.dev's: the brand on the left, the
+              search in the middle, every section on the right. Below $bp-sidebar the
+              sections and the version switch move into the drawer behind the burger;
+              the search stays, as an icon. %>
           <div class="viewport">
 
-            <div class="guide--logo">
-
+            <div class="guide--brand">
               <a class="logo" href="/">
                 <%= image_tag 'unpoly_logo.svg', class: 'logo--pixels', alt: 'Unpoly' %>
               </a>
 
-            </div>
-
-            <div class="guide--version-nav">
               <a href="/version_choice" class="version-nav" up-layer="new popup" up-target=".choice">
                 <%= guide.short_version %> <i class="fa fa-angle-down"></i>
               </a>
             </div>
 
+            <div class="guide--search">
+              <%= partial 'search_pill' %>
+            </div>
+
             <div class="guide--top-nav">
-
-              <div class="top-nav" up-nav>
-                <%= partial 'search_pill' %>
-                <a href="/learn" class="top-nav--section">Learn</a>
-                <a href="/api" class="top-nav--section" up-alias="/up.* /up:* /up-* /*-up-* /has">API</a>
-                <a href="https://demo.unpoly.com" class="top-nav--section" target="_blank">Demo</a>
-                <a href="/changes" class="top-nav--section" up-alias="/changes/*">Changes</a>
-                <a href="/support" class="top-nav--section -support">Support</a>
-                <span class="top-nav--right">
-                  <a href="https://github.com/unpoly/unpoly" class="top-nav--section -social"><i class="fa fa-github"></i><span class="top-nav--label"> GitHub</span></a>
-                </span>
-                <a href="/menu/narrow" class="top-nav--section -hamburger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><i class="fa fa-bars"></i> Menu</a>
-              </div>
-
+              <%= partial 'top_nav' %>
             </div>
 
           </div>
