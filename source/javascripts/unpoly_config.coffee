@@ -26,3 +26,10 @@ up.layer.config.cover.closeAnimation = false
 
 up.on 'up:link:follow', 'up-drawer .menu a', (event) ->
   event.renderOptions.layer = 'root'
+
+# The root layer's main target is the whole torso, sidebar included, so that every page
+# renders its own frame (see guide.erb). Navigation still focuses the page's own column
+# rather than the torso, so the next Tab reaches the content instead of walking the menu.
+focusColumn = (fragment, { layer }) -> '.guide--main-if-main' if layer.isRoot()
+autoFocus = up.fragment.config.autoFocus
+autoFocus.splice(autoFocus.indexOf('main-if-main'), 0, focusColumn)

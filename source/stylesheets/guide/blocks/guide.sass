@@ -123,6 +123,11 @@ $content-width: 820px
   max-width: $content-width
   +horizontal-margin(auto)
 
+// The [up-defer] placeholder that loads the sidebar menu. It is a
+// link so that crawlers find the menu, but readers only see the menu it loads.
+.guide--menu-placeholder
+  visibility: hidden
+
 .guide--fineprint
   margin-top: $space-6
   margin-bottom: $space-1

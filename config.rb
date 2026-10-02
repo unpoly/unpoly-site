@@ -448,7 +448,8 @@ helpers do
 
   def menu(&block)
     nodes = capture_html(&block)
-    @menu_html = content_tag(:div, nodes, class: 'menu', 'up-nav': '')
+    # [up-id] lets the sidebar's [up-defer] placeholder find this element in the response.
+    @menu_html = content_tag(:div, nodes, class: 'menu', 'up-nav': '', 'up-id': 'menu')
     concat_content @menu_html
   end
 

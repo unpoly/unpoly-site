@@ -168,10 +168,6 @@ class Node
 
 
 up.compiler '.menu', (menu) ->
-  if menu.matches('.-placeholder')
-    # will be loaded by [wants-menu-path]
-    return
-
   nodesContainer = menu.querySelector('.menu--nodes')
   rootNodes = findChildren(nodesContainer, '.node')
   rootNodes = Node.newAll(rootNodes)
@@ -218,14 +214,3 @@ up.compiler '.menu', (menu) ->
 #  document.querySelector('.search--input').value = 'overlay vlaue'
 #  up.emit(document.querySelector('.search--input'), 'input')
 #  up.emit('query:expand', { query: 'overlay value' })
-
-
-up.compiler '[wants-menu-path]', (element) ->
-  requestedMenuPath = u.normalizeURL(element.getAttribute('wants-menu-path'))
-  currentMenuPath = up.fragment.source('.menu')
-  if currentMenuPath
-    currentMenuPath = u.normalizeURL(currentMenuPath)
-
-  if requestedMenuPath != currentMenuPath
-    u.task ->
-      up.render('.menu', url: requestedMenuPath, cache: true)

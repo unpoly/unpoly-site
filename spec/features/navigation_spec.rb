@@ -55,4 +55,47 @@ describe 'navigation', type: :feature, js: true do
     end
   end
 
+  describe 'focus after following a link' do
+
+    def focused
+      page.evaluate_script(<<~JS)
+        (function() {
+          let element = document.activeElement
+          return {
+            column: element.matches('.guide--main'),
+            inContent: !!element.closest('.guide--content'),
+            inSidebar: !!element.closest('.guide--left'),
+          }
+        })()
+      JS
+    end
+
+    def expect_focus_on_column_then_content
+      expect(page).to have_css('.guide--main:focus')
+      expect(focused['column']).to be(true)
+
+      page.send_keys(:tab)
+
+      # The next Tab reaches the page's content, not the sidebar menu before it.
+      expect(focused).to include('inContent' => true, 'inSidebar' => false)
+    end
+
+    it 'focuses the text column when a sidebar link is followed' do
+      visit '/up.render'
+      within('.guide--menu') { click_link 'up.navigate()' }
+      expect(page).to have_css('h1', text: 'up.navigate')
+
+      expect_focus_on_column_then_content
+    end
+
+    it 'focuses the text column when the landing leads into the documentation' do
+      visit '/'
+      within('.guide--head') { click_link 'Learn' }
+      expect(page).to have_current_path('/learn')
+
+      expect_focus_on_column_then_content
+    end
+
+  end
+
 end

@@ -5,7 +5,17 @@
 
   <% guide.ensure_fresh! if development? # reload guide if we have rendered a page with it before %>
   <%= partial 'layouts/head' %>
-  <% @menu_path = '/learn/menu' if @menu_path.nil? && @menu_html.nil? && !@full_width %>
+  <%#
+    The frame a page sits in. Every response renders its whole frame inside the torso,
+    which is the root layer's main target, so arriving from another page can never leave
+    that page's frame behind.
+
+      :docs     a sidebar with the section's menu beside one text column (the default)
+      :landing  no sidebar, full width; the page draws its own bands
+      :article  no sidebar; the text column centred in the window
+  %>
+  <% @frame ||= :docs %>
+  <% @menu_path ||= '/learn/menu' if @frame == :docs && @menu_html.nil? %>
 
   <body>
 
@@ -52,26 +62,28 @@
 
         </div>
 
-        <div class="guide--torso <%= '-full-width' if @full_width %>">
+        <div class="guide--torso <%= { landing: '-full-width', article: '-article' }[@frame] %>" up-main="root">
 
           <div class="viewport">
 
-            <% unless @full_width %>
+            <% if @frame == :docs %>
               <div class="guide--left">
 
-                <div class="guide--menu" up-viewport>
+                <%# The menu loads after the page and is kept while the next page renders the
+                    same placeholder (one section), so it keeps its expansion and scroll
+                    position. up-keep sits on the wrapper because the placeholder replaces
+                    itself; [up-on-keep] refuses to keep a wrapper whose menu never loaded. %>
+                <div class="guide--menu" up-viewport up-keep="same-html" up-on-keep="if (!this.querySelector('.menu')) event.preventDefault()">
                   <% if @menu_html %>
                     <%= @menu_html %>
                   <% else %>
-                    <div class="menu -placeholder">
-                      <a href="<%= @menu_path %>" class="hyperlink -gray">Menu</a>
-                    </div>
+                    <a href="<%= @menu_path %>" up-defer up-id="menu" class="guide--menu-placeholder">Menu</a>
                   <% end %>
                 </div>
               </div>
             <% end %>
 
-            <div class="guide--main" <% if @menu_path %> wants-menu-path="<%= @menu_path %>" <% end %> up-main="root">
+            <div class="guide--main">
 
               <div class="guide--content" up-main="modal" <%= search_body_attrs %>>
                 <%= yield %>
