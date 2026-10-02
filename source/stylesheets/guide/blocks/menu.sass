@@ -11,5 +11,8 @@
 
 up-drawer .menu
   max-width: $left-width
-  .menu--search
-    margin-right: $space-4 // leave space for close button
+
+  // The plain section links (Demo, Changes, …) follow the API modules; a gap keeps
+  // them from reading as more modules.
+  .node:not(.-section) + .node.-section
+    margin-top: $space-4

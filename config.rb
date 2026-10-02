@@ -470,10 +470,12 @@ helpers do
     ]
   end
 
-  def menu(&block)
+  # nav_layer: the layer whose location marks the menu's current links (see [up-nav]'s
+  # [up-layer]). The default is the menu's own layer.
+  def menu(nav_layer: nil, &block)
     nodes = capture_html(&block)
     # [up-id] lets the sidebar's [up-defer] placeholder find this element in the response.
-    @menu_html = content_tag(:div, nodes, class: 'menu', 'up-nav': '', 'up-id': 'menu')
+    @menu_html = content_tag(:div, nodes, class: 'menu', 'up-nav': '', 'up-layer': nav_layer, 'up-id': 'menu')
     concat_content @menu_html
   end
 

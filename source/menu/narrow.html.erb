@@ -1,47 +1,47 @@
-<% menu do %>
-  <%# On a narrow screen the burger is the only way in, so the drawer carries the search.
-      The header pill is hidden at this width, and this opens the same popup it does. %>
-  <div class="menu--search">
-    <button type="button" class="search-trigger">
-      <i class="fa fa-search search-trigger--icon" aria-hidden="true"></i>
-      Search docs…
-    </button>
-  </div>
+<%#
+  The drawer behind the header's burger, which stands in for the header's sections and
+  the sidebar below $bp-sidebar. It names the same sections as the header, in the same
+  words (site_sections), and goes one level deep: Learn lists its chapters and API its
+  modules. The pages and features below them are listed on each chapter's and module's
+  own page, in its index (_children_index.html.erb).
 
+  It carries no search: the header's search trigger stays visible at every width.
+
+  The drawer opens without history, so its own layer never has the page's location.
+  Its links are therefore marked current against the root layer, where the page is
+  ([up-nav][up-layer=root]). A section or chapter is current on any of its pages,
+  through the same [up-alias] lists the header uses.
+%>
+<% menu(nav_layer: 'root') do %>
   <div class="menu--nodes">
-    <!--  <div class="node">-->
-    <%#= node_link 'API', '/api' %>
-    <!--  </div>-->
+    <% site_sections.each do |section| %>
+      <% area = { '/learn' => guide.toc.learn, '/api' => guide.toc.api }[section[:href]] %>
 
-    <div class="node">
-      <%= node_link 'Demo', 'https://demo.unpoly.com' %>
-    </div>
+      <% if area %>
+        <div class="node -group">
+          <%= node_link section[:label], section[:href], 'up-alias': section[:alias] %>
+        </div>
 
-    <div class="node">
-      <%= node_link 'Installation', '/install' %>
-    </div>
-
-    <div class="node">
-      <%= node_link 'Support', '/support' %>
-    </div>
-
-    <% guide.toc.areas.each do |area| %>
-      <div class="node -group">
-        <span class="node--self">
-          <span class="node--title"><%= area.title %></span>
-        </span>
-      </div>
-
-      <% area.topics.each do |topic| %>
-        <%= partial 'nodes/node', locals: { node: topic } %>
+        <% area.topics.select(&:menu_path).each do |topic| %>
+          <div class="node <%= topic.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
+            <%= node_link topic.menu_title, topic.menu_path, 'up-alias': topic.pages.map(&:guide_path).join(' ').presence %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="node -section">
+          <%= node_link section[:label], section[:href], target: section[:target], 'up-alias': section[:alias] %>
+        </div>
       <% end %>
     <% end %>
 
-    <div class="node">
-      <%= node_link 'Changes', '/changes' %>
+    <div class="node -group">
+      <span class="node--self"><span class="node--title">Older versions</span></span>
     </div>
 
+    <% older_versions.each do |label, href| %>
+      <div class="node">
+        <%= node_link label, href, 'up-follow': 'false' %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="content-search" data-algolia-index="<%= algolia_index %>"></div>
 <% end %>
