@@ -401,7 +401,7 @@ up.compiler('.search-popup', function(popup) {
   // without JavaScript. Catching it needs `up:link:follow`, not `click`: the site makes
   // every link instant (unpoly_config.coffee), so Unpoly follows it on mousedown and no
   // click event ever reaches the document. Halting the event is what stops the
-  // navigation. The drawer's trigger is a button and has no such story.
+  // navigation.
   function onTriggerActivate(event) {
     up.event.halt(event)
     open()
@@ -423,7 +423,6 @@ up.compiler('.search-popup', function(popup) {
 
   up.destructor(popup, up.on('keydown', onGlobalKeyDown))
   up.destructor(popup, up.on('up:link:follow', '.search-pill', onTriggerActivate))
-  up.destructor(popup, up.on('click', '.search-trigger', onTriggerActivate))
 
   // For specs, and for anything that wants to open the search without a click.
   popup.openSearch = open

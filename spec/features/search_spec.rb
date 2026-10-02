@@ -239,25 +239,38 @@ describe 'search', type: :feature, js: true do
 
   end
 
-  describe 'the drawer, where the burger is the only way in' do
+  describe 'on a phone', driver: :selenium_phone do
 
-    # The burger is hidden at desktop width and its drawer needs the sidebar's menu, so
-    # this follows what the burger points at — the same route frame_spec takes.
-    it 'carries a trigger for the same popup' do
-      visit '/menu/narrow'
+    it 'keeps the trigger in the header' do
+      visit '/loading-state'
       stub_pagefind
 
-      # Visited directly, this page renders the menu twice: once as its content and once
-      # in the sidebar the layout always draws.
-      first('.search-trigger').click
+      open_search
 
       expect(page).to have_css('.search-popup--input:focus')
     end
 
-    it 'hides the header pill at phone width, where the drawer takes over', driver: :selenium_phone do
-      visit '/loading-state'
+    it 'opens the popup on top of everything, with hits that can be picked' do
+      visit '/'
+      stub_pagefind
+      search_for('up-follow')
+      expect(page).to have_css('.search-popup--hit')
 
-      expect(page).to have_no_css('.search-pill')
+      # Nothing (no drawer, no overlay) may cover the hit the reader taps.
+      covered = page.evaluate_script(<<~JS)
+        (function() {
+          let hit = document.querySelector('.search-popup--hit')
+          let r = hit.getBoundingClientRect()
+          let top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
+          return !hit.contains(top)
+        })()
+      JS
+      expect(covered).to be(false)
+      expect(page.evaluate_script('up.layer.count')).to eq(1)
+
+      find('.search-popup--hit', match: :first).click
+
+      expect(page).to have_current_path('/up-follow')
     end
 
   end
