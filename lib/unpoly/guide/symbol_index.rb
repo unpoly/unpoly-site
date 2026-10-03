@@ -28,7 +28,8 @@ module Unpoly
       # name       what the reader types
       # path       where the symbol lives (with an anchor, for a param)
       # kind       the badge: JS, HTML, CSS, EVENT, CONFIG, HEADER, COOKIE
-      # title      the display form, when it differs from the name (a signature)
+      # title      the display form, when it differs from the name (a feature's signature,
+      #            a module's page title)
       # owner      the feature a param belongs to, e.g. "[up-watch]"
       # deprecated 1 when the symbol is deprecated, so it can be ranked last
       VERSION = 1
@@ -51,7 +52,8 @@ module Unpoly
 
       def feature_entries
         guide.features.select(&:guide_page?).map do |feature|
-          title = feature.title
+          # The full signature, as the feature's page headlines it: up.follow(link, [options]).
+          title = feature.signature
           [
             feature.name,
             feature.guide_path,

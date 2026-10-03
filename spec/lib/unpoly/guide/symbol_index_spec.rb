@@ -17,7 +17,7 @@ describe Unpoly::Guide::SymbolIndex do
 
     expect(path).to eq('/up.render')
     expect(kind).to eq('JS')
-    expect(title).to start_with('up.render(')
+    expect(title).to eq('up.render([target], [options])')
   end
 
   it 'badges an event as EVENT rather than JS' do

@@ -12,11 +12,11 @@ Shoot.suite 'phone', widths: [390], description: 'drawer, phone search, scrolled
   # The search is in the header at every width, so it can never open behind the drawer.
   b.visit('/')
   if b.try_click('.guide--head .search-pill')
-    b.js("let i = document.querySelector('.search-popup--input'); i.value = 'render'; i.dispatchEvent(new Event('input'))")
+    b.js("let i = document.querySelector('.search-dialog--input'); i.value = 'render'; i.dispatchEvent(new Event('input'))")
     sleep 2.5
-    b.shot('phone-09-search-popup')
+    b.shot('phone-09-search-dialog')
     begin
-      b.driver.find_elements(css: '.search-popup--hit').find(&:displayed?)&.click
+      b.driver.find_elements(css: '.search-dialog--hit').find(&:displayed?)&.click
       b.settle(1)
       b.shot('phone-10-search-result')
     rescue Selenium::WebDriver::Error::ElementClickInterceptedError

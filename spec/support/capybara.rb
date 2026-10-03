@@ -26,6 +26,15 @@ register_chrome_driver(:selenium_small_desktop, width: 1100, height: 900)
 register_chrome_driver(:selenium_wide, width: 1500, height: 900)
 register_chrome_driver(:selenium_widest, width: 1920, height: 1080)
 
+# Device emulation gives overlay scrollbars that take no room. A plain window keeps a
+# classic scrollbar, for specs about what happens when an overlay hides it.
+Capybara.register_driver :selenium_scrollbars do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless=new') unless ENV.key?('NO_HEADLESS')
+  options.add_argument('--window-size=1300,960')
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
 Selenium::WebDriver.logger.level = :error
 
 Capybara.javascript_driver = :selenium

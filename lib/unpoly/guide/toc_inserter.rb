@@ -91,7 +91,10 @@ module Unpoly
         headings = headings.map(&:dup)
 
         html = ''
-        html << '<nav class="toc" data-pagefind-ignore>'
+        # [up-anchored=right]: on a wide screen the contents are fixed to the window's
+        # right edge, so the framework shifts them along when an overlay hides the
+        # scrollbar, as it does the header.
+        html << '<nav class="toc" data-pagefind-ignore up-anchored="right">'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
           textualize_heading(heading)

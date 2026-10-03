@@ -77,6 +77,7 @@
             <div class="guide--main">
 
               <div class="guide--content" up-main="modal" <%= search_body_attrs %>>
+                <%= search_meta_tags %>
                 <%= yield %>
               </div>
 
@@ -107,8 +108,8 @@
 
      </div>
 
-    <%# Outside .screen, so that a fragment update can never replace an open popup. %>
-    <%= partial 'search_popup' %>
+    <%# The search dialog's markup, opened as a modal overlay (search_dialog.js). %>
+    <%= partial 'search_dialog' %>
 
     <%= partial 'layouts/foot' %>
 

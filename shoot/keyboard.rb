@@ -24,7 +24,7 @@ Shoot.suite 'keyboard', widths: [1280, 800], description: 'tab order, focus ring
     b.driver.action.move_to(b.driver.find_element(css: '.landing--card')).perform; sleep 0.3; b.shot('keyboard-hover-card')
     b.js('window.scrollTo(0, 0)'); b.driver.find_element(css: 'body').send_keys('/'); sleep 0.6; b.shot('keyboard-slash')
     b.driver.action.send_keys(:escape).perform; sleep 0.4
-    p b.js("return [document.querySelector('.search-popup').hidden, document.activeElement.className]")
+    p b.js("return [!!document.querySelector('up-modal.search-dialog'), document.activeElement.className]")
 
     # The sidebar: a node's toggle is a button of its own.
     b.visit('/up.render')

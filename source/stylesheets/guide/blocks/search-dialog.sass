@@ -1,0 +1,186 @@
+@import ../../environment
+
+// The site's search: a modal overlay with the class .search-dialog (search_dialog.js,
+// source/_search_dialog.html.erb). Only this modal is restyled; the backdrop, the dismiss
+// button, scroll lock and stacking are the framework's, as for every other modal.
+//
+// The box sits near the top, as the modal does: the list grows downwards as the reader
+// types, and a centred box would jump on every keystroke.
+
+$search-dialog-width: 640px
+
+// The column at the start of every row that holds its badge, so that the titles start
+// at one edge whatever the badge says. Wide enough for the longest kind (CONFIG, COOKIE).
+$search-dialog-gutter: 64px
+
+$search-dialog-row-padding-x: $space-4
+
+// API and Learn hits are told apart by color: on the badge (border and text) and on
+// the stripe that marks the row under the pointer or the arrow keys.
+$search-dialog-api-color: $red-600
+$search-dialog-learn-color: $blue-700
+$search-dialog-separator: 1px solid $gray-300
+
+up-modal.search-dialog
+  +on_narrow
+    // On a phone the dialog is the screen: a floating card would only waste the edges.
+    up-modal-viewport
+      padding: 0
+
+  // [size] outweighs the framework's size rules, so this width wins whatever size the
+  // site configures for modals.
+  &[size] up-modal-box
+    width: $search-dialog-width
+    padding: 0
+    border-radius: $radius-lg
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28)
+
+    +on_narrow
+      width: 100%
+      min-height: 100dvh
+      border-radius: 0
+
+  up-modal-dismiss
+    top: $space-4
+    right: $space-4
+    font-size: $text-xl
+
+.search-dialog--head
+  display: flex
+  align-items: center
+  gap: $space-3
+  // Room on the right for the modal's dismiss button.
+  padding: $space-3 $space-7 $space-3 $search-dialog-row-padding-x
+  border-bottom: 1px solid $gray-200
+
+.search-dialog--icon
+  color: $gray-500
+
+.search-dialog--input
+  flex: 1 1 auto
+  min-width: 0
+  border: none
+  outline: none
+  background: transparent
+  +type($text-lg, $leading-ui)
+  color: $gray-900
+
+  &::placeholder
+    color: $gray-500
+
+.search-dialog--results
+  max-height: 60vh
+  overflow-y: auto
+  +pretty-scrollbars(9px)
+
+  +on_narrow
+    max-height: none
+
+// One row per hit: the badge in its gutter, then the title. A section sits in the title
+// column under its page.
+.search-dialog--hit
+  --area-color: #{$gray-600}
+  display: grid
+  grid-template-columns: $search-dialog-gutter minmax(0, 1fr)
+  column-gap: $space-3
+  align-items: baseline
+  padding: $space-2 $search-dialog-row-padding-x
+  color: $gray-900
+  text-decoration: none
+  border-left: 3px solid transparent
+
+  &.-api
+    --area-color: #{$search-dialog-api-color}
+
+  &.-learn
+    --area-color: #{$search-dialog-learn-color}
+
+  // A hairline before every hit that starts a new result; a section continues the
+  // hit above it.
+  & + &:not(.-section)
+    border-top: $search-dialog-separator
+
+  &:hover,
+  &.-selected
+    border-left-color: var(--area-color)
+
+  &.-selected
+    background: $background-light
+
+  &.-section
+    row-gap: 2px
+    +type($text-xs, $leading-body)
+
+    > *
+      grid-column: 2
+
+  &.-deprecated .search-dialog--title
+    text-decoration: line-through
+    color: $gray-500
+
+.search-dialog--title
+  +truncate_text
+  +type($text-sm, $leading-ui)
+
+  mark
+    background: $color-mark
+    color: inherit
+
+  // A guide title is prose set next to code; a little weight keeps it from looking
+  // faint beside the monospace rows.
+  .-learn > &
+    font-weight: 500
+
+// A symbol is code and reads as code, and so does a reference page named after one.
+// A guide title is prose and must not pretend otherwise. Same -code convention as
+// .essential-feature.
+.-code > .search-dialog--title
+  +monospace-font
+
+// The feature an attribute or config key belongs to, read as context.
+.search-dialog--owner
+  +monospace-font
+  +type($text-2xs, $leading-ui)
+  color: $gray-500
+  margin-left: $space-2
+
+.search-dialog--section
+  font-weight: bold
+  color: $gray-800
+
+.search-dialog--excerpt
+  grid-column: 2
+  color: $gray-600
+  +type($text-xs, $leading-body)
+
+  mark
+    background: $color-mark
+    color: inherit
+
+.search-dialog--empty
+  padding: $space-5 $search-dialog-row-padding-x
+  color: $gray-600
+  +type($text-sm, $leading-body)
+
+.search-dialog--foot
+  display: flex
+  gap: $space-4
+  padding: $space-2 $search-dialog-row-padding-x
+  border-top: 1px solid $gray-200
+  color: $gray-500
+  +type($text-2xs, $leading-ui)
+
+  +on_narrow
+    display: none
+
+.search-dialog--hint kbd
+  +monospace-font
+  background: $gray-100
+  border-radius: 2px
+  padding: 0 4px
+  margin-right: 2px
+
+// Border and text in the hit's area color, never filled. (Nested, to outweigh the
+// .tag block's own --color.)
+.search-dialog--hit .search-dialog--badge
+  --color: var(--area-color)

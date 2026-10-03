@@ -300,6 +300,18 @@ helpers do
     %(data-pagefind-body data-pagefind-filter="area:#{h area}" data-pagefind-meta="badge:#{h badge}")
   end
 
+  # Search metadata that needs an element of its own: Pagefind takes one key per
+  # data-pagefind-meta attribute (it does not split "badge:API, title:up.link").
+  #
+  # A module or class is known by its name (up.link), not by its page's headline
+  # ("Linking to fragments"), so the search lists it under its name.
+  def search_meta_tags
+    documentable = @search_documentable or return nil
+    return nil unless documentable.kind?(:interface) && !documentable.page?
+
+    %(<span data-pagefind-meta="title:#{h documentable.name}" hidden></span>)
+  end
+
   # The area a result belongs to. "API reference" is too long to sit at the end of a
   # result row; the header nav already calls it "API".
   def search_area_label(area)

@@ -297,7 +297,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
 
     def open_search_and_pick(query, hit_css)
       find('.search-pill', visible: :all).click
-      find('.search-popup--input').set(query)
+      find('.search-dialog--input').set(query)
       find(hit_css, match: :first).click
     end
 
@@ -307,7 +307,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       stub_pagefind([])
       mark_document
 
-      open_search_and_pick('up.render', '.search-popup--hit.-symbol[href$="/up.render"]')
+      open_search_and_pick('up.render', '.search-dialog--hit.-symbol[href$="/up.render"]')
 
       expect_frame_of('/up.render')
       expect_fragment_update
@@ -319,7 +319,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       stub_pagefind([{ url: '/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('targeting', '.search-popup--hit.-page[href$="/targeting-fragments"]')
+      open_search_and_pick('targeting', '.search-dialog--hit.-page[href$="/targeting-fragments"]')
 
       expect_frame_of('/targeting-fragments')
       expect_fragment_update
@@ -331,7 +331,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       stub_pagefind([{ url: '/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('targeting', '.search-popup--hit[href$="/targeting-fragments"]')
+      open_search_and_pick('targeting', '.search-dialog--hit[href$="/targeting-fragments"]')
 
       expect_frame_of('/targeting-fragments')
       expect_fragment_update
@@ -343,7 +343,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       stub_pagefind([{ url: '/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('targeting', '.search-popup--hit[href$="/targeting-fragments"]')
+      open_search_and_pick('targeting', '.search-dialog--hit[href$="/targeting-fragments"]')
 
       expect_frame_of('/targeting-fragments')
       expect_fragment_update

@@ -1,0 +1,34 @@
+<%#
+  The site's search, opened from every page as a modal overlay (up.layer.open). This
+  template only holds its markup: search_dialog.js opens a modal with this content when
+  the header's search trigger is clicked or "/" is pressed, and the framework provides
+  the rest of a dialog (backdrop, focus trap, Escape, scroll lock, stacking).
+
+  The sidecar of symbol names and the full-text index are both fetched on the first
+  open, so a reader who never searches pays nothing for them. Without JavaScript nothing
+  opens and the header's trigger stays what it is in the markup: a link to the reference.
+%>
+<template class="search-dialog-template" data-pagefind-ignore>
+  <div class="search-dialog--head">
+    <i class="fa fa-search search-dialog--icon" aria-hidden="true"></i>
+    <input type="text"
+           class="search-dialog--input"
+           placeholder="Search docs…"
+           aria-label="Search docs"
+           role="combobox"
+           aria-expanded="false"
+           aria-controls="search-dialog-results"
+           aria-autocomplete="list"
+           autocomplete="off"
+           spellcheck="false"
+           autofocus>
+  </div>
+
+  <div class="search-dialog--results" id="search-dialog-results" role="listbox" aria-label="Search results"></div>
+
+  <div class="search-dialog--foot">
+    <span class="search-dialog--hint"><kbd>↑↓</kbd> navigate</span>
+    <span class="search-dialog--hint"><kbd>↵</kbd> open</span>
+    <span class="search-dialog--hint"><kbd>esc</kbd> close</span>
+  </div>
+</template>
