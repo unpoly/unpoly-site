@@ -38,7 +38,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
 
   def expand(title)
     within('up-drawer') do
-      find('.menu--nodes > .node', text: title, match: :first).find(':scope > .node--self .node--collapser').click
+      find('.menu--nodes > .node', text: title, match: :first).find(':scope > .node--toggle, :scope > button.node--self', match: :first).click
     end
   end
 
@@ -79,6 +79,54 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     expect(children.last).to include('title' => 'Formats', 'href' => '/formats')
     expect(children.map { |child| child['grandchildren'] }.uniq).to eq([0])
     expect(page).to have_no_css('up-drawer .menu--caption', visible: :all)
+  end
+
+  it 'opens Older versions when its label is tapped' do
+    open_drawer_on '/support'
+
+    within('up-drawer') { find('.menu--nodes > .node > button.node--self', text: /older versions/i).click }
+
+    expect(row('Older versions')['expanded']).to be(true)
+    expect(page).to have_css('up-drawer a[href="https://v2.unpoly.com"]')
+  end
+
+  describe 'from the keyboard' do
+
+    def focused
+      page.evaluate_script("(function() { let e = document.activeElement; return [e.tagName, e.getAttribute('aria-label') || e.textContent.trim(), e.getAttribute('href'), e.getAttribute('aria-expanded')] })()")
+    end
+
+    # Presses Tab until the predicate holds for the focused element, or gives up.
+    def tab_to(limit: 40)
+      limit.times do
+        page.send_keys(:tab)
+        return focused if yield(focused)
+      end
+      raise 'Tab never reached the element'
+    end
+
+    it 'reaches and opens Older versions, and the versions below it' do
+      open_drawer_on '/support'
+
+      tab_to { |tag, label| tag == 'BUTTON' && label =~ /older versions/i }
+      page.send_keys(:enter)
+
+      expect(row('Older versions')['expanded']).to be(true)
+      expect(focused.last).to eq('true')
+      expect(tab_to { |_, _, href| href }[2]).to eq('https://v2.unpoly.com')
+    end
+
+    it 'opens Learn and reaches its first chapter' do
+      open_drawer_on '/support'
+
+      tab_to { |tag, label| tag == 'BUTTON' && label == 'Expand Learn' }
+      page.send_keys(:space)
+
+      expect(row('Learn')['expanded']).to be(true)
+      expect(focused.last).to eq('true')
+      expect(tab_to { |_, _, href| href && href != '/learn' }[2]).to eq('/start/overview')
+    end
+
   end
 
   it 'opens Older versions to the earlier majors' do

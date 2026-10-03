@@ -181,4 +181,77 @@ describe 'the sidebar menu', type: :feature, js: true do
     expect(page).to have_css('.guide--menu .node.-expanded', text: 'Advanced rendering')
   end
 
+  it 'opens a node from the keyboard, through a real button that says whether it is open' do
+    visit '/up.render'
+    wait_for_menu('/api/menu')
+
+    toggle = find('.guide--menu button.node--toggle[aria-label="Expand up.form"]')
+    expect(toggle[:'aria-expanded']).to eq('false')
+
+    toggle.send_keys(:enter)
+
+    expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Expand up.form"][aria-expanded="true"]')
+    within('.guide--menu') { expect(page).to have_link('up.submit()') }
+  end
+
+  describe 'clicking a node’s icon' do
+
+    # Every point of a visible icon must hit the node's toggle, never the link under it.
+    ICON_COVERAGE_JS = <<~JS
+      (function(scope) {
+        let misses = []
+        for (let toggle of document.querySelectorAll(scope + ' .node--toggle')) {
+          let icon = toggle.parentElement.querySelector(':scope > .node--self > .node--collapser')
+          let r = icon.getBoundingClientRect()
+          if (!r.width) continue
+          let points = [[r.left + 0.5, r.top + 0.5], [r.right - 0.5, r.top + 0.5], [r.left + 0.5, r.bottom - 0.5], [r.right - 0.5, r.bottom - 0.5]]
+          for (let [x, y] of points) {
+            if (!toggle.contains(document.elementFromPoint(x, y))) misses.push(toggle.getAttribute('aria-label'))
+          }
+        }
+        return misses
+      })
+    JS
+
+    def icon_misses(scope)
+      page.evaluate_script("#{ICON_COVERAGE_JS}(#{scope.to_json})")
+    end
+
+    # A real mouse click just inside the icon's lower left corner.
+    def click_icon_corner(icon)
+      size = icon.native.size
+      page.driver.browser.action.move_to(icon.native, -(size.width / 2) + 1, (size.height / 2) - 1).click.perform
+    end
+
+    it 'opens the node and stays on the page, even at the icon’s lower edge' do
+      visit '/targeting-fragments'
+      wait_for_menu('/learn/menu')
+
+      expect(icon_misses('.guide--menu')).to eq([])
+
+      click_icon_corner(find('.guide--menu a.node--self[href="/links"] .node--collapser'))
+
+      expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Expand Links"][aria-expanded="true"]')
+      expect(page).to have_current_path('/targeting-fragments')
+    end
+
+    it 'opens a drawer row and keeps the drawer, even at the icon’s lower edge', driver: :selenium_phone do
+      visit '/support'
+      find('.guide--head a[href="/menu/narrow"]').click
+      expect(page).to have_css('up-drawer .menu--nodes')
+      # The drawer slides in; measure once it has arrived.
+      Timeout.timeout(Capybara.default_max_wait_time) do
+        sleep 0.05 until page.evaluate_script("document.querySelector('up-drawer-box').getBoundingClientRect().right <= window.innerWidth + 0.5")
+      end
+
+      expect(icon_misses('up-drawer')).to eq([])
+
+      click_icon_corner(find('up-drawer a.node--self[href="/learn"] .node--collapser'))
+
+      expect(page).to have_css('up-drawer button.node--toggle[aria-label="Expand Learn"][aria-expanded="true"]')
+      expect(page).to have_current_path('/support')
+    end
+
+  end
+
 end

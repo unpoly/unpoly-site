@@ -431,7 +431,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       open_drawer
       within('up-drawer') do
         # Modules sit one level down, behind the API row's collapser.
-        find('.menu--nodes > .node > a[href="/api"] .node--collapser').click
+        find('.menu--nodes > .node > button.node--toggle[aria-label="Expand API"]').click
         find('a[href="/up.link"]', match: :first).click
       end
 

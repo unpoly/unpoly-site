@@ -117,6 +117,44 @@ a.node--self
   font-size: 0.8em
   cursor: pointer
   margin-top: 2px
+
+// The control that opens a node whose label is a link (menu.coffee). It lies over the
+// collapser icon at the start of the label's first line, so the label keeps its layout,
+// and covers the icon and the gap after it entirely: no part of the icon may fall
+// through to the link below. It takes the row's font, so that 1lh is the row's height
+// and the em-based width matches the icon.
+.node--toggle
+  position: absolute
+  z-index: 1
+  left: 0
+  top: 0
+  font: inherit
+  line-height: inherit
+  width: calc(0.8em * 1.28571 + 5px) // the fa-fw icon, and the label's gap after it
+  height: 1lh
+  padding: 0
+  border: 0
+  background: none
+  cursor: pointer
+
+  &:focus-visible
+    outline: 2px solid $color-link
+    outline-offset: 1px
+    border-radius: $radius-sm
+
+// A label that is a button rather than a link (the drawer's "Older versions").
+button.node--self
+  width: 100%
+  padding: 0
+  border: 0
+  background: none
+  font: inherit
+  text-align: left
+  cursor: pointer
+
+  &:focus-visible
+    outline: 2px solid $color-link
+    outline-offset: 1px
   //position: absolute
   //top: 0.5em
   //left: 0

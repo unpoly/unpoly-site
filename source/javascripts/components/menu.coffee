@@ -27,12 +27,23 @@ class Node
 
   createCollapser: ->
     return if @isGroup()
-    @collapser = up.element.createFromSelector('span.node--collapser.fa.fa-fw')
+    # The icon in front of the label shows what the node is and whether it is open. It
+    # is a picture only; a node with children gets one control to open it.
+    @collapser = up.element.createFromSelector('span.node--collapser.fa.fa-fw', 'aria-hidden': 'true')
     @self.prepend(@collapser)
-    @collapser.addEventListener 'up:click', (event) => @onCollapserClicked(event)
-    # A label that leads nowhere (e.g. the drawer's "Older versions") opens its node.
-    unless @self.matches('a')
-      @self.addEventListener 'up:click', (event) => @onCollapserClicked(event)
+    return unless @childNodes.length
+
+    if @self.matches('a')
+      # The label leads to the node's page, so a button of its own, laid over the icon,
+      # opens the node. It is a real button: focusable, and Enter and Space work.
+      title = @self.querySelector('.node--title')?.textContent.trim()
+      @toggle = up.element.createFromSelector('button.node--toggle', type: 'button', 'aria-label': "Expand #{title}")
+      @element.insertBefore(@toggle, @self)
+    else
+      # A label that leads nowhere (the drawer's "Older versions") is the button itself.
+      @toggle = @self
+
+    @toggle.addEventListener 'up:click', (event) => @onCollapserClicked(event)
 
   onCollapserClicked: (event) ->
     up.event.halt(event)
@@ -49,6 +60,7 @@ class Node
 
     @isExpanded = forcedState ? !@isExpanded # toggle when not given
     @element.classList.toggle('-expanded', @isExpanded)
+    @toggle?.setAttribute('aria-expanded', @isExpanded)
 
     if @collapser
       if @childNodes?.length
