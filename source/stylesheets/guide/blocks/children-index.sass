@@ -1,8 +1,7 @@
 @import ../../environment
 
-// Every page or feature one level below a chapter overview or a module page (see
-// source/_children_index.html.erb). It stands in for the sidebar, so it only shows
-// where there is no sidebar.
+// Every page of a chapter, on its overview (see source/_children_index.html.erb). It
+// stands in for the sidebar, so it only shows where there is no sidebar.
 .children-index
   display: flex
   flex-direction: column
@@ -14,23 +13,9 @@
   +on_wide
     display: none
 
-.children-index--title,
-.children-index--group
-  +uppercase
-  font-size: $text-3xs
-  font-weight: bold
-  letter-spacing: 0.08em
-  color: $gray-600
-
 .children-index--title
-  margin-bottom: $space-2
-
-.children-index--group
-  margin-top: $space-3
+  margin: 0 0 $space-2 0
 
 .children-index--link
   +hyperlink
   width: fit-content
-
-  &.-code
-    +monospace-font

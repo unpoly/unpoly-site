@@ -1,10 +1,10 @@
-# Below $bp-sidebar the drawer lists only chapters and modules, so a chapter overview
-# and a module page list everything below them. Above it, the sidebar does that job and
-# the index is hidden.
+# Below $bp-sidebar the drawer lists only chapters, so a chapter overview lists every
+# page of its chapter. Above it, the sidebar does that job and the index is hidden.
+# Module pages need no index: they list every feature under "All features".
 describe 'the children index', type: :feature, js: true do
 
   def index_links
-    all('.children-index a').map { |link| URI.parse(link[:href]).path }
+    all('.children-index a.children-index--link').map { |link| URI.parse(link[:href]).path }
   end
 
   describe 'on a phone', driver: :selenium_phone do
@@ -15,11 +15,12 @@ describe 'the children index', type: :feature, js: true do
       expect(index_links).to eq(chapter.menu_children.map(&:menu_path))
     end
 
-    it 'lists every feature of a module on its page, in its groups' do
-      visit '/up.link'
+    it 'is titled by a heading that the page contents leave out' do
+      visit '/loading-state'
 
-      expect(page).to have_css('.children-index--group', text: /html/i)
-      expect(index_links).to include('/up-follow', '/up.follow', '/up:link:follow')
+      expect(page).to have_css('.children-index h2[toc="false"]', text: 'In this chapter')
+      expect(page).to have_css('.toc')
+      within('.toc') { expect(page).to have_no_text('In this chapter') }
     end
 
     it 'is left out of the search index' do
@@ -32,6 +33,13 @@ describe 'the children index', type: :feature, js: true do
       visit '/following-links'
 
       expect(page).to have_no_css('.children-index', visible: :all)
+    end
+
+    it 'is not on a module page, which lists all its features already' do
+      visit '/up.link'
+
+      expect(page).to have_no_css('.children-index', visible: :all)
+      expect(page).to have_css('#all-features')
     end
   end
 
