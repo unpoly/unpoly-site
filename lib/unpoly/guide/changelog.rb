@@ -19,13 +19,11 @@ module Unpoly
         attr_accessor :previous_release_by_version
 
         memoize def time
-          in_repository do
-            # $ git log -1 --format=%ai v0.50.0
-            # => 2017-12-06 08:14:52 +0100
-            raw = `git log -1 --format=%ai #{git_tag}`.strip
-            if raw.present?
-              Time.parse(raw)
-            end
+          # $ git log -1 --format=%ai v0.50.0
+          # => 2017-12-06 08:14:52 +0100
+          raw = git("log -1 --format=%ai #{git_tag}").strip
+          if raw.present?
+            Time.parse(raw)
           end
         end
 
@@ -65,24 +63,22 @@ module Unpoly
 
         memoize def commit_count
           if version == "0.1.0"
-            in_repository do
-              raw = `git rev-list --count #{last_commit}`.strip
-              if raw.present? && raw != '0'
-                raw.to_i
-              end
+            raw = git("rev-list --count #{last_commit}").strip
+            if raw.present? && raw != '0'
+              raw.to_i
             end
           elsif first_commit && last_commit
-            in_repository do
-              raw = `git log --pretty=oneline #{first_commit}...#{last_commit} | wc -l`.strip
-              if raw.present? && raw != '0'
-                raw.to_i
-              end
+            raw = git("log --pretty=oneline #{first_commit}...#{last_commit}").lines.size.to_s
+            if raw.present? && raw != '0'
+              raw.to_i
             end
           end
         end
 
-        def in_repository(&block)
-          Dir.chdir(@repository_path, &block)
+        # Runs git in the repository. `git -C` instead of Dir.chdir, which would change the
+        # working directory of the whole process while other threads render pages.
+        def git(command)
+          `git -C #{Shellwords.escape(@repository_path)} #{command}`
         end
 
         def can_unpoly_migrate?

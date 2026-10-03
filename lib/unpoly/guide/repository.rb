@@ -193,11 +193,9 @@ module Unpoly
 
       def git_revision
         synchronize do
-          revision = nil
-          Dir.chdir path do
-            revision = `git rev-parse HEAD`
-          end
-          revision
+          # `git -C`, not Dir.chdir: changing the process's working directory would
+          # break relative paths in threads that are rendering at the same time.
+          `git -C #{Shellwords.escape(path)} rev-parse HEAD`
         end
       end
 

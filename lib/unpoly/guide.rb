@@ -1,4 +1,5 @@
 require 'active_support/all'
+require 'shellwords'
 require 'memoized'
 require 'byebug'
 require_relative 'guide/util'
