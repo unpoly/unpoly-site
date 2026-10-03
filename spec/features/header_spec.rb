@@ -28,6 +28,25 @@ describe 'the header', type: :feature, js: true do
     expect(opaque).to eq([])
   end
 
+  it 'is 53px tall and indigo' do
+    visit '/targeting-fragments'
+
+    bar = page.evaluate_script(<<~JS)
+      (function() {
+        let head = document.querySelector('.guide--head')
+        let probe = document.createElement('div')
+        probe.style.color = 'hsl(233, 24%, 33%)'
+        document.body.append(probe)
+        let indigo = getComputedStyle(probe).color
+        probe.remove()
+        return [head.getBoundingClientRect().height, getComputedStyle(head).backgroundColor, indigo]
+      })()
+    JS
+
+    expect(bar[0]).to eq(53)
+    expect(bar[1]).to eq(bar[2])
+  end
+
   it 'lists every section in sentence case, Support among them like any other' do
     visit '/targeting-fragments'
 
