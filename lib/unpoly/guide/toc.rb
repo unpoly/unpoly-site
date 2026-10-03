@@ -231,6 +231,11 @@ module Unpoly
           []
         end
 
+        # A generated index page standing in for an overview (see PageGroup).
+        def index
+          nil
+        end
+
         def includes?(documentable)
           start_page == documentable || children.include?(documentable)
         end
@@ -266,8 +271,12 @@ module Unpoly
       end
 
       # A hand-curated list of guide pages, e.g. a Learn chapter.
+      #
+      # The group starts at its first page, or at the page named by `start:`. A group
+      # whose pages have no overview among them names an `index:` slug instead: the site
+      # then generates an index page for it at that path (e.g. /formats).
       class PageGroup < Topic
-        KEYS = %w[type title pages start].freeze
+        KEYS = %w[type title pages start index].freeze
         REQUIRED_KEYS = %w[type title pages].freeze
 
         TYPES['page-group'] = self
@@ -278,20 +287,22 @@ module Unpoly
           @title = data['title']
           @page_slugs = Array(data['pages'])
           @page_slugs.present? or raise Invalid, "#{area.toc.path}: page group '#{title}' lists no pages"
+          @index = data['index'] && Index.new(self, data['index'])
+          @index.nil? || !data.key?('start') or
+            raise Invalid, "#{area.toc.path}: page group '#{title}' has both an index and a start page"
           @start = data.fetch('start', @page_slugs.first)
-          @start == 'none' || @page_slugs.include?(@start) or
+          @index || @page_slugs.include?(@start) or
             raise Invalid, "#{area.toc.path}: page group '#{title}' starts at '#{@start}', which is not one of its pages"
         end
 
-        attr_reader :title, :page_slugs
+        attr_reader :title, :page_slugs, :index
 
         def pages
           page_slugs.map { |slug| repository.find_page!(slug) }
         end
 
         def start_page
-          return nil if @start == 'none'
-          repository.find_page!(@start)
+          @index || repository.find_page!(@start)
         end
 
         # The start page is reached by clicking the topic itself, so it is not repeated
@@ -356,6 +367,27 @@ module Unpoly
 
         def menu_modifiers
           super + ['interface']
+        end
+      end
+
+      # The generated index page of a page group that has no overview page of its own. It
+      # lists the group's pages and has no text beyond what they say about themselves.
+      class Index
+        def initialize(topic, slug)
+          @topic = topic
+          @slug = slug
+        end
+
+        attr_reader :topic, :slug
+
+        delegate :title, :pages, to: :topic
+
+        def guide_path
+          "/#{slug}"
+        end
+
+        def summary_markdown
+          nil
         end
       end
 

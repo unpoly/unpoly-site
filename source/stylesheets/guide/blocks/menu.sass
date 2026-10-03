@@ -9,10 +9,7 @@
   margin-bottom: 10px
   color: $gray-600
 
-up-drawer .menu
-  max-width: $left-width
-
-  // The plain section links (Demo, Changes, …) follow the API modules; a gap keeps
-  // them from reading as more modules.
-  .node:not(.-section) + .node.-section
-    margin-top: $space-4
+// A row whose label leads nowhere but opens its node looks like the rows around it.
+up-drawer .menu--nodes > .node:not(.-group) > span.node--self
+  color: desaturate($indigo-800, 5%)
+  cursor: pointer

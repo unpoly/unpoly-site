@@ -1,47 +1,45 @@
 <%#
   The drawer behind the header's burger, which stands in for the header's sections and
-  the sidebar below $bp-sidebar. It names the same sections as the header, in the same
-  words (site_sections), and goes one level deep: Learn lists its chapters and API its
-  modules. The pages and features below them are listed on each chapter's and module's
-  own page, in its index (_children_index.html.erb).
+  the sidebar below $bp-sidebar. Its rows are the header's sections in the header's
+  words (site_sections), then the older versions. Learn, API and Older versions are
+  disclosure rows built like the sidebar's nodes: the label leads to the section's hub,
+  the collapser opens one level below it (Learn's chapters, API's modules and Formats).
+  The pages and features further down are listed on each chapter's and module's page.
 
   It carries no search: the header's search trigger stays visible at every width.
 
   The drawer opens without history, so its own layer never has the page's location.
   Its links are therefore marked current against the root layer, where the page is
-  ([up-nav][up-layer=root]). A section or chapter is current on any of its pages,
-  through the same [up-alias] lists the header uses.
+  ([up-nav][up-layer=root]); the menu then opens the current section. A section or
+  chapter is current on any of its pages, through the same [up-alias] lists the header
+  uses.
 %>
 <% menu(nav_layer: 'root') do %>
   <div class="menu--nodes">
     <% site_sections.each do |section| %>
       <% area = { '/learn' => guide.toc.learn, '/api' => guide.toc.api }[section[:href]] %>
 
-      <% if area %>
-        <div class="node -group">
-          <%= node_link section[:label], section[:href], 'up-alias': section[:alias] %>
-        </div>
-
-        <% area.topics.select(&:menu_path).each do |topic| %>
-          <div class="node <%= topic.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
-            <%= node_link topic.menu_title, topic.menu_path, 'up-alias': topic.pages.map(&:guide_path).join(' ').presence %>
-          </div>
-        <% end %>
-      <% else %>
-        <div class="node -section">
-          <%= node_link section[:label], section[:href], target: section[:target], 'up-alias': section[:alias] %>
-        </div>
-      <% end %>
-    <% end %>
-
-    <div class="node -group">
-      <span class="node--self"><span class="node--title">Older versions</span></span>
-    </div>
-
-    <% older_versions.each do |label, href| %>
       <div class="node">
-        <%= node_link label, href, 'up-follow': 'false' %>
+        <%= node_link section[:label], section[:href], target: section[:target], 'up-alias': section[:alias] %>
+
+        <% if area %>
+          <% area.topics.each do |topic| %>
+            <div class="node <%= topic.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
+              <%= node_link topic.menu_title, topic.menu_path, 'up-alias': topic.pages.map(&:guide_path).join(' ').presence %>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     <% end %>
+
+    <div class="node">
+      <span class="node--self"><span class="node--title">Older versions</span></span>
+
+      <% older_versions.each do |label, href| %>
+        <div class="node">
+          <%= node_link label, href, 'up-follow': 'false' %>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>

@@ -90,6 +90,23 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
+  describe 'the generated index of a page group without an overview' do
+    it 'lists the formats with their own summaries, and nothing else' do
+      visit '/formats'
+
+      expect(page).to have_css('h1', text: 'Formats')
+      expect(page.all('.guide--content a.topic-preview--title').map { |link| URI.parse(link[:href]).path }).to eq(['/url-patterns', '/relaxed-json'])
+    end
+
+    it 'is one ordinary row in the API sidebar' do
+      visit '/up.render'
+      expect(page).to have_css('.guide--menu .menu--nodes')
+
+      expect(page).to have_css('.guide--menu a.node--self[href="/formats"]', count: 1)
+      expect(page).to have_no_css('.guide--menu .node.-group > .node--self', text: /formats/i, visible: :all)
+    end
+  end
+
   describe 'a runnable example' do
     before { visit '/examples/modal' }
 

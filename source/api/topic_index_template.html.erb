@@ -1,0 +1,25 @@
+<%#
+  The generated index page of a page group without an overview of its own (toc.yml
+  `index:`, e.g. /formats). Like the area hubs it carries no copy: it lists the group's
+  pages with the summaries they give of themselves.
+%>
+<%
+  guide.reload if development?
+  area = guide.toc.area(area_key)
+  topic = area.topics.find { |candidate| candidate.index&.slug == index_slug }
+  @menu_path = area.menu_path
+%>
+
+<h1><%= page_title topic.title %></h1>
+
+<% topic.pages.each do |page| %>
+  <div class="topic-preview">
+    <h2 class="topic-preview--head">
+      <%= hyperlink page.title, page.guide_path, class: 'topic-preview--title' %>
+    </h2>
+
+    <% if page.summary_markdown.present? %>
+      <%= markdown_prose(page.summary_markdown, strip_links: true) %>
+    <% end %>
+  </div>
+<% end %>

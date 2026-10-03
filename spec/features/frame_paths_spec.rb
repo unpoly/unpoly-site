@@ -429,7 +429,11 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       mark_document
 
       open_drawer
-      within('up-drawer') { find('a[href="/up.link"]', match: :first).click }
+      within('up-drawer') do
+        # Modules sit one level down, behind the API row's collapser.
+        find('.menu--nodes > .node > a[href="/api"] .node--collapser').click
+        find('a[href="/up.link"]', match: :first).click
+      end
 
       expect_frame_of('/up.link')
       expect_fragment_update

@@ -44,6 +44,14 @@ describe Unpoly::Guide::Toc do
       expect(toc.reading_order).not_to include(repository.find_page!('url-patterns'))
     end
 
+    it 'starts a group without an overview at its generated index page' do
+      formats = toc.api.topics.detect { |topic| topic.title == 'Formats' }
+
+      expect(formats.index.guide_path).to eq('/formats')
+      expect(formats.menu_path).to eq('/formats')
+      expect(formats.children.map(&:guide_id)).to eq(%w[url-patterns relaxed-json])
+    end
+
     it 'groups a module topic by feature kind' do
       module_topic = toc.api.topics.detect { |topic| topic.respond_to?(:module_name) && topic.module_name == 'up.link' }
 
@@ -111,6 +119,14 @@ describe Unpoly::Guide::Toc do
       data['api']['topics'].shift
 
       expect { build(data) }.to raise_error(described_class::Invalid, /not listed in 'api'/)
+    end
+
+    it 'rejects a group with both an index and a start page' do
+      data = minimal
+      data['learn']['topics'].first['index'] = 'an-index'
+      data['learn']['topics'].first['start'] = 'install'
+
+      expect { build(data) }.to raise_error(described_class::Invalid, /both an index and a start page/)
     end
 
     it 'rejects a start page that is not in the group' do

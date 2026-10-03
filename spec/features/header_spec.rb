@@ -86,6 +86,15 @@ describe 'the header', type: :feature, js: true do
     expect(page).to have_css('.guide--head .top-nav--section.up-current', count: 1)
   end
 
+  %w[/formats /url-patterns /relaxed-json].each do |path|
+    it "marks API as current on #{path}, which no symbol pattern matches" do
+      visit path
+
+      expect(page).to have_css('.guide--head .top-nav--section.up-current', text: 'API')
+      expect(page).to have_css('.guide--head .top-nav--section.up-current', count: 1)
+    end
+  end
+
   it 'moves the current mark when the reader moves into another section' do
     visit '/up.render'
     within('.guide--head') { click_link 'Learn' }

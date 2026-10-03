@@ -30,6 +30,9 @@ class Node
     @collapser = up.element.createFromSelector('span.node--collapser.fa.fa-fw')
     @self.prepend(@collapser)
     @collapser.addEventListener 'up:click', (event) => @onCollapserClicked(event)
+    # A label that leads nowhere (e.g. the drawer's "Older versions") opens its node.
+    unless @self.matches('a')
+      @self.addEventListener 'up:click', (event) => @onCollapserClicked(event)
 
   onCollapserClicked: (event) ->
     up.event.halt(event)

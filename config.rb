@@ -131,6 +131,14 @@ Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
   proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, ignore: true
 end
 
+# Generated index pages of page groups that have no overview page (toc.yml `index:`).
+Unpoly::Guide.current.toc.areas.each do |area|
+  area.topics.select(&:index).each do |topic|
+    # Pass names instead of objects, since reloading will build new instances.
+    proxy "#{topic.index.guide_path}.html", "/api/topic_index_template.html", locals: { area_key: area.key, index_slug: topic.index.slug }, ignore: true
+  end
+end
+
 Unpoly::Guide.current.versions.each do |release_version|
   path = "/changes/#{release_version}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Change #{release_version}: #{path}" if DEBUG
@@ -454,12 +462,19 @@ helpers do
   def site_sections
     [
       { label: 'Learn', href: '/learn', alias: guide.toc.learn.pages.map(&:guide_path).join(' ') },
-      { label: 'API', href: '/api', alias: '/up.* /up:* /up-* /*-up-* /has' },
+      { label: 'API', href: '/api', alias: (['/up.* /up:* /up-* /*-up-* /has'] + api_page_paths).join(' ') },
       { label: 'Demo', href: 'https://demo.unpoly.com', target: '_blank' },
       { label: 'Changes', href: '/changes', alias: '/changes/*' },
       { label: 'Support', href: '/support', alias: '/support/*' },
       { label: 'GitHub', href: 'https://github.com/unpoly/unpoly', icon: 'fa-github' },
     ]
+  end
+
+  # API pages that the symbol patterns don't match: the API's own pages (e.g. the
+  # formats) and generated index pages (e.g. /formats).
+  def api_page_paths
+    api = guide.toc.api
+    api.pages.map(&:guide_path) + api.topics.filter_map { |topic| topic.index&.guide_path }
   end
 
   # Earlier major versions, each documented on a site of its own.
