@@ -112,7 +112,8 @@ class Node
       @accordion()
       @parentNode?.toggleExpanded(true)
       @toggleExpanded(true) if @childNodes.length
-      up.reveal(@element, padding: 40)
+      # Below $bp-sidebar the sidebar is hidden, and its viewport has nothing to scroll.
+      up.reveal(@element, padding: 40) if @element.getClientRects().length
     else
       for childNode in @childNodes
         childNode.revealCurrent()

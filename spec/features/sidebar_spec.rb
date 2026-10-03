@@ -254,4 +254,21 @@ describe 'the sidebar menu', type: :feature, js: true do
 
   end
 
+  it 'does not try to scroll the hidden sidebar on a phone', driver: :selenium_phone do
+    errors = page.driver.browser.execute_cdp('Page.addScriptToEvaluateOnNewDocument', source: <<~JS)
+      window.specErrors = []
+      window.addEventListener('error', (event) => window.specErrors.push(String(event.message)))
+      window.addEventListener('unhandledrejection', (event) => window.specErrors.push(String(event.reason)))
+    JS
+    begin
+      visit '/targeting-fragments'
+      expect(page).to have_css('.guide--menu .menu--nodes', visible: :all)
+      sleep 0.5 # the current node is revealed in a later task
+
+      expect(page.evaluate_script('window.specErrors')).to eq([])
+    ensure
+      page.driver.browser.execute_cdp('Page.removeScriptToEvaluateOnNewDocument', identifier: errors['identifier'])
+    end
+  end
+
 end
