@@ -6,12 +6,16 @@ $search-width: 480px
 // The space between the contents rail and the text.
 $toc-rail-gap: $space-6
 
-// The one text column every documentation and article page sets its text in. It is
-// the widest column that still fits beside both the sidebar and the contents rail at
-// $bp-toc, where the rail appears: 1280 - 281.6 (sidebar, 22vw) - 2 * 38.4 (viewport
-// padding, 3%) - $toc-rail-width - $toc-rail-gap = 661.6, rounded down. The column
-// keeps this width on every page, rail or not, so the text never moves between pages.
-$text-column: 660px
+// The text column every documentation and article page sets its text in. At any one
+// window width it is the same on every page, so the text never moves between pages.
+//
+// Its minimum is the widest column that still fits beside both the sidebar and the
+// contents rail at $bp-toc, where the rail appears: 1280 - 281.6 (sidebar, 22vw)
+// - 2 * 38.4 (viewport padding, 3%) - $toc-rail-width - $toc-rail-gap = 661.6, rounded
+// down. Below $bp-toc it stays at that width; above, it takes the space between the
+// sidebar and the rail, up to a cap (reached at ~1520px), and then centres in it.
+$text-column-min: 660px
+$text-column-max: 880px
 
 .guide
   display: flex
@@ -127,8 +131,11 @@ $text-column: 660px
 
 .guide--content,
 .guide--fineprint
-  max-width: $text-column
+  max-width: $text-column-min
   +horizontal-margin(auto)
+
+  +with_toc_rail
+    max-width: $text-column-max
 
 // The [up-defer] placeholder that loads the sidebar menu. It is a
 // link so that crawlers find the menu, but readers only see the menu it loads.
@@ -160,3 +167,12 @@ $text-column: 660px
   .guide--main
     margin-left: 0
     +horizontal-padding($viewport-padding)
+
+  // As wide as a documentation page's column at the same window width: that is the
+  // space this padded box has, minus the sidebar and the reserved rail it doesn't draw.
+  .guide--content,
+  .guide--fineprint
+    // (width and max-width rather than CSS's min(), which the build's CSS minifier
+    // cannot parse.)
+    +with_toc_rail
+      width: calc(100% - #{$left-width} - #{$toc-rail-width} - #{$toc-rail-gap})

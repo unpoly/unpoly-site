@@ -22,6 +22,10 @@ register_chrome_driver(:selenium_phone, width: 390, height: 800)
 # Just above $bp-sidebar, where the header is at its tightest.
 register_chrome_driver(:selenium_small_desktop, width: 1100, height: 900)
 
+# Wide screens, where the text column grows (1500) and reaches its cap (1920).
+register_chrome_driver(:selenium_wide, width: 1500, height: 900)
+register_chrome_driver(:selenium_widest, width: 1920, height: 1080)
+
 Selenium::WebDriver.logger.level = :error
 
 Capybara.javascript_driver = :selenium

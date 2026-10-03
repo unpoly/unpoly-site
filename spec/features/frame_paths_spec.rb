@@ -178,6 +178,56 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       expect(reference_frame(FRAME_FAMILIES[:article])['column'].last).to eq(reference_frame(FRAME_FAMILIES[:learn])['column'].last)
     end
 
+    it 'makes the column no narrower than 660px where the contents rail appears' do
+      expect(reference_frame(FRAME_FAMILIES[:learn])['column'].last).to be_between(660, 662)
+    end
+
+  end
+
+  # The column grows with the window above $bp-toc, up to a cap, and is the same on
+  # every page at any one width.
+  describe 'the text column on wider screens' do
+
+    COLUMN_PATHS = ['/learn', '/targeting-fragments', '/up.render', '/changes', '/support'].freeze
+
+    def columns
+      COLUMN_PATHS.map do |path|
+        visit path
+        page.evaluate_script("(function() { let r = document.querySelector('.guide--content').getBoundingClientRect(); return [Math.round(r.left), Math.round(r.width)] })()")
+      end
+    end
+
+    describe 'at 1500px', driver: :selenium_wide do
+      it 'is wider than at the rail breakpoint, below its cap, and as wide on every page' do
+        widths = columns.map(&:last)
+
+        expect(widths.uniq.size).to eq(1), "widths differ: #{COLUMN_PATHS.zip(widths).to_h}"
+        expect(widths.first).to be > 662
+        expect(widths.first).to be < 880
+      end
+    end
+
+    describe 'at 1920px', driver: :selenium_widest do
+      it 'stops at its 880px cap on every page' do
+        expect(columns.map(&:last).uniq).to eq([880])
+      end
+
+      it 'centres between the sidebar and the contents rail once capped' do
+        visit '/loading-state'
+
+        gaps = page.evaluate_script(<<~JS)
+          (function() {
+            let sidebar = document.querySelector('.guide--left').getBoundingClientRect()
+            let content = document.querySelector('.guide--content').getBoundingClientRect()
+            let toc = document.querySelector('.toc').getBoundingClientRect()
+            return [content.left - sidebar.right, toc.left - content.right]
+          })()
+        JS
+
+        expect((gaps[0] - gaps[1]).abs).to be <= 2
+      end
+    end
+
   end
 
   describe 'a fragment update from another family' do
