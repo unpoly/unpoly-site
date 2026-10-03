@@ -1,12 +1,5 @@
 require_relative 'lib/unpoly/guide'
 
-namespace :algolia do
-  desc 'Push content to Algolia search'
-  task :push_all do
-    Unpoly::Guide::Algolia.new.push_all
-  end
-end
-
 namespace :search do
   desc 'Build the site and index it, so that search works in the preview server'
   task :index do

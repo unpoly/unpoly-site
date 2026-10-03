@@ -108,7 +108,7 @@ describe 'the page frame', type: :feature, js: true do
       visit '/menu/narrow'
 
       expect(page).to have_css('.menu--nodes')
-      expect(page).to have_no_css('.search-trigger')
+      expect(page).to have_no_css('.guide--content .search-pill, .guide--content input')
     end
   end
 

@@ -52,20 +52,7 @@
   //  margin-top: 4px
 
 
-//.node:not(.-group).-expanded > .node
-//  display: block !important
-//
-//.node.-match > .node.-match
-//  display: block
-//
-//.node.-group:not(.-match) > .node
-//  display: block
-
-.node:not(.-match).-expanded > .node,
-.node.-match.-force-toggled.-expanded > .node
-  display: block
-
-.node.-match > .node.-match
+.node.-expanded > .node
   display: block
 
 .node--self
@@ -224,12 +211,3 @@ button.node--self
   //
   //padding: 2px 5px 1px 5px
   //+type($text-3xs, $leading-ui)
-
-
-.node mark
-  color: $red-600
-
-.node.-query
-  display: none
-  &.-match
-    display: block

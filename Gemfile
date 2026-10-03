@@ -19,7 +19,6 @@ gem 'naturally'
 gem 'byebug'
 gem 'rack'
 
-gem 'algolia'
 
 group :deploy do
   gem "capistrano", '<4'

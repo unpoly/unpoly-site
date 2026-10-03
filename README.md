@@ -95,7 +95,7 @@ The children of a block ("elements" in BEM lingo) are all prefixed with the bloc
 two dashes (`--`):
 
     <div class="menu">
-      <div class="menu--search">…</div>
+      <div class="menu--title">…</div>
       <div class="menu--nodes">…</div>
     </div>
 
@@ -219,7 +219,7 @@ Unpoly sources will fail the suite here.
   features and topics an interface offers to the menu.
 - **`spec/features`** covers the site itself with Capybara feature specs. They all run in a
   headless Chrome (`js: true`), since most of what the site does — loading the menu,
-  filtering it, updating fragments instead of reloading — only happens with JavaScript.
+  updating fragments instead of reloading — only happens with JavaScript.
   Use `NO_HEADLESS=1 bundle exec rspec` to watch them in a visible browser.
 - **`spec/fixtures/parser`** holds doc comments that the parser reads *in addition to* the
   Unpoly sources, as test data for parsing rules. Note that they are parsed in a
@@ -257,6 +257,4 @@ Two rake tasks check the documentation beyond the test suite:
    documentation output.
 3. Run `bundle exec cap v3 deploy` to push the changes to <https://unpoly.com>. Static
    files will be built during deployment, including a broken-link check over the whole
-   site.
-4. Update the full text index as printed at the end of the deploy:
-   `STAGE=v3 ALGOLIA_KEY=secret bundle exec rake algolia:push_all`
+   site and the full-text search index.

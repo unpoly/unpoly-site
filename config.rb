@@ -503,18 +503,6 @@ helpers do
     Unpoly::Guide::Util.slugify(text)
   end
 
-  def algolia_index
-    "unpoly-site_#{algolia_stage}"
-  end
-
-  def algolia_stage
-    if development?
-      'development'
-    else
-      ENV['STAGE'] || 'latest'
-    end
-  end
-
   def visibility_tag(visibility)
     if visibility == 'experimental'
       experimental_tag

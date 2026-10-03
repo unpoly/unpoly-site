@@ -12,14 +12,6 @@ class Node
 
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node--self')[0]
-    text = @self.textContent
-    @searchText = text.toLowerCase()
-
-    # Pages often have different keywords in their URL and title.
-    # E.g. the page /analytics is titled "Tracking page views"
-    if @isPage()
-      @searchText += @self.href
-
     childElements = findChildren(@element, '.node')
     @childNodes = Node.newAll(childElements, this)
     @createCollapser()
@@ -49,10 +41,7 @@ class Node
     up.event.halt(event)
 
     @toggleExpanded()
-    if @isMatch()
-      @element.classList.add('-force-toggled')
-    else if @isExpanded
-      @accordion()
+    @accordion() if @isExpanded
 
   toggleExpanded: (forcedState) =>
     if @isGroup()
@@ -107,66 +96,17 @@ class Node
   isRoot: =>
     not @parentNode
 
-  isChild: =>
-    not @isRoot()
-
-  isMatch: =>
-    @element.matches('.-match')
-
   root: =>
     if @isRoot()
       this
     else
       @parentNode.root()
 
-  marker: =>
-    @_marker ||= new Mark(@self)
-
-  match: (words) =>
-    @resetMatch() if @isRoot()
-    if @matchesQuery(words)
-      @highlight(words)
-      @notifyIsMatch(words)
-      @parentNode.notifyIsMatch(words) unless @isRoot()
-    for childNode in @childNodes
-      childNode.match(words)
-
-  highlight: (words) =>
-    @marker().mark(words, acrossElements: true)
-
-  unhighlight: =>
-    @marker().unmark()
-
-  notifyIsMatch: (words) =>
-    @element.classList.add('-match')
-    @toggleExpanded(false)
-    @parentNode.notifyIsMatch(words) unless @isRoot()
-
-  resetMatch: =>
-    @unhighlight()
-    @element.classList.remove('-match', '-force-toggled')
-    for childNode in @childNodes
-      childNode.resetMatch()
-
-  matchesQuery: (words) =>
-    if u.isArray(words)
-      if words.length
-        isMatch = true
-        for word in words
-          if @searchText.indexOf(word) == -1
-            isMatch = false
-            break
-        isMatch
-      else
-        false
-    else
-      @element.matches('.-match')
-
   isCurrent: =>
     @self.matches('.up-current')
 
   revealCurrent: =>
-    if @isCurrent() && !@parentNode?.isMatch()
+    if @isCurrent()
       # Show where we are: collapse everything outside our ancestry, then
       # expand the current node one level (children, not descendants).
       @accordion()
@@ -189,24 +129,6 @@ up.compiler '.menu', (menu) ->
   for rootNode in rootNodes
     rootNode.rootSiblings = rootNodes
 
-  filter = (query) ->
-    words = query.split(/\s+/)
-    for rootNode in rootNodes
-      rootNode.match(words)
-
-    markQueryState(true)
-
-  resetFilter = ->
-    for rootNode in rootNodes
-      rootNode.resetMatch()
-
-    markQueryState(false)
-    revealCurrentNode()
-
-  markQueryState = (hasQuery) ->
-    for rootNode in rootNodes
-      rootNode.element.classList.toggle('-query', hasQuery)
-
   revealCurrentNode = ->
     u.task ->
       for rootNode in rootNodes
@@ -215,17 +137,6 @@ up.compiler '.menu', (menu) ->
   revealCurrentNodeInNextTask = ->
     u.task(revealCurrentNode)
 
-  toggleNodes = (newState) ->
-    up.element.toggle(nodesContainer, newState)
-
   up.destructor(menu, up.on('up:location:changed', revealCurrentNodeInNextTask))
 
   revealCurrentNodeInNextTask()
-
-  menu.filter = filter
-  menu.resetFilter = resetFilter
-  menu.toggleNodes = toggleNodes
-
-#  document.querySelector('.search--input').value = 'overlay vlaue'
-#  up.emit(document.querySelector('.search--input'), 'input')
-#  up.emit('query:expand', { query: 'overlay value' })

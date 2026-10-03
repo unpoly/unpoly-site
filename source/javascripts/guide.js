@@ -1,4 +1,3 @@
-//= require mark.js/mark
 //= require highlight.js/highlight
 //= require highlight.js/languages/css.min
 //= require highlight.js/languages/xml.min

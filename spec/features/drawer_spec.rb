@@ -143,7 +143,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
 
     within('up-drawer') do
       expect(page).to have_no_text('Installation')
-      expect(page).to have_no_css('input, button.search-trigger, .search-pill')
+      expect(page).to have_no_css('input, .search-pill')
     end
   end
 
