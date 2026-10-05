@@ -165,7 +165,8 @@ up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } }
          we modeled it as a <em>self-loading hyperlink</em> — without JavaScript it's still a link,
          and the content is one click away instead of gone:</p>
 
-<pre class="hljs landing--code"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/menu"</span> <mark><span class="hljs-attr">up-defer</span></mark>&gt;</span>Load menu<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>   <span class="hljs-comment">&lt;!-- with JS: loads itself. Without: a working link. --&gt;</span></pre>
+<pre class="hljs landing--code"><span class="hljs-comment">&lt;!-- with JS: loads itself. Without: a working link. --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/menu"</span> <mark><span class="hljs-attr">up-defer</span></mark>&gt;</span>Load menu<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></pre>
 
       <blockquote class="landing--quote">
         <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
@@ -214,16 +215,15 @@ up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } }
           </ul>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="landing--section -strip">
-    <div class="landing--inner">
-      <p class="landing--logos-label">In production at</p>
-      <div class="landing--logo-wall">
-        <% %w[vw audi siemens bosch arm zendesk steady urban-dictionary tuifly adonisjs].each do |logo| %>
-          <%= image_tag "logos/#{logo}.svg", class: 'landing--logo', alt: '' %>
-        <% end %>
+      <%# After when Unpoly is right for you, the companies it was right for. %>
+      <div class="landing--logos">
+        <p class="landing--logos-label">In production at</p>
+        <div class="landing--logo-wall">
+          <% %w[vw audi siemens bosch arm zendesk steady urban-dictionary tuifly adonisjs].each do |logo| %>
+            <%= image_tag "logos/#{logo}.svg", class: 'landing--logo', alt: '' %>
+          <% end %>
+        </div>
       </div>
     </div>
   </section>

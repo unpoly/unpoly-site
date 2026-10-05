@@ -22,7 +22,7 @@ describe 'vertical rhythm', type: :feature, js: true do
     visit '/'
 
     gaps = page.evaluate_script(<<~JS)
-      [...document.querySelectorAll('.landing--section:not(.-hero):not(.-strip)')].map((section) => {
+      [...document.querySelectorAll('.landing--section:not(.-hero)')].map((section) => {
         let box = section.getBoundingClientRect()
         let children = [...section.querySelectorAll('.landing--inner > *')].filter((child) => child.getClientRects().length)
         return [Math.round(children[0].getBoundingClientRect().top - box.top),
@@ -36,7 +36,7 @@ describe 'vertical rhythm', type: :feature, js: true do
   it 'alternates the landing bands, starting with a tinted second band' do
     visit '/'
 
-    tinted = page.evaluate_script("[...document.querySelectorAll('.landing--section:not(.-strip)')].map((s) => s.classList.contains('-tinted'))")
+    tinted = page.evaluate_script("[...document.querySelectorAll('.landing--section')].map((s) => s.classList.contains('-tinted'))")
 
     expect(tinted.first(2)).to eq([false, true])
     tinted.each_cons(2) { |above, below| expect(above).not_to eq(below) }

@@ -31,6 +31,18 @@ describe 'index', type: :feature, js: true do
     expect(page).to have_css('.landing--logo', count: 10)
   end
 
+  it 'closes the "Is Unpoly right for you?" band with the logo wall, rather than giving it a band of its own' do
+    band = find('.landing--section', text: 'Is Unpoly right for you?')
+
+    expect(band).to have_css('.landing--inner > .landing--logos:last-child .landing--logo', count: 10)
+  end
+
+  it 'fits every code example into its box at 1280px, without scrolling' do
+    widths = page.evaluate_script("[...document.querySelectorAll('pre.landing--code')].map((pre) => [pre.scrollWidth, pre.clientWidth])")
+
+    widths.each { |scroll, client| expect(scroll).to be <= client }
+  end
+
   it 'runs without the documentation sidebar' do
     expect(page).to have_css('.landing')
     expect(page).to have_no_css('.guide--left')

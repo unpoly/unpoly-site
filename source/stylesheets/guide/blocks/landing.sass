@@ -10,7 +10,7 @@
   +hide-margins-y
 
 // The bands alternate: white, tinted, white, … from the hero on, so no two white
-// paddings meet. The logo strip keeps its own tint and hairlines.
+// paddings meet.
 .landing--section
   +vertical-padding(clamp(#{$space-6}, 6vw, #{$space-7}))
 
@@ -24,11 +24,6 @@
   // Two tinted sections in a row would draw a double line between them.
   &.-tinted + &.-tinted
     border-top: none
-
-  &.-strip
-    background: $gray-100
-    border-block: 1px solid $gray-300
-    +vertical-padding($space-6)
 
 .landing--inner
   // Wide enough for the diagram and the card row, narrow enough that running
@@ -222,6 +217,9 @@
   font-weight: bold
   color: $gray-900
   margin-bottom: $space-2
+
+.landing--logos
+  margin-top: $space-6
 
 .landing--logos-label
   font-size: $text-sm
