@@ -366,13 +366,18 @@ helpers do
   # data-pagefind-meta attribute (it does not split "badge:API, title:up.link").
   #
   # A module or class is known by its name (up.link), not by its page's headline
-  # ("Linking to fragments"), so the search lists it under its name.
+  # ("Linking to fragments"), so the search lists it under its name. A deprecated page
+  # says so, and the search strikes it and lists it below the others.
   def search_meta_tags
     documentable = @search_documentable or return nil
     tags = []
 
     if documentable.kind?(:interface) && !documentable.page?
       tags << %(<span data-pagefind-meta="title:#{h documentable.name}" hidden></span>)
+    end
+
+    if documentable.deprecated?
+      tags << %(<span data-pagefind-meta="deprecated:true" hidden></span>)
     end
 
     if search_signature?(documentable)

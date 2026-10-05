@@ -28,11 +28,11 @@ describe 'search', type: :feature, js: true do
     page.execute_script('window.pagefindHeld = false; window.pagefindWaiting.forEach((resolve) => resolve()); window.pagefindWaiting = []')
   end
 
-  def fulltext_page(url:, title:, badge:, sections: [], excerpt: nil)
+  def fulltext_page(url:, title:, badge:, sections: [], excerpt: nil, deprecated: false)
     {
       url: url,
       excerpt: excerpt,
-      meta: { title: title, badge: badge },
+      meta: { title: title, badge: badge, deprecated: (deprecated ? 'true' : nil) }.compact,
       sub_results: sections.map do |section|
         { url: "#{url}##{section[:anchor]}", title: section[:title], excerpt: section[:excerpt] }
       end
@@ -284,7 +284,7 @@ describe 'search', type: :feature, js: true do
       deprecated = Unpoly::Guide.current.features.detect { |f| f.guide_page? && f.deprecated? && !f.guide_path.include?('#') }
       visit '/loading-state'
       stub_pagefind([
-        fulltext_page(url: "#{deprecated.guide_path}/", title: deprecated.signature, badge: deprecated.short_kind),
+        fulltext_page(url: "#{deprecated.guide_path}/", title: deprecated.signature, badge: deprecated.short_kind, deprecated: true),
         fulltext_page(url: '/caching', title: 'Caching', badge: 'Learn'),
       ])
       search_for('qqzzxq') # matches no symbol, so the rows are full text only

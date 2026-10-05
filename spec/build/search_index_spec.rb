@@ -51,6 +51,13 @@ describe 'the built search index' do
     expect(meta_of('/targeting-fragments')['badge']).to eq('Learn')
   end
 
+  it 'marks a deprecated page, and only that' do
+    deprecated = Unpoly::Guide.current.features.detect { |feature| feature.guide_page? && feature.deprecated? }
+
+    expect(meta_of(deprecated.guide_path)['deprecated']).to eq('true')
+    expect(meta_of('/up.render')).not_to have_key('deprecated')
+  end
+
   it 'never stores more than one value in a meta key' do
     mangled = fragments.select { |fragment| fragment['meta'].values.any? { |value| value.to_s.include?(', title:') } }
     expect(mangled.map { |fragment| fragment['url'] }).to eq([])

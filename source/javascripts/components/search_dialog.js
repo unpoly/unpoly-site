@@ -192,11 +192,6 @@ class SymbolIndex {
       deprecated: deprecated === 1,
       haystack: normalize(name),
     }))
-    // The pages of deprecated features and modules, so that a full-text row landing on
-    // one can be marked like the symbol would be.
-    this.deprecatedPaths = new Set(this.symbols
-      .filter((symbol) => symbol.deprecated && !symbol.owner && !symbol.path.includes('#'))
-      .map((symbol) => normalizePath(symbol.path)))
   }
 
   search(query, limit) {
@@ -251,10 +246,10 @@ class SymbolIndex {
 
 // The one list, as rows to render. See the top of this file for the rules.
 //
-// pages: the full-text pages in Pagefind's order, as many as SEARCH.mergeWindow.
-// deprecatedPaths: pages of deprecated symbols. A full-text row for one of them is
-// struck and sinks below the others, like a deprecated symbol.
-function mergeResults(symbols, pages, deprecatedPaths = new Set()) {
+// pages: the full-text pages in ranked order, as many as SEARCH.mergeWindow. A page the
+// index marks deprecated (config.rb) is struck and sinks below the others, like a
+// deprecated symbol.
+function mergeResults(symbols, pages) {
   const pagesByPath = new Map(pages.map((page) => [normalizePath(page.url), page]))
   const shown = new Set()
   const rows = []
@@ -278,7 +273,7 @@ function mergeResults(symbols, pages, deprecatedPaths = new Set()) {
     const path = normalizePath(page.url)
     if (shown.has(path)) continue
     shown.add(path)
-    if (deprecatedPaths.has(path)) {
+    if (page.meta?.deprecated) {
       deprecated.push({ type: 'page', page, deprecated: true })
     } else {
       current.push({ type: 'page', page })
@@ -419,7 +414,7 @@ up.compiler('.search-dialog--input', function(input) {
     // Another keystroke landed while we were waiting; that search owns the screen now.
     if (pendingQuery !== query) return
 
-    const merge = (found) => mergeResults(symbols, found || [], state.symbolIndex.deprecatedPaths)
+    const merge = (found) => mergeResults(symbols, found || [])
     render({ query, rows: merge(pages), fullTextMissing: pages === null })
 
     // The full text answered too late for the list above. When it does answer, and the
