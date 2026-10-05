@@ -26,6 +26,13 @@ describe 'search', type: :feature, js: true do
     JS
   end
 
+  # The dialog waits 5 seconds for a slow index before it says search is unavailable.
+  # Specs about that path lower the wait instead of sitting through it. SEARCH is the
+  # dialog's config (search_dialog.js), a global binding of the page's script.
+  def shorten_pagefind_timeout(ms = 300)
+    page.execute_script("SEARCH.pagefindTimeoutMs = #{ms}")
+  end
+
   def release_pagefind
     page.execute_script('window.pagefindHeld = false; window.pagefindWaiting.forEach((resolve) => resolve()); window.pagefindWaiting = []')
   end
@@ -215,7 +222,7 @@ describe 'search', type: :feature, js: true do
 
       page.execute_script('window.pagefindHeld = true')
       fill_in_search('render')
-      sleep 0.6 # longer than the debounce, shorter than the full-text timeout
+      sleep 0.6 # longer than the debounce, much shorter than the full-text timeout
 
       expect(page).to have_css('.search-dialog--hit', text: '[up-follow]')
       expect(page).to have_no_css('.search-dialog--hit', text: 'up.render(')
@@ -229,17 +236,19 @@ describe 'search', type: :feature, js: true do
     it 'says that search is unavailable when the full text does not answer in time' do
       visit '/loading-state'
       stub_pagefind([fulltext_page(url: '/caching', title: 'Caching', badge: 'Learn')], held: true)
+      shorten_pagefind_timeout
       search_for('caching')
 
-      expect(page).to have_css('.search-dialog--empty', text: 'Search is unavailable right now.', wait: 4)
+      expect(page).to have_css('.search-dialog--empty', text: 'Search is unavailable right now.')
       expect(page).to have_no_css('.search-dialog--hit')
     end
 
     it 'replaces that message when the full text answers late' do
       visit '/loading-state'
       stub_pagefind([fulltext_page(url: '/caching', title: 'Caching', badge: 'Learn')], held: true)
+      shorten_pagefind_timeout
       search_for('caching')
-      expect(page).to have_css('.search-dialog--empty', text: 'Search is unavailable right now.', wait: 4)
+      expect(page).to have_css('.search-dialog--empty', text: 'Search is unavailable right now.')
 
       release_pagefind
 

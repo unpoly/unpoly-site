@@ -93,8 +93,11 @@ const SEARCH = {
   // that a boost can lift a page from below the cut.
   mergeWindow: 30,
   maxSectionsPerPage: 3,
-  // How long the full text may take before the list says that search is unavailable.
-  pagefindTimeoutMs: 1500,
+  // How long loading the index and searching it may take before the list says that
+  // search is unavailable. Generous, so a slow connection gets a late list rather than
+  // a false alarm; a late answer still replaces the message. (Specs lower it, see
+  // spec/features/search_spec.rb.)
+  pagefindTimeoutMs: 5000,
   pagefindUrl: '/pagefind/pagefind.js',
 }
 
