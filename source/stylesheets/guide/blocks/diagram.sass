@@ -3,16 +3,53 @@
 // The request-flow diagram. Drawn inline so its labels are real text in Roboto
 // and its colors come from the palette.
 
+// Below this canvas width the labels stop being readable, so the diagram keeps it as a
+// floor and scrolls instead.
+$diagram-floor: 620px
+
+// Where the floor and the figure's hairlines no longer fit beside the landing's
+// gutters ($space-5 each side): from here down, the diagram becomes a full-bleed strip
+// that scrolls sideways. Not a layout breakpoint, the floor's own consequence.
+$diagram-strip-below: $diagram-floor + 2 * $space-5 + 2 * 1px
+
+// The figure is white with a hairline, like the source image placed on the page, so
+// its gray bands read on a tinted landing band too.
 .diagram
+  position: relative
   margin: $space-6 0
-  // Shrunk to a phone's width the labels stop being readable, so the diagram
-  // keeps a floor and scrolls instead.
+  background: $white
+  border: 1px solid $gray-300
+  border-radius: $radius-md
+  overflow: hidden
+
+  +narrower_than($diagram-strip-below)
+    // Full bleed: out through the landing's gutters to the window edges.
+    margin-inline: -$space-5
+    border-inline: none
+    border-radius: 0
+
+    // The edge fade: the cut-off column peeks out under it, so the strip reads as
+    // scrollable. The scroller's end padding keeps the last column clear of it.
+    &::after
+      content: ""
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      width: $space-5
+      background: linear-gradient(to right, rgba($white, 0), $white)
+      pointer-events: none
+
+.diagram--scroller
   overflow-x: auto
   +pretty-scrollbars(8px)
 
+  +narrower_than($diagram-strip-below)
+    padding-inline: $space-5
+
 .diagram--canvas
   width: 100%
-  min-width: 620px
+  min-width: $diagram-floor
   height: auto
   display: block
 
@@ -39,24 +76,24 @@
   font-size: 14px
   fill: $gray-700
 
-// A page's outline, and the parts that make it up. -base is the screen as it
-// already was; -changed and -later are what each request replaced.
-$diagram-roles: ('base': $blue-700, 'changed': $red-600, 'later': $orange-500)
+// The parts of a page. -base is the screen as it already was; -changed and -later are
+// what each request replaced. As in the source image, a part is filled with a light
+// tint of its role's color (opaque: the source's tints read the same on the gray bands
+// as on white) and outlined in the full color.
+$diagram-roles: ('base': ($blue-700, 25%), 'changed': ($red-600, 20%), 'later': ($yellow-600, 50%))
 
-@each $role, $color in $diagram-roles
-  .diagram--frame.-#{$role}
-    fill: none
-    stroke: $color
-    stroke-width: 2
-
-  .diagram--rule.-#{$role}
-    stroke: $color
-    stroke-width: 2
+@each $role, $spec in $diagram-roles
+  $color: nth($spec, 1)
+  $tint: nth($spec, 2)
 
   .diagram--part.-#{$role}
-    fill: rgba($color, 0.22)
+    fill: mix($color, $white, $tint)
     stroke: $color
     stroke-width: 1.5
+
+// The yellow is too light to outline itself; the source image draws it in a dark olive.
+.diagram--part.-later
+  stroke: $yellow-900
 
 .diagram--arrow
   fill: $gray-400

@@ -6,37 +6,43 @@
   the site's own webfont and take their colors from the palette.
 %>
 <%
-  # One page mockup: an outer frame, a header strip, three sidebar boxes and a
-  # main area. Which parts are filled, and in which role, is what differs between
-  # the columns.
-  page_mock = lambda do |x:, y:, frame:, main: nil, boxes: {}, parts: :all|
+  # One page mockup, drawn as the source image draws it (docs/rework-2026/
+  # fragment-updates.png): a contiguous grid of a header bar, a nav column of three
+  # cells and a main area, sharing their edges. Every part is filled with its role's
+  # tint and outlined in its role's color; a page has no frame of its own, its outline
+  # is its parts'. Parts in the base role are drawn first, so a changed part's
+  # outline lies on top of the edges it shares.
+  #
+  # roles: the role of each part, :header, :nav (an array of three) and :main.
+  # parts: only these parts (the optimized response leaves the rest out).
+  page_mock = lambda do |x:, y:, roles:, parts: nil|
     w, h = 168, 105
-    header_h = 22
-    box_x, box_w, box_h = x + 7, 33, 21
-    main_x, main_w = x + 47, 114
-    svg = +''
+    header_h = 19
+    nav_w = 41
+    cell_h = (h - header_h) / 3.0
 
-    if parts == :all
-      svg << %(<rect class="diagram--frame -#{frame}" x="#{x}" y="#{y}" width="#{w}" height="#{h}" rx="2"/>)
-      svg << %(<line class="diagram--rule -#{frame}" x1="#{x}" y1="#{y + header_h}" x2="#{x + w}" y2="#{y + header_h}"/>)
-      3.times do |i|
-        role = boxes[i] || frame
-        svg << %(<rect class="diagram--part -#{role}" x="#{box_x}" y="#{y + header_h + 6 + i * (box_h + 5)}" width="#{box_w}" height="#{box_h}" rx="1"/>)
-      end
-      svg << %(<rect class="diagram--part -#{main || frame}" x="#{main_x}" y="#{y + header_h + 6}" width="#{main_w}" height="#{h - header_h - 12}" rx="1"/>)
-    else
-      # Only the fragments the optimized response carries.
-      Array(parts).each do |part|
-        if part == :main
-          svg << %(<rect class="diagram--part -#{main || frame}" x="#{main_x}" y="#{y + header_h + 6}" width="#{main_w}" height="#{h - header_h - 12}" rx="1"/>)
-        else
-          role = boxes[part] || frame
-          svg << %(<rect class="diagram--part -#{role}" x="#{box_x}" y="#{y + header_h + 6 + part * (box_h + 5)}" width="#{box_w}" height="#{box_h}" rx="1"/>)
-        end
-      end
+    rects = {
+      header: [x, y, w, header_h],
+      nav0: [x, y + header_h, nav_w, cell_h],
+      nav1: [x, y + header_h + cell_h, nav_w, cell_h],
+      nav2: [x, y + header_h + 2 * cell_h, nav_w, cell_h],
+      main: [x + nav_w, y + header_h, w - nav_w, h - header_h],
+    }
+    role_of = lambda do |part|
+      part.to_s.start_with?('nav') ? roles[:nav][part.to_s[-1].to_i] : roles[part]
     end
 
-    svg
+    drawn = parts || rects.keys
+    drawn = drawn.sort_by { |part| role_of.call(part) == 'base' ? 0 : 1 }
+    drawn.map { |part|
+      rx, ry, rw, rh = rects[part]
+      %(<rect class="diagram--part -#{role_of.call(part)}" x="#{rx}" y="#{ry.round(2)}" width="#{rw}" height="#{rh.round(2)}"/>)
+    }.join
+  end
+
+  # The roles of a page that shows the base state, with `changed` parts in `role`.
+  roles_for = lambda do |role, nav1: false|
+    { header: 'base', nav: ['base', nav1 ? role : 'base', 'base'], main: role }
   end
 
   arrow = lambda do |x:, y:|
@@ -53,6 +59,7 @@
 %>
 
 <figure class="diagram">
+  <div class="diagram--scroller">
   <svg class="diagram--canvas" viewBox="0 0 960 512" role="img"
        aria-labelledby="fragment-updates-title fragment-updates-desc">
     <title id="fragment-updates-title">How Unpoly uses a server response</title>
@@ -85,26 +92,16 @@
       <% end %>
 
       <%# The server always sends a complete page, in the state this request produced. %>
-      <%= page_mock.call(x: columns[:response], y: row[:y], frame: row[:role]) %>
+      <%= page_mock.call(x: columns[:response], y: row[:y],
+                         roles: { header: row[:role], nav: [row[:role]] * 3, main: row[:role] }) %>
 
       <%# What the browser ends up showing: the previous screen, with the changed parts swapped in. %>
-      <% if index.zero? %>
-        <%= page_mock.call(x: columns[:used], y: row[:y], frame: 'base') %>
-      <% else %>
-        <%= page_mock.call(x: columns[:used], y: row[:y], frame: 'base',
-                               main: row[:role],
-                               boxes: (index == 2 ? { 1 => row[:role] } : {})) %>
-      <% end %>
+      <% changed = index.zero? ? roles_for.call('base') : roles_for.call(row[:role], nav1: index == 2) %>
+      <%= page_mock.call(x: columns[:used], y: row[:y], roles: changed) %>
 
       <%# A server may send only the fragments that changed. %>
-      <% if index.zero? %>
-        <%= page_mock.call(x: columns[:optimized], y: row[:y], frame: 'base') %>
-      <% else %>
-        <%= page_mock.call(x: columns[:optimized], y: row[:y], frame: 'base',
-                               main: row[:role],
-                               boxes: (index == 2 ? { 1 => row[:role] } : {}),
-                               parts: (index == 2 ? [1, :main] : [:main])) %>
-      <% end %>
+      <%= page_mock.call(x: columns[:optimized], y: row[:y], roles: changed,
+                         parts: (index.zero? ? nil : (index == 2 ? [:nav1, :main] : [:main]))) %>
 
       <% if index < rows.size - 1 %>
         <% columns.each_value do |x| %>
@@ -113,4 +110,5 @@
       <% end %>
     <% end %>
   </svg>
+  </div>
 </figure>
