@@ -96,11 +96,14 @@ a.node--self
     +highlighted
       background-color: var(--node-color)
       color: white
+      // The current page is already marked; hovering it changes nothing.
       +hover
-        background-color: $color-hover
         color: white
 
 .node--collapser
+  // A long title truncates; the icon must not give up its fixed width to it, or it
+  // sits a pixel or two left of its siblings'.
+  flex: 0 0 auto
   font-size: 0.8em
   cursor: pointer
   margin-top: 2px

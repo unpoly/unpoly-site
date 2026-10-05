@@ -18,3 +18,12 @@
   display: flex
   flex-wrap: wrap
   gap: $space-1 $space-3
+
+// In-page navigation, so it looks like the page's contents (toc.sass): gray links
+// that turn red under the pointer, not the prose's underlined links.
+.minitoc--link
+  color: $gray-700
+  text-decoration: none
+
+  +hover
+    color: $color-link

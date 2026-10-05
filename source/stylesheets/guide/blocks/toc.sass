@@ -1,20 +1,19 @@
 @import ../../environment
 
+// The page's contents. One look at every width: a quiet uppercase title over gray
+// links. In the text (below $bp-toc) a hairline on the left sets it off from the
+// prose; in the rail it stands on its own.
 .toc
-  padding: $notification-padding
   +vertical-margin($space-5)
-  border-radius: $radius-sm
-  width: fit-content
-  background-color: $background-light
-  border: 1px solid $gray-400
-  box-shadow: inset 0 1px 0 white
+  padding-left: $space-4
+  border-left: 2px solid $gray-300
 
   // On a wide screen the contents move into a rail beside the text. The markup
   // does not change: the nav still sits above the first heading, where it reads
   // correctly without CSS and where a narrow screen keeps it.
   +with_toc_rail
-    // Naked in the rail: no box, so no padding to widen it past its width.
     padding: 0
+    border: none
     position: fixed
     top: $head-height + $space-5
     right: $viewport-padding
@@ -22,43 +21,29 @@
     max-height: calc(100vh - #{$head-height} - #{$space-5 * 2})
     overflow-y: auto
     +vertical-margin(0)
-    background: none
-    border: none
-    box-shadow: none
     +pretty-scrollbars(8px)
 
 .toc--title
-  margin-bottom: 0.4em
   margin-top: 0
+  margin-bottom: $space-2
   text-decoration: none !important
-  font-size: inherit
+  +uppercase
+  font-size: $text-3xs
   font-weight: bold
-
-  +with_toc_rail
-    +uppercase
-    font-size: $text-3xs
-    letter-spacing: 0.08em
-    color: $gray-600
-    margin-bottom: $space-2
+  letter-spacing: 0.08em
+  color: $gray-600
 
 .toc--item
+  font-size: $text-sm
+  line-height: $leading-ui
+  margin-bottom: $space-1
+
   i.fa
-    margin-right: 3px
+    display: none
 
   a
     text-decoration: none
-    color: $color-link
+    color: $gray-700
 
-  +with_toc_rail
-    font-size: $text-sm
-    line-height: $leading-ui
-    margin-bottom: $space-1
-
-    i.fa
-      display: none
-
-    a
-      color: $gray-700
-
-      +hover
-        color: $color-link
+    +hover
+      color: $color-link
