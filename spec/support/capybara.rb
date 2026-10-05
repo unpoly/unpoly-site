@@ -25,8 +25,9 @@ register_chrome_driver(:selenium_small_desktop, width: 1100, height: 900)
 # Just below $bp-toc, where the column has taken the hidden rail's space.
 register_chrome_driver(:selenium_below_rail, width: 1279, height: 900)
 
-# Wide screens: the column has just reached its cap (1500), the flanks grow (1680) and
-# reach theirs (1920).
+# Wide screens: column and flanks grow (1350, 1500), the column has reached its cap and
+# the flanks still grow (1680), everything is capped (1920).
+register_chrome_driver(:selenium_above_rail, width: 1350, height: 900)
 register_chrome_driver(:selenium_wide, width: 1500, height: 900)
 register_chrome_driver(:selenium_wider, width: 1680, height: 900)
 register_chrome_driver(:selenium_widest, width: 1920, height: 1080)

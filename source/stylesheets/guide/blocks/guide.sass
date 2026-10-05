@@ -67,11 +67,12 @@ $search-width: 480px
     flex: 0 0 auto
 
 // The frame below the header: a flexbox row of the sidebar, the text and the contents
-// rail. The text has priority: as the window grows from $bp-toc, it takes the space
-// until its column reaches $text-column-max, and only then do the flanks grow, both
-// alike, up to $flank-max; any space left over is split around all three, so the text
+// rail. As the window grows from $bp-toc, the text takes three fifths of every extra
+// pixel and each flank one fifth (flex-grow 3:1:1), until the column reaches
+// $text-column-max (at ~1647px); then the flanks take the rest, both alike, up to
+// $flank-max (at 1760px). Any space left over is split around all three, so the text
 // stays centred. Where a flank is hidden (the rail below $bp-toc, the sidebar below
-// $bp-sidebar), the text takes its space in the same order.
+// $bp-sidebar), the others share its space by the same weights.
 //
 // The sizes come from the width of the row, not of the window, so they hold still
 // when an overlay hides the page's scrollbar (Unpoly pads the body by its width).
@@ -119,11 +120,11 @@ $search-width: 480px
   overflow-y: auto
   +pretty-scrollbars(8px)
 
-// The text and the footer below it. Its grow factor dwarfs the flanks', so it takes
-// nearly all free space until its max-width stops it.
+// The text and the footer below it. It grows three times as fast as a flank, until its
+// max-width stops it.
 // (Border-box, so its basis and max-width include the gaps.)
 .guide--main
-  flex: 1000 1 auto
+  flex: 3 1 auto
   min-width: 0
   +border-box
   +horizontal-padding($viewport-padding)

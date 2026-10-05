@@ -184,12 +184,13 @@ describe 'the frame on every way into a page', type: :feature, js: true do
 
   end
 
-  # The torso is a flexbox row: sidebar, text, contents rail. The text has priority:
-  # its column takes free space until it reaches 880px, and only then do the flanks
-  # grow beyond 270px, both alike, up to 400px. Where a flank is hidden, its space goes
-  # to the column, so the column snaps from 880px to 660px where the rail appears at
-  # 1280px (accepted). An article page keeps empty flanks, so its column is as wide as
-  # a documentation page's at every window width, and centred in the window.
+  # The torso is a flexbox row: sidebar, text, contents rail. Extra space goes to them
+  # 3:1:1, so the column (660px at 1280) grows three times as fast as each flank (270px
+  # at 1280) until it reaches 880px at ~1647px, and the flanks reach 400px at 1760px.
+  # Where a flank is hidden, the others share its space by the same weights, so the
+  # column snaps from ~862px to 660px where the rail appears at 1280px (accepted). An
+  # article page keeps empty flanks, so its column is as wide as a documentation page's
+  # at every window width, and centred in the window.
   describe 'the flanks and the text column across window widths' do
 
     FLANKS_JS = <<~JS.freeze
@@ -207,19 +208,28 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       })()
     JS
 
+    # Measures only a styled frame: under load, a page measured before its stylesheet
+    # applies has the browser's default body margin and no flex row.
     def flanks_at(path)
       visit path
+      expect(page).to have_css('.guide--torso')
+      deadline = Time.now + Capybara.default_max_wait_time
+      until page.evaluate_script("getComputedStyle(document.querySelector('.guide--torso')).display === 'flex'")
+        raise "#{path} was never styled" if Time.now > deadline
+        sleep 0.1
+      end
       page.evaluate_script(FLANKS_JS)
     end
 
     {
-      selenium_phone:         [390,  nil, nil, 350, 0],
-      selenium_small_desktop: [1100, 270, nil, 750, 135],
-      selenium_below_rail:    [1279, 319, nil, 880, 159.5],
-      selenium:               [1280, 270, 270, 660, 0],
-      selenium_wide:          [1500, 270, 270, 880, 0],
-      selenium_wider:         [1680, 360, 360, 880, 0],
-      selenium_widest:        [1920, 400, 400, 880, 0],
+      selenium_phone:         [390,  nil,    nil, 350,    0],
+      selenium_small_desktop: [1100, 292.5,  nil, 727.5,  146.25],
+      selenium_below_rail:    [1279, 337.25, nil, 861.75, 168.63],
+      selenium:               [1280, 270,    270, 660,    0],
+      selenium_above_rail:    [1350, 284,    284, 702,    0],
+      selenium_wide:          [1500, 314,    314, 792,    0],
+      selenium_wider:         [1680, 360,    360, 880,    0],
+      selenium_widest:        [1920, 400,    400, 880,    0],
     }.each do |driver, (window, sidebar, rail, column, off_centre)|
       it "gives a #{window}px window a #{column}px column, a #{sidebar || 'hidden'} sidebar and a #{rail || 'hidden'} rail", driver: driver do
         docs = flanks_at('/loading-state')
