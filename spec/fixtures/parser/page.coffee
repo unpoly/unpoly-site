@@ -11,3 +11,13 @@
 
   @page test.page
   ###
+
+  ###-
+  Signature Test Page
+  ===================
+
+  A page in the search's signature tier.
+
+  @page test.signature-page
+  @signature
+  ###

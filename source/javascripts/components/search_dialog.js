@@ -22,9 +22,9 @@
 //
 // 2. The title number: how well the page's title matches. Every title is indexed as
 //    metadata and a match counts titleWeight. A page in the signature tier — the pages a
-//    reader most likely means: chosen Learn guides, every module's essential features, a
-//    short list of additions — has its title indexed a second time, as `tier_title`, and
-//    that match counts tierTitleWeight on top.
+//    reader most likely means, marked with @signature in the doc comments — has its
+//    title indexed a second time, as `tier_title`, and that match counts tierTitleWeight
+//    on top.
 //
 // Once Pagefind answers, rankPages() multiplies each score, so these boosts apply to both
 // numbers alike:
@@ -61,15 +61,15 @@
 // appending the parts ("up-defer up defer") gained nothing.
 //
 // The knobs. The ranking knobs below take effect when the page reloads. A change to the
-// tier lists (config.rb) or pagefind.yml needs a re-index:
+// tier (@signature) or pagefind.yml needs a re-index:
 // SKIP_CHECK_LINKS=1 bundle exec rake search:index.
 //
 // Known and accepted: this ranking is good on the whole, not optimal for every query.
 // For "etag" the guide Conditional requests lists fifth, below four short API pages
 // about ETags (snapshot of 2026-10-04).
 // Fitting the numbers to one query breaks another, so we stopped. A page that ranks
-// wrong is fixed by curating the tier (to be replaced by a @signature directive in the
-// doc comments), not by another knob.
+// wrong is fixed by curating the tier (@signature in the doc comments), not by another
+// knob.
 const SEARCH = {
   // Ranking, see above. A title match on any page (Pagefind's
   // ranking.metaWeights.title; its default is 5).

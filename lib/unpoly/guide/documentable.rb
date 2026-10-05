@@ -46,6 +46,14 @@ module Unpoly
         learn_ref_specs.present?
       end
 
+      # Whether this is one of the pages a reader most likely means, which the search ranks
+      # higher (@signature). See search_meta_tags in config.rb.
+      attr_writer :signature_tier
+
+      def signature_tier?
+        !!@signature_tier
+      end
+
       def long_kind
         kind.capitalize
       end

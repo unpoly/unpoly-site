@@ -47,6 +47,29 @@ module Unpoly
 
       end
 
+      describe '@signature' do
+
+        it 'puts a feature in the signature tier' do
+          feature = Guide.current.find_by_name!('test.module.signatureFunction')
+
+          expect(feature).to be_signature_tier
+          expect(feature.guide_markdown).not_to include('@signature')
+        end
+
+        it 'puts a page in the signature tier' do
+          page = Guide.current.find_by_name!('test.signature-page')
+
+          expect(page).to be_signature_tier
+          expect(page.guide_markdown).not_to include('@signature')
+        end
+
+        it 'leaves an unmarked feature or page in the default tier' do
+          expect(Guide.current.find_by_name!('test.module.stableFunction')).not_to be_signature_tier
+          expect(Guide.current.find_by_name!('test.page')).not_to be_signature_tier
+        end
+
+      end
+
       describe 'dynamic tokens' do
 
         it 'substitutes [[=version]] in doc comment prose' do

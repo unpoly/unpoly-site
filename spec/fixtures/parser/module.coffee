@@ -171,3 +171,11 @@
         Foo description override
   @experimental
   ###
+
+  ###-
+  A function in the search's signature tier.
+
+  @function test.module.signatureFunction
+  @stable
+  @signature
+  ###

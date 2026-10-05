@@ -223,6 +223,14 @@ module Unpoly
         (#{INDENTED_BODY_PATTERN}) # optional explicit label ($3)
       }x
 
+      # Puts a feature or page in the search's signature tier.
+      SIGNATURE_PATTERN = %r{
+        ^[ \t]*
+        \@signature
+        [ \t]*
+        (\n|\z)
+      }x
+
       def initialize(repository)
         @repository = repository
         @last_interface = nil
@@ -317,6 +325,8 @@ module Unpoly
 
           parse_learn_refs!(block, interface)
 
+          parse_signature!(block, interface)
+
           parse_explicit_parent!(block, interface)
 
           # All the remaining text is guide prose
@@ -362,6 +372,8 @@ module Unpoly
           parse_references!(text, feature)
 
           parse_learn_refs!(text, feature)
+
+          parse_signature!(text, feature)
 
           feature.params_note = parse_params_note!(text)
 
@@ -533,6 +545,10 @@ module Unpoly
           label = Util.unindent($3.to_s).strip.presence
           documentable.learn_ref_specs << { spec: spec, label: label }
         end
+      end
+
+      def parse_signature!(block, documentable)
+        documentable.signature_tier = true if block.sub!(SIGNATURE_PATTERN, '')
       end
 
       def parse_explicit_parent!(block, documentable)
