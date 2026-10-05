@@ -290,8 +290,14 @@ helpers do
   # a class or a feature. That rule needs no list to maintain: the landing page, the
   # imprint, the version switcher, the changelog and the example apps render none, so they
   # stay out by construction, and everything that is in can name the area it belongs to.
+  # The parser's fixtures (spec/fixtures/parser) become pages in every build, but they are
+  # test data and stay out of the index.
+  def search_documentable
+    @search_documentable unless @search_documentable&.fixture?
+  end
+
   def search_body_attrs
-    documentable = @search_documentable or return nil
+    documentable = search_documentable or return nil
 
     area = search_area_label(guide.toc.area_for(documentable))
     badge = search_badge(documentable, area)
@@ -321,6 +327,7 @@ helpers do
   #
   # Everything here needs a re-index: SKIP_CHECK_LINKS=1 bundle exec rake search:index.
   # All weights live in search_dialog.js and only need a reload.
+
   # Search metadata that needs an element of its own: Pagefind takes one key per
   # data-pagefind-meta attribute (it does not split "badge:API, title:up.link").
   #
@@ -328,7 +335,7 @@ helpers do
   # ("Linking to fragments"), so the search lists it under its name. A deprecated page
   # says so, and the search strikes it and lists it below the others.
   def search_meta_tags
-    documentable = @search_documentable or return nil
+    documentable = search_documentable or return nil
     tags = []
 
     if documentable.kind?(:interface) && !documentable.page?

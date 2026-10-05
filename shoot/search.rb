@@ -1,5 +1,5 @@
-# The search dialog: picking hits from each page family, the row layout, the one list
-# with upgraded symbol rows, the empty state, reopening, and search over the drawer.
+# The search dialog: picking hits from each page family, the row layout, the ranked
+# list, the empty state, reopening, and search over the drawer.
 Shoot.suite 'search', widths: [1280, 390], description: 'search dialog: hits, rows, dedup, reopen, drawer' do |b|
   open_search = lambda do
     b.click('.guide--head .search-pill')
@@ -13,11 +13,11 @@ Shoot.suite 'search', widths: [1280, 390], description: 'search dialog: hits, ro
     sleep 2.5
   end
 
-  # Prints the rows of the list: kind, badge, title.
+  # Prints the rows of the list: page or section, badge, title.
   list = lambda do
     puts b.js(<<~JS)
       return [...document.querySelectorAll('.search-dialog--hit')].slice(0, 14).map((hit) =>
-        '  ' + (hit.matches('.-section') ? '    § ' : (hit.matches('.-page') ? 'page ' : 'sym  ')) +
+        '  ' + (hit.matches('.-section') ? '    § ' : 'page ') +
         (hit.querySelector('.search-dialog--badge')?.textContent.trim() || '').padEnd(7) +
         (hit.matches('.-deprecated') ? '[deprecated] ' : '') +
         (hit.querySelector('.search-dialog--title, .search-dialog--section')?.textContent.trim() || '') + '  → ' + hit.getAttribute('href')
@@ -53,13 +53,13 @@ Shoot.suite 'search', widths: [1280, 390], description: 'search dialog: hits, ro
     b.js('up.layer.dismiss()') rescue nil
   end
 
-  # The row layout and the one list: a mixed query, and a symbol whose page the full
-  # text found too (the upgraded row in the symbol's place).
+  # The row layout and the ranked list: a mixed query, names typed exactly, a module,
+  # a param name.
   b.visit('/up.render'); open_search.()
   type.('follow'); puts '  [follow]'; list.(); b.shot('search-11-mixed-follow')
   type.('up.follow'); puts '  [up.follow]'; list.(); b.shot('search-12-dedup-up-follow')
   type.('up.link'); puts '  [up.link]'; list.(); b.shot('search-13-module-up-link')
-  type.('up-watch-delay'); puts '  [up-watch-delay]'; list.(); b.shot('search-14-param-owner')
+  type.('up-watch-delay'); puts '  [up-watch-delay]'; list.(); b.shot('search-14-param')
   type.('render'); puts '  [render]'; list.(); b.shot('search-19-render')
   type.('watch'); puts '  [watch]'; list.(); b.shot('search-20-watch')
   type.('zzzznothingmatchesthis'); b.shot('search-15-empty')

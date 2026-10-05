@@ -28,7 +28,9 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   # The first pages Pagefind itself returns, before the dialog multiplies any score. Shares
-  # the dialog's Pagefind instance, so `ranking` changes what the dialog would see, too.
+  # the dialog's Pagefind instance, so call it after ranked(): only then has the dialog
+  # set its ranking options (title weights, pageLength), and this measures under them.
+  # `ranking` changes them for what follows, the dialog included.
   def pagefind_alone(query, ranking: nil, limit: 30)
     page.evaluate_async_script(<<~JS, query, ranking, limit)
       let [query, ranking, limit, done] = arguments
@@ -64,11 +66,15 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'breaks a near-tie by kind' do
-    # Both are signature pages, and Pagefind puts the event a hair ahead.
-    expect(pagefind_alone('defer').first(2)).to contain_exactly('/up-defer', '/up:deferred:load')
-
     results = ranked('defer')
+    alone = pagefind_alone('defer')
 
+    # Both are signature pages, and under the dialog's weights Pagefind puts the event a
+    # hair ahead (63.3 to 62.6 when this was written). If a documentation change ever
+    # reverses that, this example no longer shows a tie-break; find another near-tie.
+    expect(alone.first(2)).to eq(['/up:deferred:load', '/up-defer'])
+
+    # The ladder ranks a selector above an event, which turns the order around.
     expect(results.index('/up-defer')).to be < results.index('/up:deferred:load')
   end
 

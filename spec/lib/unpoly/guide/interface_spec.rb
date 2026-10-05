@@ -74,4 +74,18 @@ describe Unpoly::Guide::Interface do
 
   end
 
+  describe '#merge!' do
+
+    it 'keeps the signature tier of a repeated declaration' do
+      interface = described_class.new('module', 'test.merged')
+      repeated = described_class.new('module', 'test.merged')
+      repeated.signature_tier = true
+
+      interface.merge!(repeated)
+
+      expect(interface).to be_signature_tier
+    end
+
+  end
+
 end

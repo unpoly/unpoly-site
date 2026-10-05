@@ -58,8 +58,26 @@ describe 'the built search index' do
     expect(meta_of('/up.render')).not_to have_key('deprecated')
   end
 
+  it 'puts a signature page in the tier, with its title a second time' do
+    expect(meta_of('/up-layer-new')).to include('tier' => 'signature', 'tier_title' => '[up-layer=new]')
+    expect(meta_of('/caching')).to include('tier' => 'signature', 'tier_title' => 'Caching')
+  end
+
+  it 'leaves an unmarked page out of the tier' do
+    expect(meta_of('/up.layer.get').keys).not_to include('tier', 'tier_title')
+  end
+
+  it 'keeps the parser fixtures out of the index' do
+    expect(fragments.map { |fragment| fragment['url'] }.grep(%r{\A/test\.})).to eq([])
+  end
+
+  # Pagefind takes one key per data-pagefind-meta attribute. Two keys written into one
+  # attribute end up as one mashed value ("API, title:up.link"), which must never happen.
   it 'never stores more than one value in a meta key' do
-    mangled = fragments.select { |fragment| fragment['meta'].values.any? { |value| value.to_s.include?(', title:') } }
+    keys = fragments.flat_map { |fragment| fragment['meta'].keys }.uniq
+    mangled = fragments.select do |fragment|
+      fragment['meta'].values.any? { |value| keys.any? { |key| value.to_s.match?(/,\s*#{Regexp.escape(key)}:/) } }
+    end
     expect(mangled.map { |fragment| fragment['url'] }).to eq([])
   end
 

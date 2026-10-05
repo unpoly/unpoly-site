@@ -224,11 +224,12 @@ function rankPages(results, pages) {
 }
 
 // Full-text pages for a query. `pages` is null when the full text is unavailable or too
-// slow; in the slow case `late` still resolves with the pages once they arrive.
+// slow; in the slow case `late` still resolves with the pages once they arrive. The
+// timeout covers loading the index as well, which only takes time on the first search.
 async function searchPages(query) {
-  if (!state.pagefind) return { pages: null }
-
   const search = (async () => {
+    await load()
+    if (!state.pagefind) return null
     const result = await state.pagefind.search(query)
     const wanted = result.results.slice(0, SEARCH.mergeWindow)
     return rankPages(wanted, await Promise.all(wanted.map((page) => page.data())))
@@ -293,7 +294,6 @@ up.compiler('.search-dialog--input', function(input) {
       return
     }
 
-    await load()
     const { pages, late } = await searchPages(query)
 
     // Another keystroke landed while we were waiting; that search owns the screen now.
@@ -305,7 +305,7 @@ up.compiler('.search-dialog--input', function(input) {
     // The full text answered too late for the list above. When it does answer, and the
     // reader is still looking at this query, the list replaces the message at once.
     late?.then((found) => {
-      if (pendingQuery === query && input.isConnected) render({ query, rows: listRows(found) })
+      if (found && pendingQuery === query && input.isConnected) render({ query, rows: listRows(found) })
     }, () => {})
   }
 

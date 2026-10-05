@@ -111,6 +111,7 @@ module Unpoly
         self.reference_names += new_interface.reference_names
         self.learn_ref_specs.concat(new_interface.learn_ref_specs)
         self.explicit_parent_name ||= new_interface.explicit_parent_name
+        self.signature_tier = true if new_interface.signature_tier?
         # A repeated declaration may carry the visibility tag (e.g. @module up.browser
         # is declared in both unpoly and unpoly-migrate, and both say @internal).
         self.visibility = new_interface.declared_visibility if declared_visibility.nil?
