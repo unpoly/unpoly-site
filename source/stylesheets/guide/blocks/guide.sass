@@ -23,13 +23,15 @@ $search-width: 480px
   background: $indigo-800
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15)
 
+  // As wide as the frame below, so the logo stays in line with the sidebar and the
+  // search with the text at every window width.
   .viewport
     display: flex
     flex-direction: row
     align-items: center
     gap: $space-4
     height: 100% // stretch to $head-height, so children can be centered vertically
-    max-width: none
+    max-width: $frame-max
     +horizontal-padding($space-4)
 
 .guide--brand,
@@ -70,16 +72,22 @@ $search-width: 480px
 // rail. As the window grows from $bp-toc, the text takes three fifths of every extra
 // pixel and each flank one fifth (flex-grow 3:1:1), until the column reaches
 // $text-column-max (at ~1647px); then the flanks take the rest, both alike, up to
-// $flank-max (at 1760px). Any space left over is split around all three, so the text
-// stays centred. Where a flank is hidden (the rail below $bp-toc, the sidebar below
-// $bp-sidebar), the others share its space by the same weights.
+// $flank-max (at 1760px). Beyond that the flanks stay at the window's edges and the
+// space opens between the columns, so the text stays centred; from $frame-max the frame
+// stops growing and is centred in the window. Where a flank is hidden (the rail below
+// $bp-toc, the sidebar below $bp-sidebar), the others share its space by the same
+// weights.
 //
 // The sizes come from the width of the row, not of the window, so they hold still
 // when an overlay hides the page's scrollbar (Unpoly pads the body by its width).
 .guide--torso
   flex: 1 0 auto
   display: flex
-  justify-content: center
+  justify-content: space-between
+  width: 100%
+  max-width: $frame-max
+  +horizontal-margin(auto)
+  +border-box
   align-items: flex-start
   // Padding, not margin: a margin here would collapse with the first heading's, and
   // the page title would sit flush under the header.
@@ -158,6 +166,8 @@ $search-width: 480px
 // The landing page runs without the sidebar and draws its own full-bleed
 // sections, so nothing may cage it.
 .guide--torso.-full-width
+  max-width: none
+
   .guide--main
     flex: 1 1 auto
     max-width: none

@@ -190,7 +190,9 @@ describe 'the frame on every way into a page', type: :feature, js: true do
   # Where a flank is hidden, the others share its space by the same weights, so the
   # column snaps from ~862px to 660px where the rail appears at 1280px (accepted). An
   # article page keeps empty flanks, so its column is as wide as a documentation page's
-  # at every window width, and centred in the window.
+  # at every window width, and centred in the window. Beyond 1760px the flanks stay at
+  # the window's edges and the space opens between the columns, up to a 2100px frame
+  # that is then centred in the window. The header's contents keep to the same frame.
   describe 'the flanks and the text column across window widths' do
 
     FLANKS_JS = <<~JS.freeze
@@ -198,8 +200,13 @@ describe 'the frame on every way into a page', type: :feature, js: true do
         let box = (s) => { let e = document.querySelector(s); return e && e.getClientRects().length ? e.getBoundingClientRect() : null }
         let sidebar = box('.guide--left'), rail = box('.guide--right')
         let content = box('.guide--content')
+        let logo = box('.guide--head .logo')
         return {
           sidebar: sidebar && sidebar.width,
+          sidebarLeft: sidebar && sidebar.left,
+          logoInset: sidebar && logo.left - sidebar.left,
+          navInset: rail && rail.right - box('.guide--top-nav').right,
+          searchOffCentre: (function(r) { return r.left + r.width / 2 - window.innerWidth / 2 })(box('.guide--search')),
           rail: rail && rail.width,
           column: content.width,
           offCentre: content.left + content.width / 2 - window.innerWidth / 2,
@@ -230,11 +237,23 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       selenium_wide:          [1500, 314,    314, 792,    0],
       selenium_wider:         [1680, 360,    360, 880,    0],
       selenium_widest:        [1920, 400,    400, 880,    0],
+      selenium_huge:          [2400, 400,    400, 880,    0],
     }.each do |driver, (window, sidebar, rail, column, off_centre)|
       it "gives a #{window}px window a #{column}px column, a #{sidebar || 'hidden'} sidebar and a #{rail || 'hidden'} rail", driver: driver do
         docs = flanks_at('/loading-state')
 
         expect(docs['sidebar']).to sidebar ? be_within(0.5).of(sidebar) : be_nil
+        if sidebar
+          # At the window's left edge, until the frame stops growing at 2100px.
+          expect(docs['sidebarLeft']).to be_within(0.5).of([(window - 2100) / 2.0, 0].max)
+          # The logo keeps its place in line with the sidebar.
+          expect(docs['logoInset']).to be_within(0.5).of(16)
+        end
+        if rail
+          # So do the header's sections with the rail, and its search with the column.
+          expect(docs['navInset']).to be_within(0.5).of(16)
+          expect(docs['searchOffCentre']).to be_within(0.5).of(0)
+        end
         expect(docs['rail']).to rail ? be_within(0.5).of(rail) : be_nil
         expect(docs['column']).to be_within(0.5).of(column)
         expect(docs['offCentre']).to be_within(0.5).of(off_centre)
