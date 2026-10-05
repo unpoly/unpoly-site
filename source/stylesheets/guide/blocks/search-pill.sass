@@ -9,7 +9,9 @@
   gap: $space-2
   min-width: 0
   width: 100%
-  border: 1px solid rgba(255, 255, 255, 0.35)
+  // The outline is what marks the pill as a field on the bar, so it meets the 3:1 that
+  // WCAG asks of a control's boundary (3.7:1 against $indigo-800; 0.35 measured 2.6:1).
+  border: 1px solid rgba(255, 255, 255, 0.5)
   background: rgba(255, 255, 255, 0.14)
   border-radius: $radius-pill
   padding: 3px $space-3
@@ -57,7 +59,10 @@
 .search-pill--key
   +monospace-font
   font-size: $text-3xs
-  background: rgba(255, 255, 255, 0.2)
+  // The key is text, so it needs 4.5:1 against its chip: white on 12% white over the
+  // pill measures 4.7:1 (85% white on 20% measured 3.3:1).
+  color: $white
+  background: rgba(255, 255, 255, 0.12)
   border-radius: 2px
   padding: 0 5px
   line-height: 1.5
