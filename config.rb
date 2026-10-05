@@ -105,7 +105,6 @@ DEBUG = false
 #
 page '/*.xml', layout: false
 page '/*.json', layout: false
-page '/**/*.json', layout: false # e.g. the search sidecar at /search/symbols.json
 page '/*.txt', layout: false
 page '/*.html', layout: 'guide'
 

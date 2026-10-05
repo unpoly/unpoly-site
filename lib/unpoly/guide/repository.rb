@@ -49,7 +49,6 @@ module Unpoly
           @interfaces = []
           @changelog = nil
           @toc = nil
-          @symbol_index = nil
           unindex
           parse
           @fresh = true
@@ -63,14 +62,6 @@ module Unpoly
       def toc
         synchronize do
           @toc ||= Toc.load(self)
-        end
-      end
-
-      # The names the search popup matches against. Rebuilt whenever the guide reloads,
-      # so the preview server never serves a sidecar for documentation it no longer has.
-      def symbol_index
-        synchronize do
-          @symbol_index ||= SymbolIndex.new(self)
         end
       end
 

@@ -304,10 +304,10 @@ describe 'the frame on every way into a page', type: :feature, js: true do
     it 'renders the API frame when picked on the landing' do
       prepare_references('/up.render')
       visit '/'
-      stub_pagefind([])
+      stub_pagefind([{ url: '/up.render', meta: { title: 'up.render([target], [options])', badge: 'JS' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('up.render', '.search-dialog--hit.-symbol[href$="/up.render"]')
+      open_search_and_pick('up.render', '.search-dialog--hit[href$="/up.render"]')
 
       expect_frame_of('/up.render')
       expect_fragment_update

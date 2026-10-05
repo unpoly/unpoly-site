@@ -4,22 +4,11 @@
 // backdrop, focus trap and restore, Escape, scroll lock, stacking. This file provides
 // what goes into it, see source/_search_dialog.html.erb.
 //
-// Two indexes answer one query. The symbol sidecar (/search/symbols.json) holds every
-// name a reader might type — features, modules, and the attributes and config keys the
-// menu already treats as nodes. Pagefind holds the prose. Both answer into ONE list:
+// Pagefind answers a query with pages, and this file lists them as one list: each page
+// with its title, its badge, and the sections that matched beneath it. The order is
+// Pagefind's score with our boosts on top (see below).
 //
-// - The symbols that match come first, in their own order: someone typing
-//   "up-watch-delay" wants that attribute, not a paragraph that mentions it.
-// - A symbol whose page also matched the full text is shown as that page — its title,
-//   its sections, its excerpt — in the symbol's place. A bare symbol row is left only
-//   where the full text has no match for it (e.g. a prefix the tokenizer can't serve).
-//   Params and other anchored symbols always stay as they are.
-// - Then the rest of the full-text pages, in Pagefind's order, minus the ones above.
-//
-// Nothing is scored across the two indexes: a row inherits its position, it does not
-// compete for it.
-//
-// Both indexes are fetched on the first open, never on page load.
+// The index is fetched on the first open, never on page load.
 
 // Everything tunable about ranking and shape lives here, so that trying a different
 // result mix is one edit rather than a hunt through the file.
@@ -98,29 +87,21 @@ const SEARCH = {
   pageLength: 0.6,
   minQueryLength: 2,
   debounceMs: 120,
-  maxSymbols: 6,
-  // Some names have several homes: [up-transition] is a selector of its own and a
-  // modifying attribute of four other selectors. Showing every home would fill the
-  // top of the list with one name, so only the best-ranked one is listed and the rest
-  // are reachable from the page it links to.
-  oneRowPerName: true,
-  // Full-text pages shown below the symbols.
-  maxPages: 8,
-  // Full-text pages a symbol may take the place of. Wider than what is shown: a
-  // symbol's page that ranks low in the full text is still the same page.
+  // Pages shown.
+  maxPages: 12,
+  // Pages fetched from Pagefind and ranked by rankPages(). Wider than what is shown, so
+  // that a boost can lift a page from below the cut.
   mergeWindow: 30,
   maxSectionsPerPage: 3,
-  // How long the full text may take before the list shows the symbols on their own.
+  // How long the full text may take before the list says that search is unavailable.
   pagefindTimeoutMs: 1500,
-  symbolsUrl: '/search/symbols.json',
   pagefindUrl: '/pagefind/pagefind.js',
-  // How well a name matched, lowest first. A param sinks below a feature that matched
-  // equally well, and anything deprecated sinks below everything else.
-  score: { exact: 0, prefix: 10, wordStart: 20, contains: 30, param: 4, deprecated: 100 },
 }
 
 const MESSAGES = {
   noResults: (query) => `No results for ${query}`,
+  unavailable: 'Search is unavailable right now.',
+  // For the console only: readers can do nothing about it.
   noIndex: 'Search index not built. Run bundle exec rake search:index.',
 }
 
@@ -129,13 +110,12 @@ const MESSAGES = {
 const AREA_BADGES = ['Learn', 'API']
 
 function normalize(text) {
-  // A reader types "up-follow", the symbol is "[up-follow]", the config key is
-  // "config.submitSelectors" — matching ignores the punctuation around the name.
+  // A reader types "up-follow", the title is "[up-follow]" — highlighting ignores the
+  // punctuation around the name.
   return text.toLowerCase().replace(/[[\]()]/g, '')
 }
 
-// One spelling per page: Pagefind links to "/up.follow/", the site and the sidecar to
-// "/up.follow".
+// One spelling per page: Pagefind links to "/up.follow/", the site to "/up.follow".
 function normalizePath(url) {
   const [path, hash] = url.split('#')
   const clean = path.replace(/\/index\.html$/, '').replace(/\.html$/, '').replace(/(.)\/$/, '$1')
@@ -181,92 +161,12 @@ function highlight(text, query) {
     escapeHtml(text.slice(end))
 }
 
-class SymbolIndex {
-  constructor(symbols) {
-    this.symbols = symbols.map(([name, path, badge, title, owner, deprecated]) => ({
-      name,
-      path,
-      badge,
-      title: title || null,
-      owner: owner || null,
-      deprecated: deprecated === 1,
-      haystack: normalize(name),
-    }))
-  }
-
-  search(query, limit) {
-    const needle = normalize(query)
-    const scored = []
-
-    for (const symbol of this.symbols) {
-      const score = this.score(symbol, needle)
-      if (score !== null) scored.push({ symbol, score })
-    }
-
-    scored.sort((a, b) => (
-      a.score - b.score ||
-      a.symbol.name.length - b.symbol.name.length ||
-      a.symbol.name.localeCompare(b.symbol.name)
-    ))
-
-    const seen = new Set()
-    const chosen = []
-    for (const { symbol } of scored) {
-      if (SEARCH.oneRowPerName) {
-        if (seen.has(symbol.name)) continue
-        seen.add(symbol.name)
-      }
-      chosen.push(symbol)
-      if (chosen.length === limit) break
-    }
-    return chosen
-  }
-
-  score(symbol, needle) {
-    const { haystack } = symbol
-    let score
-
-    if (haystack === needle) {
-      score = SEARCH.score.exact
-    } else if (haystack.startsWith(needle)) {
-      score = SEARCH.score.prefix
-    } else {
-      const at = haystack.indexOf(needle)
-      if (at === -1) return null
-      // A match right after a separator reads as a word of its own: "follow" in
-      // "up.follow" or "up:link:follow" beats "follow" buried inside another word.
-      score = /[.:\-_]/.test(haystack[at - 1]) ? SEARCH.score.wordStart : SEARCH.score.contains
-    }
-
-    if (symbol.owner) score += SEARCH.score.param
-    if (symbol.deprecated) score += SEARCH.score.deprecated
-    return score
-  }
-}
-
-// The one list, as rows to render. See the top of this file for the rules.
+// The list, as rows to render.
 //
 // pages: the full-text pages in ranked order, as many as SEARCH.mergeWindow. A page the
-// index marks deprecated (config.rb) is struck and sinks below the others, like a
-// deprecated symbol.
-function mergeResults(symbols, pages) {
-  const pagesByPath = new Map(pages.map((page) => [normalizePath(page.url), page]))
+// index marks deprecated (config.rb) is struck and sinks below the others.
+function listRows(pages) {
   const shown = new Set()
-  const rows = []
-
-  for (const symbol of symbols) {
-    // A param or anything else with an anchor is a place on a page, not the page.
-    const pageLevel = !symbol.owner && !symbol.path.includes('#')
-    const page = pageLevel && pagesByPath.get(normalizePath(symbol.path))
-
-    if (page && !shown.has(normalizePath(page.url))) {
-      rows.push({ type: 'page', page, symbol })
-      shown.add(normalizePath(page.url))
-    } else if (!page) {
-      rows.push({ type: 'symbol', symbol })
-    }
-  }
-
   const current = []
   const deprecated = []
   for (const page of pages) {
@@ -274,42 +174,28 @@ function mergeResults(symbols, pages) {
     if (shown.has(path)) continue
     shown.add(path)
     if (page.meta?.deprecated) {
-      deprecated.push({ type: 'page', page, deprecated: true })
+      deprecated.push({ page, deprecated: true })
     } else {
-      current.push({ type: 'page', page })
+      current.push({ page })
     }
   }
 
-  return rows.concat([...current, ...deprecated].slice(0, SEARCH.maxPages))
+  return [...current, ...deprecated].slice(0, SEARCH.maxPages)
 }
 
-// Indexes and the reader's last query live as long as the page, not the dialog: the
-// indexes are fetched once, and reopening the search brings the query back.
+// The index and the reader's last query live as long as the page, not the dialog: the
+// index is fetched once, and reopening the search brings the query back.
 const state = {
-  symbolIndex: null,
   pagefind: null,
-  pagefindBroken: false,
   loading: null,
   query: '',
 }
 
-// Both indexes are fetched once, on the first open. A failure is remembered rather than
+// The index is fetched once, on the first open. A failure is remembered rather than
 // retried on every keystroke.
 function load() {
-  state.loading ||= Promise.all([loadSymbols(), loadPagefind()])
+  state.loading ||= loadPagefind()
   return state.loading
-}
-
-async function loadSymbols() {
-  try {
-    const response = await fetch(SEARCH.symbolsUrl)
-    if (!response.ok) throw new Error(`HTTP ${response.status}`)
-    const payload = await response.json()
-    state.symbolIndex = new SymbolIndex(payload.symbols || [])
-  } catch (error) {
-    console.error('Could not load the search symbols: %o', error)
-    state.symbolIndex = new SymbolIndex([])
-  }
 }
 
 async function loadPagefind() {
@@ -323,7 +209,7 @@ async function loadPagefind() {
     await state.pagefind.options?.({ excerptLength: 25, ranking: { pageLength: SEARCH.pageLength, metaWeights: { title: SEARCH.titleWeight, tier_title: SEARCH.tierTitleWeight } } })
   } catch (error) {
     // In the preview server this is the normal state until `rake search:index` runs.
-    state.pagefindBroken = true
+    console.error('%s (%o)', MESSAGES.noIndex, error)
   }
 }
 
@@ -396,7 +282,7 @@ up.compiler('.search-dialog--input', function(input) {
     debounceTimer = setTimeout(runSearch, SEARCH.debounceMs)
   }
 
-  // Both indexes answer before anything changes on screen: the previous list stays
+  // Nothing changes on screen until the full text has answered: the previous list stays
   // until the new one is complete, and is then swapped in at once.
   async function runSearch() {
     const query = input.value.trim()
@@ -408,19 +294,18 @@ up.compiler('.search-dialog--input', function(input) {
     }
 
     await load()
-    const symbols = state.symbolIndex.search(query, SEARCH.maxSymbols)
     const { pages, late } = await searchPages(query)
 
     // Another keystroke landed while we were waiting; that search owns the screen now.
     if (pendingQuery !== query) return
 
-    const merge = (found) => mergeResults(symbols, found || [])
-    render({ query, rows: merge(pages), fullTextMissing: pages === null })
+    // No pages at all means the index failed to load, failed to answer or took too long.
+    render(pages ? { query, rows: listRows(pages) } : { query, unavailable: true })
 
     // The full text answered too late for the list above. When it does answer, and the
-    // reader is still looking at this query, the complete list replaces it at once.
+    // reader is still looking at this query, the list replaces the message at once.
     late?.then((found) => {
-      if (pendingQuery === query && input.isConnected) render({ query, rows: merge(found) })
+      if (pendingQuery === query && input.isConnected) render({ query, rows: listRows(found) })
     }, () => {})
   }
 
@@ -431,13 +316,13 @@ up.compiler('.search-dialog--input', function(input) {
       return
     }
 
-    const { query, rows, fullTextMissing } = result
-    const html = rows.map((row) => (row.type === 'page' ? renderPage(row, query) : renderSymbol(row.symbol, query))).join('')
+    const { query, rows = [], unavailable } = result
+    const html = rows.map((row) => renderPage(row, query)).join('')
 
     if (html) {
       resultsContainer.innerHTML = html
-    } else if (fullTextMissing && state.pagefindBroken) {
-      resultsContainer.innerHTML = `<div class="search-dialog--empty">${escapeHtml(MESSAGES.noIndex)}</div>`
+    } else if (unavailable) {
+      resultsContainer.innerHTML = `<div class="search-dialog--empty">${escapeHtml(MESSAGES.unavailable)}</div>`
     } else {
       resultsContainer.innerHTML = `<div class="search-dialog--empty">${escapeHtml(MESSAGES.noResults(query))}</div>`
     }
@@ -446,41 +331,18 @@ up.compiler('.search-dialog--input', function(input) {
     selectHit(hits()[0])
   }
 
-  // The title a symbol is known by: a feature's full signature, a module's bare name,
-  // a param's own name (its owner is shown beside it).
-  function symbolTitle(symbol) {
-    if (symbol.owner || symbol.badge === 'API') return symbol.name
-    return symbol.title || symbol.name
-  }
-
   // API rows and Learn rows are told apart by color (search-dialog.sass).
   function areaClass(badge) {
     if (!badge) return ''
     return badge === 'Learn' ? '-learn' : '-api'
   }
 
-  function renderSymbol(symbol, query) {
-    const owner = symbol.owner
-      ? `<span class="search-dialog--owner">${escapeHtml(symbol.owner)}</span>`
-      : ''
-
-    return `
-      <a class="search-dialog--hit -symbol -code ${areaClass(symbol.badge)} ${symbol.deprecated ? '-deprecated' : ''}"
-         href="${escapeHtml(symbol.path)}" up-layer="root" role="option" aria-selected="false">
-        ${renderBadge(symbol.badge)}
-        <span class="search-dialog--title">${highlight(symbolTitle(symbol), query)}${owner}</span>
-      </a>
-    `
-  }
-
   // One page, with the sections that matched beneath it. The page is a hit of its own,
-  // because the reader may want the page rather than the paragraph. A page that took a
-  // symbol's place keeps the symbol's title, so a module reads as its name.
-  function renderPage({ page, symbol, deprecated }, query) {
-    const badge = page.meta?.badge || symbol?.badge
+  // because the reader may want the page rather than the paragraph.
+  function renderPage({ page, deprecated }, query) {
+    const badge = page.meta?.badge
     const isCode = badge && !AREA_BADGES.includes(badge)
-    const isDeprecated = deprecated || symbol?.deprecated
-    const title = symbol ? symbolTitle(symbol) : (page.meta?.title || page.url)
+    const title = page.meta?.title || page.url
     const sections = (page.sub_results || [])
       .filter((section) => normalizePath(section.url) !== normalizePath(page.url))
       .slice(0, SEARCH.maxSectionsPerPage)
@@ -489,7 +351,7 @@ up.compiler('.search-dialog--input', function(input) {
       : ''
 
     return `
-      <a class="search-dialog--hit -page ${isCode ? '-code' : ''} ${areaClass(badge)} ${isDeprecated ? '-deprecated' : ''}"
+      <a class="search-dialog--hit -page ${isCode ? '-code' : ''} ${areaClass(badge)} ${deprecated ? '-deprecated' : ''}"
          href="${escapeHtml(normalizePath(page.url))}" up-layer="root" role="option" aria-selected="false">
         ${renderBadge(badge)}
         <span class="search-dialog--title">${highlight(title, query)}</span>
@@ -573,7 +435,7 @@ up.compiler('.search-dialog--input', function(input) {
   })
 
   // Reopening brings the last query back, selected, so typing replaces it and the
-  // arrow keys refine it, and runs it again against the current indexes.
+  // arrow keys refine it, and runs it again against the current index.
   input.value = state.query
   input.select()
   load()

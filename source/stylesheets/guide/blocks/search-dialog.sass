@@ -131,18 +131,10 @@ up-modal.search-dialog
   .-learn > &
     font-weight: 500
 
-// A symbol is code and reads as code, and so does a reference page named after one.
-// A guide title is prose and must not pretend otherwise. Same -code convention as
-// .essential-feature.
+// A reference page is named after code and reads as code. A guide title is prose and
+// must not pretend otherwise. Same -code convention as .essential-feature.
 .-code > .search-dialog--title
   +monospace-font
-
-// The feature an attribute or config key belongs to, read as context.
-.search-dialog--owner
-  +monospace-font
-  +type($text-2xs, $leading-ui)
-  color: $gray-500
-  margin-left: $space-2
 
 .search-dialog--section
   font-weight: bold
