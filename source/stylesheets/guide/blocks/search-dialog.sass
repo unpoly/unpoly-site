@@ -95,10 +95,11 @@ up-modal.search-dialog
   &.-learn
     --area-color: #{$search-dialog-learn-color}
 
-  // A hairline before every hit that starts a new result; a section continues the
-  // hit above it.
+  // A hairline and a little air before every hit that starts a new result; a section
+  // continues the hit above it.
   & + &:not(.-section)
     border-top: $search-dialog-separator
+    margin-top: 2px
 
   &:hover,
   &.-selected

@@ -306,7 +306,7 @@ describe 'search', type: :feature, js: true do
       expect(page).to have_css('.search-dialog--hit .search-dialog--gutter .search-dialog--badge', minimum: 2)
     end
 
-    it 'tells API and Learn hits apart by color, and separates hits by a hairline' do
+    it 'tells API and Learn hits apart by color, and separates hits by a hairline and a gap' do
       visit '/loading-state'
       stub_pagefind([
         fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
@@ -327,6 +327,7 @@ describe 'search', type: :feature, js: true do
             red: probe('hsl(0, 86%, 54%)'),
             blue: probe('hsl(201, 67%, 43%)'),
             separator: getComputedStyle(document.querySelectorAll('.search-dialog--hit:not(.-section)')[1]).borderTopStyle,
+            gap: getComputedStyle(document.querySelectorAll('.search-dialog--hit:not(.-section)')[1]).marginTop,
           }
         })()
       JS
@@ -336,6 +337,7 @@ describe 'search', type: :feature, js: true do
       expect(colors['apiBackground']).to eq('rgba(0, 0, 0, 0)')
       expect(colors['learnBadge']).to eq(colors['blue'])
       expect(colors['separator']).to eq('solid')
+      expect(colors['gap']).to eq('2px')
     end
 
     it 'gives a Learn title a little weight next to the code rows' do
