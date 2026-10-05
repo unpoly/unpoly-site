@@ -1,4 +1,10 @@
 @import ../../environment
 
+// The theme (color-brewer) sets code that no token colors in pure black, which reads
+// as heavy words next to the light token colors. Code text everywhere else is
+// $gray-800 (+inline-code), so highlighted blocks take the same ink.
+.hljs
+  color: $gray-800
+
 .hljs-comment
   color: #888
