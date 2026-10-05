@@ -428,6 +428,17 @@ helpers do
     link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true, 'data-pagefind-ignore': true
   end
 
+  # A feature's signature for its page title, with a line break allowed where Prettier
+  # would break it: after "(", before a "." between two names, after ", ". Only for the
+  # rendered <h1>: the search index reads the title text, which <wbr> leaves unchanged.
+  def breakable_signature(signature)
+    h(signature)
+      .gsub('(', '(<wbr>')
+      .gsub(/(?<=\w)\.(?=\w)/, '<wbr>.')
+      .gsub(', ', ', <wbr>')
+      .html_safe
+  end
+
   def cdn_url(file)
     "https://cdn.jsdelivr.net/npm/unpoly@#{guide.version}/#{file}"
   end

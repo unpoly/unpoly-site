@@ -13,11 +13,12 @@ b
 
 h1, .h1
   +title-font
-  +type($text-3xl, $leading-display)
+  +type($text-title, $leading-display)
   font-weight: bold
   text-wrap: pretty
-  // A long identifier (up.RenderJob.prototype.then(onFulfilled, …) breaks rather than
-  // sticking out of the text column. Only takes effect where the title would overflow.
+  // A feature's signature may break where its template put a <wbr>, after "(", before
+  // "." and after ", ". Should even a part between two of those not fit (a long event
+  // name on a phone), it breaks anywhere rather than sticking out of the text column.
   overflow-wrap: anywhere
   margin-top: $space-5
   margin-bottom: $space-5
@@ -28,7 +29,7 @@ h1, .h1
 
   code
     +monospace-font
-    font-size: $text-2xl
+    font-size: 0.79em // $text-2xl beside a $text-3xl title, and as much smaller on a phone
     word-spacing: -6px // make spaces look less epic
 
   &+*

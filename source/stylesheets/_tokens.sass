@@ -129,6 +129,13 @@ $subtle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
 $bp-sidebar: 1024px // sidebar ↔ the drawer behind the burger
 $bp-toc: 1280px     // in-page contents ↔ the right rail
 
+// The page title's size. At $text-3xl a long signature on a phone breaks every few
+// characters, so the title starts at 26px on a 390px phone and grows with the window
+// to $text-3xl at $bp-sidebar. (Defined here because it needs the breakpoint.)
+$text-title-min: 26px
+$text-title-slope: ($text-3xl - $text-title-min) / ($bp-sidebar - 390px)
+$text-title: clamp(#{$text-title-min}, calc(#{$text-title-slope * 100vw} + #{$text-title-min - $text-title-slope * 390px}), #{$text-3xl})
+
 
 // ---------------------------------------------------------------- layout
 

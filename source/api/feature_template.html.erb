@@ -29,7 +29,7 @@
   <h1>
     <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>
 
-    <%= h(feature.signature) %>
+    <%= breakable_signature(feature.signature) %>
 
     <div class="subtitle" data-pagefind-ignore>
       <%= feature.long_kind %>
