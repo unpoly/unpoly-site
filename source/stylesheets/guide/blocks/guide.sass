@@ -113,7 +113,11 @@ $text-column-max: 880px
   +pretty-scrollbars
 
 .guide--main
-  margin-top: $head-height
+  // Padding, not margin: a margin here would collapse with the first heading's, and
+  // the page title would sit flush under the header. With padding, the title keeps
+  // its own top margin ($space-5), the same gap the sidebar and the contents rail
+  // leave below the header.
+  padding-top: $head-height
   margin-bottom: $space-5
   min-width: 0
   +horizontal-padding($viewport-padding)

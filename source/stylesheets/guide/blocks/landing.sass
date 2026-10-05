@@ -9,6 +9,8 @@
 .landing
   +hide-margins-y
 
+// The bands alternate: white, tinted, white, … from the hero on, so no two white
+// paddings meet. The logo strip keeps its own tint and hairlines.
 .landing--section
   +vertical-padding(clamp(#{$space-6}, 6vw, #{$space-7}))
 
@@ -34,6 +36,9 @@
   max-width: 880px
   +horizontal-margin(auto)
   +horizontal-padding($space-5)
+  // The section's padding is the band's whole margin, above the heading and below
+  // the last line alike; the global heading and paragraph margins would add to it.
+  +hide-margins-y
 
   p
     margin-bottom: $space-4
@@ -161,6 +166,14 @@
   border-radius: $radius-md
   padding: $space-4
   background: $white
+  // The "Learn more" links of a row share one baseline, at the bottom of the cards.
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  +hide-first-margins
+
+  > a
+    margin-top: auto
 
   p
     font-size: $text-sm
