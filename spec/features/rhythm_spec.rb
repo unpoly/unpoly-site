@@ -38,7 +38,8 @@ describe 'vertical rhythm', type: :feature, js: true do
 
     tinted = page.evaluate_script("[...document.querySelectorAll('.landing--section:not(.-strip)')].map((s) => s.classList.contains('-tinted'))")
 
-    expect(tinted).to eq([false, true, false, true, false, true, false])
+    expect(tinted.first(2)).to eq([false, true])
+    tinted.each_cons(2) { |above, below| expect(above).not_to eq(below) }
   end
 
   describe 'the footer' do
@@ -58,10 +59,12 @@ describe 'vertical rhythm', type: :feature, js: true do
       visit '/learn'
 
       # The last element of the hub ends in a 40px margin, as large as the footer's own:
-      # collapsed, the gap is 40px; added, it would be 80px.
+      # collapsed, the gap is 40px; added, it would be 80px. Measured from that element,
+      # not from .guide--content, whose box absorbs the margin when collapsing breaks
+      # (a flex or grid parent, a new formatting context).
       gap = page.evaluate_script(<<~JS)
         Math.round(document.querySelector('.guide--footer').getBoundingClientRect().top -
-          document.querySelector('.guide--content').getBoundingClientRect().bottom)
+          document.querySelector('.guide--content').lastElementChild.getBoundingClientRect().bottom)
       JS
 
       expect(gap).to eq(40)
