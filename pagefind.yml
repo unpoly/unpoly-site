@@ -1,0 +1,7 @@
+# Pagefind's indexer reads this file (`rake search:index`, `middleman build`).
+#
+# Keep these characters inside words when indexing and searching, so that names like
+# up-defer, up.follow and up:link:follow are words of their own (Pagefind still indexes
+# their parts). Brackets are left out on purpose: kept, they would glue onto [up-…]
+# names, and a search for up-follow would no longer match "[up-follow]".
+include_characters: "-.:_"

@@ -23,7 +23,79 @@
 
 // Everything tunable about ranking and shape lives here, so that trying a different
 // result mix is one edit rather than a hunt through the file.
+//
+// HOW THE FULL TEXT IS RANKED (config.rb has the index side)
+//
+// Pagefind scores a page as the sum of two numbers:
+//
+// 1. The body number: how well the page's text matches. More occurrences count more,
+//    with diminishing returns, and a long page pays for its length (pageLength).
+//
+// 2. The title number: how well the page's title matches. Every title is indexed as
+//    metadata and a match counts titleWeight. A page in the signature tier — the pages a
+//    reader most likely means: chosen Learn guides, every module's essential features, a
+//    short list of additions — has its title indexed a second time, as `tier_title`, and
+//    that match counts tierTitleWeight on top.
+//
+// Once Pagefind answers, rankPages() multiplies each score, so these boosts apply to both
+// numbers alike:
+//
+// - by signatureBoost if the page is in the signature tier (flagged `tier:signature`);
+// - by its rung on kindLadder, a light tie-breaker: Learn > selector > config > event >
+//   function > everything else. The kind is read from the page's badge.
+//
+// Why the title number lives in the index. Pagefind ranks every match, but this file
+// only fetches the first mergeWindow results (each one is a request), so a multiplier
+// here can only reorder pages that are already in that window. [up-layer=new] matches
+// "layer" mostly in its title; on its text alone it ranks #79 of 212 and no multiplier
+// here ever sees it. A title match must count inside Pagefind's own ranking. (Measured:
+// with signatureBoost alone, "layer" lost [up-layer=new], up.layer.on and up.layer.ask
+// from its top 10.) The same window does not matter for the kind ladder: a tie-breaker
+// of at most 5% only reorders near-ties, and those sit next to each other in the window.
+//
+// Why the boosts are so different in size. A title match is one occurrence; a body score
+// sums many occurrences. A modest multiplier is enough to separate two pages that both
+// discuss a term at length, but a single title occurrence needs a large weight to
+// compete with a page that mentions the term twenty times. Giving every page that large
+// title weight lets a short page with the term in its name beat the guide about it
+// (measured: titleWeight 10 for everyone pushed network-issues to #3 for "offline").
+// So the title weight is low for everyone and high for the signature tier only.
+//
+// The ladder's values were first tuned as index weights, where Pagefind squares them
+// (1.05 was ~10%). Here they multiply the score directly, so 1.05 is 5%: about half the
+// effect, applied to the title number as well. They were re-validated, not re-tuned.
+//
+// Compound names in titles: decided, nothing is added. pagefind.yml keeps "-.:_" inside
+// words, and Pagefind then stores "up-defer" as the whole word and as its parts, in
+// metadata as in text. Measured on a throwaway index (2026-10-04): "defer" scores against
+// a tier_title of "up-defer" exactly as against a plain "defer" (0.741 both), and
+// appending the parts ("up-defer up defer") gained nothing.
+//
+// The knobs. The ranking knobs below take effect when the page reloads. A change to the
+// tier lists (config.rb) or pagefind.yml needs a re-index:
+// SKIP_CHECK_LINKS=1 bundle exec rake search:index.
+//
+// Known and accepted: this ranking is good on the whole, not optimal for every query.
+// For "etag" the guide Conditional requests lists fifth, below four short API pages
+// about ETags (snapshot of 2026-10-04).
+// Fitting the numbers to one query breaks another, so we stopped. A page that ranks
+// wrong is fixed by curating the tier (to be replaced by a @signature directive in the
+// doc comments), not by another knob.
 const SEARCH = {
+  // Ranking, see above. A title match on any page (Pagefind's
+  // ranking.metaWeights.title; its default is 5).
+  titleWeight: 2,
+  // A title match on a signature page, on top of titleWeight. 0 turns it off.
+  tierTitleWeight: 10,
+  // What a signature page's score is multiplied with. 1 turns it off. Only the first
+  // mergeWindow results are reordered.
+  signatureBoost: 1.4,
+  // What a page's score is multiplied with, by its badge. A badge not listed counts 1
+  // (headers, cookies, CSS, modules, classes).
+  kindLadder: { Learn: 1.05, HTML: 1.04, CONFIG: 1.03, EVENT: 1.02, JS: 1.01 },
+  // How much a long page pays for its length (Pagefind's ranking.pageLength, 0 to 1;
+  // its default is 0.75). Lower favors long pages.
+  pageLength: 0.6,
   minQueryLength: 2,
   debounceMs: 120,
   maxSymbols: 6,
@@ -253,11 +325,21 @@ async function loadPagefind() {
   }
   try {
     state.pagefind = await import(SEARCH.pagefindUrl)
-    await state.pagefind.options?.({ excerptLength: 25 })
+    await state.pagefind.options?.({ excerptLength: 25, ranking: { pageLength: SEARCH.pageLength, metaWeights: { title: SEARCH.titleWeight, tier_title: SEARCH.tierTitleWeight } } })
   } catch (error) {
     // In the preview server this is the normal state until `rake search:index` runs.
     state.pagefindBroken = true
   }
+}
+
+// Pagefind's results in our order: each score times the page's boosts. See the top of
+// this file.
+function rankPages(results, pages) {
+  const score = (result, page) => (result.score ?? 0) *
+    (page.meta?.tier === 'signature' ? SEARCH.signatureBoost : 1) *
+    (SEARCH.kindLadder[page.meta?.badge] ?? 1)
+  const scored = pages.map((page, i) => ({ page, score: score(results[i], page) }))
+  return scored.sort((a, b) => b.score - a.score).map(({ page }) => page)
 }
 
 // Full-text pages for a query. `pages` is null when the full text is unavailable or too
@@ -268,7 +350,7 @@ async function searchPages(query) {
   const search = (async () => {
     const result = await state.pagefind.search(query)
     const wanted = result.results.slice(0, SEARCH.mergeWindow)
-    return await Promise.all(wanted.map((page) => page.data()))
+    return rankPages(wanted, await Promise.all(wanted.map((page) => page.data())))
   })()
   search.catch((error) => console.error('Full text search failed: %o', error))
 

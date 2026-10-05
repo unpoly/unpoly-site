@@ -300,6 +300,68 @@ helpers do
     %(data-pagefind-body data-pagefind-filter="area:#{h area}" data-pagefind-meta="badge:#{h badge}")
   end
 
+  # SEARCH RANKING, INDEX SIDE. The whole algorithm is explained at the SEARCH config in
+  # source/javascripts/components/search_dialog.js; in short, a page ranks by a body
+  # number and a title number. Here the index gets what the search needs to tell pages
+  # apart:
+  #
+  # - Every page wears a badge (search_badge), which also names its kind for the kind
+  #   ladder in search_dialog.js.
+  # - A page in the signature tier (search_signature?) gets two hidden metadata elements:
+  #   `tier:signature`, on which the search multiplies its score (signatureBoost), and
+  #   `tier_title`, its title a second time, which the search weights extra
+  #   (tierTitleWeight). The title must be in the index: a client-side boost only
+  #   reaches the first results Pagefind returns, and a feature that matches mostly by
+  #   its name ([up-layer=new] for "layer", #79 by text alone) is not among them.
+  # - Compound names get no split parts appended: Pagefind already indexes "up-defer"
+  #   as the word and as its parts, in metadata as in text (measured, see search_dialog.js).
+  #
+  # The tier stands in for a future @signature directive: the Learn pages listed in
+  # search_signature_pages, every module's essential features (@see), and the features
+  # in search_signature_features. Curating the tier, not adding knobs, is how a page
+  # that ranks wrong gets fixed; per-query optimality is a non-goal.
+  #
+  # Everything here needs a re-index: SKIP_CHECK_LINKS=1 bundle exec rake search:index.
+  # All weights live in search_dialog.js and only need a reload.
+  def search_signature_pages
+    %w[
+      start/overview install start/links start/forms start/overlays start/elements start/api
+      links following-links handling-all-links
+      forms submitting-forms validation handling-all-forms
+      overlays opening-overlays closing-overlays subinteractions
+      loading-state feedback-classes
+      live-fragments lazy-loading
+      history
+      scrolling-and-focus
+      network caching
+      animation
+      scripting enhancing-elements
+      backend-integration
+      advanced-rendering targeting-fragments
+    ] + %w[
+      navigation-bars reactive-server-forms flashes hungry-elements data
+      handling-asset-changes failed-responses
+    ] # The second list is borderline, included for now.
+  end
+
+  # Features in the tier on top of the essential features. Those were picked for limited
+  # room on a module page; the tier can take more, since a query only surfaces the
+  # features it matches. One URL slug per feature ([up-defer] is up-defer).
+  def search_signature_features
+    %w[
+      up-defer up.deferred.load up:deferred:load
+    ]
+  end
+
+  def search_signature?(documentable)
+    if documentable.kind?(:interface) && documentable.page?
+      search_signature_pages.include?(documentable.guide_id)
+    else
+      @search_feature_ids ||= guide.interfaces.flat_map(&:essential_features).map(&:guide_id).to_set + search_signature_features
+      @search_feature_ids.include?(documentable.guide_id)
+    end
+  end
+
   # Search metadata that needs an element of its own: Pagefind takes one key per
   # data-pagefind-meta attribute (it does not split "badge:API, title:up.link").
   #
@@ -307,9 +369,19 @@ helpers do
   # ("Linking to fragments"), so the search lists it under its name.
   def search_meta_tags
     documentable = @search_documentable or return nil
-    return nil unless documentable.kind?(:interface) && !documentable.page?
+    tags = []
 
-    %(<span data-pagefind-meta="title:#{h documentable.name}" hidden></span>)
+    if documentable.kind?(:interface) && !documentable.page?
+      tags << %(<span data-pagefind-meta="title:#{h documentable.name}" hidden></span>)
+    end
+
+    if search_signature?(documentable)
+      title = documentable.kind?(:feature) ? documentable.signature : documentable.title
+      tags << %(<span data-pagefind-meta="tier:signature" hidden></span>)
+      tags << %(<span data-pagefind-meta="tier_title:#{h title}" hidden></span>)
+    end
+
+    tags.join.presence
   end
 
   # The area a result belongs to. "API reference" is too long to sit at the end of a
