@@ -118,7 +118,6 @@ $text-column-max: 880px
   // its own top margin ($space-5), the same gap the sidebar and the contents rail
   // leave below the header.
   padding-top: $head-height
-  margin-bottom: $space-5
   min-width: 0
   +horizontal-padding($viewport-padding)
 
@@ -134,7 +133,7 @@ $text-column-max: 880px
     padding-right: calc(#{$toc-rail-width} + #{$toc-rail-gap} + #{$viewport-padding})
 
 .guide--content,
-.guide--fineprint
+.guide--footer
   max-width: $text-column-min
   +horizontal-margin(auto)
 
@@ -146,23 +145,27 @@ $text-column-max: 880px
 .guide--menu-placeholder
   visibility: hidden
 
-.guide--fineprint
+// The mock's footer: one centered, muted line. Its top spacing is a margin, so it
+// collapses with the bottom margin of the page's last element instead of adding to
+// it (.guide--main and .guide--content are plain blocks, so the two margins meet).
+.guide--footer
   margin-top: $space-6
-  margin-bottom: $space-1
+  padding-bottom: $space-7
+  text-align: center
+  +type($text-sm, $leading-ui)
+  color: $gray-600
 
 // The landing page runs without the sidebar and draws its own full-bleed
 // sections, so nothing may cage it.
 .guide--torso.-full-width
   .guide--main
     margin-left: 0
-    margin-bottom: 0
     +horizontal-padding(0)
 
   .guide--content
     max-width: none
 
-  .guide--fineprint
-    max-width: 880px
+  .guide--footer
     +horizontal-padding($space-5)
 
 // Pages that are neither documentation nor the landing (support, imprint, privacy):
@@ -175,7 +178,7 @@ $text-column-max: 880px
   // As wide as a documentation page's column at the same window width: that is the
   // space this padded box has, minus the sidebar and the reserved rail it doesn't draw.
   .guide--content,
-  .guide--fineprint
+  .guide--footer
     // (width and max-width rather than CSS's min(), which the build's CSS minifier
     // cannot parse.)
     +with_toc_rail

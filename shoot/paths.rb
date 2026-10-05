@@ -18,7 +18,7 @@ Shoot.suite 'paths', widths: [1280, 390], description: 'cross-family navigation 
   b.visit('/'); b.click('a.action', text: 'Learn Unpoly'); b.shot('paths-05-landing-cta-learn')
   b.visit('/'); b.try_click('a', text: 'Learn more') and b.shot('paths-06-landing-card-learnpage')
   b.visit('/'); b.try_click('a', text: 'install in ten minutes') and b.shot('paths-07-landing-install')
-  b.visit('/'); b.try_click('.guide--fineprint a', text: 'Imprint') and b.shot('paths-08-landing-imprint')
+  b.visit('/'); b.try_click('.guide--footer a', text: 'Imprint') and b.shot('paths-08-landing-imprint')
   if !phone
     b.visit('/'); nav.('Changes'); b.shot('paths-09-landing-changes')
     b.visit('/'); nav.('Support'); b.shot('paths-10-landing-support')

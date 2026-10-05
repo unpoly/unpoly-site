@@ -81,22 +81,12 @@
                 <%= yield %>
               </div>
 
-              <div class="guide--fineprint">
-                <div class="fineprint">
-                  <div class="fineprint--item">
-                    Made by
-                    <a href="https://twitter.com/triskweline" class="hyperlink -gray">Henning Koch</a>
-                  </div>
-
-                  <div class="fineprint--item">
-                    <a href="/imprint" class="hyperlink -gray">Imprint</a>
-                  </div>
-
-                  <div class="fineprint--item">
-                    <a href="/privacy" class="hyperlink -gray">Privacy policy</a>
-                  </div>
-                </div>
-              </div>
+              <%# One footer on every page, landing included (the mock's centered line). %>
+              <footer class="guide--footer">
+                Made by <a href="https://twitter.com/triskweline" class="hyperlink -gray">Henning Koch</a>
+                &middot; <a href="/imprint" class="hyperlink -gray">Imprint</a>
+                &middot; <a href="/privacy" class="hyperlink -gray">Privacy policy</a>
+              </footer>
 
             </div>
 
