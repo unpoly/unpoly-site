@@ -50,6 +50,7 @@ describe 'vertical rhythm', type: :feature, js: true do
         footer = find('.guide--footer')
 
         expect(footer).to have_text('Made by Henning Koch · Imprint · Privacy policy')
+        expect(footer).to have_link('Henning Koch', href: 'https://triskweline.de/')
         expect(footer).to have_link('Imprint', href: '/imprint')
         expect(page.evaluate_script("getComputedStyle(document.querySelector('.guide--footer')).textAlign")).to eq('center')
       end
@@ -68,6 +69,12 @@ describe 'vertical rhythm', type: :feature, js: true do
       JS
 
       expect(gap).to eq(40)
+    end
+
+    it 'leaves 32px below its line, half the space it once had' do
+      visit '/targeting-fragments'
+
+      expect(page.evaluate_script("getComputedStyle(document.querySelector('.guide--footer')).paddingBottom")).to eq('32px')
     end
 
   end
