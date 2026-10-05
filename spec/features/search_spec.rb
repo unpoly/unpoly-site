@@ -144,16 +144,16 @@ describe 'search', type: :feature, js: true do
       expect(page).to have_no_css('up-modal.search-dialog')
     end
 
-    it 'keeps the contents rail in place when it hides the page’s scrollbar', driver: :selenium_scrollbars do
+    it 'keeps the sidebar, the column and the contents rail in place when it hides the page’s scrollbar', driver: :selenium_scrollbars do
       visit '/loading-state'
       expect(page.evaluate_script('window.innerWidth - document.documentElement.clientWidth')).to be > 0
       stub_pagefind
-      rail = "document.querySelector('.toc').getBoundingClientRect().left"
-      before = page.evaluate_script(rail)
+      frame = "['.guide--left', '.guide--content', '.guide--right .toc'].map((s) => { let r = document.querySelector(s).getBoundingClientRect(); return [r.left, r.width] }).flat()"
+      before = page.evaluate_script(frame)
 
       open_search
 
-      expect(page.evaluate_script(rail)).to be_within(1).of(before)
+      page.evaluate_script(frame).zip(before).each { |now, was| expect(now).to be_within(1).of(was) }
     end
 
     it 'restyles only its own modal' do

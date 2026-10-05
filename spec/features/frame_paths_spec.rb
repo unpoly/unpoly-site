@@ -184,47 +184,60 @@ describe 'the frame on every way into a page', type: :feature, js: true do
 
   end
 
-  # The column grows with the window above $bp-toc, up to a cap, and is the same on
-  # every page at any one width.
-  describe 'the text column on wider screens' do
+  # The torso is a flexbox row: sidebar, text, contents rail. The text has priority:
+  # its column takes free space until it reaches 880px, and only then do the flanks
+  # grow beyond 270px, both alike, up to 400px. Where a flank is hidden, its space goes
+  # to the column, so the column snaps from 880px to 660px where the rail appears at
+  # 1280px (accepted). An article page keeps empty flanks, so its column is as wide as
+  # a documentation page's at every window width, and centred in the window.
+  describe 'the flanks and the text column across window widths' do
 
-    COLUMN_PATHS = ['/learn', '/targeting-fragments', '/up.render', '/changes', '/support'].freeze
+    FLANKS_JS = <<~JS.freeze
+      (function() {
+        let box = (s) => { let e = document.querySelector(s); return e && e.getClientRects().length ? e.getBoundingClientRect() : null }
+        let sidebar = box('.guide--left'), rail = box('.guide--right')
+        let content = box('.guide--content')
+        return {
+          sidebar: sidebar && sidebar.width,
+          rail: rail && rail.width,
+          column: content.width,
+          offCentre: content.left + content.width / 2 - window.innerWidth / 2,
+          overflows: document.documentElement.scrollWidth > window.innerWidth,
+        }
+      })()
+    JS
 
-    def columns
-      COLUMN_PATHS.map do |path|
-        visit path
-        page.evaluate_script("(function() { let r = document.querySelector('.guide--content').getBoundingClientRect(); return [Math.round(r.left), Math.round(r.width)] })()")
-      end
+    def flanks_at(path)
+      visit path
+      page.evaluate_script(FLANKS_JS)
     end
 
-    describe 'at 1500px', driver: :selenium_wide do
-      it 'is wider than at the rail breakpoint, below its cap, and as wide on every page' do
-        widths = columns.map(&:last)
+    {
+      selenium_phone:         [390,  nil, nil, 350, 0],
+      selenium_small_desktop: [1100, 270, nil, 750, 135],
+      selenium_below_rail:    [1279, 319, nil, 880, 159.5],
+      selenium:               [1280, 270, 270, 660, 0],
+      selenium_wide:          [1500, 270, 270, 880, 0],
+      selenium_wider:         [1680, 360, 360, 880, 0],
+      selenium_widest:        [1920, 400, 400, 880, 0],
+    }.each do |driver, (window, sidebar, rail, column, off_centre)|
+      it "gives a #{window}px window a #{column}px column, a #{sidebar || 'hidden'} sidebar and a #{rail || 'hidden'} rail", driver: driver do
+        docs = flanks_at('/loading-state')
 
-        expect(widths.uniq.size).to eq(1), "widths differ: #{COLUMN_PATHS.zip(widths).to_h}"
-        expect(widths.first).to be > 662
-        expect(widths.first).to be < 880
-      end
-    end
+        expect(docs['sidebar']).to sidebar ? be_within(0.5).of(sidebar) : be_nil
+        expect(docs['rail']).to rail ? be_within(0.5).of(rail) : be_nil
+        expect(docs['column']).to be_within(0.5).of(column)
+        expect(docs['offCentre']).to be_within(0.5).of(off_centre)
+        expect(docs['overflows']).to be(false)
 
-    describe 'at 1920px', driver: :selenium_widest do
-      it 'stops at its 880px cap on every page' do
-        expect(columns.map(&:last).uniq).to eq([880])
-      end
+        # A page without contents reserves the rail all the same.
+        hub = flanks_at('/api')
+        expect(hub['column']).to be_within(0.5).of(docs['column'])
+        expect(hub['offCentre']).to be_within(0.5).of(docs['offCentre'])
 
-      it 'centres between the sidebar and the contents rail once capped' do
-        visit '/loading-state'
-
-        gaps = page.evaluate_script(<<~JS)
-          (function() {
-            let sidebar = document.querySelector('.guide--left').getBoundingClientRect()
-            let content = document.querySelector('.guide--content').getBoundingClientRect()
-            let toc = document.querySelector('.toc').getBoundingClientRect()
-            return [content.left - sidebar.right, toc.left - content.right]
-          })()
-        JS
-
-        expect((gaps[0] - gaps[1]).abs).to be <= 2
+        article = flanks_at('/support')
+        expect(article['column']).to be_within(0.5).of(docs['column'])
+        expect(article['offCentre'].abs).to be <= 0.5
       end
     end
 

@@ -123,7 +123,7 @@ $subtle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
 // Both values are measured: the sidebar tree needs 228px before its labels
 // wrap, a reference page's widest code block wants 820px, and its parameter
 // tables collapse to 259px. At $bp-sidebar the two-column layout still leaves
-// ~734px for the text, which is comfortable for prose and tables and costs code
+// ~674px for the text, which is comfortable for prose and tables and costs code
 // blocks a little scrolling; below it the drawer serves better.
 
 $bp-sidebar: 1024px // sidebar ↔ the drawer behind the burger
@@ -139,11 +139,26 @@ $text-title: clamp(#{$text-title-min}, calc(#{$text-title-slope * 100vw} + #{$te
 
 // ---------------------------------------------------------------- layout
 
-$left-width: clamp(250px, 22vw, 300px)
+// The text column every documentation and article page sets its text in. At any one
+// window width it is the same on every page, so the text never moves between pages.
+$text-column-min: 660px
+$text-column-max: 880px
 
-// Width of the column the in-page table of contents moves into on wide screens. The
-// frame (guide.sass) reserves it and the contents (toc.sass) fill it.
-$toc-rail-width: 220px
+// The flanks: the sidebar on the left and the contents rail on the right. They are
+// always as wide as each other, so the text column between them is centred in the
+// window (react.dev does the same, with 320px flanks). Each is separated from the
+// column by the same gap.
+$flank-gap: $space-6
+
+// The minimum is what is left at $bp-toc, where the rail appears, beside the
+// narrowest column and its two gaps: (1280 - 660 - 2 * 40) / 2 = 270px.
+$flank-min: ($bp-toc - $text-column-min - 2 * $flank-gap) / 2
+
+// The maximum is measured: with the API menu fully expanded, ~95% of its 972 titles
+// fit at 305px, 99% at 335px and all of them at 395px (the menu's 10px scrollbar
+// included). 95% is what the old 300px sidebar already showed, and long titles
+// still got cut, so the cap goes where every title fits.
+$flank-max: 400px
 
 $head-height: 53px
 $head-stratum: 99

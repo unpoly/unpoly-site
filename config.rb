@@ -207,9 +207,13 @@ helpers do
     Unpoly::Guide::TOCInserter.new
   end
 
+  # Inserts the page's contents above its first heading, and keeps a copy for the
+  # contents rail that the frame draws beside the text on wide screens.
   def auto_toc(&block)
     html = capture_html(&block)
-    html = toc_inserter.auto_insert(html)
+    inserter = toc_inserter
+    html = inserter.auto_insert(html)
+    @rail_toc = inserter.toc_html
     concat_content(html)
   end
 

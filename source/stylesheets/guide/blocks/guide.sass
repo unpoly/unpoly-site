@@ -3,20 +3,6 @@
 // How wide the header's search gets on a wide screen.
 $search-width: 480px
 
-// The space between the contents rail and the text.
-$toc-rail-gap: $space-6
-
-// The text column every documentation and article page sets its text in. At any one
-// window width it is the same on every page, so the text never moves between pages.
-//
-// Its minimum is the widest column that still fits beside both the sidebar and the
-// contents rail at $bp-toc, where the rail appears: 1280 - 281.6 (sidebar, 22vw)
-// - 2 * 38.4 (viewport padding, 3%) - $toc-rail-width - $toc-rail-gap = 661.6, rounded
-// down. Below $bp-toc it stays at that width; above, it takes the space between the
-// sidebar and the rail, up to a cap (reached at ~1520px), and then centres in it.
-$text-column-min: 660px
-$text-column-max: 880px
-
 .guide
   display: flex
   flex-direction: column
@@ -80,28 +66,44 @@ $text-column-max: 880px
   +on_narrow
     flex: 0 0 auto
 
+// The frame below the header: a flexbox row of the sidebar, the text and the contents
+// rail. The text has priority: as the window grows from $bp-toc, it takes the space
+// until its column reaches $text-column-max, and only then do the flanks grow, both
+// alike, up to $flank-max; any space left over is split around all three, so the text
+// stays centred. Where a flank is hidden (the rail below $bp-toc, the sidebar below
+// $bp-sidebar), the text takes its space in the same order.
+//
+// The sizes come from the width of the row, not of the window, so they hold still
+// when an overlay hides the page's scrollbar (Unpoly pads the body by its width).
 .guide--torso
   flex: 1 0 auto
+  display: flex
+  justify-content: center
+  align-items: flex-start
+  // Padding, not margin: a margin here would collapse with the first heading's, and
+  // the page title would sit flush under the header.
+  padding-top: $head-height
 
-  .viewport
-    display: block
-    max-width: none
-    +horizontal-padding(0)
+// The sidebar and the contents rail. Both scroll on their own, below the header,
+// while the page scrolls past them.
+.guide--flank
+  flex: 1 0 $flank-min
+  max-width: $flank-max
+  position: sticky
+  top: $head-height
+  height: calc(100vh - #{$head-height})
+  +border-box
 
-// The sidebar is pinned to the left edge of the window; the documentation is
-// centred in what is left. Below the breakpoint it disappears into the drawer
-// the header's burger opens.
-.guide--left
-  +on_wide
-    position: fixed
-    left: 0
-    top: $head-height
-    bottom: 0
-    width: $left-width
-    z-index: 1
+  // Below the breakpoint the sidebar disappears into the drawer the header's burger
+  // opens.
+  &.-left
+    +on_narrow
+      display: none
 
-  +on_narrow
-    display: none
+  // Below the breakpoint the contents stay in the text.
+  &.-right
+    +narrower_than($bp-toc)
+      display: none
 
 .guide--menu
   position: absolute
@@ -112,33 +114,30 @@ $text-column-max: 880px
   overflow-x: hidden
   +pretty-scrollbars
 
+.guide--right
+  padding: $space-5 $space-4
+  overflow-y: auto
+  +pretty-scrollbars(8px)
+
+// The text and the footer below it. Its grow factor dwarfs the flanks', so it takes
+// nearly all free space until its max-width stops it.
+// (Border-box, so its basis and max-width include the gaps.)
 .guide--main
-  // Padding, not margin: a margin here would collapse with the first heading's, and
-  // the page title would sit flush under the header. With padding, the title keeps
-  // its own top margin ($space-5), the same gap the sidebar and the contents rail
-  // leave below the header.
-  padding-top: $head-height
+  flex: 1000 1 auto
   min-width: 0
+  +border-box
   +horizontal-padding($viewport-padding)
 
   +on_wide
-    margin-left: $left-width
-
-  // Every documentation page reserves the rail its contents move into, whether it
-  // has contents or not, so the text column stands at the same place on every page.
-  // Below the breakpoint the contents stay in the text and nothing is reserved.
-  +with_toc_rail
-    // The rail is inset from the window edge by the viewport padding, so the
-    // reserve must cover that too or the text ends up against it.
-    padding-right: calc(#{$toc-rail-width} + #{$toc-rail-gap} + #{$viewport-padding})
+    flex-basis: $text-column-min + 2 * $flank-gap
+    flex-shrink: 0
+    max-width: $text-column-max + 2 * $flank-gap
+    +horizontal-padding($flank-gap)
 
 .guide--content,
 .guide--footer
-  max-width: $text-column-min
+  max-width: $text-column-max
   +horizontal-margin(auto)
-
-  +with_toc_rail
-    max-width: $text-column-max
 
 // The [up-defer] placeholder that loads the sidebar menu. It is a
 // link so that crawlers find the menu, but readers only see the menu it loads.
@@ -159,7 +158,8 @@ $text-column-max: 880px
 // sections, so nothing may cage it.
 .guide--torso.-full-width
   .guide--main
-    margin-left: 0
+    flex: 1 1 auto
+    max-width: none
     +horizontal-padding(0)
 
   .guide--content
@@ -168,18 +168,14 @@ $text-column-max: 880px
   .guide--footer
     +horizontal-padding($space-5)
 
-// Pages that are neither documentation nor the landing (support, imprint, privacy):
-// the text column without a sidebar, centred in the window.
-.guide--torso.-article
-  .guide--main
-    margin-left: 0
-    +horizontal-padding($viewport-padding)
-
-  // As wide as a documentation page's column at the same window width: that is the
-  // space this padded box has, minus the sidebar and the reserved rail it doesn't draw.
-  .guide--content,
-  .guide--footer
-    // (width and max-width rather than CSS's min(), which the build's CSS minifier
-    // cannot parse.)
-    +with_toc_rail
-      width: calc(100% - #{$left-width} - #{$toc-rail-width} - #{$toc-rail-gap})
+// Pages that are neither documentation nor the landing (support, imprint, privacy)
+// draw no flanks, but the torso keeps empty ones in their place (layouts/guide.erb),
+// so the text column is as wide as a documentation page's at every window width.
+// Where a documentation page has only its sidebar, the empty space is split in two
+// halves that add up to the sidebar, so the text is still centred in the window.
+.guide--torso.-article .guide--flank
+  +on_wide
+    +narrower_than($bp-toc)
+      display: block
+      flex: 0.5 0 ($flank-min / 2)
+      max-width: $flank-max / 2

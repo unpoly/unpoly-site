@@ -1,27 +1,24 @@
 @import ../../environment
 
 // The page's contents. One look at every width: a quiet uppercase title over gray
-// links. In the text (below $bp-toc) a hairline on the left sets it off from the
-// prose; in the rail it stands on its own.
+// links. In the text a hairline on the left sets it off from the prose; in the rail
+// it stands on its own.
 .toc
   +vertical-margin($space-5)
   padding-left: $space-4
   border-left: 2px solid $gray-300
 
-  // On a wide screen the contents move into a rail beside the text. The markup
-  // does not change: the nav still sits above the first heading, where it reads
-  // correctly without CSS and where a narrow screen keeps it.
-  +with_toc_rail
+  // On a wide screen the contents rail shows a copy of the contents beside the text
+  // (layouts/guide.erb), and the one in the text steps aside. In an overlay there is
+  // no rail, so the contents stay.
+  .guide--main &
+    +with_toc_rail
+      display: none
+
+  .guide--right &
     padding: 0
     border: none
-    position: fixed
-    top: $head-height + $space-5
-    right: $viewport-padding
-    width: $toc-rail-width
-    max-height: calc(100vh - #{$head-height} - #{$space-5 * 2})
-    overflow-y: auto
     +vertical-margin(0)
-    +pretty-scrollbars(8px)
 
 .toc--title
   margin-top: 0

@@ -5,7 +5,12 @@ module Unpoly
     class TOCInserter
       CONTENT_HEADING_SELECTOR = 'h1, h2, h3:not(.pearl-title), h4:not(.admonition--title), h5, h6'
 
+      # The contents inserted by the last #auto_insert, or nil. The frame draws a second
+      # copy in the contents rail on wide screens (layouts/guide.erb).
+      attr_reader :toc_html
+
       def auto_insert(html)
+        @toc_html = nil
         nokogiri_doc = Nokogiri::HTML.fragment(html)
         headings = find_top_level_headings_with_id(nokogiri_doc)
 
@@ -91,16 +96,14 @@ module Unpoly
         headings = headings.map(&:dup)
 
         html = ''
-        # [up-anchored=right]: on a wide screen the contents are fixed to the window's
-        # right edge, so the framework shifts them along when an overlay hides the
-        # scrollbar, as it does the header.
-        html << '<nav class="toc" data-pagefind-ignore up-anchored="right">'
+        html << '<nav class="toc" data-pagefind-ignore>'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
           textualize_heading(heading)
           html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.inner_html}</a></div>"
         end
         html << '</nav>'
+        @toc_html = html
 
         # Prefer inserting before (not after) a <hr class="separator">
         if position_after.previous_element&.matches?('hr')

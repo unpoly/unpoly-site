@@ -56,9 +56,9 @@ describe 'the page frame', type: :feature, js: true do
         (function() {
           let sidebar = document.querySelector('.guide--left').getBoundingClientRect()
           let content = document.querySelector('.guide--content').getBoundingClientRect()
-          let toc = document.querySelector('.toc')
-          let railed = toc && getComputedStyle(toc).position === 'fixed'
-          let rightEdge = railed ? toc.getBoundingClientRect().left : window.innerWidth
+          let rail = document.querySelector('.guide--right')
+          let railed = rail && rail.getClientRects().length > 0
+          let rightEdge = railed ? rail.getBoundingClientRect().left : window.innerWidth
           return [Math.round(content.left - sidebar.right), Math.round(rightEdge - content.right)]
         })()
       JS
@@ -68,9 +68,9 @@ describe 'the page frame', type: :feature, js: true do
   end
 
   describe 'the in-page table of contents' do
-    # It moves into a right rail on wide screens by CSS alone. Wherever it is
-    # drawn, it must stay above the first section heading in the markup, so that
-    # the reading order holds without CSS.
+    # On wide screens a copy stands in the right rail and CSS hides the one in the
+    # text. The one in the text must stay above the first section heading, so that the
+    # reading order holds without CSS.
     it 'precedes the first heading in the document' do
       visit '/loading-state'
 
@@ -92,12 +92,19 @@ describe 'the page frame', type: :feature, js: true do
       gap = page.evaluate_script(<<~JS)
         (function() {
           let content = document.querySelector('.guide--content').getBoundingClientRect()
-          let toc = document.querySelector('.toc').getBoundingClientRect()
+          let toc = document.querySelector('.guide--right .toc').getBoundingClientRect()
           return Math.round(toc.left - content.right)
         })()
       JS
 
       expect(gap).to be >= 20
+    end
+
+    it 'shows only one copy at a time' do
+      visit '/loading-state'
+
+      expect(page).to have_css('.guide--right .toc', visible: true)
+      expect(page).to have_css('.guide--content .toc', visible: :hidden)
     end
   end
 

@@ -53,44 +53,57 @@
 
         </div>
 
+        <%# A row of three: the sidebar, the text and the contents rail. The two flanks
+            are as wide as each other, so the text is centred in the window. An article
+            page draws neither flank but keeps their space, so its text is as wide as a
+            documentation page's. %>
         <div class="guide--torso <%= { landing: '-full-width', article: '-article' }[@frame] %>" up-main="root">
 
-          <div class="viewport">
+          <% if @frame == :docs %>
+            <div class="guide--left guide--flank -left">
 
-            <% if @frame == :docs %>
-              <div class="guide--left">
-
-                <%# The menu loads after the page and is kept while the next page renders the
-                    same placeholder (one section), so it keeps its expansion and scroll
-                    position. up-keep sits on the wrapper because the placeholder replaces
-                    itself; [up-on-keep] refuses to keep a wrapper whose menu never loaded. %>
-                <div class="guide--menu" up-viewport up-keep="same-html" up-on-keep="if (!this.querySelector('.menu')) event.preventDefault()">
-                  <% if @menu_html %>
-                    <%= @menu_html %>
-                  <% else %>
-                    <a href="<%= @menu_path %>" up-defer up-id="menu" class="guide--menu-placeholder">Menu</a>
-                  <% end %>
-                </div>
+              <%# The menu loads after the page and is kept while the next page renders the
+                  same placeholder (one section), so it keeps its expansion and scroll
+                  position. up-keep sits on the wrapper because the placeholder replaces
+                  itself; [up-on-keep] refuses to keep a wrapper whose menu never loaded. %>
+              <div class="guide--menu" up-viewport up-keep="same-html" up-on-keep="if (!this.querySelector('.menu')) event.preventDefault()">
+                <% if @menu_html %>
+                  <%= @menu_html %>
+                <% else %>
+                  <a href="<%= @menu_path %>" up-defer up-id="menu" class="guide--menu-placeholder">Menu</a>
+                <% end %>
               </div>
-            <% end %>
+            </div>
+          <% elsif @frame == :article %>
+            <div class="guide--flank -left"></div>
+          <% end %>
 
-            <div class="guide--main">
+          <div class="guide--main">
 
-              <div class="guide--content" up-main="modal" <%= search_body_attrs %>>
-                <%= search_meta_tags %>
-                <%= yield %>
-              </div>
-
-              <%# One footer on every page, landing included (the mock's centered line). %>
-              <footer class="guide--footer">
-                Made by <a href="https://triskweline.de/" class="hyperlink -gray">Henning Koch</a>
-                &middot; <a href="/imprint" class="hyperlink -gray">Imprint</a>
-                &middot; <a href="/privacy" class="hyperlink -gray">Privacy policy</a>
-              </footer>
-
+            <div class="guide--content" up-main="modal" <%= search_body_attrs %>>
+              <%= search_meta_tags %>
+              <%= yield %>
             </div>
 
+            <%# One footer on every page, landing included (the mock's centered line). %>
+            <footer class="guide--footer">
+              Made by <a href="https://triskweline.de/" class="hyperlink -gray">Henning Koch</a>
+              &middot; <a href="/imprint" class="hyperlink -gray">Imprint</a>
+              &middot; <a href="/privacy" class="hyperlink -gray">Privacy policy</a>
+            </footer>
+
           </div>
+
+          <%# The contents rail. The page's contents also stand in the text, above the
+              first heading, where a narrow screen shows them; on a wide screen CSS
+              shows this copy instead. %>
+          <% if @frame == :docs %>
+            <div class="guide--right guide--flank -right">
+              <%= @rail_toc %>
+            </div>
+          <% elsif @frame == :article %>
+            <div class="guide--flank -right"></div>
+          <% end %>
 
         </div>
 

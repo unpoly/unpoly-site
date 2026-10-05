@@ -22,8 +22,13 @@ register_chrome_driver(:selenium_phone, width: 390, height: 800)
 # Just above $bp-sidebar, where the header is at its tightest.
 register_chrome_driver(:selenium_small_desktop, width: 1100, height: 900)
 
-# Wide screens, where the text column grows (1500) and reaches its cap (1920).
+# Just below $bp-toc, where the column has taken the hidden rail's space.
+register_chrome_driver(:selenium_below_rail, width: 1279, height: 900)
+
+# Wide screens: the column has just reached its cap (1500), the flanks grow (1680) and
+# reach theirs (1920).
 register_chrome_driver(:selenium_wide, width: 1500, height: 900)
+register_chrome_driver(:selenium_wider, width: 1680, height: 900)
 register_chrome_driver(:selenium_widest, width: 1920, height: 1080)
 
 # Device emulation gives overlay scrollbars that take no room. A plain window keeps a
