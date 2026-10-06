@@ -4,8 +4,10 @@
  * so the eot/ttf/svg fallbacks the old v30 files carried are dead weight.
  *
  * 700 was added for the 2026 rework, which needs a heavier weight than the
- * 500 the site used to cap at. All three weights come from the same release,
- * because Roboto was redrawn between v30 and v51 and mixing them shows. */
+ * 500 the site used to cap at. The italic 400 followed, because without it the
+ * browser slants the upright cut instead (emphasis in the prose). All cuts come
+ * from the same release, because Roboto was redrawn between v30 and v51 and
+ * mixing them shows. */
 
 /* roboto-regular - latin */
 @font-face {
@@ -14,6 +16,15 @@
   font-weight: 400;
   font-display: swap;
   src: asset-url('roboto/roboto-v51-latin-400.woff2') format('woff2');
+}
+
+/* roboto-italic - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: asset-url('roboto/roboto-v51-latin-italic.woff2') format('woff2');
 }
 
 /* roboto-500 - latin */

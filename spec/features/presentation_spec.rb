@@ -76,6 +76,16 @@ describe 'presentation', type: :feature, js: true do
       expect(page).to have_css('.toc .toc--item a')
     end
 
+    # Without an italic cut the browser slants the upright one.
+    it 'sets emphasis in a real italic cut of Roboto' do
+      faces = page.evaluate_async_script(<<~JS)
+        let done = arguments[0]
+        document.fonts.load('italic 400 17px Roboto').then((faces) => done(faces.map((face) => [face.family, face.style, face.weight, face.status])))
+      JS
+
+      expect(faces).to include(['Roboto', 'italic', '400', 'loaded'])
+    end
+
     it 'ends with the way on through the chapter' do
       expect(page).to have_css('.reading-nav--link.-next .reading-nav--title')
     end
