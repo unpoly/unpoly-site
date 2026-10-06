@@ -9,13 +9,30 @@ describe 'vertical rhythm', type: :feature, js: true do
     JS
   end
 
+  # The title sits farther from the header than from the text below it, so it belongs
+  # to the text it heads.
   %w[/learn /targeting-fragments /up.render /support].each do |path|
-    it "leaves 25px between the header and the title on #{path}" do
+    it "leaves 40px between the header and the title on #{path}, more than below the title" do
       visit path
       expect(page).to have_css('.guide--content h1')
 
-      expect(title_gap).to eq(25)
+      expect(title_gap).to eq(40)
+      below = page.evaluate_script(<<~JS)
+        (function(title) { return Math.round(title.nextElementSibling.getBoundingClientRect().top - title.getBoundingClientRect().bottom) })(document.querySelector('.guide--content h1'))
+      JS
+      expect(below).to eq(25)
     end
+  end
+
+  it 'starts the sidebar, the title and the rail on one line' do
+    visit '/targeting-fragments'
+    expect(page).to have_css('.guide--menu .menu--nodes')
+
+    tops = page.evaluate_script(<<~JS)
+      ['.guide--menu .menu--nodes > .node > .node--self', '.guide--content h1', '.guide--right .toc'].map((s) => Math.round(document.querySelector(s).getBoundingClientRect().top))
+    JS
+
+    expect(tops.uniq.size).to eq(1), "tops differ: #{tops}"
   end
 
   it 'gives every landing band the same space above its first line and below its last' do

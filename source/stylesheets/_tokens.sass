@@ -164,10 +164,13 @@ $flank-max: 380px
 // it the whole frame is centred in the window.
 $frame-max: 2100px
 
+// How far the frame's contents stay from the window's edges: the header's logo and
+// sections, the sidebar's labels and the rail's.
+$frame-edge: $space-5
+
 $head-height: 53px
 $head-stratum: 99
 
-$max-content-width: 1550px
 $viewport-padding: clamp(20px, 3%, 40px)
 
 
@@ -175,6 +178,10 @@ $viewport-padding: clamp(20px, 3%, 40px)
 //
 // Names for decisions that more than one block has to agree on. A role only one
 // block knows about belongs in that block, pointing at a token above.
+
+// From the header to the page title. Larger than the title's own space below, so the
+// title belongs to the text it heads; the sidebar and the rail start on its line.
+$title-gap: $space-6
 
 $color-link: $red-600
 $color-hover: shift-rgb($red-600, +20)

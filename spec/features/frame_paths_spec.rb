@@ -205,7 +205,9 @@ describe 'the frame on every way into a page', type: :feature, js: true do
           sidebar: sidebar && sidebar.width,
           sidebarLeft: sidebar && sidebar.left,
           logoInset: sidebar && logo.left - sidebar.left,
+          logoToMenu: sidebar && logo.left - box('.guide--menu .menu--nodes > .node > .node--self').left,
           navInset: rail && rail.right - box('.guide--top-nav').right,
+          navToRail: rail && box('.guide--right .toc') && box('.guide--right .toc').right - box('.guide--top-nav').right,
           searchOffCentre: (function(r) { return r.left + r.width / 2 - window.innerWidth / 2 })(box('.guide--search')),
           rail: rail && rail.width,
           column: content.width,
@@ -225,6 +227,8 @@ describe 'the frame on every way into a page', type: :feature, js: true do
         raise "#{path} was never styled" if Time.now > deadline
         sleep 0.1
       end
+      # The logo is compared with the menu's first row, which loads after the page.
+      expect(page).to have_css('.guide--menu .menu--nodes') if page.has_css?('.guide--left', wait: 0)
       page.evaluate_script(FLANKS_JS)
     end
 
@@ -246,12 +250,15 @@ describe 'the frame on every way into a page', type: :feature, js: true do
         if sidebar
           # At the window's left edge, until the frame stops growing at 2100px.
           expect(docs['sidebarLeft']).to be_within(0.5).of([(window - 2100) / 2.0, 0].max)
-          # The logo keeps its place in line with the sidebar.
-          expect(docs['logoInset']).to be_within(0.5).of(16)
+          # The logo keeps its place in line with the sidebar's rows, both 25px in
+          # from the frame's edge.
+          expect(docs['logoInset']).to be_within(0.5).of(25)
+          expect(docs['logoToMenu']).to be_within(0.5).of(0)
         end
         if rail
           # So do the header's sections with the rail, and its search with the column.
-          expect(docs['navInset']).to be_within(0.5).of(16)
+          expect(docs['navInset']).to be_within(0.5).of(25)
+          expect(docs['navToRail']).to be_within(0.5).of(0)
           expect(docs['searchOffCentre']).to be_within(0.5).of(0)
         end
         expect(docs['rail']).to rail ? be_within(0.5).of(rail) : be_nil

@@ -3,6 +3,15 @@
 // How wide the header's search gets on a wide screen.
 $search-width: 480px
 
+// The frame: as wide as the window up to $frame-max, then centred. The header's bar
+// and the torso below it are both framed, so the logo stays in line with the sidebar,
+// the sections with the rail and the search with the text at every window width.
+=frame
+  width: 100%
+  max-width: $frame-max
+  +horizontal-margin(auto)
+  +border-box
+
 .guide
   display: flex
   flex-direction: column
@@ -23,16 +32,14 @@ $search-width: 480px
   background: $indigo-800
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15)
 
-  // As wide as the frame below, so the logo stays in line with the sidebar and the
-  // search with the text at every window width.
-  .viewport
-    display: flex
-    flex-direction: row
-    align-items: center
-    gap: $space-4
-    height: 100% // stretch to $head-height, so children can be centered vertically
-    max-width: $frame-max
-    +horizontal-padding($space-4)
+.guide--bar
+  +frame
+  display: flex
+  flex-direction: row
+  align-items: center
+  gap: $space-4
+  height: 100% // stretch to $head-height, so children can be centered vertically
+  +horizontal-padding($frame-edge)
 
 .guide--brand,
 .guide--top-nav
@@ -81,13 +88,10 @@ $search-width: 480px
 // The sizes come from the width of the row, not of the window, so they hold still
 // when an overlay hides the page's scrollbar (Unpoly pads the body by its width).
 .guide--torso
+  +frame
   flex: 1 0 auto
   display: flex
   justify-content: space-between
-  width: 100%
-  max-width: $frame-max
-  +horizontal-margin(auto)
-  +border-box
   align-items: flex-start
   // Padding, not margin: a margin here would collapse with the first heading's, and
   // the page title would sit flush under the header.
@@ -117,14 +121,17 @@ $search-width: 480px
 .guide--menu
   position: absolute
   inset: 0
-  padding: $space-5 $space-4 $space-5 $space-4
+  // Inset from the window's edge like the header's logo, and starting on the page
+  // title's top line.
+  padding: $title-gap $space-4 $space-5 $frame-edge
   +border-box
   overflow-y: auto
   overflow-x: hidden
   +pretty-scrollbars
 
 .guide--right
-  padding: $space-5 $space-4
+  // The sidebar's mirror image.
+  padding: $title-gap $frame-edge $space-5 $space-4
   overflow-y: auto
   +pretty-scrollbars(8px)
 
