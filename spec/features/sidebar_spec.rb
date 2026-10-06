@@ -312,4 +312,32 @@ describe 'the sidebar menu', type: :feature, js: true do
     end
   end
 
+
+  it 'separates top-level nodes with a dotted line, only between two of them' do
+    visit '/up.render'
+    expect(page).to have_css('.guide--menu .menu--nodes')
+    page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
+
+    lines = page.evaluate_script(<<~JS)
+      (function() {
+        let dotted = (node) => getComputedStyle(node).borderBottomStyle === 'dotted'
+        let groups = [...document.querySelectorAll('.guide--menu .menu--nodes')].map((group) => {
+          let nodes = [...group.querySelectorAll(':scope > .node')]
+          return [nodes.length, nodes.filter(dotted).length, dotted(nodes[nodes.length - 1])]
+        })
+        let deeper = [...document.querySelectorAll('.guide--menu .node .node')].filter(dotted).length
+        let first = document.querySelector('.guide--menu .menu--nodes > .node')
+        let style = getComputedStyle(first)
+        return { groups, deeper, style: [style.marginBottom, style.paddingBottom, style.borderBottomWidth, style.borderBottomColor] }
+      })()
+    JS
+
+    lines['groups'].each do |count, dotted, last|
+      expect(dotted).to eq(count - 1)
+      expect(last).to be(false)
+    end
+    expect(lines['deeper']).to eq(0)
+    expect(lines['style']).to eq(['5px', '5px', '1px', 'rgb(223, 221, 223)'])
+  end
+
 end

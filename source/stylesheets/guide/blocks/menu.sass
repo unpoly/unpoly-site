@@ -9,3 +9,10 @@
 // A row whose label leads nowhere but opens its node looks like the rows around it.
 up-drawer .menu--nodes > .node > button.node--self
   color: desaturate($indigo-800, 5%)
+
+// A dotted line between two top-level nodes (not after the last one), so the chapters
+// or modules read as groups of their own. Deeper nodes have none.
+.menu--nodes > .node:has(~ .node)
+  margin-bottom: 5px
+  padding-bottom: 5px
+  border-bottom: 1px dotted $gray-300 // the nearest token to the mock's #d4d4d4
