@@ -50,10 +50,10 @@ describe Unpoly::Guide::PageRef do
       expect(ref.wikilink_label).to eq(ref.title)
     end
 
-    it 'labels an anchored reference with the page and the heading' do
+    it 'labels an anchored learn-ref with the page title only, and a wikilink with the heading too' do
       ref = parse('network-issues#slow-server-responses')
 
-      expect(ref.learn_ref_label).to eq("#{ref.title} › Slow server responses")
+      expect(ref.learn_ref_label).to eq(ref.title)
       expect(ref.wikilink_label).to eq("#{ref.title}: Slow server responses")
     end
 

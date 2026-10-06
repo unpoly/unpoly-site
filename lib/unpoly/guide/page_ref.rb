@@ -48,10 +48,10 @@ module Unpoly
         documentable.title
       end
 
-      # The label of a `@learn-ref`. Anchored refs name their heading so the reference
-      # carries its own context.
+      # The label of a `@learn-ref`: the page's title, also for a reference to one of
+      # its headings (the link still leads to the heading).
       def learn_ref_label
-        heading ? "#{title} › #{heading.text}" : title
+        title
       end
 
       # The label a `[[wikilink]]` expands to.

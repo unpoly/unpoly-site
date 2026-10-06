@@ -1,31 +1,19 @@
 @import ../../environment
-@import hyperlink
 
-// The @learn-ref slot: where a reference document points at the guides that
-// explain it in context. Successor of the retired a.article-ref block.
+// The @learn-ref slot: where a reference document points at the guides that explain
+// it in context. One outlined button per guide, as the overviews' read-more links and
+// the Next link are; several sit side by side and wrap.
 .learn-refs
   +vertical-margin($space-5)
-  padding: $space-2 $space-3
-  border-left: 2px solid $indigo-800
-  background: $gray-100
-  border-radius: 0 $radius-sm $radius-sm 0
-  font-size: $text-sm
-
-.learn-refs--label
-  color: $gray-700
-  font-weight: bold
-  margin-right: $space-1
-
-  &::before
-    content: "\f0a4" // fa-hand-o-right
-    font-family: FontAwesome
-    font-style: normal
-    font-weight: normal
-    margin-right: $space-1
-    color: $gray-500
+  display: flex
+  flex-wrap: wrap
+  gap: $space-2
 
 .learn-refs--link
-  +hyperlink($indigo-800)
+  // Stronger than .prose a.
+  .prose &,
+  &
+    +outline-button
 
-  & + &
-    margin-left: $space-2
+.learn-refs--role
+  color: $gray-600
