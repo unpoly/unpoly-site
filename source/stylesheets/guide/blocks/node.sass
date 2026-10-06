@@ -4,6 +4,11 @@
   &.up-active, &.up-current
     @content
 
+// The leading of one label. A long label wraps, and its lines sit closer than the rows
+// of the menu do; a row is padded up to the menu's full line height, so the space
+// between two rows stays the same whether their labels wrap or not.
+$label-leading: 1.2
+
 
 .node
   position: relative
@@ -57,16 +62,15 @@
 
 .node--self
   color: $gray-600
-  display: block
-  align-items: center
   display: flex
+  // The icon, the label's first line and the tags line up at the top.
+  align-items: flex-start
   gap: 5px
+  padding-block: calc((1lh - #{$label-leading}em) / 2)
 
   //.node:not(.-group) > &
   //  padding-left: 1.1em
 
-  // Truncate long feature names like up.link.makeFollowable
-  // +truncate_text
 
   //.node.-interface > &
   //  // Allow the root nodes to wrap since they are English sentences
@@ -101,12 +105,14 @@ a.node--self
         color: white
 
 .node--collapser
-  // A long title truncates; the icon must not give up its fixed width to it, or it
-  // sits a pixel or two left of its siblings'.
+  // A long title wraps; the icon must not give up its fixed width to it, or it sits
+  // a pixel or two left of its siblings'.
   flex: 0 0 auto
   font-size: 0.8em
+  // As tall as one line of the label, so the icon is centred on its first line.
+  line-height: $label-leading / 0.8
+  text-align: center
   cursor: pointer
-  margin-top: 2px
 
 // The control that opens a node whose label is a link (menu.coffee). It lies over the
 // collapser icon at the start of the label's first line, so the label keeps its layout,
@@ -135,7 +141,7 @@ a.node--self
 // A label that is a button rather than a link (the drawer's "Older versions").
 button.node--self
   width: 100%
-  padding: 0
+  padding-inline: 0
   border: 0
   background: none
   font: inherit
@@ -152,12 +158,13 @@ button.node--self
   //width: 1em
 
 // The tree is 238–368px wide (a flank minus the menu's padding), and a long title
-// yields to these columns by truncating, so they are always shown.
+// yields to these columns by wrapping, so they are always shown, beside its first line.
 .node--meta
   white-space: nowrap
   display: flex
   gap: $space-1
   align-items: center
+  height: #{$label-leading}em
   margin-right: 4px
 
 
@@ -185,17 +192,19 @@ button.node--self
 
 .node--title
   flex: 1 1 auto
-  white-space: nowrap
-  overflow-x: hidden
-  text-overflow: ellipsis
+  min-width: 0
+  line-height: $label-leading
+  // A signature breaks where the template allows it (after "(", before "."); a
+  // longer run of letters anywhere.
+  overflow-wrap: anywhere
 
   &:has(+.node--dots)
-    flex: 0 0 auto
+    flex: 0 1 auto
 
 .node--dots
   flex: 1 1 0
   border-top: 1px dotted $gray-500
-  margin-top: 10px
+  margin-top: #{$label-leading / 2}em // the middle of the first line
 
 
 .node--commit-count

@@ -6,7 +6,7 @@
 <div class="node <%= node.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
   <% if node.menu_path %>
     <% node_link node.menu_path do %>
-      <span class="node--title"><%= node.menu_title %></span>
+      <span class="node--title"><%= breakable_signature(node.menu_title) %></span>
 
       <% node_meta do %>
         <% if node.menu_experimental? %>
@@ -20,7 +20,7 @@
     <% end %>
   <% else %>
     <span class="node--self">
-      <span class="node--title"><%= node.menu_title %></span>
+      <span class="node--title"><%= breakable_signature(node.menu_title) %></span>
     </span>
   <% end %>
 

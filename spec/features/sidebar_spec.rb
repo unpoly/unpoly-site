@@ -271,4 +271,45 @@ describe 'the sidebar menu', type: :feature, js: true do
     end
   end
 
+
+  describe 'a long label' do
+    # Labels used to be cut off with an ellipsis; "Clicking non-interactive elements"
+    # was cut at most window widths. They wrap now, tighter within a label than between
+    # two rows, and the icon stays beside the first line.
+    it 'wraps instead of being cut off, with its icon centred on the first line' do
+      visit '/targeting-fragments'
+      find('.guide--menu .node', text: 'Advanced rendering', match: :first)
+      page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
+
+      label = page.evaluate_script(<<~JS)
+        (function() {
+          let rows = [...document.querySelectorAll('.guide--menu .node--self')]
+          let row = rows.find((row) => row.textContent.trim() === 'Clicking non-interactive elements')
+          let title = row.querySelector('.node--title')
+          let range = document.createRange()
+          range.selectNodeContents(title)
+          let lines = [...new Set([...range.getClientRects()].map((rect) => Math.round(rect.top)))]
+          let first = range.getClientRects()[0]
+          let icon = row.querySelector('.node--collapser').getBoundingClientRect()
+          let single = rows.find((row) => row.textContent.trim() === 'Target derivation')
+          return {
+            cut: title.scrollWidth > title.clientWidth,
+            lines: lines.length,
+            lineGap: lines[1] - lines[0],
+            rowHeight: parseFloat(getComputedStyle(row).lineHeight),
+            iconOffset: (icon.top + icon.height / 2) - (first.top + first.height / 2),
+            singleRow: single.getBoundingClientRect().height,
+          }
+        })()
+      JS
+
+      expect(label['cut']).to be(false)
+      expect(label['lines']).to eq(2)
+      expect(label['lineGap']).to be < label['rowHeight']
+      expect(label['iconOffset'].abs).to be <= 1
+      # A one-line row is as tall as rows always were.
+      expect(label['singleRow']).to be_within(0.5).of(label['rowHeight'])
+    end
+  end
+
 end
