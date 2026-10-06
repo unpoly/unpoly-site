@@ -213,7 +213,7 @@ helpers do
     html = capture_html(&block)
     inserter = toc_inserter
     html = inserter.auto_insert(html)
-    @rail_toc = inserter.toc_html
+    @rail_toc = inserter.rail_toc_html
     concat_content(html)
   end
 

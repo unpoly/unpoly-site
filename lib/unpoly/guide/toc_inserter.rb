@@ -5,9 +5,14 @@ module Unpoly
     class TOCInserter
       CONTENT_HEADING_SELECTOR = 'h1, h2, h3:not(.pearl-title), h4:not(.admonition--title), h5, h6'
 
-      # The contents inserted by the last #auto_insert, or nil. The frame draws a second
-      # copy in the contents rail on wide screens (layouts/guide.erb).
+      # The contents inserted by the last #auto_insert, or nil.
       attr_reader :toc_html
+
+      # The same contents for the rail the frame draws beside the text on wide screens
+      # (layouts/guide.erb), or nil.
+      def rail_toc_html
+        @toc_html&.sub('<nav class="toc"', '<nav class="toc -rail"')
+      end
 
       def auto_insert(html)
         @toc_html = nil

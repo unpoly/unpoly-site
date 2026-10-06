@@ -15,10 +15,18 @@
     +with_toc_rail
       display: none
 
-  .guide--right &
+  // The copy in the rail stands on its own, a step larger than in the text: it has the
+  // room, and matches the sidebar menu across the text.
+  &.-rail
     padding: 0
     border: none
     +vertical-margin(0)
+
+    .toc--title
+      font-size: $text-xs
+
+    .toc--item
+      font-size: $text-md
 
 .toc--title
   margin-top: 0

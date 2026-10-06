@@ -100,6 +100,19 @@ describe 'the page frame', type: :feature, js: true do
       expect(gap).to be >= 20
     end
 
+    it 'sets the copy in the rail a step larger than the one in the text' do
+      visit '/loading-state'
+
+      sizes = page.evaluate_script(<<~JS)
+        ['.guide--right .toc', '.guide--content .toc'].map((toc) =>
+          ['.toc--title', '.toc--item'].map((part) => getComputedStyle(document.querySelector(toc + ' ' + part)).fontSize))
+      JS
+
+      expect(page).to have_css('.guide--right .toc.-rail')
+      expect(page).to have_no_css('.guide--content .toc.-rail', visible: :all)
+      expect(sizes).to eq([['14px', '17px'], ['12px', '15px']])
+    end
+
     it 'shows only one copy at a time' do
       visit '/loading-state'
 
