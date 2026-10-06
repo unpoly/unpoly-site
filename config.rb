@@ -516,12 +516,12 @@ helpers do
     # commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
     commit = guide.git_revision
     url = documentable.text_source.github_url(guide, commit: commit)
-    link_to '<i class="fa fa-edit"></i> Edit <span class="edit-link--etc">this page</span>', url, target: '_blank', class: 'hyperlink edit-link', 'data-pagefind-ignore': true
+    link_to 'Edit <span class="edit-link--etc">page</span>', url, target: '_blank', class: 'edit-link', 'data-pagefind-ignore': true
   end
 
   def revision_on_github_button(revision)
     url = revision.github_browse_url
-    link_to '<i class="fa fa-code"></i> Revision code', url, target: '_blank', class: 'hyperlink edit-link'
+    link_to 'Revision code', url, target: '_blank', class: 'edit-link'
   end
 
   def feature_preview(feature)
