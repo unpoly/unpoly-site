@@ -246,6 +246,26 @@
 =subtle-shadow
   box-shadow: $subtle-shadow
 
+// A link drawn as an outlined button: the way on at the end of a page (Next), the
+// read-more links of an overview and the learn-refs of a reference page. Indigo ink
+// on a gray outline that takes the ink's color on hover.
+=outline-button
+  display: inline-flex
+  align-items: baseline
+  gap: $space-1
+  padding: $space-2 $space-4
+  border: 1px solid $gray-400
+  border-radius: $radius-md
+  color: $indigo-800
+  background: none
+  text-decoration: none
+
+  // Over the hover look of a link in the text (a yellow mark, the hover red).
+  &:hover, &:focus-visible
+    border-color: currentColor
+    color: $indigo-800
+    background: none
+
 =card
   border: $card-border
   padding: $space-4

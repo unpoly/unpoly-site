@@ -114,8 +114,17 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
+  # The read-more links of an overview, the learn-refs of a reference page and the Next
+  # link at a page's end share one outlined-button look.
+  BUTTON_JS = <<~'JS'.freeze
+    (function(selector) {
+      let style = getComputedStyle(document.querySelector(selector))
+      return [style.borderTopStyle, style.borderTopColor, style.paddingLeft, style.borderTopLeftRadius, style.color, style.textDecorationLine]
+    })(arguments[0])
+  JS
+
   describe 'a read-more link closing an overview section' do
-    it 'stands apart from the links in the text, and stays quieter than the Next button' do
+    it 'is an outlined button like the Next link, unlike the links in the text' do
       # Embedded the way an overview's Markdown embeds it.
       visit '/loading-state'
       page.execute_script(<<~JS)
@@ -123,27 +132,31 @@ describe 'presentation', type: :feature, js: true do
           '<p>A sentence with <a href="/progress-bar">a link</a>.</p><p class="read-more"><a href="/progress-bar">Read more: Progress bar</a></p>')
       JS
 
-      links = page.evaluate_script(<<~'JS')
-        (function() {
-          let style = (s) => { let c = getComputedStyle(document.querySelector(s)); return { color: c.color, underline: c.textDecorationLine, weight: c.fontWeight, border: c.borderTopStyle } }
-          return {
-            readMore: style('.read-more a'),
-            arrow: getComputedStyle(document.querySelector('.read-more a'), '::after').content,
-            text: style('.prose p:not(.read-more) a'),
-            next: style('.reading-nav--link.-next'),
-            nextTitle: style('.reading-nav--link.-next .reading-nav--title'),
-          }
-        })()
-      JS
+      read_more = page.evaluate_script(BUTTON_JS, '.read-more a')
 
-      expect(links['readMore']['underline']).to eq('none')
-      expect(links['readMore']['color']).not_to eq(links['text']['color'])
-      expect(links['arrow']).not_to eq('none')
-      # The Next button has a border and a bold title; the read-more link has neither.
-      expect(links['next']['border']).to eq('solid')
-      expect(links['readMore']['border']).to eq('none')
-      expect(links['nextTitle']['weight']).to eq('700')
-      expect(links['readMore']['weight']).to eq('400')
+      expect(read_more).to eq(page.evaluate_script(BUTTON_JS, '.reading-nav--link.-next'))
+      expect(read_more.first).to eq('solid')
+      expect(page.evaluate_script(BUTTON_JS, '.prose p:not(.read-more) a').first).to eq('none')
+    end
+  end
+
+  describe 'the learn-refs of a reference page' do
+    it 'is an outlined button per guide, labelled with its title, without the old stripe' do
+      visit '/up-follow'
+
+      expect(page).to have_css('.learn-refs a.learn-refs--link[href="/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
+      expect(page.evaluate_script(BUTTON_JS, '.learn-refs--link').first).to eq('solid')
+      expect(page.evaluate_script("getComputedStyle(document.querySelector('.learn-refs')).borderLeftStyle")).to eq('none')
+      expect(page).to have_no_css('.learn-refs--label', visible: :all)
+    end
+
+    it 'sets two guides side by side' do
+      visit '/up.radio'
+
+      tops = page.evaluate_script("[...document.querySelectorAll('.learn-refs--link')].map((link) => Math.round(link.getBoundingClientRect().top))")
+
+      expect(tops.size).to eq(2)
+      expect(tops.uniq.size).to eq(1)
     end
   end
 
