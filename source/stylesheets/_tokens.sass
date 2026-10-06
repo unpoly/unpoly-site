@@ -154,11 +154,10 @@ $flank-gap: $space-6
 // narrowest column and its two gaps: (1280 - 660 - 2 * 40) / 2 = 270px.
 $flank-min: ($bp-toc - $text-column-min - 2 * $flank-gap) / 2
 
-// The maximum is measured: with the API menu fully expanded, ~95% of its 972 titles
-// fit at 305px, 99% at 335px and all of them at 395px (the menu's 10px scrollbar
-// included). 95% is what the old 300px sidebar already showed, and long titles
-// still got cut, so the cap goes where every title fits.
-$flank-max: 400px
+// The maximum: with the API menu fully expanded, 99.9% of its 972 titles fit on one
+// line at 380px (all of them at 395px; the menu's 10px scrollbar included). Longer
+// ones wrap (node.sass). Henning's call, down from a first 400px.
+$flank-max: 380px
 
 // The widest the frame gets: header contents, sidebar, text and rail. Up to here the
 // flanks touch the window's edges and extra space opens between the columns; beyond
