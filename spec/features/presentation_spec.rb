@@ -86,6 +86,31 @@ describe 'presentation', type: :feature, js: true do
       expect(faces).to include(['Roboto', 'italic', '400', 'loaded'])
     end
 
+    # One variable file serves every upright weight; without real weights the browser
+    # would fake them, so the spec turns faking off and compares the widths.
+    it 'draws regular, medium and bold Roboto from one variable font' do
+      faces = page.evaluate_async_script(<<~JS)
+        let done = arguments[0]
+        Promise.all([400, 500, 700].map((weight) => document.fonts.load(weight + ' 40px Roboto'))).then(() => {
+          let faces = [...document.fonts].filter((face) => face.family.includes('Roboto') && face.style === 'normal' && !face.family.includes('Mono'))
+          let widths = [400, 500, 700].map((weight) => {
+            let sample = document.createElement('span')
+            sample.textContent = 'Hamburgefonstiv'
+            sample.style.cssText = 'font: ' + weight + ' 40px Roboto; font-synthesis: none; position: absolute; white-space: nowrap'
+            document.body.append(sample)
+            let width = sample.getBoundingClientRect().width
+            sample.remove()
+            return width
+          })
+          done({ faces: faces.map((face) => [face.weight, face.status]), widths })
+        })
+      JS
+
+      expect(faces['faces']).to eq([['100 900', 'loaded']])
+      expect(faces['widths']).to eq(faces['widths'].sort)
+      expect(faces['widths'].uniq.size).to eq(3)
+    end
+
     it 'ends with the way on through the chapter' do
       expect(page).to have_css('.reading-nav--link.-next .reading-nav--title')
     end

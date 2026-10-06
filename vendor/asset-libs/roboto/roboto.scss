@@ -1,21 +1,24 @@
-/* Roboto v51 latin, vendored with google-webfonts-helper (gwfh.mranftl.com).
+/* Roboto v51 latin, from Google Fonts (the upright file through its css2 API, the
+ * italic through google-webfonts-helper, gwfh.mranftl.com).
  *
- * woff2 only: every browser in our support window (last two years) reads it,
- * so the eot/ttf/svg fallbacks the old v30 files carried are dead weight.
+ * woff2 only: every browser in our support window (last two years) reads it, and
+ * variable fonts too.
  *
- * 700 was added for the 2026 rework, which needs a heavier weight than the
- * 500 the site used to cap at. The italic 400 followed, because without it the
- * browser slants the upright cut instead (emphasis in the prose). All cuts come
- * from the same release, because Roboto was redrawn between v30 and v51 and
- * mixing them shows. */
+ * The upright is ONE variable file (weight axis 100-900) that serves every weight
+ * the site sets (400, 500, 700): 43,136 bytes, where three static cuts took 66,324.
+ * Italic is a separate file in Roboto, not an axis; only its 400 cut is vendored,
+ * a static one (23,672 bytes; the variable italic is 47,208). Without it the browser
+ * slants the upright instead. A bold italic is synthesized until the site needs one.
+ * Both files come from the same release, because Roboto was redrawn between v30 and
+ * v51 and mixing them shows. */
 
-/* roboto-regular - latin */
+/* roboto - latin, all weights */
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: asset-url('roboto/roboto-v51-latin-400.woff2') format('woff2');
+  src: asset-url('roboto/roboto-v51-latin-variable.woff2') format('woff2');
 }
 
 /* roboto-italic - latin */
@@ -25,22 +28,4 @@
   font-weight: 400;
   font-display: swap;
   src: asset-url('roboto/roboto-v51-latin-italic.woff2') format('woff2');
-}
-
-/* roboto-500 - latin */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: asset-url('roboto/roboto-v51-latin-500.woff2') format('woff2');
-}
-
-/* roboto-700 - latin */
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: asset-url('roboto/roboto-v51-latin-700.woff2') format('woff2');
 }
