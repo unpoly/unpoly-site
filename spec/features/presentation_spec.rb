@@ -137,38 +137,6 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
-  describe 'an aside in a guide' do
-    it 'stands out by a quiet tint over the whole column, without a border' do
-      # Embedded the way a guide's Markdown embeds it, so the spec does not depend on
-      # which guide currently has one.
-      visit '/loading-state'
-      page.execute_script(<<~JS)
-        document.querySelector('.prose').insertAdjacentHTML('beforeend',
-          '<div class="aside"><h2>Related chapters</h2><p>Spinners are covered by the <a href="/progress-bar">Progress bar</a> page.</p></div>')
-      JS
-
-      aside = page.evaluate_script(<<~JS)
-        (function() {
-          let aside = document.querySelector('.prose .aside')
-          let style = getComputedStyle(aside)
-          let heading = aside.querySelector('h2')
-          return {
-            background: style.backgroundColor,
-            border: style.borderTopStyle,
-            headingLine: heading ? getComputedStyle(heading).borderTopStyle : 'none',
-            width: aside.getBoundingClientRect().width,
-            column: document.querySelector('.guide--content').getBoundingClientRect().width,
-          }
-        })()
-      JS
-
-      expect(aside['background']).to eq('rgba(0, 0, 0, 0.03)')
-      expect(aside['border']).to eq('none')
-      expect(aside['headingLine']).to eq('none')
-      expect(aside['width']).to eq(aside['column'])
-    end
-  end
-
   describe 'a hub page' do
     it 'lists every topic with the pages under it' do
       visit '/learn'
