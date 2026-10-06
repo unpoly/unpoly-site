@@ -205,6 +205,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
           sidebar: sidebar && sidebar.width,
           sidebarLeft: sidebar && sidebar.left,
           logoInset: sidebar && logo.left - sidebar.left,
+          textToLogo: content.left - logo.left,
           logoToMenu: sidebar && logo.left - box('.guide--menu .menu--nodes > .node > .node--self').left,
           navInset: rail && rail.right - box('.guide--top-nav').right,
           navToRail: rail && box('.guide--right .toc') && box('.guide--right .toc').right - box('.guide--top-nav').right,
@@ -234,30 +235,33 @@ describe 'the frame on every way into a page', type: :feature, js: true do
 
     {
       selenium_phone:         [390,  nil,    nil, 350,    0],
-      selenium_small_desktop: [1100, 292.5,  nil, 727.5,  146.25],
-      selenium_below_rail:    [1279, 337.25, nil, 861.75, 168.63],
-      selenium:               [1280, 270,    270, 660,    0],
-      selenium_above_rail:    [1350, 284,    284, 702,    0],
-      selenium_wide:          [1500, 314,    314, 792,    0],
-      selenium_wider:         [1680, 360,    360, 880,    0],
-      selenium_widest:        [1920, 380,    380, 880,    0],
-      selenium_huge:          [2400, 380,    380, 880,    0],
+      selenium_small_desktop: [1100, 271.25, nil, 738.75, 155.63],
+      selenium_below_rail:    [1279, 316,    nil, 873,    178],
+      selenium:               [1280, 245,    245, 660,    0],
+      selenium_above_rail:    [1350, 259,    259, 702,    0],
+      selenium_wide:          [1500, 289,    289, 792,    0],
+      selenium_wider:         [1680, 335,    335, 880,    0],
+      selenium_widest:        [1920, 355,    355, 880,    0],
+      selenium_huge:          [2400, 355,    355, 880,    0],
     }.each do |driver, (window, sidebar, rail, column, off_centre)|
       it "gives a #{window}px window a #{column}px column, a #{sidebar || 'hidden'} sidebar and a #{rail || 'hidden'} rail", driver: driver do
         docs = flanks_at('/loading-state')
 
         expect(docs['sidebar']).to sidebar ? be_within(0.5).of(sidebar) : be_nil
         if sidebar
-          # At the window's left edge, until the frame stops growing at 2100px.
-          expect(docs['sidebarLeft']).to be_within(0.5).of([(window - 2100) / 2.0, 0].max)
-          # The logo keeps its place in line with the sidebar's rows, both 25px in
-          # from the frame's edge.
-          expect(docs['logoInset']).to be_within(0.5).of(25)
+          # On the frame's 25px inset, until the frame stops growing at 2100px and
+          # centres.
+          expect(docs['sidebarLeft']).to be_within(0.5).of([(window - 2100) / 2.0, 0].max + 25)
+          # The logo keeps its place in line with the sidebar's labels.
+          expect(docs['logoInset']).to be_within(0.5).of(0)
           expect(docs['logoToMenu']).to be_within(0.5).of(0)
+        else
+          # Without a sidebar, the text starts in line with the logo.
+          expect(docs['textToLogo']).to be_within(0.5).of(0)
         end
         if rail
           # So do the header's sections with the rail, and its search with the column.
-          expect(docs['navInset']).to be_within(0.5).of(25)
+          expect(docs['navInset']).to be_within(0.5).of(0)
           expect(docs['navToRail']).to be_within(0.5).of(0)
           expect(docs['searchOffCentre']).to be_within(0.5).of(0)
         end

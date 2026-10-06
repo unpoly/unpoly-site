@@ -3,13 +3,16 @@
 // How wide the header's search gets on a wide screen.
 $search-width: 480px
 
-// The frame: as wide as the window up to $frame-max, then centred. The header's bar
-// and the torso below it are both framed, so the logo stays in line with the sidebar,
-// the sections with the rail and the search with the text at every window width.
+// The frame: as wide as the window up to $frame-max, then centred, with its contents
+// inset from its edges by $frame-edge. The header's bar and the torso below it are
+// both framed, so the logo stays in line with the sidebar's labels (or the text, where
+// there is no sidebar), the sections with the rail and the search with the text at
+// every window width.
 =frame
   width: 100%
   max-width: $frame-max
   +horizontal-margin(auto)
+  +horizontal-padding($frame-edge)
   +border-box
 
 .guide
@@ -39,7 +42,6 @@ $search-width: 480px
   align-items: center
   gap: $space-4
   height: 100% // stretch to $head-height, so children can be centered vertically
-  +horizontal-padding($frame-edge)
 
 .guide--brand,
 .guide--top-nav
@@ -110,20 +112,23 @@ $search-width: 480px
   // Below the breakpoint the sidebar disappears into the drawer the header's burger
   // opens.
   &.-left
+    margin-right: $flank-gap
+
     +on_narrow
       display: none
 
   // Below the breakpoint the contents stay in the text.
   &.-right
+    margin-left: $flank-gap
+
     +narrower_than($bp-toc)
       display: none
 
 .guide--menu
   position: absolute
   inset: 0
-  // Inset from the window's edge like the header's logo, and starting on the page
-  // title's top line.
-  padding: $title-gap $space-4 $space-5 $frame-edge
+  // Starting on the page title's top line. The frame insets it from the window's edge.
+  padding: $title-gap $space-4 $space-5 0
   +border-box
   overflow-y: auto
   overflow-x: hidden
@@ -131,29 +136,31 @@ $search-width: 480px
 
 .guide--right
   // The sidebar's mirror image.
-  padding: $title-gap $frame-edge $space-5 $space-4
+  padding: $title-gap 0 $space-5 $space-4
   overflow-y: auto
   +pretty-scrollbars(8px)
 
 // The text and the footer below it. It grows three times as fast as a flank, until its
-// max-width stops it.
-// (Border-box, so its basis and max-width include the gaps.)
+// max-width stops it. It has no gutters of its own: the flanks keep their gap to it,
+// and the frame insets it from the window where no flank stands beside it.
 .guide--main
   flex: 3 1 auto
   min-width: 0
-  +border-box
-  +horizontal-padding($viewport-padding)
 
   +on_wide
-    flex-basis: $text-column-min + 2 * $flank-gap
+    flex-basis: $text-column-min
     flex-shrink: 0
-    max-width: $text-column-max + 2 * $flank-gap
-    +horizontal-padding($flank-gap)
+    max-width: $text-column-max
 
 .guide--content,
 .guide--footer
   max-width: $text-column-max
   +horizontal-margin(auto)
+
+  // Without flanks the text starts on the frame's inset, in line with the logo,
+  // also once it has reached its maximum width.
+  +on_narrow
+    margin-left: 0
 
 // The [up-defer] placeholder that loads the sidebar menu. It is a
 // link so that crawlers find the menu, but readers only see the menu it loads.
@@ -174,6 +181,7 @@ $search-width: 480px
 // sections, so nothing may cage it.
 .guide--torso.-full-width
   max-width: none
+  +horizontal-padding(0)
 
   .guide--main
     flex: 1 1 auto
@@ -197,3 +205,10 @@ $search-width: 480px
       display: block
       flex: 0.5 0 ($flank-min / 2)
       max-width: $flank-max / 2
+      margin-inline: 0
+
+      &.-left
+        margin-right: $flank-gap / 2
+
+      &.-right
+        margin-left: $flank-gap / 2

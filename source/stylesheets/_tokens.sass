@@ -144,34 +144,39 @@ $text-title: clamp(#{$text-title-min}, calc(#{$text-title-slope * 100vw} + #{$te
 $text-column-min: 660px
 $text-column-max: 880px
 
-// The flanks: the sidebar on the left and the contents rail on the right. They are
-// always as wide as each other, so the text column between them is centred in the
-// window (react.dev does the same, with 320px flanks). Each is separated from the
-// column by the same gap.
-$flank-gap: $space-6
-
-// The minimum is what is left at $bp-toc, where the rail appears, beside the
-// narrowest column and its two gaps: (1280 - 660 - 2 * 40) / 2 = 270px.
-$flank-min: ($bp-toc - $text-column-min - 2 * $flank-gap) / 2
-
-// The maximum: with the API menu fully expanded, 99.9% of its 972 titles fit on one
-// line at 380px (all of them at 395px; the menu's 10px scrollbar included). Longer
-// ones wrap (node.sass). Henning's call, down from a first 400px.
-$flank-max: 380px
-
 // The widest the frame gets: header contents, sidebar, text and rail. Up to here the
-// flanks touch the window's edges and extra space opens between the columns; beyond
+// flanks stay at the frame's edges and extra space opens between the columns; beyond
 // it the whole frame is centred in the window.
 $frame-max: 2100px
 
-// How far the frame's contents stay from the window's edges: the header's logo and
-// sections, the sidebar's labels and the rail's.
-$frame-edge: $space-5
+// How far the frame's contents stay from the window's edges, the same in the header
+// (the logo, the sections) and below it (the sidebar's labels, the rail's, and the
+// text where no flank stands beside it). 25px, shrinking with the window to 20px on a
+// phone, where every pixel of the text's width counts: 5vw meets 25px at a 500px
+// window and 20px at 400px.
+$frame-edge-max: $space-5
+$frame-edge: clamp(20px, 5vw, #{$frame-edge-max})
+
+// The flanks: the sidebar on the left and the contents rail on the right. They are
+// always as wide as each other, so the text column between them is centred in the
+// window (react.dev does the same, with 320px flanks). A flank keeps this gap to the
+// text as its own margin, so the gap goes when the flank does.
+$flank-gap: $space-6
+
+// The minimum is what is left at $bp-toc, where the rail appears, beside the frame's
+// insets, the narrowest column and the two gaps: (1280 - 2 * 25 - 660 - 2 * 40) / 2
+// = 245px.
+$flank-min: ($bp-toc - 2 * $frame-edge-max - $text-column-min - 2 * $flank-gap) / 2
+
+// The maximum: with the API menu fully expanded, 99.9% of its 972 titles fit on one
+// line in a 380px flank that included the 25px inset (all of them at 395px; the menu's
+// 10px scrollbar included). Longer ones wrap (node.sass). Henning's call, down from a
+// first 400px.
+$flank-max: 380px - $frame-edge-max
 
 $head-height: 53px
 $head-stratum: 99
 
-$viewport-padding: clamp(20px, 3%, 40px)
 
 
 // ---------------------------------------------------------------- semantics

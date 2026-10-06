@@ -39,11 +39,11 @@ describe 'the page frame', type: :feature, js: true do
   end
 
   describe 'the sidebar' do
-    it 'is pinned to the left edge of the window' do
+    it 'stands at the left edge of the window, on the frame\'s inset, in line with the logo' do
       visit '/loading-state'
 
-      left = page.evaluate_script("document.querySelector('.guide--left').getBoundingClientRect().left")
-      expect(left).to eq(0)
+      lefts = page.evaluate_script("['.guide--left', '.guide--head .logo'].map((s) => document.querySelector(s).getBoundingClientRect().left)")
+      expect(lefts).to eq([25, 25])
     end
 
     it 'leaves the documentation centred in the space beside it' do
