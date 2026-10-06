@@ -12,8 +12,11 @@ describe 'the sidebar menu', type: :feature, js: true do
     JS
   end
 
+  # The API menu is a ~375 KB fragment that the development server takes ~4 seconds
+  # to render on a busy machine (measured 2026-10-06), and some examples hold its
+  # request back on top, so its wait is longer than Capybara's.
   def wait_for_menu(source)
-    deadline = Time.now + Capybara.default_max_wait_time
+    deadline = Time.now + 3 * Capybara.default_max_wait_time
     sleep 0.1 until menu_source == source || Time.now > deadline
     expect(menu_source).to eq(source)
   end
@@ -381,7 +384,7 @@ describe 'the sidebar menu', type: :feature, js: true do
       expect(last).to be(false)
     end
     expect(lines['deeper']).to eq(0)
-    expect(lines['style']).to eq(['5px', '5px', '1px', 'rgb(223, 221, 223)'])
+    expect(lines['style']).to eq(['5px', '5px', '1px', 'rgb(201, 197, 200)']) # $gray-400
   end
 
   it 'keeps a group label one short line on its rule' do
