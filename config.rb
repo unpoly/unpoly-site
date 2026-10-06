@@ -516,7 +516,9 @@ helpers do
     # commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
     commit = guide.git_revision
     url = documentable.text_source.github_url(guide, commit: commit)
-    link_to 'Edit <span class="edit-link--etc">page</span>', url, target: '_blank', class: 'edit-link', 'data-pagefind-ignore': true
+    # The label shortens to "Edit" on narrow screens (edit-link.sass); the accessible
+    # name stays whole.
+    link_to 'Edit <span class="edit-link--etc">page</span>', url, target: '_blank', class: 'edit-link', 'aria-label': 'Edit this page', 'data-pagefind-ignore': true
   end
 
   def revision_on_github_button(revision)

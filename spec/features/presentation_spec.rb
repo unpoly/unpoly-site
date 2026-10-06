@@ -172,6 +172,20 @@ describe 'presentation', type: :feature, js: true do
       JS
       expect(line['top']).to be_between(0, 10)
       expect(line['right'].abs).to be <= 0.5
+      expect(page).to have_css('.edit-link[aria-label="Edit this page"]')
+    end
+
+    it 'says just "Edit" where the burger replaces the sidebar', driver: :selenium_tablet do
+      visit '/targeting-fragments'
+
+      expect(page).to have_css('.edit-link', text: /\AEdit\z/)
+      expect(page).to have_css('.edit-link[aria-label="Edit this page"]')
+    end
+
+    it 'leaves the title alone on a phone', driver: :selenium_phone do
+      visit '/targeting-fragments'
+
+      expect(page).to have_css('.edit-link', visible: :hidden)
     end
   end
 

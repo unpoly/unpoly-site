@@ -19,6 +19,9 @@ register_chrome_driver(:selenium, width: 1280, height: 960)
 # driver rather than a resize inside the example. Use with `driver: :selenium_phone`.
 register_chrome_driver(:selenium_phone, width: 390, height: 800)
 
+# A tablet: between the phone and $bp-sidebar, with the burger but room for the text.
+register_chrome_driver(:selenium_tablet, width: 800, height: 900)
+
 # Just above $bp-sidebar, where the header is at its tightest.
 register_chrome_driver(:selenium_small_desktop, width: 1100, height: 900)
 
