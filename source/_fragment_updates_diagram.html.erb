@@ -4,6 +4,10 @@
 
   Drawn inline rather than embedded as an <img>, so the labels are real <text> in
   the site's own webfont and take their colors from the palette.
+
+  The landing renders this partial; a guide embeds it from its Markdown with
+  <div embed="fragment-updates-diagram"></div> (Unpoly::Guide::Embeds). Its labels
+  stay out of the search index, where they would only be noise in excerpts.
 %>
 <%
   # One page mockup, drawn as the source image draws it (docs/rework-2026/
@@ -58,7 +62,7 @@
   columns = { response: 232, used: 500, optimized: 744 }
 %>
 
-<figure class="diagram">
+<figure class="diagram" data-pagefind-ignore>
   <div class="diagram--scroller">
   <svg class="diagram--canvas" viewBox="0 0 960 512" role="img"
        aria-labelledby="fragment-updates-title fragment-updates-desc">

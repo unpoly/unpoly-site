@@ -47,6 +47,22 @@ $diagram-strip-below: $diagram-floor + 2 * $space-5 + 2 * 1px
   +narrower_than($diagram-strip-below)
     padding-inline: $space-5
 
+// Embedded in a guide (Unpoly::Guide::Embeds), whose gutters are the viewport padding
+// rather than the landing's: at the widths where the strip applies, that padding sits
+// at its 20px floor.
+$prose-gutter: 20px
+
+.prose .diagram
+  +narrower_than($diagram-strip-below)
+    margin-inline: -$prose-gutter
+
+    &::after
+      width: $prose-gutter
+
+  .diagram--scroller
+    +narrower_than($diagram-strip-below)
+      padding-inline: $prose-gutter
+
 .diagram--canvas
   width: 100%
   min-width: $diagram-floor

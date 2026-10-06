@@ -275,8 +275,11 @@ helpers do
 
   # A document's prose, with its @learn-ref links placed in the intro slot:
   # below the lead paragraphs, before the first heading and the auto-TOC.
+  #
+  # A <div embed="..."> in the Markdown becomes a site partial (Unpoly::Guide::Embeds).
   def documented_prose(documentable, **options)
     html = markdown(documentable.guide_markdown, **options)
+    html = Unpoly::Guide::Embeds.splice(html, source: documentable.guide_path) { |name| partial(name) }
     html = Unpoly::Guide::IntroInserter.insert(html, learn_refs_html(documentable))
     "<div class='prose'>#{html}</div>"
   end
