@@ -28,20 +28,8 @@
     .toc--item
       font-size: $text-md
 
-      // The section the reader is in (toc.js), set in bold. The label and a hidden
-      // bold copy share one grid cell, so the cell is always as large as the bold
-      // label: marking an item never re-wraps it or moves the items below.
-      a
-        display: grid
-
-      .toc--label,
-      .toc--ghost
-        grid-area: 1 / 1
-
-      .toc--ghost
-        visibility: hidden
-        font-weight: bold
-
+      // The section the reader is in (toc.js), set in bold. A long label may wrap
+      // onto one more line while it is marked (Henning's call: no space reserved).
       &.-current a
         font-weight: bold
 

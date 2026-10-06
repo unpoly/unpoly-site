@@ -115,7 +115,7 @@ describe 'the page frame', type: :feature, js: true do
 
     describe 'in the rail' do
       def current_sections
-        page.evaluate_script("[...document.querySelectorAll('.toc .toc--item.-current .toc--label')].map((label) => label.textContent.trim())")
+        page.evaluate_script("[...document.querySelectorAll('.toc .toc--item.-current')].map((item) => item.textContent.trim())")
       end
 
       def scroll_to_heading(id)
@@ -135,10 +135,11 @@ describe 'the page frame', type: :feature, js: true do
         expect(page).to have_css('.toc.-rail .toc--item.-current a[aria-current=location]')
       end
 
-      it 'marks it in bold, without moving any item' do
+      # A marked item may wrap onto one more line in bold; no other item changes.
+      it 'marks it in bold, and changes no other item' do
         visit '/up.render'
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Choosing which fragment to update')
-        boxes = "[...document.querySelectorAll('.toc.-rail .toc--item')].map((item) => { let r = item.getBoundingClientRect(); return [r.top, r.height] })"
+        boxes = "[...document.querySelectorAll('.toc.-rail .toc--item')].map((item) => item.getBoundingClientRect().height)"
         weights = "[...document.querySelectorAll('.toc.-rail .toc--item a')].map((link) => getComputedStyle(link).fontWeight)"
         before = page.evaluate_script(boxes)
 
@@ -149,7 +150,12 @@ describe 'the page frame', type: :feature, js: true do
         scroll_to_heading('concurrency')
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Concurrency')
 
-        expect(page.evaluate_script(boxes)).to eq(before)
+        after = page.evaluate_script(boxes)
+        marked = ['Choosing which fragment to update', 'Concurrency'].map do |text|
+          page.evaluate_script("[...document.querySelectorAll('.toc.-rail .toc--item')].findIndex((item) => item.textContent.trim() === arguments[0])", text)
+        end
+        others = (0...before.size).to_a - marked
+        expect(others.map { |i| after[i] }).to eq(others.map { |i| before[i] })
       end
 
       it 'marks the section a link has revealed' do

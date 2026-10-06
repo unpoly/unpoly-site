@@ -33,21 +33,8 @@ function currentIndex(headings) {
   return Math.max(tops.findLastIndex((top) => top <= line), 0)
 }
 
-// Wraps a link's label and adds a hidden bold copy beside it, which keeps room for the
-// label in bold (toc.sass).
-function reserveBoldWidth(link) {
-  let label = document.createElement('span')
-  label.className = 'toc--label'
-  label.append(...link.childNodes)
-  let ghost = label.cloneNode(true)
-  ghost.className = 'toc--ghost'
-  ghost.setAttribute('aria-hidden', 'true')
-  link.append(label, ghost)
-}
-
 up.compiler('.toc.-rail', function(toc) {
   let items = [...toc.querySelectorAll('.toc--item')]
-  toc.querySelectorAll('.toc--item a').forEach(reserveBoldWidth)
   let entries = items.map((item) => {
     let link = item.querySelector('a[href^="#"]')
     let heading = link && document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)))
