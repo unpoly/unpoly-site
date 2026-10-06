@@ -79,6 +79,61 @@ describe 'presentation', type: :feature, js: true do
     it 'ends with the way on through the chapter' do
       expect(page).to have_css('.reading-nav--link.-next .reading-nav--title')
     end
+
+    # "Next" is what most readers want at the end, so it is a button; "Previous" stays
+    # a quiet link. No line sets the pair off from the text, and a wide space sets it
+    # off from the muted footer.
+    it 'makes Next a button, sets the pair off without a line, and leaves room before the footer' do
+      tail = page.evaluate_script(<<~JS)
+        (function() {
+          let style = (s) => getComputedStyle(document.querySelector(s))
+          let box = (s) => document.querySelector(s).getBoundingClientRect()
+          return {
+            next: [style('.reading-nav--link.-next').borderTopStyle, style('.reading-nav--link.-next').paddingLeft],
+            previous: style('.reading-nav--link.-previous').borderTopStyle,
+            line: style('.reading-nav').borderTopStyle,
+            footerGap: Math.round(box('.guide--footer').top - box('.reading-nav').bottom),
+          }
+        })()
+      JS
+
+      expect(tail['next']).to eq(['solid', '16px'])
+      expect(tail['previous']).to eq('none')
+      expect(tail['line']).to eq('none')
+      expect(tail['footerGap']).to eq(64)
+    end
+  end
+
+  describe 'an aside in a guide' do
+    it 'stands out by a quiet tint over the whole column, without a border' do
+      # Embedded the way a guide's Markdown embeds it, so the spec does not depend on
+      # which guide currently has one.
+      visit '/loading-state'
+      page.execute_script(<<~JS)
+        document.querySelector('.prose').insertAdjacentHTML('beforeend',
+          '<div class="aside"><h2>Related chapters</h2><p>Spinners are covered by the <a href="/progress-bar">Progress bar</a> page.</p></div>')
+      JS
+
+      aside = page.evaluate_script(<<~JS)
+        (function() {
+          let aside = document.querySelector('.prose .aside')
+          let style = getComputedStyle(aside)
+          let heading = aside.querySelector('h2')
+          return {
+            background: style.backgroundColor,
+            border: style.borderTopStyle,
+            headingLine: heading ? getComputedStyle(heading).borderTopStyle : 'none',
+            width: aside.getBoundingClientRect().width,
+            column: document.querySelector('.guide--content').getBoundingClientRect().width,
+          }
+        })()
+      JS
+
+      expect(aside['background']).to eq('rgba(0, 0, 0, 0.03)')
+      expect(aside['border']).to eq('none')
+      expect(aside['headingLine']).to eq('none')
+      expect(aside['width']).to eq(aside['column'])
+    end
   end
 
   describe 'a hub page' do

@@ -2,14 +2,16 @@
 @import hyperlink
 
 // Where the reader came from and where the path goes next, at the end of every
-// Learn page.
+// Learn page. Going on is what most readers want here, so "Next" is a button; going
+// back stays a quiet link. A wide space below sets the button clear of the muted
+// footer.
 .reading-nav
   display: flex
   flex-wrap: wrap
+  align-items: center
   gap: $space-4
   margin-top: $space-7
-  padding-top: $space-5
-  border-top: 1px solid $gray-300
+  margin-bottom: $space-7
 
 .reading-nav--link
   display: flex
@@ -21,6 +23,13 @@
   &.-next
     margin-left: auto
     text-align: right
+    padding: $space-2 $space-4
+    border: 1px solid $gray-400
+    border-radius: $radius-md
+    text-decoration: none
+
+    +hover
+      border-color: currentColor
 
 .reading-nav--role
   color: $gray-600
