@@ -18,7 +18,6 @@
           </span>
 
           <% if (commit_count = release.commit_count) %>
-            <span class="node--dots"></span>
             <% node_meta do %>
               <span class="node--commit-count" title="<%= pluralize(commit_count, 'commit', 'commits') %>">
                 <%= commit_count %>

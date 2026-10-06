@@ -37,8 +37,8 @@ $label-leading: 1.2
     left: 0
     top: 12px
     right: 0
-    height: 1px
-    background-color: lighten($color, 30%)
+    height: 0px
+    border-top: 1px dotted lighten($color, 30%)
     z-index: 0
 
   > .node--self
@@ -200,14 +200,6 @@ button.node--self
   // A signature breaks where the template allows it (after "(", before "."); a
   // longer run of letters anywhere.
   overflow-wrap: anywhere
-
-  &:has(+.node--dots)
-    flex: 0 1 auto
-
-.node--dots
-  flex: 1 1 0
-  border-top: 1px dotted $gray-500
-  margin-top: #{$label-leading / 2}em // the middle of the first line
 
 
 .node--commit-count
