@@ -313,6 +313,43 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
 
+  it 'never leaves a closing bracket alone on a line of a wrapped label' do
+    visit '/up.render'
+    expect(page).to have_css('.guide--menu .menu--nodes')
+    page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
+
+    labels = page.evaluate_script(<<~JS)
+      (function() {
+        let titles = [...document.querySelectorAll('.guide--menu .node--title')].filter((title) => title.getClientRects().length)
+        let lonely = []
+        let wrapped = 0
+        for (let title of titles) {
+          // Each line's text, from the position of every character.
+          let lines = new Map()
+          let walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT)
+          for (let node; (node = walker.nextNode());) {
+            for (let i = 0; i < node.length; i++) {
+              let range = document.createRange()
+              range.setStart(node, i)
+              range.setEnd(node, i + 1)
+              let rect = range.getClientRects()[0]
+              if (!rect) continue
+              let top = Math.round(rect.top)
+              lines.set(top, (lines.get(top) || '') + node.data[i])
+            }
+          }
+          if (lines.size > 1) wrapped++
+          if ([...lines.values()].some((line) => /^[)\]]/.test(line.trim()))) lonely.push(title.textContent.trim())
+        }
+        return { wrapped, lonely, emptyBreaks: document.querySelector('.guide--menu').innerHTML.includes('(<wbr>)') }
+      })()
+    JS
+
+    expect(labels['wrapped']).to be > 0
+    expect(labels['lonely']).to eq([])
+    expect(labels['emptyBreaks']).to be(false)
+  end
+
   it 'separates top-level nodes with a dotted line, only between two of them' do
     visit '/up.render'
     expect(page).to have_css('.guide--menu .menu--nodes')
@@ -338,6 +375,15 @@ describe 'the sidebar menu', type: :feature, js: true do
     end
     expect(lines['deeper']).to eq(0)
     expect(lines['style']).to eq(['5px', '5px', '1px', 'rgb(223, 221, 223)'])
+  end
+
+  it 'keeps a group label one short line on its rule' do
+    visit '/up.render'
+    expect(page).to have_css('.guide--menu .menu--nodes')
+
+    height = page.evaluate_script("[...document.querySelectorAll('.guide--menu .node.-group > .node--self')].find((label) => label.getClientRects().length).getBoundingClientRect().height")
+
+    expect(height).to eq(20)
   end
 
 end

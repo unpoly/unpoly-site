@@ -433,11 +433,12 @@ helpers do
   end
 
   # A feature's signature for its page title, with a line break allowed where Prettier
-  # would break it: after "(", before a "." between two names, after ", ". Only for the
-  # rendered <h1>: the search index reads the title text, which <wbr> leaves unchanged.
+  # would break it: after "(" (unless the parentheses are empty, so ")" is never left
+  # alone on a line), before a "." between two names, after ", ". Only for rendered
+  # labels: the search index reads the title text, which <wbr> leaves unchanged.
   def breakable_signature(signature)
     h(signature)
-      .gsub('(', '(<wbr>')
+      .gsub(/\((?!\))/, '(<wbr>')
       .gsub(/(?<=\w)\.(?=\w)/, '<wbr>.')
       .gsub(', ', ', <wbr>')
       .html_safe

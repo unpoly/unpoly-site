@@ -43,6 +43,9 @@ $label-leading: 1.2
 
   > .node--self
     +font-size($text-md - 3px, 3px)
+    // One short line, sitting on the rule; the padding that evens out wrapping rows
+    // would only move it off.
+    padding-block: 0
     color: $color
     text-transform: uppercase
     background-color: white
