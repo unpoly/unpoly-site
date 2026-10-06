@@ -313,15 +313,18 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
 
-  it 'never leaves a closing bracket alone on a line of a wrapped label' do
+  # Measured at several widths, since which labels wrap where depends on the width.
+  { selenium_small_desktop: 1100, selenium: 1280, selenium_above_rail: 1350 }.each do |driver, window|
+  it "never leaves a closing bracket, or a bare \"up\", alone on a line of a wrapped label at #{window}px", driver: driver do
     visit '/up.render'
     expect(page).to have_css('.guide--menu .menu--nodes')
     page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
 
-    labels = page.evaluate_script(<<~JS)
+    labels = page.evaluate_script(<<~'JS')
       (function() {
         let titles = [...document.querySelectorAll('.guide--menu .node--title')].filter((title) => title.getClientRects().length)
         let lonely = []
+        let bare = []
         let wrapped = 0
         for (let title of titles) {
           // Each line's text, from the position of every character.
@@ -339,15 +342,19 @@ describe 'the sidebar menu', type: :feature, js: true do
             }
           }
           if (lines.size > 1) wrapped++
-          if ([...lines.values()].some((line) => /^[)\]]/.test(line.trim()))) lonely.push(title.textContent.trim())
+          let texts = [...lines.values()].map((line) => line.trim())
+          if (texts.some((line) => /^[)\]]/.test(line))) lonely.push(title.textContent.trim())
+          if (lines.size > 1 && texts[0] === 'up') bare.push(title.textContent.trim())
         }
-        return { wrapped, lonely, emptyBreaks: document.querySelector('.guide--menu').innerHTML.includes('(<wbr>)') }
+        return { wrapped, lonely, bare, emptyBreaks: document.querySelector('.guide--menu').innerHTML.includes('(<wbr>)') }
       })()
     JS
 
     expect(labels['wrapped']).to be > 0
     expect(labels['lonely']).to eq([])
+    expect(labels['bare']).to eq([])
     expect(labels['emptyBreaks']).to be(false)
+  end
   end
 
   it 'separates top-level nodes with a dotted line, only between two of them' do

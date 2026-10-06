@@ -432,14 +432,17 @@ helpers do
     link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true, 'data-pagefind-ignore': true
   end
 
-  # A feature's signature for its page title, with a line break allowed where Prettier
-  # would break it: after "(" (unless the parentheses are empty, so ")" is never left
-  # alone on a line), before a "." between two names, after ", ". Only for rendered
-  # labels: the search index reads the title text, which <wbr> leaves unchanged.
+  # A feature's signature for a page title or menu label, with a line break allowed
+  # where Prettier would break it: after "(" (unless the parentheses are empty), before
+  # a "." or "#" between two names, after ", ". A closing bracket is glued to what
+  # precedes it ("d()" in "addField()"), so not even a label's last-resort break
+  # anywhere (overflow-wrap) can leave it alone on a line. Only for rendered labels:
+  # the search index reads the title text, which neither <wbr> nor a span changes.
   def breakable_signature(signature)
     h(signature)
+      .gsub(/\w?\(\)|\S[)\]]+/) { |glued| %(<span class="signature-glue">#{glued}</span>) }
       .gsub(/\((?!\))/, '(<wbr>')
-      .gsub(/(?<=\w)\.(?=\w)/, '<wbr>.')
+      .gsub(/(?<=\w)([.#])(?=\w)/, '<wbr>\\1')
       .gsub(', ', ', <wbr>')
       .html_safe
   end
