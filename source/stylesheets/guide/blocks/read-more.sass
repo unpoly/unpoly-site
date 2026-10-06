@@ -1,0 +1,36 @@
+@import ../../environment
+
+// The link that closes a section of a chapter overview and leads to the page with the
+// whole story. It is plain HTML embedded in the Markdown:
+//
+//     <p class="read-more"><a href="/following-links">Read more: Following links</a></p>
+//
+// It reads as a way on rather than as a link in a sentence: no underline, the
+// reading nav's ink and a trailing chevron. It stays quieter than the page's "Next"
+// button (reading-nav.sass), which is the one action a page closes with: no border, no
+// bold.
+.read-more
+  margin-top: $space-3
+
+  // Stronger than .prose a, which would make it a red, underlined link in the text.
+  .prose & a,
+  & a
+    display: inline-flex
+    align-items: baseline
+    gap: $space-2
+    color: $indigo-800
+    text-decoration: none
+    background: none
+
+    &::after
+      content: "\f054" // fa-chevron-right, as on the reading nav
+      font-family: FontAwesome
+      font-size: $text-3xs
+      color: $gray-500
+
+    &:hover, &:focus-visible
+      color: $color-hover
+      text-decoration: underline
+
+      &::after
+        color: currentColor

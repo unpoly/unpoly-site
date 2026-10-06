@@ -104,6 +104,39 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
+  describe 'a read-more link closing an overview section' do
+    it 'stands apart from the links in the text, and stays quieter than the Next button' do
+      # Embedded the way an overview's Markdown embeds it.
+      visit '/loading-state'
+      page.execute_script(<<~JS)
+        document.querySelector('.prose').insertAdjacentHTML('beforeend',
+          '<p>A sentence with <a href="/progress-bar">a link</a>.</p><p class="read-more"><a href="/progress-bar">Read more: Progress bar</a></p>')
+      JS
+
+      links = page.evaluate_script(<<~'JS')
+        (function() {
+          let style = (s) => { let c = getComputedStyle(document.querySelector(s)); return { color: c.color, underline: c.textDecorationLine, weight: c.fontWeight, border: c.borderTopStyle } }
+          return {
+            readMore: style('.read-more a'),
+            arrow: getComputedStyle(document.querySelector('.read-more a'), '::after').content,
+            text: style('.prose p:not(.read-more) a'),
+            next: style('.reading-nav--link.-next'),
+            nextTitle: style('.reading-nav--link.-next .reading-nav--title'),
+          }
+        })()
+      JS
+
+      expect(links['readMore']['underline']).to eq('none')
+      expect(links['readMore']['color']).not_to eq(links['text']['color'])
+      expect(links['arrow']).not_to eq('none')
+      # The Next button has a border and a bold title; the read-more link has neither.
+      expect(links['next']['border']).to eq('solid')
+      expect(links['readMore']['border']).to eq('none')
+      expect(links['nextTitle']['weight']).to eq('700')
+      expect(links['readMore']['weight']).to eq('400')
+    end
+  end
+
   describe 'an aside in a guide' do
     it 'stands out by a quiet tint over the whole column, without a border' do
       # Embedded the way a guide's Markdown embeds it, so the spec does not depend on
