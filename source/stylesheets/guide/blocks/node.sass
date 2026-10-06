@@ -112,8 +112,13 @@ a.node--self
   // a pixel or two left of its siblings'.
   flex: 0 0 auto
   font-size: 0.8em
-  // As tall as one line of the label, so the icon is centred on its first line.
+  // As tall as one line of the label, so the icon is centred on its first line. The
+  // font centres its glyphs on the capitals, which reads high beside a label of mostly
+  // lowercase letters, so the icon sits 1px lower (between the capitals' middle and
+  // the lowercase letters' middle).
   line-height: $label-leading / 0.8
+  position: relative
+  top: 1px
   text-align: center
   cursor: pointer
 

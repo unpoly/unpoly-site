@@ -309,7 +309,8 @@ describe 'the sidebar menu', type: :feature, js: true do
       expect(label['cut']).to be(false)
       expect(label['lines']).to eq(2)
       expect(label['lineGap']).to be < label['rowHeight']
-      expect(label['iconOffset'].abs).to be <= 1
+      # Centred on the first line, then nudged 1px down to sit right beside lowercase.
+      expect(label['iconOffset']).to be_within(0.5).of(1)
       # A one-line row is as tall as rows always were.
       expect(label['singleRow']).to be_within(0.5).of(label['rowHeight'])
     end
