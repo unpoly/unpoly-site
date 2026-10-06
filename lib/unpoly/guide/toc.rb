@@ -253,6 +253,11 @@ module Unpoly
           children
         end
 
+        # A page the menu lists as the first row below the topic, ahead of its children.
+        def menu_overview
+          nil
+        end
+
         def menu_modifiers
           []
         end
@@ -309,6 +314,13 @@ module Unpoly
         # below it.
         def children
           pages - [start_page].compact
+        end
+
+        # The menu also lists the chapter's overview as its first row ("Overview", from
+        # the page's @menu-title), so the reader sees where they are on it. A generated
+        # index is not a page of the chapter and gets no row.
+        def menu_overview
+          start_page unless @index
         end
 
       end

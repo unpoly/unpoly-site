@@ -386,4 +386,47 @@ describe 'the sidebar menu', type: :feature, js: true do
     expect(height).to eq(20)
   end
 
+
+  # A chapter's overview is reached through the chapter's own row, but the menu also
+  # lists it as the chapter's first row, so the reader sees where they are on it.
+  describe 'the overview row of a chapter' do
+    def current_rows
+      page.evaluate_script("[...document.querySelectorAll('.guide--menu .node > .node > a.node--self.up-current')].map((link) => link.textContent.trim())")
+    end
+
+    it 'leads every chapter of Learn, named by the overview’s menu title' do
+      visit '/links'
+      expect(page).to have_css('.guide--menu .menu--nodes')
+
+      Unpoly::Guide.current.toc.learn.topics.each do |topic|
+        overview = topic.menu_overview or next
+        first = page.evaluate_script(<<~JS, topic.menu_path)
+          (function(path) {
+            let chapter = [...document.querySelectorAll('.guide--menu .menu--nodes > .node')].find((node) => node.querySelector(':scope > a.node--self').getAttribute('href') === path)
+            let link = chapter.querySelector(':scope > .node > a.node--self')
+            return [link.getAttribute('href'), link.textContent.trim()]
+          })(arguments[0])
+        JS
+
+        expect(first).to eq([overview.guide_path, overview.menu_title])
+      end
+    end
+
+    it 'is the current row on the overview, also after navigating within the chapter and back' do
+      visit '/links'
+      expect(page).to have_css('.guide--menu .menu--nodes')
+      expect(current_rows).to eq(['Overview'])
+
+      find('.guide--menu a[href="/following-links"]').click
+      expect(page).to have_current_path('/following-links')
+      expect(page).to have_css('.guide--menu .node > .node > a.up-current', text: 'Following links')
+      expect(current_rows).to eq(['Following links'])
+
+      find('.guide--menu .node > .node > a.node--self', text: 'Overview').click
+      expect(page).to have_current_path('/links')
+      expect(page).to have_css('.guide--menu .node > .node > a.up-current', text: 'Overview')
+      expect(current_rows).to eq(['Overview'])
+    end
+  end
+
 end

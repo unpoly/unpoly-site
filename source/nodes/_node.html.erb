@@ -24,6 +24,10 @@
     </span>
   <% end %>
 
+  <% if node.try(:menu_overview) %>
+    <%= partial 'nodes/node', locals: { node: node.menu_overview } %>
+  <% end %>
+
   <% node.menu_children.each do |child| %>
     <%= partial 'nodes/node', locals: { node: child } %>
   <% end %>

@@ -175,6 +175,13 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
       expect(row('API')['expanded']).to be(false)
     end
 
+    it 'opens Learn and marks the chapter on its overview' do
+      open_drawer_on '/links'
+
+      expect(current_in_drawer).to eq(['Learn', 'Links'])
+      expect(row('Learn')['expanded']).to be(true)
+    end
+
     it 'opens API and marks Formats on a format page' do
       open_drawer_on '/relaxed-json'
 
