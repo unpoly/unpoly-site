@@ -113,6 +113,55 @@ describe 'the page frame', type: :feature, js: true do
       expect(sizes).to eq([['14px', '17px'], ['12px', '15px']])
     end
 
+    describe 'in the rail' do
+      def current_sections
+        page.evaluate_script("[...document.querySelectorAll('.toc .toc--item.-current')].map((item) => item.textContent.trim())")
+      end
+
+      def scroll_to_heading(id)
+        page.execute_script("document.getElementById(arguments[0]).scrollIntoView(); window.scrollBy(0, -60)", id)
+      end
+
+      it 'marks the section the reader is in, and only that one' do
+        visit '/up.render'
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Choosing which fragment to update')
+
+        scroll_to_heading('concurrency')
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Concurrency')
+
+        page.execute_script('window.scrollTo(0, document.scrollingElement.scrollHeight)')
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Return value')
+        expect(current_sections).to eq(['Return value'])
+        expect(page).to have_css('.toc.-rail .toc--item.-current a[aria-current=location]')
+      end
+
+      it 'marks the section a link has revealed' do
+        visit '/up.render'
+
+        find('.toc.-rail a[href="#passing-the-new-fragment"]').click
+
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Passing the new fragment')
+        expect(current_sections).to eq(['Passing the new fragment'])
+      end
+
+      it 'marks the section a deep link opens' do
+        visit '/up.render#enabling-side-effects'
+
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Enabling side effects')
+      end
+
+      it 'follows the reader onto the next page' do
+        visit '/loading-state'
+        expect(page).to have_css('.guide--menu .menu--nodes')
+        page.execute_script("up.navigate({ url: '/targeting-fragments' })")
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Swapping a fragment')
+
+        scroll_to_heading('targeting-nothing')
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Targeting nothing')
+        expect(current_sections).to eq(['Targeting nothing'])
+      end
+    end
+
     it 'shows only one copy at a time' do
       visit '/loading-state'
 

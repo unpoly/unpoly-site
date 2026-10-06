@@ -28,6 +28,17 @@
     .toc--item
       font-size: $text-md
 
+      // The section the reader is in (toc.js), marked like the current page in the
+      // sidebar menu across the text.
+      a
+        display: block
+        padding: 0 $space-1
+        margin-left: -$space-1
+
+      &.-current a
+        background-color: desaturate($indigo-800, 5%)
+        color: white
+
 .toc--title
   margin-top: 0
   margin-bottom: $space-2
