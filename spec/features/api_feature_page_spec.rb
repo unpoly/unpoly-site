@@ -42,10 +42,10 @@ describe 'a feature page title', type: :feature, js: true do
     })()
   JS
 
-  it 'may break a long signature where Prettier would: after "(", before ".", after ", "' do
+  it 'may break a long signature where Prettier would: after "(", before ".", after ", ", but never after a leading "up"' do
     visit '/up.RenderJob.prototype.then'
 
-    expect(page.evaluate_script(TITLE_JS)).to eq('up|.RenderJob|.prototype|.then(|onFulfilled, |onRejected)')
+    expect(page.evaluate_script(TITLE_JS)).to eq('up.RenderJob|.prototype|.then(|onFulfilled, |onRejected)')
   end
 
   it 'leaves the signature in the search index unbroken' do

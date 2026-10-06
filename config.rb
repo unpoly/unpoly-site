@@ -444,6 +444,7 @@ helpers do
       .gsub(/\((?!\))/, '(<wbr>')
       .gsub(/(?<=\w)([.#])(?=\w)/, '<wbr>\\1')
       .gsub(', ', ', <wbr>')
+      .sub(/\Aup<wbr>\./, 'up.') # a bare "up" on a line of its own reads as a word
       .html_safe
   end
 
