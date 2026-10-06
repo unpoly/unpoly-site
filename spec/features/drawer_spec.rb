@@ -9,6 +9,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
   def open_drawer
     find('.guide--head a[href="/menu/narrow"]').click
     expect(page).to have_css('up-drawer .menu .menu--nodes')
+    wait_for_drawer_to_settle
   end
 
   def open_drawer_on(path)

@@ -429,6 +429,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
     def open_drawer
       find('.guide--head a[href="/menu/narrow"]').click
       expect(page).to have_css('up-drawer .menu')
+      wait_for_drawer_to_settle
     end
 
     it 'gives a documentation page the same frame as a direct load when entered from the landing' do
