@@ -115,7 +115,7 @@ describe 'the page frame', type: :feature, js: true do
 
     describe 'in the rail' do
       def current_sections
-        page.evaluate_script("[...document.querySelectorAll('.toc .toc--item.-current')].map((item) => item.textContent.trim())")
+        page.evaluate_script("[...document.querySelectorAll('.toc .toc--item.-current .toc--label')].map((label) => label.textContent.trim())")
       end
 
       def scroll_to_heading(id)
@@ -133,6 +133,23 @@ describe 'the page frame', type: :feature, js: true do
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Return value')
         expect(current_sections).to eq(['Return value'])
         expect(page).to have_css('.toc.-rail .toc--item.-current a[aria-current=location]')
+      end
+
+      it 'marks it in bold, without moving any item' do
+        visit '/up.render'
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Choosing which fragment to update')
+        boxes = "[...document.querySelectorAll('.toc.-rail .toc--item')].map((item) => { let r = item.getBoundingClientRect(); return [r.top, r.height] })"
+        weights = "[...document.querySelectorAll('.toc.-rail .toc--item a')].map((link) => getComputedStyle(link).fontWeight)"
+        before = page.evaluate_script(boxes)
+
+        expect(page.evaluate_script(weights).first).to eq('700')
+        expect(page.evaluate_script(weights).drop(1).uniq).to eq(['400'])
+        expect(page.evaluate_script("getComputedStyle(document.querySelector('.toc.-rail .toc--item.-current a')).backgroundColor")).to eq('rgba(0, 0, 0, 0)')
+
+        scroll_to_heading('concurrency')
+        expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Concurrency')
+
+        expect(page.evaluate_script(boxes)).to eq(before)
       end
 
       it 'marks the section a link has revealed' do

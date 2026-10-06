@@ -28,16 +28,22 @@
     .toc--item
       font-size: $text-md
 
-      // The section the reader is in (toc.js), marked like the current page in the
-      // sidebar menu across the text.
+      // The section the reader is in (toc.js), set in bold. The label and a hidden
+      // bold copy share one grid cell, so the cell is always as large as the bold
+      // label: marking an item never re-wraps it or moves the items below.
       a
-        display: block
-        padding: 0 $space-1
-        margin-left: -$space-1
+        display: grid
+
+      .toc--label,
+      .toc--ghost
+        grid-area: 1 / 1
+
+      .toc--ghost
+        visibility: hidden
+        font-weight: bold
 
       &.-current a
-        background-color: desaturate($indigo-800, 5%)
-        color: white
+        font-weight: bold
 
 .toc--title
   margin-top: 0

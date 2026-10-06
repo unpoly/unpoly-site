@@ -4,7 +4,7 @@
 // line just below the fixed header, or the first section while none has. At the bottom
 // of the page the last sections can never reach that line, so there the section a
 // link has just revealed wins if it is in view, and otherwise the last heading in
-// view. Exactly one item is marked at any time.
+// view. Exactly one item is marked at any time, in bold.
 //
 // Only the rail's copy (.toc.-rail) is a spy; the copy in the text stays plain. The
 // rail is part of the page's frame, so every navigation compiles a new one.
@@ -33,8 +33,21 @@ function currentIndex(headings) {
   return Math.max(tops.findLastIndex((top) => top <= line), 0)
 }
 
+// Wraps a link's label and adds a hidden bold copy beside it, which keeps room for the
+// label in bold (toc.sass).
+function reserveBoldWidth(link) {
+  let label = document.createElement('span')
+  label.className = 'toc--label'
+  label.append(...link.childNodes)
+  let ghost = label.cloneNode(true)
+  ghost.className = 'toc--ghost'
+  ghost.setAttribute('aria-hidden', 'true')
+  link.append(label, ghost)
+}
+
 up.compiler('.toc.-rail', function(toc) {
   let items = [...toc.querySelectorAll('.toc--item')]
+  toc.querySelectorAll('.toc--item a').forEach(reserveBoldWidth)
   let entries = items.map((item) => {
     let link = item.querySelector('a[href^="#"]')
     let heading = link && document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)))
