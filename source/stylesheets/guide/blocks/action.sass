@@ -7,10 +7,15 @@
 
 // Buttons are set in sentence case. Nothing here may assume capitals: the old
 // block leaned on them for its padding and had to be undone by hand.
+//
+// A button never looks like a link, whatever text it stands in: the link styles of
+// the landing's and the guides' text (.landing--inner a, .prose a) select every <a>
+// and are more specific than one class, hence !important for the ink and the line.
 .action
   display: inline-block
   border-radius: $radius-sm
   color: white !important
+  text-decoration: none !important
   font-weight: bold
   +type($text-sm, $leading-ui)
   padding: $space-2 $space-4

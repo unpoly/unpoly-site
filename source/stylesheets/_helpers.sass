@@ -259,7 +259,9 @@
   border-radius: $radius-md
   color: $ink
   background: none
-  text-decoration: none
+  // A button never looks like a link, also inside text whose link styles are more
+  // specific than its class (see .action).
+  text-decoration: none !important
 
   // Over the hover look of a link in the text (a yellow mark, the hover red).
   &:hover, &:focus-visible

@@ -43,6 +43,21 @@ describe 'index', type: :feature, js: true do
     widths.each { |scroll, client| expect(scroll).to be <= client }
   end
 
+  # The landing's text styles every <a> as a link; its buttons must not catch that.
+  it 'draws its buttons without a link underline, in white on their own color' do
+    buttons = page.evaluate_script(<<~JS)
+      [...document.querySelectorAll('.landing a.action')].map((button) => {
+        let style = getComputedStyle(button)
+        return [button.textContent.trim(), style.textDecorationLine, style.color]
+      })
+    JS
+
+    expect(buttons.map(&:first)).to include('Learn Unpoly', 'API Reference')
+    buttons.each do |label, line, color|
+      expect([label, line, color]).to eq([label, 'none', 'rgb(255, 255, 255)'])
+    end
+  end
+
   it 'runs without the documentation sidebar' do
     expect(page).to have_css('.landing')
     expect(page).to have_no_css('.guide--left')
