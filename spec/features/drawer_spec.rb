@@ -53,6 +53,12 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     expect(rows.map { |row| row['title'] }).to eq(ROWS)
   end
 
+  it 'keeps GitHub as a row of words, though the header shows only its icon' do
+    open_drawer_on '/support'
+
+    expect(page).to have_css('up-drawer .node--self[href="https://github.com/unpoly/unpoly"]', text: 'GitHub')
+  end
+
   it 'leads from the Learn and API rows to their hubs' do
     open_drawer_on '/support'
 

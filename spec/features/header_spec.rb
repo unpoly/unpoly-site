@@ -5,8 +5,9 @@ describe 'the header', type: :feature, js: true do
 
   SECTIONS = %w[Learn API Demo Changes Support GitHub].freeze
 
+  # Each section's accessible name: its words, or the label of an icon-only link.
   def header_sections
-    all('.guide--head .top-nav--section').map { |link| link.text.strip }
+    all('.guide--head .top-nav--section').map { |link| link['aria-label'] || link.text.strip }
   end
 
   def box(selector)
@@ -54,6 +55,24 @@ describe 'the header', type: :feature, js: true do
     expect(page).to have_no_css('.guide--head .-support')
     transforms = page.evaluate_script("[...document.querySelectorAll('.guide--head .top-nav--section')].map((e) => getComputedStyle(e).textTransform)")
     expect(transforms.uniq).to eq(['none'])
+  end
+
+  it 'shows GitHub as its icon alone, named for assistive tech and level with the words' do
+    visit '/targeting-fragments'
+
+    github = find('.guide--head .top-nav--section[href="https://github.com/unpoly/unpoly"]')
+    expect(github.text.strip).to eq('')
+    expect(github['aria-label']).to eq('GitHub')
+    expect(github).to have_css('.fa-github[aria-hidden="true"]')
+
+    # Same box as a word, so hover and current underlines line up across the row.
+    tops_and_bottoms = page.evaluate_script(<<~JS)
+      [...document.querySelectorAll('.guide--head .top-nav--section')].map((link) => {
+        let r = link.getBoundingClientRect()
+        return [Math.round(r.top), Math.round(r.bottom), getComputedStyle(link).color]
+      })
+    JS
+    expect(tops_and_bottoms.uniq.size).to eq(1)
   end
 
   it 'puts the brand on the left, the search in the middle and the sections on the right' do

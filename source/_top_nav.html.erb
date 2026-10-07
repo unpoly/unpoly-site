@@ -1,8 +1,9 @@
 <%# The header's sections. The drawer lists the same ones (menu/narrow.html.erb). %>
 <nav class="top-nav" up-nav aria-label="Sections">
   <% site_sections.each do |section| %>
-    <a href="<%= section[:href] %>" class="top-nav--section"<% if section[:alias] %> up-alias="<%= section[:alias] %>"<% end %><% if section[:target] %> target="<%= section[:target] %>"<% end %>>
-      <% if section[:icon] %><i class="fa <%= section[:icon] %>" aria-hidden="true"></i> <% end %><%= section[:label] %>
+    <%# A section with an icon (GitHub) shows only the icon here; the label stays its accessible name. The drawer shows the label. %>
+    <a href="<%= section[:href] %>" class="top-nav--section<% if section[:icon] %> -icon<% end %>"<% if section[:icon] %> aria-label="<%= section[:label] %>" title="<%= section[:label] %>"<% end %><% if section[:alias] %> up-alias="<%= section[:alias] %>"<% end %><% if section[:target] %> target="<%= section[:target] %>"<% end %>>
+      <% if section[:icon] %><i class="fa <%= section[:icon] %>" aria-hidden="true"></i><% else %><%= section[:label] %><% end %>
     </a>
   <% end %>
 

@@ -20,7 +20,7 @@ HEADER_PROBE = <<~JS
   const img = document.querySelector('.guide--head .logo img')
   const box = img && img.parentElement.parentElement.getBoundingClientRect()
   parts.logoImage = img ? [Math.round(img.getBoundingClientRect().right), Math.round(box.right)] : 'absent'
-  parts.sections = [...document.querySelectorAll('.guide--head .top-nav--section')].filter(e => e.getBoundingClientRect().width > 0).map(e => e.textContent.trim() + (e.matches('.up-current') ? '*' : ''))
+  parts.sections = [...document.querySelectorAll('.guide--head .top-nav--section')].filter(e => e.getBoundingClientRect().width > 0).map(e => (e.getAttribute('aria-label') || e.textContent.trim()) + (e.matches('.up-current') ? '*' : ''))
   parts.backgrounds = [...new Set([head, ...head.querySelectorAll('*')].map(e => getComputedStyle(e).backgroundColor).filter(c => c !== 'rgba(0, 0, 0, 0)'))]
   parts.overflow = head.scrollWidth > bar.width + 1
   return parts
