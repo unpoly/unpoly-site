@@ -173,6 +173,11 @@ describe 'presentation', type: :feature, js: true do
       expect(line['top']).to be_between(0, 10)
       expect(line['right'].abs).to be <= 0.5
       expect(page).to have_css('.edit-link[aria-label="Edit this page"]')
+
+      # A source file at one revision on GitHub. The revision used to end in a newline,
+      # which the browser sent as %0A.
+      href = find('.edit-link')[:href]
+      expect(href).to match(%r{\Ahttps://github\.com/unpoly/unpoly/blob/[0-9a-f]{40}/src/unpoly/pages/targeting-fragments\.md\?plain=1#L\d+:L\d+\z})
     end
 
     it 'says just "Edit" where the burger replaces the sidebar', driver: :selenium_tablet do

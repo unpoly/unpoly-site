@@ -78,6 +78,10 @@ describe Unpoly::Guide::Repository do
       expect(subject.git_version_tag).to eq("v#{subject.version}")
     end
 
+    it 'reads the checked-out revision as a bare commit hash, without the newline git prints' do
+      expect(subject.git_revision).to match(/\A[0-9a-f]{40}\z/)
+    end
+
   end
 
   describe '#documentables' do

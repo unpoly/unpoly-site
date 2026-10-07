@@ -186,7 +186,9 @@ module Unpoly
         synchronize do
           # `git -C`, not Dir.chdir: changing the process's working directory would
           # break relative paths in threads that are rendering at the same time.
-          `git -C #{Shellwords.escape(path)} rev-parse HEAD`
+          # git ends its output with a newline, which would land in every URL built
+          # from the revision ("Edit page" links pointed to .../blob/<sha>%0A/...).
+          `git -C #{Shellwords.escape(path)} rev-parse HEAD`.strip
         end
       end
 
