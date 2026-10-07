@@ -1,1 +1,57 @@
-<%= partial 'area_hub', locals: { area: guide.toc.learn } %>
+<%#
+  The Learn hub: a way into the course and an index of all of it. Getting started
+  stands on its own as the place to begin; the chapters follow in reading order, each
+  with its pages listed inline. Below $bp-sidebar there is no sidebar, so this page is
+  the only place that shows the whole curriculum at once.
+
+  Every word comes from the model (toc.yml and each chapter's overview). A summary the
+  overview has not been written for yet is left out rather than shown as a placeholder.
+%>
+<% area = guide.toc.learn %>
+<% @menu_path = area.menu_path %>
+<% start, *chapters = area.topics %>
+<% blurb = ->(topic) { text = topic.summary_markdown.to_s.strip; text unless text.blank? || text == 'This page is being written.' } %>
+
+<h1><%= page_title area.title %></h1>
+
+<section class="learn-start" aria-labelledby="learn-start-title">
+  <p class="learn-start--kicker">Start here</p>
+
+  <h2 class="learn-start--title" id="learn-start-title">
+    <%= link_to start.title, start.menu_path %>
+  </h2>
+
+  <% if (text = blurb.(start)) %>
+    <div class="learn-start--blurb"><%= markdown(text, strip_links: true) %></div>
+  <% end %>
+
+  <ol class="chapter-pages -steps">
+    <% start.children.each do |page| %>
+      <li><%= link_to page.menu_title, page.guide_path, class: 'chapter-pages--link' %></li>
+    <% end %>
+  </ol>
+
+  <p class="learn-start--action">
+    <a href="<%= start.menu_path %>" class="learn-start--button"><%= start.start_page.title %> <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+  </p>
+</section>
+
+<ol class="learn-chapters">
+  <% chapters.each do |chapter| %>
+    <li class="learn-chapter">
+      <h2 class="learn-chapter--title">
+        <%= link_to chapter.title, chapter.menu_path %>
+      </h2>
+
+      <% if (text = blurb.(chapter)) %>
+        <div class="learn-chapter--blurb"><%= markdown(text, strip_links: true) %></div>
+      <% end %>
+
+      <ul class="chapter-pages">
+        <% chapter.children.each do |page| %>
+          <li><%= link_to page.menu_title, page.guide_path, class: 'chapter-pages--link' %></li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ol>

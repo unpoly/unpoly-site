@@ -466,5 +466,10 @@ up.on('up:link:follow', '.search-pill', function(event) {
   openSearch(event.target)
 })
 
+// The search prompt on the /api hub is a button, so a plain click reaches it.
+up.on('click', '.search-prompt', function(event, prompt) {
+  openSearch(prompt)
+})
+
 // For specs, and for anything that wants to open the search without a click.
 window.openSearch = openSearch

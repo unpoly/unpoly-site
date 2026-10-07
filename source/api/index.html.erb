@@ -1,1 +1,43 @@
-<%= partial 'area_hub', locals: { area: guide.toc.api } %>
+<%#
+  The API hub: a catalog to look things up in. One compact row per topic of the API
+  sidebar, in the sidebar's order: the module's name, its summary, and its signature
+  features (the ones marked @signature, which search also ranks first) as quick links.
+  A page group (Formats) lists its pages instead.
+
+  Every word comes from the model; the search prompt repeats the header pill's words.
+%>
+<% area = guide.toc.api %>
+<% @menu_path = area.menu_path %>
+
+<h1><%= page_title area.title %></h1>
+
+<button type="button" class="search-prompt">
+  <i class="fa fa-search search-prompt--icon" aria-hidden="true"></i>
+  <span class="search-prompt--label">Search docs…</span>
+  <kbd class="search-prompt--key">/</kbd>
+</button>
+
+<div class="api-catalog">
+  <% area.topics.each do |topic| %>
+    <% interface = topic.try(:interface) %>
+    <% quick_links = interface ? topic.children.flat_map { |group| group.children.select(&:signature_tier?) } : topic.pages %>
+
+    <div class="api-row<%= ' -module' if interface %>">
+      <%= link_to topic.title, topic.menu_path, class: 'api-row--name' %>
+
+      <div class="api-row--body">
+        <% if topic.summary_markdown.present? %>
+          <div class="api-row--summary"><%= markdown(topic.summary_markdown, strip_links: true) %></div>
+        <% end %>
+
+        <% if quick_links.any? %>
+          <ul class="api-row--features">
+            <% quick_links.each do |documentable| %>
+              <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

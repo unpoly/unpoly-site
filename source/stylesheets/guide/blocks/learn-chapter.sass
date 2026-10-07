@@ -1,0 +1,46 @@
+@import ../../environment
+
+// The chapters on the Learn hub, in reading order and numbered as such. Each one is
+// its title (leading to its overview), its summary and its pages (chapter-pages.sass).
+.learn-chapters
+  counter-reset: chapter
+  margin: 0 0 $space-6
+
+.learn-chapter
+  counter-increment: chapter
+  padding: $space-5 0
+  border-top: 1px solid $gray-300
+
+  &:last-child
+    padding-bottom: 0
+
+.learn-chapter--title
+  +type($text-lg, $leading-heading)
+  font-weight: bold
+  margin: 0 0 $space-2
+
+  &::before
+    content: counter(chapter)
+    display: inline-block
+    min-width: 1.6em
+    color: $gray-500
+    font-variant-numeric: tabular-nums
+
+    // Beside a sidebar the number hangs into the gap before the text, so the title
+    // starts on the text's edge like the summary below it.
+    +on_wide
+      margin-left: -1.6em
+
+  a
+    color: $indigo-800
+
+    +hover
+      text-decoration: underline
+
+.learn-chapter--blurb
+  +type($text-md, $leading-body)
+  color: $gray-800
+  max-width: $measure-prose
+
+  p
+    margin: 0

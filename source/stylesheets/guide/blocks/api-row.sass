@@ -1,0 +1,68 @@
+@import ../../environment
+
+// The catalog on the /api hub: one compact row per topic of the API sidebar. The
+// name sits in a column of its own and the summary and quick links beside it; where
+// the two do not fit side by side, the body wraps below the name.
+.api-catalog
+  margin: 0 0 $space-6
+  border-top: 1px solid $gray-300
+
+.api-row
+  display: flex
+  flex-wrap: wrap
+  align-items: baseline
+  gap: $space-1 $space-4
+  padding: $space-3 0
+  border-bottom: 1px solid $gray-300
+
+.api-row--name
+  flex: 0 0 8.5em
+  +type($text-md, $leading-ui)
+  font-weight: bold
+  color: $indigo-800
+
+  .-module &
+    +monospace-font
+
+  +hover
+    text-decoration: underline
+
+.api-row--body
+  flex: 1 1 22em
+  min-width: 0
+
+.api-row--summary
+  +type($text-sm, $leading-ui)
+  color: $gray-700
+
+  p
+    margin: 0
+
+  code
+    +inline-code
+    font-size: 0.95em
+
+  strong
+    font-weight: normal
+
+.api-row--features
+  display: flex
+  flex-wrap: wrap
+  gap: 2px $space-3
+  margin: $space-2 0 0
+  padding: 0
+  list-style: none
+  +type($text-xs, $leading-ui)
+
+  li
+    margin: 0
+
+.api-row--feature
+  color: $color-link
+
+  .-module &
+    +monospace-font
+
+  +hover
+    color: $color-hover
+    text-decoration: underline
