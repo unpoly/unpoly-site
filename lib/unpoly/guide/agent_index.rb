@@ -4,7 +4,8 @@ module Unpoly
     # `##` section per area, each a list of links with a one-sentence description.
     #
     # /index.md and /llms.txt render it with web links, the skill's SKILL.md with
-    # relative ones. The lead and closing paragraphs are copy and live in the templates.
+    # relative ones. The lead and closing paragraphs live in the templates; the one-line
+    # descriptions of the hubs, Changes and Support are copy kept here.
     class AgentIndex
       # links: a MarkdownLinks resolver. support: whether to list /support (the skill
       # points to it in a sentence of its own). level: of the section headings.

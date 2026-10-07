@@ -315,6 +315,8 @@ helpers do
   # links to itself, on whatever host and port it was reached, so following a link in
   # a previewed .md page stays in the preview.
   def base_url
+    # Middleman's preview passes the Rack request as the `rack` local (Middleman::Rack);
+    # there is no public accessor for it.
     request = @locs && @locs.dig(:rack, :request)
     if request && server?
       "#{request.scheme}://#{request.host_with_port}"
