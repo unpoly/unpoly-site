@@ -138,4 +138,50 @@ describe Unpoly::Guide::Toc do
 
   end
 
+  describe 'loose pages' do
+
+    let(:toc) { LoosePage.toc }
+    let(:page) { repository.find_page!(LoosePage::SLUG) }
+
+    it 'accepts a page listed as loose instead of in a chapter' do
+      expect { toc }.not_to raise_error
+    end
+
+    it 'still rejects a page that is neither in a chapter nor loose' do
+      data = LoosePage.manifest
+      data['learn']['loose'] -= [LoosePage::SLUG]
+
+      expect { described_class.new(data, repository) }.to raise_error(described_class::Invalid, /not listed: #{LoosePage::SLUG}/)
+    end
+
+    it 'rejects a loose slug that no page declares' do
+      data = LoosePage.manifest
+      data['learn']['loose'] << 'a-page-we-never-wrote'
+
+      expect { described_class.new(data, repository) }.to raise_error(described_class::Invalid, /without an @page directive: a-page-we-never-wrote/)
+    end
+
+    it 'rejects a page that is both in a chapter and loose' do
+      data = LoosePage.manifest
+      data['learn']['loose'] << 'install'
+
+      expect { described_class.new(data, repository) }.to raise_error(described_class::Invalid, /listed more than once: install/)
+    end
+
+    it 'counts a loose page as part of the Learn area, in no topic' do
+      expect(toc.area_of(page)).to eq(toc.learn)
+      expect(toc.area_for(page)).to eq(toc.learn)
+      expect(toc.topic_of(page)).to be_nil
+      expect(toc.learn.pages).to include(page)
+    end
+
+    it 'keeps a loose page off the reading path' do
+      expect(toc.reading_order).not_to include(page)
+      expect(toc.previous_page(page)).to be_nil
+      expect(toc.next_page(page)).to be_nil
+      expect(toc.learn.topics.flat_map(&:pages)).not_to include(page)
+    end
+
+  end
+
 end

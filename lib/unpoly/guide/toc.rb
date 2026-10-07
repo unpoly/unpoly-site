@@ -15,7 +15,8 @@ module Unpoly
 
       PATH = 'src/unpoly/pages/toc.yml'
 
-      AREA_KEYS = %w[title reading topics].freeze
+      AREA_KEYS = %w[title reading topics loose].freeze
+      REQUIRED_AREA_KEYS = %w[title reading topics].freeze
       READINGS = %w[linear lookup].freeze
 
       def self.load(repository)
@@ -61,9 +62,9 @@ module Unpoly
         area_of(documentable) || api
       end
 
-      # All pages of all linear areas, in reading order.
+      # All pages of all linear areas, in reading order. Loose pages are not on the path.
       def reading_order
-        areas.select(&:linear?).flat_map(&:pages)
+        areas.select(&:linear?).flat_map(&:topic_pages)
       end
 
       def previous_page(page)
@@ -151,7 +152,7 @@ module Unpoly
           @key = key
           @toc = toc
           data.is_a?(Hash) or raise Invalid, "#{toc.path}: area '#{key}' must be a mapping"
-          Toc.check_keys!(data, AREA_KEYS, AREA_KEYS, "#{toc.path}: area '#{key}'")
+          Toc.check_keys!(data, AREA_KEYS, REQUIRED_AREA_KEYS, "#{toc.path}: area '#{key}'")
 
           @title = data['title']
           @reading = data['reading']
@@ -161,9 +162,11 @@ module Unpoly
           topics = data['topics']
           topics.is_a?(Array) or raise Invalid, "#{toc.path}: area '#{key}' must list its topics"
           @topics = topics.map { |topic| Topic.build(topic, self) }
+
+          @loose_slugs = Array(data['loose'])
         end
 
-        attr_reader :key, :title, :reading, :topics, :toc
+        attr_reader :key, :title, :reading, :topics, :toc, :loose_slugs
 
         delegate :repository, to: :toc
 
@@ -175,13 +178,26 @@ module Unpoly
           "/#{key}"
         end
 
-        # Pages in this area, in manifest order.
+        # Pages in this area, in manifest order, loose pages last.
         def pages
-          topics.flat_map(&:pages)
+          topic_pages + loose_pages
         end
 
         def page_slugs
-          topics.flat_map(&:page_slugs)
+          topics.flat_map(&:page_slugs) + loose_slugs
+        end
+
+        # Pages that belong to a topic, and so to the menu, the hub and the reading path.
+        def topic_pages
+          topics.flat_map(&:pages)
+        end
+
+        # Pages of the area that belong to no topic (`loose:` in the manifest). They are
+        # presented in the area (its menu, its search badge) but appear in none of its
+        # lists: not in the menu tree, not on the hub, not on the reading path. Other
+        # pages link to them, e.g. into an overlay.
+        def loose_pages
+          loose_slugs.map { |slug| repository.find_page!(slug) }
         end
 
         def module_names
@@ -189,7 +205,7 @@ module Unpoly
         end
 
         def includes?(documentable)
-          !!topic_of(documentable)
+          !!topic_of(documentable) || loose_pages.include?(documentable)
         end
 
         def topic_of(documentable)
