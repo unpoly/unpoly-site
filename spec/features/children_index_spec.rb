@@ -18,7 +18,7 @@ describe 'the children index', type: :feature, js: true do
     it 'is titled by a heading that the page contents leave out' do
       visit '/loading-state'
 
-      expect(page).to have_css('.children-index h2[toc="false"]', text: 'In this chapter')
+      expect(page).to have_css('.children-index h2[data-toc-ignore]', text: 'In this chapter')
       expect(page).to have_css('.toc')
       within('.toc') { expect(page).to have_no_text('In this chapter') }
     end

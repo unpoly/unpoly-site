@@ -1,10 +1,12 @@
-<a href="<%= feature.guide_path %>" class="documentable-preview -<%= feature.visibility %>">
+<%# A list item of the "All features" list (see the cards in interface_template.html.erb). %>
+<li class="documentable-preview -<%= feature.visibility %>" up-expand>
 
-  <span class="documentable-preview--kind" title="<%= feature.long_kind %>"><%= feature.short_kind %></span>
-
-  <div class="documentable-preview--title">
-    <span class="documentable-preview--signature"><%= h(feature.signature) %></span>
-    <span class="documentable-preview--visibility"><%= visibility_tag(feature.visibility) %></span>
+  <div class="documentable-preview--title" role="heading" aria-level="4">
+    <a href="<%= feature.guide_path %>" class="documentable-preview--signature"><%= h(feature.signature) %></a>
+    <span class="documentable-preview--kind" title="<%= feature.long_kind %>" data-markdown="chip"><%= feature.short_kind %></span>
+    <% unless feature.stable? %>
+      <span class="documentable-preview--visibility"><%= visibility_tag(feature.visibility) %></span>
+    <% end %>
   </div>
 
   <% if feature.summary_markdown.present? %>
@@ -13,4 +15,4 @@
     </div>
   <% end %>
 
-</a>
+</li>

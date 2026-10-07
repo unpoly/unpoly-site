@@ -101,11 +101,11 @@ module Unpoly
         headings = headings.map(&:dup)
 
         html = ''
-        html << '<nav class="toc" data-pagefind-ignore>'
+        html << '<nav class="toc" aria-label="Contents" data-pagefind-ignore>'
         html << '<h4 class="toc--title">Contents</h4>'
         headings.each do |heading|
           textualize_heading(heading)
-          html << "<div class='toc--item'><a href='##{heading[:id]}'><i class='fa fa-bookmark-o'></i> #{heading.inner_html}</a></div>"
+          html << "<div class='toc--item'><a href='##{heading[:id]}'>#{Icon.html('bookmark-o')} #{heading.inner_html}</a></div>"
         end
         html << '</nav>'
         @toc_html = html
@@ -129,8 +129,10 @@ module Unpoly
         find_headings(nokogiri_doc).each do |heading|
           level = heading_level(heading)
 
-          # A lot of legacy pages start out with <h3> levels, but have <h2> farther down
-          if heading[:id].present? && heading[:toc] != 'false' && (min_level.nil? || level <= min_level || heading[:toc] == 'true')
+          # A lot of legacy pages start out with <h3> levels, but have <h2> farther down.
+          # [data-toc-ignore] keeps a heading out; [data-toc-include] lists a heading below
+          # the top level (in Markdown: `{:data-toc-include="true"}` below the heading).
+          if heading[:id].present? && !heading.key?('data-toc-ignore') && (min_level.nil? || level <= min_level || heading.key?('data-toc-include'))
             results << heading
             min_level ||= level
             min_level = [min_level, level].min

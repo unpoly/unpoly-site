@@ -7,6 +7,10 @@
   comment. The compiler's own `mark:` convention would eat the comment.
 %>
 <% @frame = :landing %>
+<%# The landing page has no Markdown twin. Agents get the generated index instead
+    (root_index.txt.erb), which /llms.txt serves too. %>
+<% head_link(rel: 'alternate', type: 'text/markdown', href: '/index.md') %>
+<% head_link(rel: 'alternate', type: 'text/plain', href: '/llms.txt') %>
 
 <div class="landing">
 

@@ -56,6 +56,16 @@ configure :build do
     end
   end
 
+  # Checks the unpoly-docs skill that the build wrote to build/skills/unpoly-docs/ and
+  # packs its archives and install indexes (Unpoly::Guide::SkillPackage). A broken skill
+  # fails the build.
+  after_build do
+    unless ENV['SKIP_SKILL']
+      puts "Checking and packing the unpoly-docs skill. Disable with SKIP_SKILL=1."
+      Unpoly::Guide::SkillPackage.new(build_dir: './build', stamp: config[:skill_stamp]).package!
+    end
+  end
+
   after_build do
     unless ENV['SKIP_CHECK_LINKS']
       puts "Checking for broken links. Disable with SKIP_CHECK_LINKS=1."
@@ -113,14 +123,27 @@ sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 
 page '/.htaccess', directory_index: false
 
+# The Markdown twins (/up.render.md) and the skill's files. The preview serves them
+# with the right type; the build's Apache config sets its own (.htaccess.erb).
+mime_type :md, 'text/markdown; charset=utf-8'
+
 ##
 # Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
 #
+
+# Every documentation page gets a Markdown twin next to it, for agents and LLMs
+# (/up.render → /up.render.md). The proxy loops below register their pages here, and
+# the list of plain pages after them names the rest. Unpoly::Guide::MarkdownTwins has
+# the details; the agent skill is made from the same list.
+markdown_twins = Unpoly::Guide::MarkdownTwins.new
+set :markdown_twins, markdown_twins
+
 Unpoly::Guide.current.interfaces.select(&:guide_page?).each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Interface #{interface.name}: #{path}" if DEBUG
   # Pass the name instead of the interface instance, since reloading will build a new instance.
   proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, ignore: true
+  markdown_twins.add(interface.guide_path, documentable: interface.guide_id)
 end
 
 Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
@@ -128,6 +151,7 @@ Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
   puts "Feature #{feature.name}: #{path}" if DEBUG
   # Pass the name instead of the feature instance, since reloading will build a new instance.
   proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, ignore: true
+  markdown_twins.add(feature.guide_path, documentable: feature.guide_id)
 end
 
 # Generated index pages of page groups that have no overview page (toc.yml `index:`).
@@ -135,6 +159,7 @@ Unpoly::Guide.current.toc.areas.each do |area|
   area.topics.select(&:index).each do |topic|
     # Pass names instead of objects, since reloading will build new instances.
     proxy "#{topic.index.guide_path}.html", "/api/topic_index_template.html", locals: { area_key: area.key, index_slug: topic.index.slug }, ignore: true
+    markdown_twins.add(topic.index.guide_path, topic_index: [area.key, topic.index.slug])
   end
 end
 
@@ -144,6 +169,43 @@ Unpoly::Guide.current.versions.each do |release_version|
   # We pass the release version instead of the release object,
   # so the template will pick up changes when the guide reloads.
   proxy path, "/changes/release_template.html", locals: { release_version: release_version }, ignore: true
+  markdown_twins.add("/changes/#{release_version}", release: release_version)
+end
+
+# Plain pages with a twin. Pages that are not documentation (the landing page, the
+# imprint) have none; agents start from the generated index below instead.
+markdown_twins.add('/learn', page: :learn)
+markdown_twins.add('/api', page: :api)
+markdown_twins.add('/changes', page: :changes)
+markdown_twins.add('/changes/upgrading', page: :upgrading)
+markdown_twins.add('/support', page: :support)
+
+markdown_twins.each do |twin|
+  proxy "#{twin.path}.md", '/markdown_twin.txt', locals: { twin_path: twin.path }, ignore: true
+end
+
+# The index agents start from: what the landing page is for humans. /llms.txt is the
+# same text under the name the llms.txt convention looks for.
+proxy '/index.md', '/root_index.txt', ignore: true
+proxy '/llms.txt', '/root_index.txt', ignore: true
+
+# The unpoly-docs agent skill (Unpoly::Guide::Skill), built to build/skills/unpoly-docs/
+# and packed for distribution after the build (see after_build above). SKIP_SKILL=1
+# leaves it out of quick local builds; a deploy always needs it.
+if ENV['SKIP_SKILL']
+  ignore %r{\Askills/}
+else
+  skill = Unpoly::Guide::Skill.new(markdown_twins)
+  set :skill, skill
+  # Once per build, before Middleman forks its renderers, so that every file agrees.
+  set :skill_stamp, Unpoly::Guide::Skill.stamp
+
+  skill.files.each do |path, file|
+    proxy "/#{Unpoly::Guide::Skill::ROOT}/#{file}", '/markdown_twin.txt', locals: { twin_path: path, skill_file: file }, ignore: true
+  end
+  proxy "/#{Unpoly::Guide::Skill::ROOT}/SKILL.md", "/#{Unpoly::Guide::Skill::ROOT}/skill.txt", ignore: true
+  # The search script's tests stay in the repository (rake skill:test).
+  ignore %r{\A#{Unpoly::Guide::Skill::ROOT}/scripts/(test_|__pycache__)}
 end
 
 Unpoly::Example.all.each do |example|
@@ -244,8 +306,93 @@ helpers do
       url
     else
       absolute_path = markdown_renderer.fix_relative_image_path(url)
-      "https://unpoly.com#{absolute_path}"
+      "#{base_url}#{absolute_path}"
     end
+  end
+
+  # The origin that absolute URLs in Markdown point to. A build links to
+  # https://unpoly.com (or ENV['BASE_URL'], see Unpoly::Guide.base_url). The preview
+  # links to itself, on whatever host and port it was reached, so following a link in
+  # a previewed .md page stays in the preview.
+  def base_url
+    request = @locs && @locs.dig(:rack, :request)
+    if request && server?
+      "#{request.scheme}://#{request.host_with_port}"
+    else
+      Unpoly::Guide.base_url
+    end
+  end
+
+  # ---------- Markdown for agents ----------
+
+  def markdown_twins
+    config[:markdown_twins]
+  end
+
+  # Where the links in a Markdown page point (Unpoly::Guide::MarkdownLinks): to the
+  # site on the web, to the skill's own files inside the skill.
+  def markdown_links(page_path:, skill_file: nil)
+    options = { twin_paths: markdown_twins.paths, page_path: page_path }
+    if skill_file
+      Unpoly::Guide::MarkdownLinks::Skill.new(files: config[:skill].files, file: skill_file, **options)
+    else
+      Unpoly::Guide::MarkdownLinks::Web.new(base_url: base_url, **options)
+    end
+  end
+
+  # A page as Markdown: front matter, one line of navigation, the converted page.
+  def markdown_twin(twin_path, skill_file: nil)
+    twin = markdown_twins.fetch(twin_path)
+    links = markdown_links(page_path: twin.path, skill_file: skill_file)
+
+    html_page = sitemap.find_resource_by_destination_path(twin.html_destination) or
+      raise "No HTML page at #{twin.html_destination} for the Markdown twin of #{twin.path}"
+    body = Unpoly::Guide::HtmlToMarkdown.new(links: links).convert(html_page.render(layout: false))
+
+    # The way up: to the index, and to the closest hub. In a feature this is the only
+    # place that names its module. A <nav>, so the skill's search skips it.
+    nav = ["[All docs](#{skill_file ? links.relative('SKILL.md') : links.href('/')})"]
+    if (hub = twin.hub)
+      nav << "[#{hub.first}](#{links.href(hub.last)})"
+    end
+
+    "---\n#{twin.front_matter(url: links.page_url)}\n---\n" \
+      "<nav aria-label=\"Unpoly docs\">#{nav.join(' · ')}</nav>\n\n#{body}"
+  end
+
+  def agent_index_markdown(page_path:, skill_file: nil, **options)
+    links = markdown_links(page_path: page_path, skill_file: skill_file)
+    Unpoly::Guide::AgentIndex.new(links: links, **options).to_markdown
+  end
+
+  # <link> elements for the document head, collected while the page renders and
+  # written by layouts/_head (templates render before their layout). [up-meta] lets
+  # Unpoly swap them when it navigates, as it does for meta tags.
+  def head_link(rel:, href:, type: nil)
+    (@head_links ||= []) << { rel: rel, href: href, type: type }
+    nil
+  end
+
+  def head_links_html
+    (@head_links || []).map { |link|
+      tag(:link, rel: link[:rel], href: link[:href], type: link[:type], 'up-meta': true)
+    }.join("\n").html_safe
+  end
+
+  # The links of the reading nav (_reading_nav), which also become the head's
+  # <link rel="prev"> and <link rel="next">.
+  def prev_link(page)
+    head_link(rel: 'prev', href: page.guide_path)
+    label = icon('chevron-left', class: 'reading-nav--icon') + content_tag(:span, 'Previous', class: 'reading-nav--role')
+    link_to label, page.guide_path, class: 'reading-nav--link -previous', 'aria-label': "Previous: #{page.title}"
+  end
+
+  def next_link(page)
+    head_link(rel: 'next', href: page.guide_path)
+    label = content_tag(:span, 'Next:', class: 'reading-nav--role') +
+      content_tag(:span, page.title, class: 'reading-nav--title') +
+      icon('chevron-right', class: 'reading-nav--icon')
+    link_to label, page.guide_path, class: 'reading-nav--link -next', 'aria-label': "Next: #{page.title}"
   end
 
   # def remove_mark_phrase_comments(markdown)
@@ -432,7 +579,8 @@ helpers do
   def breadcrumb_link(label, href)
     # The breadcrumb sits inside the <h1>, from which the search index takes a page's
     # title. Without this, every API page would be titled "API reference up.render".
-    link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true, 'data-pagefind-ignore': true
+    # The Markdown twin names the module in its nav line instead.
+    link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true, 'data-pagefind-ignore': true, 'data-markdown': 'ignore'
   end
 
   # A feature's signature for a page title or menu label, with a line break allowed
@@ -505,11 +653,16 @@ helpers do
       "<span class='types--type'>#{content}</span>"
     }
 
-    "<span class='types'>#{parts.join('')}</span>"
+    # Borders tell the types apart on screen. Screen readers and the Markdown twins get
+    # the words instead: a "Type:" label and a pipe between alternatives. Both are
+    # visually hidden (types.sass).
+    label = "<span class='types--label'>Type: </span>"
+    "<span class='types'>#{label}#{parts.join("<span class='types--or'> | </span>")}</span>"
+  end
 
-    # or_tag = "<span class='type--or'>|</span>"
-    #
-    # "<span class='type'>#{parts.join('')}</span>"
+  # A Font Awesome icon, decorative unless it has a label (Unpoly::Guide::Icon).
+  def icon(name, label: nil, class: nil)
+    Unpoly::Guide::Icon.html(name, label: label, class: binding.local_variable_get(:class)).html_safe
   end
 
   def edit_button(documentable)
@@ -518,12 +671,22 @@ helpers do
     url = documentable.text_source.github_url(guide, commit: commit)
     # The label shortens to "Edit" on narrow screens (edit-link.sass); the accessible
     # name stays whole.
-    link_to 'Edit <span class="edit-link--etc">page</span>', url, target: '_blank', class: 'edit-link', 'aria-label': 'Edit this page', 'data-pagefind-ignore': true
+    link_to 'Edit <span class="edit-link--etc">page</span>', url, target: '_blank', class: 'edit-link', 'aria-label': 'Edit this page', 'data-pagefind-ignore': true, 'data-markdown': 'ignore'
   end
 
   def revision_on_github_button(revision)
     url = revision.github_browse_url
-    link_to 'Revision code', url, target: '_blank', class: 'edit-link'
+    link_to 'Revision code', url, target: '_blank', class: 'edit-link', 'data-markdown': 'ignore'
+  end
+
+  # A link to this page's Markdown twin, for agents and LLMs. It sits left of the Edit
+  # link, or where the Edit link would sit on pages that have none (md-link.sass).
+  #
+  # It also announces the twin in the document head.
+  def md_button
+    path = normalized_current_path
+    head_link(rel: 'alternate', type: 'text/markdown', href: "#{path}.md")
+    link_to 'MD', "#{path}.md", class: 'md-link', type: 'text/markdown', title: 'This page as Markdown — for agents and LLMs', 'data-markdown': 'ignore', 'data-pagefind-ignore': true
   end
 
   def feature_preview(feature)
@@ -546,7 +709,7 @@ helpers do
       { label: 'Demo', href: 'https://demo.unpoly.com', target: '_blank' },
       { label: 'Changes', href: '/changes', alias: '/changes/*' },
       { label: 'Support', href: '/support', alias: '/support/*' },
-      { label: 'GitHub', href: 'https://github.com/unpoly/unpoly', icon: 'fa-github' },
+      { label: 'GitHub', href: 'https://github.com/unpoly/unpoly', icon: 'github' },
     ]
   end
 
@@ -588,7 +751,7 @@ helpers do
       experimental_tag
     else
       <<~HTML
-      <span class="tag -experimental">
+      <span class="tag -experimental" data-markdown="chip">
         #{visibility}
       </span>
       HTML
@@ -597,8 +760,8 @@ helpers do
 
   def experimental_tag
     <<~HTML
-      <span class="tag -experimental">
-        <i class="fa fa-flask"></i>
+      <span class="tag -experimental" data-markdown="chip">
+        #{icon('flask')}
         experimental
       </span>
     HTML

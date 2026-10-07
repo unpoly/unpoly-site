@@ -143,6 +143,42 @@ as selectors and as classes toggled at runtime. When you rename a block, grep fo
 in all four places: stylesheets, ERB templates, Ruby and JavaScript.
 
 
+## Markdown for agents
+
+Every documentation page has a Markdown twin at its URL plus `.md` (`/up.render.md`), for
+coding agents and LLMs. `/index.md` and `/llms.txt` are a generated index of all guide
+chapters and API modules. The `unpoly-docs` agent skill bundles the same pages as files.
+
+- **Twins** are registered in `config.rb`, next to each page's own proxy, plus a short
+  list of plain pages (`/learn`, `/api`, `/changes`, …). The template
+  `source/markdown_twin.txt.erb` renders the HTML page without its layout and converts it
+  with `Unpoly::Guide::HtmlToMarkdown`.
+- **The converter** is generic HTML → Markdown. It knows the site only through semantics
+  in the templates: headings, `role="heading"`, `aria-label`, `<nav>`, and
+  `data-markdown="ignore"` / `data-markdown="chip"`. Prefer adding semantics to a template
+  over adding a rule. The marker map is in unpoly's
+  [documentation guide](https://github.com/unpoly/unpoly/blob/master/docs/contributing/documentation.md#markers-in-the-templates).
+- **Links** come from a resolver (`Unpoly::Guide::MarkdownLinks`): absolute URLs on the
+  web, relative file paths in the skill. A link goes to a `.md` URL only when its target
+  has a twin. A build links to `https://unpoly.com` (override with `BASE_URL`); the
+  preview links to itself, so you can click through `.md` pages there.
+- **Golden files** in `spec/fixtures/markdown` pin the twins of the parser fixtures. A
+  change to a template or the converter shows up as a failing spec with a diff; accept it
+  with `UPDATE_GOLDEN=1 bundle exec rspec spec/features/markdown_twins_spec.rb`.
+- **The skill** lives in `source/skills/unpoly-docs/`: the SKILL.md template, and the search
+  script `scripts/search.py` with its Python tests. `middleman build` writes it to
+  `build/skills/unpoly-docs/`, then checks it and packs the archives that unpoly.com
+  serves for `npx skills add https://unpoly.com` and the Claude Code marketplace
+  (`Unpoly::Guide::SkillPackage`). The deploy ships only the archives. `SKIP_SKILL=1` leaves
+  the skill out of a quick local build.
+- **Search tests** need Python 3.8+. `bundle exec rspec` runs them; so does
+  `bundle exec rake skill:test`. The ranking queries run against the skill of the last
+  build and are skipped without one.
+- **Serving**: `source/.htaccess.erb` serves `.md` as `text/markdown`, hands the twin to
+  agents whose `Accept` names `text/markdown` first, and redirects a `.md` URL without a
+  file to its page.
+
+
 ## Local development
 
 Every variant below expects `unpoly` and `unpoly-site` to be checked out in the same

@@ -1,0 +1,68 @@
+<%#
+  The skill's SKILL.md (Unpoly::Guide::Skill). Its front matter is also the source of
+  the name and description in the install indexes (Unpoly::Guide::SkillPackage).
+
+  metadata.build is the build's version stamp, which the Claude marketplace entry
+  carries too; metadata.unpoly_version is the Unpoly version documented.
+%>---
+name: unpoly-docs
+description: <%= JSON.generate("Unpoly's complete documentation — all guides and API reference — as local Markdown files with a search script. Use when writing, reviewing or debugging anything that uses Unpoly: up-* HTML attributes, up.* JavaScript functions, up:* events, X-Up-* headers, or when upgrading an app to a newer Unpoly version.") %>
+metadata:
+  unpoly_version: <%= JSON.generate(version) %>
+  build: <%= JSON.generate(config[:skill_stamp]) %>
+---
+
+# Unpoly docs
+
+Unpoly is the missing application layer for HTML. Links and forms update fragments of the page instead of loading a new one, so everything around them keeps its state. The application stays on the server and responds with plain HTML.
+
+This skill holds the documentation of Unpoly <%= version %>, the same text as https://unpoly.com, one Markdown file per page:
+
+- `references/learn/`: guides that explain a topic with examples (start with `index.md`).
+- `references/api/`: the API reference, one file per attribute, function, event, header and module (start with `index.md`).
+- `references/changes/`: release notes of Unpoly 2 and later, and the upgrade guide.
+
+## Finding things
+
+Search first. The bundled script needs Python 3.8 or later and nothing else:
+
+```
+python3 scripts/search.py "<query>"
+```
+
+Pass several variations of what you are looking for in one call: synonyms, the attribute and the function that do the same thing, the plain-English task. The terms are combined with OR (a page that matches any of them is found) and ranked by relevance, so more terms only help:
+
+```
+python3 scripts/search.py "close overlay" "dismiss modal" up-dismiss up.layer.dismiss
+```
+
+Exact names rank their own page first, in any spelling: `up.render`, `up.render()`, `[up-follow]`, `up-follow`, `up:link:follow`, `X-Up-Target`.
+
+Each result is a `<result>` block with a `score` and a `path` relative to this skill, plus the page's `<title>` and a snippet around the match. Read the file at `path` for the whole page. The top 10 results are shown; pass `--limit 30` to see more. Release notes and deprecated features rank lower.
+
+Without Python, grep the reference files for any of your terms, ranked by matches per file:
+
+```
+grep -rEic "up-dismiss|up.layer.dismiss|close overlay" references/ | grep -v ':0$' | sort -t: -k2 -rn | head -n 20
+```
+
+Or walk the index below: it lists every guide chapter and every API module. A chapter's first page links to all pages of the chapter, and a module's page lists every feature of the module with a one-line summary.
+
+## Conventions
+
+- Every file starts with front matter: `url` is the page on unpoly.com, `area` its section. An API page also has `name`, its real identifier, and `visibility` when it is `deprecated` or `experimental`.
+- File names are made safe for every file system and shell: lowercase, `$` spelled out, and the kind appended (`up.$compiler` is `up-dollar-compiler-function.md`, `up:link:follow` is `up-link-follow-event.md`, the class `up.Layer` is `up-layer-class.md`).
+- The first heading is the page title, followed by its kind in parentheses: `# up.render([target], [options]) (JavaScript function)`.
+- Fragment links point at the heading ending in `{#hash}`, e.g. `[label](up-render-function.md#options.target)` points at `#### [options.target] {#options.target}` in that file.
+- Links to pages that are not part of this skill point to unpoly.com.
+- Lines in `<nav>` blocks are navigation (links to related guides, a chapter's other pages), not content.
+
+## Check the Unpoly version
+
+These docs describe Unpoly <%= version %>. Find the version the app actually uses: the `unpoly` entry in `package.json` (or its lock file), `unpoly-rails` in `Gemfile.lock`, a CDN URL in the HTML layout, or `up.version` in the browser console. When the app uses a different major version, tell the user, and trust the app's actual behavior over these docs. The release notes in `references/changes/` say what changed between versions.
+
+For questions these docs cannot answer, point the user to https://unpoly.com/support.md.
+
+## Index
+
+<%= agent_index_markdown(page_path: '/', skill_file: 'SKILL.md', support: false, level: 3) %>

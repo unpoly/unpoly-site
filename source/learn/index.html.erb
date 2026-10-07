@@ -12,6 +12,8 @@
 <% start, *chapters = area.topics %>
 <% blurb = ->(topic) { text = topic.summary_markdown.to_s.strip; text unless text.blank? || text == 'This page is being written.' } %>
 
+<%= md_button %>
+
 <h1><%= page_title area.title %></h1>
 
 <section class="learn-start" aria-labelledby="learn-start-title">
@@ -32,7 +34,7 @@
   </ol>
 
   <p class="learn-start--action">
-    <a href="<%= start.menu_path %>" class="learn-start--button"><%= start.start_page.title %> <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+    <a href="<%= start.menu_path %>" class="learn-start--button"><%= start.start_page.title %> <%= icon('chevron-right') %></a>
   </p>
 </section>
 

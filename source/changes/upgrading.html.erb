@@ -2,6 +2,8 @@
   @menu_path = '/changes/menu'
 %>
 
+<%= md_button %>
+
 <h1><%= page_title 'Upgrading Unpoly' %></h1>
 
 <div class="prose">
@@ -21,7 +23,7 @@
       A deprecation notice will be logged to your browser console:
     </p>
 
-    <%= image_tag 'changes/log-deprecation.png', class: 'picture -border', width: 700 %>
+    <%= image_tag 'changes/log-deprecation.png', class: 'picture -border', width: 700, alt: 'The browser console logging a deprecation warning from unpoly-migrate.js' %>
 
     <p>
       You can now upgrade deprecated call sites by following the log.

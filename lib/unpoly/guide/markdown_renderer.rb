@@ -63,7 +63,7 @@ module Unpoly
         html = ''.html_safe
         html << "<blockquote class='admonition -#{type.downcase}'>".html_safe
         html <<  "<h4 class='admonition--title'>".html_safe
-        html << "<i class='fa fa-#{icon}'></i>".html_safe
+        html << Icon.html(icon).html_safe
         html << title
         html << "</h4>".html_safe
         html << text
@@ -113,7 +113,7 @@ module Unpoly
             player = inner.wrap('<div class="video-player"></div>').parent
             inner.add_child(<<~HTML)
               <button class="video-player--play-button" aria-label="Play">
-                <i class="fa fa-play"></i>
+                #{Icon.html('play')}
               </button>
             HTML
             video.add_class('video-player--video')

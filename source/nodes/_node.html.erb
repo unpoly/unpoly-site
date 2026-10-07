@@ -10,7 +10,7 @@
 
       <% node_meta do %>
         <% if node.menu_experimental? %>
-          <i class="fa fa-flask node--visibility-icon"></i>
+          <%= icon('flask', label: 'Experimental', class: 'node--visibility-icon') %>
         <% end %>
 
         <% node.menu_tags.each do |tag| %>

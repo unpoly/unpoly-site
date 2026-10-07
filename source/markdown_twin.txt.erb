@@ -1,0 +1,7 @@
+<%#
+  A page's Markdown twin, for agents and LLMs (/up.render.md next to /up.render), and
+  the skill's reference file of the same page. config.rb registers both; the helper
+  renders the page without its layout and converts it (Unpoly::Guide::HtmlToMarkdown).
+
+  Locals: twin_path (the HTML page's path), skill_file (only in the skill).
+%><%= markdown_twin(twin_path, skill_file: locals[:skill_file]) %>

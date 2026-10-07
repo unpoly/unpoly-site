@@ -3,9 +3,9 @@
   <% site_sections.each do |section| %>
     <%# A section with an icon (GitHub) shows only the icon here; the label stays its accessible name. The drawer shows the label. %>
     <a href="<%= section[:href] %>" class="top-nav--section<% if section[:icon] %> -icon<% end %>"<% if section[:icon] %> aria-label="<%= section[:label] %>" title="<%= section[:label] %>"<% end %><% if section[:alias] %> up-alias="<%= section[:alias] %>"<% end %><% if section[:target] %> target="<%= section[:target] %>"<% end %>>
-      <% if section[:icon] %><i class="fa <%= section[:icon] %>" aria-hidden="true"></i><% else %><%= section[:label] %><% end %>
+      <% if section[:icon] %><%= icon(section[:icon]) %><% else %><%= section[:label] %><% end %>
     </a>
   <% end %>
 
-  <a href="/menu/narrow" class="top-nav--burger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><i class="fa fa-bars" aria-hidden="true"></i> Menu</a>
+  <a href="/menu/narrow" class="top-nav--burger" up-target=".menu" up-layer="new drawer" up-position="right" up-history="false"><%= icon('bars') %> Menu</a>
 </nav>

@@ -1,0 +1,22 @@
+@import ../../environment
+
+// "MD": the page as Markdown, for agents and LLMs (md_button in config.rb). Dressed like
+// .edit-link and placed left of it; a page without an Edit link shows it alone, where
+// the Edit link would be. Both float right, so the one rendered later sits further left.
+$md-link-height: 2 * 1px + 2 * $space-1 + $leading-ui * $text-sm
+
+.md-link
+  float: right
+  margin-left: $space-4
+  margin-top: calc((#{$leading-display} * #{$text-title} - #{$md-link-height}) / 2)
+  +outline-button($gray-600, $gray-800)
+  padding: $space-1 $space-3
+  +type($text-sm, $leading-ui)
+
+  // Like the Edit link, of no use on a phone, where the title needs the room.
+  +narrower_than(500px)
+    display: none
+
+// Two buttons in a row sit closer together than a button and the title.
+.edit-link:has(+ .md-link)
+  margin-left: $space-2

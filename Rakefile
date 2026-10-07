@@ -24,3 +24,14 @@ namespace :docs do
     exit(1) unless ok
   end
 end
+
+namespace :skill do
+  desc 'Build the unpoly-docs skill, then run its search tests and ranking queries against it'
+  task :test do
+    # Only the skill's files (and the HTML pages they render) are built, into the
+    # existing build/. The after_build steps still check and pack the skill.
+    env = { 'SKIP_CHECK_LINKS' => '1', 'SKIP_SEARCH_INDEX' => '1' }
+    system(env, 'bundle', 'exec', 'middleman', 'build', '--glob', 'skills/**/*', '--no-clean') or exit(1)
+    system('bundle', 'exec', 'rspec', 'spec/build/skill_search_spec.rb') or exit(1)
+  end
+end

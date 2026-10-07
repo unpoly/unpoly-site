@@ -18,10 +18,14 @@ $border-color: $gray-400
   +subtle-shadow
   position: relative
 
+// The card's heading: the signature, and the kind badge drawn in the card's corner.
+.essential-feature--title
+  +type($text-md, $leading-ui)
+
 .essential-feature--signature
+  display: block
   font-weight: bold
   color: $red-600
-  +type($text-md, $leading-ui)
   //.essential-feature.-code &
   //  +monospace-font
 

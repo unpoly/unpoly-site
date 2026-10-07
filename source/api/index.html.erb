@@ -9,10 +9,12 @@
 <% area = guide.toc.api %>
 <% @menu_path = area.menu_path %>
 
+<%= md_button %>
+
 <h1><%= page_title area.title %></h1>
 
-<button type="button" class="search-prompt">
-  <i class="fa fa-search search-prompt--icon" aria-hidden="true"></i>
+<button type="button" class="search-prompt" data-markdown="ignore">
+  <%= icon('search', class: 'search-prompt--icon') %>
   <span class="search-prompt--label">Search docs…</span>
   <kbd class="search-prompt--key">/</kbd>
 </button>
