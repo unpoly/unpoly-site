@@ -33,7 +33,7 @@ describe 'presentation', type: :feature, js: true do
     end
 
     it 'lets a table scroll inside the text column rather than widening the page' do
-      visit '/install'
+      visit '/closing-overlays' # a guide page with tables (/install lost its table)
 
       scrollable = page.evaluate_script(<<~JS)
         (function() {
