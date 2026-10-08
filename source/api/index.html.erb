@@ -5,6 +5,10 @@
   search also ranks first) with a count of the rest. A page group (Formats) lists its
   pages instead.
 
+  The count is of what the module page lists under All features: its features with a
+  page of their own. Classes like up.Layer have sidebar rows but are not counted. A
+  module with no signature features shows its whole count, without a plus.
+
   Names, summaries and features come from the model. The intro below the title is the
   hub's own copy.
 %>
@@ -24,9 +28,9 @@
     <% interface = topic.try(:interface) %>
     <%
       if interface
-        features = topic.children.flat_map(&:children)
-        links = features.select(&:signature_tier?).first(shown_features)
-        more = features.size - links.size
+        all_features = interface.guide_features
+        links = topic.children.flat_map(&:children).select { |feature| feature.signature_tier? && all_features.include?(feature) }.first(shown_features)
+        more = all_features.size - links.size
       else
         links = topic.pages
         more = 0
@@ -54,7 +58,7 @@
               <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
             <% end %>
             <% if more > 0 %>
-              <li><a href="<%= topic.menu_path %>#all-features" class="api-row--more">+ <%= more %> more</a></li>
+              <li><a href="<%= topic.menu_path %>#all-features" class="api-row--more"><%= links.any? ? "+ #{more} more" : pluralize(more, 'feature', 'features') %></a></li>
             <% end %>
           </ul>
         <% end %>
