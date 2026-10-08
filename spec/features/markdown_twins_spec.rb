@@ -85,6 +85,10 @@ describe 'Markdown twins', type: :feature do
       expect(text).to include('{#hash}')
     end
 
+    it 'shows the Markdown URL example on its own origin, with the suffix in bold' do
+      expect(markdown('/index.md')).to include('e.g. [http://unpoly.test/up.render**.md**](http://unpoly.test/up.render.md).')
+    end
+
     it 'is also /llms.txt' do
       expect(markdown('/llms.txt')).to eq(markdown('/index.md'))
     end
@@ -107,6 +111,12 @@ describe 'Markdown twins', type: :feature do
       expect(text).to include(%(url: "https://unpoly.com/start/links"))
       expect(text).to include('<nav aria-label="Unpoly docs">[All docs](../../SKILL.md) · [Learn](index.md)</nav>')
       expect(text).to include('](../api/up-follow-selector.md)')
+    end
+
+    it 'fills [[=base_url]] with the request’s origin on the web and with unpoly.com in the skill' do
+      example = '/up.render**.md**]('
+      expect(markdown('/skill.md')).to include("[http://unpoly.test#{example}http://unpoly.test/up.render.md)")
+      expect(markdown('/skills/unpoly-docs/references/learn/skill.md')).to include("[https://unpoly.com#{example}https://unpoly.com/up.render.md)")
     end
 
     it 'serves the search script but not its tests' do

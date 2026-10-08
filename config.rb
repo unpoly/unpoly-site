@@ -252,7 +252,9 @@ helpers do
   end
 
   def markdown(text, **options)
-    markdown_renderer(**options).to_html(text)
+    html = markdown_renderer(**options).to_html(text)
+    # [[=base_url]] in the documentation (Unpoly::Guide::DynamicTokens).
+    html.gsub(Unpoly::Guide::DynamicTokens::BASE_URL_PLACEHOLDER) { base_url }
   end
 
   def markdown_renderer(**options)
@@ -349,7 +351,10 @@ helpers do
 
     html_page = sitemap.find_resource_by_destination_path(twin.html_destination) or
       raise "No HTML page at #{twin.html_destination} for the Markdown twin of #{twin.path}"
-    body = Unpoly::Guide::HtmlToMarkdown.new(links: links).convert(html_page.render(layout: false))
+    # A web twin passes its request on, so that the page's own absolute URLs ([[=base_url]])
+    # name the same origin as the twin's links. A skill file passes none: it links unpoly.com.
+    locals = skill_file ? {} : { rack: @locs[:rack] }.compact
+    body = Unpoly::Guide::HtmlToMarkdown.new(links: links).convert(html_page.render({ layout: false }, locals))
 
     # The way up: to the index, and to the closest hub. In a feature this is the only
     # place that names its module. A <nav>, so the skill's search skips it.

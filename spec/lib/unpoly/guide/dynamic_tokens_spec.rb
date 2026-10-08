@@ -19,6 +19,10 @@ describe Unpoly::Guide::DynamicTokens do
       expect(substitute('Get unpoly@[[=version]] now.')).to eq('Get unpoly@3.11.0 now.')
     end
 
+    it 'leaves a placeholder for [[=base_url]], which the page fills in when it renders' do
+      expect(substitute('See [[=base_url]]/up.render.md')).to eq("See #{described_class::BASE_URL_PLACEHOLDER}/up.render.md")
+    end
+
     it 'replaces [[=npm_tag]] with nothing on a stable version' do
       expect(substitute('npm install unpoly[[=npm_tag]]')).to eq('npm install unpoly')
     end
