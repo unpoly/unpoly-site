@@ -1,7 +1,7 @@
 <%#
   The generated index page of a page group without an overview of its own (toc.yml
-  `index:`, e.g. /formats). Like the area hubs it carries no copy: it lists the group's
-  pages with the summaries they give of themselves.
+  `index:`, e.g. /formats). Its intro is the group's `summary:` from toc.yml; then it
+  lists the group's pages with the summaries they give of themselves.
 %>
 <%
   guide.reload if development?
@@ -11,6 +11,10 @@
 %>
 
 <h1><%= page_title topic.title %></h1>
+
+<% if topic.summary_markdown.present? %>
+  <%= markdown_prose(topic.summary_markdown) %>
+<% end %>
 
 <% topic.pages.each do |page| %>
   <div class="topic-preview">
