@@ -23,6 +23,13 @@ describe 'the hubs', type: :feature, js: true do
 
   describe '/learn' do
 
+    it "is titled Learn Unpoly, while the header's section stays Learn" do
+      visit '/learn'
+
+      expect(page).to have_css('.guide--content h1', text: 'Learn Unpoly')
+      expect(page).to have_css('.guide--head .top-nav--section.up-current', text: /\ALearn\z/)
+    end
+
     it 'starts with Getting started on a tinted block, leading to its overview' do
       visit '/learn'
 
@@ -106,32 +113,64 @@ describe 'the hubs', type: :feature, js: true do
       expect(page).to have_no_css('.search-prompt')
     end
 
-    it "lists up to six signature features in red, and counts the module's other features" do
+    def row_for(path)
+      find(".api-row--name[href='#{path}']").find(:xpath, '..')
+    end
+
+    it 'lists up to six signature features in red, in model order' do
       visit '/api'
 
       toc.api.topics.select { |topic| topic.respond_to?(:interface) }.each do |topic|
-        features = topic.children.flat_map(&:children)
-        shown = features.select(&:signature_tier?).first(6)
-        row = find(".api-row--name[href='#{topic.menu_path}']").find(:xpath, '..')
-
-        expect(row.all('.api-row--feature').map { |link| link[:href].sub(%r{\Ahttps?://[^/]+}, '') }).to eq(shown.map(&:guide_path))
-        rest = features.size - shown.size
-        if rest > 0
-          expect(row).to have_css(".api-row--more[href='#{topic.menu_path}#all-features']", text: "+ #{rest} more")
-        else
-          expect(row).to have_no_css('.api-row--more')
-        end
+        shown = topic.children.flat_map(&:children).select(&:signature_tier?).first(6)
+        links = row_for(topic.menu_path).all('.api-row--feature').map { |link| link[:href].sub(%r{\Ahttps?://[^/]+}, '') }
+        expect(links).to eq(shown.map(&:guide_path))
       end
 
       features = light_underline('.api-row--feature')
       expect(features).to all(include('line' => 'underline', 'color' => red))
     end
 
-    it 'lists the formats by their pages' do
+    # The count is of what the module page lists under All features, not of the
+    # module's sidebar rows, which also hold classes (up.Layer).
+    it "counts the features the module page lists under All features, beyond the ones shown" do
+      { '/up.layer' => true, '/up.form' => true, '/up.fragment' => true, '/up.util' => false }.each do |path, has_signature|
+        visit path
+        listed = page.evaluate_script(<<~JS)
+          (() => {
+            let heading = document.getElementById('all-features')
+            let count = 0
+            for (let node = heading.nextElementSibling; node && !/^H[1-3]$/.test(node.tagName); node = node.nextElementSibling) {
+              if (node.matches('.documentable-preview')) count++
+            }
+            return count
+          })()
+        JS
+
+        visit '/api'
+        row = row_for(path)
+        more = row.find('.api-row--more')
+        expect(more[:href]).to end_with("#{path}#all-features")
+
+        if has_signature
+          shown = row.all('.api-row--feature').size
+          expect(more.text).to eq("+ #{listed - shown} more")
+        else
+          # Nothing shown, so the whole count, without a plus.
+          expect(row).to have_no_css('.api-row--feature')
+          expect(more.text).to eq("#{listed} features")
+        end
+      end
+    end
+
+    it 'lists the formats by their pages, under the intro of the generated /formats page' do
       visit '/api'
 
       row = find('.api-row--name', text: 'Formats').find(:xpath, '..')
+      expect(row).to have_css('.api-row--summary', text: 'Mini-languages used throughout the API.')
       expect(row.all('.api-row--feature').map(&:text)).to eq(['URL patterns', 'Relaxed JSON'])
+
+      visit '/formats'
+      expect(page).to have_css('.guide--content h1 + .prose', text: 'Mini-languages used throughout the API.')
     end
 
   end
