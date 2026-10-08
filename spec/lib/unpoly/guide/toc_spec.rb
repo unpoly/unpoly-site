@@ -129,6 +129,24 @@ describe Unpoly::Guide::Toc do
       expect { build(data) }.to raise_error(described_class::Invalid, /both an index and a start page/)
     end
 
+    it 'gives a generated index the summary named in the manifest' do
+      data = minimal
+      data['api']['topics'] << { 'type' => 'page-group', 'title' => 'Group', 'index' => 'a-group', 'summary' => 'One sentence.', 'pages' => [] }
+      data['learn']['topics'].first['pages'].reject! { |slug| %w[url-patterns relaxed-json].include?(slug) }
+      data['api']['topics'].last['pages'] = %w[url-patterns relaxed-json]
+
+      topic = build(data).api.topics.last
+      expect(topic.summary_markdown).to eq('One sentence.')
+      expect(topic.index.summary_markdown).to eq('One sentence.')
+    end
+
+    it 'rejects a summary on a group without an index' do
+      data = minimal
+      data['learn']['topics'].first['summary'] = 'Nope.'
+
+      expect { build(data) }.to raise_error(described_class::Invalid, /has a summary but no index/)
+    end
+
     it 'rejects a start page that is not in the group' do
       data = minimal
       data['learn']['topics'].first['start'] = 'nope'

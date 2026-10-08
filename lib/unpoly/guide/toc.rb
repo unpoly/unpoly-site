@@ -295,9 +295,10 @@ module Unpoly
       #
       # The group starts at its first page, or at the page named by `start:`. A group
       # whose pages have no overview among them names an `index:` slug instead: the site
-      # then generates an index page for it at that path (e.g. /formats).
+      # then generates an index page for it at that path (e.g. /formats). Having no
+      # document, a generated index takes its one-sentence intro from `summary:`.
       class PageGroup < Topic
-        KEYS = %w[type title pages start index].freeze
+        KEYS = %w[type title pages start index summary].freeze
         REQUIRED_KEYS = %w[type title pages].freeze
 
         TYPES['page-group'] = self
@@ -308,9 +309,11 @@ module Unpoly
           @title = data['title']
           @page_slugs = Array(data['pages'])
           @page_slugs.present? or raise Invalid, "#{area.toc.path}: page group '#{title}' lists no pages"
-          @index = data['index'] && Index.new(self, data['index'])
+          @index = data['index'] && Index.new(self, data['index'], data['summary'])
           @index.nil? || !data.key?('start') or
             raise Invalid, "#{area.toc.path}: page group '#{title}' has both an index and a start page"
+          @index || !data.key?('summary') or
+            raise Invalid, "#{area.toc.path}: page group '#{title}' has a summary but no index (a page's summary is its first paragraph)"
           @start = data.fetch('start', @page_slugs.first)
           @index || @page_slugs.include?(@start) or
             raise Invalid, "#{area.toc.path}: page group '#{title}' starts at '#{@start}', which is not one of its pages"
@@ -399,11 +402,12 @@ module Unpoly
       end
 
       # The generated index page of a page group that has no overview page of its own. It
-      # lists the group's pages and has no text beyond what they say about themselves.
+      # lists the group's pages under a one-sentence intro from toc.yml (`summary:`).
       class Index
-        def initialize(topic, slug)
+        def initialize(topic, slug, summary = nil)
           @topic = topic
           @slug = slug
+          @summary = summary
         end
 
         attr_reader :topic, :slug
@@ -414,8 +418,10 @@ module Unpoly
           "/#{slug}"
         end
 
+        # The intro of the generated page, which the /api hub also shows as the group's
+        # summary.
         def summary_markdown
-          nil
+          @summary
         end
       end
 
