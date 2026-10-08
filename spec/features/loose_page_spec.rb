@@ -1,7 +1,6 @@
 # A loose Learn page (`loose:` in toc.yml) belongs to the Learn area but to no chapter.
 # Loaded directly, it renders the docs frame with the Learn menu and nothing selected in
-# it, and no reading path. Other pages open it in an overlay, which shows the page's
-# content and none of its frame.
+# it, and no reading path. Other pages link to it like to any other page.
 describe 'a loose Learn page', type: :feature, js: true do
 
   before { make_page_loose }
@@ -44,20 +43,6 @@ describe 'a loose Learn page', type: :feature, js: true do
     expect(page).to have_css('up-drawer .menu--nodes > .node > .node--self.up-current', text: 'Learn')
     expect(page).to have_css('up-drawer .node .node--self', text: 'Links')
     expect(page).to have_no_css('up-drawer .menu--nodes > .node > .node .node--self.up-current')
-  end
-
-  it 'opens in an overlay with its content and none of the frame' do
-    visit '/install'
-    page.execute_script("up.layer.open({ url: #{path.to_json} })")
-
-    within('up-modal') do
-      expect(page).to have_css('.guide--content h1')
-      expect(page).to have_no_css('.guide--menu, .guide--flank, .guide--footer, .guide--head, .reading-nav')
-    end
-
-    page.find('up-modal-dismiss').click
-    expect(page).to have_no_css('up-modal')
-    expect(page).to have_current_path('/install')
   end
 
 end
