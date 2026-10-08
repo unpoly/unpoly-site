@@ -1,0 +1,37 @@
+@import ../../environment
+
+// What the /learn and /api hubs share (source/learn/index.html.erb,
+// source/api/index.html.erb): the intro under the title, links that are lightly
+// underlined in red, and indigo topic names that lead to a chapter or a module.
+
+$hub-underline: rgba($red-600, 0.4)
+
+.hub-intro
+  +type($text-md, 1.5)
+  color: $gray-800
+  max-width: 640px
+  margin: 0 0 $space-6
+
+// The hubs are lists of links, so every link says it is one: red with a light
+// underline that turns solid on hover.
+.hub-link
+  color: $color-link
+  text-decoration: underline
+  text-decoration-color: $hub-underline
+
+  +hover
+    text-decoration-color: currentColor
+
+.hub-topic
+  color: $indigo-800
+  text-decoration: none
+
+  +hover
+    text-decoration: underline
+
+.hub-topic--chevron
+  margin-left: 6px
+  color: $gray-500
+  font-weight: normal
+  // The chevron points on; it is not part of the name to underline.
+  display: inline-block

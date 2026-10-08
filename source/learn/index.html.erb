@@ -1,11 +1,12 @@
 <%#
   The Learn hub: a way into the course and an index of all of it. Getting started
-  stands on its own as the place to begin; the chapters follow in reading order, each
-  with its pages listed inline. Below $bp-sidebar there is no sidebar, so this page is
-  the only place that shows the whole curriculum at once.
+  stands on its own as the place to begin; the chapters follow as a numbered path, each
+  with its overview and all of its pages. Below $bp-sidebar there is no sidebar, so this
+  page is the only place that shows the whole curriculum at once.
 
-  Every word comes from the model (toc.yml and each chapter's overview). A summary the
-  overview has not been written for yet is left out rather than shown as a placeholder.
+  Titles, blurbs and page lists come from the model (toc.yml and each chapter's
+  overview). A summary the overview has not been written for yet is left out rather
+  than shown as a placeholder. The intro below the title is the hub's own copy.
 %>
 <% area = guide.toc.learn %>
 <% @menu_path = area.menu_path %>
@@ -14,44 +15,41 @@
 
 <h1><%= page_title area.title %></h1>
 
+<p class="hub-intro">
+  Guides that explain how Unpoly works and how to use it.<br>
+  Looking up a specific attribute or function? See the <a href="/api" class="hub-link">API reference</a>.
+</p>
+
 <section class="learn-start" aria-labelledby="learn-start-title">
-  <p class="learn-start--kicker">Start here</p>
+  <p class="learn-start--caption">Start here</p>
 
   <h2 class="learn-start--title" id="learn-start-title">
-    <%= link_to start.title, start.menu_path %>
+    <a href="<%= start.menu_path %>" class="hub-topic"><%= start.title %><span class="hub-topic--chevron" aria-hidden="true">›</span></a>
   </h2>
 
   <% if (text = blurb.(start)) %>
     <div class="learn-start--blurb"><%= markdown(text, strip_links: true) %></div>
   <% end %>
 
-  <ol class="chapter-pages -steps">
-    <% start.children.each do |page| %>
-      <li><%= link_to page.menu_title, page.guide_path, class: 'chapter-pages--link' %></li>
-    <% end %>
-  </ol>
-
-  <p class="learn-start--action">
-    <a href="<%= start.menu_path %>" class="learn-start--button"><%= start.start_page.title %> <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
-  </p>
+  <%= partial 'learn/chapter_pages', locals: { topic: start, overview_label: start.start_page.title } %>
 </section>
 
-<ol class="learn-chapters">
-  <% chapters.each do |chapter| %>
+<ol class="learn-path">
+  <% chapters.each.with_index(1) do |chapter, number| %>
     <li class="learn-chapter">
-      <h2 class="learn-chapter--title">
-        <%= link_to chapter.title, chapter.menu_path %>
-      </h2>
+      <span class="learn-chapter--number" aria-hidden="true"><%= number %></span>
 
-      <% if (text = blurb.(chapter)) %>
-        <div class="learn-chapter--blurb"><%= markdown(text, strip_links: true) %></div>
-      <% end %>
+      <div class="learn-chapter--body">
+        <h2 class="learn-chapter--title">
+          <a href="<%= chapter.menu_path %>" class="hub-topic"><%= chapter.title %><span class="hub-topic--chevron" aria-hidden="true">›</span></a>
+        </h2>
 
-      <ul class="chapter-pages">
-        <% chapter.children.each do |page| %>
-          <li><%= link_to page.menu_title, page.guide_path, class: 'chapter-pages--link' %></li>
+        <% if (text = blurb.(chapter)) %>
+          <div class="learn-chapter--blurb"><%= markdown(text, strip_links: true) %></div>
         <% end %>
-      </ul>
+
+        <%= partial 'learn/chapter_pages', locals: { topic: chapter, overview_label: chapter.start_page.menu_title } %>
+      </div>
     </li>
   <% end %>
 </ol>
