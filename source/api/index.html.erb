@@ -54,7 +54,7 @@
               <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
             <% end %>
             <% if more > 0 %>
-              <li><a href="<%= topic.menu_path %>" class="api-row--more">+ <%= more %> more</a></li>
+              <li><a href="<%= topic.menu_path %>#all-features" class="api-row--more">+ <%= more %> more</a></li>
             <% end %>
           </ul>
         <% end %>

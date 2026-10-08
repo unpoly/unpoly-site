@@ -117,7 +117,7 @@ describe 'the hubs', type: :feature, js: true do
         expect(row.all('.api-row--feature').map { |link| link[:href].sub(%r{\Ahttps?://[^/]+}, '') }).to eq(shown.map(&:guide_path))
         rest = features.size - shown.size
         if rest > 0
-          expect(row).to have_css(".api-row--more[href='#{topic.menu_path}']", text: "+ #{rest} more")
+          expect(row).to have_css(".api-row--more[href='#{topic.menu_path}#all-features']", text: "+ #{rest} more")
         else
           expect(row).to have_no_css('.api-row--more')
         end
