@@ -1,0 +1,19 @@
+<%#
+  The index agents start from (/index.md, and the same bytes as /llms.txt). The lead
+  is copy, written for this page in the tone of the landing page; the sections are
+  generated from the table of contents (Unpoly::Guide::AgentIndex).
+%># Unpoly
+
+> Unpoly is the missing application layer for HTML. Links and forms update fragments of the page instead of loading a new one, so everything around them keeps its state: scroll positions, focus, half-typed input. The application stays on the server, in any language or framework, and responds with plain HTML.
+
+These are the docs of Unpoly <%= version %>: guides to learn from, and the API reference to look things up in.
+
+Fragment links point at the heading ending in `{#hash}`, e.g. `[label](/path#fragment)` points at `## Headline {#fragment}`.
+
+Most pages are available as both HTML and Markdown: append `.md` to any page URL, e.g. [<%= base_url %>/up.render**.md**](<%= base_url %>/up.render.md).
+
+An [agent skill](https://unpoly.com/skill.md) lets you read and search all of this documentation offline.
+
+<%= agent_index_markdown(page_path: '/') %>
+
+Unpoly is one JavaScript file with no build step, MIT-licensed.

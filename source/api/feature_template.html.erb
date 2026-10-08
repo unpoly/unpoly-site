@@ -24,28 +24,25 @@
 
 <div class="feature -<%= feature.visibility %>">
 
-  <%= edit_button(feature) %>
-
-  <h1>
+  <% page_title feature.title do %>
     <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>
 
     <%= breakable_signature(feature.signature) %>
 
-    <div class="subtitle" data-pagefind-ignore>
+    <div class="subtitle" data-pagefind-ignore data-markdown="chip">
       <%= feature.long_kind %>
     </div>
-
-  </h1>
+  <% end %>
 
   <% if feature.visibility_comment.present? %>
     <div class="notification">
       <%
         visibility_comment = feature.visibility_comment
         if feature.experimental?
-          visibility_comment = '<i class="fa fa-flask"></i> ' + visibility_comment
+          visibility_comment = icon('flask') + ' ' + visibility_comment
         end
         if feature.deprecated?
-          visibility_comment = '<i class="fa fa-ban"></i> ' + visibility_comment
+          visibility_comment = icon('ban') + ' ' + visibility_comment
         end
         %>
       <%= markdown_prose visibility_comment %>
@@ -81,7 +78,7 @@
           <div class="minitoc--heading">
             <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>
           </div>
-          <div class="minitoc--items">
+          <div class="minitoc--items" data-markdown="ignore">
             <% param_sections.each do |param_section| %>
               <div class="minitoc--item">
                 <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="minitoc--link">
@@ -119,13 +116,16 @@
           <div class="feature--param" id="<%= param.guide_anchor %>" anchor-link>
 
 
-            <div class="feature--param-info">
+            <%# A heading for screen readers and the Markdown twin. Not a real <h3>/<h4>,
+                which would need resets of the global heading styles. The id it is linked
+                by sits on .feature--param. %>
+            <div class="feature--param-info" role="heading" aria-level="<%= show_param_section_titles ? 4 : 3 %>">
               <span class="feature--param-signature">
                 <%= param.signature(html_class_prefix: 'feature--param', wbr: true) %>
               </span>
               <% if param.experimental? && !feature.experimental? %>
-                <span class="feature--param-experimental-icon" title="Experimental">
-                  <i class="fa fa-flask"></i>
+                <span class="feature--param-experimental-icon">
+                  <%= icon('flask', label: 'Experimental') %>
                 </span>
               <% end %>
             </div>
@@ -139,11 +139,11 @@
               <% if show_optional_tag || show_required_tag %>
                 <span class="feature--param-optionality">
                   <% if show_optional_tag %>
-                    <span class="tag -gray -ghost">optional</span>
+                    <span class="tag -gray -ghost" data-markdown="chip">optional</span>
                   <% end %>
 
                   <% if show_required_tag %>
-                    <span class="tag -teal">required</span>
+                    <span class="tag -teal" data-markdown="chip">required</span>
                   <% end %>
                 </span>
               <% end %>

@@ -3,13 +3,13 @@
   Below $bp-sidebar the drawer lists only the chapters, so this index takes over the
   sidebar's job of reaching every page; above it the sidebar is there, so the index is
   hidden. It is navigation, not content, so the search index skips it, and the page's
-  own contents leave it out ([toc=false]).
+  own contents leave it out ([data-toc-ignore]).
 
   Locals: topic (the Learn chapter whose overview is being rendered).
 %>
 <% if topic.menu_children.present? %>
   <nav class="children-index" data-pagefind-ignore aria-labelledby="children-index-title">
-    <h2 class="children-index--title" id="children-index-title" toc="false">In this chapter</h2>
+    <h2 class="children-index--title" id="children-index-title" data-toc-ignore>In this chapter</h2>
 
     <% topic.menu_children.each do |child| %>
       <%= link_to child.menu_title, child.menu_path, class: 'children-index--link' %>

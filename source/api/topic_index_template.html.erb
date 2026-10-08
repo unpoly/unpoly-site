@@ -10,7 +10,7 @@
   @menu_path = area.menu_path
 %>
 
-<h1><%= page_title topic.title %></h1>
+<%= page_title topic.title %>
 
 <% if topic.summary_markdown.present? %>
   <%= markdown_prose(topic.summary_markdown) %>

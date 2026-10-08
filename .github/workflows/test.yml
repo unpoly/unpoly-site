@@ -63,3 +63,57 @@ jobs:
       # on the runner image.
       - name: Run tests
         run: bundle exec rspec
+
+  # The unpoly-docs skill: its search script's tests, and the ranking queries against a
+  # fresh build of the skill. A job of its own, so that it runs beside the RSpec suite.
+  skill:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    name: Skill search
+    env:
+      BUNDLE_WITHOUT: deploy
+    defaults:
+      run:
+        working-directory: unpoly-site
+    steps:
+      - name: Check out unpoly-site
+        uses: actions/checkout@v4
+        with:
+          path: unpoly-site
+
+      - name: Check out unpoly
+        uses: actions/checkout@v4
+        with:
+          repository: unpoly/unpoly
+          path: unpoly
+
+      - name: Install Ruby from .ruby-version
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: unpoly-site
+          ruby-version: ".ruby-version"
+          bundler-cache: true
+
+      - name: Install Node.js from unpoly's .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: unpoly/.nvmrc
+          cache: npm
+          cache-dependency-path: unpoly/package-lock.json
+
+      - name: Install npm dependencies of unpoly
+        run: npm ci
+        working-directory: unpoly
+
+      - name: Build unpoly
+        run: npm run build
+        working-directory: unpoly
+
+      # search.py promises to run on Python 3.8.
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+
+      - name: Build the skill and run its tests
+        run: bundle exec rake skill:test

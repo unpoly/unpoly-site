@@ -10,21 +10,9 @@
   %>
 
   <% if previous_page || next_page %>
-    <nav class="reading-nav" data-pagefind-ignore>
-      <% if previous_page %>
-        <a class="reading-nav--link -previous" href="<%= previous_page.guide_path %>">
-          <i class="fa fa-chevron-left reading-nav--icon"></i>
-          <span class="reading-nav--role">Previous</span>
-        </a>
-      <% end %>
-
-      <% if next_page %>
-        <a class="reading-nav--link -next" href="<%= next_page.guide_path %>">
-          <span class="reading-nav--role">Next:</span>
-          <span class="reading-nav--title"><%= next_page.title %></span>
-          <i class="fa fa-chevron-right reading-nav--icon"></i>
-        </a>
-      <% end %>
+    <nav class="reading-nav" aria-label="Reading order" data-pagefind-ignore>
+      <%= prev_link(previous_page) if previous_page %>
+      <%= next_link(next_page) if next_page %>
     </nav>
   <% end %>
 <% end %>

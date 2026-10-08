@@ -15,6 +15,29 @@ RewriteRule ^(.*)$ https://unpoly.com/$1 [R=307,L]
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)/$ https://%{HTTP_HOST}/$1 [R=301,L]
 
+# Markdown for agents: every documentation page has a twin at its URL plus .md
+# (/up.render.md), and /index.md (= /llms.txt) stands in for the landing page.
+AddType "text/markdown; charset=utf-8" .md
+
+# The skill index for `npx skills add https://unpoly.com`. The deploy archives the build
+# without dot-directories, so its files are built into /agent-skills.
+RewriteRule ^\.well-known/agent-skills/(.*)$ /agent-skills/$1 [L]
+
+# An agent that names text/markdown as its FIRST choice gets the twin at the page's own
+# URL. Browsers, curl and agents that send */* keep getting HTML; so does a Markdown
+# preference given as q=0. Vary (below) keeps caches from mixing the two.
+RewriteCond %{HTTP:Accept} ^\s*text/markdown(?![^,]*;\s*q=0(\.0*)?\s*(,|$))\s*(,|;|$) [NC]
+RewriteCond %{DOCUMENT_ROOT}/$1.md -f
+RewriteRule ^(.+)$ /$1.md [L]
+
+RewriteCond %{HTTP:Accept} ^\s*text/markdown(?![^,]*;\s*q=0(\.0*)?\s*(,|$))\s*(,|;|$) [NC]
+RewriteRule ^$ /index.md [L]
+
+# No .md URL existed before the twins. So a .md URL without a file is a page that has
+# moved: send it to the page, where the page's own redirect (below) takes over.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/$1 [R=301,L]
+
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)$  /$1/index.html [L]
 
@@ -41,6 +64,15 @@ RedirectPermanent /forum https://github.com/unpoly/unpoly/discussions
 <%= guide.migrate_redirects %>
 
 Header set Cache-Control "max-age=0, private"
+
+# A page's URL serves HTML or Markdown depending on Accept (see the twins above).
+# merge keeps an existing Vary: Accept-Encoding.
+Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"
+
+# The Markdown twins should not compete with their pages in search engines.
+<FilesMatch "\.md$">
+  Header set X-Robots-Tag "noindex"
+</FilesMatch>
 
 <FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico)$">
   Header set Cache-Control "max-age=2628000, public"

@@ -140,7 +140,8 @@ describe 'the hubs', type: :feature, js: true do
             let heading = document.getElementById('all-features')
             let count = 0
             for (let node = heading.nextElementSibling; node && !/^H[1-3]$/.test(node.tagName); node = node.nextElementSibling) {
-              if (node.matches('.documentable-preview')) count++
+              // The previews are list items of a <ul> (the Markdown station's card markup).
+              count += node.matches('.documentable-preview') ? 1 : node.querySelectorAll('.documentable-preview').length
             }
             return count
           })()

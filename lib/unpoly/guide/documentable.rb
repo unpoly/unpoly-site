@@ -83,7 +83,7 @@ module Unpoly
       end
 
       def guide_url(hash: nil)
-        "https://unpoly.com#{guide_path(hash: hash)}"
+        "#{Guide.base_url}#{guide_path(hash: hash)}"
       end
 
       def menu_modifiers

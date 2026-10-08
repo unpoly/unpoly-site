@@ -13,6 +13,9 @@ up.fragment.config.runScripts = false
 up.viewport.config.revealPadding = 10
 
 up.link.config.followSelectors.push('a[href]')
+# Unpoly renders HTML only. A link to a page's Markdown twin, to llms.txt or another
+# text file loads the file itself.
+up.link.config.noFollowSelectors.push('a[href$=".md"]', 'a[href*=".md#"]', 'a[href$=".txt"]')
 up.link.config.preloadSelectors.push('a[href]')
 up.link.config.instantSelectors.push('a[href]:not(.action)')
 

@@ -5,6 +5,10 @@ hljs.configure({
   languages: ['javascript', 'html', 'css', 'ruby', 'http']
 })
 
+// The vendored build has no JSON grammar. JSON is JavaScript's object syntax, so
+// ```json blocks are highlighted with the JavaScript grammar.
+hljs.registerAliases('json', { languageName: 'javascript' })
+
 const removeCommentCloser = function(phrase) {
   phrase = phrase.trim()
   // phrase = phrase.replace(/^(\<!--|&lt;!--|#|\/\/|\/\*)/, '')

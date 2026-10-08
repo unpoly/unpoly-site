@@ -25,3 +25,4 @@ debug.log
 
 # Screenshot sweeps from bin/shoot and other scratch output
 /tmp
+__pycache__/

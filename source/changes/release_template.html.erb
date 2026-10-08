@@ -4,15 +4,13 @@
   @menu_path = '/changes/menu'
 %>
 
-<%= revision_on_github_button(release) %>
-
-<h1>
+<% page_title "Version #{release.version}" do %>
   <%= breadcrumb_link 'Changes', '/changes' %>
 
-  <%= page_title "Version #{release.version}" %>
+  Version <%= release.version %>
 
   <% if release.date %>
-    <div class="subtitle">
+    <div class="subtitle" data-markdown="chip">
       <span class="dimmed">Released on</span>
       <%= release.date.strftime("%B %d, %Y") %>
       <% if (commit_count = release.commit_count) %>
@@ -21,7 +19,7 @@
       <% end %>
     </div>
   <% end %>
-</h1>
+<% end %>
 
 <% auto_toc do %>
 

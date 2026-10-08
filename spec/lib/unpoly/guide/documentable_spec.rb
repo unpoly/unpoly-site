@@ -46,6 +46,12 @@ describe Unpoly::Guide::Documentable do
       expect(find_by_name!('up.render').guide_url).to eq('https://unpoly.com/up.render')
     end
 
+    it 'is on the BASE_URL a build was given' do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('BASE_URL').and_return('https://staging.example.com/')
+      expect(find_by_name!('up.render').guide_url).to eq('https://staging.example.com/up.render')
+    end
+
   end
 
   describe '#kind' do

@@ -1,6 +1,11 @@
 <head>
   <%= partial 'layouts/meta' %>
+  <%# Enables WebMCP (webmcp.js) in Chrome's origin trial for https://unpoly.com. The token
+      is per Chrome milestone: this one is for Chrome 162 and expires on 2027-03-30. Renew it
+      in Chrome's origin-trial console with the next Chrome release. %>
+  <meta http-equiv="origin-trial" content="AnnBDPgWwhd/+SgXXmezJTK7A78NKa4S/saPZ3tpDMRRfGAcuKB5TRi4ThrZm+UUMCbK2UiN5V9LJMgr4FshUwkAAABKeyJvcmlnaW4iOiJodHRwczovL3VucG9seS5jb206NDQzIiwiZmVhdHVyZSI6IldlYk1DUCIsImV4cGlyeSI6MTgwNjM2NDgwMH0=">
   <title><%= window_title %></title>
+  <%= head_links_html %>
   <%= partial 'layouts/fonts' %>
   <%= stylesheet_link_tag 'guide/all' %>
 </head>

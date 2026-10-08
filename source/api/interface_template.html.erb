@@ -7,14 +7,12 @@
   @search_documentable = interface
 %>
 
-<%= edit_button(interface) %>
-
-<h1>
+<% page_title interface.title do %>
   <%= breadcrumb_link area.title, area.path %>
 
   <% if interface.module? %>
     <%= interface.title %>
-    <div class="subtitle" data-pagefind-ignore>
+    <div class="subtitle" data-pagefind-ignore data-markdown="chip">
       <span class="dimmed">module</span>
       <%= interface.name %>
     </div>
@@ -24,7 +22,7 @@
   <% elsif interface.page? %>
     <%= interface.title %>
   <% end %>
-</h1>
+<% end %>
 
 <% auto_toc do %>
 
@@ -48,29 +46,33 @@
       <% if essential_features.present? %>
         <h3 id="essential-features">Essentials</h3>
 
-        <div class="essential-features">
+        <%# Each card is a list item with a heading, its link only on the signature, so
+            screen readers and the Markdown twin read a list of named features. [up-expand]
+            keeps the whole card clickable. The kind badge follows the signature inside the
+            heading; CSS draws it in the card's corner. %>
+        <ul class="essential-features">
           <% essential_features.each do |feature| %>
-            <a class="essential-feature <%= '-code' if feature.code? %>" href="<%= feature.guide_path %>">
-              <div class="essential-feature--signature">
-                <%= feature.short_signature %>
-              </div>
-              <div class="essential-feature--kind" title="<%= feature.long_kind %>">
-                <%= feature.short_kind %>
+            <li class="essential-feature <%= '-code' if feature.code? %>" up-expand>
+              <div class="essential-feature--title" role="heading" aria-level="4">
+                <a class="essential-feature--signature" href="<%= feature.guide_path %>"><%= feature.short_signature %></a>
+                <span class="essential-feature--kind" title="<%= feature.long_kind %>" data-markdown="chip"><%= feature.short_kind %></span>
               </div>
               <div class="essential-feature--summary">
                 <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
               </div>
-            </a>
+            </li>
           <% end %>
-        </div>
+        </ul>
       <% end %>
 
       <% if all_features.present? %>
         <h3 id="all-features">All features</h3>
 
-        <% all_features.each do |feature| %>
-          <%= feature_preview(feature) %>
-        <% end %>
+        <ul>
+          <% all_features.each do |feature| %>
+            <%= feature_preview(feature) %>
+          <% end %>
+        </ul>
       <% end %>
 
     <% end %>
