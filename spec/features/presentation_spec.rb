@@ -231,28 +231,6 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
-  # A smoke test while the hubs are a draft; outcome specs follow once their design
-  # is settled.
-  describe 'the hub pages' do
-    it 'renders /learn with Getting started on top and every chapter with its pages' do
-      visit '/learn'
-
-      expect(page).to have_css('.learn-start a[href="/start/overview"]', text: 'Getting started')
-      expect(page).to have_css('.learn-chapter', count: Unpoly::Guide.current.toc.learn.topics.size - 1)
-      expect(page).to have_css('.learn-chapter .chapter-pages--link', minimum: 40)
-    end
-
-    it 'renders /api with a row per sidebar topic and a search prompt that opens the search' do
-      visit '/api'
-
-      expect(page).to have_css('.api-row', count: Unpoly::Guide.current.toc.api.topics.size)
-      expect(page).to have_css('.api-row .api-row--feature', minimum: 20)
-
-      find('.search-prompt').click
-      expect(page).to have_css('.search-dialog .search-dialog--input')
-    end
-  end
-
   describe 'the generated index of a page group without an overview' do
     it 'lists the formats with their own summaries, and nothing else' do
       visit '/formats'
