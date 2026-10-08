@@ -56,13 +56,14 @@ describe Unpoly::Guide::Skill do
       end)
     end
 
-    it 'files pages by area, and leaves out fixtures, /support and release notes before 2.0' do
+    it 'files pages by area, and leaves out fixtures and /support' do
       expect(skill.files).to eq(
         '/up.render' => 'references/api/up-render-function.md',
         '/start/links' => 'references/learn/start-links.md',
         '/learn' => 'references/learn/index.md',
         '/changes' => 'references/changes/index.md',
         '/changes/3.11.0' => 'references/changes/3-11-0.md',
+        '/changes/1.0.0' => 'references/changes/1-0-0.md',
       )
     end
   end

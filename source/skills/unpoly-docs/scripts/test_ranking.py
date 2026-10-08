@@ -57,7 +57,17 @@ CASES = [
     (["lazy loading content"], "references/learn/lazy-loading.md", 3),
     (["infinite scrolling"], "references/learn/infinite-scrolling.md", 3),
     (["flash messages"], "references/learn/flashes.md", 3),
-    (["targeting fragments"], "references/learn/targeting-fragments.md", 3),
+    (["targeting fragments"], "references/learn/targeting-fragments.md", 3),    # Stemming: inflected words that only meet the page through their stem
+    (["polled"], "references/learn/polling.md", 2),
+    (["preloaded links"], "references/api/up-preload-selector.md", 2),
+]
+
+# The hub factor: a hub page (references/*/index.md) links everything, so it matches
+# broad queries. It must not outrank the pages it links. Without HUB_FACTOR, these
+# queries put a hub first.
+HUB_QUERIES = [
+    ["api reference modules"],
+    ["overlays forms links"],
 ]
 
 SKILL_DIR = os.environ.get("UNPOLY_SKILL_DIR", "")
@@ -93,6 +103,21 @@ def _add_case(number, queries, expected, top):
 
 for _number, (_queries, _expected, _top) in enumerate(CASES, 1):
     _add_case(_number, _queries, _expected, _top)
+
+
+def _add_hub_case(number, queries):
+    def test(self):
+        paths = [document["path"] for _score, document in self.index.search(queries)]
+        self.assertTrue(paths, "{0!r}: no results".format(queries))
+        self.assertFalse(paths[0].endswith("/index.md"),
+                         "{0!r}: a hub ranks first ({1})".format(queries, paths[0]))
+    slug = "".join(c if c.isalnum() else "_" for c in " ".join(queries).lower()).strip("_")
+    test.__name__ = "test_hub_{0:02d}_{1}".format(number, slug)
+    setattr(RankingTest, test.__name__, test)
+
+
+for _number, _queries in enumerate(HUB_QUERIES, 1):
+    _add_hub_case(_number, _queries)
 
 
 if __name__ == "__main__":

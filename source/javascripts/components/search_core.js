@@ -153,21 +153,28 @@ function uniquePages(pages) {
   })
 }
 
-// Full-text pages for a query, each page once. `pages` is null when the full text is unavailable or too
-// slow; in the slow case `late` still resolves with the pages once they arrive. The
-// timeout covers loading the index as well, which only takes time on the first search.
-async function searchPages(query) {
+// A page the index marks deprecated (config.rb) sinks below the others, for readers and
+// agents alike.
+function sinkDeprecated(pages) {
+  return [...pages.filter((page) => !page.meta?.deprecated), ...pages.filter((page) => page.meta?.deprecated)]
+}
+
+// Full-text pages for a query, each page once, deprecated pages last. `pages` is null
+// when the full text is unavailable or slower than timeoutMs; in the slow case `late`
+// still resolves with the pages once they arrive. The timeout covers loading the index
+// as well, which only takes time on the first search.
+async function searchPages(query, { timeoutMs = SEARCH.pagefindTimeoutMs } = {}) {
   const search = (async () => {
     const pagefind = await loadSearchIndex()
     if (!pagefind) return null
     const result = await pagefind.search(query)
     const wanted = result.results.slice(0, SEARCH.mergeWindow)
-    return uniquePages(rankPages(wanted, await Promise.all(wanted.map((page) => page.data()))))
+    return sinkDeprecated(uniquePages(rankPages(wanted, await Promise.all(wanted.map((page) => page.data())))))
   })()
   search.catch((error) => console.error('Full text search failed: %o', error))
 
   const timedOut = Symbol('timeout')
-  const timeout = new Promise((resolve) => setTimeout(() => resolve(timedOut), SEARCH.pagefindTimeoutMs))
+  const timeout = new Promise((resolve) => setTimeout(() => resolve(timedOut), timeoutMs))
 
   try {
     const pages = await Promise.race([search, timeout])

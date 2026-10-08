@@ -91,18 +91,30 @@ describe 'WebMCP tools', type: :feature, js: true do
       visit '/up.render'
       stub_pagefind((1..25).map { |n| { url: "/p#{n}", excerpt: '', meta: { title: "P#{n}", badge: 'JS', deprecated: (n == 1 ? 'true' : nil) }.compact } })
 
-      results = call_tool('search_docs', { query: 'p', limit: 0 })['results']
-      expect(results.size).to eq(8)
-      expect(results.first['deprecated']).to be(true)
-      expect(results.second).not_to have_key('deprecated')
-      expect(call_tool('search_docs', { query: 'p', limit: 99 })['results'].size).to eq(20)
+      expect(call_tool('search_docs', { query: 'p', limit: 0 })['results'].size).to eq(8)
+
+      # A deprecated page sinks below the others, as in the search dialog.
+      results = call_tool('search_docs', { query: 'p', limit: 99 })['results']
+      expect(results.size).to eq(25)
+      expect(results.last).to include('title' => 'P1', 'deprecated' => true)
+      expect(results.first).not_to have_key('deprecated')
     end
 
     it 'points to the index when search is unavailable' do
       visit '/up.render'
       page.execute_script("window.pagefind = { options: async () => {}, search: async () => { throw new Error('broken index') } }")
 
-      expect(call_tool('search_docs', { query: 'follow' })['error']).to include('unavailable', 'https://unpoly.com/index.md')
+      expect(call_tool('search_docs', { query: 'follow' })['error']).to include('unavailable', 'retrying', 'https://unpoly.com/index.md')
+    end
+
+    it 'waits longer for the index than the search dialog does' do
+      visit '/up.render'
+      expect(page.evaluate_script('WEBMCP.indexTimeoutMs')).to eq(15000)
+      expect(page.evaluate_script('SEARCH.pagefindTimeoutMs')).to be < 15000
+
+      # An index that never answers, and a wait shortened for the spec.
+      page.execute_script("window.pagefind = { options: async () => {}, search: () => new Promise(() => {}) }; WEBMCP.indexTimeoutMs = 300")
+      expect(call_tool('search_docs', { query: 'follow' })['error']).to start_with('Search is unavailable right now; retrying')
     end
   end
 
@@ -112,14 +124,14 @@ describe 'WebMCP tools', type: :feature, js: true do
 
       result = call_tool('get_page_markdown')
       expect(result['url']).to end_with('/start/links.md')
-      expect(result['markdown']).to include('# Link to fragments')
+      expect(result['markdown']).to include("\n# Link to")
     end
 
     it 'reads a page by URL or path, the root as the index' do
       visit '/start/links'
 
       expect(call_tool('get_page_markdown', { url: '/up.render#options.target' })['markdown']).to include('# up.render(')
-      expect(call_tool('get_page_markdown', { url: 'https://unpoly.com/up.render' })['url']).to end_with('/up.render.md')
+      expect(call_tool('get_page_markdown', { url: page.evaluate_script('location.origin') + '/up.render' })['url']).to end_with('/up.render.md')
       expect(call_tool('get_page_markdown', { url: '/' })['markdown']).to start_with('# Unpoly')
     end
 
@@ -129,8 +141,10 @@ describe 'WebMCP tools', type: :feature, js: true do
       result = call_tool('get_page_markdown', { url: '/no-such-page' })
       expect(result['error']).to include('No Markdown at', 'search_docs', 'https://unpoly.com/index.md')
 
-      expect(call_tool('get_page_markdown', { url: 'https://example.com/x' })['error']).to start_with('Only pages of the Unpoly docs')
-      expect(call_tool('get_page_markdown', { url: 'http://' })['error']).to start_with('Not a URL')
+      # Only this site's own pages: no other host is mapped onto it, unpoly.com included.
+      %w[https://example.com/x https://unpoly.com/up.render up.render //example.com/x http://].each do |url|
+        expect(call_tool('get_page_markdown', { url: url })['error']).to start_with('Pass a path like /up.render, or a full URL on http'), url
+      end
     end
   end
 

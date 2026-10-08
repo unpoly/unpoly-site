@@ -692,7 +692,9 @@ helpers do
     items = [
       item.(:a, 'Skill', 'skill', 'Install the Unpoly docs as an agent skill', href: '/skill',
         'aria-current': ('page' if normalized_current_path == '/skill')),
-      item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', href: md_path, type: 'text/markdown'),
+      # Unpoly can't render Markdown, so the browser loads it (also for all .md links,
+      # unpoly_config.coffee).
+      item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', href: md_path, type: 'text/markdown', 'up-follow': 'false'),
       item.(:button, icon('clone', class: 'ai-tools--copy-icon') + icon('check', class: 'ai-tools--done-icon'), 'copy',
         'Copy this page as Markdown — paste it into any AI chat', type: 'button', hidden: true, 'data-markdown-url': md_path),
     ]
@@ -748,9 +750,21 @@ helpers do
     concat_content @menu_html
   end
 
-  def page_title(title)
+  # A page's title row: the <h1>, and the ai-tools corner when the page has a Markdown
+  # twin. The title also becomes the window title and the search's (window_title).
+  #
+  #   <%= page_title 'Changes' %>
+  #
+  # A page whose heading is more than its title (a breadcrumb, a subtitle) passes the
+  # heading's content as a block:
+  #
+  #   <% page_title feature.title do %>…<% end %>
+  def page_title(title, &block)
     @page_title = title
-    return title
+    heading = block ? capture_html(&block) : h(title)
+    corner = markdown_twins.paths.include?(normalized_current_path) ? ai_tools : ''
+    row = corner.html_safe + content_tag(:h1, heading.html_safe)
+    block ? concat_content(row) : row
   end
 
   def slugify(text)

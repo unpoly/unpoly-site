@@ -63,8 +63,7 @@ module Unpoly
 
         html = MarkdownRenderer.new(strip_links: true).to_html(markdown)
         text = HtmlToMarkdown.new(links: @links).convert_inline(html)
-        text = text.split(/(?<=[.!?])\s+(?=[A-Z`\[])/).first.to_s
-        text unless text == 'This page is being written.'
+        text.split(/(?<=[.!?])\s+(?=[A-Z`\[])/).first
       end
     end
   end

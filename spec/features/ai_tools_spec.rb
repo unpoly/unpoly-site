@@ -35,6 +35,21 @@ describe 'the ai-tools corner', type: :feature, js: true do
     expect(style).to eq('border' => %w[none none], 'transform' => 'uppercase', 'decoration' => 'none')
   end
 
+  # Unpoly renders HTML only, so the browser loads Markdown and text files itself.
+  it 'leaves links to Markdown and text files to the browser' do
+    visit '/skill'
+
+    followable = page.evaluate_script(<<~JS)
+      (function() {
+        let corner = document.querySelector('.ai-tools--item.-markdown')
+        let prose = document.querySelector('.guide--content .prose a[href$="/up.render.md"]')
+        let llms = document.querySelector('.guide--content .prose a[href$="/llms.txt"]')
+        return [corner.getAttribute('up-follow'), up.link.isFollowable(corner), up.link.isFollowable(prose), up.link.isFollowable(llms), up.link.isFollowable(document.querySelector('a[href="/learn"]'))]
+      })()
+    JS
+    expect(followable).to eq(['false', false, false, false, true])
+  end
+
   it 'marks the skill link as the current page on the skill page' do
     visit '/skill'
     expect(page).to have_css('.ai-tools--item.-skill[aria-current="page"]')
@@ -69,12 +84,12 @@ describe 'the ai-tools corner', type: :feature, js: true do
       page.execute_script(<<~JS)
         window.copied = null
         navigator.clipboard.write = async (items) => { window.copied = await (await items[0].getType('text/plain')).text() }
-        navigator.clipboard.writeText = async (text) => { window.copied = text }
       JS
 
       find('.ai-tools--item.-copy').click
 
       expect(page).to have_css('.ai-tools--item.-copy.-copied[aria-label="Copied"] .ai-tools--done-icon')
+      expect(page).to have_css('.ai-tools--status[role="status"][aria-live="polite"]', text: 'Copied', visible: :all)
       expect(page.evaluate_script('window.copied')).to include("# Targeting fragments")
       expect(page).to have_css('.ai-tools--item.-copy:not(.-copied)[aria-label^="Copy this page"]', wait: 4)
     end

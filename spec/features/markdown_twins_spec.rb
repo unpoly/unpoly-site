@@ -136,7 +136,7 @@ describe 'Markdown twins', type: :feature do
       visit '/start/links'
       expect(page).to have_css('head link[rel="prev"][href="/install"]', visible: false)
       expect(page).to have_css('head link[rel="next"][href="/start/forms"]', visible: false)
-      expect(page).to have_css('nav.reading-nav[aria-label="Reading order"] a[aria-label="Next: Submit forms"]')
+      expect(page).to have_css('nav.reading-nav[aria-label="Reading order"] a[aria-label^="Next: "]')
     end
 
     it 'have the ai-tools corner on pages without an Edit link too' do

@@ -28,6 +28,11 @@ end
 namespace :skill do
   desc 'Build the unpoly-docs skill, then run its search tests and ranking queries against it'
   task :test do
+    # SKIP_SKILL=1 is the conscious way to do without; a missing Python is not.
+    next puts('Skipping the skill tests (SKIP_SKILL=1).') if ENV['SKIP_SKILL']
+    system('python3', '--version', out: File::NULL, err: File::NULL) or
+      abort('rake skill:test needs Python 3.8 or later as `python3` on the PATH. Install it, or skip the skill with SKIP_SKILL=1.')
+
     # Only the skill's files (and the HTML pages they render) are built, into the
     # existing build/. The after_build steps still check and pack the skill.
     env = { 'SKIP_CHECK_LINKS' => '1', 'SKIP_SEARCH_INDEX' => '1' }

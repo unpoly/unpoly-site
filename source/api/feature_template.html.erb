@@ -24,9 +24,7 @@
 
 <div class="feature -<%= feature.visibility %>">
 
-  <%= ai_tools %>
-
-  <h1>
+  <% page_title feature.title do %>
     <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>
 
     <%= breakable_signature(feature.signature) %>
@@ -34,8 +32,7 @@
     <div class="subtitle" data-pagefind-ignore data-markdown="chip">
       <%= feature.long_kind %>
     </div>
-
-  </h1>
+  <% end %>
 
   <% if feature.visibility_comment.present? %>
     <div class="notification">

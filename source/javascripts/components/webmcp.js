@@ -11,7 +11,9 @@
 
 const WEBMCP = {
   defaultLimit: 8,
-  maxLimit: 20,
+  maxLimit: 25,
+  // An agent can wait longer than a reader for the index's first load.
+  indexTimeoutMs: 15000,
   // Added to the first search's answer, once per page load.
   skillTip: 'Tip: this documentation is installable as an agent skill for offline search — https://unpoly.com/skill.md',
   notFoundHint: 'Use search_docs to find the page you need, or read https://unpoly.com/index.md for an index of all docs.',
@@ -37,7 +39,7 @@ const webmcpTools = [
   {
     name: 'search_docs',
     title: 'Search the Unpoly docs',
-    description: 'Search Unpoly\'s documentation: guides, the API reference (up-* attributes, up.* functions, up:* events, X-Up-* headers) and release notes. Returns matching pages, each with an mdUrl to read with get_page_markdown. Prefer this over navigating and reading pages.',
+    description: 'Search Unpoly\'s documentation: guides, the API reference (up-* attributes, up.* functions, up:* events, X-Up-* headers) and release notes. Returns matching pages, each with an mdUrl to read with get_page_markdown. To see more, repeat the call with a higher limit (max 25). Prefer this over navigating and reading pages.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -51,8 +53,8 @@ const webmcpTools = [
       const text = String(query ?? '').trim()
       if (!text) return { error: 'Pass a query.' }
 
-      const { pages } = await searchPages(text)
-      if (!pages) return { error: 'Search is unavailable right now. Read https://unpoly.com/index.md for an index of all docs.' }
+      const { pages } = await searchPages(text, { timeoutMs: WEBMCP.indexTimeoutMs })
+      if (!pages) return { error: 'Search is unavailable right now; retrying in a moment may work. Meanwhile, read https://unpoly.com/index.md for an index of all docs.' }
 
       const count = Math.min(Math.max(Math.trunc(Number(limit)) || WEBMCP.defaultLimit, 1), WEBMCP.maxLimit)
       const results = pages.slice(0, count).map((page) => {
@@ -83,22 +85,24 @@ const webmcpTools = [
     inputSchema: {
       type: 'object',
       properties: {
-        url: { type: 'string', description: 'A page URL or path on this site, e.g. /up.render or a url from search_docs. Omit for the current page.' },
+        url: { type: 'string', description: 'A path like /up.render, or a full URL on this site (e.g. a url from search_docs). Omit for the current page.' },
       },
     },
     annotations: { readOnlyHint: true },
     async execute({ url } = {}) {
       let markdownUrl
       if (url) {
+        // A path on this site ("/up.render"), or a full URL of this origin. Nothing else:
+        // the docs served here are the only ones this page can vouch for.
         let target
         try {
-          target = new URL(url, location.href)
+          target = new URL(url, location.origin)
         } catch {
-          return { error: `Not a URL: ${url}. ${WEBMCP.notFoundHint}` }
+          target = null
         }
-        // The docs on unpoly.com are the docs served here (a preview, a staging host).
-        if (target.origin !== location.origin && target.hostname !== 'unpoly.com') {
-          return { error: `Only pages of the Unpoly docs can be read. ${WEBMCP.notFoundHint}` }
+        const accepted = (url.startsWith('/') && !url.startsWith('//')) || target?.origin === location.origin && /^https?:/.test(url)
+        if (!target || !accepted) {
+          return { error: `Pass a path like /up.render, or a full URL on ${location.origin}. ${WEBMCP.notFoundHint}` }
         }
         markdownUrl = new URL(webmcpMarkdownPath(target.pathname), location.origin).href
       } else {

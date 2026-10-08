@@ -66,22 +66,10 @@ function highlight(text, query) {
     escapeHtml(text.slice(end))
 }
 
-// The list, as rows to render.
-//
-// pages: the full-text pages in ranked order, as many as SEARCH.mergeWindow. A page the
-// index marks deprecated (config.rb) is struck and sinks below the others.
+// The list, as rows to render: the ranked pages (searchPages() already put deprecated
+// ones last), as many as fit. A deprecated page is struck.
 function listRows(pages) {
-  const current = []
-  const deprecated = []
-  for (const page of pages) {
-    if (page.meta?.deprecated) {
-      deprecated.push({ page, deprecated: true })
-    } else {
-      current.push({ page })
-    }
-  }
-
-  return [...current, ...deprecated].slice(0, SEARCH.maxPages)
+  return pages.slice(0, SEARCH.maxPages).map((page) => ({ page, deprecated: Boolean(page.meta?.deprecated) }))
 }
 
 // The reader's last query lives as long as the page, not the dialog: reopening the

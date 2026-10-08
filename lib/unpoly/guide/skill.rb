@@ -8,7 +8,7 @@ module Unpoly
     #   scripts/search.py          source/skills/unpoly-docs/scripts/
     #   references/api/*.md        the API reference, the /api hub as index.md
     #   references/learn/*.md      the guides, the /learn hub as index.md
-    #   references/changes/*.md    release notes of 2.x and later, upgrading, the hub
+    #   references/changes/*.md    the release notes of every version, upgrading, the hub
     #
     # The folders mirror the URL shape the site is moving to (/api/…, /learn/…), so the
     # skill stays put when the site's URLs move.
@@ -17,10 +17,6 @@ module Unpoly
 
       NAME = 'unpoly-docs'
       ROOT = "skills/#{NAME}"
-
-      # Earlier majors are documented on sites of their own; their release notes link to
-      # pages of their time.
-      MIN_RELEASE_MAJOR = 2
 
       def initialize(twins)
         pairs = twins.select { |twin| include?(twin) }.map { |twin|
@@ -55,11 +51,10 @@ module Unpoly
 
       private
 
+      # Everything but the test pages and /support, whose prices would go stale (SKILL.md
+      # points to it instead).
       def include?(twin)
-        return false if twin.fixture?
-        return false if twin.area == 'Support'
-        return twin.subject[:release].to_i >= MIN_RELEASE_MAJOR if twin.subject[:release]
-        true
+        !twin.fixture? && twin.area != 'Support'
       end
 
       # Two pages written to one file would silently overwrite each other.

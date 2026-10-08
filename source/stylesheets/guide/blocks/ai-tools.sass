@@ -7,7 +7,9 @@
 //
 // Small and muted next to the title, without button chrome, so it is there for agents'
 // users without competing with the text.
-$ai-tools-height: $leading-ui * $text-sm
+// One size for the row: the icons are this tall, and SKILL is set to match them.
+$ai-tools-size: $text-md
+$ai-tools-height: $leading-ui * $ai-tools-size
 
 // Where the title needs the room on a narrow screen, the row drops the word first, then
 // the Markdown link. Copy stays, as the one thing useful on a phone (pasting a page
@@ -23,7 +25,7 @@ $ai-tools-markdown-below: 360px
   margin-left: $space-4
   // Centred on the title's first line, which starts $title-gap below the header.
   margin-top: calc((#{$leading-display} * #{$text-title} - #{$ai-tools-height}) / 2)
-  +type($text-sm, $leading-ui)
+  +type($ai-tools-size, $leading-ui)
 
 .ai-tools--item
   display: inline-flex
@@ -32,7 +34,7 @@ $ai-tools-markdown-below: 360px
   padding: 0
   border: none
   background: none
-  color: $gray-500
+  color: $gray-600
   font: inherit
   cursor: pointer
   text-decoration: none !important
@@ -40,8 +42,19 @@ $ai-tools-markdown-below: 360px
   &:hover, &:focus-visible
     color: $gray-800
 
+  // The two icons are drawn differently (an inline SVG, a webfont glyph) but are sized
+  // from the row's one size, and centred on one line: the glyph's ink and the Markdown
+  // mark are both about 0.9em tall.
+  .fa
+    font-size: 1em
+    line-height: 1
+
+  .icon.-markdown
+    height: 0.9em
+    width: 1.4625em
+
   &.-skill
-    font-size: $text-2xs
+    font-size: $text-xs
     font-weight: 500
     letter-spacing: 0.08em
     text-transform: uppercase
@@ -55,6 +68,10 @@ $ai-tools-markdown-below: 360px
   // display above would win over [hidden] (copy_markdown.js unhides the button).
   &[hidden]
     display: none
+
+// Read out after copying (copy_markdown.js).
+.ai-tools--status
+  +visually-hidden
 
 // The copy button shows a checkmark for a moment after copying.
 .ai-tools--done-icon
