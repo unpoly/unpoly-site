@@ -1,0 +1,133 @@
+@import ../../environment
+
+// The Learn hub (source/learn/index.html.erb): Getting started on a tinted block,
+// then the chapters as a numbered path joined by a line.
+
+.learn-start
+  margin: 0 0 $space-6
+  padding: $space-5 clamp(#{$space-4}, 4vw, 32px)
+  background: $indigo-100
+  border-radius: $radius-lg
+
+.learn-start--caption
+  +uppercase
+  font-size: $text-3xs
+  font-weight: 500
+  letter-spacing: 0.1em
+  color: $gray-600
+  margin: 0 0 $space-2
+
+.learn-start--title
+  +type($text-xl, $leading-heading)
+  font-weight: bold
+  margin: 0
+
+.learn-start--blurb,
+.learn-chapter--blurb
+  +type($text-sm, 1.55)
+  color: $gray-800
+
+  p
+    margin: 0
+
+.learn-start--blurb
+  margin: $space-2 0 14px
+
+// The path. A line joins each number to the next one and ends at the last; each
+// circle's white ground covers the line where they meet.
+$number-size: 46px
+$number-size-narrow: 36px
+
+.learn-path
+  margin: 0 0 $space-6
+  padding: 0
+  list-style: none
+
+.learn-chapter
+  position: relative
+  display: grid
+  grid-template-columns: 72px minmax(0, 1fr)
+  margin: 0 0 $space-6
+
+  &:last-child
+    margin-bottom: 0
+
+  &:not(:last-child)::before
+    content: ''
+    position: absolute
+    left: $number-size / 2 - 1px
+    top: $number-size / 2
+    bottom: -$space-6 - $number-size / 2
+    width: 2px
+    background: $gray-200
+
+  +on_narrow
+    grid-template-columns: ($number-size-narrow + $space-4) minmax(0, 1fr)
+
+    &:not(:last-child)::before
+      left: $number-size-narrow / 2 - 1px
+      top: $number-size-narrow / 2
+      bottom: -$space-6 - $number-size-narrow / 2
+
+.learn-chapter--number
+  display: flex
+  align-items: center
+  justify-content: center
+  width: $number-size
+  height: $number-size
+  box-sizing: border-box
+  border: 2px solid $gray-200
+  border-radius: $radius-pill
+  background: $white
+  position: relative // above the line
+  font-size: $text-sm
+  font-weight: bold
+  color: $gray-500
+  font-variant-numeric: tabular-nums
+
+  +on_narrow
+    width: $number-size-narrow
+    height: $number-size-narrow
+
+.learn-chapter--body
+  min-width: 0
+  // The title's first line sits level with the number's middle.
+  padding-top: 8px
+
+  +on_narrow
+    padding-top: 3px
+
+.learn-chapter--title
+  +type($text-lg, $leading-heading)
+  font-weight: bold
+  margin: 0
+
+.learn-chapter--blurb
+  margin: 5px 0 $space-2
+
+// A chapter's overview and all its pages, as one run of links.
+.chapter-pages
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: $space-1 $space-4
+  margin: $space-2 0 0
+  padding: 0
+  list-style: none
+  +type($text-sm, 1.7)
+
+  li
+    margin: 0
+
+// The overview leads the run: bold, with a small grid icon for "the whole chapter".
+.chapter-pages--overview
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  font-weight: bold
+  color: $color-link
+  text-decoration: underline
+  text-decoration-color: rgba($red-600, 0.4)
+
+  +hover
+    text-decoration-color: currentColor

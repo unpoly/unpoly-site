@@ -1,0 +1,99 @@
+@import ../../environment
+
+// The API hub (source/api/index.html.erb): one row per topic of the API sidebar. The
+// name sits in a column of its own and the summary and feature links beside it; where
+// the two do not fit side by side, the body wraps below the name.
+
+.api-catalog
+  margin: 0 0 $space-6
+  border-bottom: 1px solid $gray-200
+
+.api-row
+  display: flex
+  flex-wrap: wrap
+  align-items: flex-start
+  gap: $space-2 $space-4
+  padding: 18px 0
+  border-top: 1px solid $gray-200
+
+// The name is the row's link, so it is underlined like one: lightly, in its own
+// indigo, solid on hover.
+.api-row--name
+  flex: 0 0 200px
+  display: flex
+  align-items: center
+  gap: 10px
+  font-size: $text-md - 1px
+  line-height: $leading-ui
+  font-weight: bold
+  color: $indigo-800
+  text-decoration: none
+
+  .-module &
+    +monospace-font
+
+  +hover
+    .api-row--title
+      text-decoration-color: currentColor
+
+.api-row--icon
+  flex: none
+  color: $gray-600
+
+.api-row--title
+  text-decoration: underline
+  text-decoration-color: rgba($indigo-800, 0.35)
+  text-underline-offset: 4px
+
+.api-row--body
+  flex: 1 1 22em
+  min-width: 0
+
+.api-row--summary
+  +type($text-sm, 1.5)
+  color: $gray-800
+  margin-bottom: 10px
+
+  p
+    margin: 0
+
+  code
+    +inline-code
+    font-size: 0.95em
+
+  strong
+    font-weight: normal
+
+.api-row--features
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: 2px 20px
+  margin: 0
+  padding: 0
+  list-style: none
+  line-height: 24px
+
+  li
+    margin: 0
+
+.api-row--feature
+  font-size: 13.5px
+  color: $color-link
+  text-decoration: underline
+  text-decoration-color: rgba($red-600, 0.4)
+  text-underline-offset: 4px
+
+  .-module &
+    +monospace-font
+
+  +hover
+    text-decoration-color: currentColor
+
+.api-row--more
+  font-size: $text-2xs
+  color: $gray-600
+  white-space: nowrap
+
+  +hover
+    color: $indigo-800

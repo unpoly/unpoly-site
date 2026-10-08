@@ -322,11 +322,6 @@ up.on('up:link:follow', '.search-pill', function(event) {
   openSearch(event.target)
 })
 
-// The search prompt on the /api hub is a button, so a plain click reaches it.
-up.on('click', '.search-prompt', function(event, prompt) {
-  openSearch(prompt)
-})
-
 // The header's trigger says what it does: it opens a dialog, and / opens it too. Only
 // with JavaScript, which is what makes it more than a link to the reference. The
 // aria-label contains the visible text ("Search docs"); the title is the tooltip.

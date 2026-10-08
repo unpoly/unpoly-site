@@ -1,0 +1,17 @@
+<%#
+  A chapter's pages on the Learn hub: its overview first, then every other page, the
+  same ones the sidebar lists.
+
+  Locals: topic (a Learn chapter), overview_label (what to call its overview).
+%>
+<ul class="chapter-pages">
+  <li>
+    <a href="<%= topic.menu_path %>" class="chapter-pages--overview">
+      <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>
+      <%= overview_label %>
+    </a>
+  </li>
+  <% topic.children.each do |page| %>
+    <li><a href="<%= page.guide_path %>" class="hub-link"><%= page.menu_title %></a></li>
+  <% end %>
+</ul>

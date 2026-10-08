@@ -1,41 +1,62 @@
 <%#
-  The API hub: a catalog to look things up in. One compact row per topic of the API
-  sidebar, in the sidebar's order: the module's name, its summary, and its signature
-  features (the ones marked @signature, which search also ranks first) as quick links.
-  A page group (Formats) lists its pages instead.
+  The API hub: a catalog to look things up in. One row per topic of the API sidebar, in
+  the sidebar's order. A module row names the module (the link to its page), its
+  summary, and up to six of its signature features (the ones marked @signature, which
+  search also ranks first) with a count of the rest. A page group (Formats) lists its
+  pages instead.
 
-  Every word comes from the model; the search prompt repeats the header pill's words.
+  Names, summaries and features come from the model. The intro below the title is the
+  hub's own copy.
 %>
 <% area = guide.toc.api %>
 <% @menu_path = area.menu_path %>
+<% shown_features = 6 %>
 
 <%= ai_tools %>
 
 <h1><%= page_title area.title %></h1>
 
-<button type="button" class="search-prompt" data-markdown="ignore">
-  <%= icon('search', class: 'search-prompt--icon') %>
-  <span class="search-prompt--label">Search docs…</span>
-  <kbd class="search-prompt--key">/</kbd>
-</button>
+<p class="hub-intro">
+  Technical reference for every attribute, function, event and HTTP header in Unpoly.<br>
+  For concepts and walkthroughs, see <a href="/learn" class="hub-link">Learn</a>.
+</p>
 
 <div class="api-catalog">
   <% area.topics.each do |topic| %>
     <% interface = topic.try(:interface) %>
-    <% quick_links = interface ? topic.children.flat_map { |group| group.children.select(&:signature_tier?) } : topic.pages %>
+    <%
+      if interface
+        features = topic.children.flat_map(&:children)
+        links = features.select(&:signature_tier?).first(shown_features)
+        more = features.size - links.size
+      else
+        links = topic.pages
+        more = 0
+      end
+    %>
 
     <div class="api-row<%= ' -module' if interface %>">
-      <%= link_to topic.title, topic.menu_path, class: 'api-row--name' %>
+      <a href="<%= topic.menu_path %>" class="api-row--name">
+        <% if interface %>
+          <svg class="api-row--icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg>
+        <% else %>
+          <svg class="api-row--icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg>
+        <% end %>
+        <span class="api-row--title"><%= topic.title %></span><span class="hub-topic--chevron" aria-hidden="true">›</span>
+      </a>
 
       <div class="api-row--body">
         <% if topic.summary_markdown.present? %>
           <div class="api-row--summary"><%= markdown(topic.summary_markdown, strip_links: true) %></div>
         <% end %>
 
-        <% if quick_links.any? %>
+        <% if links.any? || more > 0 %>
           <ul class="api-row--features">
-            <% quick_links.each do |documentable| %>
+            <% links.each do |documentable| %>
               <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
+            <% end %>
+            <% if more > 0 %>
+              <li><a href="<%= topic.menu_path %>" class="api-row--more">+ <%= more %> more</a></li>
             <% end %>
           </ul>
         <% end %>
