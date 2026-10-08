@@ -10,35 +10,29 @@ describe 'the ai-tools corner', type: :feature, js: true do
     JS
   end
 
-  it 'offers the page as Markdown, a copy button, the skill and the source, in this order' do
+  it 'offers the skill, the page as Markdown and a copy button, in this order' do
     visit '/targeting-fragments'
 
     expect(page).to have_css('.ai-tools[data-markdown="ignore"][data-pagefind-ignore]')
-    expect(visible_items).to eq(%w[-markdown -copy -skill -edit])
+    expect(visible_items).to eq(%w[-skill -markdown -copy])
 
+    expect(page).to have_css('.ai-tools--item.-skill[href="/skill"][aria-label="Install the Unpoly docs as an agent skill"]', text: /\Askill\z/i)
     expect(page).to have_css('.ai-tools--item.-markdown[href="/targeting-fragments.md"][aria-label="This page as Markdown — for agents and LLMs"] svg.icon.-markdown')
     expect(page).to have_css('button.ai-tools--item.-copy[aria-label="Copy this page as Markdown — paste it into any AI chat"]')
-    expect(page).to have_css('.ai-tools--item.-skill[href="/skill"][aria-label="Install the Unpoly docs as an agent skill"]', text: 'Skill')
-    expect(page).to have_css('.ai-tools--separator', text: '·')
-
-    # A source file at one revision on GitHub. The revision used to end in a newline,
-    # which the browser sent as %0A.
-    edit = find('.ai-tools--item.-edit[aria-label="Edit this page on GitHub"]')
-    expect(edit.text).to eq('')
-    expect(edit[:href]).to match(%r{\Ahttps://github\.com/unpoly/unpoly/blob/[0-9a-f]{40}/src/unpoly/pages/targeting-fragments\.md\?plain=1#L\d+:L\d+\z})
+    expect(page).to have_no_css('.ai-tools a[href*="github.com"]')
   end
 
-  it 'draws its items as quiet gray outlined buttons, unlike the indigo ways on' do
+  it 'is a quiet row of gray words and icons, without button chrome' do
     visit '/targeting-fragments'
 
     style = page.evaluate_script(<<~JS)
       (function() {
-        let item = getComputedStyle(document.querySelector('.ai-tools--item.-skill'))
-        let next = getComputedStyle(document.querySelector('.reading-nav--link.-next'))
-        return { border: item.borderTopStyle, decoration: item.textDecorationLine, sameColor: item.color === next.color }
+        let skill = getComputedStyle(document.querySelector('.ai-tools--item.-skill'))
+        let copy = getComputedStyle(document.querySelector('.ai-tools--item.-copy'))
+        return { border: [skill.borderTopStyle, copy.borderTopStyle], transform: skill.textTransform, decoration: skill.textDecorationLine }
       })()
     JS
-    expect(style).to eq('border' => 'solid', 'decoration' => 'none', 'sameColor' => false)
+    expect(style).to eq('border' => %w[none none], 'transform' => 'uppercase', 'decoration' => 'none')
   end
 
   it 'marks the skill link as the current page on the skill page' do
@@ -57,21 +51,16 @@ describe 'the ai-tools corner', type: :feature, js: true do
         return { top: corner.top - title.top, right: column.right - corner.right }
       })()
     JS
-    expect(line['top']).to be_between(0, 10)
+    # Centred on the first line, so a small row sits a little below the title's top.
+    expect(line['top']).to be_between(0, 16)
     expect(line['right'].abs).to be <= 0.5
   end
 
-  it 'links a release’s code instead of an editable source' do
-    visit '/changes/3.0.0'
-
-    expect(page).to have_css('.ai-tools--item.-edit[href="https://github.com/unpoly/unpoly/tree/v3.0.0"][aria-label="This version’s code on GitHub"]')
-  end
-
-  it 'ends at Skill on pages without a source to edit' do
-    visit '/learn'
-
-    expect(visible_items).to eq(%w[-markdown -copy -skill])
-    expect(page).to have_no_css('.ai-tools--separator')
+  it 'is the same on pages without a source file' do
+    %w[/learn /changes/3.0.0].each do |path|
+      visit path
+      expect(visible_items).to eq(%w[-skill -markdown -copy])
+    end
   end
 
   describe 'the copy button' do
@@ -110,12 +99,12 @@ describe 'the ai-tools corner', type: :feature, js: true do
   describe 'on narrower screens' do
     it 'keeps every item on a tablet', driver: :selenium_tablet do
       visit '/targeting-fragments'
-      expect(visible_items).to eq(%w[-markdown -copy -skill -edit])
+      expect(visible_items).to eq(%w[-skill -markdown -copy])
     end
 
-    it 'keeps only the copy button on a phone', driver: :selenium_phone do
+    it 'drops the word on a phone, keeping the icons', driver: :selenium_phone do
       visit '/targeting-fragments'
-      expect(visible_items).to eq(%w[-copy])
+      expect(visible_items).to eq(%w[-markdown -copy])
     end
   end
 

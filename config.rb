@@ -672,17 +672,15 @@ helpers do
     Unpoly::Guide::Icon.html(name, label: label, class: binding.local_variable_get(:class)).html_safe
   end
 
-  # The corner at the right end of the page title's first line (ai-tools.sass): the
-  # page as Markdown, a button that copies it, the agent skill, and the source on GitHub.
+  # The corner at the right end of the page title's first line (ai-tools.sass), a quiet
+  # row for agents' users: the agent skill, the page as Markdown, and a button that
+  # copies it.
   #
-  #   [Markdown] [Copy] Skill · [Edit]
+  #   SKILL [Markdown] [Copy]
   #
-  # Every page with a Markdown twin has it (the landing page has none). edit: the
-  # documentable whose source the pencil opens; revision: a release, whose code it opens
-  # instead. Without either the corner ends at Skill.
-  #
-  # It also announces the twin in the document head.
-  def ai_tools(edit: nil, revision: nil)
+  # Every page with a Markdown twin has it (the landing page has none). It also
+  # announces the twin in the document head.
+  def ai_tools
     md_path = "#{normalized_current_path}.md"
     head_link(rel: 'alternate', type: 'text/markdown', href: md_path)
 
@@ -692,24 +690,12 @@ helpers do
     end
 
     items = [
+      item.(:a, 'Skill', 'skill', 'Install the Unpoly docs as an agent skill', href: '/skill',
+        'aria-current': ('page' if normalized_current_path == '/skill')),
       item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', href: md_path, type: 'text/markdown'),
       item.(:button, icon('clone', class: 'ai-tools--copy-icon') + icon('check', class: 'ai-tools--done-icon'), 'copy',
         'Copy this page as Markdown — paste it into any AI chat', type: 'button', hidden: true, 'data-markdown-url': md_path),
-      item.(:a, 'Skill', 'skill', 'Install the Unpoly docs as an agent skill', href: '/skill',
-        'aria-current': ('page' if normalized_current_path == '/skill')),
     ]
-
-    source = if edit
-      [icon('pencil'), edit.text_source.github_url(guide, commit: guide.git_revision), 'Edit this page on GitHub']
-    elsif revision
-      [icon('code'), revision.github_browse_url, 'This version’s code on GitHub']
-    end
-
-    if source
-      content, url, label = source
-      items << content_tag(:span, '·', class: 'ai-tools--separator', 'aria-hidden': true)
-      items << item.(:a, content, 'edit', label, href: url, target: '_blank')
-    end
 
     content_tag(:div, items.join.html_safe, class: 'ai-tools', 'data-markdown': 'ignore', 'data-pagefind-ignore': true)
   end

@@ -1,48 +1,50 @@
 @import ../../environment
 
-// The corner at the right end of the page title's first line (ai_tools in config.rb):
-// the page as Markdown, a button copying it, the agent skill, and the source on GitHub.
+// The corner at the right end of the page title's first line (ai_tools in config.rb): a
+// quiet row of the agent skill, the page as Markdown, and a button copying it.
 //
-//   [Markdown] [Copy] Skill · [Edit]
+//   SKILL [Markdown] [Copy]
 //
-// Quiet outlined buttons in gray, so they are there for agents' users and contributors
-// without competing with the indigo ways on through the text.
-$ai-tools-height: 2 * 1px + 2 * $space-1 + $leading-ui * $text-sm
+// Small and muted next to the title, without button chrome, so it is there for agents'
+// users without competing with the text.
+$ai-tools-height: $leading-ui * $text-sm
 
-// As the window narrows the title needs the room, and the items go one by one, in this
-// order: Edit, Skill, the Markdown link. Copy stays longest, as the one thing that is
-// useful on a phone (pasting a page into a chat app).
-$ai-tools-edit-below: 700px
-$ai-tools-skill-below: 560px
-$ai-tools-markdown-below: 460px
+// Where the title needs the room on a narrow screen, the row drops the word first, then
+// the Markdown link. Copy stays, as the one thing useful on a phone (pasting a page
+// into a chat app).
+$ai-tools-skill-below: 460px
+$ai-tools-markdown-below: 360px
 
 .ai-tools
   float: right
   display: flex
   align-items: center
-  gap: $space-1
+  gap: $space-3
   margin-left: $space-4
   // Centred on the title's first line, which starts $title-gap below the header.
   margin-top: calc((#{$leading-display} * #{$text-title} - #{$ai-tools-height}) / 2)
   +type($text-sm, $leading-ui)
-  color: $gray-500
 
 .ai-tools--item
-  +outline-button($gray-600, $gray-800)
+  display: inline-flex
   align-items: center
-  // Icon buttons as tall as the one with a word in it.
-  box-sizing: border-box
   height: $ai-tools-height
-  padding: $space-1 $space-2
+  padding: 0
+  border: none
+  background: none
+  color: $gray-500
   font: inherit
   cursor: pointer
+  text-decoration: none !important
 
-  &.-edit
-    +narrower_than($ai-tools-edit-below)
-      display: none
+  &:hover, &:focus-visible
+    color: $gray-800
 
   &.-skill
-    padding: $space-1 $space-3
+    font-size: $text-2xs
+    font-weight: 500
+    letter-spacing: 0.08em
+    text-transform: uppercase
     +narrower_than($ai-tools-skill-below)
       display: none
 
@@ -50,12 +52,8 @@ $ai-tools-markdown-below: 460px
     +narrower_than($ai-tools-markdown-below)
       display: none
 
-  // The outline button's display would win over [hidden] (copy_markdown.js).
+  // display above would win over [hidden] (copy_markdown.js unhides the button).
   &[hidden]
-    display: none
-
-.ai-tools--separator
-  +narrower_than($ai-tools-edit-below)
     display: none
 
 // The copy button shows a checkmark for a moment after copying.

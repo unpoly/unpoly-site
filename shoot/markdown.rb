@@ -1,6 +1,6 @@
 # What the Markdown station changed on screen: the feature cards on module pages, the
-# types of parameters, and the MD button next to Edit (or alone where there is no Edit).
-Shoot.suite 'markdown', widths: [1280, 390], description: 'cards, types and the MD button' do |b|
+# types of parameters, and the ai-tools corner on the title line.
+Shoot.suite 'markdown', widths: [1280, 390], description: 'cards, types and the ai-tools corner' do |b|
   b.visit('/up.link'); b.shot('markdown-01-module-top')
   b.visit('/up.link'); b.scroll_to('#essential-features'); b.shot('markdown-02-essentials')
   b.visit('/up.link'); b.scroll_to('#all-features'); b.shot('markdown-03-all-features')
