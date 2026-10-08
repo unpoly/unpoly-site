@@ -95,7 +95,7 @@ describe 'Markdown twins', type: :feature do
       text = markdown('/skills/unpoly-docs/SKILL.md')
       front_matter = YAML.safe_load(text[/\A---\n(.*?)\n---\n/m, 1])
       expect(front_matter['name']).to eq('unpoly-docs')
-      expect(front_matter['description']).to start_with("Unpoly's complete documentation")
+      expect(front_matter['description']).to start_with("All of Unpoly's documentation")
       expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Guide.current.version)
       expect(front_matter['metadata']['build']).to match(/\A\d{4}\.\d+\.\d+\z/)
       expect(text).to include('- [up.link](references/api/up-link-module.md): ')
@@ -116,9 +116,9 @@ describe 'Markdown twins', type: :feature do
   end
 
   describe 'pages' do
-    it 'link their twin from an MD button and the document head' do
+    it 'link their twin from the ai-tools corner and the document head' do
       visit '/up.render'
-      expect(page).to have_css('a.md-link[href="/up.render.md"][type="text/markdown"][data-markdown="ignore"]', text: 'MD')
+      expect(page).to have_css('.ai-tools[data-markdown="ignore"] a.ai-tools--item.-markdown[href="/up.render.md"][type="text/markdown"]')
       expect(page).to have_css('head link[rel="alternate"][type="text/markdown"][href="/up.render.md"]', visible: false)
     end
 
@@ -129,16 +129,16 @@ describe 'Markdown twins', type: :feature do
       expect(page).to have_css('nav.reading-nav[aria-label="Reading order"] a[aria-label="Next: Submit forms"]')
     end
 
-    it 'show the MD button on pages without an Edit link too' do
+    it 'have the ai-tools corner on pages without an Edit link too' do
       %w[/learn /api /changes /changes/upgrading /support /formats /changes/3.0.0].each do |path|
         visit path
-        expect(page).to have_css(%(a.md-link[href="#{path}.md"])), "no MD button on #{path}"
+        expect(page).to have_css(%(.ai-tools a.ai-tools--item.-markdown[href="#{path}.md"])), "no ai-tools corner on #{path}"
       end
     end
 
-    it 'point agents from the landing page to the index, without an MD button' do
+    it 'point agents from the landing page to the index, without an ai-tools corner' do
       visit '/'
-      expect(page).not_to have_css('a.md-link')
+      expect(page).not_to have_css('.ai-tools')
       expect(page).to have_css('head link[rel="alternate"][type="text/markdown"][href="/index.md"]', visible: false)
       expect(page).to have_css('head link[rel="alternate"][href="/llms.txt"]', visible: false)
     end

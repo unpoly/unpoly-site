@@ -15,3 +15,8 @@ Shoot.suite 'markdown', widths: [1280, 390], description: 'cards, types and the 
   b.visit('/support'); b.shot('markdown-12-support')
   b.visit('/formats'); b.shot('markdown-13-topic-index')
 end
+
+# The empty search dialog's tip about the agent skill.
+Shoot.suite 'markdown-search', widths: [1280, 390], description: 'the search dialog tip' do |b|
+  b.visit('/up.render'); b.click('.guide--head .search-pill'); sleep 0.5; b.shot('markdown-14-search-tip')
+end

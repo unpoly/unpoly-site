@@ -662,33 +662,51 @@ helpers do
     "<span class='types'>#{label}#{parts.join("<span class='types--or'> | </span>")}</span>"
   end
 
-  # A Font Awesome icon, decorative unless it has a label (Unpoly::Guide::Icon).
+  # An icon, decorative unless it has a label (Unpoly::Guide::Icon).
   def icon(name, label: nil, class: nil)
     Unpoly::Guide::Icon.html(name, label: label, class: binding.local_variable_get(:class)).html_safe
   end
 
-  def edit_button(documentable)
-    # commit = config[:environment] == 'development' ? guide.git_revision : guide.git_version_tag
-    commit = guide.git_revision
-    url = documentable.text_source.github_url(guide, commit: commit)
-    # The label shortens to "Edit" on narrow screens (edit-link.sass); the accessible
-    # name stays whole.
-    link_to 'Edit <span class="edit-link--etc">page</span>', url, target: '_blank', class: 'edit-link', 'aria-label': 'Edit this page', 'data-pagefind-ignore': true, 'data-markdown': 'ignore'
-  end
-
-  def revision_on_github_button(revision)
-    url = revision.github_browse_url
-    link_to 'Revision code', url, target: '_blank', class: 'edit-link', 'data-markdown': 'ignore'
-  end
-
-  # A link to this page's Markdown twin, for agents and LLMs. It sits left of the Edit
-  # link, or where the Edit link would sit on pages that have none (md-link.sass).
+  # The corner at the right end of the page title's first line (ai-tools.sass): the
+  # page as Markdown, a button that copies it, the agent skill, and the source on GitHub.
+  #
+  #   [Markdown] [Copy] Skill · [Edit]
+  #
+  # Every page with a Markdown twin has it (the landing page has none). edit: the
+  # documentable whose source the pencil opens; revision: a release, whose code it opens
+  # instead. Without either the corner ends at Skill.
   #
   # It also announces the twin in the document head.
-  def md_button
-    path = normalized_current_path
-    head_link(rel: 'alternate', type: 'text/markdown', href: "#{path}.md")
-    link_to 'MD', "#{path}.md", class: 'md-link', type: 'text/markdown', title: 'This page as Markdown — for agents and LLMs', 'data-markdown': 'ignore', 'data-pagefind-ignore': true
+  def ai_tools(edit: nil, revision: nil)
+    md_path = "#{normalized_current_path}.md"
+    head_link(rel: 'alternate', type: 'text/markdown', href: md_path)
+
+    # Each item says what it does in its accessible name, and the same as a tooltip.
+    item = lambda do |tag, content, modifier, label, **attributes|
+      content_tag(tag, content, class: "ai-tools--item -#{modifier}", 'aria-label': label, title: label, **attributes)
+    end
+
+    items = [
+      item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', href: md_path, type: 'text/markdown'),
+      item.(:button, icon('clone', class: 'ai-tools--copy-icon') + icon('check', class: 'ai-tools--done-icon'), 'copy',
+        'Copy this page as Markdown — paste it into any AI chat', type: 'button', hidden: true, 'data-markdown-url': md_path),
+      item.(:a, 'Skill', 'skill', 'Install the Unpoly docs as an agent skill', href: '/skill',
+        'aria-current': ('page' if normalized_current_path == '/skill')),
+    ]
+
+    source = if edit
+      [icon('pencil'), edit.text_source.github_url(guide, commit: guide.git_revision), 'Edit this page on GitHub']
+    elsif revision
+      [icon('code'), revision.github_browse_url, 'This version’s code on GitHub']
+    end
+
+    if source
+      content, url, label = source
+      items << content_tag(:span, '·', class: 'ai-tools--separator', 'aria-hidden': true)
+      items << item.(:a, content, 'edit', label, href: url, target: '_blank')
+    end
+
+    content_tag(:div, items.join.html_safe, class: 'ai-tools', 'data-markdown': 'ignore', 'data-pagefind-ignore': true)
   end
 
   def feature_preview(feature)

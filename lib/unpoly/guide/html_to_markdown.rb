@@ -30,6 +30,8 @@ module Unpoly
         '[data-markdown="ignore"], [aria-hidden="true"], [hidden], script, style, template, noscript' => :drop,
         # A badge or tag that qualifies what it sits next to: "(JavaScript function)".
         '[data-markdown="chip"]' => :chip,
+        # An SVG icon (Unpoly::Guide::Icon) with a label is a word, like a webfont icon.
+        'svg.icon[role="img"][aria-label]' => :labelled_image,
         'svg[role="img"]' => :diagram,
         'svg' => :drop,
         '[role="img"][aria-label]' => :labelled_image,

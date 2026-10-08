@@ -24,7 +24,20 @@
            autofocus>
   </div>
 
+  <%# Only options may live in the listbox, so the messages below sit outside it. %>
   <div class="search-dialog--results" id="search-dialog-results" role="listbox" aria-label="Search results"></div>
+
+  <%# A message instead of results: nothing found, or search unavailable. %>
+  <div class="search-dialog--notice"></div>
+
+  <%# Shown until the reader types. %>
+  <p class="search-dialog--tip">
+    <span class="search-dialog--tip-label">Tip</span>
+    Your coding agent can search these docs locally with the <a href="/skill" up-layer="root">Unpoly agent skill</a>
+  </p>
+
+  <%# What screen readers hear after a search: "3 results for overlays". %>
+  <div class="search-dialog--status" role="status" aria-live="polite"></div>
 
   <div class="search-dialog--foot">
     <span class="search-dialog--hint"><kbd>↑↓</kbd> navigate</span>

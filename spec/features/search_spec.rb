@@ -28,7 +28,7 @@ describe 'search', type: :feature, js: true do
 
   # The dialog waits 5 seconds for a slow index before it says search is unavailable.
   # Specs about that path lower the wait instead of sitting through it. SEARCH is the
-  # dialog's config (search_dialog.js), a global binding of the page's script.
+  # search's config (search_core.js), a global binding of the page's script.
   def shorten_pagefind_timeout(ms = 300)
     page.execute_script("SEARCH.pagefindTimeoutMs = #{ms}")
   end
@@ -361,6 +361,70 @@ describe 'search', type: :feature, js: true do
 
   end
 
+  describe 'for screen readers' do
+
+    it 'is a modal dialog the framework traps focus in, with the field focused' do
+      visit '/loading-state'
+      stub_pagefind
+      open_search
+
+      expect(page).to have_css('up-modal.search-dialog up-modal-box[role="dialog"][aria-modal="true"][aria-label="Search the documentation"]')
+      expect(page).to have_css('.search-dialog--input:focus')
+
+      # Tab cycles inside the dialog, never back to the page behind it.
+      5.times { page.send_keys(:tab) }
+      expect(page.evaluate_script("!!document.activeElement.closest('up-modal.search-dialog')")).to be(true)
+    end
+
+    it 'points the field at the selected option and keeps everything but options out of the listbox' do
+      visit '/loading-state'
+      stub_pagefind([
+        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML',
+          sections: [{ anchor: 'example', title: 'Example', excerpt: 'Follows a link.' }]),
+        fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
+      ])
+      search_for('follow')
+      expect(page).to have_css('.search-dialog--hit.-selected')
+
+      input = find('.search-dialog--input')
+      expect(input['aria-activedescendant']).to eq(find('.search-dialog--hit.-selected')[:id])
+      page.send_keys(:down)
+      expect(input['aria-activedescendant']).to eq(find('.search-dialog--hit.-selected')[:id])
+
+      expect(page.evaluate_script("[...document.querySelector('[role=listbox]').children].every((child) => child.getAttribute('role') === 'option')")).to be(true)
+      # A section names its page for screen readers, which don't see it above.
+      expect(find('.search-dialog--hit.-section').text(:all)).to start_with('[up-follow] — Example')
+    end
+
+    it 'announces how many results a search found, and when it found none' do
+      visit '/loading-state'
+      stub_pagefind({ 'overlays' => [fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn')] })
+      search_for('overlays')
+
+      expect(page).to have_css('.search-dialog--status[role="status"][aria-live="polite"]', text: "1 result for 'overlays'", visible: :all)
+
+      fill_in_search('zzzznothing')
+      expect(page).to have_css('.search-dialog--status', text: 'No results', visible: :all)
+      expect(page).to have_css('.search-dialog--empty', text: 'No results for zzzznothing')
+      expect(page).to have_no_css('[role=listbox] .search-dialog--empty')
+    end
+
+  end
+
+  describe 'the trigger' do
+
+    it 'says that it opens a dialog, and that / opens it too' do
+      visit '/loading-state'
+
+      pill = find('.search-pill', visible: :all)
+      expect(pill['aria-haspopup']).to eq('dialog')
+      expect(pill['aria-keyshortcuts']).to eq('/')
+      expect(pill['aria-label']).to eq('Search docs — opens the search dialog')
+      expect(pill['title']).to eq('Press / to search')
+    end
+
+  end
+
   describe 'keyboard navigation' do
 
     it 'moves the selection with the arrow keys and opens it with Enter, closing the dialog' do
@@ -390,6 +454,21 @@ describe 'search', type: :feature, js: true do
       search_for('zzzznothingmatchesthis')
 
       expect(page).to have_css('.search-dialog--empty', text: 'No results for zzzznothingmatchesthis')
+    end
+
+    it 'points to the agent skill until the reader types' do
+      visit '/loading-state'
+      stub_pagefind
+      open_search
+
+      expect(page).to have_css('.search-dialog--tip', text: /\Atip your coding agent can search these docs locally with the Unpoly agent skill\z/i)
+      expect(page).to have_css('.search-dialog--tip a[href="/skill"][up-layer="root"]')
+      expect(page).to have_no_css('[role=listbox] .search-dialog--tip')
+
+      fill_in_search('u')
+      expect(page).to have_no_css('.search-dialog--tip')
+      fill_in_search('')
+      expect(page).to have_no_css('.search-dialog--tip')
     end
 
     it 'shows nothing at all before the query is long enough' do

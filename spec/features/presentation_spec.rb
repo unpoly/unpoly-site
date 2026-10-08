@@ -148,52 +148,6 @@ describe 'presentation', type: :feature, js: true do
     })(arguments[0])
   JS
 
-  describe 'the edit link on the title line' do
-    it 'is a quiet gray outlined button, set apart from the indigo ways on' do
-      visit '/targeting-fragments'
-
-      expect(page).to have_css('.edit-link', text: /\AEdit\s+page\z/)
-      expect(page).to have_no_css('.edit-link i.fa')
-      edit = page.evaluate_script(BUTTON_JS, '.edit-link')
-      nxt = page.evaluate_script(BUTTON_JS, '.reading-nav--link.-next')
-
-      expect(edit.first).to eq('solid')
-      expect(edit[5]).to eq('none')
-      expect(edit[4]).not_to eq(nxt[4])
-
-      # On the title's first line, at its right end.
-      line = page.evaluate_script(<<~JS)
-        (function() {
-          let edit = document.querySelector('.edit-link').getBoundingClientRect()
-          let title = document.querySelector('.guide--content h1').getBoundingClientRect()
-          let column = document.querySelector('.guide--content').getBoundingClientRect()
-          return { top: edit.top - title.top, right: column.right - edit.right }
-        })()
-      JS
-      expect(line['top']).to be_between(0, 10)
-      expect(line['right'].abs).to be <= 0.5
-      expect(page).to have_css('.edit-link[aria-label="Edit this page"]')
-
-      # A source file at one revision on GitHub. The revision used to end in a newline,
-      # which the browser sent as %0A.
-      href = find('.edit-link')[:href]
-      expect(href).to match(%r{\Ahttps://github\.com/unpoly/unpoly/blob/[0-9a-f]{40}/src/unpoly/pages/targeting-fragments\.md\?plain=1#L\d+:L\d+\z})
-    end
-
-    it 'says just "Edit" where the burger replaces the sidebar', driver: :selenium_tablet do
-      visit '/targeting-fragments'
-
-      expect(page).to have_css('.edit-link', text: /\AEdit\z/)
-      expect(page).to have_css('.edit-link[aria-label="Edit this page"]')
-    end
-
-    it 'leaves the title alone on a phone', driver: :selenium_phone do
-      visit '/targeting-fragments'
-
-      expect(page).to have_css('.edit-link', visible: :hidden)
-    end
-  end
-
   describe 'a read-more link closing an overview section' do
     it 'is an outlined button like the Next link, unlike the links in the text' do
       # Embedded the way an overview's Markdown embeds it.

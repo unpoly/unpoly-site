@@ -1,0 +1,69 @@
+@import ../../environment
+
+// The corner at the right end of the page title's first line (ai_tools in config.rb):
+// the page as Markdown, a button copying it, the agent skill, and the source on GitHub.
+//
+//   [Markdown] [Copy] Skill · [Edit]
+//
+// Quiet outlined buttons in gray, so they are there for agents' users and contributors
+// without competing with the indigo ways on through the text.
+$ai-tools-height: 2 * 1px + 2 * $space-1 + $leading-ui * $text-sm
+
+// As the window narrows the title needs the room, and the items go one by one, in this
+// order: Edit, Skill, the Markdown link. Copy stays longest, as the one thing that is
+// useful on a phone (pasting a page into a chat app).
+$ai-tools-edit-below: 700px
+$ai-tools-skill-below: 560px
+$ai-tools-markdown-below: 460px
+
+.ai-tools
+  float: right
+  display: flex
+  align-items: center
+  gap: $space-1
+  margin-left: $space-4
+  // Centred on the title's first line, which starts $title-gap below the header.
+  margin-top: calc((#{$leading-display} * #{$text-title} - #{$ai-tools-height}) / 2)
+  +type($text-sm, $leading-ui)
+  color: $gray-500
+
+.ai-tools--item
+  +outline-button($gray-600, $gray-800)
+  align-items: center
+  // Icon buttons as tall as the one with a word in it.
+  box-sizing: border-box
+  height: $ai-tools-height
+  padding: $space-1 $space-2
+  font: inherit
+  cursor: pointer
+
+  &.-edit
+    +narrower_than($ai-tools-edit-below)
+      display: none
+
+  &.-skill
+    padding: $space-1 $space-3
+    +narrower_than($ai-tools-skill-below)
+      display: none
+
+  &.-markdown
+    +narrower_than($ai-tools-markdown-below)
+      display: none
+
+  // The outline button's display would win over [hidden] (copy_markdown.js).
+  &[hidden]
+    display: none
+
+.ai-tools--separator
+  +narrower_than($ai-tools-edit-below)
+    display: none
+
+// The copy button shows a checkmark for a moment after copying.
+.ai-tools--done-icon
+  display: none
+
+.ai-tools--item.-copied
+  .ai-tools--copy-icon
+    display: none
+  .ai-tools--done-icon
+    display: inline-block

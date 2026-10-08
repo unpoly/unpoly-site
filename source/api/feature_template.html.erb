@@ -24,8 +24,7 @@
 
 <div class="feature -<%= feature.visibility %>">
 
-  <%= edit_button(feature) %>
-  <%= md_button %>
+  <%= ai_tools(edit: feature) %>
 
   <h1>
     <%= breadcrumb_link feature.interface.name, feature.interface.guide_path %>

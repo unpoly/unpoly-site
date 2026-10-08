@@ -155,6 +155,30 @@ up-modal.search-dialog
   color: $gray-600
   +type($text-sm, $leading-body)
 
+// The empty dialog's one line about the agent skill. Its label is set like an
+// admonition's title in the tip colors (admonition.sass).
+.search-dialog--tip
+  margin: 0
+  padding: $space-4 $search-dialog-row-padding-x
+  color: $gray-600
+  +type($text-sm, $leading-body)
+
+  a
+    +hyperlink
+
+.search-dialog--tip-label
+  margin-right: $space-1
+  font-weight: bold
+  text-transform: uppercase
+  letter-spacing: 0.04em
+  font-size: $text-2xs
+  color: $tip-ink
+
+// Read out with a section, which on screen sits beneath its page.
+.search-dialog--context,
+.search-dialog--status
+  +visually-hidden
+
 .search-dialog--foot
   display: flex
   gap: $space-4

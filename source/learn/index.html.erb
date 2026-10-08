@@ -12,7 +12,7 @@
 <% start, *chapters = area.topics %>
 <% blurb = ->(topic) { text = topic.summary_markdown.to_s.strip; text unless text.blank? || text == 'This page is being written.' } %>
 
-<%= md_button %>
+<%= ai_tools %>
 
 <h1><%= page_title area.title %></h1>
 

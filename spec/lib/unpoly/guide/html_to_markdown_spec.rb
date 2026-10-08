@@ -116,6 +116,11 @@ describe Unpoly::Guide::HtmlToMarkdown do
       expect(convert('<p><span class="tag" data-markdown="chip"> optional </span></p>')).to eq("(optional)\n")
     end
 
+    it 'writes a labelled SVG icon as its label, and drops an unlabelled one' do
+      html = %(<p>A #{Unpoly::Guide::Icon.html('markdown', label: 'Markdown')} B #{Unpoly::Guide::Icon.html('markdown')}</p>)
+      expect(convert(html)).to eq("A (Markdown) B\n")
+    end
+
     it 'writes a labelled icon as its label' do
       html = '<p>Flag <i class="fa fa-flask" role="img" aria-label="Experimental"></i></p>'
       expect(convert(html)).to eq("Flag (Experimental)\n")
