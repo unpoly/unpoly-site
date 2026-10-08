@@ -203,6 +203,10 @@ else
   skill.files.each do |path, file|
     proxy "/#{Unpoly::Guide::Skill::ROOT}/#{file}", '/markdown_twin.txt', locals: { twin_path: path, skill_file: file }, ignore: true
   end
+  # The source can't be named SKILL.md.erb: Middleman treats .md as a template engine and
+  # would render it to SKILL.html. A .txt source only runs through ERB, and this proxy
+  # publishes its output under the real name. (The template opens with an ERB comment,
+  # so Middleman doesn't strip SKILL.md's front matter as its own.)
   proxy "/#{Unpoly::Guide::Skill::ROOT}/SKILL.md", "/#{Unpoly::Guide::Skill::ROOT}/skill.txt", ignore: true
   # The search script's tests stay in the repository (rake skill:test).
   ignore %r{\A#{Unpoly::Guide::Skill::ROOT}/scripts/(test_|__pycache__)}
