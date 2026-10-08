@@ -39,7 +39,7 @@ const webmcpTools = [
   {
     name: 'search_docs',
     title: 'Search the Unpoly docs',
-    description: 'Search Unpoly\'s documentation: guides, the API reference (up-* attributes, up.* functions, up:* events, X-Up-* headers) and release notes. Returns matching pages, each with an mdUrl to read with get_page_markdown. To see more, repeat the call with a higher limit (max 25). Prefer this over navigating and reading pages.',
+    description: 'Search Unpoly\'s documentation: guides, the API reference (up-* attributes, up.* functions, up:* events, X-Up-* headers) and release notes. Returns matching pages, each with an mdUrl to read with get_page_markdown. To see more, repeat the call with a higher limit (max 25). Prefer this over navigating and reading pages. Words are combined with AND: only pages containing every word are found, so keep each query short. When searching in plain words — describing a task, checking whether something is supported, or looking for a guide — make several calls with different words or synonyms instead of one long query, before concluding the docs don\'t cover it. Quoted phrases match exactly ("close the overlay"). There is no exclusion: -modal is searched as a word, which usually finds nothing.',
     inputSchema: {
       type: 'object',
       properties: {

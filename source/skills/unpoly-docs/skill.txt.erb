@@ -30,11 +30,15 @@ Search first. The bundled script needs Python 3.8 or later and nothing else:
 python3 scripts/search.py "<query>"
 ```
 
-Pass several variations of what you are looking for in one call: synonyms, the attribute and the function that do the same thing, the plain-English task. The terms are combined with OR (a page that matches any of them is found) and ranked by relevance, so more terms only help:
+Pass several variations of what you are looking for in one call: synonyms, the attribute and the function that do the same thing, the plain-English task. Terms are combined with OR: a page matching any of them is found, and pages matching more of them rank higher, so more words only help:
 
 ```
 python3 scripts/search.py "close overlay" "dismiss modal" up-dismiss up.layer.dismiss
 ```
+
+This matters most when you search in plain words: when you describe a task rather than name a feature, don't know whether Unpoly supports something, or look for a guide you don't know exists. Then pack the query with every word for the idea, e.g. `"loading indicator" spinner progress busy feedback`, and search again with different words if the top results miss.
+
+Words inside one quoted argument also count as a phrase: pages containing it word for word rank higher. A word with a leading `-` excludes every page that contains it: `overlay -modal`.
 
 Exact names rank their own page first, in any spelling: `up.render`, `up.render()`, `[up-follow]`, `up-follow`, `up:link:follow`, `X-Up-Target`.
 
@@ -59,9 +63,9 @@ Or walk the index below: it lists every guide chapter and every API module. A ch
 
 ## Check the Unpoly version
 
-These docs describe Unpoly <%= version %>. Find the version the app actually uses: the `unpoly` entry in `package.json` (or its lock file), `unpoly-rails` in `Gemfile.lock`, a CDN URL in the HTML layout, or `up.version` in the browser console. When the app uses a different major version, tell the user, and trust the app's actual behavior over these docs. The release notes in `references/changes/` say what changed between versions.
+This skill documents Unpoly <%= version %>. Features deprecated in older versions are still included and searchable, but the guides' examples show the current way of doing things. Check which version the app uses: `unpoly` in `package.json`, `unpoly-rails` in `Gemfile.lock`, a CDN URL in the layout, or `up.version` in the browser. If it's older, tell the user, and use the release notes in `references/changes/` to see what changed and how to update.
 
-For questions these docs cannot answer, point the user to https://unpoly.com/support.md.
+For questions these docs cannot answer, point the user to https://unpoly.com/support.
 
 ## Index
 

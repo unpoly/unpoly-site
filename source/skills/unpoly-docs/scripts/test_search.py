@@ -276,6 +276,74 @@ class RankingTest(CorpusTestCase):
         self.assertEqual(self.paths("fragments"), ["references/learn/start/links.md"])
 
 
+class PhraseTest(CorpusTestCase):
+    def setUp(self):
+        super().setUp()
+        self.write({
+            "references/learn/a.md": page("One", "Close **the** overlay. Overlay close the."),
+            "references/learn/b.md": page("Two", "The overlay close. Overlay close the."),
+        })
+
+    def test_page_containing_the_phrase_ranks_higher(self):
+        self.assertEqual(self.paths("close the overlay"), ["references/learn/a.md", "references/learn/b.md"])
+
+    def test_phrase_ignores_case_whitespace_and_markdown(self):
+        self.assertEqual(self.paths("CLOSE   the\noverlay")[0], "references/learn/a.md")
+
+    def test_phrase_is_a_bonus_not_a_filter(self):
+        self.assertEqual(set(self.paths("close the overlay")), {"references/learn/a.md", "references/learn/b.md"})
+        self.assertEqual(set(self.paths("overlay vanish")), {"references/learn/a.md", "references/learn/b.md"})
+
+    def test_separate_arguments_are_no_phrase(self):
+        scores = dict((d["path"], score) for score, d in self.results("close", "the", "overlay"))
+        self.assertAlmostEqual(scores["references/learn/a.md"], scores["references/learn/b.md"])
+
+    def test_query_phrases(self):
+        self.assertEqual(search.query_phrases(["Close  the overlay", "up.render"]), [" close the overlay "])
+
+
+class ExclusionTest(CorpusTestCase):
+    def setUp(self):
+        super().setUp()
+        self.write({
+            "references/learn/drawer.md": page("Drawers", "An overlay that slides in."),
+            "references/learn/modal.md": page("Modals", "An overlay in the center, a modal."),
+            "references/api/up-modal.md": page("[up-modal] (HTML selector)", "Opens an overlay."),
+        })
+
+    def test_split_queries(self):
+        self.assertEqual(search.split_queries(["overlay -modal", "-up-modal", "x-up-target"]),
+                         (["overlay  ", " ", "x-up-target"], ["modal", "up-modal"]))
+
+    def test_exclusion_inside_a_quoted_argument(self):
+        self.assertEqual(self.paths("overlay -modal"), ["references/learn/drawer.md"])
+
+    def test_exclusion_as_separate_argument(self):
+        self.assertEqual(self.paths("overlay", "-modal"), ["references/learn/drawer.md"])
+
+    def test_inner_dashes_are_no_exclusion(self):
+        self.assertIn("references/api/up-modal.md", self.paths("up-modal"))
+
+    def test_cli_treats_single_dash_arguments_as_exclusions(self):
+        status, output = self.run_cli("overlay", "-modal", "--limit", "5")
+        self.assertEqual(status, 0)
+        self.assertIn("references/learn/drawer.md", output)
+        self.assertNotIn("modal.md", output)
+
+    def test_cli_exclusion_inside_a_quoted_argument(self):
+        _status, output = self.run_cli("overlay -modal")
+        self.assertEqual(output.count("<result "), 1)
+
+    def test_cli_needs_a_word_besides_exclusions(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as raised:
+            self.run_cli("-modal")
+        self.assertEqual(raised.exception.code, 2)
+
+    def test_split_exclusion_args_keeps_option_values(self):
+        self.assertEqual(search.split_exclusion_args(["--limit", "-1", "-h", "-modal", "x"]),
+                         (["--limit", "-1", "-h", "x"], ["-modal"]))
+
+
 class OutputTest(CorpusTestCase):
     def setUp(self):
         super().setUp()
@@ -333,6 +401,7 @@ class OutputTest(CorpusTestCase):
             search.main(["--help"])
         self.assertEqual(raised.exception.code, 0)
         self.assertIn("--limit", output.getvalue())
+        self.assertIn("-modal", output.getvalue())
 
 
 class WorkingDirectoryTest(CorpusTestCase):

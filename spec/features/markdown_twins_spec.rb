@@ -103,7 +103,7 @@ describe 'Markdown twins', type: :feature do
       expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Guide.current.version)
       expect(front_matter['metadata']['build']).to match(/\A\d{4}\.\d+\.\d+\z/)
       expect(text).to include('- [up.link](references/api/up-link-module.md): ')
-      expect(text).to include('https://unpoly.com/support.md')
+      expect(text).to include('point the user to https://unpoly.com/support.')
     end
 
     it 'has reference files that link each other by relative paths and the site by unpoly.com' do

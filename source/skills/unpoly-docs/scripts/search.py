@@ -14,6 +14,9 @@ Ranking is BM25F over field-weighted tokens (name and title above headings above
   API pages and inflected words find each other. There is no prefix matching: common parts like
   `up` occur on every page and get an IDF near zero instead of matching everything.
 - Down-weights for deprecated pages, hub pages (`index.md`) and changelog pages.
+- A bonus for pages containing a query argument of several words as a phrase. This only
+  re-ranks: the words still match with OR semantics.
+- Exclusions: a word with a leading `-` (`-modal`) removes every page containing it.
 """
 
 import argparse
@@ -41,6 +44,7 @@ STEM_WEIGHT = 0.5   # `validat` from `validation`
 
 NAME_BOOST = 3.0           # query token equals the page's `name`
 HEADING_NAME_BONUS = 1.5   # query identifier heads a section, e.g. a parameter `[up-accept-location]`
+PHRASE_BONUS = 1.5         # page contains a multi-word query argument word for word
 DEPRECATED_FACTOR = 0.6
 HUB_FACTOR = 0.5           # references/*/index.md: link lists that mention everything
 RELEASE_FACTOR = 0.5       # release notes (references/changes/3-11-0.md etc.)
@@ -278,9 +282,15 @@ class Index:
         return math.log(1 + (len(self.documents) - count + 0.5) / (count + 0.5))
 
     def search(self, queries):
-        """OR semantics over all tokens of all queries. Returns [(score, document)], best first."""
+        """OR semantics over all tokens of all queries. Returns [(score, document)], best first.
+        Words with a leading `-` are exclusions, see split_queries()."""
+        queries, excluded = split_queries(queries)
         query_terms = parse_query(queries)
         names = set(query_names(queries))
+        phrases = query_phrases(queries)
+        excluded_ids = set()
+        for token in excluded:
+            excluded_ids.update(self.postings.get(token, ()))
         scores = {}
         for term, query_weight in query_terms.items():
             postings = self.postings.get(term)
@@ -298,13 +308,57 @@ class Index:
 
         results = []
         for doc_id, score in scores.items():
+            if doc_id in excluded_ids:
+                continue
             document = self.documents[doc_id]
             score *= document["factor"]
+            if phrases:
+                text = phrase_text(document)
+                for phrase in phrases:
+                    if phrase in text:
+                        score *= PHRASE_BONUS
             if document["name"] and document["name"] in names:
                 score *= NAME_BOOST
             results.append((score, document))
         results.sort(key=lambda pair: (-pair[0], pair[1]["path"]))
         return results
+
+
+EXCLUSION_RE = re.compile(r"(?:^|(?<=\s))-(?=\w)(\S*)")
+
+
+def split_queries(queries):
+    """Returns (queries, excluded): the queries without their exclusion words, and the tokens of
+    those words. An exclusion is a word with a leading `-`, as an argument of its own (`-modal`)
+    or inside one (`"overlay -modal"`)."""
+    excluded = []
+    kept = []
+    for query in queries:
+        for word in EXCLUSION_RE.findall(query):
+            excluded.extend(tokenize(word))
+        kept.append(EXCLUSION_RE.sub(" ", query))
+    return kept, excluded
+
+
+def query_phrases(queries):
+    """Queries of several words, as space-joined tokens to look for in phrase_text()."""
+    phrases = []
+    for query in queries:
+        tokens = tokenize(query)
+        if len(tokens) > 1:
+            phrases.append(" " + " ".join(tokens) + " ")
+    return phrases
+
+
+def phrase_text(document):
+    """The page's tokens joined by single spaces, so a phrase matches regardless of case,
+    whitespace, punctuation and Markdown. Built on first use, since only phrase queries need it."""
+    text = document.get("phrase_text")
+    if text is None:
+        fields = document["fields"]
+        text = " " + " ".join(tokenize("\n".join([fields["title"], fields["body"]]))) + " "
+        document["phrase_text"] = text
+    return text
 
 
 def parse_query(queries):
@@ -395,9 +449,16 @@ Pass several queries at once: a page that matches any of them is found, and page
 terms rank higher. Exact identifiers rank their own page first, in any spelling:
   up.render  up.render()  [up-follow]  up-follow  up:link:follow  up.$compiler  X-Up-Target
 
+A query of several words in one quoted argument is also a phrase: pages containing it word for
+word rank higher. A word with a leading - excludes every page containing it, as an argument of
+its own or inside a quoted one:
+  python3 scripts/search.py overlay -modal
+  python3 scripts/search.py "overlay -modal"
+
 examples:
   python3 scripts/search.py up.layer.open
   python3 scripts/search.py "close overlay" "dismiss modal" up-dismiss
+  python3 scripts/search.py "loading indicator" spinner progress busy feedback
   python3 scripts/search.py --limit 5 "validate form fields while typing"
 
 Each result has a path relative to the skill root. Read the file for the full page.
@@ -408,31 +469,59 @@ def default_root():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+OPTIONS_WITH_VALUE = ("--limit", "--root")
+
+
+def split_exclusion_args(argv):
+    """Returns (argv, exclusions). argparse would take `-modal` for an unknown option, so every
+    argument starting with a single `-` (except `-h` and option values) is set aside as an
+    exclusion. The script's own options all start with `--`."""
+    kept, exclusions = [], []
+    takes_value = False
+    for arg in argv:
+        if takes_value:
+            kept.append(arg)
+            takes_value = False
+        elif arg in OPTIONS_WITH_VALUE:
+            kept.append(arg)
+            takes_value = True
+        elif EXCLUSION_RE.fullmatch(arg) and arg != "-h":
+            exclusions.append(arg)
+        else:
+            kept.append(arg)
+    return kept, exclusions
+
+
 def main(argv):
+    argv, exclusions = split_exclusion_args(argv)
     parser = argparse.ArgumentParser(
         prog="search.py", description=DESCRIPTION, epilog=EPILOG,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("queries", nargs="+", metavar="QUERY",
-                        help="words, phrases or identifiers (OR semantics)")
+    parser.add_argument("queries", nargs="*", metavar="QUERY",
+                        help="words, phrases or identifiers (OR semantics); -word excludes pages")
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT, metavar="N",
                         help="maximum number of results (default: %(default)s)")
     parser.add_argument("--root", default=default_root(), metavar="DIR",
                         help="skill root containing references/ (default: this skill)")
     args = parser.parse_args(argv)
+    queries = args.queries + exclusions
+    if not any(tokenize(query) for query in split_queries(queries)[0]):
+        parser.error("pass at least one QUERY to search for, not only exclusions")
 
     if not os.path.isdir(os.path.join(args.root, "references")):
         print("No references/ directory in {0}".format(args.root), file=sys.stderr)
         return 1
 
     index = Index(load_documents(args.root))
-    results = index.search(args.queries)[:max(args.limit, 0)]
+    results = index.search(queries)[:max(args.limit, 0)]
     if not results:
         print("No matches. Try other words, synonyms or exact identifiers (e.g. up.render, "
               "[up-target], up:link:follow), several of them in one call.")
         return 0
 
-    query_terms = parse_query(args.queries)
-    names = set(query_names(args.queries))
+    positive, _excluded = split_queries(queries)
+    query_terms = parse_query(positive)
+    names = set(query_names(positive))
     blocks = []
     for score, document in results:
         # A symbol's own page is best summarized by its lead paragraph.

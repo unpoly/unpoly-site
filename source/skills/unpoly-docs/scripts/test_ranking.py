@@ -57,7 +57,10 @@ CASES = [
     (["lazy loading content"], "references/learn/lazy-loading.md", 3),
     (["infinite scrolling"], "references/learn/infinite-scrolling.md", 3),
     (["flash messages"], "references/learn/flashes.md", 3),
-    (["targeting fragments"], "references/learn/targeting-fragments.md", 3),    # Stemming: inflected words that only meet the page through their stem
+    (["targeting fragments"], "references/learn/targeting-fragments.md", 3),
+    # Phrases: without PHRASE_BONUS the page that says "history state" ranks second
+    (["history state"], "references/learn/updating-history.md", 1),
+    # Stemming: inflected words that only meet the page through their stem
     (["polled"], "references/learn/polling.md", 2),
     (["preloaded links"], "references/api/up-preload-selector.md", 2),
 ]
