@@ -54,14 +54,16 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'lifts a signature page by its title and its boost' do
-    results = ranked('layer')
-
-    # The boost: [up-layer=new] passes a page that Pagefind scores higher.
-    expect(pagefind_alone('layer').index('/layer-option')).to be < pagefind_alone('layer').index('/up-layer-new')
-    expect(results.index('/up-layer-new')).to be < results.index('/layer-option')
+    # The boost: for "overlay", [up-layer=new] passes the up.layer module, which Pagefind
+    # scores higher.
+    results = ranked('overlay')
+    alone = pagefind_alone('overlay')
+    expect(alone.index('/up.layer')).to be < alone.index('/up-layer-new')
+    expect(results.index('/up-layer-new')).to be < results.index('/up.layer')
 
     # The title: without its tier title, [up-layer=new] is not even among the pages the
-    # dialog fetches.
+    # dialog fetches for "layer".
+    ranked('layer')
     expect(pagefind_alone('layer', ranking: { metaWeights: { title: 2, tier_title: 0 } })).not_to include('/up-layer-new')
   end
 

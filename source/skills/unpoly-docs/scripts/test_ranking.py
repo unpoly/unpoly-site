@@ -50,7 +50,8 @@ CASES = [
     (["close overlay"], "references/learn/closing-overlays.md", 3),
     (["open overlay"], "references/learn/opening-overlays.md", 3),
     (["preserve element across updates"], "references/learn/preserving-elements.md", 3),
-    (["cache requests"], "references/learn/caching.md", 3),
+    # Caching is about responses; the chapter overview covers requests and caching both
+    (["cache requests"], "references/learn/network.md", 3),
     (["polling"], "references/learn/polling.md", 3),
     (["upgrade unpoly migrate"], "references/changes/upgrading.md", 3),
     (["loading indicator", "progress bar"], "references/learn/progress-bar.md", 3),
