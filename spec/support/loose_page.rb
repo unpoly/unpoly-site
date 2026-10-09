@@ -2,7 +2,7 @@
 # list none, so specs take a page out of its chapter and make it loose instead.
 module LoosePage
   # A page from a chapter's tail, so no chapter loses its overview.
-  SLUG = 'analytics'
+  SLUG = 'tracking-page-views'
 
   def self.manifest(slug = SLUG)
     repository = Unpoly::Guide.current
