@@ -32,6 +32,11 @@ h1, .h1
     font-size: 0.79em // $text-2xl beside a $text-3xl title, and as much smaller on a phone
     word-spacing: -6px // make spaces look less epic
 
+    // A module or class page is titled by its name alone, with no prose to sit beside,
+    // so it is as large as a feature's signature.
+    &.-name
+      font-size: 1em
+
   &+*
     margin-top: 0 !important
     +hide-first-margins
