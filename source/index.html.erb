@@ -164,7 +164,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <p>And your own JavaScript plugs in through <b>compilers</b>. Here a Google Map gets its center from the server:</p>
 
       <div class="landing--pair">
-<pre class="landing--code"><code class="language-html">&lt;div class="map" up-data="{lat: 50.9, lng: 7.4}"&gt;
+<pre class="landing--code"><code class="language-html">&lt;div class="map" up-data="{ lat: 50.9, lng: 7.4 }"&gt;
   &lt;!-- chip: Map will appear here --&gt;
 &lt;/div&gt;</code></pre>
 <pre class="landing--code"><code class="language-javascript">up.compiler('.map', (element, data) =&gt; {

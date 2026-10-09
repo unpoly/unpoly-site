@@ -141,7 +141,15 @@ $annotated-stack-below: 672px
   +landing-code-text
   margin: 0
   max-width: 100%
-  overflow-x: auto
+  // Side by side, every row fits, so nothing may scroll: a scroll container per row would
+  // grow scroll bars around the marks' padding. Stacked on a phone, a long line may scroll
+  // sideways, with room for the marks above and below.
+  overflow: visible
+
+  +narrower_than($annotated-stack-below)
+    overflow-x: auto
+    overflow-y: hidden
+    padding-block: 2px
 
   code, code.hljs
     padding: 0
