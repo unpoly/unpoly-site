@@ -10,7 +10,9 @@
   line-height: 0
   position: relative
   border: 1px solid $gray-500
-  border-radius: 2px
+  border-radius: $radius-md
+  // Clips the video and the play button's backdrop to the rounded corners.
+  overflow: hidden
 
 .video-player--video
   max-width: 100%

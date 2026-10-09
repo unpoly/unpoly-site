@@ -108,11 +108,13 @@ $measure-prose: 72ch
 
 
 // ---------------------------------------------------------------- shape
+//
+// One job per step. A circle is a shape, not a step, and stays at 100%.
 
-$radius-sm: 3px
-$radius-md: 6px
-$radius-lg: 10px
-$radius-pill: 999px
+$radius-sm: 3px     // small inline things: marks, chips, tags, buttons, inputs, kbd
+$radius-md: 6px     // content blocks: code blocks, cards, images, admonitions
+$radius-lg: 10px    // large regions: the Learn hub's start block, the search dialog
+$radius-pill: 999px // true pill shapes
 
 $subtle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
 
