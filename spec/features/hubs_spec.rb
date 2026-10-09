@@ -51,7 +51,10 @@ describe 'the hubs', type: :feature, js: true do
 
       chapters.zip(rows).each do |chapter, row|
         expect(row).to have_css(".learn-chapter--title a[href='#{chapter.menu_path}']", text: chapter.title)
-        expect(row).to have_css("a.chapter-pages--overview[href='#{chapter.menu_path}']", text: 'Overview')
+        # A single-page chapter (Animation) has no @menu-title Overview, so its one page link
+        # carries the page title.
+        overview_label = chapter.children.any? ? 'Overview' : chapter.title
+        expect(row).to have_css("a.chapter-pages--overview[href='#{chapter.menu_path}']", text: overview_label)
         expect(row.all('.chapter-pages .hub-link').map { |link| link[:href].sub(%r{\Ahttps?://[^/]+}, '') }).to eq(chapter.children.map(&:guide_path))
       end
     end
@@ -133,7 +136,7 @@ describe 'the hubs', type: :feature, js: true do
     # The count is of what the module page lists under All features, not of the
     # module's sidebar rows, which also hold classes (up.Layer).
     it "counts the features the module page lists under All features, beyond the ones shown" do
-      { '/up.layer' => true, '/up.form' => true, '/up.fragment' => true, '/up.util' => false }.each do |path, has_signature|
+      { '/up.layer' => true, '/up.form' => true, '/up.fragment' => true, '/up.util' => true }.each do |path, has_signature|
         visit path
         listed = page.evaluate_script(<<~JS)
           (() => {
