@@ -108,9 +108,12 @@
   +landing-code-box
   +landing-code-text
 
+  // highlight.js makes `pre code.hljs` a scroll container of its own. Here only the
+  // <pre> may scroll, or each line grows scroll bars around the marks' padding.
   code, code.hljs
     padding: 0
     background: none
+    overflow: visible
 
 // The hero's code: one line per row, each with a note at the end of a dotted leader.
 // Below $annotated-stack-below the longest line and its note no longer fit side by
@@ -151,9 +154,12 @@ $annotated-stack-below: 672px
     overflow-y: hidden
     padding-block: 2px
 
+  // highlight.js makes `pre code.hljs` a scroll container of its own. Here only the
+  // <pre> may scroll, or each line grows scroll bars around the marks' padding.
   code, code.hljs
     padding: 0
     background: none
+    overflow: visible
 
 .landing--annotated-lead
   flex: 1
