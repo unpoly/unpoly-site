@@ -29,10 +29,14 @@ describe 'the built search index' do
     end)
   end
 
-  def meta_of(path)
+  def fragment_of(path)
     fragment = fragments.detect { |candidate| candidate['url'].chomp('/') == path }
     expect(fragment).not_to be_nil, "no fragment for #{path}"
-    fragment['meta']
+    fragment
+  end
+
+  def meta_of(path)
+    fragment_of(path)['meta']
   end
 
   it 'titles a module page with the module name and badges it API' do
@@ -65,6 +69,29 @@ describe 'the built search index' do
 
   it 'leaves an unmarked page out of the tier' do
     expect(meta_of('/up.layer.get').keys).not_to include('tier', 'tier_title')
+  end
+
+  # Filters, not metadata: Pagefind searches metadata, and a hub's name must not make a
+  # page match or rank (config.rb, search_meta_tags).
+  it 'names the hub of a guide page, a feature and a module, and stores it as a filter' do
+    expect(fragment_of('/start/links')['filters']).to include('hub' => ['Getting started'])
+    expect(fragment_of('/following-links')['filters']).to include('hub' => ['Links'])
+    expect(fragment_of('/up.follow')['filters']).to include('hub' => ['up.link'])
+    expect(fragment_of('/up-follow')['filters']).to include('hub' => ['up.link'])
+    expect(fragment_of('/up.link')['filters']).to include('hub' => ['API'])
+    expect(meta_of('/following-links')).not_to have_key('hub')
+  end
+
+  it 'flags a chapter overview instead of naming its hub, and keeps its title as it is' do
+    expect(fragment_of('/links')['filters']).to include('overview' => ['true'])
+    expect(fragment_of('/links')['filters']).not_to have_key('hub')
+    expect(meta_of('/links')['title']).to eq('Links')
+    expect(fragment_of('/following-links')['filters']).not_to have_key('overview')
+  end
+
+  it 'leaves the "Read more" buttons of a chapter overview out of the text' do
+    expect(fragment_of('/links')['content']).not_to include('Read more')
+    expect(fragments.map { |fragment| fragment['content'] }.grep(/Read more:/)).to eq([])
   end
 
   it 'keeps the parser fixtures out of the index' do

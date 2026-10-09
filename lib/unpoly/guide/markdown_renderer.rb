@@ -120,6 +120,12 @@ module Unpoly
           end
         end
 
+        # The button that closes a section of a chapter overview ("Read more: Following
+        # links") names another page. Indexed, it would show up in search snippets.
+        nokogiri_doc.css('.read-more').each do |element|
+          element['data-pagefind-ignore'] = ''
+        end
+
         if fix_relative_image_paths
           nokogiri_doc.css('img[src^="images/"], video[src^="images/"]').each do |element|
             element[:src] = fix_relative_image_path(element[:src])

@@ -37,11 +37,12 @@ describe 'search', type: :feature, js: true do
     page.execute_script('window.pagefindHeld = false; window.pagefindWaiting.forEach((resolve) => resolve()); window.pagefindWaiting = []')
   end
 
-  def fulltext_page(url:, title:, badge:, sections: [], excerpt: nil, deprecated: false)
+  def fulltext_page(url:, title:, badge:, sections: [], excerpt: nil, deprecated: false, hub: nil, overview: false)
     {
       url: url,
       excerpt: excerpt,
       meta: { title: title, badge: badge, deprecated: (deprecated ? 'true' : nil) }.compact,
+      filters: { hub: (hub && [hub]), overview: (overview ? ['true'] : nil) }.compact,
       sub_results: sections.map do |section|
         { url: "#{url}##{section[:anchor]}", title: section[:title], excerpt: section[:excerpt] }
       end
@@ -76,6 +77,7 @@ describe 'search', type: :feature, js: true do
         href: hit.getAttribute('href'),
         title: hit.querySelector('.search-dialog--title').textContent.trim(),
         badge: hit.querySelector('.search-dialog--badge')?.textContent.trim(),
+        hub: hit.querySelector('.search-dialog--hub')?.textContent.trim(),
       }))
     JS
   end
@@ -347,6 +349,58 @@ describe 'search', type: :feature, js: true do
       expect(colors['learnBadge']).to eq(colors['blue'])
       expect(colors['separator']).to eq('solid')
       expect(colors['gap']).to eq('2px')
+    end
+
+    it 'names the hub a page belongs to beneath its title, and an overview by its title only' do
+      visit '/loading-state'
+      stub_pagefind([
+        fulltext_page(url: '/start/links', title: 'Link to a fragment', badge: 'Learn', hub: 'Getting started'),
+        fulltext_page(url: '/links', title: 'Links', badge: 'Learn', overview: true),
+        fulltext_page(url: '/up.follow', title: 'up.follow(link, [options])', badge: 'JS', hub: 'up.link'),
+      ])
+      search_for('link to')
+      expect(page).to have_css('.search-dialog--hit', text: 'up.follow')
+
+      expect(rows.map { |row| row.values_at('title', 'hub') }).to eq([
+        ['Link to a fragment', 'Getting started'],
+        ['Links (overview)', nil],
+        ['up.follow(link, [options])', 'up.link'],
+      ])
+    end
+
+    it 'sets the hub small and gray beneath the title, also on a phone', driver: :selenium_phone do
+      visit '/loading-state'
+      stub_pagefind([fulltext_page(url: '/following-links', title: 'Following links', badge: 'Learn', hub: 'Links', excerpt: 'How to follow a <mark>link</mark>')])
+      page.execute_script('openSearch()')
+      fill_in_search('follow')
+      expect(page).to have_css('.search-dialog--hub', text: 'Links')
+
+      layout = page.evaluate_script(<<~JS)
+        (function() {
+          let box = (selector) => document.querySelector(selector).getBoundingClientRect()
+          let style = (selector) => getComputedStyle(document.querySelector(selector))
+          return {
+            titleBottom: box('.search-dialog--title').bottom,
+            titleLeft: box('.search-dialog--title').left,
+            hubTop: box('.search-dialog--hub').top,
+            hubLeft: box('.search-dialog--hub').left,
+            hubBottom: box('.search-dialog--hub').bottom,
+            excerptTop: box('.search-dialog--excerpt').top,
+            hubSize: parseFloat(style('.search-dialog--hub').fontSize),
+            excerptSize: parseFloat(style('.search-dialog--excerpt').fontSize),
+            hubColor: style('.search-dialog--hub').color,
+            titleColor: style('.search-dialog--title').color,
+            overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+          }
+        })()
+      JS
+
+      expect(layout['hubTop']).to be >= layout['titleBottom'] - 1
+      expect(layout['excerptTop']).to be >= layout['hubBottom'] - 1
+      expect(layout['hubLeft']).to eq(layout['titleLeft'])
+      expect(layout['hubSize']).to be <= layout['excerptSize']
+      expect(layout['hubColor']).not_to eq(layout['titleColor'])
+      expect(layout['overflow']).to eq(0)
     end
 
     it 'gives a Learn title a little weight next to the code rows' do

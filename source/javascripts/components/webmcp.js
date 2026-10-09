@@ -60,8 +60,11 @@ const webmcpTools = [
       const results = pages.slice(0, count).map((page) => {
         const path = normalizePath(page.url)
         return {
-          title: page.meta?.title || path,
+          title: pageTitle(page),
           kind: page.meta?.badge || null,
+          // Where the page belongs: a guide's chapter, a feature's module. Tells namesakes
+          // apart. None for a chapter's overview, which says so in its title.
+          hub: pageHub(page),
           url: new URL(path, location.origin).href,
           mdUrl: new URL(webmcpMarkdownPath(path), location.origin).href,
           excerpt: webmcpPlainText(page.excerpt),

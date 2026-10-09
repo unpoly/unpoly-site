@@ -137,6 +137,14 @@ up-modal.search-dialog
 .-code > .search-dialog--title
   +monospace-font
 
+// The hub a page belongs to, beneath its title: quieter than the excerpt, since it only
+// tells namesakes apart.
+.search-dialog--hub
+  grid-column: 2
+  +truncate_text
+  color: $gray-500
+  +type($text-2xs, $leading-ui)
+
 .search-dialog--section
   font-weight: bold
   color: $gray-600

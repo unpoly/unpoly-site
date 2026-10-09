@@ -106,6 +106,25 @@ function normalizePath(url) {
   return hash ? `${clean}#${hash}` : clean
 }
 
+// What a result row calls a page. A chapter's first page says so ("Links (overview)"),
+// in search results only: next to the chapter's other pages it would look like one of
+// them. config.rb puts the flag into a filter, so that it doesn't count as a word.
+function pageTitle(page) {
+  const title = page.meta?.title || normalizePath(page.url)
+  return isOverview(page) ? `${title} (overview)` : title
+}
+
+function isOverview(page) {
+  return Boolean(page.filters?.overview)
+}
+
+// The closest hub above a page (config.rb, search_hub), which a result row names below
+// its title: a guide page's chapter, a feature's module, "API" for a module. An overview
+// has none.
+function pageHub(page) {
+  return page.filters?.hub?.[0] || null
+}
+
 // The index lives as long as the page, not the dialog: it is fetched once.
 let searchIndexLoading = null
 

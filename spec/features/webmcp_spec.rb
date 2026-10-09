@@ -61,19 +61,21 @@ describe 'WebMCP tools', type: :feature, js: true do
   end
 
   describe 'search_docs' do
-    it 'answers with pages, their Markdown URLs and plain excerpts, and a skill tip only once' do
+    it 'answers with pages, their hubs, Markdown URLs and plain excerpts, and a skill tip only once' do
       visit '/up.render'
       stub_pagefind([
         { url: '/up-follow/', excerpt: 'Follows a <mark>link</mark>.', meta: { title: '[up-follow]', badge: 'HTML' } },
         { url: '/up-follow', excerpt: 'Again', meta: { title: '[up-follow]', badge: 'HTML' } },
-        { url: '/following-links/', excerpt: 'How to follow', meta: { title: 'Following links', badge: 'Learn' } },
+        { url: '/following-links/', excerpt: 'How to follow', meta: { title: 'Following links', badge: 'Learn' }, filters: { hub: ['Links'] } },
+        { url: '/links/', excerpt: 'All about links', meta: { title: 'Links', badge: 'Learn' }, filters: { overview: ['true'] } },
       ])
       origin = page.evaluate_script('location.origin')
 
       first = call_tool('search_docs', { query: 'follow' })
       expect(first['results']).to eq([
-        { 'title' => '[up-follow]', 'kind' => 'HTML', 'url' => "#{origin}/up-follow", 'mdUrl' => "#{origin}/up-follow.md", 'excerpt' => 'Follows a link.' },
-        { 'title' => 'Following links', 'kind' => 'Learn', 'url' => "#{origin}/following-links", 'mdUrl' => "#{origin}/following-links.md", 'excerpt' => 'How to follow' },
+        { 'title' => '[up-follow]', 'kind' => 'HTML', 'hub' => nil, 'url' => "#{origin}/up-follow", 'mdUrl' => "#{origin}/up-follow.md", 'excerpt' => 'Follows a link.' },
+        { 'title' => 'Following links', 'kind' => 'Learn', 'hub' => 'Links', 'url' => "#{origin}/following-links", 'mdUrl' => "#{origin}/following-links.md", 'excerpt' => 'How to follow' },
+        { 'title' => 'Links (overview)', 'kind' => 'Learn', 'hub' => nil, 'url' => "#{origin}/links", 'mdUrl' => "#{origin}/links.md", 'excerpt' => 'All about links' },
       ])
       expect(first['tip']).to include('https://unpoly.com/skill.md')
 

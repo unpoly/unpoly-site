@@ -5,8 +5,8 @@
 // what goes into it, see source/_search_dialog.html.erb.
 //
 // Pagefind answers a query with pages (search_core.js, which also holds the ranking),
-// and this file lists them as one list: each page with its title, its badge, and the
-// sections that matched beneath it.
+// and this file lists them as one list: each page with its title, its badge, the hub it
+// belongs to, and the sections that matched beneath it.
 //
 // The index is fetched on the first open, never on page load.
 
@@ -186,7 +186,8 @@ up.compiler('.search-dialog--input', function(input) {
   function renderPage({ page, deprecated }, query) {
     const badge = page.meta?.badge
     const isCode = badge && !AREA_BADGES.includes(badge)
-    const title = page.meta?.title || page.url
+    const title = pageTitle(page)
+    const hub = pageHub(page)
     const sections = (page.sub_results || [])
       .filter((section) => normalizePath(section.url) !== normalizePath(page.url))
       .slice(0, SEARCH.maxSectionsPerPage)
@@ -199,6 +200,7 @@ up.compiler('.search-dialog--input', function(input) {
          href="${escapeHtml(normalizePath(page.url))}" up-layer="root" role="option" aria-selected="false">
         ${renderBadge(badge)}
         <span class="search-dialog--title">${highlight(title, query)}</span>
+        ${hub ? `<span class="search-dialog--hub">${escapeHtml(hub)}</span>` : ''}
         ${excerpt}
       </a>
       ${sections.map((section) => `

@@ -520,7 +520,41 @@ helpers do
       tags << %(<span data-pagefind-meta="tier_title:#{h title}" hidden></span>)
     end
 
+    # What only the result row shows goes into filters, not metadata: Pagefind searches
+    # metadata, and a page must not start matching on its hub's name ("Links") or rank
+    # differently for it. Nothing filters by them.
+    if search_overview?(documentable)
+      tags << %(<span data-pagefind-filter="overview:true" hidden></span>)
+    elsif (hub = search_hub(documentable))
+      tags << %(<span data-pagefind-filter="hub:#{h hub}" hidden></span>)
+    end
+
     tags.join.presence
+  end
+
+  # The closest hub above a page, which its search result names below its title, so that
+  # namesakes from different places can be told apart ("link to" finds a Getting started
+  # page, a Links page and a feature of up.link). The same way up as the Markdown twin's
+  # nav line (MarkdownTwins::Twin#hub), one step closer for a guide page: its topic
+  # rather than its area, because the area is what the badge already says.
+  def search_hub(documentable)
+    toc = guide.toc
+    if documentable.kind?(:feature)
+      documentable.interface.name
+    elsif documentable.kind?(:interface) && !documentable.page?
+      'API'
+    elsif (topic = toc.topic_of(documentable))
+      topic.title
+    else
+      search_area_label(toc.area_for(documentable))
+    end
+  end
+
+  # The first page of a chapter ("Links", "How Unpoly works"). Its result says
+  # "(overview)" after the title instead of naming a hub: the hub would be itself.
+  def search_overview?(documentable)
+    topic = guide.toc.topic_of(documentable)
+    !!topic && topic.menu_overview == documentable
   end
 
   # The area a result belongs to. "API reference" is too long to sit at the end of a
