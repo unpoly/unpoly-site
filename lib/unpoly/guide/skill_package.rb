@@ -16,7 +16,10 @@ module Unpoly
     #   /plugin install unpoly@unpoly
     #     /claude-plugins/marketplace.json + unpoly.zip (skill at skills/unpoly-docs/)
     #
-    # The indexes embed digests of the archives, which is why all four files are written
+    # A third archive is for people to download and upload to a chat with skill support
+    # (claude.ai, chatgpt.com): /agent-skills/unpoly-docs.zip, the skill folder at its root.
+    #
+    # The indexes embed digests of the archives, which is why these files are written
     # after the build rather than rendered as pages. Name and description come from
     # SKILL.md's front matter, so they are written once.
     #
@@ -26,6 +29,7 @@ module Unpoly
       class Invalid < Error; end
 
       MAX_FILES = 1000 # `npx skills` refuses bigger archives
+      MAX_DESCRIPTION = 200 # claude.ai refuses a skill with a longer description
       MARKETPLACE = 'unpoly'
       PLUGIN = 'unpoly'
 
@@ -50,7 +54,7 @@ module Unpoly
       def problems
         problems = []
         problems << "#{files.size} files, but archives may hold at most #{MAX_FILES - 1}" if files.size >= MAX_FILES
-        problems += filename_problems + front_matter_problems + link_problems
+        problems += description_problems + filename_problems + front_matter_problems + link_problems
         problems
       end
 
@@ -77,7 +81,9 @@ module Unpoly
           }],
         ) + "\n")
 
-        zip = write("claude-plugins/#{PLUGIN}.zip", zip_archive)
+        write("agent-skills/#{Skill::NAME}.zip", zip_archive("#{Skill::NAME}/"))
+
+        zip = write("claude-plugins/#{PLUGIN}.zip", zip_archive("skills/#{Skill::NAME}/"))
         write('claude-plugins/marketplace.json', JSON.pretty_generate(
           'name' => MARKETPLACE,
           'owner' => { 'name' => 'Unpoly' },
@@ -101,6 +107,13 @@ module Unpoly
       def skill_front_matter
         front_matter = read('SKILL.md')[FRONT_MATTER, 1] or raise Invalid, 'SKILL.md has no front matter'
         YAML.safe_load(front_matter)
+      end
+
+      def description_problems
+        description = skill_front_matter['description'].to_s
+        return [] if description.length <= MAX_DESCRIPTION
+
+        ["SKILL.md: the description has #{description.length} characters, but claude.ai accepts at most #{MAX_DESCRIPTION}"]
       end
 
       def write(path, content)
@@ -182,8 +195,8 @@ module Unpoly
         io.string
       end
 
-      def zip_archive
-        entries = files.map { |file| ["skills/#{Skill::NAME}/#{file}", File.binread(File.join(skill_dir, file))] }
+      def zip_archive(prefix)
+        entries = files.map { |file| ["#{prefix}#{file}", File.binread(File.join(skill_dir, file))] }
         Zip.write(entries)
       end
 

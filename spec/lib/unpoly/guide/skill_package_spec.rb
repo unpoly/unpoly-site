@@ -29,6 +29,11 @@ describe Unpoly::Guide::SkillPackage do
   end
 
   describe '#problems' do
+    it 'reports a description longer than claude.ai accepts' do
+      write('SKILL.md', %(---\nname: unpoly-docs\ndescription: "#{'x' * 201}"\n---\n# Unpoly docs\n))
+      expect(package.problems.join).to include('at most 200')
+    end
+
     it 'finds none in a sound skill' do
       expect(package.problems).to eq([])
     end
@@ -108,6 +113,14 @@ describe Unpoly::Guide::SkillPackage do
           'sha256' => Digest::SHA256.hexdigest(zip),
         },
       }])
+    end
+
+    it 'writes a download zip with the skill folder at its root, for chats with skill support', if: system('which unzip > /dev/null') do
+      path = File.join(@build_dir, 'agent-skills/unpoly-docs.zip')
+      listing = `unzip -Z1 #{path}`.lines.map(&:chomp)
+      expect($?).to be_success
+      expect(listing).to include('unpoly-docs/SKILL.md', 'unpoly-docs/scripts/search.py')
+      expect(listing).to all(start_with('unpoly-docs/'))
     end
 
     it 'writes a zip that unzip accepts', if: system('which unzip > /dev/null') do
