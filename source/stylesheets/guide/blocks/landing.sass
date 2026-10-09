@@ -14,12 +14,13 @@
 .landing--section
   +vertical-padding(clamp(#{$space-6}, 6vw, #{$space-7}))
 
-  &.-hero
-    padding-top: $space-6
-
   &.-tinted
     background: $gray-100
     border-block: 1px solid $gray-300
+
+  // "Your HTML keeps its meaning" gets a band of its own, apart from the alternation.
+  &.-wash
+    background: $indigo-100
 
   // Two tinted sections in a row would draw a double line between them.
   &.-tinted + &.-tinted
@@ -87,25 +88,113 @@
   +type($text-xl, $leading-heading)
   font-weight: bold
   color: $gray-900
-  margin-top: $space-7
+  margin-top: $space-6
   margin-bottom: $space-4
 
-// Code samples carry highlight.js class names, so the site's syntax theme colors
-// them; this block only owns the box.
-.landing--code
-  +code-block
-  +vertical-margin($space-5)
+// The box around landing code, also around the hero's annotated rows.
+=landing-code-box
   padding: $space-4
   background: $background-light
   border-radius: $radius-md
+
+=landing-code-text
+  +monospace-font
   font-size: $text-sm
   line-height: $leading-ui
-  white-space: pre
 
   mark
     background: $color-mark
     border-radius: 2px
     padding: 1px 2px
+
+// The `pre code` compiler highlights the code. The theme gives code.hljs a padding and
+// a white ground of its own, which the box replaces.
+.landing--code
+  +code-block
+  +vertical-margin($space-5)
+  +landing-code-box
+  +landing-code-text
+
+  code, code.hljs
+    padding: 0
+    background: none
+
+// The hero's code: one line per row, each with a note at the end of a dotted leader.
+// Below $annotated-stack-below the longest line and its note no longer fit side by
+// side, so each note goes under its line.
+$annotated-stack-below: 672px
+
+.landing--annotated
+  +vertical-margin($space-5)
+  +landing-code-box
+  display: flex
+  flex-direction: column
+  gap: 6px
+
+  +narrower_than($annotated-stack-below)
+    gap: $space-3
+
+.landing--annotated-row
+  display: flex
+  align-items: baseline
+  min-width: 0
+
+  +narrower_than($annotated-stack-below)
+    flex-direction: column
+    align-items: flex-start
+    gap: 2px
+
+.landing--annotated-code
+  +landing-code-text
+  margin: 0
+  max-width: 100%
+  overflow-x: auto
+
+  code, code.hljs
+    padding: 0
+    background: none
+
+.landing--annotated-lead
+  flex: 1
+  min-width: $space-5
+  margin: 0 $space-3
+  border-bottom: 2px dotted $gray-300
+  transform: translateY(-4px)
+
+  +narrower_than($annotated-stack-below)
+    display: none
+
+.landing--annotated-note
+  +type($text-sm, $leading-ui)
+  color: $gray-800
+  white-space: nowrap
+
+  +narrower_than($annotated-stack-below)
+    font-size: $text-xs
+    color: $gray-700
+    white-space: normal
+
+.landing--annotated-more
+  align-self: flex-start
+  margin-top: 6px
+  +type($text-sm, $leading-ui)
+  font-style: italic
+  color: $gray-600
+
+// The compiler example: HTML and JavaScript side by side. Flex rather than equal grid
+// columns, so each block starts at its content width and the wider HTML gets the room
+// it needs; narrow, they wrap to a stack.
+.landing--pair
+  display: flex
+  flex-wrap: wrap
+  gap: $space-4
+  +vertical-margin($space-5)
+
+  .landing--code
+    margin: 0
+    flex: 1 1 auto
+    min-width: 0
+    font-size: $text-xs
 
 .landing--checklist
   list-style: none
@@ -185,14 +274,16 @@
   margin-bottom: $space-2
 
 .landing--quote
-  border-left: 3px solid $gray-400
-  margin: $space-5 0
+  border-left: 3px solid $indigo-800
+  margin: $space-6 0
   padding-left: $space-4
-  color: $gray-700
+  max-width: 34em
 
   p
+    +type($text-lg, $leading-ui)
     font-style: italic
-    margin-bottom: $space-1
+    color: $indigo-800
+    margin-bottom: $space-2
 
   cite
     font-style: normal
@@ -252,3 +343,139 @@
   &[src*="siemens"],
   &[src*="steady"]
     max-height: 22px
+
+// Events, grouped by what they are about. Each category is a solid label; its events
+// are words that link to the reference and show the event's name as a tooltip.
+$event-groups-stack-below: 500px
+
+.landing--event-groups
+  display: grid
+  grid-template-columns: 120px 1fr
+  gap: 6px $space-3
+  align-items: center
+  margin: $space-5 0
+
+  +narrower_than($event-groups-stack-below)
+    grid-template-columns: 1fr
+
+.landing--event-category
+  padding: 5px $space-3
+  border-radius: $radius-sm
+  +type($text-sm, $leading-ui)
+  font-weight: bold
+  color: $white
+
+  &.-link
+    background: $red-600
+  &.-form
+    background: $red-700
+  &.-overlay
+    background: $indigo-800
+  &.-fragment
+    background: $blue-700
+  &.-request
+    background: $gray-900
+  &.-history
+    background: $gray-700
+
+  +narrower_than($event-groups-stack-below)
+    justify-self: start
+    margin-top: $space-2
+
+.landing--event-tags
+  display: flex
+  flex-wrap: wrap
+  gap: 6px
+
+  // Stacked on a phone, a tooltip centered on a word at the window's edge would run
+  // off the screen. It takes the row's left edge instead, over the category label.
+  +narrower_than($event-groups-stack-below)
+    position: relative
+
+  // More specific than the landing's link styles (.landing--inner a).
+  a
+    position: relative
+    display: inline-flex
+    align-items: center
+    background: $white
+    border: 1px solid $gray-300
+    border-radius: $radius-sm
+    padding: $space-1 10px
+    +type($text-sm, $leading-ui)
+    color: $gray-900
+    text-decoration: none
+
+    &:hover, &:focus
+      background: $white
+      color: $gray-900
+      border-color: $gray-500
+
+    &::after
+      content: attr(data-event)
+      position: absolute
+      left: 50%
+      bottom: calc(100% + 6px)
+      transform: translateX(-50%)
+      white-space: nowrap
+      background: $gray-900
+      color: $white
+      +monospace-font
+      +type($text-2xs, $leading-ui)
+      padding: 3px $space-2
+      border-radius: $radius-sm
+      pointer-events: none
+      z-index: 1
+      // Hidden by display rather than opacity, so a tooltip at the window's edge
+      // does not widen the page while nobody looks at it.
+      display: none
+
+    &:hover::after, &:focus-visible::after
+      display: block
+
+    +narrower_than($event-groups-stack-below)
+      position: static
+
+      &::after
+        left: 0
+        transform: none
+
+// "Your HTML keeps its meaning": the same up-defer link, with and without JavaScript.
+.landing--degrade
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+  gap: $space-4
+  margin-top: $space-5
+
+.landing--degrade-panel
+  margin: 0
+  background: $white
+  border-radius: $radius-lg
+  padding: $space-4 $space-5 $space-5
+
+.landing--degrade-label
+  +type($text-2xs, $leading-ui)
+  font-weight: bold
+  letter-spacing: 0.06em
+  +uppercase
+  color: $gray-600
+  margin-bottom: $space-3
+
+.landing--degrade-menu
+  list-style: none
+  margin: 0
+  padding: 0
+  border: 1px solid $gray-300
+  border-radius: $radius-md
+
+  li
+    padding: 6px $space-3
+    +type($text-sm, $leading-ui)
+    color: $gray-900
+
+    & + li
+      border-top: 1px solid $gray-200
+
+// Looks like the link it would be, but is not one: the panel shows the outcome.
+.landing--degrade-link
+  +hyperlink
+  font-size: $text-sm

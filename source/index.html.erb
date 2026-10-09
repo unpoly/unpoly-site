@@ -1,10 +1,10 @@
 <%#
-  The landing page. Copy comes from the approved mock (docs rework 2026, v11) and is
-  not edited here: wording changes go through the mock and Henning's review.
+  The landing page. Copy comes from the approved design canvas (docs rework 2026) and is
+  not edited here: wording changes go through the canvas and Henning's review.
 
-  Code samples carry highlight.js class names by hand rather than going through the
-  `pre code` compiler, so an Unpoly attribute can wear a <mark> next to its explanatory
-  comment. The compiler's own `mark:` convention would eat the comment.
+  Code samples are plain code, highlighted by the `pre code` compiler like every other
+  code block on the site. Its `mark:` and `chip:` comments mark an attribute or stand in
+  for content.
 %>
 <% @frame = :landing %>
 <%# The landing page has no Markdown twin. Agents get the generated index instead
@@ -20,16 +20,34 @@
 
       <p class="landing--byline">Unpoly expands what links, forms and server-rendered pages can do:</p>
 
-<pre class="hljs landing--code -hero"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/tasks/123"</span> <mark><span class="hljs-attr">up-target</span></mark>=<span class="hljs-string">"#pane"</span>&gt;</span>Details<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>    <span class="hljs-comment">&lt;!-- updates a fragment --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/users/new"</span> <mark><span class="hljs-attr">up-layer</span></mark>=<span class="hljs-string">"new"</span>&gt;</span>Add user<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>      <span class="hljs-comment">&lt;!-- opens in a modal overlay --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">form</span> <mark><span class="hljs-attr">up-validate</span></mark>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>                            <span class="hljs-comment">&lt;!-- validates against your server --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">main</span> <mark><span class="hljs-attr">up-poll</span></mark>&gt;</span>…<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>                                <span class="hljs-comment">&lt;!-- keeps itself fresh --&gt;</span>
-<span class="hljs-comment">&lt;!-- … and dozens more --&gt;</span></pre>
+      <div class="landing--annotated">
+        <div class="landing--annotated-row">
+          <pre class="landing--annotated-code"><code class="language-html">&lt;a href="/tasks/123" up-target="#pane"&gt;Details&lt;/a&gt; &lt;!-- mark: up-target --&gt;</code></pre>
+          <span class="landing--annotated-lead" aria-hidden="true"></span>
+          <span class="landing--annotated-note">updates a fragment</span>
+        </div>
+        <div class="landing--annotated-row">
+          <pre class="landing--annotated-code"><code class="language-html">&lt;a href="/users/new" up-layer="new"&gt;Add user&lt;/a&gt; &lt;!-- mark: up-layer --&gt;</code></pre>
+          <span class="landing--annotated-lead" aria-hidden="true"></span>
+          <span class="landing--annotated-note">opens in a modal overlay</span>
+        </div>
+        <div class="landing--annotated-row">
+          <pre class="landing--annotated-code"><code class="language-html">&lt;form up-validate&gt;…&lt;/form&gt; &lt;!-- mark: up-validate --&gt;</code></pre>
+          <span class="landing--annotated-lead" aria-hidden="true"></span>
+          <span class="landing--annotated-note">validates against your server</span>
+        </div>
+        <div class="landing--annotated-row">
+          <pre class="landing--annotated-code"><code class="language-html">&lt;main up-poll&gt;…&lt;/main&gt; &lt;!-- mark: up-poll --&gt;</code></pre>
+          <span class="landing--annotated-lead" aria-hidden="true"></span>
+          <span class="landing--annotated-note">keeps itself fresh</span>
+        </div>
+        <span class="landing--annotated-more">… and many more.</span>
+      </div>
 
       <p class="landing--trailer">
-        The application stays on <b>your server</b> — any language, any framework.
-        The <b>browser</b> learns just enough to feel like an app.
-        Your <b>HTML</b> keeps its meaning — agents and crawlers can read your app without running JavaScript.
+        The application stays on your server — any language, any framework.
+        The browser learns just enough to feel like an app.
+        Your HTML keeps its meaning — agents and crawlers can read your app without running JavaScript.
       </p>
 
       <div class="actions landing--actions">
@@ -37,8 +55,6 @@
         <a class="action -large -secondary" href="/api">API Reference</a>
         <span class="landing--aside">or <%= hyperlink 'see it running in the demo', 'https://demo.unpoly.com', target: '_blank' %></span>
       </div>
-
-      <p class="landing--spec">One JavaScript file &middot; no build step &middot; MIT</p>
     </div>
   </section>
 
@@ -51,7 +67,7 @@
 
       <%= partial 'fragment_updates_diagram' %>
 
-      <p>The rest of the page simply stays: your scroll position, your focus,
+      <p>The rest of the page stays: your scroll position, your focus,
          the form you were halfway through.</p>
 
       <p>And because every response can be a full page, every URL keeps working on its own —
@@ -69,31 +85,20 @@
          stale caches, users who double-click. Unpoly's defaults cover them.
          Here is a single enhanced link:</p>
 
-<pre class="hljs landing--code"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/projects"</span> <mark><span class="hljs-attr">up-follow</span></mark>&gt;</span>Projects<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></pre>
+<pre class="landing--code"><code class="language-html">&lt;a href="/projects" up-follow&gt;Projects&lt;/a&gt; &lt;!-- mark: up-follow --&gt;</code></pre>
 
       <p>When it's clicked, Unpoly:</p>
 
       <ul class="landing--checklist">
         <li>updates the main fragment and the browser URL</li>
         <li>preserves scroll positions, focus and half-typed input outside the fragment</li>
-        <li><b>aborts</b> an earlier request racing for the same fragment</li>
-        <li><b>caches</b> the response, and revalidates it when it goes stale</li>
-        <li>restores the exact screen state when the user presses <b>Back</b></li>
-        <li>runs your component <b>teardown</b> before anything is swapped out</li>
+        <li>aborts an earlier request racing for the same fragment</li>
+        <li>caches the response, and revalidates it when it goes stale</li>
+        <li>restores the exact screen state when the user presses Back</li>
+        <li>runs your component teardown before anything is swapped out</li>
       </ul>
 
-      <p>The same care runs through every feature:</p>
-
-      <div class="landing--chips">
-        <span class="landing--chip">Loading indicators</span>
-        <span class="landing--chip">Preloading</span>
-        <span class="landing--chip">Flaky networks &amp; offline</span>
-        <span class="landing--chip">Conditional requests</span>
-        <span class="landing--chip">Animated transitions</span>
-        <span class="landing--chip">Focus trapping in overlays</span>
-        <span class="landing--chip">CSP-compatible scripting</span>
-        <span class="landing--chip">Accessible defaults</span>
-      </div>
+      <p>The same care runs through every feature.</p>
     </div>
   </section>
 
@@ -101,7 +106,8 @@
     <div class="landing--inner">
       <h2 class="landing--heading">Built for tough requirements</h2>
 
-      <p>These are the screens that usually get an app rewritten in React:</p>
+      <p>These are the screens that usually get an app rewritten in React.
+         With Unpoly they stay on your server — rendered as HTML, enhanced with a few attributes:</p>
 
       <div class="landing--cards">
         <div class="landing--card">
@@ -124,58 +130,92 @@
         </div>
       </div>
 
-      <h3 class="landing--subheading">… and escape hatches everywhere</h3>
+      <h3 class="landing--subheading">Escape hatches everywhere</h3>
 
       <p>When attributes aren't enough, you can recompose Unpoly's behavior using its
          extensive JavaScript API. Every attribute has a JavaScript twin —
          <code>[up-submit]</code> is <code>up.submit()</code>, modifying attributes become options.</p>
 
-<pre class="hljs landing--code"><span class="hljs-comment">// Let the user create a record in an overlay, then use the result:</span>
-<span class="hljs-keyword">let</span> { email } = <span class="hljs-keyword">await</span> up.layer.ask({ url: <span class="hljs-string">'/users/new'</span> })
-up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } })</pre>
+<pre class="landing--code"><code class="language-javascript">// Let the user create a record in an overlay, then use the result:
+let { email } = await up.layer.ask({ url: '/users/new' })
+up.submit('#invite-form', { params: { email } })</code></pre>
 
-      <p>Along the way, Unpoly emits the events you wish the platform had:</p>
+      <p>Along the way, Unpoly emits the <b>events</b> you wish the platform had:</p>
 
-      <div class="landing--chips">
-        <span class="landing--chip -event">up:link:follow</span>
-        <span class="landing--chip -event">up:form:validate</span>
-        <span class="landing--chip -event">up:layer:accepted</span>
-        <span class="landing--chip -event">up:fragment:loaded</span>
-        <span class="landing--chip -event">up:fragment:destroyed</span>
-        <span class="landing--chip -event">up:network:late</span>
-        <span class="landing--chip -event">…</span>
+      <%# Each word links to its event, whose name shows as a tooltip. %>
+      <div class="landing--event-groups">
+        <% [
+          ['link', 'Link', 'clicked' => 'up:click', 'following' => 'up:link:follow', 'preloading' => 'up:link:preload', 'lazy-loading' => 'up:deferred:load'],
+          ['form', 'Form', 'submitting' => 'up:form:submit', 'validating' => 'up:form:validate', 'switching fields' => 'up:form:switch'],
+          ['overlay', 'Overlay', 'opened' => 'up:layer:opened', 'accepted' => 'up:layer:accepted', 'dismissed' => 'up:layer:dismissed'],
+          ['fragment', 'Fragment', 'loaded' => 'up:fragment:loaded', 'inserted' => 'up:fragment:inserted', 'keeping' => 'up:fragment:keep', 'destroyed' => 'up:fragment:destroyed', 'polling' => 'up:fragment:poll'],
+          ['request', 'Request', 'slow' => 'up:network:late', 'aborted' => 'up:fragment:aborted', 'offline' => 'up:fragment:offline', 'recovered' => 'up:network:recover'],
+          ['history', 'History', 'URL changed' => 'up:location:changed', 'going back' => 'up:location:restore'],
+        ].each do |modifier, category, events| %>
+          <span class="landing--event-category -<%= modifier %>"><%= category %></span>
+          <div class="landing--event-tags">
+            <% events.each do |label, event| %>
+              <a href="/<%= event %>" data-event="<%= event %>" aria-label="<%= label %> (<%= event %>)"><%= label %></a>
+            <% end %>
+          </div>
+        <% end %>
       </div>
 
-      <p>And your own JavaScript plugs in through compilers: enhance existing HTML tags,
-         invent new elements, integrate third-party libraries, bring server-side data into
-         frontend components — or mount a whole React island.</p>
+      <p>And your own JavaScript plugs in through <b>compilers</b>. Here a Google Map gets its center from the server:</p>
+
+      <div class="landing--pair">
+<pre class="landing--code"><code class="language-html">&lt;div class="map" up-data="{lat: 50.9, lng: 7.4}"&gt;
+  &lt;!-- chip: Map will appear here --&gt;
+&lt;/div&gt;</code></pre>
+<pre class="landing--code"><code class="language-javascript">up.compiler('.map', (element, data) =&gt; {
+  var map = new google.maps.Map(element)
+  map.setCenter(data)
+})</code></pre>
+      </div>
+
+      <p>The same pattern enhances existing tags, invents new elements, or mounts a whole React island.</p>
     </div>
   </section>
 
-  <section class="landing--section">
+  <section class="landing--section -wash">
     <div class="landing--inner">
       <h2 class="landing--heading">Your HTML keeps its meaning</h2>
 
       <p>Unpoly enhances HTML elements without changing what they are.
          A link still navigates and a form still submits — they just learn to do it better.</p>
 
-      <p>Everything that already understands HTML keeps understanding your app:
-         search engines index real pages, agents read real content without executing JavaScript,
-         and screen readers see real links and forms — not clickable <code>&lt;div&gt;</code>s.
-         And since your server can always answer with a complete page, every screen keeps
-         a working address of its own.</p>
+      <blockquote class="landing--quote">
+        <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
+        <cite>— Carson Gross, creator of <%= hyperlink 'htmx', 'https://htmx.org/', target: '_blank', class: '-gray' %></cite>
+      </blockquote>
 
-      <p>Every feature has a graceful degradation story. For example, when we built lazy loading,
+      <p>Everything that already understands HTML keeps understanding your app:
+         search engines index the HTML your server sends, agents read your content without executing JavaScript,
+         and screen readers find actual <code>&lt;a&gt;</code> and <code>&lt;form&gt;</code> elements — not clickable <code>&lt;div&gt;</code>s.
+         And since your server can always answer with a complete page, every screen has
+         its own URL — one you can share, bookmark or open directly.</p>
+
+      <p><b>Every feature has a graceful degradation story.</b> For example, when we built lazy loading,
          we modeled it as a <em>self-loading hyperlink</em> — without JavaScript it's still a link,
          and the content is one click away instead of gone:</p>
 
-<pre class="hljs landing--code"><span class="hljs-comment">&lt;!-- with JS: loads itself. Without: a working link. --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/menu"</span> <mark><span class="hljs-attr">up-defer</span></mark>&gt;</span>Load menu<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></pre>
+<pre class="landing--code"><code class="language-html">&lt;a href="/menu" up-defer&gt;Load menu&lt;/a&gt; &lt;!-- mark: up-defer --&gt;</code></pre>
 
-      <blockquote class="landing--quote">
-        <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
-        <cite>— Carson Gross, creator of htmx</cite>
-      </blockquote>
+      <%# The same markup, two outcomes. %>
+      <div class="landing--degrade">
+        <figure class="landing--degrade-panel">
+          <figcaption class="landing--degrade-label">With JavaScript</figcaption>
+          <ul class="landing--degrade-menu" aria-label="Example: the loaded menu">
+            <li>Projects</li>
+            <li>Tasks</li>
+            <li>Reports</li>
+          </ul>
+        </figure>
+        <figure class="landing--degrade-panel">
+          <figcaption class="landing--degrade-label">Without JavaScript</figcaption>
+          <span class="landing--degrade-link">Load menu</span>
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -188,15 +228,15 @@ up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } }
       <blockquote class="landing--quote">
         <p>“Why should only <code>&lt;a&gt;</code> &amp; <code>&lt;form&gt;</code> be able to make HTTP requests?
            Why should only <code>click</code> &amp; <code>submit</code> events trigger them?”</p>
-        <cite>— htmx.org, on its motivation</cite>
+        <cite>— <%= hyperlink 'htmx.org', 'https://htmx.org/', target: '_blank', class: '-gray' %>, on its motivation</cite>
       </blockquote>
 
       <p>Unpoly makes the opposite bet: the elements HTML already gave us are the right ones to make requests —
          because the whole web already knows what they mean. So instead of generalizing requests to any element,
          Unpoly makes links and forms <em>more capable</em>, with strong defaults for the cases every app hits.</p>
 
-      <p>Both are coherent trades. Small primitives buy maximum control and a minimal footprint.
-         A higher-level layer buys fewer attributes for standard cases and edge cases handled for you.</p>
+      <p>Both approaches make sense. Small primitives give you maximum control and a minimal footprint.
+         A higher-level layer gives you fewer attributes for common cases, with the edge cases already handled.</p>
 
       <div class="landing--fits">
         <div class="landing--fit">
@@ -224,8 +264,11 @@ up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } }
       <div class="landing--logos">
         <p class="landing--logos-label">In production at</p>
         <div class="landing--logo-wall">
-          <% %w[vw audi siemens bosch arm zendesk steady urban-dictionary tuifly adonisjs].each do |logo| %>
-            <%= image_tag "logos/#{logo}.svg", class: 'landing--logo', alt: '' %>
+          <% {
+            'vw' => 'Volkswagen', 'audi' => 'Audi', 'siemens' => 'Siemens', 'bosch' => 'Bosch', 'arm' => 'Arm',
+            'zendesk' => 'Zendesk', 'steady' => 'Steady', 'urban-dictionary' => 'Urban Dictionary', 'tuifly' => 'TUIfly', 'adonisjs' => 'AdonisJS',
+          }.each do |logo, name| %>
+            <%= image_tag "logos/#{logo}.svg", class: 'landing--logo', alt: name %>
           <% end %>
         </div>
       </div>
@@ -240,14 +283,13 @@ up.submit(<span class="hljs-string">'#invite-form'</span>, { params: { email } }
          a filter form that resets the page, an edit screen that should be an overlay, a slow report.
          Enhance one link. Leave the rest alone.</p>
 
-      <p>One script tag, no build step:</p>
+      <p>Two lines, no build step:</p>
 
-<pre class="hljs landing--code"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/unpoly@<%= guide.version %>/unpoly.min.css"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/unpoly@<%= guide.version %>/unpoly.min.js"</span> <span class="hljs-attr">defer</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></pre>
+<pre class="landing--code"><code class="language-html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@<%= guide.version %>/unpoly.min.css"&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/unpoly@<%= guide.version %>/unpoly.min.js" defer&gt;&lt;/script&gt;</code></pre>
 
       <div class="actions landing--actions">
-        <a class="action -large" href="/learn">Learn Unpoly</a>
-        <span class="landing--aside">or <%= hyperlink 'install in ten minutes', '/install' %></span>
+        <a class="action -large -blue" href="/start/overview">Get started</a>
       </div>
     </div>
   </section>
