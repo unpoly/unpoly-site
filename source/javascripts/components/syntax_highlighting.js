@@ -20,7 +20,8 @@ const removeCommentCloser = function(phrase) {
 function markOutsideMask(string) {
   let parts = string.split(/(§\d+)/)
   for (let i = 0; i < parts.length; i++) {
-    if (i % 2 === 0) {
+    // An empty part (the phrase ends at a tag) would leave an empty <mark> behind.
+    if (i % 2 === 0 && parts[i]) {
       parts[i] = '<mark>' + parts[i] + '</mark>'
     }
   }
