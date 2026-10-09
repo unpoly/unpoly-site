@@ -27,6 +27,20 @@ describe 'the skill search script' do
     unittest('test_search')
   end
 
+  it 'passes the unit tests of the release notes script (releases.py)' do
+    unittest('test_releases')
+  end
+
+  it 'lists the release notes of an upgrade from the built skill, in version order' do
+    skip 'no build/skills/unpoly-docs (run `bundle exec middleman build`)' unless File.exist?(File.join(BUILT_SKILL, 'references/changes/releases.json'))
+    output, status = Open3.capture2e('python3', File.join(BUILT_SKILL, 'scripts/releases.py'), '--from', '3.9.0', '--to', '3.10.0')
+    expect(status).to be_success, output
+    paths = output.lines.map(&:chomp)
+    expect(paths.last).to eq('references/changes/3-10-0.md')
+    expect(paths).not_to include('references/changes/3-9-0.md')
+    paths.each { |path| expect(File).to exist(File.join(BUILT_SKILL, path)) }
+  end
+
   it 'ranks the expected pages first for the fixed queries' do
     skip 'no build/skills/unpoly-docs (run `bundle exec middleman build`)' unless File.directory?(File.join(BUILT_SKILL, 'references'))
     output = unittest('test_ranking', 'UNPOLY_SKILL_DIR' => BUILT_SKILL)

@@ -208,6 +208,8 @@ else
   # publishes its output under the real name. (The template opens with an ERB comment,
   # so Middleman doesn't strip SKILL.md's front matter as its own.)
   proxy "/#{Unpoly::Guide::Skill::ROOT}/SKILL.md", "/#{Unpoly::Guide::Skill::ROOT}/skill.txt", ignore: true
+  # Every release in version order, for scripts/releases.py.
+  proxy "/#{Unpoly::Guide::Skill::ROOT}/references/changes/releases.json", "/#{Unpoly::Guide::Skill::ROOT}/releases.json", ignore: true
   # The search script's tests stay in the repository (rake skill:test).
   ignore %r{\A#{Unpoly::Guide::Skill::ROOT}/scripts/(test_|__pycache__)}
 end
@@ -356,8 +358,9 @@ helpers do
     html_page = sitemap.find_resource_by_destination_path(twin.html_destination) or
       raise "No HTML page at #{twin.html_destination} for the Markdown twin of #{twin.path}"
     # A web twin passes its request on, so that the page's own absolute URLs ([[=base_url]])
-    # name the same origin as the twin's links. A skill file passes none: it links unpoly.com.
-    locals = skill_file ? {} : { rack: @locs[:rack] }.compact
+    # name the same origin as the twin's links. A skill file passes no request (it links
+    # unpoly.com), but says it is one, for the few lines only the skill has (upgrading.html.erb).
+    locals = skill_file ? { skill: true } : { rack: @locs[:rack] }.compact
     body = Unpoly::Guide::HtmlToMarkdown.new(links: links).convert(html_page.render({ layout: false }, locals))
 
     # The way up: to the index, and to the closest hub. In a feature this is the only

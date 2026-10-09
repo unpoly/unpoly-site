@@ -129,7 +129,7 @@ module Unpoly
         end
       end
 
-      delegate :releases, :versions, :release_for_version, to: :changelog
+      delegate :releases, :releases_by_version, :versions, :release_for_version, to: :changelog
 
       def github_url
         'https://github.com/unpoly/unpoly'

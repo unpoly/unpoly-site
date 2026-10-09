@@ -119,9 +119,24 @@ describe 'Markdown twins', type: :feature do
       expect(markdown('/skills/unpoly-docs/references/learn/skill.md')).to include("[https://unpoly.com#{example}https://unpoly.com/up.render.md)")
     end
 
+    it 'shows the release notes script on the upgrading page only in the skill' do
+      expect(markdown('/skills/unpoly-docs/references/changes/upgrading.md')).to include('scripts/releases.py')
+      expect(markdown('/changes/upgrading.md')).not_to include('releases.py')
+    end
+
+    it 'lists every release in version order for releases.py' do
+      releases = JSON.parse(get('/skills/unpoly-docs/references/changes/releases.json').body)
+      versions = releases.map { |release| release['version'] }
+      expect(versions.first).to eq('0.1.0')
+      expect(versions.index('3.9.0')).to be < versions.index('3.10.0')
+      expect(releases.last['path']).to start_with('references/changes/')
+    end
+
     it 'serves the search script but not its tests' do
       expect(get('/skills/unpoly-docs/scripts/search.py').status).to eq(200)
+      expect(get('/skills/unpoly-docs/scripts/releases.py').status).to eq(200)
       expect(get('/skills/unpoly-docs/scripts/test_search.py').status).to eq(404)
+      expect(get('/skills/unpoly-docs/scripts/test_releases.py').status).to eq(404)
     end
   end
 

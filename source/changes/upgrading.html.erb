@@ -39,7 +39,54 @@
       </p>
     <% end %>
 
-    <h2 id="installation">Installing the polyfills</h2>
+    <h2 id="workflow">Recommended upgrade workflow</h2>
+
+    <p>
+      We recommend these steps for every upgrade, including minor version bumps.
+      They work the same whether a person or a coding agent does the upgrade.
+    </p>
+
+    <ol>
+      <li>
+        <b>Find the version you're on.</b>
+        Check <code>unpoly</code> in your <code>package.json</code>, <code>unpoly-rails</code> in your <code>Gemfile.lock</code>,
+        the version in your CDN URL, or run <code>up.version</code> in your browser console.
+      </li>
+      <li>
+        <b>Read the release notes of every version after yours,</b>
+        up to the version you're upgrading to, in the <a href="/changes">list of all releases</a>.
+        Changes marked with ⚠️ may require changes to your code, but <code>unpoly-migrate.js</code> polyfills them while you migrate.
+        Changes marked with ❌ have no polyfill: update your code before you upgrade.
+      </li>
+      <li>
+        <b>Upgrade Unpoly and load the polyfills</b>
+        as described in <a href="#installation">Installing the polyfills</a>.
+      </li>
+      <li>
+        <b>Fix every deprecation warning.</b>
+        Use your app and run its tests. Every call to an old API logs a warning that names the new API.
+        With good test coverage, you can <a href="#with-tests">turn the warnings into test failures</a>.
+      </li>
+      <li>
+        <b>Remove <code>unpoly-migrate.js</code></b>
+        once no warnings are left, or <a href="#permanent">keep it permanently</a>.
+      </li>
+    </ol>
+
+    <% if locals[:skill] %>
+      <h3 id="releases-script">Listing the release notes for your upgrade</h3>
+
+      <p>This skill includes a script that lists the release notes between two versions, in order:</p>
+
+      <pre><code>python3 scripts/releases.py --from 2.7.2 --to 3.12.0</code></pre>
+
+      <p>
+        Add <code>--breaking</code> to also list each change marked with ⚠️ or ❌, with its line number.
+        Leave out <code>--to</code> to upgrade to the latest version.
+      </p>
+    <% end %>
+
+    <h3 id="installation">Installing the polyfills</h3>
 
     <p><code>unpoly-migrate.js</code> comes included with Unpoly:</p>
 
@@ -68,7 +115,7 @@
 &lt;script src="app.js"&gt;&lt;/script&gt;</code></pre>
 
     <p>
-      If you're using <a href="/install#npm"Unpoly from npm></a>, import <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code:
+      If you're using <a href="/install#npm">Unpoly from npm</a>, import <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code:
     </p>
 
     <pre><code>import 'unpoly/unpoly.js'
@@ -76,7 +123,8 @@ import 'unpoly/unpoly-migrate.js' // mark-line
 import './your-scripts.js'
 </code></pre>
 
-    <h2 id="with-tests">Upgrading with automated tests</h2>
+    <h3 id="with-tests">Upgrading with automated tests</h3>
+
 
     <p>
       If your app has good test coverage you can configure <code>unpoly-migrate.js</code>

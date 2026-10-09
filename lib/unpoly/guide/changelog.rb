@@ -101,6 +101,10 @@ module Unpoly
       attr_reader :releases
       attr_reader :current_major
 
+      # All releases from the oldest to the newest version, a pre-release before its
+      # release ("2.0.0-rc9" before "2.0.0"). The skill's releases.py relies on this order.
+      attr_reader :releases_by_version
+
       def versions
         releases.map(&:version)
       end
@@ -122,7 +126,7 @@ module Unpoly
         releases_by_file = changelog_paths.map { |path| parse_file(path) }
         @releases = merge_chronologically(releases_by_file)
 
-        releases_by_version = Naturally.sort_by(releases) { |release|
+        @releases_by_version = releases_by_version = Naturally.sort_by(releases) { |release|
           version = release.version
           unless version.include?('-')
             # Sort "2.0.0" behind a pre-release like "2.0.0.-rc9".

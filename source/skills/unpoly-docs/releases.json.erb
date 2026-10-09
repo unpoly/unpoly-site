@@ -1,0 +1,13 @@
+<%#
+  The skill's references/changes/releases.json: every release in version order, oldest
+  first, for scripts/releases.py. The order comes from Unpoly::Guide::Changelog, so the
+  script compares no versions of its own.
+%>
+<%
+  files = config[:skill].files
+  releases = guide.releases_by_version.filter_map { |release|
+    path = files["/changes/#{release.version}"] or next
+    { version: release.version, released: release.date&.iso8601, path: path }
+  }
+%>
+<%= JSON.pretty_generate(releases) %>
