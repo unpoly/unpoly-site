@@ -108,7 +108,6 @@ module Unpoly
         self.guide_markdown += new_interface.guide_markdown
         self.explicit_title ||= new_interface.explicit_title
         self.explicit_menu_title ||= new_interface.explicit_menu_title
-        self.reference_names += new_interface.reference_names
         self.learn_ref_specs.concat(new_interface.learn_ref_specs)
         self.explicit_parent_name ||= new_interface.explicit_parent_name
         self.signature_tier = true if new_interface.signature_tier?
@@ -141,13 +140,6 @@ module Unpoly
 
       def guide_features
         features.select(&:guide_page?)
-      end
-
-      # TODO(content): @see is being retired. These feature targets keep rendering as
-      # "Essentials" cards until the Content station replaces each module's cards with
-      # intro prose and deletes the @see machinery in that same pass.
-      def essential_features
-        references.select { |reference| reference.kind?(:feature) }
       end
 
     end

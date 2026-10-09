@@ -10,13 +10,12 @@ describe 'interface page', type: :feature, js: true do
   end
 
   it 'links to the guide pages that explain the module in context' do
-    expect(page).to have_css('.learn-refs a[href="/navigation-defaults"]')
+    expect(page).to have_css('.learn-refs a[href="/advanced-rendering"]')
   end
 
-  it 'promotes essential features before listing all features' do
-    expect(page).to have_css('#essential-features')
-    expect(page).to have_css('.essential-features a[href="/up.render"]', text: 'up.render')
-    expect(page).to have_css('#features')
+  it 'lists all features of the module' do
+    expect(page).to have_css('#all-features')
+    expect(page).to have_css('#all-features + ul a[href="/up.render"]')
   end
 
 end

@@ -53,8 +53,6 @@ url: "http://unpoly.test/test.module"
 
 - #### [test.module.propertyWithArrayDefault](http://unpoly.test/test.module.propertyWithArrayDefault.md) (JavaScript property)
 
-- #### [test.module.referencingFunction()](http://unpoly.test/test.module.referencingFunction.md) (JavaScript function)
-
 - #### [[test-module-selector]](http://unpoly.test/test-module-selector.md) (HTML selector)
 
 - #### [test.module.signatureFunction()](http://unpoly.test/test.module.signatureFunction.md) (JavaScript function)

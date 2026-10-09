@@ -218,20 +218,6 @@ describe Unpoly::Guide do
 
     end
 
-    describe 'references' do
-
-      it 'parses a reference to another guide entry' do
-        function = find_by_name!('test.module.referencingFunction')
-        expect(function.references?).to eq(true)
-        expect(function.references.size).to eq(1)
-
-        first_reference = function.references.first
-        expect(first_reference).to be_a(Unpoly::Guide::Feature)
-        expect(first_reference.name).to eq('test.module.function')
-      end
-
-    end
-
     describe 'explicit parent' do
 
       it 'parses a @parent reference and adds the documentable to the children of another' do

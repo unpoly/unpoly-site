@@ -94,13 +94,6 @@ module Unpoly
         )
       }x
 
-      # ESSENTIAL_PATTERN = %r{
-      #   (^[ \t]*)        # first line indent ($1)
-      #   \@(              # essential tag ($2)
-      #     essential
-      #   )
-      # }x
-
       PARAMS_NOTE_PATTERN = %r{
         (^[ \t]*)                   # first line indent ($1)
         \@(params-note)             # tag ($2)
@@ -207,11 +200,10 @@ module Unpoly
         ([^\ \t\n]+)      # required param name ($3), possibly followed by a description on the same line
       }x
 
-      REFERENCE_PATTERN = %r{
-        \@see
-        \s+
-        (.+?) # guide ID ($1)
-        (\n|$)
+      # @see is retired: related features are named in the prose instead.
+      RETIRED_DIRECTIVE_PATTERN = %r{
+        ^[ \t]*
+        \@(see)\b
       }x
 
       LEARN_REF_PATTERN = %r{
@@ -255,6 +247,7 @@ module Unpoly
         end
 
         doc_comments.each do |doc_comment|
+          reject_retired_directives!(doc_comment)
           doc_comment.text = including_partials(doc_comment.text)
 
           documentables_from_comment = parse_interface(doc_comment) || parse_feature(doc_comment) || parse_partial(doc_comment) || cannot_parse!(doc_comment)
@@ -321,8 +314,6 @@ module Unpoly
             interface.visibility_comment = visibility[:comment]
           end
 
-          parse_references!(block, interface)
-
           parse_learn_refs!(block, interface)
 
           parse_signature!(block, interface)
@@ -366,10 +357,6 @@ module Unpoly
           elsif looks_like_published_feature?(feature_name)
             raise MissingVisibility, "Missing visibility tag for feature: @#{feature_kind} #{feature_name} (#{doc_comment.local_position})"
           end
-
-          # feature.essential = parse_essential!(block)
-
-          parse_references!(text, feature)
 
           parse_learn_refs!(text, feature)
 
@@ -468,8 +455,6 @@ module Unpoly
           # or in the indented body below it.
           markdown = Util.unindent_hanging(param_spec)
 
-          parse_references!(markdown, param)
-
           param.guide_markdown = markdown
           params << param
         end
@@ -533,12 +518,6 @@ module Unpoly
         end
       end
 
-      def parse_references!(block, referencer)
-        while (reference_name = parse_reference_name!(block))
-          referencer.reference_names << reference_name
-        end
-      end
-
       def parse_learn_refs!(block, documentable)
         while block.sub!(LEARN_REF_PATTERN, '')
           spec = $2
@@ -554,12 +533,6 @@ module Unpoly
       def parse_explicit_parent!(block, documentable)
         if block.sub!(EXPLICIT_PARENT_PATTERN, '')
           documentable.explicit_parent_name = $1
-        end
-      end
-
-      def parse_reference_name!(block)
-        if block.sub!(REFERENCE_PATTERN, '')
-          return $1
         end
       end
 
@@ -749,6 +722,12 @@ module Unpoly
 
       def looks_like_published_feature?(feature_name)
         feature_name =~ /^(x-)?up[\.\:\-]/i
+      end
+
+      def reject_retired_directives!(doc_comment)
+        if doc_comment.text =~ RETIRED_DIRECTIVE_PATTERN
+          raise CannotParse, "Retired directive @#{$1} (name related features in the prose instead): #{doc_comment.path_with_lines}"
+        end
       end
 
       def cannot_parse!(doc_comment)

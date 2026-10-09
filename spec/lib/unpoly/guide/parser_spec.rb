@@ -103,6 +103,19 @@ module Unpoly
 
       end
 
+      describe '@see' do
+
+        it 'is retired and fails the parse' do
+          Dir.mktmpdir do |dir|
+            path = File.join(dir, 'retired.js')
+            File.write(path, "/*-\n@function test.retired\n@see test.module.function\n@stable\n*/\n")
+
+            expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Retired directive @see/)
+          end
+        end
+
+      end
+
       describe '#split_types_expression' do
 
         it 'parses a simple type' do

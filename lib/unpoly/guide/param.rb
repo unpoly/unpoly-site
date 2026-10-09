@@ -3,7 +3,6 @@ module Unpoly
     class Param
       include Documentable
       include Logger
-      include Referencer
       include Mimic
 
       OPTION_PREFIX = /^(options|opts|request|response|params|config|attrs|attributes|props|properties|eventProps)\./

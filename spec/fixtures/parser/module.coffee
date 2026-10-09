@@ -42,12 +42,6 @@
   ###
 
   ###-
-  @function test.module.referencingFunction
-  @see test.module.function
-  @stable
-  ###
-
-  ###-
   @function test.module.nonessentialFunction
   @stable
   ###

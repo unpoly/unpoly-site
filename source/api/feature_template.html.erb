@@ -63,8 +63,6 @@
       </div>
     <% end %>
 
-    <%= partial 'see_also', locals: { referencer: feature } %>
-
     <% if params_segment_visible %>
       <hr class="separator">
 
@@ -130,7 +128,7 @@
               <% end %>
             </div>
 
-            <% show_prose = param.guide_markdown? || param.references? %>
+            <% show_prose = param.guide_markdown? %>
             <% show_optional_tag = param.optional? %>
             <% show_required_tag = param.required? && !feature.property? %>
 
@@ -152,11 +150,6 @@
                 <div class="feature--param-prose">
                   <div class="prose">
                   <%= markdown(param.guide_markdown) %>
-                    <% if param.references? %>
-                      <p>
-                        See <%= param.references.map { |reference| hyperlink_to_reference(reference) }.join(', ') %>.
-                      </p>
-                    <% end %>
                   </div>
                 </div>
               <% end %>

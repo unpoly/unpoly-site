@@ -30,52 +30,21 @@
     <%= documented_prose(interface) %>
   <% end %>
 
-  <%
-    essential_features = interface.essential_features
-    all_features = interface.guide_features.sort
-  %>
+  <% all_features = interface.guide_features.sort %>
 
-  <% if essential_features.present? || all_features.present? %>
+  <% if all_features.present? %>
 
     <hr class="separator">
 
-    <% if essential_features.present? || all_features.present? %>
+    <h2 id="features">Features</h2>
 
-      <h2 id="features">Features</h2>
+    <h3 id="all-features">All features</h3>
 
-      <% if essential_features.present? %>
-        <h3 id="essential-features">Essentials</h3>
-
-        <%# Each card is a list item with a heading, its link only on the signature, so
-            screen readers and the Markdown twin read a list of named features. [up-expand]
-            keeps the whole card clickable. The kind badge follows the signature inside the
-            heading; CSS draws it in the card's corner. %>
-        <ul class="essential-features">
-          <% essential_features.each do |feature| %>
-            <li class="essential-feature <%= '-code' if feature.code? %>" up-expand>
-              <div class="essential-feature--title" role="heading" aria-level="4">
-                <a class="essential-feature--signature" href="<%= feature.guide_path %>"><%= feature.short_signature %></a>
-                <span class="essential-feature--kind" title="<%= feature.long_kind %>" data-markdown="chip"><%= feature.short_kind %></span>
-              </div>
-              <div class="essential-feature--summary">
-                <%= markdown_prose(feature.summary_markdown, strip_links: true) %>
-              </div>
-            </li>
-          <% end %>
-        </ul>
+    <ul>
+      <% all_features.each do |feature| %>
+        <%= feature_preview(feature) %>
       <% end %>
-
-      <% if all_features.present? %>
-        <h3 id="all-features">All features</h3>
-
-        <ul>
-          <% all_features.each do |feature| %>
-            <%= feature_preview(feature) %>
-          <% end %>
-        </ul>
-      <% end %>
-
-    <% end %>
+    </ul>
 
   <% end %>
 <% end %>

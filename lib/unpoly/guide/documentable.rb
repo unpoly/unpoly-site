@@ -1,7 +1,6 @@
 module Unpoly
   module Guide
     module Documentable
-      include Referencer
 
       attr_accessor :kind
 

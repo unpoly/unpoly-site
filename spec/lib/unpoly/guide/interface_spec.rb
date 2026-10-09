@@ -34,19 +34,6 @@ describe Unpoly::Guide::Interface do
 
     end
 
-    describe '#essential_features' do
-
-      it 'returns the referenced features that are promoted on the interface page' do
-        expect(interface.essential_features).to be_present
-        expect(interface.essential_features.map(&:name)).to include('up.render')
-      end
-
-      it 'returns no pages, which the learn-refs point to instead' do
-        expect(interface.essential_features.select(&:page?)).to be_empty
-      end
-
-    end
-
     describe '#learn_refs' do
 
       it 'points at the Learn pages that explain the module' do
