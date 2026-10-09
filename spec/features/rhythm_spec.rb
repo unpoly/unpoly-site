@@ -35,11 +35,11 @@ describe 'vertical rhythm', type: :feature, js: true do
     expect(tops.uniq.size).to eq(1), "tops differ: #{tops}"
   end
 
-  it 'gives every landing band the same space above its first line and below its last' do
+  it 'gives every landing band, the hero included, the same space above its first line and below its last' do
     visit '/'
 
     gaps = page.evaluate_script(<<~JS)
-      [...document.querySelectorAll('.landing--section:not(.-hero)')].map((section) => {
+      [...document.querySelectorAll('.landing--section')].map((section) => {
         let box = section.getBoundingClientRect()
         let children = [...section.querySelectorAll('.landing--inner > *')].filter((child) => child.getClientRects().length)
         return [Math.round(children[0].getBoundingClientRect().top - box.top),

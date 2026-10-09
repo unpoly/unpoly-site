@@ -1,5 +1,4 @@
 @import ../../environment
-@import bullets
 @import hyperlink
 
 // The landing page. It is the one page that runs without the sidebar, so it sets
@@ -10,7 +9,7 @@
   +hide-margins-y
 
 // The bands alternate: white, tinted, white, … from the hero on, so no two white
-// paddings meet.
+// paddings meet. A washed band counts as white.
 .landing--section
   +vertical-padding(clamp(#{$space-6}, 6vw, #{$space-7}))
 
@@ -61,9 +60,6 @@
   color: $gray-700
   max-width: 68ch
 
-  b
-    color: $gray-900
-
 .landing--actions
   margin-top: $space-5
   gap: $space-3
@@ -72,11 +68,7 @@
   color: $gray-600
   font-size: $text-sm
 
-.landing--spec
-  color: $gray-600
-  font-size: $text-sm
-  margin-top: $space-4
-
+// A band's heading. A subsection within the band takes -sub, a card or a column -minor.
 .landing--heading
   +type(clamp(#{$text-xl}, 2.8vw, #{$text-2xl}), $leading-heading)
   font-weight: bold
@@ -84,12 +76,13 @@
   text-wrap: balance
   margin-bottom: $space-4
 
-.landing--subheading
-  +type($text-xl, $leading-heading)
-  font-weight: bold
-  color: $gray-900
-  margin-top: $space-6
-  margin-bottom: $space-4
+  &.-sub
+    font-size: $text-xl
+    margin-top: $space-6
+
+  &.-minor
+    font-size: $text-lg
+    margin-bottom: $space-2
 
 // The box around landing code, also around the hero's annotated rows.
 =landing-code-box
@@ -216,29 +209,6 @@ $annotated-stack-below: 672px
       color: $red-600
       font-size: 0.85em
 
-.landing--chips
-  display: flex
-  flex-wrap: wrap
-  gap: $space-2
-  margin-bottom: $space-5
-
-.landing--chip
-  background: $white
-  border: 1px solid $gray-300
-  border-radius: $radius-pill
-  padding: 4px $space-3
-  font-size: $text-xs
-  color: $gray-800
-  white-space: nowrap
-
-  &.-event
-    +monospace-font
-    color: $red-600
-    font-size: $text-2xs
-
-  .-tinted &
-    background: $white
-
 .landing--cards
   display: grid
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
@@ -267,12 +237,6 @@ $annotated-stack-below: 672px
   a
     font-size: $text-sm
 
-.landing--card-title
-  +type($text-lg, $leading-heading)
-  font-weight: bold
-  color: $gray-900
-  margin-bottom: $space-2
-
 .landing--quote
   border-left: 3px solid $indigo-800
   margin: $space-6 0
@@ -297,27 +261,27 @@ $annotated-stack-below: 672px
   margin-top: $space-5
 
   ul
-    @extend .bullets
     margin-bottom: 0
 
   li
     font-size: $text-sm
 
-.landing--fit-title
-  +type($text-lg, $leading-heading)
-  font-weight: bold
-  color: $gray-900
-  margin-bottom: $space-2
-
 .landing--logos
   margin-top: $space-6
 
-.landing--logos-label
-  font-size: $text-sm
+// A caption in capitals over a group: the logo wall, and as -small, a degrade panel.
+.landing--caption
+  +type($text-sm, $leading-ui)
   color: $gray-600
   +uppercase
   letter-spacing: 0.08em
   margin-bottom: $space-4
+
+  &.-small
+    font-size: $text-2xs
+    font-weight: bold
+    letter-spacing: 0.06em
+    margin-bottom: $space-3
 
 .landing--logo-wall
   display: flex
@@ -451,14 +415,6 @@ $event-groups-stack-below: 500px
   background: $white
   border-radius: $radius-lg
   padding: $space-4 $space-5 $space-5
-
-.landing--degrade-label
-  +type($text-2xs, $leading-ui)
-  font-weight: bold
-  letter-spacing: 0.06em
-  +uppercase
-  color: $gray-600
-  margin-bottom: $space-3
 
 .landing--degrade-menu
   list-style: none

@@ -7,11 +7,23 @@ describe 'index', type: :feature, js: true do
     expect(page).to have_css('h1', text: 'The missing application layer for HTML')
   end
 
-  it 'marks the Unpoly attributes in the hero code' do
-    within '.landing--code.-hero' do
+  it 'marks the Unpoly attributes in the hero code, without stray empty marks' do
+    within '.landing--annotated' do
       expect(page).to have_css('mark', text: 'up-target')
       expect(page).to have_css('mark', text: 'up-poll')
+      expect(page).to have_no_css('mark:empty')
     end
+  end
+
+  it 'links each event word to its event' do
+    within '.landing--event-groups' do
+      expect(page).to have_link('following', href: '/up:link:follow')
+      expect(page).to have_link('going back', href: '/up:location:restore')
+    end
+  end
+
+  it 'turns the chip comment in the compiler example into a chip' do
+    expect(page).to have_css('.landing--pair .code-chip', text: 'Map will appear here')
   end
 
   it 'leads into both areas of the documentation' do
@@ -27,8 +39,9 @@ describe 'index', type: :feature, js: true do
   end
 
   it 'names the companies running Unpoly in production' do
-    expect(page).to have_css('.landing--logos-label', text: /in production at/i)
+    expect(page).to have_css('.landing--logos .landing--caption', text: /in production at/i)
     expect(page).to have_css('.landing--logo', count: 10)
+    expect(page).to have_css('.landing--logo[alt="Volkswagen"]')
   end
 
   it 'closes the "Is Unpoly right for you?" band with the logo wall, rather than giving it a band of its own' do
@@ -61,5 +74,26 @@ describe 'index', type: :feature, js: true do
   it 'runs without the documentation sidebar' do
     expect(page).to have_css('.landing')
     expect(page).to have_no_css('.guide--left')
+  end
+
+  describe 'on a phone', driver: :selenium_phone do
+
+    it 'keeps every event tooltip on the screen, without widening the page' do
+      facts = page.evaluate_script(<<~JS)
+        [...document.querySelectorAll('.landing--event-tags a')].map((link) => {
+          link.focus()
+          let tip = getComputedStyle(link, '::after')
+          let width = parseFloat(tip.width) + parseFloat(tip.paddingLeft) + parseFloat(tip.paddingRight)
+          let anchor = getComputedStyle(link).position === 'static' ? link.parentElement : link
+          let box = anchor.getBoundingClientRect()
+          let left = tip.transform === 'none' ? box.left : box.left + box.width / 2 - width / 2
+          return [link.dataset.event, left >= 0 && left + width <= innerWidth,
+                  document.documentElement.scrollWidth <= innerWidth]
+        })
+      JS
+
+      facts.each { |event, fits, page_fits| expect([event, fits, page_fits]).to eq([event, true, true]) }
+    end
+
   end
 end

@@ -14,7 +14,7 @@
 
 <div class="landing">
 
-  <section class="landing--section -hero">
+  <section class="landing--section">
     <div class="landing--inner">
       <h1 class="landing--claim">The missing application layer for&nbsp;HTML</h1>
 
@@ -111,26 +111,26 @@
 
       <div class="landing--cards">
         <div class="landing--card">
-          <h3 class="landing--card-title">Reactive server forms</h3>
+          <h3 class="landing--heading -minor">Reactive server forms</h3>
           <p>Fields that depend on other fields — selects loading their options, previews updating as you type —
              rendered by your server, wired with one attribute.</p>
           <%= hyperlink 'Learn more →', '/reactive-server-forms' %>
         </div>
         <div class="landing--card">
-          <h3 class="landing--card-title">Optimistic rendering</h3>
+          <h3 class="landing--heading -minor">Optimistic rendering</h3>
           <p>Update the screen before the server answers, then reconcile with the real response.
              Previews revert cleanly when anything fails.</p>
           <%= hyperlink 'Learn more →', '/optimistic-rendering' %>
         </div>
         <div class="landing--card">
-          <h3 class="landing--card-title">Complex overlay flows</h3>
+          <h3 class="landing--heading -minor">Complex overlay flows</h3>
           <p>Branch off into an overlay, complete a multi-page flow there, and return the result
              to the parent screen — which never went away.</p>
           <%= hyperlink 'Learn more →', '/subinteractions' %>
         </div>
       </div>
 
-      <h3 class="landing--subheading">Escape hatches everywhere</h3>
+      <h3 class="landing--heading -sub">Escape hatches everywhere</h3>
 
       <p>When attributes aren't enough, you can recompose Unpoly's behavior using its
          extensive JavaScript API. Every attribute has a JavaScript twin —
@@ -204,7 +204,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <%# The same markup, two outcomes. %>
       <div class="landing--degrade">
         <figure class="landing--degrade-panel">
-          <figcaption class="landing--degrade-label">With JavaScript</figcaption>
+          <figcaption class="landing--caption -small">With JavaScript</figcaption>
           <ul class="landing--degrade-menu" aria-label="Example: the loaded menu">
             <li>Projects</li>
             <li>Tasks</li>
@@ -212,7 +212,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
           </ul>
         </figure>
         <figure class="landing--degrade-panel">
-          <figcaption class="landing--degrade-label">Without JavaScript</figcaption>
+          <figcaption class="landing--caption -small">Without JavaScript</figcaption>
           <span class="landing--degrade-link">Load menu</span>
         </figure>
       </div>
@@ -239,8 +239,8 @@ up.submit('#invite-form', { params: { email } })</code></pre>
          A higher-level layer gives you fewer attributes for common cases, with the edge cases already handled.</p>
 
       <div class="landing--fits">
-        <div class="landing--fit">
-          <h3 class="landing--fit-title">Unpoly is for you if…</h3>
+        <div>
+          <h3 class="landing--heading -minor">Unpoly is for you if…</h3>
           <ul class="bullets">
             <li>You render HTML on a server — Rails, Django, Laravel, Phoenix, Node, anything — and want to keep it that way.</li>
             <li>Your app has outgrown full page loads, but an SPA would mean duplicating your product in the browser.</li>
@@ -249,8 +249,8 @@ up.submit('#invite-form', { params: { email } })</code></pre>
             <li>You expect to maintain this app for years.</li>
           </ul>
         </div>
-        <div class="landing--fit">
-          <h3 class="landing--fit-title">Choose another tool when…</h3>
+        <div>
+          <h3 class="landing--heading -minor">Choose another tool when…</h3>
           <ul class="bullets">
             <li>Your application state truly belongs in the browser — an editor, a game, offline-first.</li>
             <li>You want maximum control over every request and DOM change — <%= hyperlink 'htmx', 'https://htmx.org', target: '_blank' %> is excellent for that temperament.</li>
@@ -262,7 +262,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
 
       <%# After when Unpoly is right for you, the companies it was right for. %>
       <div class="landing--logos">
-        <p class="landing--logos-label">In production at</p>
+        <p class="landing--caption">In production at</p>
         <div class="landing--logo-wall">
           <% {
             'vw' => 'Volkswagen', 'audi' => 'Audi', 'siemens' => 'Siemens', 'bosch' => 'Bosch', 'arm' => 'Arm',
