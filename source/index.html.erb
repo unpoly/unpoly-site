@@ -45,9 +45,9 @@
       </div>
 
       <p class="landing--trailer">
-        The application stays on your server — any language, any framework.
+        The application stays on your server, in any language and any framework.
         The browser learns just enough to feel like an app.
-        Your HTML keeps its meaning — agents and crawlers can read your app without running JavaScript.
+        Your HTML keeps its meaning. Agents and crawlers can read your app without running JavaScript.
       </p>
 
       <div class="actions landing--actions">
@@ -62,15 +62,15 @@
     <div class="landing--inner">
       <h2 class="landing--heading">Update only what changed</h2>
 
-      <p>Following an Unpoly link doesn't tear down the page. The server responds with HTML —
-         a full page is fine — and Unpoly extracts the targeted fragment, discarding the rest:</p>
+      <p>Following an Unpoly link doesn't tear down the page. The server responds with HTML
+         (a full page is fine), and Unpoly extracts the targeted fragment, discarding the rest:</p>
 
       <%= partial 'fragment_updates_diagram' %>
 
       <p>The rest of the page stays: your scroll position, your focus,
          the form you were halfway through.</p>
 
-      <p>And because every response can be a full page, every URL keeps working on its own —
+      <p>And because every response can be a full page, every URL keeps working on its own:
          in a new tab, for a bookmark, for a crawler. You don't build separate fragment
          endpoints. Unpoly works with the routes you already have. Rendering only the fragment
          is a simple, optional optimization; most screens never need it.</p>
@@ -107,13 +107,13 @@
       <h2 class="landing--heading">Built for tough requirements</h2>
 
       <p>These are the screens that usually get an app rewritten in React.
-         With Unpoly they stay on your server — rendered as HTML, enhanced with a few attributes:</p>
+         With Unpoly they stay on your server. You render them as HTML and enhance them with a few attributes:</p>
 
       <div class="landing--cards">
         <div class="landing--card">
           <h3 class="landing--heading -minor">Reactive server forms</h3>
-          <p>Fields that depend on other fields — selects loading their options, previews updating as you type —
-             rendered by your server, wired with one attribute.</p>
+          <p>Fields that depend on other fields, like selects loading their options or previews updating as you type.
+             Rendered by your server, wired with one attribute.</p>
           <%= hyperlink 'Learn more →', '/reactive-server-forms' %>
         </div>
         <div class="landing--card">
@@ -125,7 +125,7 @@
         <div class="landing--card">
           <h3 class="landing--heading -minor">Complex overlay flows</h3>
           <p>Branch off into an overlay, complete a multi-page flow there, and return the result
-             to the parent screen — which never went away.</p>
+             to the parent screen. It never went away.</p>
           <%= hyperlink 'Learn more →', '/subinteractions' %>
         </div>
       </div>
@@ -133,8 +133,8 @@
       <h3 class="landing--heading -sub">Escape hatches everywhere</h3>
 
       <p>When attributes aren't enough, you can recompose Unpoly's behavior using its
-         extensive JavaScript API. Every attribute has a JavaScript twin —
-         <code>[up-submit]</code> is <code>up.submit()</code>, modifying attributes become options.</p>
+         extensive JavaScript API. Every attribute has a JavaScript twin:
+         <code>[up-submit]</code> is <code>up.submit()</code>, and modifying attributes become options.</p>
 
 <pre class="landing--code"><code class="language-javascript">// Let the user create a record in an overlay, then use the result:
 let { email } = await up.layer.ask({ url: '/users/new' })
@@ -182,7 +182,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <h2 class="landing--heading">Your HTML keeps its meaning</h2>
 
       <p>Unpoly enhances HTML elements without changing what they are.
-         A link still navigates and a form still submits — they just learn to do it better.</p>
+         A link still navigates and a form still submits. They just learn to do it better.</p>
 
       <blockquote class="landing--quote">
         <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
@@ -191,12 +191,12 @@ up.submit('#invite-form', { params: { email } })</code></pre>
 
       <p>Everything that already understands HTML keeps understanding your app:
          search engines index the HTML your server sends, agents read your content without executing JavaScript,
-         and screen readers find actual <code>&lt;a&gt;</code> and <code>&lt;form&gt;</code> elements — not clickable <code>&lt;div&gt;</code>s.
+         and screen readers find actual <code>&lt;a&gt;</code> and <code>&lt;form&gt;</code> elements, not clickable <code>&lt;div&gt;</code>s.
          And since your server can always answer with a complete page, every screen has
-         its own URL — one you can share, bookmark or open directly.</p>
+         its own URL that you can share, bookmark or open directly.</p>
 
       <p><b>Every feature has a graceful degradation story.</b> For example, when we built lazy loading,
-         we modeled it as a <em>self-loading hyperlink</em> — without JavaScript it's still a link,
+         we modeled it as a <em>self-loading hyperlink</em>. Without JavaScript it's still a link,
          and the content is one click away instead of gone:</p>
 
 <pre class="landing--code"><code class="language-html">&lt;a href="/menu" up-defer&gt;Load menu&lt;/a&gt; &lt;!-- mark: up-defer --&gt;</code></pre>
@@ -231,7 +231,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
         <cite>— <%= hyperlink 'htmx.org', 'https://htmx.org/', target: '_blank', class: '-gray' %>, on its motivation</cite>
       </blockquote>
 
-      <p>Unpoly makes the opposite bet: the elements HTML already gave us are the right ones to make requests —
+      <p>Unpoly makes the opposite bet: the elements HTML already gave us are the right ones to make requests,
          because the whole web already knows what they mean. So instead of generalizing requests to any element,
          Unpoly makes links and forms <em>more capable</em>, with strong defaults for the cases every app hits.</p>
 
@@ -242,9 +242,9 @@ up.submit('#invite-form', { params: { email } })</code></pre>
         <div>
           <h3 class="landing--heading -minor">Unpoly is for you if…</h3>
           <ul class="bullets">
-            <li>You render HTML on a server — Rails, Django, Laravel, Phoenix, Node, anything — and want to keep it that way.</li>
+            <li>You render HTML on a server (Rails, Django, Laravel, Phoenix, Node, anything) and want to keep it that way.</li>
             <li>Your app has outgrown full page loads, but an SPA would mean duplicating your product in the browser.</li>
-            <li>You want one mental model for navigation, overlays and forms — not a kit of separate libraries to combine.</li>
+            <li>You want one mental model for navigation, overlays and forms, not a kit of separate libraries to combine.</li>
             <li>You want overlays, reactive forms and instant navigation without wiring the plumbing yourself.</li>
             <li>You expect to maintain this app for years.</li>
           </ul>
@@ -252,9 +252,9 @@ up.submit('#invite-form', { params: { email } })</code></pre>
         <div>
           <h3 class="landing--heading -minor">Choose another tool when…</h3>
           <ul class="bullets">
-            <li>Your application state truly belongs in the browser — an editor, a game, offline-first.</li>
-            <li>You want maximum control over every request and DOM change — <%= hyperlink 'htmx', 'https://htmx.org', target: '_blank' %> is excellent for that temperament.</li>
-            <li>You need native iOS/Android shells around your app and don't want to write your own — Hotwire ships ready-made adapters for that.</li>
+            <li>Your application state truly belongs in the browser, as in an editor, a game or an offline-first app.</li>
+            <li>You want maximum control over every request and DOM change. <%= hyperlink 'htmx', 'https://htmx.org', target: '_blank' %> is excellent for that temperament.</li>
+            <li>You need native iOS/Android shells around your app and don't want to write your own. Hotwire ships ready-made adapters for that.</li>
             <li>A dedicated frontend team owns a separate client-side product.</li>
           </ul>
         </div>
@@ -279,7 +279,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
     <div class="landing--inner">
       <h2 class="landing--heading">Start with one screen</h2>
 
-      <p>You don't need to migrate your application. Start where full page loads hurt most —
+      <p>You don't need to migrate your application. Start where full page loads hurt most:
          a filter form that resets the page, an edit screen that should be an overlay, a slow report.
          Enhance one link. Leave the rest alone.</p>
 
