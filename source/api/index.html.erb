@@ -5,7 +5,7 @@
   search also ranks first) with a count of the rest. A page group (Formats) lists its
   pages instead.
 
-  The count is of what the module page lists under All features: its features with a
+  The count is of what the module page lists under Features: its features with a
   page of their own. Classes like up.Layer have sidebar rows but are not counted. A
   module with no signature features shows its whole count, without a plus.
 
@@ -58,7 +58,7 @@
               <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
             <% end %>
             <% if more > 0 %>
-              <li><a href="<%= topic.menu_path %>#all-features" class="api-row--more"><%= links.any? ? "+ #{more} more" : pluralize(more, 'feature', 'features') %></a></li>
+              <li><a href="<%= topic.menu_path %>#features" class="api-row--more"><%= links.any? ? "+ #{more} more" : pluralize(more, 'feature', 'features') %></a></li>
             <% end %>
           </ul>
         <% end %>

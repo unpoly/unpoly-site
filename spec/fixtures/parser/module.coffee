@@ -1,7 +1,4 @@
   ###-
-  Test module
-  ===========
-
   @module test.module
   ###
 

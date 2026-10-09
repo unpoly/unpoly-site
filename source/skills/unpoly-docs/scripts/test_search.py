@@ -131,8 +131,7 @@ class BodyTest(unittest.TestCase):
     def test_title_strips_chip(self):
         self.assertEqual(search.clean_title("up.render([target], [options]) (JavaScript function)"),
                          "up.render([target], [options])")
-        self.assertEqual(search.clean_title("Linking to fragments (module up.link)"),
-                         "Linking to fragments")
+        self.assertEqual(search.clean_title("`up.link` (module)"), "up.link")
 
     def test_title_keeps_call_parens(self):
         self.assertEqual(search.clean_title("up.render([target], [options])"),

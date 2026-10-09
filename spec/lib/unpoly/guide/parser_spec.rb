@@ -103,6 +103,19 @@ module Unpoly
 
       end
 
+      describe 'a title' do
+
+        it 'fails the parse on a module, which is titled by its name' do
+          Dir.mktmpdir do |dir|
+            path = File.join(dir, 'titled.js')
+            File.write(path, "/*-\nTitled module\n=============\n\n@module test.titled\n*/\n")
+
+            expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Only a @page takes a title/)
+          end
+        end
+
+      end
+
       describe '@see' do
 
         it 'is retired and fails the parse' do

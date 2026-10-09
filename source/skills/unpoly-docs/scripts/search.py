@@ -151,8 +151,10 @@ def clean_heading(text):
 
 
 def clean_title(text):
-    """`up.render([target]) (JavaScript function)` -> `up.render([target])`."""
-    return CHIP_RE.sub("", clean_heading(text)).strip()
+    """`up.render([target]) (JavaScript function)` -> `up.render([target])`.
+    A module's name is code: `` `up.link` (module) `` -> `up.link`."""
+    title = CHIP_RE.sub("", clean_heading(text)).strip()
+    return title[1:-1] if re.fullmatch(r"`[^`]+`", title) else title
 
 
 def split_body(body):

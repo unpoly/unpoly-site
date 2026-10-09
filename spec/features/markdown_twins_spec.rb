@@ -81,7 +81,7 @@ describe 'Markdown twins', type: :feature do
       text = markdown('/index.md')
       expect(text).to start_with("# Unpoly\n\n> ")
       expect(text).to include("## Learn\n", "## API\n", "## Changes\n", "## Support\n")
-      expect(text).to include('- [up.link](http://unpoly.test/up.link.md): ')
+      expect(text).to include('- [`up.link`](http://unpoly.test/up.link.md): ')
       expect(text).to include('{#hash}')
     end
 
@@ -102,7 +102,7 @@ describe 'Markdown twins', type: :feature do
       expect(front_matter['description']).to start_with("All of Unpoly's documentation")
       expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Guide.current.version)
       expect(front_matter['metadata']['build']).to match(/\A\d{4}\.\d+\.\d+\z/)
-      expect(text).to include('- [up.link](references/api/up-link-module.md): ')
+      expect(text).to include('- [`up.link`](references/api/up-link-module.md): ')
       expect(text).to include('point the user to https://unpoly.com/support.')
     end
 

@@ -133,14 +133,14 @@ describe 'the hubs', type: :feature, js: true do
       expect(features).to all(include('line' => 'underline', 'color' => red))
     end
 
-    # The count is of what the module page lists under All features, not of the
+    # The count is of what the module page lists under Features, not of the
     # module's sidebar rows, which also hold classes (up.Layer).
-    it "counts the features the module page lists under All features, beyond the ones shown" do
+    it "counts the features the module page lists under Features, beyond the ones shown" do
       { '/up.layer' => true, '/up.form' => true, '/up.fragment' => true, '/up.util' => true }.each do |path, has_signature|
         visit path
         listed = page.evaluate_script(<<~JS)
           (() => {
-            let heading = document.getElementById('all-features')
+            let heading = document.getElementById('features')
             let count = 0
             for (let node = heading.nextElementSibling; node && !/^H[1-3]$/.test(node.tagName); node = node.nextElementSibling) {
               // The previews are list items of a <ul> (the Markdown station's card markup).
@@ -153,7 +153,7 @@ describe 'the hubs', type: :feature, js: true do
         visit '/api'
         row = row_for(path)
         more = row.find('.api-row--more')
-        expect(more[:href]).to end_with("#{path}#all-features")
+        expect(more[:href]).to end_with("#{path}#features")
 
         if has_signature
           shown = row.all('.api-row--feature').size

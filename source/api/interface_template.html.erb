@@ -10,17 +10,14 @@
 <% page_title interface.title do %>
   <%= breadcrumb_link area.title, area.path %>
 
-  <% if interface.module? %>
+  <% if interface.page? %>
     <%= interface.title %>
+  <% else %>
+    <%# A module or class is titled by its JavaScript name, like a feature by its signature. %>
+    <code><%= breakable_signature(interface.name) %></code>
     <div class="subtitle" data-pagefind-ignore data-markdown="chip">
-      <span class="dimmed">module</span>
-      <%= interface.name %>
+      <%= interface.kind %>
     </div>
-  <% elsif interface.class? %>
-    <span class="dimmed">class</span>
-    <%= interface.title %>
-  <% elsif interface.page? %>
-    <%= interface.title %>
   <% end %>
 <% end %>
 
@@ -38,8 +35,6 @@
 
     <h2 id="features">Features</h2>
 
-    <h3 id="all-features">All features</h3>
-
     <ul>
       <% all_features.each do |feature| %>
         <%= feature_preview(feature) %>
@@ -50,7 +45,7 @@
 <% end %>
 
 <% topic = guide.toc.topic_of(interface) %>
-<%# Only chapter overviews: a module page lists every feature already, under "All features". %>
+<%# Only chapter overviews: a module page lists every feature already, under "Features". %>
 <% if interface.page? && topic && topic.start_page == interface %>
   <%= partial 'children_index', locals: { topic: topic } %>
 <% end %>

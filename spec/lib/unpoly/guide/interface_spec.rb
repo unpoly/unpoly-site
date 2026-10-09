@@ -9,8 +9,8 @@ describe Unpoly::Guide::Interface do
 
     let(:interface) { subject.find_by_name!('up.fragment') }
 
-    it 'has a title from its Markdown, but is named after its symbol in the menu' do
-      expect(interface.title).to be_present
+    it 'is titled by its name, on its page and in the menu' do
+      expect(interface.title).to eq('up.fragment')
       expect(interface.menu_title).to eq('up.fragment')
     end
 

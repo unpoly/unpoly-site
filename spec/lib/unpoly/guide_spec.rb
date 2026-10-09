@@ -15,9 +15,9 @@ describe Unpoly::Guide do
         expect(interface.kind).to eq('module')
       end
 
-      it 'parses the module title from its Markdown' do
+      it 'titles a module by its name' do
         interface = find_by_name!('test.module')
-        expect(interface.title).to eq('Test module')
+        expect(interface.title).to eq('test.module')
       end
 
       describe 'functions' do
@@ -213,7 +213,7 @@ describe Unpoly::Guide do
         interface = find_by_name!('test.module')
         expect(interface.text_source.path).to end_with('spec/fixtures/parser/module.coffee')
         expect(interface.text_source.start_line).to eq(1)
-        expect(interface.text_source.end_line).to eq(6)
+        expect(interface.text_source.end_line).to eq(3)
       end
 
     end

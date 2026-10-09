@@ -370,9 +370,7 @@ module Unpoly
           repository.find_module!(module_name)
         end
 
-        # The sidebar and the /api hub identify a module by its JavaScript name
-        # (`up.link`), not its prose title ("Linking and following"). The prose title
-        # stays the headline of the module's own page.
+        # A module is titled by its JavaScript name (`up.link`) everywhere.
         def title
           interface.name
         end

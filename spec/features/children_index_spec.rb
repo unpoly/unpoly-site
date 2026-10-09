@@ -1,6 +1,6 @@
 # Below $bp-sidebar the drawer lists only chapters, so a chapter overview lists every
 # page of its chapter. Above it, the sidebar does that job and the index is hidden.
-# Module pages need no index: they list every feature under "All features".
+# Module pages need no index: they list every feature under "Features".
 describe 'the children index', type: :feature, js: true do
 
   def index_links
@@ -39,7 +39,7 @@ describe 'the children index', type: :feature, js: true do
       visit '/up.link'
 
       expect(page).to have_no_css('.children-index', visible: :all)
-      expect(page).to have_css('#all-features')
+      expect(page).to have_css('#features')
     end
   end
 

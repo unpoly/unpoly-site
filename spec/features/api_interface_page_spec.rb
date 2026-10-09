@@ -4,9 +4,10 @@ describe 'interface page', type: :feature, js: true do
     visit '/up.fragment'
   end
 
-  it 'shows the title and symbol of the module' do
-    expect(page).to have_css('h1', text: 'Fragment API')
-    expect(page).to have_css('h1 .subtitle', text: 'up.fragment')
+  it 'is titled by the module name in monospace' do
+    expect(page).to have_css('h1 code', text: 'up.fragment')
+    expect(page).to have_css('h1 .subtitle', text: 'module')
+    expect(page).to have_title(/\Aup\.fragment\b/)
   end
 
   it 'links to the guide pages that explain the module in context' do
@@ -14,8 +15,8 @@ describe 'interface page', type: :feature, js: true do
   end
 
   it 'lists all features of the module' do
-    expect(page).to have_css('#all-features')
-    expect(page).to have_css('#all-features + ul a[href="/up.render"]')
+    expect(page).to have_css('#features')
+    expect(page).to have_css('#features + ul a[href="/up.render"]')
   end
 
 end

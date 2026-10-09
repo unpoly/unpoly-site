@@ -491,8 +491,8 @@ helpers do
   # Search metadata that needs an element of its own: Pagefind takes one key per
   # data-pagefind-meta attribute (it does not split "badge:API, title:up.link").
   #
-  # A module or class is known by its name (up.link), not by its page's headline
-  # ("Linking to fragments"), so the search lists it under its name. A deprecated page
+  # A module or class is listed under its bare name (up.link), which is also its page's
+  # headline. A deprecated page
   # says so, and the search strikes it and lists it below the others.
   def search_meta_tags
     documentable = search_documentable or return nil

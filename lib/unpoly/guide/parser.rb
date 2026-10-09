@@ -302,6 +302,10 @@ module Unpoly
           block = Util.unindent(block)
 
           if (explicit_title = parse_title!(block))
+            # A module or class is titled by its name (`up.form`), never by prose.
+            unless interface.page?
+              raise CannotParse, "Only a @page takes a title, not @#{interface_kind} #{interface_name}: #{doc_comment.path_with_lines}"
+            end
             interface.explicit_title = explicit_title
           end
 
