@@ -41,18 +41,18 @@ RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/$1 [R=301,L]
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)$  /$1/index.html [L]
 
-RedirectPermanent /install/rails /server-bindings
-RedirectPermanent /install/ruby /server-bindings
-RedirectPermanent /install/php /server-bindings
-RedirectPermanent /install/elixir /server-bindings
-RedirectPermanent /install/rust /server-bindings
+RedirectPermanent /install/rails /server-protocol
+RedirectPermanent /install/ruby /server-protocol
+RedirectPermanent /install/php /server-protocol
+RedirectPermanent /install/elixir /server-protocol
+RedirectPermanent /install/rust /server-protocol
 RedirectPermanent /install/npm /install#npm
 RedirectPermanent /install/zip /install
 RedirectPermanent /install/cdn /install
 RedirectPermanent /install/download /install
 
-RedirectPermanent /install/protocol /server-bindings
-RedirectPermanent /install/server-protocol /server-bindings
+RedirectPermanent /install/protocol /server-protocol
+RedirectPermanent /install/server-protocol /server-protocol
 
 RedirectPermanent /community /support
 RedirectPermanent /discuss https://github.com/unpoly/unpoly/discussions
