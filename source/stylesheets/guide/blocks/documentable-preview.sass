@@ -2,25 +2,62 @@
 
 .documentable-preview
   +vertical-margin(22px)
-  padding-left: 60px
+  // The kind tile and a gap.
+  padding-left: 64px
   position: relative
   display: block
+  // Keeps a feature without a summary from letting its tile run into the next one.
+  min-height: 48px
   //+when_deprecated
   //  opacity: 0.6
 
+// A tile with the feature's kind: a glyph and the short kind, both in the kind's ink
+// on its tint. Each ink keeps 4.5:1 on its tint.
 .documentable-preview--kind
   position: absolute
   left: 0
   top: 2px
-  background-color: $gray-200
-  border: 1px solid $gray-500
-  color: $gray-600
-  border-radius: $radius-sm
-  +type($text-2xs, $leading-ui)
+  width: 48px
+  height: 48px
+  border-radius: $radius-md
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 2px
+
+  .icon
+    width: 20px
+    height: 20px
+
+  &.-html
+    color: $blue-800
+    background-color: $blue-200
+  &.-css
+    color: $teal-900
+    background-color: $teal-200
+  &.-js
+    color: $indigo-800
+    background-color: $indigo-200
+  &.-config
+    color: $purple-800
+    background-color: $purple-200
+  &.-event
+    color: $red-700
+    background-color: $red-200
+  &.-header
+    color: $orange-900
+    background-color: $orange-200
+  &.-cookie
+    color: $gray-800
+    background-color: $gray-200
+
+// Below the type scale: COOKIE and HEADER have to fit the tile's 48px.
+.documentable-preview--kind-label
+  font-size: 10px
+  line-height: 12px
   font-weight: bold
-  text-align: center
-  width: 45px
-  +height(43px)
+  letter-spacing: 0.03em
 
 .documentable-preview--signature
   //+monospace-font
