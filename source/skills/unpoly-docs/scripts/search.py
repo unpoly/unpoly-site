@@ -13,6 +13,8 @@ Ranking is BM25F over field-weighted tokens (name and title above headings above
   `follow`) and for crude word stems (`validation` also indexes `validat`), so plain English finds
   API pages and inflected words find each other. There is no prefix matching: common parts like
   `up` occur on every page and get an IDF near zero instead of matching everything.
+- A heading's id counts as heading words when it names the section in other words
+  (`What is updated {#history-state}`).
 - Down-weights for deprecated pages, hub pages (`index.md`) and changelog pages.
 - A bonus for pages containing a query argument of several words as a phrase. This only
   re-ranks: the words still match with OR semantics.
@@ -118,7 +120,7 @@ def normalize_name(name):
 # --- parsing --------------------------------------------------------------------------------------
 
 FRONT_MATTER_LINE_RE = re.compile(r"^([A-Za-z0-9_]+):\s*(.*)$")
-KRAMDOWN_ID_RE = re.compile(r"\s*\{#[^}]*\}\s*$")
+KRAMDOWN_ID_RE = re.compile(r"\s*\{#([^}]*)\}\s*$")
 CHIP_RE = re.compile(r"\s+\([^()]*\)$")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
 NAV_OPEN_RE = re.compile(r"^\s*<nav\b[^>]*>")
@@ -148,6 +150,21 @@ def parse_front_matter(text):
 def clean_heading(text):
     """Strips a trailing Kramdown id: `Options {#options}` -> `Options`."""
     return KRAMDOWN_ID_RE.sub("", text).strip()
+
+
+def heading_id_words(text):
+    """The words of a heading's Kramdown id, when the id names its section in other words:
+    `What is updated {#history-state}` -> `history state`. An id that shares a word with the
+    heading is derived from it (`Request {#attributes-request}`) and adds nothing."""
+    match = KRAMDOWN_ID_RE.search(text)
+    if not match:
+        return ""
+    words = [word for word in PART_SPLIT_RE.split(match.group(1).lower()) if word]
+    known = set()
+    for token in tokenize(clean_heading(text)):
+        known.add(token)
+        known.update(PART_SPLIT_RE.split(token))
+    return "" if known.intersection(words) else " ".join(words)
 
 
 def clean_title(text):
@@ -180,7 +197,9 @@ def split_body(body):
                 if title is None and len(heading.group(1)) == 1:
                     title = clean_title(heading.group(2))
                     continue
-                headings.append(clean_heading(heading.group(2)))
+                # The id's words count for the heading, but stay out of the text a snippet shows.
+                headings.append(" ".join(filter(None, [clean_heading(heading.group(2)),
+                                                       heading_id_words(heading.group(2))])))
                 line = heading.group(1) + " " + clean_heading(heading.group(2))
         lines.append(line)
     return title, headings, lines

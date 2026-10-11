@@ -143,11 +143,20 @@ class BodyTest(unittest.TestCase):
 
     def test_split_body(self):
         title, headings, lines = search.split_body(
-            "# Main (Guide)\n\nIntro\n\n## Section {#sec}\n\ntext\n")
+            "# Main (Guide)\n\nIntro\n\n## Section {#main-section}\n\ntext\n")
         self.assertEqual(title, "Main")
         self.assertEqual(headings, ["Section"])
         self.assertIn("## Section", lines)
         self.assertNotIn("# Main (Guide)", lines)
+
+    def test_heading_id_in_other_words_counts_as_heading(self):
+        # An id derived from the heading adds nothing; one in other words names the section.
+        self.assertEqual(search.heading_id_words("Request {#attributes-request}"), "")
+        self.assertEqual(search.heading_id_words("What is updated {#history-state}"), "history state")
+        self.assertEqual(search.heading_id_words("Section"), "")
+        _title, headings, lines = search.split_body("# T\n\n## What is updated {#history-state}\n")
+        self.assertEqual(headings, ["What is updated history state"])
+        self.assertIn("## What is updated", lines)
 
     def test_skips_one_line_and_multi_line_navs(self):
         _title, _headings, lines = search.split_body(
@@ -259,12 +268,16 @@ class RankingTest(CorpusTestCase):
             "references/learn/a.md", "references/learn/b.md", "references/learn/both.md"})
         self.assertEqual(self.paths("alpha", "beta")[0], "references/learn/both.md")
 
-    def test_nav_links_and_kramdown_ids_are_not_indexed(self):
-        self.write({"references/learn/a.md": page("Title", "## Heading {#secretid}\n\ntext")})
+    def test_nav_links_and_derived_kramdown_ids_are_not_indexed(self):
+        self.write({"references/learn/a.md": page("Title", "## Heading {#heading-secretid}\n\ntext")})
         self.assertEqual(self.paths("navcrumb"), [])
         self.assertEqual(self.paths("navfooter"), [])
         self.assertEqual(self.paths("secretid"), [])
         self.assertEqual(self.paths("heading"), ["references/learn/a.md"])
+
+    def test_kramdown_id_in_other_words_finds_its_page(self):
+        self.write({"references/learn/a.md": page("Title", "## What is updated {#history-state}\n\ntext")})
+        self.assertEqual(self.paths("state"), ["references/learn/a.md"])
 
     def test_no_matches(self):
         self.write({"references/learn/a.md": page("Title", "text")})

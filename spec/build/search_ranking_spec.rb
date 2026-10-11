@@ -47,6 +47,10 @@ describe 'the search ranking', type: :feature, js: true do
     expect(ranked('layer')).to include('/up-layer-new', '/up.layer.current', '/up.layer.on', '/up.layer.ask')
   end
 
+  it 'lists the layer guide among the layer features for "layer"' do
+    expect(ranked('layer').first(5)).to include('/layer-option')
+  end
+
   it 'keeps the page that discusses a term the most at the top' do
     expect(ranked('csp').first).to eq('/script-security')
     expect(ranked('offline').first).to eq('/network-issues')
