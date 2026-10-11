@@ -30,6 +30,7 @@ module Unpoly
         @path = path
         @areas = build_areas(data)
         validate!
+        assign_url_prefixes
       end
 
       attr_reader :areas, :repository, :path
@@ -81,6 +82,14 @@ module Unpoly
         order = reading_order
         index = order.index(page) or return [nil, nil]
         [(index > 0 ? order[index - 1] : nil), order[index + 1]]
+      end
+
+      # A page is served under the path of the area that lists it: /learn/caching, but
+      # /api/url-patterns.
+      def assign_url_prefixes
+        areas.each do |area|
+          area.pages.each { |page| page.url_prefix = area.path }
+        end
       end
 
       def build_areas(data)
@@ -295,8 +304,8 @@ module Unpoly
       #
       # The group starts at its first page, or at the page named by `start:`. A group
       # whose pages have no overview among them names an `index:` slug instead: the site
-      # then generates an index page for it at that path (e.g. /formats). Having no
-      # document, a generated index takes its one-sentence intro from `summary:`.
+      # then generates an index page for it below its area's path (e.g. /api/formats).
+      # Having no document, a generated index takes its one-sentence intro from `summary:`.
       class PageGroup < Topic
         KEYS = %w[type title pages start index summary].freeze
         REQUIRED_KEYS = %w[type title pages].freeze
@@ -413,6 +422,12 @@ module Unpoly
         delegate :title, :pages, to: :topic
 
         def guide_path
+          "#{topic.area.path}/#{slug}"
+        end
+
+        # The path the page had before the site moved its documents under /learn and
+        # /api. It only lives on as a redirect.
+        def legacy_guide_path
           "/#{slug}"
         end
 

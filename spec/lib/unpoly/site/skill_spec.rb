@@ -10,20 +10,20 @@ describe Unpoly::Site::Skill do
 
   describe '.filename' do
     it 'appends the kind of an API symbol and spells out $' do
-      expect(described_class.filename(twin('/up.render', documentable: 'up.render'))).to eq('up-render-function')
-      expect(described_class.filename(twin('/up.$compiler', documentable: 'up.$compiler'))).to eq('up-dollar-compiler-function')
-      expect(described_class.filename(twin('/up:link:follow', documentable: 'up:link:follow'))).to eq('up-link-follow-event')
-      expect(described_class.filename(twin('/up-follow', documentable: 'up-follow'))).to eq('up-follow-selector')
-      expect(described_class.filename(twin('/X-Up-Target', documentable: 'X-Up-Target'))).to eq('x-up-target-header')
+      expect(described_class.filename(twin('/api/up.render', documentable: 'up.render'))).to eq('up-render-function')
+      expect(described_class.filename(twin('/api/up.$compiler', documentable: 'up.$compiler'))).to eq('up-dollar-compiler-function')
+      expect(described_class.filename(twin('/api/up:link:follow', documentable: 'up:link:follow'))).to eq('up-link-follow-event')
+      expect(described_class.filename(twin('/api/up-follow', documentable: 'up-follow'))).to eq('up-follow-selector')
+      expect(described_class.filename(twin('/api/X-Up-Target', documentable: 'X-Up-Target'))).to eq('x-up-target-header')
     end
 
     it 'tells a module from the class of the same name' do
-      expect(described_class.filename(twin('/up.layer', documentable: 'up.layer'))).to eq('up-layer-module')
-      expect(described_class.filename(twin('/up.Layer', documentable: 'up.Layer'))).to eq('up-layer-class')
+      expect(described_class.filename(twin('/api/up.layer', documentable: 'up.layer'))).to eq('up-layer-module')
+      expect(described_class.filename(twin('/api/up.Layer', documentable: 'up.Layer'))).to eq('up-layer-class')
     end
 
     it 'gives pages no suffix' do
-      expect(described_class.filename(twin('/start/links', documentable: 'start/links'))).to eq('start-links')
+      expect(described_class.filename(twin('/learn/start/links', documentable: 'start/links'))).to eq('start-links')
       expect(described_class.filename(twin('/changes/3.11.0', release: '3.11.0'))).to eq('3-11-0')
       expect(described_class.filename(twin('/changes/upgrading', page: :upgrading))).to eq('upgrading')
       expect(described_class.filename(twin('/learn', page: :learn))).to eq('index')
@@ -45,9 +45,9 @@ describe Unpoly::Site::Skill do
   describe '#files' do
     subject(:skill) do
       described_class.new(twins do |list|
-        list.add('/up.render', documentable: 'up.render')
-        list.add('/start/links', documentable: 'start/links')
-        list.add('/test.module', documentable: 'test.module')
+        list.add('/api/up.render', documentable: 'up.render')
+        list.add('/learn/start/links', documentable: 'start/links')
+        list.add('/api/test.module', documentable: 'test.module')
         list.add('/learn', page: :learn)
         list.add('/support', page: :support)
         list.add('/changes', page: :changes)
@@ -58,8 +58,8 @@ describe Unpoly::Site::Skill do
 
     it 'files pages by area, and leaves out fixtures and /support' do
       expect(skill.files).to eq(
-        '/up.render' => 'references/api/up-render-function.md',
-        '/start/links' => 'references/learn/start-links.md',
+        '/api/up.render' => 'references/api/up-render-function.md',
+        '/learn/start/links' => 'references/learn/start-links.md',
         '/learn' => 'references/learn/index.md',
         '/changes' => 'references/changes/index.md',
         '/changes/3.11.0' => 'references/changes/3-11-0.md',

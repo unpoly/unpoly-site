@@ -55,13 +55,13 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
   it 'loads the menu of the page’s section after the page itself' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     wait_for_menu('/learn/menu')
   end
 
   it 'keeps the loaded menu and its scroll position while the reader stays in the section' do
-    visit '/up.render'
+    visit '/api/up.render'
     wait_for_menu('/api/menu')
     page.execute_script("document.querySelector('.guide--menu').scrollTop += 40")
     scroll_top = menu_scroll_top
@@ -69,7 +69,7 @@ describe 'the sidebar menu', type: :feature, js: true do
 
     within('.guide--menu') { click_link 'up.navigate()' }
 
-    expect(page).to have_current_path('/up.navigate')
+    expect(page).to have_current_path('/api/up.navigate')
     expect(page).to have_css('h1', text: 'up.navigate')
     expect(menu_kept?).to be(true)
     expect(menu_requests).to eq(0)
@@ -102,7 +102,7 @@ describe 'the sidebar menu', type: :feature, js: true do
 
   it 'still loads the menu when the reader moves on within the section before it has loaded' do
     holding_back_menu_requests do
-      visit '/up.render'
+      visit '/api/up.render'
       expect_menu_loading
 
       follow_link_to('/api')
@@ -114,7 +114,7 @@ describe 'the sidebar menu', type: :feature, js: true do
   it 'still loads the menu when a double click renders a page twice' do
     # Both clicks are answered by the same response, so the page renders twice. The
     # second render aborts the menu request that the first render started.
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
     wait_for_menu('/learn/menu')
 
     page.execute_script(<<~JS)
@@ -133,7 +133,7 @@ describe 'the sidebar menu', type: :feature, js: true do
     page.driver.browser.execute_cdp('Network.enable')
     page.driver.browser.execute_cdp('Network.setBlockedURLs', urls: ['*/api/menu'])
     begin
-      visit '/up.render'
+      visit '/api/up.render'
       expect(page).to have_css('.guide--menu-placeholder:not(.up-loading)', visible: :all)
       expect(menu_source).to be_nil
     ensure
@@ -146,21 +146,21 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
   it 'swaps in the other section’s menu when the reader crosses into it' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
     wait_for_menu('/learn/menu')
 
-    follow_link_to('/up.render')
+    follow_link_to('/api/up.render')
 
     wait_for_menu('/api/menu')
     expect(page).to have_css('.guide--menu .up-current', text: 'up.render()')
   end
 
   it 'follows the location in a kept menu: it marks the new page and expands only its chapter' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
     wait_for_menu('/learn/menu')
     watch_menu
 
-    follow_link_to('/following-links')
+    follow_link_to('/learn/following-links')
 
     within('.guide--menu') do
       expect(page).to have_css('.up-current', text: 'Following links')
@@ -172,20 +172,20 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
   it 'follows history in a kept menu' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
     wait_for_menu('/learn/menu')
-    follow_link_to('/following-links')
+    follow_link_to('/learn/following-links')
     expect(page).to have_css('.guide--menu .up-current', text: 'Following links')
 
     page.go_back
 
-    expect(page).to have_current_path('/targeting-fragments')
+    expect(page).to have_current_path('/learn/targeting-fragments')
     expect(page).to have_css('.guide--menu .up-current', text: 'Targeting fragments')
     expect(page).to have_css('.guide--menu .node.-expanded', text: 'Advanced rendering')
   end
 
   it 'opens a node from the keyboard, through a real button that says whether it is open' do
-    visit '/up.render'
+    visit '/api/up.render'
     wait_for_menu('/api/menu')
 
     toggle = find('.guide--menu button.node--toggle[aria-label="Expand up.form"]')
@@ -227,15 +227,15 @@ describe 'the sidebar menu', type: :feature, js: true do
     end
 
     it 'opens the node and stays on the page, even at the icon’s lower edge' do
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
       wait_for_menu('/learn/menu')
 
       expect(icon_misses('.guide--menu')).to eq([])
 
-      click_icon_corner(find('.guide--menu a.node--self[href="/links"] .node--collapser'))
+      click_icon_corner(find('.guide--menu a.node--self[href="/learn/links"] .node--collapser'))
 
       expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Expand Links"][aria-expanded="true"]')
-      expect(page).to have_current_path('/targeting-fragments')
+      expect(page).to have_current_path('/learn/targeting-fragments')
     end
 
     it 'opens a drawer row and keeps the drawer, even at the icon’s lower edge', driver: :selenium_phone do
@@ -264,7 +264,7 @@ describe 'the sidebar menu', type: :feature, js: true do
       window.addEventListener('unhandledrejection', (event) => window.specErrors.push(String(event.reason)))
     JS
     begin
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
       expect(page).to have_css('.guide--menu .menu--nodes', visible: :all)
       sleep 0.5 # the current node is revealed in a later task
 
@@ -280,7 +280,7 @@ describe 'the sidebar menu', type: :feature, js: true do
     # was cut at most window widths. They wrap now, tighter within a label than between
     # two rows, and the icon stays beside the first line.
     it 'wraps instead of being cut off, with its icon centred on the first line' do
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
       find('.guide--menu .node', text: 'Advanced rendering', match: :first)
       page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
 
@@ -320,7 +320,7 @@ describe 'the sidebar menu', type: :feature, js: true do
   # Measured at several widths, since which labels wrap where depends on the width.
   { selenium_small_desktop: 1100, selenium: 1280, selenium_above_rail: 1350 }.each do |driver, window|
   it "never leaves a closing bracket, or a bare \"up\", alone on a line of a wrapped label at #{window}px", driver: driver do
-    visit '/up.render'
+    visit '/api/up.render'
     expect(page).to have_css('.guide--menu .menu--nodes')
     page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
 
@@ -362,7 +362,7 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
   it 'separates top-level nodes with a dotted line, only between two of them' do
-    visit '/up.render'
+    visit '/api/up.render'
     expect(page).to have_css('.guide--menu .menu--nodes')
     page.execute_script("document.querySelectorAll('.guide--menu .node').forEach((node) => node.classList.add('-expanded'))")
 
@@ -389,7 +389,7 @@ describe 'the sidebar menu', type: :feature, js: true do
   end
 
   it 'keeps a group label one short line on its rule' do
-    visit '/up.render'
+    visit '/api/up.render'
     expect(page).to have_css('.guide--menu .menu--nodes')
 
     height = page.evaluate_script("[...document.querySelectorAll('.guide--menu .node.-group > .node--self')].find((label) => label.getClientRects().length).getBoundingClientRect().height")
@@ -406,7 +406,7 @@ describe 'the sidebar menu', type: :feature, js: true do
     end
 
     it 'leads every chapter of Learn, named by the overview’s menu title' do
-      visit '/links'
+      visit '/learn/links'
       expect(page).to have_css('.guide--menu .menu--nodes')
 
       Unpoly::Site.current.toc.learn.topics.each do |topic|
@@ -424,17 +424,17 @@ describe 'the sidebar menu', type: :feature, js: true do
     end
 
     it 'is the current row on the overview, also after navigating within the chapter and back' do
-      visit '/links'
+      visit '/learn/links'
       expect(page).to have_css('.guide--menu .menu--nodes')
       expect(current_rows).to eq(['Overview'])
 
-      find('.guide--menu a[href="/following-links"]').click
-      expect(page).to have_current_path('/following-links')
+      find('.guide--menu a[href="/learn/following-links"]').click
+      expect(page).to have_current_path('/learn/following-links')
       expect(page).to have_css('.guide--menu .node > .node > a.up-current', text: 'Following links')
       expect(current_rows).to eq(['Following links'])
 
       find('.guide--menu .node > .node > a.node--self', text: 'Overview').click
-      expect(page).to have_current_path('/links')
+      expect(page).to have_current_path('/learn/links')
       expect(page).to have_css('.guide--menu .node > .node > a.up-current', text: 'Overview')
       expect(current_rows).to eq(['Overview'])
     end

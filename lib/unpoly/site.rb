@@ -42,6 +42,11 @@ module Unpoly
 
     UNPOLY_PATH = 'vendor/unpoly-local'
 
+    # The two halves of the documentation, each under its own path prefix. Their hubs
+    # live at these paths, their documents below them (/learn/caching, /api/up.render).
+    LEARN_PATH = '/learn'
+    API_PATH = '/api'
+
     def self.current
       @current ||= Repository.new(UNPOLY_PATH)
     end

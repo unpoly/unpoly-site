@@ -16,13 +16,13 @@ describe Unpoly::Site::MarkdownRenderer do
     it 'links a code span that names a documented feature' do
       html = render('Use `up.render()` to update a fragment.')
 
-      expect(links_in(html)).to eq('up.render()' => '/up.render')
+      expect(links_in(html)).to eq('up.render()' => '/api/up.render')
     end
 
     it 'links a code span that names a documented selector' do
       html = render('The `[up-follow]` attribute.')
 
-      expect(links_in(html)).to eq('[up-follow]' => '/up-follow')
+      expect(links_in(html)).to eq('[up-follow]' => '/api/up-follow')
     end
 
     it 'does not link a code span that names no documented feature' do
@@ -44,7 +44,7 @@ describe Unpoly::Site::MarkdownRenderer do
     end
 
     it 'does not link to the page that is currently rendered' do
-      html = render('See `up.render()`.', current_path: '/up.render')
+      html = render('See `up.render()`.', current_path: '/api/up.render')
 
       expect(links_in(html)).to be_empty
       expect(html).to include('<code>up.render()</code>')

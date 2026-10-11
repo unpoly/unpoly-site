@@ -17,8 +17,8 @@ describe 'index', type: :feature, js: true do
 
   it 'links each event word to its event' do
     within '.landing--event-groups' do
-      expect(page).to have_link('following', href: '/up:link:follow')
-      expect(page).to have_link('going back', href: '/up:location:restore')
+      expect(page).to have_link('following', href: '/api/up:link:follow')
+      expect(page).to have_link('going back', href: '/api/up:location:restore')
     end
   end
 

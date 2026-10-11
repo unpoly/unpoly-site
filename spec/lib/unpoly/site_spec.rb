@@ -264,13 +264,13 @@ describe Unpoly::Site do
     it 'matches a selector feature' do
       location = subject.code_to_location('[up-poll]')
       expect(location).to be_present
-      expect(location[:full_path]).to eq('/up-poll')
+      expect(location[:full_path]).to eq('/api/up-poll')
     end
 
     it 'matches a pseudo-selector' do
       location = subject.code_to_location(':main')
       expect(location).to be_present
-      expect(location[:full_path]).to eq('/main')
+      expect(location[:full_path]).to eq('/api/main')
     end
 
     it 'does not match `main` (without colon) to `:main`' do
@@ -281,25 +281,25 @@ describe Unpoly::Site do
     it 'matches a function feature with parentheses' do
       location = subject.code_to_location('up.render()')
       expect(location).to be_present
-      expect(location[:full_path]).to eq('/up.render')
+      expect(location[:full_path]).to eq('/api/up.render')
     end
 
     it 'matches a function feature with parentheses and an argument' do
       location = subject.code_to_location('up.render(target)')
       expect(location).to be_present
-      expect(location[:full_path]).to eq('/up.render')
+      expect(location[:full_path]).to eq('/api/up.render')
     end
 
     it 'matches a config property' do
       location = subject.code_to_location('up.fragment.config.mainTargets')
       expect(location).to be_present
-      expect(location[:full_path]).to eq('/up.fragment.config#config.mainTargets')
+      expect(location[:full_path]).to eq('/api/up.fragment.config#config.mainTargets')
     end
 
     it 'matches a class' do
       location = subject.code_to_location('List')
       expect(location).to be_present
-      expect(location[:full_path]).to eq('/List')
+      expect(location[:full_path]).to eq('/api/List')
     end
 
   end

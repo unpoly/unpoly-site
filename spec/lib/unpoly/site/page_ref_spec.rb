@@ -11,19 +11,19 @@ describe Unpoly::Site::PageRef do
     it 'resolves a page slug to its path and title' do
       ref = parse('polling')
 
-      expect(ref.path).to eq('/polling')
+      expect(ref.path).to eq('/learn/polling')
       expect(ref.title).to eq(repository.find_by_guide_id('polling').title)
     end
 
     it 'resolves an anchor to a heading of that page' do
       ref = parse('network-issues#slow-server-responses')
 
-      expect(ref.path).to eq('/network-issues#slow-server-responses')
+      expect(ref.path).to eq('/learn/network-issues#slow-server-responses')
       expect(ref.heading.text).to eq('Slow server responses')
     end
 
     it 'resolves a feature page, so an anchor can point into a reference' do
-      expect(parse('up.render').path).to eq('/up.render')
+      expect(parse('up.render').path).to eq('/api/up.render')
     end
 
     it 'rejects an unknown slug' do

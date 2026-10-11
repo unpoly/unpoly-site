@@ -9,14 +9,14 @@ describe 'the children index', type: :feature, js: true do
 
   describe 'on a phone', driver: :selenium_phone do
     it 'lists every page of a chapter on its overview' do
-      visit '/links'
+      visit '/learn/links'
 
-      chapter = Unpoly::Site.current.toc.learn.topics.find { |topic| topic.menu_path == '/links' }
+      chapter = Unpoly::Site.current.toc.learn.topics.find { |topic| topic.menu_path == '/learn/links' }
       expect(index_links).to eq(chapter.menu_children.map(&:menu_path))
     end
 
     it 'is titled by a heading that the page contents leave out' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       expect(page).to have_css('.children-index h2[data-toc-ignore]', text: 'In this chapter')
       expect(page).to have_css('.toc')
@@ -24,19 +24,19 @@ describe 'the children index', type: :feature, js: true do
     end
 
     it 'is left out of the search index' do
-      visit '/links'
+      visit '/learn/links'
 
       expect(page).to have_css('.children-index[data-pagefind-ignore]')
     end
 
     it 'is not on a page further down a chapter' do
-      visit '/following-links'
+      visit '/learn/following-links'
 
       expect(page).to have_no_css('.children-index', visible: :all)
     end
 
     it 'is not on a module page, which lists all its features already' do
-      visit '/up.link'
+      visit '/api/up.link'
 
       expect(page).to have_no_css('.children-index', visible: :all)
       expect(page).to have_css('#features')
@@ -44,7 +44,7 @@ describe 'the children index', type: :feature, js: true do
   end
 
   it 'is hidden where the sidebar is shown' do
-    visit '/links'
+    visit '/learn/links'
 
     expect(page).to have_css('.children-index', visible: :hidden)
   end

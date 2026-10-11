@@ -115,7 +115,7 @@
 &lt;script src="app.js"&gt;&lt;/script&gt;</code></pre>
 
     <p>
-      If you're using <a href="/install#npm">Unpoly from npm</a>, import <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code:
+      If you're using <a href="<%= doc_path('install', hash: 'npm') %>">Unpoly from npm</a>, import <code>unpoly-migrate.js</code> <i>after</i> Unpoly, but <i>before</i> your own code:
     </p>
 
     <pre><code>import 'unpoly/unpoly.js'
@@ -217,7 +217,7 @@ up.log.config.format = false         // log unformatted text for easier extracti
 
     <% admonition(:important) do %>
       <p>
-        Event aliases are only used when registering listeners with <a href="/up.on"><code>up.on()</code></a>,
+        Event aliases are only used when registering listeners with <a href="<%= doc_path('up.on') %>"><code>up.on()</code></a>,
         but not with the native <code>Element#addEventListener()</code>.
       </p>
     <% end %>

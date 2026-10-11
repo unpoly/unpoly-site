@@ -6,7 +6,7 @@ describe 'the page frame', type: :feature, js: true do
 
   describe 'the global header' do
     it 'appears on a documentation page' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       expect(page).to have_css('.guide--head .top-nav')
     end
 
@@ -16,7 +16,7 @@ describe 'the page frame', type: :feature, js: true do
     end
 
     it 'links to every area of the site' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       within '.top-nav' do
         expect(page).to have_link('Learn', href: '/learn')
@@ -29,7 +29,7 @@ describe 'the page frame', type: :feature, js: true do
     end
 
     it 'stays fixed to the top of the window while the page scrolls' do
-      visit '/up.render'
+      visit '/api/up.render'
 
       page.execute_script('window.scrollTo(0, 1200)')
 
@@ -40,14 +40,14 @@ describe 'the page frame', type: :feature, js: true do
 
   describe 'the sidebar' do
     it 'stands at the left edge of the window, on the frame\'s inset, in line with the logo' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       lefts = page.evaluate_script("['.guide--left', '.guide--head .logo'].map((s) => document.querySelector(s).getBoundingClientRect().left)")
       expect(lefts).to eq([25, 25])
     end
 
     it 'leaves the documentation centred in the space beside it' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       # Whatever bounds the text on the right — the contents rail where there is
       # one, the window edge otherwise — should sit as far from the text as the
@@ -72,7 +72,7 @@ describe 'the page frame', type: :feature, js: true do
     # text. The one in the text must stay above the first section heading, so that the
     # reading order holds without CSS.
     it 'precedes the first heading in the document' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       ordered = page.evaluate_script(<<~JS)
         (function() {
@@ -87,7 +87,7 @@ describe 'the page frame', type: :feature, js: true do
     end
 
     it 'stands beside the text rather than on top of it once it becomes a rail' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       gap = page.evaluate_script(<<~JS)
         (function() {
@@ -101,7 +101,7 @@ describe 'the page frame', type: :feature, js: true do
     end
 
     it 'sets the copy in the rail a step larger than the one in the text' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       sizes = page.evaluate_script(<<~JS)
         ['.guide--right .toc', '.guide--content .toc'].map((toc) =>
@@ -123,7 +123,7 @@ describe 'the page frame', type: :feature, js: true do
       end
 
       it 'marks the section the reader is in, and only that one' do
-        visit '/up.render'
+        visit '/api/up.render'
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Choosing which fragment to update')
 
         scroll_to_heading('concurrency')
@@ -137,7 +137,7 @@ describe 'the page frame', type: :feature, js: true do
 
       # A marked item may wrap onto one more line in bold; no other item changes.
       it 'marks it in bold, and changes no other item' do
-        visit '/up.render'
+        visit '/api/up.render'
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Choosing which fragment to update')
         boxes = "[...document.querySelectorAll('.toc.-rail .toc--item')].map((item) => item.getBoundingClientRect().height)"
         weights = "[...document.querySelectorAll('.toc.-rail .toc--item a')].map((link) => getComputedStyle(link).fontWeight)"
@@ -159,7 +159,7 @@ describe 'the page frame', type: :feature, js: true do
       end
 
       it 'marks the section a link has revealed' do
-        visit '/up.render'
+        visit '/api/up.render'
 
         find('.toc.-rail a[href="#passing-the-new-fragment"]').click
 
@@ -168,15 +168,15 @@ describe 'the page frame', type: :feature, js: true do
       end
 
       it 'marks the section a deep link opens' do
-        visit '/up.render#enabling-side-effects'
+        visit '/api/up.render#enabling-side-effects'
 
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Enabling side effects')
       end
 
       it 'follows the reader onto the next page' do
-        visit '/loading-state'
+        visit '/learn/loading-state'
         expect(page).to have_css('.guide--menu .menu--nodes')
-        page.execute_script("up.navigate({ url: '/targeting-fragments' })")
+        page.execute_script("up.navigate({ url: '/learn/targeting-fragments' })")
         expect(page).to have_css('.toc.-rail .toc--item.-current', text: 'Swapping a fragment')
 
         scroll_to_heading('targeting-nothing')
@@ -186,7 +186,7 @@ describe 'the page frame', type: :feature, js: true do
     end
 
     it 'shows only one copy at a time' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       expect(page).to have_css('.guide--right .toc', visible: true)
       expect(page).to have_css('.guide--content .toc', visible: :hidden)

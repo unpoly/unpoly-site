@@ -83,7 +83,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     children = row('API')['children']
 
     expect(children.map { |child| child['href'] }).to eq(toc.api.topics.map(&:menu_path))
-    expect(children.last).to include('title' => 'Formats', 'href' => '/formats')
+    expect(children.last).to include('title' => 'Formats', 'href' => '/api/formats')
     expect(children.map { |child| child['grandchildren'] }.uniq).to eq([0])
     expect(page).to have_no_css('up-drawer .menu--caption', visible: :all)
   end
@@ -131,7 +131,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
 
       expect(row('Learn')['expanded']).to be(true)
       expect(focused.last).to eq('true')
-      expect(tab_to { |_, _, href| href && href != '/learn' }[2]).to eq('/start/overview')
+      expect(tab_to { |_, _, href| href && href != '/learn' }[2]).to eq('/learn/start/overview')
     end
 
   end
@@ -167,7 +167,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
   describe 'marking where the reader is' do
 
     it 'opens API and marks the module on a module page' do
-      open_drawer_on '/up.link'
+      open_drawer_on '/api/up.link'
 
       expect(current_in_drawer).to eq(['API', 'up.link'])
       expect(row('API')['expanded']).to be(true)
@@ -175,7 +175,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     end
 
     it 'opens Learn and marks the chapter on a page further down that chapter' do
-      open_drawer_on '/targeting-fragments'
+      open_drawer_on '/learn/targeting-fragments'
 
       expect(current_in_drawer).to eq(['Learn', 'Advanced rendering'])
       expect(row('Learn')['expanded']).to be(true)
@@ -183,14 +183,14 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     end
 
     it 'opens Learn and marks the chapter on its overview' do
-      open_drawer_on '/links'
+      open_drawer_on '/learn/links'
 
       expect(current_in_drawer).to eq(['Learn', 'Links'])
       expect(row('Learn')['expanded']).to be(true)
     end
 
     it 'opens API and marks Formats on a format page' do
-      open_drawer_on '/relaxed-json'
+      open_drawer_on '/api/relaxed-json'
 
       expect(current_in_drawer).to eq(['API', 'Formats'])
       expect(row('API')['expanded']).to be(true)

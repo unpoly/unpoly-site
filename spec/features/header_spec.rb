@@ -15,7 +15,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'has one background color, with nothing on it drawing a ground of its own' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     opaque = page.evaluate_script(<<~JS)
       (function() {
@@ -30,7 +30,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'is 53px tall and indigo' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     bar = page.evaluate_script(<<~JS)
       (function() {
@@ -49,7 +49,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'lists every section in sentence case, Support among them like any other' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     expect(header_sections).to eq(SECTIONS)
     expect(page).to have_no_css('.guide--head .-support')
@@ -58,7 +58,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'shows GitHub as its icon alone, named for assistive tech and level with the words' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     github = find('.guide--head .top-nav--section[href="https://github.com/unpoly/unpoly"]')
     expect(github.text.strip).to eq('')
@@ -76,7 +76,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'puts the brand on the left, the search in the middle and the sections on the right' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     logo = box('.guide--head .logo')
     version = box('.guide--head .version-nav')
@@ -92,20 +92,20 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'marks Learn as current on a Learn page' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
 
     expect(page).to have_css('.guide--head .top-nav--section.up-current', text: 'Learn')
     expect(page).to have_css('.guide--head .top-nav--section.up-current', count: 1)
   end
 
   it 'marks API as current on a reference page' do
-    visit '/up.render'
+    visit '/api/up.render'
 
     expect(page).to have_css('.guide--head .top-nav--section.up-current', text: 'API')
     expect(page).to have_css('.guide--head .top-nav--section.up-current', count: 1)
   end
 
-  %w[/formats /url-patterns /relaxed-json].each do |path|
+  %w[/formats /api/url-patterns /api/relaxed-json].each do |path|
     it "marks API as current on #{path}, which no symbol pattern matches" do
       visit path
 
@@ -115,7 +115,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'moves the current mark when the reader moves into another section' do
-    visit '/up.render'
+    visit '/api/up.render'
     within('.guide--head') { click_link 'Learn' }
 
     expect(page).to have_current_path('/learn')
@@ -145,7 +145,7 @@ describe 'the header', type: :feature, js: true do
   end
 
   it 'marks the version these docs belong to in the version switch' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
     find('.guide--head .version-nav').click
 
     within('up-popup') do
@@ -156,7 +156,7 @@ describe 'the header', type: :feature, js: true do
 
   describe 'just above the sidebar breakpoint', driver: :selenium_small_desktop do
     it 'shows the whole logo and every section' do
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
 
       clipped = page.evaluate_script(<<~JS)
         (function() {
@@ -174,7 +174,7 @@ describe 'the header', type: :feature, js: true do
 
   describe 'on a phone', driver: :selenium_phone do
     it 'keeps the logo, the search and the burger, and nothing else' do
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
 
       expect(page).to have_css('.guide--head .logo')
       expect(page).to have_css('.guide--head .search-pill')
@@ -184,7 +184,7 @@ describe 'the header', type: :feature, js: true do
     end
 
     it 'gives the search icon a target a finger can hit' do
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
 
       # A tap 20px beside the icon's centre, in either direction, still lands on it.
       hits = page.evaluate_script(<<~JS)

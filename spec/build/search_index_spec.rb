@@ -40,57 +40,57 @@ describe 'the built search index' do
   end
 
   it 'titles a module page with the module name and badges it API' do
-    expect(meta_of('/up.link')).to include('title' => 'up.link', 'badge' => 'API')
+    expect(meta_of('/api/up.link')).to include('title' => 'up.link', 'badge' => 'API')
   end
 
   it 'titles a class page with the class name' do
-    expect(meta_of('/up.Layer')).to include('title' => 'up.Layer', 'badge' => 'API')
+    expect(meta_of('/api/up.Layer')).to include('title' => 'up.Layer', 'badge' => 'API')
   end
 
   it 'titles a feature page with its signature and badges it with its kind' do
-    expect(meta_of('/up.render')).to include('title' => 'up.render([target], [options])', 'badge' => 'JS')
+    expect(meta_of('/api/up.render')).to include('title' => 'up.render([target], [options])', 'badge' => 'JS')
   end
 
   it 'badges a guide page Learn' do
-    expect(meta_of('/targeting-fragments')['badge']).to eq('Learn')
+    expect(meta_of('/learn/targeting-fragments')['badge']).to eq('Learn')
   end
 
   it 'marks a deprecated page, and only that' do
     deprecated = Unpoly::Site.current.features.detect { |feature| feature.guide_page? && feature.deprecated? }
 
     expect(meta_of(deprecated.guide_path)['deprecated']).to eq('true')
-    expect(meta_of('/up.render')).not_to have_key('deprecated')
+    expect(meta_of('/api/up.render')).not_to have_key('deprecated')
   end
 
   it 'puts a signature page in the tier, with its title a second time' do
-    expect(meta_of('/up-layer-new')).to include('tier' => 'signature', 'tier_title' => '[up-layer=new]')
-    expect(meta_of('/caching')).to include('tier' => 'signature', 'tier_title' => 'Caching')
+    expect(meta_of('/api/up-layer-new')).to include('tier' => 'signature', 'tier_title' => '[up-layer=new]')
+    expect(meta_of('/learn/caching')).to include('tier' => 'signature', 'tier_title' => 'Caching')
   end
 
   it 'leaves an unmarked page out of the tier' do
-    expect(meta_of('/up.layer.get').keys).not_to include('tier', 'tier_title')
+    expect(meta_of('/api/up.layer.get').keys).not_to include('tier', 'tier_title')
   end
 
   # Filters, not metadata: Pagefind searches metadata, and a hub's name must not make a
   # page match or rank (config.rb, search_meta_tags).
   it 'names the hub of a guide page, a feature and a module, and stores it as a filter' do
-    expect(fragment_of('/start/links')['filters']).to include('hub' => ['Getting started'])
-    expect(fragment_of('/following-links')['filters']).to include('hub' => ['Links'])
-    expect(fragment_of('/up.follow')['filters']).to include('hub' => ['up.link'])
-    expect(fragment_of('/up-follow')['filters']).to include('hub' => ['up.link'])
-    expect(fragment_of('/up.link')['filters']).to include('hub' => ['API'])
-    expect(meta_of('/following-links')).not_to have_key('hub')
+    expect(fragment_of('/learn/start/links')['filters']).to include('hub' => ['Getting started'])
+    expect(fragment_of('/learn/following-links')['filters']).to include('hub' => ['Links'])
+    expect(fragment_of('/api/up.follow')['filters']).to include('hub' => ['up.link'])
+    expect(fragment_of('/api/up-follow')['filters']).to include('hub' => ['up.link'])
+    expect(fragment_of('/api/up.link')['filters']).to include('hub' => ['API'])
+    expect(meta_of('/learn/following-links')).not_to have_key('hub')
   end
 
   it 'flags a chapter overview instead of naming its hub, and keeps its title as it is' do
-    expect(fragment_of('/links')['filters']).to include('overview' => ['true'])
-    expect(fragment_of('/links')['filters']).not_to have_key('hub')
-    expect(meta_of('/links')['title']).to eq('Links')
-    expect(fragment_of('/following-links')['filters']).not_to have_key('overview')
+    expect(fragment_of('/learn/links')['filters']).to include('overview' => ['true'])
+    expect(fragment_of('/learn/links')['filters']).not_to have_key('hub')
+    expect(meta_of('/learn/links')['title']).to eq('Links')
+    expect(fragment_of('/learn/following-links')['filters']).not_to have_key('overview')
   end
 
   it 'leaves the "Read more" buttons of a chapter overview out of the text' do
-    expect(fragment_of('/links')['content']).not_to include('Read more')
+    expect(fragment_of('/learn/links')['content']).not_to include('Read more')
     expect(fragments.map { |fragment| fragment['content'] }.grep(/Read more:/)).to eq([])
   end
 

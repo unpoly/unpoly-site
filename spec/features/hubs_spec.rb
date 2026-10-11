@@ -35,8 +35,8 @@ describe 'the hubs', type: :feature, js: true do
 
       start = find('.learn-start')
       expect(start).to have_css('.learn-start--caption', text: /start here/i)
-      expect(start).to have_css('a[href="/start/overview"]', text: 'Getting started')
-      expect(start).to have_css('a.chapter-pages--overview[href="/start/overview"]', text: 'How Unpoly works')
+      expect(start).to have_css('a[href="/learn/start/overview"]', text: 'Getting started')
+      expect(start).to have_css('a.chapter-pages--overview[href="/learn/start/overview"]', text: 'How Unpoly works')
       expect(page.evaluate_script("getComputedStyle(document.querySelector('.learn-start')).backgroundColor")).not_to eq('rgba(0, 0, 0, 0)')
     end
 
@@ -136,7 +136,7 @@ describe 'the hubs', type: :feature, js: true do
     # The count is of what the module page lists under Features, not of the
     # module's sidebar rows, which also hold classes (up.Layer).
     it "counts the features the module page lists under Features, beyond the ones shown" do
-      { '/up.layer' => true, '/up.form' => true, '/up.fragment' => true, '/up.util' => true }.each do |path, has_signature|
+      { '/api/up.layer' => true, '/api/up.form' => true, '/api/up.fragment' => true, '/api/up.util' => true }.each do |path, has_signature|
         visit path
         listed = page.evaluate_script(<<~JS)
           (() => {
@@ -166,14 +166,14 @@ describe 'the hubs', type: :feature, js: true do
       end
     end
 
-    it 'lists the formats by their pages, under the intro of the generated /formats page' do
+    it 'lists the formats by their pages, under the intro of the generated /api/formats page' do
       visit '/api'
 
       row = find('.api-row--name', text: 'Formats').find(:xpath, '..')
       expect(row).to have_css('.api-row--summary', text: 'Mini-languages used throughout the API.')
       expect(row.all('.api-row--feature').map(&:text)).to eq(['URL patterns', 'Relaxed JSON'])
 
-      visit '/formats'
+      visit '/api/formats'
       expect(page).to have_css('.guide--content h1 + .prose', text: 'Mini-languages used throughout the API.')
     end
 

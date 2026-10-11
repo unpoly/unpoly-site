@@ -11,31 +11,31 @@ describe Unpoly::Site::Documentable do
   describe '#guide_path' do
 
     it 'builds the path of a function from its name' do
-      expect(find_by_name!('up.render').guide_path).to eq('/up.render')
+      expect(find_by_name!('up.render').guide_path).to eq('/api/up.render')
     end
 
     it 'builds the path of a module from its name' do
-      expect(find_by_name!('up.fragment').guide_path).to eq('/up.fragment')
+      expect(find_by_name!('up.fragment').guide_path).to eq('/api/up.fragment')
     end
 
     it 'builds the path of a class from its name' do
-      expect(find_by_name!('up.Response').guide_path).to eq('/up.Response')
+      expect(find_by_name!('up.Response').guide_path).to eq('/api/up.Response')
     end
 
     it 'builds the path of a property from its name' do
-      expect(find_by_name!('up.fragment.config').guide_path).to eq('/up.fragment.config')
+      expect(find_by_name!('up.fragment.config').guide_path).to eq('/api/up.fragment.config')
     end
 
     it 'builds the path of a selector by stripping its brackets' do
-      expect(find_by_name!('[up-follow]').guide_path).to eq('/up-follow')
+      expect(find_by_name!('[up-follow]').guide_path).to eq('/api/up-follow')
     end
 
     it 'builds the path of an event from its name' do
-      expect(find_by_name!('up:form:submit').guide_path).to eq('/up:form:submit')
+      expect(find_by_name!('up:form:submit').guide_path).to eq('/api/up:form:submit')
     end
 
     it 'appends a given hash' do
-      expect(find_by_name!('up.render').guide_path(hash: 'options')).to eq('/up.render#options')
+      expect(find_by_name!('up.render').guide_path(hash: 'options')).to eq('/api/up.render#options')
     end
 
   end
@@ -43,13 +43,13 @@ describe Unpoly::Site::Documentable do
   describe '#guide_url' do
 
     it 'is the absolute URL for the guide path' do
-      expect(find_by_name!('up.render').guide_url).to eq('https://unpoly.com/up.render')
+      expect(find_by_name!('up.render').guide_url).to eq('https://unpoly.com/api/up.render')
     end
 
     it 'is on the BASE_URL a build was given' do
       allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with('BASE_URL').and_return('https://staging.example.com/')
-      expect(find_by_name!('up.render').guide_url).to eq('https://staging.example.com/up.render')
+      expect(find_by_name!('up.render').guide_url).to eq('https://staging.example.com/api/up.render')
     end
 
   end

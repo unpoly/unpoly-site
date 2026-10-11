@@ -3,8 +3,8 @@ describe Unpoly::Site::HtmlToMarkdown do
   let(:links) do
     Unpoly::Site::MarkdownLinks::Web.new(
       base_url: 'https://unpoly.com',
-      twin_paths: Set['/up.render', '/up.link', '/targeting-fragments'],
-      page_path: '/up.link'
+      twin_paths: Set['/api/up.render', '/api/up.link', '/learn/targeting-fragments'],
+      page_path: '/api/up.link'
     )
   end
 
@@ -69,7 +69,7 @@ describe Unpoly::Site::HtmlToMarkdown do
 
   describe 'links' do
     it "uses a link's aria-label as its text" do
-      expect(convert('<p><a href="/up.render" aria-label="Previous: Rendering">Previous</a></p>')).to eq("[Previous: Rendering](https://unpoly.com/up.render.md)\n")
+      expect(convert('<p><a href="/api/up.render" aria-label="Previous: Rendering">Previous</a></p>')).to eq("[Previous: Rendering](https://unpoly.com/api/up.render.md)\n")
     end
 
     it 'keeps a link without href as text' do
@@ -77,11 +77,11 @@ describe Unpoly::Site::HtmlToMarkdown do
     end
 
     it 'drops a link without text' do
-      expect(convert('<p>A<a href="/up.render"><i class="fa fa-x" aria-hidden="true"></i></a>B</p>')).to eq("AB\n")
+      expect(convert('<p>A<a href="/api/up.render"><i class="fa fa-x" aria-hidden="true"></i></a>B</p>')).to eq("AB\n")
     end
 
     it 'runs the blocks of a link that wraps blocks into its text' do
-      expect(convert('<a href="/up.render"><div>One</div><div>Two</div></a>')).to eq("[One Two](https://unpoly.com/up.render.md)\n")
+      expect(convert('<a href="/api/up.render"><div>One</div><div>Two</div></a>')).to eq("[One Two](https://unpoly.com/api/up.render.md)\n")
     end
 
     it 'renders the blocks of an unknown inline element that wraps blocks' do
@@ -129,11 +129,11 @@ describe Unpoly::Site::HtmlToMarkdown do
 
   describe 'navs' do
     it 'keeps a nav as a literal <nav> block with its links as a bullet list' do
-      html = '<nav aria-label="Guides"><a href="/targeting-fragments">Learn: Targeting</a> <a href="https://example.com">Out</a></nav>'
+      html = '<nav aria-label="Guides"><a href="/learn/targeting-fragments">Learn: Targeting</a> <a href="https://example.com">Out</a></nav>'
       expect(convert(html)).to eq(<<~MARKDOWN)
         <nav aria-label="Guides">
 
-        - [Learn: Targeting](https://unpoly.com/targeting-fragments.md)
+        - [Learn: Targeting](https://unpoly.com/learn/targeting-fragments.md)
         - [Out](https://example.com)
 
         </nav>
@@ -141,13 +141,13 @@ describe Unpoly::Site::HtmlToMarkdown do
     end
 
     it 'keeps headings in a nav and takes the label from aria-labelledby' do
-      html = '<nav aria-labelledby="t"><h2 id="t">In this chapter</h2><a href="/up.link">Linking</a></nav>'
+      html = '<nav aria-labelledby="t"><h2 id="t">In this chapter</h2><a href="/api/up.link">Linking</a></nav>'
       expect(convert(html)).to eq(<<~MARKDOWN)
         <nav aria-label="In this chapter">
 
         ## In this chapter {#t}
 
-        - [Linking](https://unpoly.com/up.link.md)
+        - [Linking](https://unpoly.com/api/up.link.md)
 
         </nav>
       MARKDOWN
@@ -246,7 +246,7 @@ describe Unpoly::Site::HtmlToMarkdown do
           <svg role="img"><title>How it works</title><desc>Three requests.</desc><text>noise</text></svg>
         </figure>
       HTML
-      expect(convert(html)).to eq("[Diagram: How it works](https://unpoly.com/up.link#fragment-updates-diagram)\n\nThree requests.\n")
+      expect(convert(html)).to eq("[Diagram: How it works](https://unpoly.com/api/up.link#fragment-updates-diagram)\n\nThree requests.\n")
     end
 
     it 'fails on a diagram without a name or without an id' do

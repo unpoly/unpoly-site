@@ -10,7 +10,7 @@ describe 'navigation', type: :feature, js: true do
   end
 
   it 'follows a link from the menu without a full page load' do
-    visit '/up.fragment'
+    visit '/api/up.fragment'
     # The menu is loaded lazily, replacing a placeholder.
     expect(page).to have_css('.menu--nodes')
     mark_document
@@ -20,29 +20,29 @@ describe 'navigation', type: :feature, js: true do
     end
 
     expect(page).to have_css('h1', text: 'up.render([target], [options])')
-    expect(page).to have_current_path('/up.render')
+    expect(page).to have_current_path('/api/up.render')
     expect(document_marked?).to be(true)
   end
 
   it 'follows a code reference from the prose to the page of that feature' do
-    visit '/up.render'
+    visit '/api/up.render'
 
     within '.feature--prose' do
-      first('a[href="/up.navigate"]').click
+      first('a[href="/api/up.navigate"]').click
     end
 
     expect(page).to have_css('h1', text: 'up.navigate')
-    expect(page).to have_current_path('/up.navigate')
+    expect(page).to have_current_path('/api/up.navigate')
   end
 
   it 'highlights the current page in the menu' do
-    visit '/up.render'
+    visit '/api/up.render'
 
     expect(page).to have_css('.menu .up-current', text: 'up.render()')
   end
 
   it 'expands the current module one level, as an accordion' do
-    visit '/up.fragment'
+    visit '/api/up.fragment'
 
     within '.menu' do
       # The current node expands one level: its feature groups are visible ...
@@ -81,7 +81,7 @@ describe 'navigation', type: :feature, js: true do
     end
 
     it 'focuses the text column when a sidebar link is followed' do
-      visit '/up.render'
+      visit '/api/up.render'
       within('.guide--menu') { click_link 'up.navigate()' }
       expect(page).to have_css('h1', text: 'up.navigate')
 

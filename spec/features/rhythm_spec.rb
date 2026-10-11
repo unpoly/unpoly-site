@@ -11,7 +11,7 @@ describe 'vertical rhythm', type: :feature, js: true do
 
   # The title sits farther from the header than from the text below it, so it belongs
   # to the text it heads.
-  %w[/learn /targeting-fragments /up.render /support].each do |path|
+  %w[/learn /learn/targeting-fragments /api/up.render /support].each do |path|
     it "leaves 40px between the header and the title on #{path}, more than below the title" do
       visit path
       expect(page).to have_css('.guide--content h1')
@@ -25,7 +25,7 @@ describe 'vertical rhythm', type: :feature, js: true do
   end
 
   it 'starts the sidebar, the title and the rail on one line' do
-    visit '/targeting-fragments'
+    visit '/learn/targeting-fragments'
     expect(page).to have_css('.guide--menu .menu--nodes')
 
     tops = page.evaluate_script(<<~JS)
@@ -62,7 +62,7 @@ describe 'vertical rhythm', type: :feature, js: true do
   describe 'the footer' do
 
     it 'ends the landing and a documentation page with the same centered line' do
-      ['/', '/targeting-fragments'].each do |path|
+      ['/', '/learn/targeting-fragments'].each do |path|
         visit path
         footer = find('.guide--footer')
 
@@ -89,7 +89,7 @@ describe 'vertical rhythm', type: :feature, js: true do
     end
 
     it 'leaves 32px below its line, half the space it once had' do
-      visit '/targeting-fragments'
+      visit '/learn/targeting-fragments'
 
       expect(page.evaluate_script("getComputedStyle(document.querySelector('.guide--footer')).paddingBottom")).to eq('32px')
     end

@@ -21,7 +21,7 @@ module Unpoly
           feature = repository.find_by_name!('test.module.functionWithLearnRefs')
           learn_ref = feature.learn_refs.first
 
-          expect(learn_ref.path).to eq('/test.page')
+          expect(learn_ref.path).to eq('/learn/test.page')
           expect(learn_ref.label).to eq('Test Page')
         end
 
@@ -29,7 +29,7 @@ module Unpoly
           feature = repository.find_by_name!('test.module.functionWithLearnRefs')
           learn_ref = feature.learn_refs.last
 
-          expect(learn_ref.path).to eq('/test.page#fixture-section')
+          expect(learn_ref.path).to eq('/learn/test.page#fixture-section')
           expect(learn_ref.label).to eq('Test Page')
         end
 

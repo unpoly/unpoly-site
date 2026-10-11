@@ -1,9 +1,9 @@
 ---
 name: "test.module.function"
 area: "API"
-url: "http://unpoly.test/test.module.function"
+url: "http://unpoly.test/api/test.module.function"
 ---
-<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/test.module.md)</nav>
+<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/api/test.module.md)</nav>
 
 # test.module.function(target, [options]) (JavaScript function)
 

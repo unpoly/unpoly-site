@@ -89,7 +89,7 @@ describe 'search', type: :feature, js: true do
   describe 'the dialog' do
 
     it 'opens from the header’s search as a modal overlay' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
 
       open_search
@@ -99,7 +99,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'opens with the / key, which the trigger advertises' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
 
       press_slash
@@ -108,7 +108,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'leaves / alone while the reader is typing in a field' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
 
       # Firefox's quick-find lives on this key and so does every text field, so the
@@ -125,7 +125,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'closes with one Escape, even from the field, and gives focus back to what opened it' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
       open_search
 
@@ -136,7 +136,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'closes when the backdrop is clicked' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
       open_search
 
@@ -147,7 +147,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'keeps the sidebar, the column and the contents rail in place when it hides the page’s scrollbar', driver: :selenium_scrollbars do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       expect(page.evaluate_script('window.innerWidth - document.documentElement.clientWidth')).to be > 0
       stub_pagefind
       frame = "['.guide--left', '.guide--content', '.guide--right .toc'].map((s) => { let r = document.querySelector(s).getBoundingClientRect(); return [r.left, r.width] }).flat()"
@@ -168,8 +168,8 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'brings the last query back when reopened, selected, and runs it again' do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn')])
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn')])
       search_for('overlays')
       expect(page).to have_css('.search-dialog--hit')
       searches = page.evaluate_script('window.pagefindSearches')
@@ -189,23 +189,23 @@ describe 'search', type: :feature, js: true do
   describe 'the list' do
 
     it 'lists the pages in the order they come in, once each, with the sections that matched' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow/', title: '[up-follow]', badge: 'HTML',
+        fulltext_page(url: '/api/up-follow/', title: '[up-follow]', badge: 'HTML',
           sections: [{ anchor: 'example', title: 'Example', excerpt: 'Follows a <mark>link</mark>.' }]),
-        fulltext_page(url: '/overlays/', title: 'Overlays', badge: 'Learn'),
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/learn/overlays/', title: 'Overlays', badge: 'Learn'),
+        fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML'),
       ])
       search_for('follow')
       expect(page).to have_css('.search-dialog--hit', text: 'Overlays')
 
-      expect(rows.map { |row| row['href'] }).to eq(['/up-follow', '/overlays'])
+      expect(rows.map { |row| row['href'] }).to eq(['/api/up-follow', '/learn/overlays'])
       expect(rows.first).to include('title' => '[up-follow]', 'badge' => 'HTML')
       expect(page).to have_css('.search-dialog--hit.-section', text: 'Example')
     end
 
     it 'shows twelve pages at most' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind((1..15).map { |n| fulltext_page(url: "/other-#{n}", title: "Other #{n}", badge: 'Learn') })
       search_for('other')
       expect(page).to have_css('.search-dialog--hit', text: 'Other 1')
@@ -214,10 +214,10 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'swaps to new results only once the full text has answered' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind({
-        'follow' => [fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML')],
-        'render' => [fulltext_page(url: '/up.render', title: 'up.render([target], [options])', badge: 'JS')],
+        'follow' => [fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML')],
+        'render' => [fulltext_page(url: '/api/up.render', title: 'up.render([target], [options])', badge: 'JS')],
       })
       search_for('follow')
       expect(page).to have_css('.search-dialog--hit', text: '[up-follow]')
@@ -236,8 +236,8 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'says that search is unavailable when the full text does not answer in time' do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/caching', title: 'Caching', badge: 'Learn')], held: true)
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/learn/caching', title: 'Caching', badge: 'Learn')], held: true)
       shorten_pagefind_timeout
       search_for('caching')
 
@@ -246,8 +246,8 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'replaces that message when the full text answers late' do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/caching', title: 'Caching', badge: 'Learn')], held: true)
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/learn/caching', title: 'Caching', badge: 'Learn')], held: true)
       shorten_pagefind_timeout
       search_for('caching')
       expect(page).to have_css('.search-dialog--empty', text: 'Search is unavailable right now.')
@@ -259,7 +259,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'says that search is unavailable when the full text fails' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       page.execute_script("window.pagefind = { options: async () => {}, search: async () => { throw new Error('broken index') } }")
       search_for('caching')
 
@@ -268,15 +268,15 @@ describe 'search', type: :feature, js: true do
 
     it 'strikes a page that is deprecated and moves it below the others' do
       deprecated = Unpoly::Site.current.features.detect { |f| f.guide_page? && f.deprecated? && !f.guide_path.include?('#') }
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
         fulltext_page(url: "#{deprecated.guide_path}/", title: deprecated.signature, badge: deprecated.short_kind, deprecated: true),
-        fulltext_page(url: '/caching', title: 'Caching', badge: 'Learn'),
+        fulltext_page(url: '/learn/caching', title: 'Caching', badge: 'Learn'),
       ])
       search_for('qqzzxq')
       expect(page).to have_css('.search-dialog--hit', text: 'Caching')
 
-      expect(rows.map { |row| row['href'] }).to eq(['/caching', deprecated.guide_path])
+      expect(rows.map { |row| row['href'] }).to eq(['/learn/caching', deprecated.guide_path])
       expect(find(".search-dialog--hit[href='#{deprecated.guide_path}']")[:class]).to include('-deprecated')
     end
 
@@ -285,28 +285,28 @@ describe 'search', type: :feature, js: true do
   describe 'rows' do
 
     it 'marks what was typed in the title' do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/up.follow', title: 'up.follow(link, [options])', badge: 'JS')])
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/api/up.follow', title: 'up.follow(link, [options])', badge: 'JS')])
       search_for('up.follow')
 
-      hit = find('.search-dialog--hit[href="/up.follow"]')
+      hit = find('.search-dialog--hit[href="/api/up.follow"]')
       expect(hit.find('.search-dialog--title')).to have_text('up.follow(link, [options])')
       expect(hit).to have_css('.search-dialog--title mark', text: 'up.follow')
     end
 
     it 'badges a row with the kind the index stores' do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/up:link:follow', title: 'up:link:follow', badge: 'EVENT')])
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/api/up:link:follow', title: 'up:link:follow', badge: 'EVENT')])
       search_for('up:link:follow')
 
       expect(find('.search-dialog--hit', match: :first)).to have_css('.search-dialog--badge', text: 'EVENT')
     end
 
     it 'sets every badge in a gutter of its own, so all titles start at one edge' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
-        fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
+        fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
       expect(page).to have_css('.search-dialog--hit', text: 'Overlays')
@@ -318,10 +318,10 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'tells API and Learn hits apart by color, and separates hits by a hairline and a gap' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
-        fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
+        fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
       expect(page).to have_css('.search-dialog--hit.-learn', text: 'Overlays')
@@ -352,11 +352,11 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'names the hub a page belongs to beneath its title, and an overview by its title only' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/start/links', title: 'Link to a fragment', badge: 'Learn', hub: 'Getting started'),
-        fulltext_page(url: '/links', title: 'Links', badge: 'Learn', overview: true),
-        fulltext_page(url: '/up.follow', title: 'up.follow(link, [options])', badge: 'JS', hub: 'up.link'),
+        fulltext_page(url: '/learn/start/links', title: 'Link to a fragment', badge: 'Learn', hub: 'Getting started'),
+        fulltext_page(url: '/learn/links', title: 'Links', badge: 'Learn', overview: true),
+        fulltext_page(url: '/api/up.follow', title: 'up.follow(link, [options])', badge: 'JS', hub: 'up.link'),
       ])
       search_for('link to')
       expect(page).to have_css('.search-dialog--hit', text: 'up.follow')
@@ -369,8 +369,8 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'sets the hub small and gray beneath the title, also on a phone', driver: :selenium_phone do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/following-links', title: 'Following links', badge: 'Learn', hub: 'Links', excerpt: 'How to follow a <mark>link</mark>')])
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/learn/following-links', title: 'Following links', badge: 'Learn', hub: 'Links', excerpt: 'How to follow a <mark>link</mark>')])
       page.execute_script('openSearch()')
       fill_in_search('follow')
       expect(page).to have_css('.search-dialog--hub', text: 'Links')
@@ -404,8 +404,8 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'gives a Learn title a little weight next to the code rows' do
-      visit '/loading-state'
-      stub_pagefind([fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn')])
+      visit '/learn/loading-state'
+      stub_pagefind([fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn')])
       search_for('overlays')
 
       expect(page).to have_css('.search-dialog--hit.-learn .search-dialog--title', text: 'Overlays')
@@ -418,7 +418,7 @@ describe 'search', type: :feature, js: true do
   describe 'for screen readers' do
 
     it 'is a modal dialog the framework traps focus in, with the field focused' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
       open_search
 
@@ -431,11 +431,11 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'points the field at the selected option and keeps everything but options out of the listbox' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML',
+        fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML',
           sections: [{ anchor: 'example', title: 'Example', excerpt: 'Follows a link.' }]),
-        fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
+        fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
       expect(page).to have_css('.search-dialog--hit.-selected')
@@ -451,8 +451,8 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'announces how many results a search found, and when it found none' do
-      visit '/loading-state'
-      stub_pagefind({ 'overlays' => [fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn')] })
+      visit '/learn/loading-state'
+      stub_pagefind({ 'overlays' => [fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn')] })
       search_for('overlays')
 
       expect(page).to have_css('.search-dialog--status[role="status"][aria-live="polite"]', text: "1 result for 'overlays'", visible: :all)
@@ -468,7 +468,7 @@ describe 'search', type: :feature, js: true do
   describe 'the trigger' do
 
     it 'says that it opens a dialog, and that / opens it too' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       pill = find('.search-pill', visible: :all)
       expect(pill['aria-haspopup']).to eq('dialog')
@@ -482,19 +482,19 @@ describe 'search', type: :feature, js: true do
   describe 'keyboard navigation' do
 
     it 'moves the selection with the arrow keys and opens it with Enter, closing the dialog' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
-        fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
+        fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/learn/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
-      expect(page).to have_css('.search-dialog--hit.-selected[href="/up-follow"]')
+      expect(page).to have_css('.search-dialog--hit.-selected[href="/api/up-follow"]')
 
       page.send_keys(:down)
-      expect(page).to have_css('.search-dialog--hit.-selected[href="/overlays"]')
+      expect(page).to have_css('.search-dialog--hit.-selected[href="/learn/overlays"]')
       page.send_keys(:enter)
 
-      expect(page).to have_current_path('/overlays')
+      expect(page).to have_current_path('/learn/overlays')
       expect(page).to have_no_css('up-modal.search-dialog')
     end
 
@@ -503,7 +503,7 @@ describe 'search', type: :feature, js: true do
   describe 'empty state' do
 
     it 'says which query found nothing' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
       search_for('zzzznothingmatchesthis')
 
@@ -511,12 +511,12 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'points to the agent skill until the reader types' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
       open_search
 
       expect(page).to have_css('.search-dialog--tip', text: /\Atip your coding agent can search these docs locally with the Unpoly agent skill\z/i)
-      expect(page).to have_css('.search-dialog--tip a[href="/skill"][up-layer="root"]')
+      expect(page).to have_css('.search-dialog--tip a[href="/learn/skill"][up-layer="root"]')
       expect(page).to have_no_css('[role=listbox] .search-dialog--tip')
 
       fill_in_search('u')
@@ -526,7 +526,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'shows nothing at all before the query is long enough' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
       search_for('u')
 
@@ -539,7 +539,7 @@ describe 'search', type: :feature, js: true do
   describe 'on a phone', driver: :selenium_phone do
 
     it 'keeps the trigger in the header' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
       stub_pagefind
 
       open_search
@@ -549,7 +549,7 @@ describe 'search', type: :feature, js: true do
 
     it 'opens over the drawer, and a picked hit closes both' do
       visit '/'
-      stub_pagefind([fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML')])
+      stub_pagefind([fulltext_page(url: '/api/up-follow', title: '[up-follow]', badge: 'HTML')])
       find('.guide--head a[href="/menu/narrow"]').click
       expect(page).to have_css('up-drawer .menu--nodes')
 
@@ -572,7 +572,7 @@ describe 'search', type: :feature, js: true do
 
       find('.search-dialog--hit', match: :first).click
 
-      expect(page).to have_current_path('/up-follow')
+      expect(page).to have_current_path('/api/up-follow')
       expect(page.evaluate_script('up.layer.count')).to eq(1)
     end
 
@@ -583,7 +583,7 @@ describe 'search', type: :feature, js: true do
   describe 'without JavaScript', js: false do
 
     it 'leaves the trigger a working link to the reference' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       pill = find('.search-pill', visible: :all)
 

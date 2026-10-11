@@ -10,8 +10,7 @@ module Unpoly
     #   references/learn/*.md      the guides, the /learn hub as index.md
     #   references/changes/*.md    the release notes of every version, upgrading, the hub
     #
-    # The folders mirror the URL shape the site is moving to (/api/…, /learn/…), so the
-    # skill stays put when the site's URLs move.
+    # The folders mirror the URL shape of the site (/api/…, /learn/…).
     class Skill
       class Invalid < Error; end
 
@@ -36,7 +35,8 @@ module Unpoly
       def self.filename(twin)
         return 'index' if %i[learn api changes].include?(twin.subject[:page])
 
-        base = twin.path.delete_prefix('/').delete_prefix('changes/').downcase
+        # The folder already names the area, so the file name leaves out its path prefix.
+        base = twin.path.delete_prefix('/').sub(%r{\A(learn|api|changes)/}, '').downcase
         base = base.gsub('$', 'dollar-').gsub(/[^a-z0-9]+/, '-').gsub(/\A-+|-+\z/, '')
         [base, twin.kind].compact.join('-')
       end

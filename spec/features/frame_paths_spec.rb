@@ -12,8 +12,8 @@ describe 'the frame on every way into a page', type: :feature, js: true do
   # One representative URL per page family.
   FRAME_FAMILIES = {
     landing: '/',
-    learn: '/targeting-fragments',
-    api: '/up.render',
+    learn: '/learn/targeting-fragments',
+    api: '/api/up.render',
     hub: '/api',
     article: '/support',
   }.freeze
@@ -140,9 +140,9 @@ describe 'the frame on every way into a page', type: :feature, js: true do
 
     {
       '/learn' => '/learn/menu',
-      '/up.link' => '/api/menu',
+      '/api/up.link' => '/api/menu',
       '/changes' => '/changes/menu',
-      '/install' => '/learn/menu',
+      '/learn/install' => '/learn/menu',
     }.each do |path, menu|
       it "renders #{path} with the #{menu} sidebar" do
         frame = reference_frame(path)
@@ -167,7 +167,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
     it 'sets text in one column, at the same place on every page with a sidebar' do
       # Pages with and without a contents rail, a hub and a reference page: the text
       # never moves or changes its width between them.
-      columns = ['/learn', '/api', '/targeting-fragments', '/up.render', '/up.link', '/changes', '/install'].map do |path|
+      columns = ['/learn', '/api', '/learn/targeting-fragments', '/api/up.render', '/api/up.link', '/changes', '/learn/install'].map do |path|
         [path, reference_frame(path)['column']]
       end
 
@@ -245,7 +245,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       selenium_huge:          [2400, 355,    355, 880,    0],
     }.each do |driver, (window, sidebar, rail, column, off_centre)|
       it "gives a #{window}px window a #{column}px column, a #{sidebar || 'hidden'} sidebar and a #{rail || 'hidden'} rail", driver: driver do
-        docs = flanks_at('/loading-state')
+        docs = flanks_at('/learn/loading-state')
 
         expect(docs['sidebar']).to sidebar ? be_within(0.5).of(sidebar) : be_nil
         if sidebar
@@ -355,50 +355,50 @@ describe 'the frame on every way into a page', type: :feature, js: true do
     end
 
     it 'renders the API frame when picked on the landing' do
-      prepare_references('/up.render')
+      prepare_references('/api/up.render')
       visit '/'
-      stub_pagefind([{ url: '/up.render', meta: { title: 'up.render([target], [options])', badge: 'JS' }, sub_results: [] }])
+      stub_pagefind([{ url: '/api/up.render', meta: { title: 'up.render([target], [options])', badge: 'JS' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('up.render', '.search-dialog--hit[href$="/up.render"]')
+      open_search_and_pick('up.render', '.search-dialog--hit[href$="/api/up.render"]')
 
-      expect_frame_of('/up.render')
+      expect_frame_of('/api/up.render')
       expect_fragment_update
     end
 
     it 'renders the Learn frame when a Learn page is picked on the landing' do
-      prepare_references('/targeting-fragments')
+      prepare_references('/learn/targeting-fragments')
       visit '/'
-      stub_pagefind([{ url: '/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
+      stub_pagefind([{ url: '/learn/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('targeting', '.search-dialog--hit.-page[href$="/targeting-fragments"]')
+      open_search_and_pick('targeting', '.search-dialog--hit.-page[href$="/learn/targeting-fragments"]')
 
-      expect_frame_of('/targeting-fragments')
+      expect_frame_of('/learn/targeting-fragments')
       expect_fragment_update
     end
 
     it 'renders the Learn frame when picked on an article page' do
-      prepare_references('/targeting-fragments')
+      prepare_references('/learn/targeting-fragments')
       visit '/support'
-      stub_pagefind([{ url: '/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
+      stub_pagefind([{ url: '/learn/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('targeting', '.search-dialog--hit[href$="/targeting-fragments"]')
+      open_search_and_pick('targeting', '.search-dialog--hit[href$="/learn/targeting-fragments"]')
 
-      expect_frame_of('/targeting-fragments')
+      expect_frame_of('/learn/targeting-fragments')
       expect_fragment_update
     end
 
     it 'renders the Learn frame when picked on an API page' do
-      prepare_references('/targeting-fragments')
-      visit '/up.render'
-      stub_pagefind([{ url: '/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
+      prepare_references('/learn/targeting-fragments')
+      visit '/api/up.render'
+      stub_pagefind([{ url: '/learn/targeting-fragments', meta: { title: 'Targeting fragments', badge: 'Learn' }, sub_results: [] }])
       mark_document
 
-      open_search_and_pick('targeting', '.search-dialog--hit[href$="/targeting-fragments"]')
+      open_search_and_pick('targeting', '.search-dialog--hit[href$="/learn/targeting-fragments"]')
 
-      expect_frame_of('/targeting-fragments')
+      expect_frame_of('/learn/targeting-fragments')
       expect_fragment_update
     end
 
@@ -407,25 +407,25 @@ describe 'the frame on every way into a page', type: :feature, js: true do
   describe 'history' do
 
     it 'restores the frame of every page after mixed navigation' do
-      prepare_references('/', '/learn', '/up.render', '/support')
+      prepare_references('/', '/learn', '/api/up.render', '/support')
       visit '/'
       mark_document
 
       click_header_link('Learn')
       expect_frame_of('/learn')
-      follow_link_to('/up.render')
-      expect_frame_of('/up.render')
+      follow_link_to('/api/up.render')
+      expect_frame_of('/api/up.render')
       click_header_link('Support')
       expect_frame_of('/support')
       click_logo
       expect_frame_of('/')
 
-      %w[/support /up.render /learn /].each do |path|
+      %w[/support /api/up.render /learn /].each do |path|
         page.go_back
         expect_frame_of(path)
       end
 
-      %w[/learn /up.render /support /].each do |path|
+      %w[/learn /api/up.render /support /].each do |path|
         page.go_forward
         expect_frame_of(path)
       end
@@ -444,19 +444,19 @@ describe 'the frame on every way into a page', type: :feature, js: true do
     end
 
     it 'gives a documentation page the same frame as a direct load when entered from the landing' do
-      prepare_references('/targeting-fragments')
+      prepare_references('/learn/targeting-fragments')
       visit '/'
       mark_document
 
-      follow_link_to('/targeting-fragments')
+      follow_link_to('/learn/targeting-fragments')
 
-      expect_frame_of('/targeting-fragments')
+      expect_frame_of('/learn/targeting-fragments')
       expect_fragment_update
     end
 
     it 'renders the landing full width when the logo is clicked on an API page' do
       prepare_references('/')
-      visit '/up.render'
+      visit '/api/up.render'
       mark_document
 
       click_logo
@@ -478,7 +478,7 @@ describe 'the frame on every way into a page', type: :feature, js: true do
     end
 
     it 'renders the API frame when the drawer leads from an article page to a module' do
-      prepare_references('/up.link')
+      prepare_references('/api/up.link')
       visit '/support'
       mark_document
 
@@ -486,10 +486,10 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       within('up-drawer') do
         # Modules sit one level down, behind the API row's collapser.
         find('.menu--nodes > .node > button.node--toggle[aria-label="Expand API"]').click
-        find('a[href="/up.link"]', match: :first).click
+        find('a[href="/api/up.link"]', match: :first).click
       end
 
-      expect_frame_of('/up.link')
+      expect_frame_of('/api/up.link')
       expect_fragment_update
     end
 

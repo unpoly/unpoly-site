@@ -1,6 +1,6 @@
 ---
 area: "API"
-url: "http://unpoly.test/test.markdown"
+url: "http://unpoly.test/learn/test.markdown"
 ---
 <nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API reference](http://unpoly.test/api.md)</nav>
 
@@ -8,7 +8,7 @@ url: "http://unpoly.test/test.markdown"
 
 A page with one of everything the Markdown twins convert. Its twin is pinned by a golden file in `spec/fixtures/markdown/` (see markdown_twins_spec.rb).
 
-It links to [`up.render()`](http://unpoly.test/up.render.md), to [an anchor](http://unpoly.test/up.render.md#options.target), to [a section on this page](#code-blocks) and to [a page without a twin](http://unpoly.test/imprint). Code spans like [`test.module.function()`](http://unpoly.test/test.module.function.md) link themselves.
+It links to [`up.render()`](http://unpoly.test/api/up.render.md), to [an anchor](http://unpoly.test/api/up.render.md#options.target), to [a section on this page](#code-blocks) and to [a page without a twin](http://unpoly.test/imprint). Code spans like [`test.module.function()`](http://unpoly.test/api/test.module.function.md) link themselves.
 
 <nav aria-label="Contents">
 
@@ -45,7 +45,7 @@ let result = up.render('.foo') // result: up.RenderJob
 
 | Attribute | Effect |
 | --- | --- |
-| [`[up-follow]`](http://unpoly.test/up-follow.md) | Follows a link |
+| [`[up-follow]`](http://unpoly.test/api/up-follow.md) | Follows a link |
 | `[up-target]` | Targets a fragment |
 
 ## Admonitions and media {#media}
@@ -58,7 +58,7 @@ let result = up.render('.foo') // result: up.RenderJob
 
 [Video: A video of nothing in particular](http://unpoly.test/images/api/test-video.webm)
 
-[Diagram: How Unpoly uses a server response](http://unpoly.test/test.markdown#fragment-updates-diagram)
+[Diagram: How Unpoly uses a server response](http://unpoly.test/learn/test.markdown#fragment-updates-diagram)
 
 Three requests, each shown across four columns. The server always responds with a complete page. Unpoly uses only the fragments that changed, leaving the rest of the screen in place. A server may optionally respond with those fragments alone.
 
