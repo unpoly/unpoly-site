@@ -21,11 +21,11 @@ module Unpoly
         'XMLHttpRequest' => 'https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest',
         'NodeList' => 'https://developer.mozilla.org/en-US/docs/Web/API/NodeList',
         'HTMLCollection' => 'https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection',
-        'Element' => 'https://developer.mozilla.org/de/docs/Web/API/Element',
-        'Node' => 'https://developer.mozilla.org/de/docs/Web/API/Node',
-        'Text' => 'https://developer.mozilla.org/de/docs/Web/API/Text',
-        'Comment' => 'https://developer.mozilla.org/de/docs/Web/API/Comment',
-        'CDATASection' => 'https://developer.mozilla.org/de/docs/Web/API/CDATASection',
+        'Element' => 'https://developer.mozilla.org/en-US/docs/Web/API/Element',
+        'Node' => 'https://developer.mozilla.org/en-US/docs/Web/API/Node',
+        'Text' => 'https://developer.mozilla.org/en-US/docs/Web/API/Text',
+        'Comment' => 'https://developer.mozilla.org/en-US/docs/Web/API/Comment',
+        'CDATASection' => 'https://developer.mozilla.org/en-US/docs/Web/API/CDATASection',
         'jQuery' => 'https://learn.jquery.com/using-jquery-core/jquery-object/',
       }.freeze
 
