@@ -48,7 +48,7 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'lists the layer guide among the layer features for "layer"' do
-    expect(ranked('layer').first(5)).to include('/layer-option')
+    expect(ranked('layer').first(5)).to include('/learn/layer-option')
   end
 
   it 'keeps the page that discusses a term the most at the top' do

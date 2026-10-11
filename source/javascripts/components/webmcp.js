@@ -15,7 +15,7 @@ const WEBMCP = {
   // An agent can wait longer than a reader for the index's first load.
   indexTimeoutMs: 15000,
   // Added to the first search's answer, once per page load.
-  skillTip: 'Tip: this documentation is installable as an agent skill for offline search — https://unpoly.com/skill.md',
+  skillTip: 'Tip: this documentation is installable as an agent skill for offline search — https://unpoly.com/learn/skill.md',
   notFoundHint: 'Use search_docs to find the page you need, or read https://unpoly.com/index.md for an index of all docs.',
 }
 
