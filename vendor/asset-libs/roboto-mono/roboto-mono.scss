@@ -1,25 +1,15 @@
-/* Roboto Mono v31 latin, vendored with google-webfonts-helper (gwfh.mranftl.com).
- * woff2 only: every browser in our support window reads it.
+/* Roboto Mono v31 latin, from Google Fonts (through its css2 API).
+ * woff2 only: every browser in our support window reads it, and variable fonts too.
  *
- * Two static cuts instead of the variable file (weight axis 100-700): the site sets
- * only 400 and 700, and the two together take 25,376 bytes where the variable file
- * takes 32,796. The browser only fetches the bold cut on pages that use it, like code
- * in bold prose or in headings. */
+ * ONE variable file (weight axis 100-700) serves every weight, so the site can use
+ * new weights without vendoring more cuts. It takes 32,796 bytes, where the two
+ * static cuts we use today (400, 700) would take 25,376. */
 
-/* roboto-mono-regular - latin */
+/* roboto-mono - latin, all weights */
 @font-face {
   font-family: 'Roboto Mono';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 700;
   font-display: swap;
-  src: asset-url('roboto-mono/roboto-mono-v31-latin-regular.woff2') format('woff2');
-}
-
-/* roboto-mono-700 - latin */
-@font-face {
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: asset-url('roboto-mono/roboto-mono-v31-latin-700.woff2') format('woff2');
+  src: asset-url('roboto-mono/roboto-mono-v31-latin-variable.woff2') format('woff2');
 }
