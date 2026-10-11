@@ -5,7 +5,7 @@ describe 'a loose Learn page', type: :feature, js: true do
 
   before { make_page_loose }
 
-  let(:path) { "/#{LoosePage::SLUG}" }
+  let(:path) { "/learn/#{LoosePage::SLUG}" }
 
   it 'renders in the docs frame with the Learn menu and no current node' do
     visit path
