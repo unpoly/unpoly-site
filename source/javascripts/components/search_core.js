@@ -99,7 +99,7 @@ const SEARCH = {
   pagefindUrl: '/pagefind/pagefind.js',
 }
 
-// One spelling per page: Pagefind links to "/up.follow/", the site to "/up.follow".
+// One spelling per page: Pagefind links to "/api/up.follow/", the site to "/api/up.follow".
 function normalizePath(url) {
   const [path, hash] = url.split('#')
   const clean = path.replace(/\/index\.html$/, '').replace(/\.html$/, '').replace(/(.)\/$/, '$1')
@@ -160,7 +160,7 @@ function rankPages(results, pages) {
   return scored.sort((a, b) => b.score - a.score).map(({ page }) => page)
 }
 
-// Pagefind can list a page twice, under "/up.follow/" and "/up.follow". The first one
+// Pagefind can list a page twice, under "/api/up.follow/" and "/api/up.follow". The first one
 // stays.
 function uniquePages(pages) {
   const seen = new Set()

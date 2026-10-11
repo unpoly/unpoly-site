@@ -26,7 +26,7 @@ module Unpoly
       end
 
       # The reference files of the skill, by the path of their page:
-      # { "/up.render" => "references/api/up-render-function.md", ... }
+      # { "/api/up.render" => "references/api/up-render-function.md", ... }
       attr_reader :files
 
       # A file name that survives every file system and shell: lowercase, [a-z0-9-] only,
