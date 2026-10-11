@@ -7,7 +7,7 @@ $LOAD_PATH.unshift(File.expand_path('../lib', __FILE__))
 require 'ext/uri/silence_escape_warning'
 require 'ext/rack/support_colons_in_path'
 # require 'unpoly/tasks'
-require 'unpoly/guide'
+require 'unpoly/site'
 require 'unpoly/example'
 require 'fileutils'
 
@@ -52,17 +52,17 @@ configure :build do
   after_build do
     unless ENV['SKIP_SEARCH_INDEX']
       puts "Indexing the site for search. Disable with SKIP_SEARCH_INDEX=1."
-      puts Unpoly::Guide::Pagefind.new.index!('./build').to_s
+      puts Unpoly::Site::Pagefind.new.index!('./build').to_s
     end
   end
 
   # Checks the unpoly-docs skill that the build wrote to build/skills/unpoly-docs/ and
-  # packs its archives and install indexes (Unpoly::Guide::SkillPackage). A broken skill
+  # packs its archives and install indexes (Unpoly::Site::SkillPackage). A broken skill
   # fails the build.
   after_build do
     unless ENV['SKIP_SKILL']
       puts "Checking and packing the unpoly-docs skill. Disable with SKIP_SKILL=1."
-      Unpoly::Guide::SkillPackage.new(build_dir: './build', stamp: config[:skill_stamp]).package!
+      Unpoly::Site::SkillPackage.new(build_dir: './build', stamp: config[:skill_stamp]).package!
     end
   end
 
@@ -133,12 +133,12 @@ mime_type :md, 'text/markdown; charset=utf-8'
 
 # Every documentation page gets a Markdown twin next to it, for agents and LLMs
 # (/up.render → /up.render.md). The proxy loops below register their pages here, and
-# the list of plain pages after them names the rest. Unpoly::Guide::MarkdownTwins has
+# the list of plain pages after them names the rest. Unpoly::Site::MarkdownTwins has
 # the details; the agent skill is made from the same list.
-markdown_twins = Unpoly::Guide::MarkdownTwins.new
+markdown_twins = Unpoly::Site::MarkdownTwins.new
 set :markdown_twins, markdown_twins
 
-Unpoly::Guide.current.interfaces.select(&:guide_page?).each do |interface|
+Unpoly::Site.current.interfaces.select(&:guide_page?).each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Interface #{interface.name}: #{path}" if DEBUG
   # Pass the name instead of the interface instance, since reloading will build a new instance.
@@ -146,7 +146,7 @@ Unpoly::Guide.current.interfaces.select(&:guide_page?).each do |interface|
   markdown_twins.add(interface.guide_path, documentable: interface.guide_id)
 end
 
-Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
+Unpoly::Site.current.features.select(&:guide_page?).each do |feature|
   path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Feature #{feature.name}: #{path}" if DEBUG
   # Pass the name instead of the feature instance, since reloading will build a new instance.
@@ -155,7 +155,7 @@ Unpoly::Guide.current.features.select(&:guide_page?).each do |feature|
 end
 
 # Generated index pages of page groups that have no overview page (toc.yml `index:`).
-Unpoly::Guide.current.toc.areas.each do |area|
+Unpoly::Site.current.toc.areas.each do |area|
   area.topics.select(&:index).each do |topic|
     # Pass names instead of objects, since reloading will build new instances.
     proxy "#{topic.index.guide_path}.html", "/api/topic_index_template.html", locals: { area_key: area.key, index_slug: topic.index.slug }, ignore: true
@@ -163,7 +163,7 @@ Unpoly::Guide.current.toc.areas.each do |area|
   end
 end
 
-Unpoly::Guide.current.versions.each do |release_version|
+Unpoly::Site.current.versions.each do |release_version|
   path = "/changes/#{release_version}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Change #{release_version}: #{path}" if DEBUG
   # We pass the release version instead of the release object,
@@ -189,29 +189,29 @@ end
 proxy '/index.md', '/root_index.txt', ignore: true
 proxy '/llms.txt', '/root_index.txt', ignore: true
 
-# The unpoly-docs agent skill (Unpoly::Guide::Skill), built to build/skills/unpoly-docs/
+# The unpoly-docs agent skill (Unpoly::Site::Skill), built to build/skills/unpoly-docs/
 # and packed for distribution after the build (see after_build above). SKIP_SKILL=1
 # leaves it out of quick local builds; a deploy always needs it.
 if ENV['SKIP_SKILL']
   ignore %r{\Askills/}
 else
-  skill = Unpoly::Guide::Skill.new(markdown_twins)
+  skill = Unpoly::Site::Skill.new(markdown_twins)
   set :skill, skill
   # Once per build, before Middleman forks its renderers, so that every file agrees.
-  set :skill_stamp, Unpoly::Guide::Skill.stamp
+  set :skill_stamp, Unpoly::Site::Skill.stamp
 
   skill.files.each do |path, file|
-    proxy "/#{Unpoly::Guide::Skill::ROOT}/#{file}", '/markdown_twin.txt', locals: { twin_path: path, skill_file: file }, ignore: true
+    proxy "/#{Unpoly::Site::Skill::ROOT}/#{file}", '/markdown_twin.txt', locals: { twin_path: path, skill_file: file }, ignore: true
   end
   # The source can't be named SKILL.md.erb: Middleman treats .md as a template engine and
   # would render it to SKILL.html. A .txt source only runs through ERB, and this proxy
   # publishes its output under the real name. (The template opens with an ERB comment,
   # so Middleman doesn't strip SKILL.md's front matter as its own.)
-  proxy "/#{Unpoly::Guide::Skill::ROOT}/SKILL.md", "/#{Unpoly::Guide::Skill::ROOT}/skill.txt", ignore: true
+  proxy "/#{Unpoly::Site::Skill::ROOT}/SKILL.md", "/#{Unpoly::Site::Skill::ROOT}/skill.txt", ignore: true
   # Every release in version order, for scripts/releases.py.
-  proxy "/#{Unpoly::Guide::Skill::ROOT}/references/changes/releases.json", "/#{Unpoly::Guide::Skill::ROOT}/releases.json", ignore: true
+  proxy "/#{Unpoly::Site::Skill::ROOT}/references/changes/releases.json", "/#{Unpoly::Site::Skill::ROOT}/releases.json", ignore: true
   # The search script's tests stay in the repository (rake skill:test).
-  ignore %r{\A#{Unpoly::Guide::Skill::ROOT}/scripts/(test_|__pycache__)}
+  ignore %r{\A#{Unpoly::Site::Skill::ROOT}/scripts/(test_|__pycache__)}
 end
 
 Unpoly::Example.all.each do |example|
@@ -242,7 +242,7 @@ end
 helpers do
 
   def guide
-    @guide ||= Unpoly::Guide.current
+    @guide ||= Unpoly::Site.current
   end
 
   def version
@@ -259,12 +259,12 @@ helpers do
 
   def markdown(text, **options)
     html = markdown_renderer(**options).to_html(text)
-    # [[=base_url]] in the documentation (Unpoly::Guide::DynamicTokens).
-    html.gsub(Unpoly::Guide::DynamicTokens::BASE_URL_PLACEHOLDER) { base_url }
+    # [[=base_url]] in the documentation (Unpoly::Site::DynamicTokens).
+    html.gsub(Unpoly::Site::DynamicTokens::BASE_URL_PLACEHOLDER) { base_url }
   end
 
   def markdown_renderer(**options)
-    Unpoly::Guide::MarkdownRenderer.new(current_path: normalized_current_path, **options)
+    Unpoly::Site::MarkdownRenderer.new(current_path: normalized_current_path, **options)
   end
 
   def admonition(type, title: nil, &block)
@@ -274,7 +274,7 @@ helpers do
   end
 
   def toc_inserter
-    Unpoly::Guide::TOCInserter.new
+    Unpoly::Site::TOCInserter.new
   end
 
   # Inserts the page's contents above its first heading, and keeps a copy for the
@@ -319,7 +319,7 @@ helpers do
   end
 
   # The origin that absolute URLs in Markdown point to. A build links to
-  # https://unpoly.com (or ENV['BASE_URL'], see Unpoly::Guide.base_url). The preview
+  # https://unpoly.com (or ENV['BASE_URL'], see Unpoly::Site.base_url). The preview
   # links to itself, on whatever host and port it was reached, so following a link in
   # a previewed .md page stays in the preview.
   def base_url
@@ -329,7 +329,7 @@ helpers do
     if request && server?
       "#{request.scheme}://#{request.host_with_port}"
     else
-      Unpoly::Guide.base_url
+      Unpoly::Site.base_url
     end
   end
 
@@ -339,14 +339,14 @@ helpers do
     config[:markdown_twins]
   end
 
-  # Where the links in a Markdown page point (Unpoly::Guide::MarkdownLinks): to the
+  # Where the links in a Markdown page point (Unpoly::Site::MarkdownLinks): to the
   # site on the web, to the skill's own files inside the skill.
   def markdown_links(page_path:, skill_file: nil)
     options = { twin_paths: markdown_twins.paths, page_path: page_path }
     if skill_file
-      Unpoly::Guide::MarkdownLinks::Skill.new(files: config[:skill].files, file: skill_file, **options)
+      Unpoly::Site::MarkdownLinks::Skill.new(files: config[:skill].files, file: skill_file, **options)
     else
-      Unpoly::Guide::MarkdownLinks::Web.new(base_url: base_url, **options)
+      Unpoly::Site::MarkdownLinks::Web.new(base_url: base_url, **options)
     end
   end
 
@@ -361,7 +361,7 @@ helpers do
     # name the same origin as the twin's links. A skill file passes no request (it links
     # unpoly.com), but says it is one, for the few lines only the skill has (upgrading.html.erb).
     locals = skill_file ? { skill: true } : { rack: @locs[:rack] }.compact
-    body = Unpoly::Guide::HtmlToMarkdown.new(links: links).convert(html_page.render({ layout: false }, locals))
+    body = Unpoly::Site::HtmlToMarkdown.new(links: links).convert(html_page.render({ layout: false }, locals))
 
     # The way up: to the index, and to the closest hub. In a feature this is the only
     # place that names its module. A <nav>, so the skill's search skips it.
@@ -376,7 +376,7 @@ helpers do
 
   def agent_index_markdown(page_path:, skill_file: nil, **options)
     links = markdown_links(page_path: page_path, skill_file: skill_file)
-    Unpoly::Guide::AgentIndex.new(links: links, **options).to_markdown
+    Unpoly::Site::AgentIndex.new(links: links, **options).to_markdown
   end
 
   # <link> elements for the document head, collected while the page renders and
@@ -429,11 +429,11 @@ helpers do
   # A document's prose, with its @learn-ref links placed in the intro slot:
   # below the lead paragraphs, before the first heading and the auto-TOC.
   #
-  # A <div embed="..."> in the Markdown becomes a site partial (Unpoly::Guide::Embeds).
+  # A <div embed="..."> in the Markdown becomes a site partial (Unpoly::Site::Embeds).
   def documented_prose(documentable, **options)
     html = markdown(documentable.guide_markdown, **options)
-    html = Unpoly::Guide::Embeds.splice(html, source: documentable.guide_path) { |name| partial(name) }
-    html = Unpoly::Guide::IntroInserter.insert(html, learn_refs_html(documentable))
+    html = Unpoly::Site::Embeds.splice(html, source: documentable.guide_path) { |name| partial(name) }
+    html = Unpoly::Site::IntroInserter.insert(html, learn_refs_html(documentable))
     "<div class='prose'>#{html}</div>"
   end
 
@@ -584,7 +584,7 @@ helpers do
   end
 
   def local_library_file_path(file)
-    "#{Unpoly::Guide.current.path}/dist/#{file}"
+    "#{Unpoly::Site.current.path}/dist/#{file}"
   end
 
   def hyperlink(label, href, options = {})
@@ -700,9 +700,9 @@ helpers do
     "<span class='types'>#{label}#{parts.join("<span class='types--or'> | </span>")}</span>"
   end
 
-  # An icon, decorative unless it has a label (Unpoly::Guide::Icon).
+  # An icon, decorative unless it has a label (Unpoly::Site::Icon).
   def icon(name, label: nil, class: nil)
-    Unpoly::Guide::Icon.html(name, label: label, class: binding.local_variable_get(:class)).html_safe
+    Unpoly::Site::Icon.html(name, label: label, class: binding.local_variable_get(:class)).html_safe
   end
 
   # The corner at the right end of the page title's first line (ai-tools.sass), a quiet
@@ -801,7 +801,7 @@ helpers do
   end
 
   def slugify(text)
-    Unpoly::Guide::Util.slugify(text)
+    Unpoly::Site::Util.slugify(text)
   end
 
   def visibility_tag(visibility)

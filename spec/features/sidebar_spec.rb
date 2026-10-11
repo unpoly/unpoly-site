@@ -409,7 +409,7 @@ describe 'the sidebar menu', type: :feature, js: true do
       visit '/links'
       expect(page).to have_css('.guide--menu .menu--nodes')
 
-      Unpoly::Guide.current.toc.learn.topics.each do |topic|
+      Unpoly::Site.current.toc.learn.topics.each do |topic|
         overview = topic.menu_overview or next
         first = page.evaluate_script(<<~JS, topic.menu_path)
           (function(path) {

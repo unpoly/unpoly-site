@@ -1,6 +1,6 @@
 describe 'changes', type: :feature, js: true do
 
-  let(:version) { Unpoly::Guide.current.stable_version }
+  let(:version) { Unpoly::Site.current.stable_version }
 
   it 'shows the changelog of a release' do
     visit "/changes/#{version}"

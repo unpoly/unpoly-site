@@ -27,7 +27,7 @@ describe 'Markdown twins', type: :feature do
 
   def expect_golden(path, name)
     # The documented version changes with every release, the golden files should not.
-    actual = markdown(path).gsub(Unpoly::Guide.current.version, '<version>')
+    actual = markdown(path).gsub(Unpoly::Site.current.version, '<version>')
     golden = File.join(GOLDEN_DIR, "#{name}.md")
     if ENV['UPDATE_GOLDEN']
       FileUtils.mkdir_p(GOLDEN_DIR)
@@ -100,7 +100,7 @@ describe 'Markdown twins', type: :feature do
       front_matter = YAML.safe_load(text[/\A---\n(.*?)\n---\n/m, 1])
       expect(front_matter['name']).to eq('unpoly-docs')
       expect(front_matter['description']).to start_with("All of Unpoly's documentation")
-      expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Guide.current.version)
+      expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Site.current.version)
       expect(front_matter['metadata']['build']).to match(/\A\d{4}\.\d+\.\d+\z/)
       expect(text).to include('- [`up.link`](references/api/up-link-module.md): ')
       expect(text).to include('point the user to https://unpoly.com/support.')

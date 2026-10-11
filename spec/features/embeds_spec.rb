@@ -1,12 +1,12 @@
 # The request-flow diagram has one source (_fragment_updates_diagram.html.erb) and two
 # readers: the landing renders the partial, and "How Unpoly works" embeds it from its
-# Markdown with <div embed="fragment-updates-diagram"></div> (Unpoly::Guide::Embeds).
+# Markdown with <div embed="fragment-updates-diagram"></div> (Unpoly::Site::Embeds).
 describe 'the request-flow diagram embedded in a guide', type: :feature, js: true do
 
   OVERVIEW_SLUG = 'start/overview'.freeze
 
   def overview_markdown
-    Unpoly::Guide.current.find_by_guide_id!(OVERVIEW_SLUG).guide_markdown
+    Unpoly::Site.current.find_by_guide_id!(OVERVIEW_SLUG).guide_markdown
   end
 
   it 'never ships the placeholder the writer marks its place with' do

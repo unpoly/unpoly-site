@@ -1,6 +1,6 @@
 root = File.join(File.dirname(__FILE__), '..')
 $LOAD_PATH << root
-require 'lib/unpoly/guide'
+require 'lib/unpoly/site'
 Bundler.require(:default, :test)
 
 Dir[File.join(root, "spec/support/**/*.rb")].sort.each { |f| require f }

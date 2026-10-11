@@ -1,4 +1,4 @@
-require_relative 'lib/unpoly/guide'
+require_relative 'lib/unpoly/site'
 
 namespace :search do
   desc 'Build the site and index it, so that search works in the preview server'
@@ -13,14 +13,14 @@ end
 namespace :docs do
   desc 'List public selectors and events that no guide page explains (@learn-ref)'
   task :learn_refs do
-    missing = Unpoly::Guide.current.features_without_learn_ref
+    missing = Unpoly::Site.current.features_without_learn_ref
     missing.sort.each { |feature| puts "#{feature.name} (#{feature.kind}, #{feature.interface.name})" }
     puts "#{missing.size} public selectors/events without an @learn-ref."
   end
 
   desc 'Check that every URL unpoly.com serves today still resolves ("no lost URL")'
   task :check_urls do
-    ok = Unpoly::Guide::UrlCheck.new.run
+    ok = Unpoly::Site::UrlCheck.new.run
     exit(1) unless ok
   end
 end

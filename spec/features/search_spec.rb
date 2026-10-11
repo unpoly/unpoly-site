@@ -267,7 +267,7 @@ describe 'search', type: :feature, js: true do
     end
 
     it 'strikes a page that is deprecated and moves it below the others' do
-      deprecated = Unpoly::Guide.current.features.detect { |f| f.guide_page? && f.deprecated? && !f.guide_path.include?('#') }
+      deprecated = Unpoly::Site.current.features.detect { |f| f.guide_page? && f.deprecated? && !f.guide_path.include?('#') }
       visit '/loading-state'
       stub_pagefind([
         fulltext_page(url: "#{deprecated.guide_path}/", title: deprecated.signature, badge: deprecated.short_kind, deprecated: true),

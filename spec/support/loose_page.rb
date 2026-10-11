@@ -5,21 +5,21 @@ module LoosePage
   SLUG = 'tracking-page-views'
 
   def self.manifest(slug = SLUG)
-    repository = Unpoly::Guide.current
-    data = YAML.safe_load(File.read(File.join(repository.path, Unpoly::Guide::Toc::PATH)))
+    repository = Unpoly::Site.current
+    data = YAML.safe_load(File.read(File.join(repository.path, Unpoly::Site::Toc::PATH)))
     data['learn']['topics'].each { |topic| topic['pages']&.delete(slug) }
     data['learn']['loose'] = Array(data['learn']['loose']) | [slug]
     data
   end
 
   def self.toc(slug = SLUG)
-    Unpoly::Guide::Toc.new(manifest(slug), Unpoly::Guide.current)
+    Unpoly::Site::Toc.new(manifest(slug), Unpoly::Site.current)
   end
 
   # For feature specs: the site renders with the page made loose.
   def make_page_loose(slug = SLUG)
     toc = LoosePage.toc(slug)
-    allow(Unpoly::Guide.current).to receive(:toc).and_return(toc)
+    allow(Unpoly::Site.current).to receive(:toc).and_return(toc)
     toc
   end
 end

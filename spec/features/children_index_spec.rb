@@ -11,7 +11,7 @@ describe 'the children index', type: :feature, js: true do
     it 'lists every page of a chapter on its overview' do
       visit '/links'
 
-      chapter = Unpoly::Guide.current.toc.learn.topics.find { |topic| topic.menu_path == '/links' }
+      chapter = Unpoly::Site.current.toc.learn.topics.find { |topic| topic.menu_path == '/links' }
       expect(index_links).to eq(chapter.menu_children.map(&:menu_path))
     end
 

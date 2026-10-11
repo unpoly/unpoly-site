@@ -70,7 +70,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     open_drawer_on '/support'
     expand('Learn')
 
-    toc = Unpoly::Guide.current.toc
+    toc = Unpoly::Site.current.toc
     expect(row('Learn')['children'].map { |child| child['title'] }).to eq(toc.learn.topics.map(&:menu_title))
     expect(page).to have_css('up-drawer a', text: 'Getting started')
   end
@@ -79,7 +79,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     open_drawer_on '/support'
     expand('API')
 
-    toc = Unpoly::Guide.current.toc
+    toc = Unpoly::Site.current.toc
     children = row('API')['children']
 
     expect(children.map { |child| child['href'] }).to eq(toc.api.topics.map(&:menu_path))

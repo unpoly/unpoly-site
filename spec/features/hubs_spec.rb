@@ -4,7 +4,7 @@
 # row per sidebar topic, the module name as the row's link, and its signature features.
 describe 'the hubs', type: :feature, js: true do
 
-  let(:toc) { Unpoly::Guide.current.toc }
+  let(:toc) { Unpoly::Site.current.toc }
 
   # Whether a link reads as one: underlined, in a lighter tone of its own color.
   def light_underline(selector)

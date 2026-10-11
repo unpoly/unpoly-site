@@ -56,7 +56,7 @@ describe 'the built search index' do
   end
 
   it 'marks a deprecated page, and only that' do
-    deprecated = Unpoly::Guide.current.features.detect { |feature| feature.guide_page? && feature.deprecated? }
+    deprecated = Unpoly::Site.current.features.detect { |feature| feature.guide_page? && feature.deprecated? }
 
     expect(meta_of(deprecated.guide_path)['deprecated']).to eq('true')
     expect(meta_of('/up.render')).not_to have_key('deprecated')

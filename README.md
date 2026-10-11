@@ -52,8 +52,8 @@ The `unpoly/unpoly-site` repo only holds content for a few pages, all implemente
 
 ## How API documentation is parsed
 
-Ruby code in `lib/unpoly/guide` parses documentation comments into an AST-like structure
-(the `Unpoly::Guide` namespace).
+Ruby code in `lib/unpoly/site` parses documentation comments into an AST-like structure
+(the `Unpoly::Site` namespace).
 
 It scans every `.js` and `.md` file under `vendor/unpoly-local/src`. In a `.js` file it
 picks up comments opening with `/*-`; a `.md` file is one documentation block in its
@@ -66,7 +66,7 @@ through `source/api/feature_template.html.erb` and
 
 The navigation is split into a Learn and an API section. Which pages and modules belong
 where — and in which order — comes from a manifest in the Unpoly repo,
-`src/unpoly/pages/toc.yml`, parsed by `lib/unpoly/guide/toc.rb`. The build fails when
+`src/unpoly/pages/toc.yml`, parsed by `lib/unpoly/site/toc.rb`. The build fails when
 the manifest and the parsed documentation disagree.
 
 Documentation changes are picked up by reloading. You need to restart the development
@@ -138,7 +138,7 @@ Many modifiers are generated from parsed documentation: a feature's visibility b
 ### The same names in Ruby and JavaScript
 
 BEM names are not limited to templates and stylesheets. They are also built in Ruby helpers
-(`config.rb`, `lib/unpoly/guide`) and used by the components in `source/javascripts`, both
+(`config.rb`, `lib/unpoly/site`) and used by the components in `source/javascripts`, both
 as selectors and as classes toggled at runtime. When you rename a block, grep for its name
 in all four places: stylesheets, ERB templates, Ruby and JavaScript.
 
@@ -152,13 +152,13 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
 - **Twins** are registered in `config.rb`, next to each page's own proxy, plus a short
   list of plain pages (`/learn`, `/api`, `/changes`, …). The template
   `source/markdown_twin.txt.erb` renders the HTML page without its layout and converts it
-  with `Unpoly::Guide::HtmlToMarkdown`.
+  with `Unpoly::Site::HtmlToMarkdown`.
 - **The converter** is generic HTML → Markdown. It knows the site only through semantics
   in the templates: headings, `role="heading"`, `aria-label`, `<nav>`, and
   `data-markdown="ignore"` / `data-markdown="chip"`. Prefer adding semantics to a template
   over adding a rule. The marker map is in unpoly's
   [documentation guide](https://github.com/unpoly/unpoly/blob/master/docs/contributing/documentation.md#markers-in-the-templates).
-- **Links** come from a resolver (`Unpoly::Guide::MarkdownLinks`): absolute URLs on the
+- **Links** come from a resolver (`Unpoly::Site::MarkdownLinks`): absolute URLs on the
   web, relative file paths in the skill. A link goes to a `.md` URL only when its target
   has a twin. A build links to `https://unpoly.com` (override with `BASE_URL`); the
   preview links to itself, so you can click through `.md` pages there.
@@ -169,7 +169,7 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
   script `scripts/search.py` with its Python tests. `middleman build` writes it to
   `build/skills/unpoly-docs/`, then checks it and packs the archives that unpoly.com
   serves for `npx skills add https://unpoly.com` and the Claude Code marketplace
-  (`Unpoly::Guide::SkillPackage`). The deploy ships only the archives. `SKIP_SKILL=1` leaves
+  (`Unpoly::Site::SkillPackage`). The deploy ships only the archives. `SKIP_SKILL=1` leaves
   the skill out of a quick local build.
 - **Search tests** need Python 3.8+. `bundle exec rspec` runs them; so does
   `bundle exec rake skill:test`. The ranking queries run against the skill of the last
@@ -249,7 +249,7 @@ Tests read the documentation through `vendor/unpoly-local` like the site does, s
 the content of whatever revision is checked out there. A missing `@stable` tag in the
 Unpoly sources will fail the suite here.
 
-- **`spec/lib`** covers the parser and the objects it builds (the `Unpoly::Guide`
+- **`spec/lib`** covers the parser and the objects it builds (the `Unpoly::Site`
   namespace) with fast unit tests. What is worth covering here is what the HTML templates
   call: the `guide_path` of a documentable, the HTML that `MarkdownRenderer` produces, the
   features and topics an interface offers to the menu.
