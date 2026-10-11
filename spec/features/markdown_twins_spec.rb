@@ -99,7 +99,7 @@ describe 'Markdown twins', type: :feature do
       text = markdown('/skills/unpoly-docs/SKILL.md')
       front_matter = YAML.safe_load(text[/\A---\n(.*?)\n---\n/m, 1])
       expect(front_matter['name']).to eq('unpoly-docs')
-      expect(front_matter['description']).to start_with("All of Unpoly's documentation")
+      expect(front_matter['description']).to start_with("Unpoly's guides, API reference and release notes")
       expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Site.current.version)
       expect(front_matter['metadata']['build']).to match(/\A\d{4}\.\d+\.\d+\z/)
       expect(text).to include('- [`up.link`](references/api/up-link-module.md): ')
