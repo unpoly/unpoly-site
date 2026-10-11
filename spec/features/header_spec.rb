@@ -105,8 +105,8 @@ describe 'the header', type: :feature, js: true do
     expect(page).to have_css('.guide--head .top-nav--section.up-current', count: 1)
   end
 
-  %w[/formats /api/url-patterns /api/relaxed-json].each do |path|
-    it "marks API as current on #{path}, which no symbol pattern matches" do
+  %w[/api/formats /api/url-patterns /api/relaxed-json].each do |path|
+    it "marks API as current on #{path}, a page rather than a symbol" do
       visit path
 
       expect(page).to have_css('.guide--head .top-nav--section.up-current', text: 'API')

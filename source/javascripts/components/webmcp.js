@@ -105,7 +105,7 @@ const webmcpTools = [
         }
         const accepted = (url.startsWith('/') && !url.startsWith('//')) || target?.origin === location.origin && /^https?:/.test(url)
         if (!target || !accepted) {
-          return { error: `Pass a path like /up.render, or a full URL on ${location.origin}. ${WEBMCP.notFoundHint}` }
+          return { error: `Pass a path like /api/up.render, or a full URL on ${location.origin}. ${WEBMCP.notFoundHint}` }
         }
         markdownUrl = new URL(webmcpMarkdownPath(target.pathname), location.origin).href
       } else {

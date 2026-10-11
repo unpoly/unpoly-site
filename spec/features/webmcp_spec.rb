@@ -73,9 +73,9 @@ describe 'WebMCP tools', type: :feature, js: true do
 
       first = call_tool('search_docs', { query: 'follow' })
       expect(first['results']).to eq([
-        { 'title' => '[up-follow]', 'kind' => 'HTML', 'hub' => nil, 'url' => "#{origin}/up-follow", 'mdUrl' => "#{origin}/up-follow.md", 'excerpt' => 'Follows a link.' },
-        { 'title' => 'Following links', 'kind' => 'Learn', 'hub' => 'Links', 'url' => "#{origin}/following-links", 'mdUrl' => "#{origin}/following-links.md", 'excerpt' => 'How to follow' },
-        { 'title' => 'Links (overview)', 'kind' => 'Learn', 'hub' => nil, 'url' => "#{origin}/links", 'mdUrl' => "#{origin}/links.md", 'excerpt' => 'All about links' },
+        { 'title' => '[up-follow]', 'kind' => 'HTML', 'hub' => nil, 'url' => "#{origin}/api/up-follow", 'mdUrl' => "#{origin}/api/up-follow.md", 'excerpt' => 'Follows a link.' },
+        { 'title' => 'Following links', 'kind' => 'Learn', 'hub' => 'Links', 'url' => "#{origin}/learn/following-links", 'mdUrl' => "#{origin}/learn/following-links.md", 'excerpt' => 'How to follow' },
+        { 'title' => 'Links (overview)', 'kind' => 'Learn', 'hub' => nil, 'url' => "#{origin}/learn/links", 'mdUrl' => "#{origin}/learn/links.md", 'excerpt' => 'All about links' },
       ])
       expect(first['tip']).to include('https://unpoly.com/learn/skill.md')
 
