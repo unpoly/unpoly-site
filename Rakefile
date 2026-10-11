@@ -18,6 +18,11 @@ namespace :docs do
     puts "#{missing.size} public selectors/events without an @learn-ref."
   end
 
+  desc 'Move documents under /learn and /api: rewrite links in ../unpoly, generate redirects (DRY_RUN=1, VERBOSE=1)'
+  task :url_move do
+    ruby 'script/url_move.rb'
+  end
+
   desc 'Check that every URL unpoly.com serves today still resolves ("no lost URL")'
   task :check_urls do
     ok = Unpoly::Site::UrlCheck.new.run
