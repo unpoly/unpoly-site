@@ -18,7 +18,7 @@ const removeCommentCloser = function(phrase) {
 }
 
 function markOutsideMask(string) {
-  let parts = string.split(/(§\d+)/)
+  let parts = string.split(/([\uE000-\uF8FF])/)
   for (let i = 0; i < parts.length; i++) {
     // An empty part (the phrase ends at a tag) would leave an empty <mark> behind.
     if (i % 2 === 0 && parts[i]) {
@@ -28,9 +28,19 @@ function markOutsideMask(string) {
   return parts.join('')
 }
 
+// Masks each run of tags as a single private-use character. Unlike up.util.maskPattern's
+// "§1" masks, these cannot merge with digits in the code that follow a tag ("§1" + "2"
+// would read as "§12"), nor can the phrase match inside a mask.
+function maskTags(html) {
+  let tags = []
+  let masked = html.replaceAll(/(<[^>]+>)+/g, (match) => String.fromCharCode(0xE000 + tags.push(match) - 1))
+  let restore = (string) => string.replaceAll(/[\uE000-\uF8FF]/g, (mask) => tags[mask.charCodeAt(0) - 0xE000])
+  return { masked, restore }
+}
+
 function markInHighlightedHTML(html, phrase) {
-  let { masked, restore } = up.util.maskPattern(html, [/(<[^>]+>)+/g])
-  let interruptedPhrasePattern = phrase.replaceAll(/([a-z]+|[0-9]+|.)/gi, (match) => up.util.escapeRegExp(match) + '(§\\d+)?')
+  let { masked, restore } = maskTags(html)
+  let interruptedPhrasePattern = phrase.replaceAll(/([a-z]+|[0-9]+|.)/gi, (match) => up.util.escapeRegExp(match) + '([\\uE000-\\uF8FF])?')
   let interruptedPhraseRegExp = new RegExp(interruptedPhrasePattern)
   let marked = masked.replace(interruptedPhraseRegExp, markOutsideMask)
   return restore(marked)
