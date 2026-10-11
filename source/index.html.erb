@@ -120,19 +120,19 @@
           <h3 class="landing--heading -minor">Reactive server forms</h3>
           <p>Fields that depend on other fields, like selects loading their options or previews updating as you type.
              Rendered by your server, wired with one attribute.</p>
-          <%= hyperlink 'Learn more →', '/reactive-server-forms' %>
+          <%= hyperlink 'Learn more →', doc_path('reactive-server-forms') %>
         </div>
         <div class="landing--card">
           <h3 class="landing--heading -minor">Optimistic rendering</h3>
           <p>Update the screen before the server answers, then reconcile with the real response.
              Previews revert cleanly when anything fails.</p>
-          <%= hyperlink 'Learn more →', '/optimistic-rendering' %>
+          <%= hyperlink 'Learn more →', doc_path('optimistic-rendering') %>
         </div>
         <div class="landing--card">
           <h3 class="landing--heading -minor">Complex overlay flows</h3>
           <p>Branch off into an overlay, complete a multi-page flow there, and return the result
              to the parent screen, which stayed open behind the overlay.</p>
-          <%= hyperlink 'Learn more →', '/subinteractions' %>
+          <%= hyperlink 'Learn more →', doc_path('subinteractions') %>
         </div>
       </div>
 
@@ -161,7 +161,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
           <span class="landing--event-category -<%= modifier %>"><%= category %></span>
           <div class="landing--event-tags">
             <% events.each do |label, event| %>
-              <a href="/<%= event %>" data-event="<%= event %>" aria-label="<%= label %> (<%= event %>)"><%= label %></a>
+              <a href="<%= doc_path(event) %>" data-event="<%= event %>" aria-label="<%= label %> (<%= event %>)"><%= label %></a>
             <% end %>
           </div>
         <% end %>

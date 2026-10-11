@@ -14,7 +14,7 @@ module Unpoly
         # Prose sometimes links the site by its full URL.
         SITE_ORIGIN = %r{\Ahttps?://unpoly\.com(?=[/#]|\z)}
 
-        # twin_paths: the paths ("/up.render") that have a .md twin.
+        # twin_paths: the paths ("/api/up.render") that have a .md twin.
         # page_path: the path of the page being converted.
         def initialize(base_url:, twin_paths:, page_path:)
           @base_url = base_url
@@ -60,7 +60,7 @@ module Unpoly
       # The skill's reference files: a relative file path when the target is part of
       # the skill (it must work offline), a link to unpoly.com otherwise.
       class Skill < Web
-        # files: { "/up.render" => "references/api/up-render-function.md", ... }
+        # files: { "/api/up.render" => "references/api/up-render-function.md", ... }
         # file: the skill-relative path of the file being written.
         def initialize(files:, file:, **options)
           super(base_url: Site.base_url, **options)

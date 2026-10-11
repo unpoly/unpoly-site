@@ -2,7 +2,7 @@ require 'json'
 
 module Unpoly
   module Site
-    # The pages that get a Markdown twin (/up.render → /up.render.md), registered by
+    # The pages that get a Markdown twin (/api/api/up.render → /api/up.render.md), registered by
     # config.rb next to each page's own proxy. The skill's reference files are made from
     # the same list (Skill).
     #
@@ -15,7 +15,7 @@ module Unpoly
         @twins = {}
       end
 
-      # path: the HTML page's path, e.g. "/up.render".
+      # path: the HTML page's path, e.g. "/api/up.render".
       # subject: what the page shows, one of
       #   documentable: guide_id   a feature, module, class or guide page
       #   topic_index: [area_key, slug]

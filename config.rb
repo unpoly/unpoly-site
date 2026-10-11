@@ -123,7 +123,7 @@ sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 
 page '/.htaccess', directory_index: false
 
-# The Markdown twins (/up.render.md) and the skill's files. The preview serves them
+# The Markdown twins (/api/up.render.md) and the skill's files. The preview serves them
 # with the right type; the build's Apache config sets its own (.htaccess.erb).
 mime_type :md, 'text/markdown; charset=utf-8'
 
@@ -132,7 +132,7 @@ mime_type :md, 'text/markdown; charset=utf-8'
 #
 
 # Every documentation page gets a Markdown twin next to it, for agents and LLMs
-# (/up.render → /up.render.md). The proxy loops below register their pages here, and
+# (/api/api/up.render → /api/up.render.md). The proxy loops below register their pages here, and
 # the list of plain pages after them names the rest. Unpoly::Site::MarkdownTwins has
 # the details; the agent skill is made from the same list.
 markdown_twins = Unpoly::Site::MarkdownTwins.new

@@ -27,7 +27,7 @@ function webmcpPlainText(html) {
   return new DOMParser().parseFromString(html || '', 'text/html').body.textContent.trim()
 }
 
-// The .md twin of a page path ("/up.render" → "/up.render.md", "/" → "/index.md").
+// The .md twin of a page path ("/api/up.render" → "/api/up.render.md", "/" → "/index.md").
 function webmcpMarkdownPath(path) {
   const clean = path.replace(/(.)\/$/, '$1')
   if (clean === '/') return '/index.md'
@@ -95,7 +95,7 @@ const webmcpTools = [
     async execute({ url } = {}) {
       let markdownUrl
       if (url) {
-        // A path on this site ("/up.render"), or a full URL of this origin. Nothing else:
+        // A path on this site ("/api/up.render"), or a full URL of this origin. Nothing else:
         // the docs served here are the only ones this page can vouch for.
         let target
         try {
