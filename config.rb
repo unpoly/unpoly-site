@@ -741,8 +741,8 @@ helpers do
     end
 
     items = [
-      item.(:a, 'Skill', 'skill', 'Install the Unpoly docs as an agent skill', href: '/skill',
-        'aria-current': ('page' if normalized_current_path == '/skill')),
+      item.(:a, 'Skill', 'skill', 'Install the Unpoly docs as an agent skill', href: doc_path('skill'),
+        'aria-current': ('page' if normalized_current_path == doc_path('skill'))),
       # Unpoly can't render Markdown, so the browser loads it (also for all .md links,
       # unpoly_config.coffee).
       item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', href: md_path, type: 'text/markdown', 'up-follow': 'false'),
@@ -757,6 +757,13 @@ helpers do
     partial('api/feature_preview', locals: { feature: feature })
   end
 
+  # The path of a documentation page or API symbol, by its slug: doc_path('install',
+  # hash: 'npm') is "/learn/install#npm". Templates link documents through this rather
+  # than spelling out their paths, which the model owns.
+  def doc_path(guide_id, hash: nil)
+    guide.find_by_guide_id!(guide_id).guide_path(hash: hash)
+  end
+
   def url_link(url, options = {})
     link_to url, url, options
   end
@@ -764,24 +771,17 @@ helpers do
   # The site's sections, in the order both the header and the drawer show them. One
   # list, so that the two always use the same words for the same places.
   #
-  # Learn pages live at the root (`/targeting-fragments`), so the Learn section only
-  # knows it is current from the list of its pages.
+  # Every page of a section lives below the section's own path (/learn/caching,
+  # /api/up.render), so one pattern marks the section as current.
   def site_sections
     [
-      { label: 'Learn', href: '/learn', alias: guide.toc.learn.pages.map(&:guide_path).join(' ') },
-      { label: 'API', href: '/api', alias: (['/up.* /up:* /up-* /*-up-* /has'] + api_page_paths).join(' ') },
+      { label: 'Learn', href: guide.toc.learn.path, alias: "#{guide.toc.learn.path}/*" },
+      { label: 'API', href: guide.toc.api.path, alias: "#{guide.toc.api.path}/*" },
       { label: 'Demo', href: 'https://demo.unpoly.com', target: '_blank' },
       { label: 'Changes', href: '/changes', alias: '/changes/*' },
       { label: 'Support', href: '/support', alias: '/support/*' },
       { label: 'GitHub', href: 'https://github.com/unpoly/unpoly', icon: 'github' },
     ]
-  end
-
-  # API pages that the symbol patterns don't match: the API's own pages (e.g. the
-  # formats) and generated index pages (e.g. /formats).
-  def api_page_paths
-    api = guide.toc.api
-    api.pages.map(&:guide_path) + api.topics.filter_map { |topic| topic.index&.guide_path }
   end
 
   # Earlier major versions, each documented on a site of its own.

@@ -11,14 +11,14 @@ describe Unpoly::Site::Wikilink do
     it 'expands a slug to a link labelled with the page title' do
       title = repository.find_by_guide_id('polling').title
 
-      expect(expand('See [[polling]].')).to eq("See [#{title}](/polling).")
+      expect(expand('See [[polling]].')).to eq("See [#{title}](/learn/polling).")
     end
 
     it 'expands an anchored slug to a link that names the heading' do
       title = repository.find_by_guide_id('network-issues').title
 
       expect(expand('See [[network-issues#slow-server-responses]].'))
-        .to eq("See [#{title}: Slow server responses](/network-issues#slow-server-responses).")
+        .to eq("See [#{title}: Slow server responses](/learn/network-issues#slow-server-responses).")
     end
 
     it 'leaves prose without wikilinks alone' do

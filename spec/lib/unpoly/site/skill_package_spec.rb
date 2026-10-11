@@ -18,7 +18,7 @@ describe Unpoly::Site::SkillPackage do
   end
 
   def reference(name: 'up.render', body: '')
-    %(---\nname: "#{name}"\narea: "API"\nurl: "https://unpoly.com/up.render"\n---\n# Title\n\n#{body}\n)
+    %(---\nname: "#{name}"\narea: "API"\nurl: "https://unpoly.com/api/up.render"\n---\n# Title\n\n#{body}\n)
   end
 
   before do

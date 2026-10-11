@@ -1,13 +1,13 @@
 describe Unpoly::Site::MarkdownLinks do
 
-  let(:twin_paths) { Set['/up.render', '/start/links', '/changes/1.0.0', '/support'] }
+  let(:twin_paths) { Set['/api/up.render', '/learn/start/links', '/changes/1.0.0', '/support'] }
 
   describe Unpoly::Site::MarkdownLinks::Web do
-    subject(:links) { described_class.new(base_url: 'http://localhost:4568', twin_paths: twin_paths, page_path: '/start/links') }
+    subject(:links) { described_class.new(base_url: 'http://localhost:4568', twin_paths: twin_paths, page_path: '/learn/start/links') }
 
     it 'links a page with a twin to the twin, on the base URL, keeping the anchor' do
-      expect(links.href('/up.render')).to eq('http://localhost:4568/up.render.md')
-      expect(links.href('/up.render#options.target')).to eq('http://localhost:4568/up.render.md#options.target')
+      expect(links.href('/api/up.render')).to eq('http://localhost:4568/api/up.render.md')
+      expect(links.href('/api/up.render#options.target')).to eq('http://localhost:4568/api/up.render.md#options.target')
     end
 
     it 'keeps the extension-less URL of a page without a twin' do
@@ -20,7 +20,7 @@ describe Unpoly::Site::MarkdownLinks do
     end
 
     it 'treats full unpoly.com URLs as links into the site' do
-      expect(links.href('https://unpoly.com/up.render')).to eq('http://localhost:4568/up.render.md')
+      expect(links.href('https://unpoly.com/api/up.render')).to eq('http://localhost:4568/api/up.render.md')
       expect(links.href('https://unpoly.com')).to eq('http://localhost:4568/index.md')
       expect(links.href('https://unpoly.com#install')).to eq('http://localhost:4568/index.md#install')
       expect(links.href('https://unpoly.community/x')).to eq('https://unpoly.community/x')
@@ -33,29 +33,29 @@ describe Unpoly::Site::MarkdownLinks do
     end
 
     it 'resolves a relative link against the page' do
-      expect(links.href('forms')).to eq('http://localhost:4568/start/forms')
-      expect(links.href('../up.render')).to eq('http://localhost:4568/up.render.md')
+      expect(links.href('forms')).to eq('http://localhost:4568/learn/start/forms')
+      expect(links.href('../../api/up.render')).to eq('http://localhost:4568/api/up.render.md')
     end
 
     it 'links media and the HTML page on the base URL' do
       expect(links.media_url('/images/api/a.png')).to eq('http://localhost:4568/images/api/a.png')
-      expect(links.page_url).to eq('http://localhost:4568/start/links')
+      expect(links.page_url).to eq('http://localhost:4568/learn/start/links')
     end
   end
 
   describe Unpoly::Site::MarkdownLinks::Skill do
     let(:files) do
       {
-        '/up.render' => 'references/api/up-render-function.md',
-        '/start/links' => 'references/learn/start-links.md',
+        '/api/up.render' => 'references/api/up-render-function.md',
+        '/learn/start/links' => 'references/learn/start-links.md',
       }
     end
 
-    subject(:links) { described_class.new(files: files, file: 'references/learn/start-links.md', twin_paths: twin_paths, page_path: '/start/links') }
+    subject(:links) { described_class.new(files: files, file: 'references/learn/start-links.md', twin_paths: twin_paths, page_path: '/learn/start/links') }
 
     it 'links a page of the skill by a relative file path, keeping the anchor' do
-      expect(links.href('/up.render#options.target')).to eq('../api/up-render-function.md#options.target')
-      expect(links.href('/start/links')).to eq('start-links.md')
+      expect(links.href('/api/up.render#options.target')).to eq('../api/up-render-function.md#options.target')
+      expect(links.href('/learn/start/links')).to eq('start-links.md')
     end
 
     it 'links a page outside the skill on unpoly.com, to its twin where there is one' do
@@ -66,7 +66,7 @@ describe Unpoly::Site::MarkdownLinks do
 
     it 'links media and the HTML page on unpoly.com, since the skill ships neither' do
       expect(links.media_url('/images/api/a.png')).to eq('https://unpoly.com/images/api/a.png')
-      expect(links.page_url).to eq('https://unpoly.com/start/links')
+      expect(links.page_url).to eq('https://unpoly.com/learn/start/links')
     end
 
     it 'makes a skill path relative to the file being written' do

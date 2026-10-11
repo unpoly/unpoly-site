@@ -242,6 +242,11 @@ module Unpoly
         find_by_guide_id(guide_id) or raise Unknown, "No Documentable with guide_id '#{guide_id}'"
       end
 
+      # The documentable served at a path ("/api/up.render"), or nil.
+      def find_by_guide_path(path)
+        documentables_by_guide_path[path]
+      end
+
       def guide_id_exists?(guide_id)
         !!find_by_guide_id(guide_id)
       end
@@ -380,12 +385,17 @@ module Unpoly
 
       def unindex
         @documentables_by_guide_id = nil
+        @documentables_by_guide_path = nil
         @documentables_by_name = nil
         @documentables_by_explicit_parent_name = nil
       end
 
       def documentables_by_guide_id
         @documentables_by_guide_id ||= documentables.index_by(&:guide_id)
+      end
+
+      def documentables_by_guide_path
+        @documentables_by_guide_path ||= documentables.index_by(&:guide_path)
       end
 
       def documentables_by_name

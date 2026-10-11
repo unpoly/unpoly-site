@@ -83,8 +83,24 @@ module Unpoly
         name
       end
 
+      # Where the site serves this document: API symbols under /api, guide pages under
+      # the path of the toc.yml area that lists them (/learn, or /api for the formats).
+      # Toc assigns a page's prefix; a page that no area lists (a parser fixture) is a
+      # Learn page.
       def guide_path(hash: nil)
-        ["/#{guide_id}", hash].compact.join('#')
+        ["#{url_prefix}/#{guide_id}", hash].compact.join('#')
+      end
+
+      # The path this document had before the site moved its documents under /learn
+      # and /api. It only lives on as a redirect (see UrlMove).
+      def legacy_guide_path
+        "/#{guide_id}"
+      end
+
+      attr_writer :url_prefix
+
+      def url_prefix
+        @url_prefix || (page? ? LEARN_PATH : API_PATH)
       end
 
       def guide_url(hash: nil)

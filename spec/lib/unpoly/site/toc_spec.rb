@@ -47,8 +47,8 @@ describe Unpoly::Site::Toc do
     it 'starts a group without an overview at its generated index page' do
       formats = toc.api.topics.detect { |topic| topic.title == 'Formats' }
 
-      expect(formats.index.guide_path).to eq('/formats')
-      expect(formats.menu_path).to eq('/formats')
+      expect(formats.index.guide_path).to eq('/api/formats')
+      expect(formats.menu_path).to eq('/api/formats')
       expect(formats.children.map(&:guide_id)).to eq(%w[url-patterns relaxed-json])
     end
 

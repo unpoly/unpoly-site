@@ -4,7 +4,7 @@ Markdown test page
 A page with one of everything the Markdown twins convert. Its twin is pinned by a
 golden file in `spec/fixtures/markdown/` (see markdown_twins_spec.rb).
 
-It links to [`up.render()`](/up.render), to [an anchor](/up.render#options.target), to
+It links to [`up.render()`](/api/up.render), to [an anchor](/api/up.render#options.target), to
 [a section on this page](#code-blocks) and to [a page without a twin](/imprint).
 Code spans like `test.module.function()` link themselves.
 

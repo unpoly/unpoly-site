@@ -4,9 +4,9 @@ area: "API"
 kind: "JavaScript function"
 parent: "test.module module"
 visibility: "deprecated"
-url: "http://unpoly.test/test.module.deprecatedFunction"
+url: "http://unpoly.test/api/test.module.deprecatedFunction"
 ---
-<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/test.module.md)</nav>
+<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/api/test.module.md)</nav>
 
 # test.module.deprecatedFunction()
 

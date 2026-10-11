@@ -16,13 +16,13 @@ describe Unpoly::Site::Embeds do
 
   it 'fails on an unknown name, so a misspelled embed never ships empty' do
     expect {
-      described_class.splice('<div embed="fragment-update-diagram"></div>', source: '/start/overview') { 'x' }
-    }.to raise_error(described_class::Unknown, %r{"fragment-update-diagram" \(in /start/overview\)})
+      described_class.splice('<div embed="fragment-update-diagram"></div>', source: '/learn/start/overview') { 'x' }
+    }.to raise_error(described_class::Unknown, %r{"fragment-update-diagram" \(in /learn/start/overview\)})
   end
 
   it 'survives Markdown rendering unchanged' do
     markdown = "Intro.\n\n<div embed=\"fragment-updates-diagram\"></div>\n\nOutro."
-    html = Unpoly::Site::MarkdownRenderer.new(current_path: '/start/overview').to_html(markdown)
+    html = Unpoly::Site::MarkdownRenderer.new(current_path: '/learn/start/overview').to_html(markdown)
 
     expect(described_class.splice(html) { 'DIAGRAM' }).to include('DIAGRAM')
   end
