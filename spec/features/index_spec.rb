@@ -15,6 +15,12 @@ describe 'index', type: :feature, js: true do
     end
   end
 
+  it 'links the hero code to the guides for more attributes' do
+    within '.landing--annotated' do
+      expect(page).to have_link('+ many more', href: '/learn')
+    end
+  end
+
   it 'links each event word to its event' do
     within '.landing--event-groups' do
       expect(page).to have_link('following', href: '/up:link:follow')

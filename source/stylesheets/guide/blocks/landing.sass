@@ -197,13 +197,27 @@ $annotated-stack-below: 816px
     font-size: $text-sm
     white-space: normal
 
-.landing--annotated-more
+// A dashed chip under the code that links to the guides. More specific than the
+// landing's link styles (.landing--inner a), hover included.
+a.landing--annotated-more
   grid-column: 1 / -1
+  justify-self: start
   align-self: flex-start
-  margin-top: 6px
-  +type($text-sm, $leading-ui)
-  font-style: italic
-  color: $gray-600
+  margin-top: $space-1
+  padding: 1px 10px
+  +type($text-xs, $leading-ui)
+  font-weight: 500
+  color: $gray-900
+  text-decoration: none
+  background: darken($gray-100, 2%)
+  border: 1px dashed $gray-500
+  border-radius: 999px
+
+  &:hover, &:focus-visible
+    color: $gray-900
+    text-decoration: none
+    background: darken($gray-100, 7%)
+    border-color: $gray-600
 
 // The compiler example: HTML and JavaScript side by side. Flex rather than equal grid
 // columns, so each block starts at its content width and the wider HTML gets the room
