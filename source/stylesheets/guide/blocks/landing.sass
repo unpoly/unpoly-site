@@ -115,29 +115,45 @@
     overflow: visible
 
 // The hero's code: one line per row, each with a note at the end of a dotted leader.
+// The notes share a left-aligned column that starts after the longest line; each
+// leader fills the gap from its line to that column.
 // Below $annotated-stack-below the longest line and its note no longer fit side by
-// side, so each note goes under its line.
-$annotated-stack-below: 672px
+// side, so each note goes above its line.
+$annotated-stack-below: 816px
 
 .landing--annotated
   +vertical-margin($space-5)
   +landing-code-box
-  display: flex
-  flex-direction: column
-  gap: 6px
+  display: grid
+  grid-template-columns: max-content max-content
+  gap: 6px $space-3
+  align-items: baseline
 
   +narrower_than($annotated-stack-below)
+    display: flex
+    flex-direction: column
     gap: $space-3
 
+// Side by side, a row's line and note are cells of the shared grid.
 .landing--annotated-row
+  display: contents
+
+  +narrower_than($annotated-stack-below)
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    gap: 2px
+    min-width: 0
+    max-width: 100%
+
+// The code and its leader, in the grid's first column.
+.landing--annotated-line
   display: flex
   align-items: baseline
   min-width: 0
 
   +narrower_than($annotated-stack-below)
-    flex-direction: column
-    align-items: flex-start
-    gap: 2px
+    max-width: 100%
 
 .landing--annotated-code
   +landing-code-text
@@ -162,8 +178,8 @@ $annotated-stack-below: 672px
 
 .landing--annotated-lead
   flex: 1
-  min-width: $space-5
-  margin: 0 $space-3
+  min-width: 32px
+  margin-left: $space-3
   border-bottom: 2px dotted $gray-300
   transform: translateY(-4px)
 
@@ -171,16 +187,18 @@ $annotated-stack-below: 672px
     display: none
 
 .landing--annotated-note
-  +type($text-sm, $leading-ui)
+  +type($text-md, $leading-ui)
   color: $gray-800
   white-space: nowrap
 
+  // Stacked, the note heads its line.
   +narrower_than($annotated-stack-below)
-    font-size: $text-xs
-    color: $gray-700
+    order: -1
+    font-size: $text-sm
     white-space: normal
 
 .landing--annotated-more
+  grid-column: 1 / -1
   align-self: flex-start
   margin-top: 6px
   +type($text-sm, $leading-ui)
