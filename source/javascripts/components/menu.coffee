@@ -8,7 +8,6 @@ class Node
   EXPANDED_ICON  = 'fa-minus-square-o'
   COLLAPSED_ICON = 'fa-plus-square-o'
   CHILDLESS_ICON = 'fa-angle-right'
-  PAGE_ICON = 'fa-file-text-o'
 
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node--self')[0]
@@ -57,7 +56,12 @@ class Node
         @collapser.classList.toggle(COLLAPSED_ICON, !@isExpanded)
       else
         if @isPage()
-          @collapser.classList.add(PAGE_ICON)
+          # A guide page wears a book, a chapter's overview four tiles (SVGs, see the menu
+          # helper in config.rb).
+          @collapser.classList.add('-page')
+          unless @collapser.firstChild
+            glyph = if @element.matches('.-overview') then '.-overview' else '.-page'
+            @collapser.append(@element.closest('.menu').querySelector('.menu--glyphs').content.querySelector(glyph).cloneNode(true))
         else
           @collapser.classList.add(CHILDLESS_ICON)
 

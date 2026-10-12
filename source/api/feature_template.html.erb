@@ -29,7 +29,9 @@
 
     <%= breakable_signature(feature.signature) %>
 
-    <div class="subtitle" data-pagefind-ignore data-markdown="chip">
+    <%# The kind with its glyph, as on its tile in the module's feature list. %>
+    <div class="subtitle -kind" data-pagefind-ignore data-markdown="chip">
+      <%= icon("kind-#{feature.short_kind.downcase}", class: 'subtitle--icon') %>
       <%= feature.long_kind %>
     </div>
   <% end %>

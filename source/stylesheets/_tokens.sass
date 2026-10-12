@@ -42,10 +42,10 @@ $red-200: hsl(0, 78%, 93%)     // the EVENT tile's ground (beside $red-700)
 $red-600: hsl(0, 86%, 54%)     // the brand red: links, buttons, accents
 $red-700: hsl(0, 78%, 40%)     // the Form label on the landing's event rows, beside the Link label's 600; the EVENT tile's ink
 
-$blue-200: hsl(201, 67%, 93%)  // the HTML tile's ground in a feature list
+$blue-200: hsl(201, 67%, 93%)  // tints
 $blue-600: hsl(204, 70%, 54%)  // code samples in the example viewer
 $blue-700: hsl(201, 67%, 43%)  // accents, admonitions, the diagram's base state
-$blue-800: hsl(201, 67%, 33%)  // the HTML tile's ink (700 is 3.6:1 on its ground)
+$blue-800: hsl(201, 67%, 33%)  // the Learn chip's ink on a search result
 // The ink of tips: an admonition's text, the search dialog's TIP label.
 $tip-ink: darken(desaturate($blue-700, 20%), 16%)
 
@@ -63,14 +63,23 @@ $orange-500: hsl(37, 82%, 66%) // the progress bar
 $orange-600: hsl(37, 90%, 54%) // the support page's accent
 $orange-900: hsl(37, 90%, 24%) // the HEADER tile's ink (800 is 4.3:1 on its ground)
 
-$yellow-200: hsl(45, 100%, 93%) // notification ground
+$yellow-200: hsl(45, 100%, 93%) // notification ground, the TARGET tile's ground
 $yellow-500: hsl(56, 100%, 66%) // marked text
 $yellow-600: hsl(48, 89%, 54%)  // a hyperlink on a dark ground, the diagram's third state
-$yellow-900: hsl(39, 66%, 24%)  // notification text, the diagram's third outline
+$yellow-900: hsl(39, 66%, 24%)  // notification text, the diagram's third outline, the TARGET tile's ink
+
+// A hue of its own for the HTML tile: blue is Learn's, and teal (CSS) sits far enough
+// toward blue to tell apart.
+$green-200: hsl(100, 45%, 92%) // the ATTR and HTML tiles' ground
+$green-800: hsl(100, 50%, 26%) // the ATTR and HTML tiles' ink
 
 $teal-200: hsl(168, 76%, 93%)  // the CSS tile's ground
 $teal-700: hsl(168, 76%, 43%)  // the tag for a feature under discussion
 $teal-900: hsl(168, 76%, 24%)  // the CSS tile's ink (700 is 2.3:1 on its ground)
+
+// Each feature kind (Feature#short_kind, lowercase) as (ink, tint): the tile in a
+// feature list (ink on tint, 4.5:1 or more) and the chip on a search result (ink only).
+$feature-kinds: ('attr': ($green-800, $green-200), 'html': ($green-800, $green-200), 'css': ($teal-900, $teal-200), 'target': ($yellow-900, $yellow-200), 'js': ($indigo-800, $indigo-200), 'config': ($purple-800, $purple-200), 'event': ($red-700, $red-200), 'header': ($orange-900, $orange-200), 'cookie': ($gray-800, $gray-200))
 
 $background-light: rgba(0, 0, 0, 0.03)
 

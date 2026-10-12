@@ -17,9 +17,10 @@ const MESSAGES = {
   status: (count, query) => count ? `${count} ${count === 1 ? 'result' : 'results'} for '${query}'` : 'No results',
 }
 
-// The badges that name an area rather than a kind of code. Rows wearing one have a prose
-// title; every other row is named after an identifier and set as code.
-const AREA_BADGES = ['Learn', 'API']
+// The badges that name an area, a module or a class rather than a kind of code. Rows
+// wearing one have a prose title; every other row is named after an identifier and set
+// as code.
+const AREA_BADGES = ['Learn', 'API', 'MODULE', 'CLASS']
 
 function normalize(text) {
   // A reader types "up-follow", the title is "[up-follow]" — highlighting ignores the
@@ -105,6 +106,10 @@ up.compiler('.search-dialog--input', function(input) {
   const notice = dialog.querySelector('.search-dialog--notice')
   const tip = dialog.querySelector('.search-dialog--tip')
   const status = dialog.querySelector('.search-dialog--status')
+  // A badge's glyph by its lowercase name ("event", "learn"), as markup. Rendered once
+  // into the template (_search_dialog.html.erb).
+  const glyphs = Object.fromEntries(Array.from(dialog.querySelectorAll('.search-dialog--glyphs [data-glyph]'),
+    (element) => [element.dataset.glyph, element.innerHTML]))
   // The framework makes the overlay's box the dialog (role="dialog", aria-modal), so
   // the box is what needs the name.
   dialog.querySelector('up-modal-box').setAttribute('aria-label', 'Search the documentation')
@@ -175,10 +180,10 @@ up.compiler('.search-dialog--input', function(input) {
     selectHit(hits()[0])
   }
 
-  // API rows and Learn rows are told apart by color (search-dialog.sass).
-  function areaClass(badge) {
+  // Learn rows set their title as prose; every badge has its colors (search-dialog.sass).
+  function badgeClasses(badge) {
     if (!badge) return ''
-    return badge === 'Learn' ? '-learn' : '-api'
+    return `${badge === 'Learn' ? '-learn' : '-api'} -badge-${badge.toLowerCase()}`
   }
 
   // One page, with the sections that matched beneath it. The page is a hit of its own,
@@ -196,7 +201,7 @@ up.compiler('.search-dialog--input', function(input) {
       : ''
 
     return `
-      <a class="search-dialog--hit -page ${isCode ? '-code' : ''} ${areaClass(badge)} ${deprecated ? '-deprecated' : ''}"
+      <a class="search-dialog--hit -page ${isCode ? '-code' : ''} ${badgeClasses(badge)} ${deprecated ? '-deprecated' : ''}"
          href="${escapeHtml(normalizePath(page.url))}" up-layer="root" role="option" aria-selected="false">
         ${renderBadge(badge)}
         <span class="search-dialog--title">${highlight(title, query)}</span>
@@ -215,7 +220,9 @@ up.compiler('.search-dialog--input', function(input) {
   }
 
   function renderBadge(badge) {
-    return `<span class="search-dialog--gutter">${badge ? `<span class="tag -ghost search-dialog--badge">${escapeHtml(badge)}</span>` : ''}</span>`
+    if (!badge) return '<span class="search-dialog--gutter"></span>'
+    const glyph = glyphs[badge.toLowerCase()] || ''
+    return `<span class="search-dialog--gutter"><span class="search-dialog--badge">${glyph}${escapeHtml(badge)}</span></span>`
   }
 
   function hits() {

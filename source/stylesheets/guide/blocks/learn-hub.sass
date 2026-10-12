@@ -120,6 +120,12 @@ $number-size-narrow: 36px
     margin: 0
 
 // The overview leads the run: bold, with a small grid icon for "the whole chapter".
+// (svg, to outweigh the .icon block's 1em.)
+svg.chapter-pages--icon
+  width: 13px
+  height: 13px
+  flex: none
+
 .chapter-pages--overview
   display: inline-flex
   align-items: center

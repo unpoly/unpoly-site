@@ -36,9 +36,15 @@
     .api-row--title
       text-decoration-color: currentColor
 
-.api-row--icon
+svg.api-row--icon
   flex: none
   color: $gray-600
+  width: 18px
+  height: 18px
+
+  // The package from Icon is drawn for 2px; the hub sets its glyphs lighter.
+  > g
+    stroke-width: 1.6
 
 .api-row--title
   text-decoration: underline

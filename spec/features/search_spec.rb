@@ -191,16 +191,16 @@ describe 'search', type: :feature, js: true do
     it 'lists the pages in the order they come in, once each, with the sections that matched' do
       visit '/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow/', title: '[up-follow]', badge: 'HTML',
+        fulltext_page(url: '/up-follow/', title: '[up-follow]', badge: 'ATTR',
           sections: [{ anchor: 'example', title: 'Example', excerpt: 'Follows a <mark>link</mark>.' }]),
         fulltext_page(url: '/overlays/', title: 'Overlays', badge: 'Learn'),
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR'),
       ])
       search_for('follow')
       expect(page).to have_css('.search-dialog--hit', text: 'Overlays')
 
       expect(rows.map { |row| row['href'] }).to eq(['/up-follow', '/overlays'])
-      expect(rows.first).to include('title' => '[up-follow]', 'badge' => 'HTML')
+      expect(rows.first).to include('title' => '[up-follow]', 'badge' => 'ATTR')
       expect(page).to have_css('.search-dialog--hit.-section', text: 'Example')
     end
 
@@ -216,7 +216,7 @@ describe 'search', type: :feature, js: true do
     it 'swaps to new results only once the full text has answered' do
       visit '/loading-state'
       stub_pagefind({
-        'follow' => [fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML')],
+        'follow' => [fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR')],
         'render' => [fulltext_page(url: '/up.render', title: 'up.render([target], [options])', badge: 'JS')],
       })
       search_for('follow')
@@ -305,7 +305,7 @@ describe 'search', type: :feature, js: true do
     it 'sets every badge in a gutter of its own, so all titles start at one edge' do
       visit '/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR'),
         fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
@@ -317,10 +317,10 @@ describe 'search', type: :feature, js: true do
       expect(page).to have_css('.search-dialog--hit .search-dialog--gutter .search-dialog--badge', minimum: 2)
     end
 
-    it 'tells API and Learn hits apart by color, and separates hits by a hairline and a gap' do
+    it 'sets each badge as an outlined chip in the ink of its kind, with its glyph, and separates hits by a hairline and a gap' do
       visit '/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR'),
         fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
@@ -331,22 +331,26 @@ describe 'search', type: :feature, js: true do
           let color = (selector, property) => getComputedStyle(document.querySelector(selector))[property]
           let probe = (value) => { let div = document.createElement('div'); div.style.color = value; document.body.append(div); let c = getComputedStyle(div).color; div.remove(); return c }
           return {
-            apiBadge: color('.search-dialog--hit.-api .search-dialog--badge', 'color'),
-            apiBorder: color('.search-dialog--hit.-api .search-dialog--badge', 'borderTopColor'),
-            apiBackground: color('.search-dialog--hit.-api .search-dialog--badge', 'backgroundColor'),
-            learnBadge: color('.search-dialog--hit.-learn .search-dialog--badge', 'color'),
-            red: probe('hsl(0, 86%, 54%)'),
-            blue: probe('hsl(201, 67%, 43%)'),
+            attrInk: color('.search-dialog--hit.-badge-attr .search-dialog--badge', 'color'),
+            attrBackground: color('.search-dialog--hit.-badge-attr .search-dialog--badge', 'backgroundColor'),
+            attrBorder: color('.search-dialog--hit.-badge-attr .search-dialog--badge', 'borderTopStyle'),
+            attrGlyph: Boolean(document.querySelector('.search-dialog--hit.-badge-attr .search-dialog--badge svg.-kind-attr')),
+            learnInk: color('.search-dialog--hit.-badge-learn .search-dialog--badge', 'color'),
+            learnGlyph: Boolean(document.querySelector('.search-dialog--hit.-badge-learn .search-dialog--badge svg.-book')),
+            blueInk: probe('hsl(201, 67%, 33%)'),
+            greenInk: probe('hsl(100, 50%, 26%)'),
             separator: getComputedStyle(document.querySelectorAll('.search-dialog--hit:not(.-section)')[1]).borderTopStyle,
             gap: getComputedStyle(document.querySelectorAll('.search-dialog--hit:not(.-section)')[1]).marginTop,
           }
         })()
       JS
 
-      expect(colors['apiBadge']).to eq(colors['red'])
-      expect(colors['apiBorder']).to eq(colors['red'])
-      expect(colors['apiBackground']).to eq('rgba(0, 0, 0, 0)')
-      expect(colors['learnBadge']).to eq(colors['blue'])
+      expect(colors['attrInk']).to eq(colors['greenInk'])
+      expect(colors['attrBackground']).to eq('rgba(0, 0, 0, 0)')
+      expect(colors['attrBorder']).to eq('solid')
+      expect(colors['attrGlyph']).to be(true)
+      expect(colors['learnInk']).to eq(colors['blueInk'])
+      expect(colors['learnGlyph']).to be(true)
       expect(colors['separator']).to eq('solid')
       expect(colors['gap']).to eq('2px')
     end
@@ -433,7 +437,7 @@ describe 'search', type: :feature, js: true do
     it 'points the field at the selected option and keeps everything but options out of the listbox' do
       visit '/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML',
+        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR',
           sections: [{ anchor: 'example', title: 'Example', excerpt: 'Follows a link.' }]),
         fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
       ])
@@ -484,7 +488,7 @@ describe 'search', type: :feature, js: true do
     it 'moves the selection with the arrow keys and opens it with Enter, closing the dialog' do
       visit '/loading-state'
       stub_pagefind([
-        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML'),
+        fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR'),
         fulltext_page(url: '/overlays', title: 'Overlays', badge: 'Learn'),
       ])
       search_for('follow')
@@ -549,7 +553,7 @@ describe 'search', type: :feature, js: true do
 
     it 'opens over the drawer, and a picked hit closes both' do
       visit '/'
-      stub_pagefind([fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'HTML')])
+      stub_pagefind([fulltext_page(url: '/up-follow', title: '[up-follow]', badge: 'ATTR')])
       find('.guide--head a[href="/menu/narrow"]').click
       expect(page).to have_css('up-drawer .menu--nodes')
 

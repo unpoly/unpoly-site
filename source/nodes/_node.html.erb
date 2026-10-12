@@ -3,7 +3,8 @@
   from parsed documentation (modules, pages, features) — this template only asks them
   what every node can answer.
 %>
-<div class="node <%= node.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
+<%# overview: whether this node is its chapter's overview (Topic#menu_overview). %>
+<div class="node <%= (node.menu_modifiers + (defined?(overview) && overview ? ['overview'] : [])).map { |modifier| "-#{modifier}" }.join(' ') %>">
   <% if node.menu_path %>
     <% node_link node.menu_path do %>
       <span class="node--title"><%= breakable_signature(node.menu_title) %></span>
@@ -25,7 +26,7 @@
   <% end %>
 
   <% if node.try(:menu_overview) %>
-    <%= partial 'nodes/node', locals: { node: node.menu_overview } %>
+    <%= partial 'nodes/node', locals: { node: node.menu_overview, overview: true } %>
   <% end %>
 
   <% node.menu_children.each do |child| %>

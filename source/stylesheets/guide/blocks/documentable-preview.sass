@@ -30,27 +30,10 @@
     width: 20px
     height: 20px
 
-  &.-html
-    color: $blue-800
-    background-color: $blue-200
-  &.-css
-    color: $teal-900
-    background-color: $teal-200
-  &.-js
-    color: $indigo-800
-    background-color: $indigo-200
-  &.-config
-    color: $purple-800
-    background-color: $purple-200
-  &.-event
-    color: $red-700
-    background-color: $red-200
-  &.-header
-    color: $orange-900
-    background-color: $orange-200
-  &.-cookie
-    color: $gray-800
-    background-color: $gray-200
+  @each $kind, $colors in $feature-kinds
+    &.-#{$kind}
+      color: nth($colors, 1)
+      background-color: nth($colors, 2)
 
 // Below the type scale: COOKIE and HEADER have to fit the tile's 48px.
 .documentable-preview--kind-label

@@ -10,15 +10,18 @@
 $search-dialog-width: 640px
 
 // The column at the start of every row that holds its badge, so that the titles start
-// at one edge whatever the badge says. Wide enough for the longest kind (CONFIG, COOKIE).
-$search-dialog-gutter: 64px
+// at one edge whatever the badge says. Wide enough for the longest badge with its
+// glyph (MODULE, 70px) and a little room for a wider fallback font.
+$search-dialog-gutter: 76px
 
 $search-dialog-row-padding-x: $space-4
 
-// API and Learn hits are told apart by color: on the badge (border and text) and on
-// the stripe that marks the row under the pointer or the arrow keys.
-$search-dialog-api-color: $red-600
-$search-dialog-learn-color: $blue-700
+// Every badge has an ink, for its outlined chip and for the stripe that marks its row
+// under the pointer or the arrow keys. A feature's badge takes its kind's ink
+// ($feature-kinds), as its tile in a module's feature list does. A guide page is blue, a
+// hue no kind takes; a module or class gray, as is any other API page. (The tints go
+// unused here.)
+$search-dialog-badges: map-merge($feature-kinds, ('learn': ($blue-800, null), 'module': ($gray-800, null), 'class': ($gray-800, null), 'api': ($gray-800, null)))
 $search-dialog-separator: 1px solid $gray-300
 
 up-modal.search-dialog
@@ -89,11 +92,10 @@ up-modal.search-dialog
   text-decoration: none
   border-left: 3px solid transparent
 
-  &.-api
-    --area-color: #{$search-dialog-api-color}
-
-  &.-learn
-    --area-color: #{$search-dialog-learn-color}
+  @each $badge, $colors in $search-dialog-badges
+    &.-badge-#{$badge}
+      --area-color: #{nth($colors, 1)}
+      --area-border: #{mix(nth($colors, 1), $white, 45%)}
 
   // A hairline and a little air before every hit that starts a new result; a section
   // continues the hit above it.
@@ -205,7 +207,27 @@ up-modal.search-dialog
   padding: 0 4px
   margin-right: 2px
 
-// Border and text in the hit's area color, never filled. (Nested, to outweigh the
-// .tag block's own --color.)
-.search-dialog--hit .search-dialog--badge
-  --color: var(--area-color)
+// An outlined chip in the hit's ink, the glyph before the label: the kind tile of a
+// feature list (documentable-preview.sass), laid on its side. An inline block, so that
+// the grid sets it on the title's baseline and the title stays where it was. Padded
+// at the top and the sides only: the all-caps label leaves its descender space empty,
+// which pads the bottom.
+.search-dialog--badge
+  display: inline-block
+  padding: 2px 6px 0 5px
+  border: 1px solid var(--area-border)
+  border-radius: $radius-sm
+  color: var(--area-color)
+  // As the tile's label: COOKIE and CONFIG have to fit the gutter with their glyph.
+  font-size: 10px
+  line-height: 16px
+  font-weight: bold
+  letter-spacing: 0.03em
+  text-transform: uppercase
+  white-space: nowrap
+
+  .icon
+    width: 12px
+    height: 12px
+    margin-right: 3px
+    vertical-align: -2px

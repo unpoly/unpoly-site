@@ -39,12 +39,12 @@ describe 'the built search index' do
     fragment_of(path)['meta']
   end
 
-  it 'titles a module page with the module name and badges it API' do
-    expect(meta_of('/up.link')).to include('title' => 'up.link', 'badge' => 'API')
+  it 'titles a module page with the module name and badges it MODULE' do
+    expect(meta_of('/up.link')).to include('title' => 'up.link', 'badge' => 'MODULE')
   end
 
-  it 'titles a class page with the class name' do
-    expect(meta_of('/up.Layer')).to include('title' => 'up.Layer', 'badge' => 'API')
+  it 'titles a class page with the class name and badges it CLASS' do
+    expect(meta_of('/up.Layer')).to include('title' => 'up.Layer', 'badge' => 'CLASS')
   end
 
   it 'titles a feature page with its signature and badges it with its kind' do

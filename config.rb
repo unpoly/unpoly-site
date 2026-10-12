@@ -557,10 +557,18 @@ helpers do
 
   # One badge per result, always the most informative one there is. A feature wears its
   # kind, because the reference is full of near-namesakes — [up-follow], up.follow() and
-  # up:link:follow are three different things sharing one name. Everything else wears its
-  # area, where "API" is already all there is to say.
+  # up:link:follow are three different things sharing one name. A module or class says
+  # which it is (up.layer, up.Layer). Everything else wears its area.
   def search_badge(documentable, area)
-    documentable.kind?(:feature) ? documentable.short_kind : area
+    if documentable.kind?(:feature)
+      documentable.short_kind
+    elsif documentable.module?
+      'MODULE'
+    elsif documentable.class?
+      'CLASS'
+    else
+      area
+    end
   end
 
   # Chrome that sits inside the indexed body: breadcrumbs, the auto-TOC, the reading nav,
@@ -778,8 +786,12 @@ helpers do
   # [up-layer]). The default is the menu's own layer.
   def menu(nav_layer: nil, &block)
     nodes = capture_html(&block)
+    # The glyphs before a page's title, once per menu: menu.coffee copies them into the
+    # page nodes. A guide page wears the book of the Learn search results, a chapter's
+    # overview the tiles of the Learn hub.
+    glyphs = content_tag(:template, icon('book', class: '-page') + icon('overview', class: '-overview'), class: 'menu--glyphs')
     # [up-id] lets the sidebar's [up-defer] placeholder find this element in the response.
-    @menu_html = content_tag(:div, nodes, class: 'menu', 'up-nav': '', 'up-layer': nav_layer, 'up-id': 'menu')
+    @menu_html = content_tag(:div, glyphs + nodes, class: 'menu', 'up-nav': '', 'up-layer': nav_layer, 'up-id': 'menu')
     concat_content @menu_html
   end
 

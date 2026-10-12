@@ -80,8 +80,14 @@ describe Unpoly::Site::Documentable do
 
     it 'describes the language a feature belongs to' do
       expect(find_by_name!('up.render').long_kind).to eq('JavaScript function')
-      expect(find_by_name!('[up-follow]').long_kind).to eq('HTML selector')
+      expect(find_by_name!('[up-follow]').long_kind).to eq('HTML attribute')
       expect(find_by_name!('up:form:submit').long_kind).to eq('DOM event')
+    end
+
+    it 'tells apart what a selector selects by' do
+      expect(find_by_name!(':main').long_kind).to eq('Target selector')
+      expect(find_by_name!('.up-active').long_kind).to eq('CSS class')
+      expect(find_by_name!('[up-follow]').long_kind).to eq('HTML attribute')
     end
 
   end

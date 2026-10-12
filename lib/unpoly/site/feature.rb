@@ -126,10 +126,11 @@ module Unpoly
       def short_kind
         case kind
         when 'selector'
-          if name.starts_with?(':')
-            'CSS'
-          else
-            'HTML'
+          case selector_kind
+          when :pseudo_class then 'TARGET'
+          when :class then 'CSS'
+          when :attribute then 'ATTR'
+          else 'HTML'
           end
         when 'event'
           'EVENT'
@@ -149,7 +150,12 @@ module Unpoly
       def long_kind
         case kind
         when 'selector'
-          'HTML selector'
+          case selector_kind
+          when :pseudo_class then 'Target selector'
+          when :class then 'CSS class'
+          when :attribute then 'HTML attribute'
+          else 'HTML selector'
+          end
         when 'constructor'
           'Class constructor'
         when 'function'
@@ -180,6 +186,19 @@ module Unpoly
           'Cookie'
         else
           "Unhandled feature kind: #{kind}"
+        end
+      end
+
+      # What a selector feature selects by: a pseudo-class for targets (:main), a class
+      # Unpoly sets for styling (.up-active), or an attribute (a[up-follow]). Anything
+      # else, like an element name, stays a generic HTML selector.
+      def selector_kind
+        if name.start_with?(':')
+          :pseudo_class
+        elsif name.start_with?('.')
+          :class
+        elsif name.include?('[')
+          :attribute
         end
       end
 

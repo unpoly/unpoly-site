@@ -64,8 +64,8 @@ describe 'WebMCP tools', type: :feature, js: true do
     it 'answers with pages, their hubs, Markdown URLs and plain excerpts, and a skill tip only once' do
       visit '/up.render'
       stub_pagefind([
-        { url: '/up-follow/', excerpt: 'Follows a <mark>link</mark>.', meta: { title: '[up-follow]', badge: 'HTML' } },
-        { url: '/up-follow', excerpt: 'Again', meta: { title: '[up-follow]', badge: 'HTML' } },
+        { url: '/up-follow/', excerpt: 'Follows a <mark>link</mark>.', meta: { title: '[up-follow]', badge: 'ATTR' } },
+        { url: '/up-follow', excerpt: 'Again', meta: { title: '[up-follow]', badge: 'ATTR' } },
         { url: '/following-links/', excerpt: 'How to follow', meta: { title: 'Following links', badge: 'Learn' }, filters: { hub: ['Links'] } },
         { url: '/links/', excerpt: 'All about links', meta: { title: 'Links', badge: 'Learn' }, filters: { overview: ['true'] } },
       ])
@@ -73,7 +73,7 @@ describe 'WebMCP tools', type: :feature, js: true do
 
       first = call_tool('search_docs', { query: 'follow' })
       expect(first['results']).to eq([
-        { 'title' => '[up-follow]', 'kind' => 'HTML', 'hub' => nil, 'url' => "#{origin}/up-follow", 'mdUrl' => "#{origin}/up-follow.md", 'excerpt' => 'Follows a link.' },
+        { 'title' => '[up-follow]', 'kind' => 'ATTR', 'hub' => nil, 'url' => "#{origin}/up-follow", 'mdUrl' => "#{origin}/up-follow.md", 'excerpt' => 'Follows a link.' },
         { 'title' => 'Following links', 'kind' => 'Learn', 'hub' => 'Links', 'url' => "#{origin}/following-links", 'mdUrl' => "#{origin}/following-links.md", 'excerpt' => 'How to follow' },
         { 'title' => 'Links (overview)', 'kind' => 'Learn', 'hub' => nil, 'url' => "#{origin}/links", 'mdUrl' => "#{origin}/links.md", 'excerpt' => 'All about links' },
       ])
