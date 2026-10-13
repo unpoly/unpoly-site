@@ -15,7 +15,7 @@ url: "http://unpoly.test/test.module.function"
 
 (required)
 
-Type: string | [Element](https://developer.mozilla.org/de/docs/Web/API/Element)
+Type: string | [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 
 ### [options] {#options}
 
