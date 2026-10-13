@@ -52,6 +52,33 @@ describe Unpoly::Site::Toc do
       expect(formats.children.map(&:guide_id)).to eq(%w[url-patterns relaxed-json])
     end
 
+    it 'places a guide page in its chapter, including the page a chapter starts at' do
+      install = repository.find_page!('install')
+      loading_state = repository.find_page!('loading-state')
+
+      expect(toc.area_for(install)).to eq(toc.learn)
+      expect(toc.topic_of(install).title).to eq('Getting started')
+      expect(toc.topic_of(loading_state).title).to eq('Loading state')
+    end
+
+    it 'places a module and its features in the module topic' do
+      interface = repository.find_by_guide_id!('up.link')
+      feature = repository.find_by_guide_id!('up.follow')
+
+      [interface, feature].each do |documentable|
+        expect(toc.area_of(documentable)).to eq(toc.api)
+        expect(toc.topic_of(documentable).module_name).to eq('up.link')
+      end
+    end
+
+    it 'presents an unlisted documentable in the API area without a topic' do
+      method = repository.find_by_guide_id!('up.Request.prototype.url')
+
+      expect(toc.area_of(method)).to be_nil
+      expect(toc.area_for(method)).to eq(toc.api)
+      expect(toc.topic_of(method)).to be_nil
+    end
+
     it 'groups a module topic by feature kind' do
       module_topic = toc.api.topics.detect { |topic| topic.respond_to?(:module_name) && topic.module_name == 'up.link' }
 

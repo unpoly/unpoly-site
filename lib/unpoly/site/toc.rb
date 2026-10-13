@@ -49,11 +49,11 @@ module Unpoly
       # The area a documentable belongs to, or nil when it is not part of the manifest
       # (e.g. a feature of a module, which is reached through its module).
       def area_of(documentable)
-        areas.detect { |area| area.includes?(documentable) }
+        area_index[documentable]
       end
 
       def topic_of(documentable)
-        areas.lazy.filter_map { |area| area.topic_of(documentable) }.first
+        topic_index[documentable]
       end
 
       # The area a document is presented in. Everything the manifest does not list
@@ -76,6 +76,21 @@ module Unpoly
       end
 
       private
+
+      # Each documentable's area and topic, looked up once. Asking every topic for every
+      # documentable is quadratic, and the skill asks for each of its ~800 files. The
+      # Toc never changes: a reloaded repository builds a new one.
+      def area_index
+        @area_index ||= areas.each_with_object({}) do |area, index|
+          area.members.each { |member| index[member] ||= area }
+        end
+      end
+
+      def topic_index
+        @topic_index ||= areas.flat_map(&:topics).each_with_object({}) do |topic, index|
+          topic.members.each { |member| index[member] ||= topic }
+        end
+      end
 
       def neighbors(page)
         order = reading_order
@@ -204,12 +219,9 @@ module Unpoly
           topics.filter_map { |topic| topic.module_name if topic.respond_to?(:module_name) }
         end
 
-        def includes?(documentable)
-          !!topic_of(documentable) || loose_pages.include?(documentable)
-        end
-
-        def topic_of(documentable)
-          topics.detect { |topic| topic.includes?(documentable) }
+        # Everything presented in this area: its topics' members and its loose pages.
+        def members
+          topics.flat_map(&:members) + loose_pages
         end
 
         def menu_path
@@ -252,8 +264,9 @@ module Unpoly
           nil
         end
 
-        def includes?(documentable)
-          start_page == documentable || children.include?(documentable)
+        # The documents that belong to this topic.
+        def members
+          [start_page, *children].compact
         end
 
         # What the templates render.
@@ -386,8 +399,8 @@ module Unpoly
           end
         end
 
-        def includes?(documentable)
-          documentable == interface || interface.menu_children.include?(documentable)
+        def members
+          [interface, *interface.menu_children]
         end
 
         def summary_markdown
