@@ -364,7 +364,7 @@ class OutputTest(CorpusTestCase):
                 "up.render([target], [options]) (JavaScript function)",
                 "Replaces elements on the page.\n\n" + "Filler text.\n\n" * 30 +
                 "## Targets\n\nUse a [target selector](../learn/targeting.md) like `.zebra` here.\n",
-                name="up.render", area="API"),
+                name="up.render", area="API", kind="JavaScript function", parent="up.fragment module"),
             "references/learn/other.md": page("Other zebra", "zebra"),
         })
 
@@ -372,10 +372,17 @@ class OutputTest(CorpusTestCase):
         status, output = self.run_cli("up.render", "--limit", "1")
         self.assertEqual(status, 0)
         lines = output.strip().split("\n")
-        self.assertRegex(lines[0], r'^<result score="\d+\.\d" path="references/api/up-render-function.md">$')
+        self.assertRegex(lines[0], r'^<result score="\d+\.\d" path="references/api/up-render-function.md" '
+                                   r'area="API" kind="JavaScript function" parent="up.fragment module">$')
         self.assertEqual(lines[1], "<title>up.render([target], [options])</title>")
         self.assertTrue(lines[2].startswith("<snippet>") and lines[2].endswith("</snippet>"))
         self.assertEqual(lines[3], "</result>")
+
+    def test_result_shows_only_the_place_it_knows(self):
+        _, output = self.run_cli("zebra", "--limit", "5")
+        other = [line for line in output.split("\n") if 'path="references/learn/other.md"' in line]
+        self.assertEqual(len(other), 1)
+        self.assertRegex(other[0], r'path="references/learn/other.md">$')
 
     def test_symbol_page_snippet_is_the_lead(self):
         _status, output = self.run_cli("up.render", "--limit", "1")

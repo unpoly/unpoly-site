@@ -1,5 +1,6 @@
 ---
 area: "API"
+parent: "API reference"
 url: "http://unpoly.test/test.markdown"
 ---
 <nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API reference](http://unpoly.test/api.md)</nav>

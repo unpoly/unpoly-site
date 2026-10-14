@@ -1,11 +1,13 @@
 ---
 name: "test.module"
 area: "API"
+kind: "module"
+parent: "API reference"
 url: "http://unpoly.test/test.module"
 ---
 <nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API reference](http://unpoly.test/api.md)</nav>
 
-# `test.module` (module)
+# `test.module`
 
 ---
 

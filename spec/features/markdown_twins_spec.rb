@@ -64,10 +64,22 @@ describe 'Markdown twins', type: :feature do
       expect(markdown('/start/links.md')).to include('](http://unpoly.test/up-follow.md)')
     end
 
-    it 'names the module of a feature in its nav line, and nothing in its front matter' do
+    it 'names the kind and module of a feature in its front matter, the module in its nav line, and neither in its title' do
       text = markdown('/up.render.md')
-      expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nurl: "http://unpoly.test/up.render"\n---\n))
-      expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [up.fragment module](http://unpoly.test/up.fragment.md)</nav>\n\n# up.render([target], [options]) (JavaScript function)\n))
+      expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nkind: "JavaScript function"\nparent: "up.fragment module"\nurl: "http://unpoly.test/up.render"\n---\n))
+      expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [up.fragment module](http://unpoly.test/up.fragment.md)</nav>\n\n# up.render([target], [options])\n))
+    end
+
+    it 'places each page in the hierarchy: area, kind and parent in the front matter, the parent in the nav line' do
+      feature = markdown('/up-follow.md')
+      expect(feature).to include(%(kind: "HTML attribute"\nparent: "up.link module"))
+      expect(feature).to include('# [up-follow]' + "\n")
+      expect(markdown('/up.Layer.md')).to include(%(parent: "up.layer module"))
+      expect(markdown('/up.layer.md')).to include(%(kind: "module"\nparent: "API reference"))
+      learn = markdown('/following-links.md')
+      expect(learn).to include(%(parent: "Links chapter"))
+      expect(learn).to match(%r{<nav aria-label="Unpoly docs">.*\[Links chapter\]\(.*/links\.md\)</nav>})
+      expect(markdown('/links.md')).to include(%(parent: "Learn"))
     end
 
     it 'exists for the hubs, the changelog and /support' do
@@ -109,7 +121,7 @@ describe 'Markdown twins', type: :feature do
     it 'has reference files that link each other by relative paths and the site by unpoly.com' do
       text = markdown('/skills/unpoly-docs/references/learn/start-links.md')
       expect(text).to include(%(url: "https://unpoly.com/start/links"))
-      expect(text).to include('<nav aria-label="Unpoly docs">[All docs](../../SKILL.md) · [Learn](index.md)</nav>')
+      expect(text).to include('<nav aria-label="Unpoly docs">[All docs](../../SKILL.md) · [Getting started chapter](start-overview.md)</nav>')
       expect(text).to include('](../api/up-follow-selector.md)')
     end
 

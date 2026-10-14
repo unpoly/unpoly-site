@@ -1,11 +1,13 @@
 ---
 name: "test.module.function"
 area: "API"
+kind: "JavaScript function"
+parent: "test.module module"
 url: "http://unpoly.test/test.module.function"
 ---
 <nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/test.module.md)</nav>
 
-# test.module.function(target, [options]) (JavaScript function)
+# test.module.function(target, [options])
 
 ---
 

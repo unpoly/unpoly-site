@@ -73,13 +73,17 @@ module Unpoly
           end
         end
 
-        # The page's front matter. Only what the body does not already say in a fixed
-        # place: the title is the first heading.
+        # The page's front matter: what the skill's search shows for a result, and what an
+        # agent peeking at the file sees first. The title is the first heading.
         def front_matter(url:)
           documentable = self.documentable
           data = {}
           data['name'] = symbol.name if symbol
           data['area'] = area
+          data['kind'] = kind_label if symbol
+          if (hub = self.hub)
+            data['parent'] = hub.first
+          end
           if documentable && %w[deprecated experimental].include?(documentable.visibility)
             data['visibility'] = documentable.visibility
           end
@@ -89,11 +93,18 @@ module Unpoly
         end
 
         # The closest page above this one, as [label, path], or nil when that is the
-        # root index. A feature names its module, which nothing else in its Markdown does.
+        # root index: a feature's module or class, a class's module, a Learn page's
+        # chapter, and otherwise the area's hub (for a module, a chapter's first page).
         def hub
+          documentable = self.documentable
           if documentable&.kind?(:feature)
             interface = documentable.interface
             ["#{interface.name} #{interface.kind}", interface.guide_path]
+          elsif documentable&.class? && (module_name = documentable.explicit_parent_name)
+            mod = Site.current.find_module!(module_name)
+            ["#{mod.name} module", mod.guide_path]
+          elsif (chapter = self.chapter)
+            chapter
           elsif (toc_area = self.toc_area)
             [toc_area.title, toc_area.path]
           elsif subject[:release] || subject[:page] == :upgrading
@@ -106,7 +117,28 @@ module Unpoly
           symbol&.kind
         end
 
+        # The kind as the page's title shows it on the web ("JavaScript function", "class"),
+        # nil for pages.
+        def kind_label
+          symbol = self.symbol or return
+          symbol.kind?(:feature) ? symbol.long_kind : symbol.kind.to_s
+        end
+
         private
+
+        # The page group a page belongs to, as [label, path] of its first page, unless the
+        # page is that first page itself. A Learn chapter is labelled as one ("Forms chapter").
+        def chapter
+          documentable = self.documentable or return
+          topic = Site.current.toc.topic_of(documentable)
+          return unless topic.is_a?(Toc::PageGroup)
+
+          start = topic.start_page
+          return if start.nil? || start == documentable
+
+          label = topic.area.key == 'learn' ? "#{topic.title} chapter" : topic.title
+          [label, start.guide_path]
+        end
 
         # The documentable, when it is an API symbol rather than a guide page.
         def symbol

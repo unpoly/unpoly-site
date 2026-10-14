@@ -18,9 +18,22 @@ Unpoly is the missing application layer for HTML. Links and forms update fragmen
 
 This skill holds the documentation of Unpoly <%= version %>, the same text as https://unpoly.com, one Markdown file per page:
 
-- `references/learn/`: guides that explain a topic with examples (start with `index.md`).
-- `references/api/`: the API reference, one file per API symbol and module (start with `index.md`).
-- `references/changes/`: the release notes of every Unpoly version, and the upgrade guide.
+- `references/learn/`: the Learn pages (start with `index.md`)
+- `references/api/`: the API pages (start with `index.md`)
+- `references/changes/`: the release notes of every Unpoly version, and the upgrade guide
+
+## Learn and API pages
+
+**Learn pages** are tutorials, how-tos and best practices. They explain Unpoly's concepts, such as fragments, targeting, layers and navigation. They show established patterns that solve common tasks by combining several features, and they recommend one approach where several would work, including the trade-offs and pitfalls. A Learn page covers the options you need in the common case, not every option.
+
+**API pages** document one feature each: an HTML attribute, a JavaScript function, an event, an HTTP header, or a module with its features. They list the exact specs: every parameter and option with its type, default and allowed values, and every return value and event property, including the rarely needed ones. An API page says what a feature does, not how it fits together with others to solve a task.
+
+Each answers questions the other doesn't, so most work needs both:
+
+1. **For a task, start with a Learn page.** Search in plain words for what you want to achieve ("open a form in an overlay", "show a loading indicator"). Read the Learn page to learn the recommended approach and which features it combines.
+2. **Look up every feature you use on its API page.** Follow the Learn page's links to the API pages. Check the exact options, defaults and allowed values there, in particular any option the Learn page doesn't mention.
+3. **For a feature you already know, go straight to its API page.** Search for its exact name (`up.render`, `[up-target]`, `up:link:follow`). If the API page links to a Learn page, read it when you need to know how the feature is meant to be used.
+4. **When upgrading, start with `references/changes/upgrading.md`.**
 
 ## Finding things
 
@@ -36,13 +49,13 @@ Pass several variations of what you are looking for in one call: synonyms, the a
 python3 scripts/search.py "close overlay" "dismiss modal" up-dismiss up.layer.dismiss
 ```
 
-This matters most when you search in plain words: when you describe a task rather than name a feature, don't know whether Unpoly supports something, or look for a guide you don't know exists. Then pack the query with every word for the idea, e.g. `"loading indicator" spinner progress busy feedback`, and search again with different words if the top results miss.
+This matters most when you search in plain words: when you describe a task rather than name a feature, don't know whether Unpoly supports something, or look for a Learn page you don't know exists. Then pack the query with every word for the idea, e.g. `"loading indicator" spinner progress busy feedback`, and search again with different words if the top results miss.
 
 Words inside one quoted argument also count as a phrase: pages containing it word for word rank higher. A word with a leading `-` excludes every page that contains it: `overlay -modal`.
 
 Exact names rank their own page first, in any spelling: `up.render`, `up.render()`, `[up-follow]`, `up-follow`, `up:link:follow`, `X-Up-Target`.
 
-Each result is a `<result>` block with a `score` and a `path` relative to this skill, plus the page's `<title>` and a snippet around the match. Read the file at `path` for the whole page. The top 10 results are shown; pass `--limit 30` to see more. Release notes and deprecated features rank lower.
+Each result is a `<result>` block with a `score`, a `path` relative to this skill, and where the page sits: its `area` (Learn or API), its `kind` on API pages, and its `parent` (a feature's module, a Learn page's chapter). Inside are the page's `<title>` and a snippet around the match. Read the file at `path` for the whole page. The top 10 results are shown; pass `--limit 30` to see more. Release notes and deprecated features rank lower.
 
 Without Python, grep the reference files for any of your terms, ranked by matching lines per file:
 
@@ -50,22 +63,19 @@ Without Python, grep the reference files for any of your terms, ranked by matchi
 grep -rEic "up-dismiss|up.layer.dismiss|close overlay" references/ | grep -v ':0$' | sort -t: -k2 -rn | head -n 20
 ```
 
-Or walk the index below: it lists every guide chapter and every API module. A chapter's first page links to all pages of the chapter, and a module's page lists every feature of the module with a one-line summary.
+Or walk the index below: it lists every Learn chapter and every API module. A chapter's first page links to all pages of the chapter, and a module's page lists every feature of the module with a one-line summary.
 
 ## Conventions
 
-- Every file starts with front matter: `url` is the page on unpoly.com, `area` its section. An API page also has `name`, its real identifier, and `visibility` when it is `deprecated` or `experimental`.
+- Every file starts with front matter: `url` is the page on unpoly.com, `area` its section, and `parent` the page above it. An API page also has `name`, its real identifier, `kind` (e.g. `JavaScript function`, `HTML attribute`), and `visibility` when it is `deprecated` or `experimental`.
 - File names are made safe for every file system and shell: lowercase, `$` spelled out, and the kind appended (`up.$compiler` is `up-dollar-compiler-function.md`, `up:link:follow` is `up-link-follow-event.md`, the class `up.Layer` is `up-layer-class.md`).
-- On API pages, the first heading is the symbol followed by its kind in parentheses: `# up.render([target], [options]) (JavaScript function)`.
 - Fragment links point at the heading ending in `{#hash}`, e.g. `[label](up-render-function.md#options.target)` points at `#### [options.target] {#options.target}` in that file.
 - Links to pages that are not part of this skill point to unpoly.com.
-- Lines in `<nav>` blocks are navigation (links to related guides, a chapter's other pages), not content.
+- Lines in `<nav>` blocks are navigation (links to the page above, related Learn pages, a chapter's other pages), not content.
 
 ## Check the Unpoly version
 
-This skill documents Unpoly <%= version %>. Features deprecated in older versions are still included and searchable, but the guides' examples show the current way of doing things. Check which version the app uses: `unpoly` in `package.json`, `unpoly-rails` in `Gemfile.lock`, a CDN URL in the layout, or `up.version` in the browser. If it's older, tell the user.
-
-For any upgrade work, start with `references/changes/upgrading.md`.
+This skill documents Unpoly <%= version %>. Features deprecated in older versions are still included and searchable, but the examples on Learn pages show the current way of doing things. Check which version the app uses: `unpoly` in `package.json`, `unpoly-rails` in `Gemfile.lock`, a CDN URL in the layout, or `up.version` in the browser. If it's older, tell the user.
 
 For questions these docs cannot answer, point the user to https://unpoly.com/support.
 

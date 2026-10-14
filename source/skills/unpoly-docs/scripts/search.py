@@ -231,6 +231,8 @@ def load_document(root, path):
         "heading_names": heading_names(headings),
         "factor": page_factor(relative, meta),
         "lines": lines,
+        # Where the page sits, shown with each result: Learn or API, its kind, its parent.
+        "place": [(key, meta[key]) for key in ("area", "kind", "parent") if meta.get(key)],
         "fields": {
             "name": name,
             "title": title or "",
@@ -452,9 +454,15 @@ def escape_own_tags(text):
     return OWN_TAG_RE.sub(r"&lt;\1\2", text)
 
 
+def escape_attribute(value):
+    return escape_own_tags(value).replace('"', "&quot;")
+
+
 def render_result(score, document, snippet_text):
     return "\n".join([
-        '<result score="{0:.1f}" path="{1}">'.format(score, document["path"]),
+        '<result score="{0:.1f}" path="{1}"{2}>'.format(
+            score, document["path"],
+            "".join(' {0}="{1}"'.format(key, escape_attribute(value)) for key, value in document["place"])),
         "<title>{0}</title>".format(escape_own_tags(document["title"])),
         "<snippet>{0}</snippet>".format(escape_own_tags(snippet_text)),
         "</result>",
@@ -463,7 +471,7 @@ def render_result(score, document, snippet_text):
 
 # --- CLI ------------------------------------------------------------------------------------------
 
-DESCRIPTION = "Search Unpoly's guides, API reference and changelog in this skill."
+DESCRIPTION = "Search Unpoly's Learn pages, API pages and release notes in this skill."
 
 EPILOG = """\
 Pass several queries at once: a page that matches any of them is found, and pages matching more
