@@ -8,6 +8,8 @@ It links to [`up.render()`](/up.render), to [an anchor](/up.render#options.targe
 [a section on this page](#code-blocks) and to [a page without a twin](/imprint).
 Code spans like `test.module.function()` link themselves.
 
+[[more: test.page]]
+
 
 Code blocks
 -----------

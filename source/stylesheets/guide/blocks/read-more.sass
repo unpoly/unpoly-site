@@ -1,10 +1,10 @@
 @import ../../environment
 
 // The link that closes a section of a chapter overview and leads to the page with the
-// whole story, drawn as the outlined button the page's Next link is. It is plain HTML
-// embedded in the Markdown:
+// whole story, drawn as the outlined button the page's Next link is, a little lifted.
+// The Markdown writes it as `[[more: following-links]]` (Wikilink), which renders
 //
-//     <p class="read-more"><a href="/following-links">Read more: Following links</a></p>
+//     <p class="read-more"><a href="/following-links"><span class="read-more--prefix">More:</span> Following links</a></p>
 .read-more
   margin-top: $space-3
 
@@ -12,9 +12,13 @@
   .prose & a,
   & a
     +outline-button
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.04)
 
     &::after
       content: "\f054" // fa-chevron-right, as on the reading nav
       font-family: FontAwesome
       font-size: $text-3xs
       color: $gray-500
+
+.read-more--prefix
+  +outline-button-prefix

@@ -150,18 +150,29 @@ describe 'presentation', type: :feature, js: true do
 
   describe 'a read-more link closing an overview section' do
     it 'is an outlined button like the Next link, unlike the links in the text' do
-      # Embedded the way an overview's Markdown embeds it.
-      visit '/loading-state'
-      page.execute_script(<<~JS)
-        document.querySelector('.prose').insertAdjacentHTML('beforeend',
-          '<p>A sentence with <a href="/progress-bar">a link</a>.</p><p class="read-more"><a href="/progress-bar">Read more: Progress bar</a></p>')
-      JS
+      visit '/links'
+
+      expect(page).to have_css('.read-more[data-pagefind-ignore] a[href="/following-links"]', text: /\AMore:\s+Following links\z/)
+      expect(page).to have_css('.read-more--prefix svg.icon.-book', visible: :all)
 
       read_more = page.evaluate_script(BUTTON_JS, '.read-more a')
 
       expect(read_more).to eq(page.evaluate_script(BUTTON_JS, '.reading-nav--link.-next'))
       expect(read_more.first).to eq('solid')
       expect(page.evaluate_script(BUTTON_JS, '.prose p:not(.read-more) a').first).to eq('none')
+    end
+
+    it 'grays its prefix like the role of a learn-ref, and lifts itself with a light shadow' do
+      visit '/links'
+      prefix_color = page.evaluate_script("getComputedStyle(document.querySelector('.read-more--prefix')).color")
+      shadow = page.evaluate_script("getComputedStyle(document.querySelector('.read-more a')).boxShadow")
+
+      visit '/up-follow'
+      role_color = page.evaluate_script("getComputedStyle(document.querySelector('.learn-refs--role')).color")
+
+      expect(prefix_color).to eq(role_color)
+      expect(page).to have_css('.learn-refs--role svg.icon.-book', visible: :all)
+      expect(shadow).to eq('rgba(0, 0, 0, 0.04) 0px 2px 3px 0px')
     end
   end
 

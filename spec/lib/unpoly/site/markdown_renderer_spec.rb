@@ -69,6 +69,23 @@ describe Unpoly::Site::MarkdownRenderer do
 
   end
 
+  describe 'read-more boxes' do
+
+    it 'renders a [[more: slug]] paragraph as a box that Pagefind ignores' do
+      title = Unpoly::Site.current.find_by_guide_id('polling').title
+      html = render("Text.\n\n[[more: polling]]\n\nMore text.")
+      box = Nokogiri::HTML.fragment(html).at_css('p.read-more')
+
+      expect(box).to have_attribute('data-pagefind-ignore')
+      expect(box.at_css('a')['href']).to eq('/polling')
+      expect(box.at_css('a > span.read-more--prefix').text.strip).to eq('More:')
+      expect(box.at_css('.read-more--prefix svg.icon.-book')).to be_present
+      expect(box.text.squish).to eq("More: #{title}")
+      expect(html).to include('<p>Text.</p>', '<p>More text.</p>')
+    end
+
+  end
+
   describe 'admonitions' do
 
     it 'renders a GitHub-style admonition as a styled blockquote' do

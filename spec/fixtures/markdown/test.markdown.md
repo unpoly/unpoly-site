@@ -11,6 +11,8 @@ A page with one of everything the Markdown twins convert. Its twin is pinned by 
 
 It links to [`up.render()`](http://unpoly.test/up.render.md), to [an anchor](http://unpoly.test/up.render.md#options.target), to [a section on this page](#code-blocks) and to [a page without a twin](http://unpoly.test/imprint). Code spans like [`test.module.function()`](http://unpoly.test/test.module.function.md) link themselves.
 
+[More: Test Page](http://unpoly.test/test.page.md)
+
 <nav aria-label="Contents">
 
 #### Contents

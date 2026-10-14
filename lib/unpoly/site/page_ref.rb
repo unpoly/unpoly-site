@@ -29,6 +29,14 @@ module Unpoly
         new(documentable, heading)
       end
 
+      # The content of a button that leads to a Learn page: the book glyph and a gray
+      # prefix ("Learn:", "More:"), then the label. Shared by the learn-refs of a
+      # reference page (_learn_refs.html.erb) and the read-more boxes of an overview
+      # (Wikilink), so the two cannot drift apart. Styled by +outline-button-prefix.
+      def self.button_content_html(prefix:, prefix_class:, label:)
+        %(<span class="#{prefix_class}">#{Icon.html('book')} #{prefix}</span> #{CGI.escapeHTML(label)})
+      end
+
       def self.in_source(source)
         source ? " (in #{source})" : ''
       end

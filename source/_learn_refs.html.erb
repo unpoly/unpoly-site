@@ -1,6 +1,6 @@
 <%# Where a reference document points at the guides that explain it in context (@learn-ref). %>
 <nav class="learn-refs" aria-label="Guides" data-pagefind-ignore>
   <% learn_refs.each do |learn_ref| %>
-    <a class="learn-refs--link" href="<%= learn_ref.path %>"><span class="learn-refs--role">Learn:</span> <%= learn_ref.label %></a>
+    <a class="learn-refs--link" href="<%= learn_ref.path %>"><%= Unpoly::Site::PageRef.button_content_html(prefix: 'Learn:', prefix_class: 'learn-refs--role', label: learn_ref.label).html_safe %></a>
   <% end %>
 </nav>

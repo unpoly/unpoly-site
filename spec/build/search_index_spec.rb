@@ -89,9 +89,9 @@ describe 'the built search index' do
     expect(fragment_of('/following-links')['filters']).not_to have_key('overview')
   end
 
-  it 'leaves the "Read more" buttons of a chapter overview out of the text' do
-    expect(fragment_of('/links')['content']).not_to include('Read more')
-    expect(fragments.map { |fragment| fragment['content'] }.grep(/Read more:/)).to eq([])
+  it 'leaves the "More:" buttons of a chapter overview out of the text' do
+    expect(fragment_of('/links')['content']).not_to include('More:')
+    expect(fragments.map { |fragment| fragment['content'] }.grep(/More: /)).to eq([])
   end
 
   it 'keeps the parser fixtures out of the index' do
