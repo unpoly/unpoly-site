@@ -248,9 +248,8 @@
   box-shadow: $subtle-shadow
 
 // A link drawn as an outlined button: the way on at the end of a page (Next), the
-// read-more links of an overview and the learn-refs of a reference page. Indigo ink
-// on a gray outline that takes the ink's color on hover. A quiet one (the title's
-// "Edit page") passes gray inks.
+// boxes that lead to Learn pages (.learn-ref). Indigo ink on a gray outline that takes
+// the ink's color on hover. A quiet one (the title's "Edit page") passes gray inks.
 =outline-button($ink: $indigo-800, $hover-ink: $ink)
   display: inline-flex
   align-items: baseline
@@ -269,18 +268,6 @@
     border-color: currentColor
     color: $hover-ink
     background: none
-
-// The gray word that says what an outlined button leads to: "Learn:" on a reference
-// page's learn-refs, "More:" on an overview's read-more links (PageRef
-// .button_content_html). The book glyph before it is a Learn page's, sized and set like
-// a guide page's glyph in the sidebar (node.sass).
-=outline-button-prefix
-  color: $gray-600
-
-  .icon
-    width: 1.1em
-    height: 1.1em
-    vertical-align: -0.2em
 
 =card
   border: $card-border

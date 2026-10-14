@@ -65,7 +65,7 @@ describe 'presentation', type: :feature, js: true do
 
     it 'points at the guides that explain it' do
       visit '/up.link'
-      expect(page).to have_css('.learn-refs a')
+      expect(page).to have_css('.learn-refs a.learn-ref')
     end
   end
 
@@ -139,8 +139,8 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
-  # The read-more links of an overview, the learn-refs of a reference page and the Next
-  # link at a page's end share one outlined-button look.
+  # The learn-refs of a reference page, the [[more: slug]] boxes of an overview and the
+  # Next link at a page's end share one outlined-button look.
   BUTTON_JS = <<~'JS'.freeze
     (function(selector) {
       let style = getComputedStyle(document.querySelector(selector))
@@ -148,31 +148,52 @@ describe 'presentation', type: :feature, js: true do
     })(arguments[0])
   JS
 
-  describe 'a read-more link closing an overview section' do
+  # The center of an element's box, relative to the center of its .learn-ref.
+  CENTER_OFFSET_JS = <<~'JS'.freeze
+    (function(selector) {
+      let element = document.querySelector(selector)
+      let center = (rect) => rect.top + rect.height / 2
+      return center(element.getBoundingClientRect()) - center(element.closest('.learn-ref').getBoundingClientRect())
+    })(arguments[0])
+  JS
+
+  describe 'a [[more: slug]] box closing an overview section' do
     it 'is an outlined button like the Next link, unlike the links in the text' do
       visit '/links'
 
-      expect(page).to have_css('.read-more[data-pagefind-ignore] a[href="/following-links"]', text: /\AMore:\s+Following links\z/)
-      expect(page).to have_css('.read-more--prefix svg.icon.-book', visible: :all)
+      expect(page).to have_css('nav.learn-refs.-more[data-pagefind-ignore] a.learn-ref[href="/following-links"]', text: /\AMore:\s+Following links\z/)
+      expect(page).to have_css('.learn-ref > svg.learn-ref--icon.icon.-book', visible: :all)
 
-      read_more = page.evaluate_script(BUTTON_JS, '.read-more a')
+      box = page.evaluate_script(BUTTON_JS, '.learn-refs.-more .learn-ref')
 
-      expect(read_more).to eq(page.evaluate_script(BUTTON_JS, '.reading-nav--link.-next'))
-      expect(read_more.first).to eq('solid')
-      expect(page.evaluate_script(BUTTON_JS, '.prose p:not(.read-more) a').first).to eq('none')
+      expect(box).to eq(page.evaluate_script(BUTTON_JS, '.reading-nav--link.-next'))
+      expect(box.first).to eq('solid')
+      expect(page.evaluate_script(BUTTON_JS, '.prose p a').first).to eq('none')
     end
 
-    it 'grays its prefix like the role of a learn-ref, and lifts itself with a light shadow' do
+    it 'looks like a learn-ref: gray icon and prefix, centered icon, a light shadow' do
       visit '/links'
-      prefix_color = page.evaluate_script("getComputedStyle(document.querySelector('.read-more--prefix')).color")
-      shadow = page.evaluate_script("getComputedStyle(document.querySelector('.read-more a')).boxShadow")
+      more = page.evaluate_script(<<~JS)
+        ['.learn-ref--icon', '.learn-ref--prefix', '.learn-ref'].map((selector) => {
+          let style = getComputedStyle(document.querySelector(selector))
+          return [style.color, style.boxShadow]
+        })
+      JS
+      icon_offset = page.evaluate_script(CENTER_OFFSET_JS, '.learn-ref--icon')
 
       visit '/up-follow'
-      role_color = page.evaluate_script("getComputedStyle(document.querySelector('.learn-refs--role')).color")
+      learn = page.evaluate_script(<<~JS)
+        ['.learn-ref--icon', '.learn-ref--prefix', '.learn-ref'].map((selector) => {
+          let style = getComputedStyle(document.querySelector(selector))
+          return [style.color, style.boxShadow]
+        })
+      JS
 
-      expect(prefix_color).to eq(role_color)
-      expect(page).to have_css('.learn-refs--role svg.icon.-book', visible: :all)
-      expect(shadow).to eq('rgba(0, 0, 0, 0.04) 0px 2px 3px 0px')
+      expect(more).to eq(learn)
+      expect(more[0][0]).to eq(more[1][0])
+      expect(more[0][0]).not_to eq(more[2][0])
+      expect(more[2][1]).to eq('rgba(0, 0, 0, 0.04) 0px 2px 3px 0px')
+      expect(icon_offset.abs).to be < 1
     end
   end
 
@@ -180,19 +201,22 @@ describe 'presentation', type: :feature, js: true do
     it 'is an outlined button per guide, labelled with its title, without the old stripe' do
       visit '/up-follow'
 
-      expect(page).to have_css('.learn-refs a.learn-refs--link[href="/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
-      expect(page.evaluate_script(BUTTON_JS, '.learn-refs--link').first).to eq('solid')
+      expect(page).to have_css('nav.learn-refs.-learn[aria-label="Guides"] a.learn-ref[href="/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
+      expect(page).to have_css('a.learn-ref > .learn-ref--destination', text: 'Following links')
+      expect(page.evaluate_script(BUTTON_JS, '.learn-ref').first).to eq('solid')
       expect(page.evaluate_script("getComputedStyle(document.querySelector('.learn-refs')).borderLeftStyle")).to eq('none')
-      expect(page).to have_no_css('.learn-refs--label', visible: :all)
     end
 
-    it 'sets two guides side by side' do
+    it 'stacks two guides, each as wide as its label' do
       visit '/up.radio'
 
-      tops = page.evaluate_script("[...document.querySelectorAll('.learn-refs--link')].map((link) => Math.round(link.getBoundingClientRect().top))")
+      rects = page.evaluate_script("[...document.querySelectorAll('.learn-ref')].map((link) => { let rect = link.getBoundingClientRect(); return [Math.round(rect.left), Math.round(rect.top), Math.round(rect.width)] })")
+      nav_width = page.evaluate_script("document.querySelector('.learn-refs').getBoundingClientRect().width")
 
-      expect(tops.size).to eq(2)
-      expect(tops.uniq.size).to eq(1)
+      expect(rects.size).to eq(2)
+      expect(rects.map(&:first).uniq.size).to eq(1)
+      expect(rects[1][1]).to be > rects[0][1]
+      expect(rects.map(&:last)).to all(be < nav_width)
     end
   end
 

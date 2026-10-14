@@ -441,7 +441,7 @@ helpers do
     learn_refs = documentable.learn_refs
     return nil if learn_refs.empty?
 
-    partial('learn_refs', locals: { learn_refs: learn_refs })
+    Unpoly::Site::PageRef.learn_refs_html(:learn, learn_refs.map { |learn_ref| [learn_ref.path, learn_ref.label] })
   end
 
   # Search indexes documentation, and only documentation.

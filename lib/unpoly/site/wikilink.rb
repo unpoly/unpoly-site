@@ -60,10 +60,8 @@ module Unpoly
         private
 
         # Blank lines around it, so Kramdown takes it as an HTML block of its own.
-        # Pagefind skips it: it only names another page and would clutter search snippets.
         def read_more_html(ref)
-          content = PageRef.button_content_html(prefix: 'More:', prefix_class: 'read-more--prefix', label: ref.wikilink_label)
-          %(\n<p class="read-more" data-pagefind-ignore><a href="#{CGI.escapeHTML(ref.path)}">#{content}</a></p>\n)
+          "\n#{PageRef.learn_refs_html(:more, [[ref.path, ref.wikilink_label]])}\n"
         end
 
         # Yields the parts of the text that are not code, and keeps the rest verbatim.

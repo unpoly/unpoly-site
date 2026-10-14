@@ -29,12 +29,35 @@ module Unpoly
         new(documentable, heading)
       end
 
-      # The content of a button that leads to a Learn page: the book glyph and a gray
-      # prefix ("Learn:", "More:"), then the label. Shared by the learn-refs of a
-      # reference page (_learn_refs.html.erb) and the read-more boxes of an overview
-      # (Wikilink), so the two cannot drift apart. Styled by +outline-button-prefix.
-      def self.button_content_html(prefix:, prefix_class:, label:)
-        %(<span class="#{prefix_class}">#{Icon.html('book')} #{prefix}</span> #{CGI.escapeHTML(label)})
+      # The boxes that lead to Learn pages, in two kinds: the learn-refs of a reference
+      # page (`@learn-ref`, config.rb) and the box that closes a section of a chapter
+      # overview (`[[more: slug]]`, Wikilink). One nav holds one box per link:
+      #
+      #     <nav class="learn-refs -learn" aria-label="Guides" data-pagefind-ignore>
+      #       <a class="learn-ref" href="/forms">
+      #         <svg class="icon -book learn-ref--icon" ...></svg>
+      #         <span class="learn-ref--prefix">Learn:</span>
+      #         <span class="learn-ref--destination">Forms</span>
+      #       </a>
+      #     </nav>
+      #
+      # Pagefind skips the nav: it only names other pages and would clutter search
+      # snippets. Styled by learn-refs.sass and learn-ref.sass.
+      LEARN_REFS_KINDS = {
+        learn: { prefix: 'Learn:', aria_label: 'Guides' },
+        more: { prefix: 'More:', aria_label: 'Read more' },
+      }.freeze
+
+      # links: pairs of path and destination label.
+      def self.learn_refs_html(kind, links)
+        prefix, aria_label = LEARN_REFS_KINDS.fetch(kind).values_at(:prefix, :aria_label)
+        refs = links.map do |path, destination|
+          %(<a class="learn-ref" href="#{CGI.escapeHTML(path)}">) +
+            Icon.html('book', class: 'learn-ref--icon') +
+            %( <span class="learn-ref--prefix">#{prefix}</span>) +
+            %( <span class="learn-ref--destination">#{CGI.escapeHTML(destination)}</span></a>)
+        end
+        %(<nav class="learn-refs -#{kind}" aria-label="#{aria_label}" data-pagefind-ignore>#{refs.join}</nav>)
       end
 
       def self.in_source(source)

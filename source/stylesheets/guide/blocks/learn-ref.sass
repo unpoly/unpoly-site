@@ -1,0 +1,29 @@
+@import ../../environment
+
+// One link to a Learn page, drawn as the outlined button the page's Next link is, a
+// little lifted: the book glyph, a gray prefix ("Learn:", "More:"), the page's title.
+// Lives in a .learn-refs nav.
+.learn-ref
+  // Stronger than .prose a, which would make it a red, underlined link in the text.
+  .prose &,
+  &
+    +outline-button
+    align-items: center
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.04)
+
+  // The overview's box points onward, as the reading nav's Next link does.
+  .learn-refs.-more &::after
+    content: "\f054" // fa-chevron-right
+    font-family: FontAwesome
+    font-size: $text-3xs
+    color: $gray-500
+
+.learn-ref--icon
+  // As large as a guide page's glyph in the sidebar (node.sass).
+  width: 1.1em
+  height: 1.1em
+  flex-shrink: 0
+
+.learn-ref--icon,
+.learn-ref--prefix
+  color: $gray-600

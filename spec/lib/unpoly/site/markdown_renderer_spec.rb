@@ -69,18 +69,20 @@ describe Unpoly::Site::MarkdownRenderer do
 
   end
 
-  describe 'read-more boxes' do
+  describe '[[more: slug]] boxes' do
 
-    it 'renders a [[more: slug]] paragraph as a box that Pagefind ignores' do
+    it 'renders a [[more: slug]] paragraph as a learn-ref box that Pagefind ignores' do
       title = Unpoly::Site.current.find_by_guide_id('polling').title
       html = render("Text.\n\n[[more: polling]]\n\nMore text.")
-      box = Nokogiri::HTML.fragment(html).at_css('p.read-more')
+      nav = Nokogiri::HTML.fragment(html).at_css('nav.learn-refs.-more')
 
-      expect(box).to have_attribute('data-pagefind-ignore')
-      expect(box.at_css('a')['href']).to eq('/polling')
-      expect(box.at_css('a > span.read-more--prefix').text.strip).to eq('More:')
-      expect(box.at_css('.read-more--prefix svg.icon.-book')).to be_present
-      expect(box.text.squish).to eq("More: #{title}")
+      expect(nav).to have_attribute('data-pagefind-ignore')
+      expect(nav.parent.name).not_to eq('p')
+      expect(nav.at_css('a.learn-ref')['href']).to eq('/polling')
+      expect(nav.at_css('a.learn-ref > svg.learn-ref--icon.icon.-book')).to be_present
+      expect(nav.at_css('a.learn-ref > span.learn-ref--prefix').text).to eq('More:')
+      expect(nav.at_css('a.learn-ref > span.learn-ref--destination').text).to eq(title)
+      expect(nav.text.squish).to eq("More: #{title}")
       expect(html).to include('<p>Text.</p>', '<p>More text.</p>')
     end
 
