@@ -3,6 +3,8 @@
 .video-player
   // Have this extra container so margins can collapse
   +vertical-margin($space-4)
+  // The inline-block inner sits on a line box. Without a font size, that line adds no gap below it.
+  font-size: 0
 
 .video-player--inner
   display: inline-block
