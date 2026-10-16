@@ -8,7 +8,7 @@ module Unpoly
     #
     #     <div embed="fragment-updates-diagram"></div>
     #
-    # Kramdown passes that element through untouched; after rendering, Embeds.splice
+    # The Markdown renderer passes that element through untouched; after rendering, Embeds.splice
     # replaces it with the partial. An unknown name fails the render, so a misspelled
     # embed never ships as an empty element.
     class Embeds

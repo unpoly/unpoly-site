@@ -131,7 +131,7 @@ module Unpoly
 
           # A lot of legacy pages start out with <h3> levels, but have <h2> farther down.
           # [data-toc-ignore] keeps a heading out; [data-toc-include] lists a heading below
-          # the top level (in Markdown: `{:data-toc-include="true"}` below the heading).
+          # the top level (in Markdown: `## Title {#id data-toc-include}`).
           if heading[:id].present? && !heading.key?('data-toc-ignore') && (min_level.nil? || level <= min_level || heading.key?('data-toc-include'))
             results << heading
             min_level ||= level

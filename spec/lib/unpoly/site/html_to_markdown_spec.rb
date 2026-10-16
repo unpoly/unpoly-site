@@ -43,7 +43,7 @@ describe Unpoly::Site::HtmlToMarkdown do
       expect(convert('<div role="heading" aria-level="4">Param</div>')).to eq("#### Param\n")
     end
 
-    it "appends the heading's id Kramdown style" do
+    it "appends the heading's id Pandoc style" do
       expect(convert('<h2 id="usage">Usage</h2>')).to eq("## Usage {#usage}\n")
     end
 

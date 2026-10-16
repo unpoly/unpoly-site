@@ -16,6 +16,14 @@ describe Unpoly::Site::Heading do
     expect(ids("## Slow server responses {#slow}\n")).to eq(['slow'])
   end
 
+  it 'reads the anchor from a suffix with further attributes' do
+    expect(ids("## Slow server responses {#slow data-toc-include}\n")).to eq(['slow'])
+  end
+
+  it 'generates the ID for a suffix without an anchor' do
+    expect(ids("## Slow server responses {data-toc-include}\n")).to eq(['slow-server-responses'])
+  end
+
   it 'keeps the heading text without its anchor' do
     heading = described_class.parse("## Callback arguments {#callbacks}\n").first
 

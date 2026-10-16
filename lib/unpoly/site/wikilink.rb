@@ -59,7 +59,7 @@ module Unpoly
 
         private
 
-        # Blank lines around it, so Kramdown takes it as an HTML block of its own.
+        # Blank lines around it, so the Markdown renderer takes it as an HTML block of its own.
         def read_more_html(ref)
           "\n#{PageRef.learn_refs_html(:more, [[ref.path, ref.wikilink_label]])}\n"
         end

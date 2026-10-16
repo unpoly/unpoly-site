@@ -4,9 +4,9 @@ module Unpoly
   module Site
     # A heading inside a document's prose, together with the anchor it can be linked to.
     #
-    # We let Kramdown produce the index instead of matching headings ourselves: it already
+    # We let our Markdown renderer produce the index instead of matching headings ourselves: it already
     # understands ATX (`## Title`) and Setext (`Title\n-----`) headings, generates the same
-    # auto-IDs as the rendered page, and honors explicit `{#custom-slug}` suffixes.
+    # auto-IDs as the rendered page, and honors explicit `{#custom-slug …}` suffixes.
     class Heading
       def initialize(id:, text:, level:)
         @id = id

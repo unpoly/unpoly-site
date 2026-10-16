@@ -68,7 +68,7 @@ module Unpoly
       private
 
       def preprocess_markdown(markdown)
-        # Expand [[wikilinks]] to regular Markdown links before Kramdown runs.
+        # Expand [[wikilinks]] to regular Markdown links before commonmarker runs.
         # With strip_links the expanded link is stripped again below, leaving its label.
         markdown = Wikilink.expand(markdown) if wikilinks
         markdown

@@ -53,7 +53,7 @@ Admonitions and media {#media}
 
 <figure>
   <img src="images/test-screenshot.png" alt="Screenshot of a figure" width="400">
-  <figcaption markdown="1">
+  <figcaption>
 
 What the reader learns from the figure, with `code`.
 
@@ -62,7 +62,7 @@ What the reader learns from the figure, with `code`.
 
 <figure>
   <video src="images/test-video.webm" controls width="600" aria-label="A video of nothing in particular"></video>
-  <figcaption markdown="1">
+  <figcaption>
 
 What the reader learns from the video.
 

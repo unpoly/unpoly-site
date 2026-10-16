@@ -138,6 +138,70 @@ describe Unpoly::Site::MarkdownRenderer do
 
   end
 
+  describe 'heading attributes' do
+
+    def heading(markdown)
+      Nokogiri::HTML.fragment(render(markdown)).at_css('h1, h2, h3, h4, h5, h6')
+    end
+
+    it 'sets an id from a Pandoc-style suffix on an ATX heading' do
+      h = heading("## Callback arguments {#callbacks}\n")
+      expect(h[:id]).to eq('callbacks')
+      expect(h.text).to eq('Callback arguments')
+    end
+
+    it 'sets an id and a boolean attribute' do
+      h = heading("### Closing when a location is reached {#location-condition data-toc-include}\n")
+      expect(h[:id]).to eq('location-condition')
+      expect(h.key?('data-toc-include')).to be(true)
+      expect(h.text).to eq('Closing when a location is reached')
+    end
+
+    it 'sets attributes without an id and generates the id as usual' do
+      h = heading("## Close conditions {data-toc-include}\n")
+      expect(h[:id]).to eq('close-conditions')
+      expect(h.key?('data-toc-include')).to be(true)
+      expect(h.text).to eq('Close conditions')
+    end
+
+    it 'sets classes and attributes with values' do
+      h = heading(%(## Title {.one .two data-foo="a b" data-bar=c}\n))
+      expect(h[:class]).to eq('one two')
+      expect(h['data-foo']).to eq('a b')
+      expect(h['data-bar']).to eq('c')
+      expect(h[:id]).to eq('title')
+    end
+
+    it 'supports Setext headings' do
+      h = heading("Close conditions {#close data-toc-include}\n-----------------\n")
+      expect(h.name).to eq('h2')
+      expect(h[:id]).to eq('close')
+      expect(h.key?('data-toc-include')).to be(true)
+      expect(h.text).to eq('Close conditions')
+    end
+
+    it 'keeps braces that do not look like an attribute list as text' do
+      expect(heading("## Passing { target }\n").text).to eq('Passing { target }')
+      expect(heading("## Passing {foo: 1}\n").text).to eq('Passing {foo: 1}')
+    end
+
+    it 'generates ids like kramdown did, numbering duplicates' do
+      html = render("## Foo `bar` & baz\n\n## Foo `bar` & baz\n")
+      ids = Nokogiri::HTML.fragment(html).css('h2').map { |h| h[:id] }
+      expect(ids).to eq(['foo-bar--baz', 'foo-bar--baz-1'])
+    end
+
+    it 'leaves a suffix inside a fenced code block alone' do
+      html = render("```md\n## Title {#id}\n```\n")
+      expect(Nokogiri::HTML.fragment(html).at_css('code').text).to eq("## Title {#id}\n")
+    end
+
+    it 'gives no id to a heading written in raw HTML' do
+      expect(heading("<h2>Raw</h2>\n")[:id]).to be_nil
+    end
+
+  end
+
   describe 'figures' do
 
     let(:image_figure) do
@@ -146,7 +210,7 @@ describe Unpoly::Site::MarkdownRenderer do
 
         <figure>
           <img src="images/flow.svg" alt="Flowchart of a request" width="900">
-          <figcaption markdown="1">
+          <figcaption>
 
         A request moves through these stages:
 
@@ -158,14 +222,13 @@ describe Unpoly::Site::MarkdownRenderer do
       MARKDOWN
     end
 
-    it 'parses the caption as Markdown, without leaving the kramdown attribute or hiding it' do
+    it 'parses the caption as Markdown when a blank line follows the opening tag' do
       figure = Nokogiri::HTML.fragment(render(image_figure)).at_css('figure')
       caption = figure.at_css('> figcaption')
 
       expect(caption.at_css('p').text).to eq('A request moves through these stages:')
       expect(caption.css('ol li').size).to eq(2)
       expect(caption.at_css('code').text).to eq('fetch()')
-      expect(caption['markdown']).to be_nil
       expect(caption['hidden']).to be_nil
     end
 
@@ -181,7 +244,7 @@ describe Unpoly::Site::MarkdownRenderer do
       html = render(<<~MARKDOWN)
         <figure>
           <video src="images/demo.mp4" controls loop width="350" aria-label="Video: a demo"></video>
-          <figcaption markdown="1">
+          <figcaption>
 
         The demo.
 

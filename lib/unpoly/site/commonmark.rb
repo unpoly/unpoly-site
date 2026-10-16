@@ -36,19 +36,21 @@ module Unpoly
 
       PLUGINS = { syntax_highlighter: nil }.freeze
 
-      # A Pandoc attribute block at the end of a heading line. We require an #id so that
-      # literal braces in heading text (e.g. `{ target }`) are left alone.
-      ATTRIBUTES_SUFFIX = /[ \t]+\{(#[^{}\n]*)\}[ \t]*$/
+      # One token of a Pandoc attribute list: `#id`, `.class`, `key`, `key=value`, `key="value"`.
+      ATTRIBUTE_TOKEN = /
+        \#([\w:.-]+)                                     # id ($1)
+        | \.([\w-]+)                                     # class ($2)
+        | ([A-Za-z_][\w-]*)(?:=(?:"([^"]*)"|'([^']*)'|([^\s"'{}=]+)))? # key ($3), value ($4, $5 or $6)
+      /x
+
+      # A Pandoc attribute list at the end of a heading line, like `{#id data-toc-include}`.
+      # The braces must hug the tokens, so that literal braces in heading text (`{ target }`,
+      # `{foo: 1}`) stay text.
+      ATTRIBUTES_SUFFIX = /[ \t]+\{((?:#{ATTRIBUTE_TOKEN.source})(?:[ \t]+(?:#{ATTRIBUTE_TOKEN.source}))*)\}[ \t]*$/x
 
       ATX_HEADING = /\A {0,3}(?:>[ \t]?)*\#{1,6}[ \t]+\S/
       SETEXT_UNDERLINE = /\A {0,3}(?:>[ \t]?)*(?:=+|-+)[ \t]*\z/
       FENCE = /\A[ \t]*(?:>[ \t]?)*(`{3,}|~{3,})/
-
-      ATTRIBUTE_TOKEN = /
-        \#([^\s}]+)                                        # id ($1)
-        | \.([^\s}]+)                                      # class ($2)
-        | ([\w:.-]+)(?:=(?:"([^"]*)"|'([^']*)'|([^\s}]+)))? # key ($3), value ($4, $5 or $6)
-      /x
 
       class << self
 
