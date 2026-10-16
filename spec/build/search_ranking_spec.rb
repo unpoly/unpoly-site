@@ -51,6 +51,11 @@ describe 'the search ranking', type: :feature, js: true do
     expect(ranked('layer').first(5)).to include('/layer-option')
   end
 
+  it 'finds the overlays guide for "dialog"' do
+    # The docs say "overlay", and compare it to a modal dialog only in the guide's intro.
+    expect(ranked('dialog').first(3)).to include('/overlays')
+  end
+
   it 'keeps the page that discusses a term the most at the top' do
     expect(ranked('csp').first).to eq('/script-security')
     expect(ranked('offline').first).to eq('/network-issues')
