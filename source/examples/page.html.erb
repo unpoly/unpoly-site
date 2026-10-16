@@ -3,7 +3,6 @@
   <head>
     <%= partial 'layouts/meta' %>
     <base href="<%= asset.base %>" />
-    <%= partial 'layouts/fonts' %>
     <%= stylesheet_link_tag 'example/all' %>
     <% asset.example.stylesheets.each do |stylesheet| %>
       <link rel="stylesheet" type="text/css" href="<%= stylesheet.name %>" />

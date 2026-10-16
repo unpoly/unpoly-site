@@ -65,6 +65,17 @@ describe 'the header', type: :feature, js: true do
     expect(github['aria-label']).to eq('GitHub')
     expect(github).to have_css('.fa-github[aria-hidden="true"]')
 
+    # Font Awesome is vendored, so the icon font comes from the site itself.
+    font_urls = page.evaluate_async_script(<<~JS)
+      let done = arguments[0]
+      document.fonts.load('16px FontAwesome').then((faces) => {
+        let urls = performance.getEntriesByType('resource').map((entry) => entry.name)
+        done(faces.length ? urls.filter((url) => url.includes('fontawesome-webfont')) : [])
+      })
+    JS
+    expect(font_urls).not_to be_empty
+    expect(font_urls).to all(start_with(page.evaluate_script('location.origin')))
+
     # Same box as a word, so hover and current underlines line up across the row.
     tops_and_bottoms = page.evaluate_script(<<~JS)
       [...document.querySelectorAll('.guide--head .top-nav--section')].map((link) => {

@@ -2,6 +2,7 @@
  *= require meyerweb-reset/reset
  *= require roboto/roboto
  *= require roboto-mono/roboto-mono
+ *= require font-awesome/font-awesome
  *= require highlight.js/styles/color-brewer.min
  *= require unpoly
  *= require ./theme
