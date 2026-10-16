@@ -1,6 +1,4 @@
 require 'nokogiri'
-require 'kramdown'
-require 'kramdown-parser-gfm'
 
 module Unpoly
   module Site
@@ -43,16 +41,8 @@ module Unpoly
       def to_html(markdown)
         markdown = preprocess_markdown(markdown)
 
-        doc = Kramdown::Document.new(markdown,
-          input: 'GFM',
-          enable_coderay: false,
-          smart_quotes: ["apos", "apos", "quot", "quot"],
-          hard_wrap: false
-        )
-
-        html = doc.to_html
-        html = postprocess_html(html)
-        html
+        nokogiri_doc = Commonmark.render(markdown)
+        postprocess_html(nokogiri_doc)
       end
 
       def render_admonition(type:, title: nil, text:, text_closes_blockquote: false)
@@ -84,8 +74,7 @@ module Unpoly
         markdown
       end
 
-      def postprocess_html(html)
-        nokogiri_doc = Nokogiri::HTML.fragment(html)
+      def postprocess_html(nokogiri_doc)
 
         if strip_links
           nokogiri_doc.css('a').each do |link|

@@ -1,5 +1,3 @@
-require 'kramdown'
-require 'kramdown-parser-gfm'
 require 'nokogiri'
 
 module Unpoly
@@ -27,8 +25,7 @@ module Unpoly
       def self.parse(markdown)
         return [] if markdown.blank?
 
-        html = Kramdown::Document.new(markdown, input: 'GFM', enable_coderay: false, hard_wrap: false).to_html
-        Nokogiri::HTML.fragment(html).css(SELECTOR).filter_map do |element|
+        Commonmark.render(markdown).css(SELECTOR).filter_map do |element|
           id = element['id'].presence or next
           new(id: id, text: element.text.strip, level: element.name[1].to_i)
         end
