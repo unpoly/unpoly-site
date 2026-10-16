@@ -105,8 +105,6 @@
         <li>restores the page with its scroll positions and focus when the user presses Back</li>
         <li>runs your component teardown before anything is swapped out</li>
       </ul>
-
-      <p>The same care runs through every feature.</p>
     </div>
   </section>
 
@@ -133,7 +131,7 @@
         <div class="landing--card">
           <h3 class="landing--heading -minor">Complex overlay flows</h3>
           <p>Branch off into an overlay, complete a multi-page flow there, and return the result
-             to the parent screen. It never went away.</p>
+             to the parent screen, which stayed open behind the overlay.</p>
           <%= hyperlink 'Learn more →', '/subinteractions' %>
         </div>
       </div>
@@ -157,7 +155,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
           ['form', 'Form', 'submitting' => 'up:form:submit', 'validating' => 'up:form:validate', 'switching fields' => 'up:form:switch'],
           ['overlay', 'Overlay', 'opened' => 'up:layer:opened', 'accepted' => 'up:layer:accepted', 'dismissed' => 'up:layer:dismissed'],
           ['fragment', 'Fragment', 'loaded' => 'up:fragment:loaded', 'inserted' => 'up:fragment:inserted', 'keeping' => 'up:fragment:keep', 'destroyed' => 'up:fragment:destroyed', 'polling' => 'up:fragment:poll'],
-          ['request', 'Request', 'slow' => 'up:network:late', 'aborted' => 'up:fragment:aborted', 'offline' => 'up:fragment:offline', 'recovered' => 'up:network:recover'],
+          ['request', 'Request', 'slow' => 'up:network:late', 'aborted' => 'up:request:aborted', 'offline' => 'up:request:offline', 'recovered' => 'up:network:recover'],
           ['history', 'History', 'URL changed' => 'up:location:changed', 'going back' => 'up:location:restore'],
         ].each do |modifier, category, events| %>
           <span class="landing--event-category -<%= modifier %>"><%= category %></span>
@@ -190,7 +188,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <h2 class="landing--heading">Your HTML keeps its meaning</h2>
 
       <p>Unpoly enhances HTML elements without changing what they are.
-         A link still navigates and a form still submits. They just learn to do it better.
+         A link still navigates and a form still submits.
          Unpoly works like a polyfill for the application features HTML never got.</p>
 
       <blockquote class="landing--quote">
@@ -290,7 +288,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
 
       <p>You don't need to migrate your application. Start where full page loads hurt most:
          a filter form that resets the page, an edit screen that should be an overlay, a slow report.
-         Enhance one link. Leave the rest alone.</p>
+         Enhance one link and leave the rest of your app as it is.</p>
 
       <p>Two lines, no build step:</p>
 

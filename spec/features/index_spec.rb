@@ -25,6 +25,8 @@ describe 'index', type: :feature, js: true do
     within '.landing--event-groups' do
       expect(page).to have_link('following', href: '/up:link:follow')
       expect(page).to have_link('going back', href: '/up:location:restore')
+      expect(page).to have_link('aborted', href: '/up:request:aborted')
+      expect(page).to have_link('offline', href: '/up:request:offline')
     end
   end
 
