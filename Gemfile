@@ -6,7 +6,6 @@ gem 'nokogiri'
 
 gem 'webrick'
 gem "middleman", '<5'
-gem 'kramdown-parser-gfm'
 
 gem "middleman-sprockets"
 gem 'sass'
