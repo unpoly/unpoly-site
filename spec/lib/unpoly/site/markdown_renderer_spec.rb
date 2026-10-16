@@ -259,6 +259,20 @@ describe Unpoly::Site::MarkdownRenderer do
       expect(figure.at_css('> figcaption > p').text).to eq('The demo.')
     end
 
+    it 'does not leave a paragraph around a video on a line of its own' do
+      html = render(<<~MARKDOWN)
+        Text before:
+
+        <video src="images/demo.mp4" controls width="350" aria-label="Video: a demo"></video>
+
+        Text after.
+      MARKDOWN
+      fragment = Nokogiri::HTML.fragment(html)
+
+      expect(fragment.css('p').map { |p| p.text.strip }).to eq(['Text before:', 'Text after.'])
+      expect(fragment.at_css('.video-player > .video-player--inner > video')).to be_present
+    end
+
   end
 
   describe 'heading levels' do

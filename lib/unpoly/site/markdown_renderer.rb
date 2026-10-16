@@ -98,7 +98,13 @@ module Unpoly
 
         if video_player
           nokogiri_doc.css('video:not([class])').each do |video|
-            inner = video.wrap('<div class="video-player--inner"></div>').parent
+            # CommonMark keeps a <video> line inline, inside a paragraph. The player is a block.
+            paragraph = video.parent
+            if paragraph.name == 'p' && paragraph.children.all? { |child| child == video || (child.text? && child.content.strip.empty?) }
+              paragraph.replace(video)
+            end
+
+            inner =video.wrap('<div class="video-player--inner"></div>').parent
             player = inner.wrap('<div class="video-player"></div>').parent
             inner.add_child(<<~HTML)
               <button class="video-player--play-button" aria-label="Play">
