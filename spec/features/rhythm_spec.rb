@@ -66,8 +66,9 @@ describe 'vertical rhythm', type: :feature, js: true do
         visit path
         footer = find('.guide--footer')
 
-        expect(footer).to have_text('Made by Henning Koch · Imprint · Privacy policy')
+        expect(footer).to have_text('Made by Henning Koch · Supported by makandra · Imprint · Privacy policy')
         expect(footer).to have_link('Henning Koch', href: 'https://triskweline.de/')
+        expect(footer).to have_link('makandra', href: 'https://makandra.de/en')
         expect(footer).to have_link('Imprint', href: '/imprint')
         expect(page.evaluate_script("getComputedStyle(document.querySelector('.guide--footer')).textAlign")).to eq('center')
       end
@@ -76,8 +77,8 @@ describe 'vertical rhythm', type: :feature, js: true do
     it 'shares its top space with the last element instead of adding to it' do
       visit '/learn'
 
-      # The last element of the hub ends in a 40px margin, as large as the footer's own:
-      # collapsed, the gap is 40px; added, it would be 80px. Measured from that element,
+      # The last element of the hub ends in a 40px margin, the footer's own is 64px:
+      # collapsed, the gap is 64px; added, it would be 104px. Measured from that element,
       # not from .guide--content, whose box absorbs the margin when collapsing breaks
       # (a flex or grid parent, a new formatting context).
       gap = page.evaluate_script(<<~JS)
@@ -85,7 +86,7 @@ describe 'vertical rhythm', type: :feature, js: true do
           document.querySelector('.guide--content').lastElementChild.getBoundingClientRect().bottom)
       JS
 
-      expect(gap).to eq(40)
+      expect(gap).to eq(64)
     end
 
     it 'leaves 32px below its line, half the space it once had' do
