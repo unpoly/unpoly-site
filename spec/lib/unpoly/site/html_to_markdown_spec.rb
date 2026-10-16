@@ -233,7 +233,58 @@ describe Unpoly::Site::HtmlToMarkdown do
 
     it 'links a video by its description' do
       expect(convert('<video src="/images/api/a.webm" aria-label="A demo"></video>')).to eq("[Video: A demo](https://unpoly.com/images/api/a.webm)\n")
-      expect(convert('<figure><video><source src="/v.mp4"></video><figcaption>Caption</figcaption></figure>')).to start_with("[Video: Caption](https://unpoly.com/v.mp4)")
+    end
+
+    it "keeps a figure's image and its caption together, with the caption as Markdown" do
+      html = <<~HTML
+        <figure>
+          <img src="/images/api/flow.svg" alt="Flowchart of the user's request" width="900" class="picture">
+          <figcaption>
+            <p>A request moves through <a href="/up.render"><code>up.render()</code></a>:</p>
+            <ol><li>One</li><li>Two</li></ol>
+          </figcaption>
+        </figure>
+      HTML
+      expect(convert(html)).to eq(<<~MARKDOWN)
+        <figure>
+        <img src="https://unpoly.com/images/api/flow.svg" alt="Flowchart of the user's request">
+        <figcaption>
+
+        A request moves through [`up.render()`](https://unpoly.com/up.render.md):
+
+        1. One
+        2. Two
+
+        </figcaption>
+        </figure>
+      MARKDOWN
+    end
+
+    it "keeps a figure's video and its caption together, without the site's video player" do
+      html = <<~HTML
+        <figure>
+          <div class="video-player"><div class="video-player--inner">
+            <video src="/images/api/demo.mp4" controls loop aria-label="Video: A &quot;demo&quot;" class="video-player--video"></video>
+            <button class="video-player--play-button" aria-label="Play"></button>
+          </div></div>
+          <figcaption><p>The demo.</p></figcaption>
+        </figure>
+      HTML
+      expect(convert(html)).to eq(<<~MARKDOWN)
+        <figure>
+        <video src="https://unpoly.com/images/api/demo.mp4" aria-label="Video: A &quot;demo&quot;"></video>
+        <figcaption>
+
+        The demo.
+
+        </figcaption>
+        </figure>
+      MARKDOWN
+      expect(convert('<figure><video><source src="/v.mp4"></video><figcaption>Caption</figcaption></figure>')).to include(%(<video src="https://unpoly.com/v.mp4"></video>\n<figcaption>\n\nCaption))
+    end
+
+    it 'fails on an image in a figure without alt text' do
+      expect { convert('<figure><img src="/a.png"><figcaption>Caption</figcaption></figure>') }.to raise_error(described_class::Error, /alt/)
     end
 
     it 'fails on a video without a description' do

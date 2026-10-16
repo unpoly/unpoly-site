@@ -34,6 +34,8 @@ module Unpoly
         'svg.icon[role="img"][aria-label]' => :labelled_image,
         'svg[role="img"]' => :diagram,
         'svg' => :drop,
+        # An image or video with a long description in its <figcaption>.
+        'figure' => :figure,
         '[role="img"][aria-label]' => :labelled_image,
         'h1, h2, h3, h4, h5, h6, [role="heading"][aria-level]' => :heading,
         'nav, [role="navigation"]' => :nav,
@@ -53,7 +55,7 @@ module Unpoly
       }.freeze
 
       # Actions that produce a block of their own (the rest is inline text).
-      BLOCK_ACTIONS = %i[diagram heading nav code_block blockquote list table rule video paragraph].freeze
+      BLOCK_ACTIONS = %i[figure diagram heading nav code_block blockquote list table rule video paragraph].freeze
 
       BLOCK_TAGS = %w[
         address article aside dd details dialog div dl dt fieldset figcaption figure footer
@@ -286,6 +288,47 @@ module Unpoly
         description = squish(element.at_css('desc')&.text.to_s)
         link = "[Diagram: #{name}](#{@links.page_url}##{id})"
         description.empty? ? link : "#{link}\n\n#{description}"
+      end
+
+      # A figure of an image or video stays an HTML <figure> with its caption as
+      # Markdown, so the long description stays attached to its medium:
+      #
+      #     <figure>
+      #     <img src="https://unpoly.com/images/api/a.svg" alt="Flowchart of a">
+      #     <figcaption>
+      #
+      #     A render pass moves through these stages: …
+      #
+      #     </figcaption>
+      #     </figure>
+      #
+      # Other figures (a diagram, a figure without a caption) are plain containers.
+      def figure(element)
+        media = element.at_css('img, video')
+        caption = element.element_children.find { |child| child.name == 'figcaption' }
+        return render_blocks(element) unless media && caption
+
+        "<figure>\n#{figure_media(media, caption)}\n<figcaption>\n\n#{render_blocks(caption)}\n\n</figcaption>\n</figure>"
+      end
+
+      def figure_media(media, caption)
+        if media.name == 'img'
+          alt = squish(media['alt'])
+          raise Error, "An image (#{media['src']}) needs alt text" if alt.empty?
+          %(<img src="#{attribute(@links.media_url(media['src'].to_s))}" alt="#{attribute(alt)}">)
+        else
+          src = media['src'].presence || media.at_css('source[src]')&.[]('src')
+          label = squish(media['aria-label'].presence || media['title'])
+          raise Error, "A video (#{src}) needs a description (aria-label, title or <figcaption>)" if label.empty? && squish(caption.text).empty?
+          label_attr = label.empty? ? '' : %( aria-label="#{attribute(label)}")
+          %(<video src="#{attribute(@links.media_url(src.to_s))}"#{label_attr}></video>)
+        end
+      end
+
+      # An attribute value for HTML that people read: only what would break the quotes
+      # is escaped, so an apostrophe stays an apostrophe.
+      def attribute(value)
+        value.to_s.gsub('&', '&amp;').gsub('"', '&quot;')
       end
 
       def video(element)

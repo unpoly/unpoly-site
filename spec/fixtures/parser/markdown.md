@@ -51,7 +51,23 @@ Admonitions and media {#media}
 
 ![A screenshot of nothing in particular](images/test-screenshot.png)
 
-<video src="images/test-video.webm" controls width="600" aria-label="A video of nothing in particular"></video>
+<figure>
+  <img src="images/test-screenshot.png" alt="Screenshot of a figure" width="400">
+  <figcaption markdown="1">
+
+What the reader learns from the figure, with `code`.
+
+  </figcaption>
+</figure>
+
+<figure>
+  <video src="images/test-video.webm" controls width="600" aria-label="A video of nothing in particular"></video>
+  <figcaption markdown="1">
+
+What the reader learns from the video.
+
+  </figcaption>
+</figure>
 
 <div embed="fragment-updates-diagram"></div>
 

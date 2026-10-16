@@ -77,6 +77,12 @@ $meta_width: 170px
   img
     max-width: 100%
 
+  // An image's or video's long description is for screen readers and the Markdown
+  // twins; sighted readers see the medium. The reset leaves <figure> without margins,
+  // so the medium sits where a bare one would.
+  figure > figcaption
+    +visually-hidden
+
 
   strong, b
     font-weight: bold

@@ -138,6 +138,66 @@ describe Unpoly::Site::MarkdownRenderer do
 
   end
 
+  describe 'figures' do
+
+    let(:image_figure) do
+      <<~MARKDOWN
+        Text before.
+
+        <figure>
+          <img src="images/flow.svg" alt="Flowchart of a request" width="900">
+          <figcaption markdown="1">
+
+        A request moves through these stages:
+
+        1. Request with `fetch()`
+        2. Response
+
+          </figcaption>
+        </figure>
+      MARKDOWN
+    end
+
+    it 'parses the caption as Markdown, without leaving the kramdown attribute or hiding it' do
+      figure = Nokogiri::HTML.fragment(render(image_figure)).at_css('figure')
+      caption = figure.at_css('> figcaption')
+
+      expect(caption.at_css('p').text).to eq('A request moves through these stages:')
+      expect(caption.css('ol li').size).to eq(2)
+      expect(caption.at_css('code').text).to eq('fetch()')
+      expect(caption['markdown']).to be_nil
+      expect(caption['hidden']).to be_nil
+    end
+
+    it 'treats the image like any other image' do
+      img = Nokogiri::HTML.fragment(render(image_figure)).at_css('figure > img')
+
+      expect(img[:src]).to eq('/images/api/flow.svg')
+      expect(img[:class]).to eq('picture -border')
+      expect(img[:width]).to eq('900')
+    end
+
+    it 'wraps a video in the player and keeps the caption a child of the figure' do
+      html = render(<<~MARKDOWN)
+        <figure>
+          <video src="images/demo.mp4" controls loop width="350" aria-label="Video: a demo"></video>
+          <figcaption markdown="1">
+
+        The demo.
+
+          </figcaption>
+        </figure>
+      MARKDOWN
+      figure = Nokogiri::HTML.fragment(html).at_css('figure')
+
+      video = figure.at_css('> .video-player .video-player--inner > video.video-player--video')
+      expect(video[:src]).to eq('/images/api/demo.mp4')
+      expect(video[:width]).to eq('350')
+      expect(figure.at_css('> figcaption > p').text).to eq('The demo.')
+    end
+
+  end
+
   describe 'heading levels' do
 
     it 'normalizes the topmost heading to an <h2>, so it fits below the page title' do

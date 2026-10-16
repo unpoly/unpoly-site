@@ -63,7 +63,23 @@ let result = up.render('.foo') // result: up.RenderJob
 
 ![A screenshot of nothing in particular](http://unpoly.test/images/api/test-screenshot.png)
 
-[Video: A video of nothing in particular](http://unpoly.test/images/api/test-video.webm)
+<figure>
+<img src="http://unpoly.test/images/api/test-screenshot.png" alt="Screenshot of a figure">
+<figcaption>
+
+What the reader learns from the figure, with `code`.
+
+</figcaption>
+</figure>
+
+<figure>
+<video src="http://unpoly.test/images/api/test-video.webm" aria-label="A video of nothing in particular"></video>
+<figcaption>
+
+What the reader learns from the video.
+
+</figcaption>
+</figure>
 
 [Diagram: How Unpoly uses a server response](http://unpoly.test/test.markdown#fragment-updates-diagram)
 
