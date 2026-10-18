@@ -34,7 +34,7 @@ module Unpoly
       # overview (`[[more: slug]]`, Wikilink). One nav holds one box per link:
       #
       #     <nav class="learn-refs -learn" aria-label="Guides" data-pagefind-ignore>
-      #       <a class="learn-ref" href="/forms">
+      #       <a class="learn-ref" href="/learn/forms">
       #         <svg class="icon -book learn-ref--icon" ...></svg>
       #         <span class="learn-ref--prefix">Learn:</span>
       #         <span class="learn-ref--destination">Forms</span>

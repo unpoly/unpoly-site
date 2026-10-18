@@ -3,21 +3,30 @@ require 'set'
 module Unpoly
   module Site
     # "No lost URL": every address unpoly.com serves today must still resolve after the
-    # docs rework, either to a page or through a redirect rule.
+    # docs rework, either to a page, through the general rule for short paths, or
+    # through a hand-written redirect.
     #
     # We compare against the `master` revision of both repositories, since that is what
     # is deployed. API symbols are not read from master: a renamed symbol keeps its page
     # as `@deprecated`, so every symbol master documents is still documented here, and
     # the check makes sure that its old root path (/up.render, from before documents
-    # moved under /learn and /api) still redirects.
+    # moved under /learn and /api) still resolves.
+    #
+    # The general rule in source/.htaccess.erb redirects a short path /foo to /learn/foo
+    # if that page exists, else to /api/foo. It runs before every RedirectPermanent
+    # (Apache applies an .htaccess's mod_rewrite before its mod_alias), so a
+    # hand-written redirect from such a path would never fire: that fails the check.
     #
     # Every redirect must lead to a page in one hop: no redirect may point to a path
-    # that is only another redirect.
+    # that is only another redirect, or a short path that the general rule redirects.
+    # A redirect whose target is no page fails the check too.
+    #
+    # Our sources must not link to old paths at all (LegacyLinkCheck, run with this one).
     class UrlCheck
       REDIRECT_PATTERN = /^\s*RedirectPermanent\s+(\S+)\s+(\S+)\s*$/
 
-      # The exact-match rules of the URL move: RedirectMatch 301 ^/up\.render/?$ /api/up.render
-      EXACT_REDIRECT_PATTERN = %r{^\s*RedirectMatch\s+301\s+\^(\S+?)/\?\$\s+(\S+)\s*$}
+      # Short URLs printed on slides and in talks. They must resolve forever.
+      PERMANENT_SHORT_URLS = %w[/install /skill].freeze
 
       def initialize(repository = Site.current, revision: 'master')
         @repository = repository
@@ -28,23 +37,44 @@ module Unpoly
 
       def run
         lost = old_paths.reject { |path| resolves?(path) }
-        moved = moved_paths.reject { |path| resolves?(path) }
-        pending = redirects.reject { |_from, to| target_resolves?(to) }
+        moved = (moved_paths + PERMANENT_SHORT_URLS).uniq.reject { |path| resolves?(path) }
+        pending = redirects.reject { |_from, to| target_resolves?(to) || chained?(to) }
         chains = redirects.select { |_from, to| chained?(to) }
+        shadowed = redirects.keys.select { |from| short_path_target(from) }
 
         report('LOST (no page and no redirect)', lost)
-        report('MOVED WITHOUT REDIRECT (old root path of a document)', moved)
-        report('PENDING (redirect target not built yet)', pending.map { |from, to| "#{from} -> #{to}" })
-        report('CHAINED (redirect to another redirect)', chains.map { |from, to| "#{from} -> #{to} -> #{redirects[to.split('#').first]}" })
+        report('MOVED WITHOUT REDIRECT (old root path of a document, or a permanent short URL)', moved)
+        report('DANGLING (redirect target is no page)', pending.map { |from, to| "#{from} -> #{to}" })
+        report('CHAINED (redirect to another redirect)', chains.map { |from, to| "#{from} -> #{to} -> #{next_hop(to)}" })
+        report('SHADOWED (the general rule redirects this path first, so the rule never fires)',
+          shadowed.map { |from| "#{from} -> #{redirects[from]} (but the general rule sends it to #{short_path_target(from)})" })
 
         if lost.empty? && moved.empty?
           puts "No lost URL: all #{old_paths.size} published addresses and #{moved_paths.size} old document paths still resolve."
         end
-        if chains.empty?
-          puts "No redirect chain: all #{redirects.size} redirects lead to their target in one hop."
+        if chains.empty? && pending.empty? && shadowed.empty?
+          puts "No redirect chain: all #{redirects.size} hand-written redirects lead to a page in one hop."
         end
 
-        lost.empty? && moved.empty? && chains.empty?
+        legacy_links_ok = LegacyLinkCheck.new(repository).run
+
+        lost.empty? && moved.empty? && chains.empty? && pending.empty? && shadowed.empty? && legacy_links_ok
+      end
+
+      # Where the general rule in source/.htaccess.erb sends a short path, or nil:
+      # /caching to /learn/caching, /up.render/ to /api/up.render, /up.render.md to
+      # /api/up.render.md. A page at the path itself wins.
+      def short_path_target(path)
+        path = path.split('#', 2).first
+        markdown = path.end_with?('.md')
+        short = markdown ? path.delete_suffix('.md') : path.chomp('/')
+        return nil if short.empty? || short == '/' || current_paths.include?(short)
+
+        [Site::LEARN_PATH, Site::API_PATH].each do |prefix|
+          full = "#{prefix}#{short}"
+          return(markdown ? "#{full}.md" : full) if current_paths.include?(full)
+        end
+        nil
       end
 
       # Paths the site serves after the rework.
@@ -71,8 +101,7 @@ module Unpoly
           File.read('source/.htaccess.erb'),
           repository.migrate_redirects,
         ].flat_map { |text|
-          text.scan(REDIRECT_PATTERN) +
-            text.scan(EXACT_REDIRECT_PATTERN).map { |from, to| [unescape(from), unescape(to)] }
+          text.scan(REDIRECT_PATTERN)
         }.reverse.to_h # Apache applies the first rule for a path
       end
 
@@ -86,23 +115,24 @@ module Unpoly
         repository.toc.areas.flat_map(&:topics).filter_map(&:index)
       end
 
-      # A regular expression's escapes (^/up\.\$compiler) or a target's ($ as \$).
-      def unescape(text)
-        text.gsub(/\\(.)/, '\\1')
-      end
-
       # A target that is no page of its own but the source of another redirect.
       def chained?(target)
         return false if external?(target)
 
         path = target.split('#', 2).first
-        !current_paths.include?(path) && redirects.key?(path)
+        !current_paths.include?(path) && !!next_hop(target)
       end
 
-      # A path is kept alive either by a page of its own or by a redirect rule. Whether
-      # the rule's target exists yet is what the pending list is for.
+      def next_hop(target)
+        path = target.split('#', 2).first
+        short_path_target(path) || redirects[path]
+      end
+
+      # A path is kept alive by a page of its own, by the general rule for short paths,
+      # or by a redirect rule. Whether the rule's target exists is what the dangling
+      # list is for.
       def resolves?(path)
-        current_paths.include?(path) || redirects.key?(path)
+        current_paths.include?(path) || !!short_path_target(path) || redirects.key?(path)
       end
 
       def target_resolves?(target)

@@ -69,6 +69,9 @@ configure :build do
   after_build do
     unless ENV['SKIP_CHECK_LINKS']
       puts "Checking for broken links. Disable with SKIP_CHECK_LINKS=1."
+      # A link to a document's old root path (/up.render) still works through a redirect,
+      # and HTMLProofer sees neither unpoly.com URLs nor links in Markdown files.
+      Unpoly::Site::LegacyLinkCheck.new.run or raise "Links to old document paths found"
       Dir.chdir('./build') do
         begin
           require 'html-proofer'

@@ -33,8 +33,40 @@ RewriteRule ^(.+)$ /$1.md [L]
 RewriteCond %{HTTP:Accept} ^\s*text/markdown(?![^,]*;\s*q=0(\.0*)?\s*(,|$))\s*(,|;|$) [NC]
 RewriteRule ^$ /index.md [L]
 
+# Short paths: /foo redirects to /learn/foo if that page exists, else to /api/foo.
+# Documents lived at the root until the docs rework 2026 (/caching, /up.render), so
+# this keeps every old document URL alive, and works as a shortcut for future pages.
+# /install and /skill are printed on slides and in talks: keep this rule forever.
+#
+# - A page exists when its directory has an index.html. Testing the directory alone
+#   (-d) would also match /learn/start, which only holds pages below it.
+# - A page or file at the root itself (/api, /changes, /api.md) wins.
+# - Learn wins over API. A slug used by both fails the build (Toc), so this
+#   never decides anything.
+# - The renames below (RedirectPermanent) run after all RewriteRules, wherever they
+#   stand in this file: Apache applies an .htaccess's mod_rewrite before its mod_alias.
+#   So no rename may start at a path that this rule redirects (rake docs:check_urls
+#   and script/url_move.rb fail on one).
+# - Needs %{DOCUMENT_ROOT} to be the build directory, like the rules above.
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html !-f
+RewriteCond %{DOCUMENT_ROOT}/learn/$1/index.html -f
+RewriteRule ^(.+?)/?$ https://%{HTTP_HOST}/learn/$1 [R=301,L]
+
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html !-f
+RewriteCond %{DOCUMENT_ROOT}/api/$1/index.html -f
+RewriteRule ^(.+?)/?$ https://%{HTTP_HOST}/api/$1 [R=301,L]
+
+# The same for Markdown twins: /caching.md to /learn/caching.md.
+RewriteCond %{DOCUMENT_ROOT}/$1.md !-f
+RewriteCond %{DOCUMENT_ROOT}/learn/$1.md -f
+RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/learn/$1.md [R=301,L]
+
+RewriteCond %{DOCUMENT_ROOT}/$1.md !-f
+RewriteCond %{DOCUMENT_ROOT}/api/$1.md -f
+RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/api/$1.md [R=301,L]
+
 # No .md URL existed before the twins. So a .md URL without a file is a page that has
-# moved: send it to the page, where the page's own redirect (below) takes over.
+# been renamed: send it to the page, where the rename's redirect (below) takes over.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/$1 [R=301,L]
 

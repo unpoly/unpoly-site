@@ -31,6 +31,7 @@ module Unpoly
         @areas = build_areas(data)
         validate!
         assign_url_prefixes
+        validate_short_paths!
       end
 
       attr_reader :areas, :repository, :path
@@ -105,6 +106,19 @@ module Unpoly
         areas.each do |area|
           area.pages.each { |page| page.url_prefix = area.path }
         end
+      end
+
+      # The site redirects a short path (/caching, /up.render) to /learn/caching, else to
+      # /api/up.render (source/.htaccess.erb). A slug served under both prefixes would make
+      # the short path ambiguous, so it fails the build.
+      def validate_short_paths!
+        paths = repository.documentables.select(&:guide_page?).map(&:guide_path) +
+          areas.flat_map(&:topics).filter_map(&:index).map(&:guide_path)
+        clashes = paths.uniq.group_by { |path| path.sub(%r{\A/[^/]+}, '') }.select { |_short, full| full.size > 1 }
+        return if clashes.empty?
+
+        raise Invalid, ([path, 'Slugs served under both /learn and /api (their short path would be ambiguous):'] +
+          clashes.map { |short, full| "#{short}: #{full.sort.join(', ')}" }).join("\n  ")
       end
 
       def build_areas(data)
