@@ -13,7 +13,7 @@ describe 'the search ranking', type: :feature, js: true do
 
   before do
     skip 'no build/pagefind (run `bundle exec rake search:index`)' unless File.directory?(File.expand_path('../../build/pagefind', __dir__))
-    visit '/loading-state'
+    visit '/learn/loading-state'
   end
 
   # The pages the dialog lists for a query, in order.
@@ -44,24 +44,24 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'recalls the layer features for "layer"' do
-    expect(ranked('layer')).to include('/up-layer-new', '/up.layer.current', '/up.layer.on', '/up.layer.ask')
+    expect(ranked('layer')).to include('/api/up-layer-new', '/api/up.layer.current', '/api/up.layer.on', '/api/up.layer.ask')
   end
 
   it 'lists the layer guide among the layer features for "layer"' do
-    expect(ranked('layer').first(5)).to include('/targeting-other-layers')
+    expect(ranked('layer').first(5)).to include('/learn/targeting-other-layers')
   end
 
   it 'finds the overlays guide for "dialog"' do
     # The docs say "overlay", and compare it to a modal dialog only in the guide's intro.
     # Opening and closing overlays have "dialog" as a keyword and may rank above it; a
     # reader picks the right page among the first results.
-    expect(ranked('dialog').first(5)).to include('/overlays')
+    expect(ranked('dialog').first(5)).to include('/learn/overlays')
   end
 
   it 'keeps the page that discusses a term the most at the top' do
-    expect(ranked('csp').first).to eq('/script-security')
-    expect(ranked('offline').first).to eq('/network-issues')
-    expect(ranked('autosubmit').first).to eq('/up-autosubmit')
+    expect(ranked('csp').first).to eq('/learn/script-security')
+    expect(ranked('offline').first).to eq('/learn/network-issues')
+    expect(ranked('autosubmit').first).to eq('/api/up-autosubmit')
   end
 
   it 'lifts a signature page by its title and its boost' do
@@ -70,14 +70,14 @@ describe 'the search ranking', type: :feature, js: true do
     # [up-layer=new], and up.layer.dismissOverlays() not at all.
     results = ranked('overlay')
     alone = pagefind_alone('overlay')
-    expect(alone.index('/up.layer.dismissOverlays')).to be < alone.index('/up-layer-new')
-    expect(results).to include('/up-layer-new')
-    expect(results.index('/up.layer.dismissOverlays') || results.size).to be > results.index('/up-layer-new')
+    expect(alone.index('/api/up.layer.dismissOverlays')).to be < alone.index('/api/up-layer-new')
+    expect(results).to include('/api/up-layer-new')
+    expect(results.index('/api/up.layer.dismissOverlays') || results.size).to be > results.index('/api/up-layer-new')
 
     # The title: without its tier title, [up-layer=new] is not even among the pages the
     # dialog fetches for "layer".
     ranked('layer')
-    expect(pagefind_alone('layer', ranking: { metaWeights: { title: 2, tier_title: 0 } })).not_to include('/up-layer-new')
+    expect(pagefind_alone('layer', ranking: { metaWeights: { title: 2, tier_title: 0 } })).not_to include('/api/up-layer-new')
   end
 
   it 'breaks a near-tie by kind' do
@@ -87,10 +87,10 @@ describe 'the search ranking', type: :feature, js: true do
     # Both are signature pages, and under the dialog's weights Pagefind puts the event a
     # hair ahead (63.3 to 62.6 when this was written). If a documentation change ever
     # reverses that, this example no longer shows a tie-break; find another near-tie.
-    expect(alone.first(2)).to eq(['/up:deferred:load', '/up-defer'])
+    expect(alone.first(2)).to eq(['/api/up:deferred:load', '/api/up-defer'])
 
     # The ladder ranks a selector above an event, which turns the order around.
-    expect(results.index('/up-defer')).to be < results.index('/up:deferred:load')
+    expect(results.index('/api/up-defer')).to be < results.index('/api/up:deferred:load')
   end
 
 end

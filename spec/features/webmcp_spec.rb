@@ -22,7 +22,7 @@ describe 'WebMCP tools', type: :feature, js: true do
   end
 
   it 'registers its tools with document.modelContext or navigator.modelContext, and with nothing where neither exists' do
-    visit '/up.render'
+    visit '/api/up.render'
 
     registered = page.evaluate_script(<<~JS)
       (function() {
@@ -40,7 +40,7 @@ describe 'WebMCP tools', type: :feature, js: true do
   end
 
   it 'does nothing, and logs nothing, in a browser without the API' do
-    visit '/up.render'
+    visit '/api/up.render'
 
     expect(page.evaluate_script("'modelContext' in document || 'modelContext' in navigator")).to be(false)
 
@@ -62,22 +62,22 @@ describe 'WebMCP tools', type: :feature, js: true do
 
   describe 'search_docs' do
     it 'answers with pages, their hubs, Markdown URLs and plain excerpts, and a skill tip only once' do
-      visit '/up.render'
+      visit '/api/up.render'
       stub_pagefind([
-        { url: '/up-follow/', excerpt: 'Follows a <mark>link</mark>.', meta: { title: '[up-follow]', badge: 'ATTR' } },
-        { url: '/up-follow', excerpt: 'Again', meta: { title: '[up-follow]', badge: 'ATTR' } },
-        { url: '/following-links/', excerpt: 'How to follow', meta: { title: 'Following links', badge: 'Learn' }, filters: { hub: ['Links'] } },
-        { url: '/links/', excerpt: 'All about links', meta: { title: 'Links', badge: 'Learn' }, filters: { overview: ['true'] } },
+        { url: '/api/up-follow/', excerpt: 'Follows a <mark>link</mark>.', meta: { title: '[up-follow]', badge: 'ATTR' } },
+        { url: '/api/up-follow', excerpt: 'Again', meta: { title: '[up-follow]', badge: 'ATTR' } },
+        { url: '/learn/following-links/', excerpt: 'How to follow', meta: { title: 'Following links', badge: 'Learn' }, filters: { hub: ['Links'] } },
+        { url: '/learn/links/', excerpt: 'All about links', meta: { title: 'Links', badge: 'Learn' }, filters: { overview: ['true'] } },
       ])
       origin = page.evaluate_script('location.origin')
 
       first = call_tool('search_docs', { query: 'follow' })
       expect(first['results']).to eq([
-        { 'title' => '[up-follow]', 'kind' => 'ATTR', 'hub' => nil, 'url' => "#{origin}/up-follow", 'mdUrl' => "#{origin}/up-follow.md", 'excerpt' => 'Follows a link.' },
-        { 'title' => 'Following links', 'kind' => 'Learn', 'hub' => 'Links', 'url' => "#{origin}/following-links", 'mdUrl' => "#{origin}/following-links.md", 'excerpt' => 'How to follow' },
-        { 'title' => 'Links (overview)', 'kind' => 'Learn', 'hub' => nil, 'url' => "#{origin}/links", 'mdUrl' => "#{origin}/links.md", 'excerpt' => 'All about links' },
+        { 'title' => '[up-follow]', 'kind' => 'ATTR', 'hub' => nil, 'url' => "#{origin}/api/up-follow", 'mdUrl' => "#{origin}/api/up-follow.md", 'excerpt' => 'Follows a link.' },
+        { 'title' => 'Following links', 'kind' => 'Learn', 'hub' => 'Links', 'url' => "#{origin}/learn/following-links", 'mdUrl' => "#{origin}/learn/following-links.md", 'excerpt' => 'How to follow' },
+        { 'title' => 'Links (overview)', 'kind' => 'Learn', 'hub' => nil, 'url' => "#{origin}/learn/links", 'mdUrl' => "#{origin}/learn/links.md", 'excerpt' => 'All about links' },
       ])
-      expect(first['tip']).to include('https://unpoly.com/skill.md')
+      expect(first['tip']).to include('https://unpoly.com/learn/skill.md')
 
       second = call_tool('search_docs', { query: 'follow', limit: 1 })
       expect(second['results'].size).to eq(1)
@@ -85,12 +85,12 @@ describe 'WebMCP tools', type: :feature, js: true do
     end
 
     it 'asks for a query' do
-      visit '/up.render'
+      visit '/api/up.render'
       expect(call_tool('search_docs', {})).to eq('error' => 'Pass a query.')
     end
 
     it 'flags deprecated pages, and keeps a limit within bounds' do
-      visit '/up.render'
+      visit '/api/up.render'
       stub_pagefind((1..25).map { |n| { url: "/p#{n}", excerpt: '', meta: { title: "P#{n}", badge: 'JS', deprecated: (n == 1 ? 'true' : nil) }.compact } })
 
       expect(call_tool('search_docs', { query: 'p', limit: 0 })['results'].size).to eq(8)
@@ -103,14 +103,14 @@ describe 'WebMCP tools', type: :feature, js: true do
     end
 
     it 'points to the index when search is unavailable' do
-      visit '/up.render'
+      visit '/api/up.render'
       page.execute_script("window.pagefind = { options: async () => {}, search: async () => { throw new Error('broken index') } }")
 
       expect(call_tool('search_docs', { query: 'follow' })['error']).to include('unavailable', 'retrying', 'https://unpoly.com/index.md')
     end
 
     it 'waits longer for the index than the search dialog does' do
-      visit '/up.render'
+      visit '/api/up.render'
       expect(page.evaluate_script('WEBMCP.indexTimeoutMs')).to eq(15000)
       expect(page.evaluate_script('SEARCH.pagefindTimeoutMs')).to be < 15000
 
@@ -122,30 +122,30 @@ describe 'WebMCP tools', type: :feature, js: true do
 
   describe 'get_page_markdown' do
     it 'reads the current page’s Markdown twin by default' do
-      visit '/start/links'
+      visit '/learn/start/links'
 
       result = call_tool('get_page_markdown')
-      expect(result['url']).to end_with('/start/links.md')
+      expect(result['url']).to end_with('/learn/start/links.md')
       expect(result['markdown']).to include("\n# Link to")
     end
 
     it 'reads a page by URL or path, the root as the index' do
-      visit '/start/links'
+      visit '/learn/start/links'
 
-      expect(call_tool('get_page_markdown', { url: '/up.render#options.target' })['markdown']).to include('# up.render(')
-      expect(call_tool('get_page_markdown', { url: page.evaluate_script('location.origin') + '/up.render' })['url']).to end_with('/up.render.md')
+      expect(call_tool('get_page_markdown', { url: '/api/up.render#options.target' })['markdown']).to include('# up.render(')
+      expect(call_tool('get_page_markdown', { url: page.evaluate_script('location.origin') + '/api/up.render' })['url']).to end_with('/api/up.render.md')
       expect(call_tool('get_page_markdown', { url: '/' })['markdown']).to start_with('# Unpoly')
     end
 
     it 'points to the search and the index when there is no such page' do
-      visit '/start/links'
+      visit '/learn/start/links'
 
       result = call_tool('get_page_markdown', { url: '/no-such-page' })
       expect(result['error']).to include('No Markdown at', 'search_docs', 'https://unpoly.com/index.md')
 
       # Only this site's own pages: no other host is mapped onto it, unpoly.com included.
-      %w[https://example.com/x https://unpoly.com/up.render up.render //example.com/x http://].each do |url|
-        expect(call_tool('get_page_markdown', { url: url })['error']).to start_with('Pass a path like /up.render, or a full URL on http'), url
+      %w[https://example.com/x https://unpoly.com/api/up.render up.render //example.com/x http://].each do |url|
+        expect(call_tool('get_page_markdown', { url: url })['error']).to start_with('Pass a path like /api/up.render, or a full URL on http'), url
       end
     end
   end

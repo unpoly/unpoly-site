@@ -54,7 +54,7 @@ describe Unpoly::Site::Wikilink do
 
         expect(markdown).to start_with("Text.\n\n\n<nav ").and end_with("</nav>\n\n\nMore text.")
         expect(nav.css('a.learn-ref').size).to eq(1)
-        expect(nav.at_css('a.learn-ref')['href']).to eq('/polling')
+        expect(nav.at_css('a.learn-ref')['href']).to eq('/learn/polling')
         expect(nav.css('a.learn-ref > *').map { |child| child[:class] })
           .to eq(['icon -book learn-ref--icon', 'learn-ref--prefix', 'learn-ref--destination'])
         expect(nav.at_css('.learn-ref--icon')['aria-hidden']).to eq('true')
@@ -67,7 +67,7 @@ describe Unpoly::Site::Wikilink do
 
         link = Nokogiri::HTML.fragment(expand('[[more: network-issues#slow-server-responses]]')).at_css('.learn-ref')
 
-        expect(link['href']).to eq('/network-issues#slow-server-responses')
+        expect(link['href']).to eq('/learn/network-issues#slow-server-responses')
         expect(link.text.squish).to eq("More: #{title}: Slow server responses")
       end
 

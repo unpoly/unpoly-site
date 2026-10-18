@@ -56,7 +56,10 @@ module Unpoly
       def describe(text, file, found)
         lines = text.lines
         found.uniq.map do |path, moved|
-          line = lines.index { |candidate| candidate.match?(/#{Regexp.escape(path)}(?![A-Za-z0-9\-_.:$\/])/) }
+          # A sentence's full stop is no part of the path: "see https://unpoly.com/caching."
+          path, moved = [path, moved].map { |text| text.sub(/[.:]+\z/, '') }
+          link = /(?:\]\(|href=["']|unpoly\.com|\]\]|["'])#{Regexp.escape(path)}(?![A-Za-z0-9\-_$\/]|\.[A-Za-z])/
+          line = lines.index { |candidate| candidate.match?(link) }
           "#{file}#{line ? ":#{line + 1}" : ''}: #{path} -> #{moved}"
         end
       end

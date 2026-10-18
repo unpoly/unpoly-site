@@ -3,9 +3,9 @@ name: "test.module.paramSections"
 area: "API"
 kind: "JavaScript function"
 parent: "test.module module"
-url: "http://unpoly.test/test.module.paramSections"
+url: "http://unpoly.test/api/test.module.paramSections"
 ---
-<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/test.module.md)</nav>
+<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/api/test.module.md)</nav>
 
 # test.module.paramSections(options)
 

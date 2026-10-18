@@ -38,8 +38,8 @@ describe 'figures', type: :feature, js: true do
   end
 
   {
-    '/render-lifecycle' => 'img',
-    '/previews' => '.video-player',
+    '/learn/render-lifecycle' => 'img',
+    '/learn/previews' => '.video-player',
   }.each do |path, medium|
     describe "on #{path}" do
       before do

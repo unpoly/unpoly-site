@@ -240,7 +240,7 @@ describe Unpoly::Site::HtmlToMarkdown do
         <figure>
           <img src="/images/api/flow.svg" alt="Flowchart of the user's request" width="900" class="picture">
           <figcaption>
-            <p>A request moves through <a href="/up.render"><code>up.render()</code></a>:</p>
+            <p>A request moves through <a href="/api/up.render"><code>up.render()</code></a>:</p>
             <ol><li>One</li><li>Two</li></ol>
           </figcaption>
         </figure>
@@ -250,7 +250,7 @@ describe Unpoly::Site::HtmlToMarkdown do
         <img src="https://unpoly.com/images/api/flow.svg" alt="Flowchart of the user's request">
         <figcaption>
 
-        A request moves through [`up.render()`](https://unpoly.com/up.render.md):
+        A request moves through [`up.render()`](https://unpoly.com/api/up.render.md):
 
         1. One
         2. Two

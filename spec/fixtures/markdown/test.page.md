@@ -1,7 +1,7 @@
 ---
 area: "API"
 parent: "API reference"
-url: "http://unpoly.test/test.page"
+url: "http://unpoly.test/learn/test.page"
 ---
 <nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API reference](http://unpoly.test/api.md)</nav>
 

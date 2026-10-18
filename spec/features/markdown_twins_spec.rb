@@ -1,7 +1,7 @@
 require 'rack/mock'
 require 'yaml'
 
-# The Markdown twins of the documentation pages (/up.render.md), the index agents start
+# The Markdown twins of the documentation pages (/api/up.render.md), the index agents start
 # from (/index.md, /llms.txt) and the agent skill's files, as the preview serves them.
 #
 # Golden files in spec/fixtures/markdown pin the twins of the parser fixtures (one page
@@ -39,15 +39,15 @@ describe 'Markdown twins', type: :feature do
 
   describe 'golden files' do
     {
-      '/test.markdown.md' => 'test.markdown',
-      '/test.page.md' => 'test.page',
-      '/test.module.md' => 'test.module',
-      '/test.Class.md' => 'test.Class',
-      '/test.module.function.md' => 'test.module.function',
-      '/test.module.paramSections.md' => 'test.module.paramSections',
-      '/test.module.deprecatedFunction.md' => 'test.module.deprecatedFunction',
-      '/test.module.functionWithLearnRefs.md' => 'test.module.functionWithLearnRefs',
-      '/test-module-selector.md' => 'test-module-selector',
+      '/learn/test.markdown.md' => 'test.markdown',
+      '/learn/test.page.md' => 'test.page',
+      '/api/test.module.md' => 'test.module',
+      '/api/test.Class.md' => 'test.Class',
+      '/api/test.module.function.md' => 'test.module.function',
+      '/api/test.module.paramSections.md' => 'test.module.paramSections',
+      '/api/test.module.deprecatedFunction.md' => 'test.module.deprecatedFunction',
+      '/api/test.module.functionWithLearnRefs.md' => 'test.module.functionWithLearnRefs',
+      '/api/test-module-selector.md' => 'test-module-selector',
     }.each do |path, name|
       it "converts #{path} as pinned in spec/fixtures/markdown/#{name}.md" do
         expect_golden(path, name)
@@ -57,33 +57,33 @@ describe 'Markdown twins', type: :feature do
 
   describe 'a twin' do
     it 'is served as Markdown' do
-      expect(get('/test.page.md').headers['Content-Type']).to eq('text/markdown; charset=utf-8')
+      expect(get('/learn/test.page.md').headers['Content-Type']).to eq('text/markdown; charset=utf-8')
     end
 
     it 'links to other twins on the host it was requested from' do
-      expect(markdown('/start/links.md')).to include('](http://unpoly.test/up-follow.md)')
+      expect(markdown('/learn/start/links.md')).to include('](http://unpoly.test/api/up-follow.md)')
     end
 
     it 'names the kind and module of a feature in its front matter, the module in its nav line, and neither in its title' do
-      text = markdown('/up.render.md')
-      expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nkind: "JavaScript function"\nparent: "up.fragment module"\nurl: "http://unpoly.test/up.render"\n---\n))
-      expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [up.fragment module](http://unpoly.test/up.fragment.md)</nav>\n\n# up.render([target], [options])\n))
+      text = markdown('/api/up.render.md')
+      expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nkind: "JavaScript function"\nparent: "up.fragment module"\nurl: "http://unpoly.test/api/up.render"\n---\n))
+      expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [up.fragment module](http://unpoly.test/api/up.fragment.md)</nav>\n\n# up.render([target], [options])\n))
     end
 
     it 'places each page in the hierarchy: area, kind and parent in the front matter, the parent in the nav line' do
-      feature = markdown('/up-follow.md')
+      feature = markdown('/api/up-follow.md')
       expect(feature).to include(%(kind: "HTML attribute"\nparent: "up.link module"))
       expect(feature).to include('# [up-follow]' + "\n")
-      expect(markdown('/up.Layer.md')).to include(%(parent: "up.layer module"))
-      expect(markdown('/up.layer.md')).to include(%(kind: "module"\nparent: "API reference"))
-      learn = markdown('/following-links.md')
+      expect(markdown('/api/up.Layer.md')).to include(%(parent: "up.layer module"))
+      expect(markdown('/api/up.layer.md')).to include(%(kind: "module"\nparent: "API reference"))
+      learn = markdown('/learn/following-links.md')
       expect(learn).to include(%(parent: "Links chapter"))
       expect(learn).to match(%r{<nav aria-label="Unpoly docs">.*\[Links chapter\]\(.*/links\.md\)</nav>})
-      expect(markdown('/links.md')).to include(%(parent: "Learn"))
+      expect(markdown('/learn/links.md')).to include(%(parent: "Learn"))
     end
 
     it 'exists for the hubs, the changelog and /support' do
-      %w[/learn.md /api.md /changes.md /changes/upgrading.md /support.md /formats.md].each { |path| markdown(path) }
+      %w[/learn.md /api.md /changes.md /changes/upgrading.md /support.md /api/formats.md].each { |path| markdown(path) }
       expect(markdown('/changes/3.0.0.md')).to include(%(released: "))
     end
   end
@@ -93,12 +93,12 @@ describe 'Markdown twins', type: :feature do
       text = markdown('/index.md')
       expect(text).to start_with("# Unpoly\n\n> ")
       expect(text).to include("## Learn\n", "## API\n", "## Changes\n", "## Support\n")
-      expect(text).to include('- [`up.link`](http://unpoly.test/up.link.md): ')
+      expect(text).to include('- [`up.link`](http://unpoly.test/api/up.link.md): ')
       expect(text).to include('{#hash}')
     end
 
     it 'shows the Markdown URL example on its own origin, with the suffix in bold' do
-      expect(markdown('/index.md')).to include('e.g. [http://unpoly.test/up.render**.md**](http://unpoly.test/up.render.md).')
+      expect(markdown('/index.md')).to include('e.g. [http://unpoly.test/api/up.render**.md**](http://unpoly.test/api/up.render.md).')
     end
 
     it 'is also /llms.txt' do
@@ -120,15 +120,15 @@ describe 'Markdown twins', type: :feature do
 
     it 'has reference files that link each other by relative paths and the site by unpoly.com' do
       text = markdown('/skills/unpoly-docs/references/learn/start-links.md')
-      expect(text).to include(%(url: "https://unpoly.com/start/links"))
+      expect(text).to include(%(url: "https://unpoly.com/learn/start/links"))
       expect(text).to include('<nav aria-label="Unpoly docs">[All docs](../../SKILL.md) · [Getting started chapter](start-overview.md)</nav>')
       expect(text).to include('](../api/up-follow-selector.md)')
     end
 
     it 'fills [[=base_url]] with the request’s origin on the web and with unpoly.com in the skill' do
-      example = '/up.render**.md**]('
-      expect(markdown('/skill.md')).to include("[http://unpoly.test#{example}http://unpoly.test/up.render.md)")
-      expect(markdown('/skills/unpoly-docs/references/learn/skill.md')).to include("[https://unpoly.com#{example}https://unpoly.com/up.render.md)")
+      example = '/api/up.render**.md**]('
+      expect(markdown('/learn/skill.md')).to include("[http://unpoly.test#{example}http://unpoly.test/api/up.render.md)")
+      expect(markdown('/skills/unpoly-docs/references/learn/skill.md')).to include("[https://unpoly.com#{example}https://unpoly.com/api/up.render.md)")
     end
 
     it 'shows the release notes script on the upgrading page only in the skill' do
@@ -154,20 +154,20 @@ describe 'Markdown twins', type: :feature do
 
   describe 'pages' do
     it 'link their twin from the ai-tools corner and the document head' do
-      visit '/up.render'
-      expect(page).to have_css('.ai-tools[data-markdown="ignore"] a.ai-tools--item.-markdown[href="/up.render.md"][type="text/markdown"]')
-      expect(page).to have_css('head link[rel="alternate"][type="text/markdown"][href="/up.render.md"]', visible: false)
+      visit '/api/up.render'
+      expect(page).to have_css('.ai-tools[data-markdown="ignore"] a.ai-tools--item.-markdown[href="/api/up.render.md"][type="text/markdown"]')
+      expect(page).to have_css('head link[rel="alternate"][type="text/markdown"][href="/api/up.render.md"]', visible: false)
     end
 
     it 'list their place in the reading order in the head' do
-      visit '/start/links'
-      expect(page).to have_css('head link[rel="prev"][href="/install"]', visible: false)
-      expect(page).to have_css('head link[rel="next"][href="/start/forms"]', visible: false)
+      visit '/learn/start/links'
+      expect(page).to have_css('head link[rel="prev"][href="/learn/install"]', visible: false)
+      expect(page).to have_css('head link[rel="next"][href="/learn/start/forms"]', visible: false)
       expect(page).to have_css('nav.reading-nav[aria-label="Reading order"] a[aria-label^="Next: "]')
     end
 
     it 'have the ai-tools corner on pages without an Edit link too' do
-      %w[/learn /api /changes /changes/upgrading /support /formats /changes/3.0.0].each do |path|
+      %w[/learn /api /changes /changes/upgrading /support /api/formats /changes/3.0.0].each do |path|
         visit path
         expect(page).to have_css(%(.ai-tools a.ai-tools--item.-markdown[href="#{path}.md"])), "no ai-tools corner on #{path}"
       end

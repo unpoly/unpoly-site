@@ -33,7 +33,7 @@ describe 'presentation', type: :feature, js: true do
     end
 
     it 'lets a table scroll inside the text column rather than widening the page' do
-      visit '/closing-overlays' # a guide page with tables (/install lost its table)
+      visit '/learn/closing-overlays' # a guide page with tables (/learn/install lost its table)
 
       scrollable = page.evaluate_script(<<~JS)
         (function() {
@@ -49,7 +49,7 @@ describe 'presentation', type: :feature, js: true do
   end
 
   describe 'a reference page' do
-    before { visit '/up-follow' }
+    before { visit '/api/up-follow' }
 
     # Parameter groups are a recent addition to the doc format and the one piece
     # of information architecture the restyling was told not to lose.
@@ -64,13 +64,13 @@ describe 'presentation', type: :feature, js: true do
     end
 
     it 'points at the guides that explain it' do
-      visit '/up.link'
+      visit '/api/up.link'
       expect(page).to have_css('.learn-refs a.learn-ref')
     end
   end
 
   describe 'a guide page' do
-    before { visit '/loading-state' }
+    before { visit '/learn/loading-state' }
 
     it 'offers its own contents' do
       expect(page).to have_css('.toc .toc--item a')
@@ -159,9 +159,9 @@ describe 'presentation', type: :feature, js: true do
 
   describe 'a [[more: slug]] box closing an overview section' do
     it 'is an outlined button like the Next link, unlike the links in the text' do
-      visit '/links'
+      visit '/learn/links'
 
-      expect(page).to have_css('nav.learn-refs.-more[data-pagefind-ignore] a.learn-ref[href="/following-links"]', text: /\AMore:\s+Following links\z/)
+      expect(page).to have_css('nav.learn-refs.-more[data-pagefind-ignore] a.learn-ref[href="/learn/following-links"]', text: /\AMore:\s+Following links\z/)
       expect(page).to have_css('.learn-ref > svg.learn-ref--icon.icon.-book', visible: :all)
 
       box = page.evaluate_script(BUTTON_JS, '.learn-refs.-more .learn-ref')
@@ -172,7 +172,7 @@ describe 'presentation', type: :feature, js: true do
     end
 
     it 'looks like a learn-ref: gray icon and prefix, centered icon, a light shadow' do
-      visit '/links'
+      visit '/learn/links'
       more = page.evaluate_script(<<~JS)
         ['.learn-ref--icon', '.learn-ref--prefix', '.learn-ref'].map((selector) => {
           let style = getComputedStyle(document.querySelector(selector))
@@ -181,7 +181,7 @@ describe 'presentation', type: :feature, js: true do
       JS
       icon_offset = page.evaluate_script(CENTER_OFFSET_JS, '.learn-ref--icon')
 
-      visit '/up-follow'
+      visit '/api/up-follow'
       learn = page.evaluate_script(<<~JS)
         ['.learn-ref--icon', '.learn-ref--prefix', '.learn-ref'].map((selector) => {
           let style = getComputedStyle(document.querySelector(selector))
@@ -199,16 +199,16 @@ describe 'presentation', type: :feature, js: true do
 
   describe 'the learn-refs of a reference page' do
     it 'is an outlined button per guide, labelled with its title, without the old stripe' do
-      visit '/up-follow'
+      visit '/api/up-follow'
 
-      expect(page).to have_css('nav.learn-refs.-learn[aria-label="Guides"] a.learn-ref[href="/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
+      expect(page).to have_css('nav.learn-refs.-learn[aria-label="Guides"] a.learn-ref[href="/learn/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
       expect(page).to have_css('a.learn-ref > .learn-ref--destination', text: 'Following links')
       expect(page.evaluate_script(BUTTON_JS, '.learn-ref').first).to eq('solid')
       expect(page.evaluate_script("getComputedStyle(document.querySelector('.learn-refs')).borderLeftStyle")).to eq('none')
     end
 
     it 'stacks two guides, each as wide as its label' do
-      visit '/up.radio'
+      visit '/api/up.radio'
 
       rects = page.evaluate_script("[...document.querySelectorAll('.learn-ref')].map((link) => { let rect = link.getBoundingClientRect(); return [Math.round(rect.left), Math.round(rect.top), Math.round(rect.width)] })")
       nav_width = page.evaluate_script("document.querySelector('.learn-refs').getBoundingClientRect().width")
@@ -222,17 +222,17 @@ describe 'presentation', type: :feature, js: true do
 
   describe 'the generated index of a page group without an overview' do
     it 'lists the formats with their own summaries, and nothing else' do
-      visit '/formats'
+      visit '/api/formats'
 
       expect(page).to have_css('h1', text: 'Formats')
-      expect(page.all('.guide--content a.topic-preview--title').map { |link| URI.parse(link[:href]).path }).to eq(['/url-patterns', '/relaxed-json'])
+      expect(page.all('.guide--content a.topic-preview--title').map { |link| URI.parse(link[:href]).path }).to eq(['/api/url-patterns', '/api/relaxed-json'])
     end
 
     it 'is one ordinary row in the API sidebar' do
-      visit '/up.render'
+      visit '/api/up.render'
       expect(page).to have_css('.guide--menu .menu--nodes')
 
-      expect(page).to have_css('.guide--menu a.node--self[href="/formats"]', count: 1)
+      expect(page).to have_css('.guide--menu a.node--self[href="/api/formats"]', count: 1)
       expect(page).to have_no_css('.guide--menu .node.-group > .node--self', text: /formats/i, visible: :all)
     end
   end
@@ -249,7 +249,7 @@ describe 'presentation', type: :feature, js: true do
 
   describe 'an overlay' do
     it 'renders the version switcher in a popup with the site chrome' do
-      visit '/loading-state'
+      visit '/learn/loading-state'
 
       find('.version-nav').click
 
@@ -259,7 +259,7 @@ describe 'presentation', type: :feature, js: true do
   end
 
   describe 'the sidebar tree' do
-    before { visit '/up.link' }
+    before { visit '/api/up.link' }
 
     it 'marks a deprecated feature as struck through' do
       expect(page).to have_css('.menu .node.-deprecated')

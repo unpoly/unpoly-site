@@ -78,7 +78,7 @@ describe Unpoly::Site::MarkdownRenderer do
 
       expect(nav).to have_attribute('data-pagefind-ignore')
       expect(nav.parent.name).not_to eq('p')
-      expect(nav.at_css('a.learn-ref')['href']).to eq('/polling')
+      expect(nav.at_css('a.learn-ref')['href']).to eq('/learn/polling')
       expect(nav.at_css('a.learn-ref > svg.learn-ref--icon.icon.-book')).to be_present
       expect(nav.at_css('a.learn-ref > span.learn-ref--prefix').text).to eq('More:')
       expect(nav.at_css('a.learn-ref > span.learn-ref--destination').text).to eq(title)

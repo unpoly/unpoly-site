@@ -81,4 +81,37 @@ describe 'the .htaccess', type: :feature do
     end
   end
 
+  describe 'short paths' do
+    # The rules are tried against a real Apache in the URL move runbook. Here we only
+    # pin their order, which no build would notice going wrong.
+    it 'redirects /foo to /learn/foo before /api/foo, for pages and their Markdown twins' do
+      rules = rewrite_rules
+      learn = rules.index('RewriteRule ^(.+?)/?$ https://%{HTTP_HOST}/learn/$1 [R=301,L]')
+      api = rules.index('RewriteRule ^(.+?)/?$ https://%{HTTP_HOST}/api/$1 [R=301,L]')
+      learn_md = rules.index('RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/learn/$1.md [R=301,L]')
+      api_md = rules.index('RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/api/$1.md [R=301,L]')
+
+      expect([learn, api, learn_md, api_md]).to all(be_a(Integer))
+      expect(learn).to be < api
+      expect(learn_md).to be < api_md
+    end
+
+    it 'redirects them before a .md URL without a file falls back to its page, and before mapping paths to their index.html' do
+      rules = rewrite_rules
+      last_short = rules.index('RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/api/$1.md [R=301,L]')
+      fallback = rules.index('RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/$1 [R=301,L]')
+      index = rules.index { |rule| rule.include?('/index.html [L]') }
+
+      expect(last_short).to be < fallback
+      expect(last_short).to be < index
+    end
+
+    it 'tests for a page by its index.html, and lets a page at the root win' do
+      conditions = htaccess.lines.map(&:strip).grep(/\ARewriteCond %\{DOCUMENT_ROOT\}\/(learn|api)\//)
+      expect(conditions).to include('RewriteCond %{DOCUMENT_ROOT}/learn/$1/index.html -f', 'RewriteCond %{DOCUMENT_ROOT}/api/$1/index.html -f')
+      expect(htaccess.scan('RewriteCond %{DOCUMENT_ROOT}/$1/index.html !-f').size).to eq(2)
+      expect(htaccess.scan('RewriteCond %{DOCUMENT_ROOT}/$1.md !-f').size).to eq(2)
+    end
+  end
+
 end
