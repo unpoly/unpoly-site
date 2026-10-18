@@ -12,8 +12,9 @@
 #    and `https://unpoly.com/caching` anywhere, as well as `unpoly.com/caching` spelled
 #    out as text (the README's link label). Code blocks and code spans are left
 #    alone (examples are full of `href="/users"`), except for the site's own URLs,
-#    which can only mean this site. In .js files only comments are rewritten: a URL
-#    in a string (an error message) ships with the release, before the site moves.
+#    which can only mean this site. In .js files, comments are rewritten, and outside
+#    of them only full unpoly.com URLs (error messages); Unpoly and the site deploy
+#    minutes apart.
 #    Only paths of documents are touched; everything that stays at the root
 #    (/changes, /support, /images, ...) and every unknown path is left alone and
 #    listed.

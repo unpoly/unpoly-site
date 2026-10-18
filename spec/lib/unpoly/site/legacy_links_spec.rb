@@ -41,9 +41,9 @@ describe Unpoly::Site::LegacyLinks do
       expect(legacy_links(text)).to eq(['/caching'])
     end
 
-    it 'reads only comments in library code' do
-      text = "/*-\nSee [up.render()](/up.render).\n*/\nthrow new Error('See https://unpoly.com/caching')\n"
-      expect(legacy_links(text, file: 'x.js')).to eq(['/up.render'])
+    it 'reads comments in library code, and only unpoly.com URLs outside of them' do
+      text = "/*-\nSee [up.render()](/up.render).\n*/\nthrow new Error('See https://unpoly.com/caching')\nup.link.follow({ url: '/install' })\n"
+      expect(legacy_links(text, file: 'x.js')).to eq(['/up.render', '/caching'])
     end
   end
 

@@ -96,11 +96,15 @@ module Unpoly
 
       # The text of an Unpoly file with its links to old paths rewritten. Yields the
       # form, the old path and the new one (nil for a root path that is no document).
-      # In .js files only comments count: a URL in a string (an error message) ships
-      # with the release, which may go out before the site moves.
+      # In .js files, links count in comments (the doc comments), and outside of them
+      # only full unpoly.com URLs (error messages): a path like '/users' in code is an
+      # example or an app's URL. Unpoly and the site deploy minutes apart, so a moved
+      # URL in a message is no problem.
       def rewrite(text, file:, code_aware:, &block)
         if file.end_with?('.js')
-          text.gsub(JS_COMMENT) { |comment| rewrite_docs(comment, &block) }
+          text.split(/(#{JS_COMMENT})/m).each_with_index.map { |part, index|
+            index.odd? ? rewrite_docs(part, &block) : rewrite_links(part, [SITE_LINKS[1]], &block)
+          }.join
         elsif code_aware
           rewrite_docs(text, &block)
         else
