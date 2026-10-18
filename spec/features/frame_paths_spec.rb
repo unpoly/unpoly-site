@@ -186,13 +186,13 @@ describe 'the frame on every way into a page', type: :feature, js: true do
 
   # The torso is a flexbox row: sidebar, text, contents rail. Extra space goes to them
   # 3:1:1, so the column (660px at 1280) grows three times as fast as each flank (270px
-  # at 1280) until it reaches 880px at ~1647px, and the flanks reach 380px at 1720px.
+  # at 1280) until it reaches 890px at ~1663px, and the flanks reach 355px at 1730px.
   # Where a flank is hidden, the others share its space by the same weights, so the
   # column snaps from ~862px to 660px where the rail appears at 1280px (accepted). An
   # article page keeps empty flanks, so its column is as wide as a documentation page's
-  # at every window width, and centred in the window. Beyond 1720px the flanks stay at
-  # the window's edges and the space opens between the columns, up to a 2100px frame
-  # that is then centred in the window. The header's contents keep to the same frame.
+  # at every window width, and centred in the window. Beyond 1730px the flanks stay at
+  # the window's edges at any width, and the space opens between the columns. The
+  # header's contents keep to the same frame.
   describe 'the flanks and the text column across window widths' do
 
     FLANKS_JS = <<~JS.freeze
@@ -240,18 +240,17 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       selenium:               [1280, 245,    245, 660,    0],
       selenium_above_rail:    [1350, 259,    259, 702,    0],
       selenium_wide:          [1500, 289,    289, 792,    0],
-      selenium_wider:         [1680, 335,    335, 880,    0],
-      selenium_widest:        [1920, 355,    355, 880,    0],
-      selenium_huge:          [2400, 355,    355, 880,    0],
+      selenium_wider:         [1680, 330,    330, 890,    0],
+      selenium_widest:        [1920, 355,    355, 890,    0],
+      selenium_huge:          [2400, 355,    355, 890,    0],
     }.each do |driver, (window, sidebar, rail, column, off_centre)|
       it "gives a #{window}px window a #{column}px column, a #{sidebar || 'hidden'} sidebar and a #{rail || 'hidden'} rail", driver: driver do
         docs = flanks_at('/loading-state')
 
         expect(docs['sidebar']).to sidebar ? be_within(0.5).of(sidebar) : be_nil
         if sidebar
-          # On the frame's 25px inset, until the frame stops growing at 2100px and
-          # centres.
-          expect(docs['sidebarLeft']).to be_within(0.5).of([(window - 2100) / 2.0, 0].max + 25)
+          # On the frame's 25px inset, at every width.
+          expect(docs['sidebarLeft']).to be_within(0.5).of(25)
           # The logo keeps its place in line with the sidebar's labels.
           expect(docs['logoInset']).to be_within(0.5).of(0)
           expect(docs['logoToMenu']).to be_within(0.5).of(0)
