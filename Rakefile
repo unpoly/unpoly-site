@@ -18,12 +18,17 @@ namespace :docs do
     puts "#{missing.size} public selectors/events without an @learn-ref."
   end
 
-  desc 'Move documents under /learn and /api: rewrite links in ../unpoly, generate redirects (DRY_RUN=1, VERBOSE=1)'
+  desc 'Move documents under /learn and /api: rewrite links in ../unpoly, retarget redirects (DRY_RUN=1, VERBOSE=1)'
   task :url_move do
     ruby 'script/url_move.rb'
   end
 
-  desc 'Check that every URL unpoly.com serves today still resolves ("no lost URL")'
+  desc 'Check the built site\'s redirects against a running Apache (BASE_URL=http://localhost:8089)'
+  task :check_redirects do
+    ruby 'script/check_redirects.rb', ENV.fetch('BASE_URL') { abort 'Set BASE_URL, e.g. BASE_URL=http://localhost:8089' }
+  end
+
+  desc 'Check that every URL unpoly.com serves today still resolves ("no lost URL"), and that our sources link no old path'
   task :check_urls do
     ok = Unpoly::Site::UrlCheck.new.run
     exit(1) unless ok
