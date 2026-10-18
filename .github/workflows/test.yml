@@ -29,11 +29,13 @@ jobs:
         with:
           path: unpoly-site
 
+      # With every tag: the changelog reads its release dates and commit counts from them.
       - name: Check out unpoly
         uses: actions/checkout@v4
         with:
           repository: unpoly/unpoly
           path: unpoly
+          fetch-depth: 0
 
       - name: Install Ruby from .ruby-version
         uses: ruby/setup-ruby@v1
@@ -81,11 +83,13 @@ jobs:
         with:
           path: unpoly-site
 
+      # With every tag: the changelog reads its release dates and commit counts from them.
       - name: Check out unpoly
         uses: actions/checkout@v4
         with:
           repository: unpoly/unpoly
           path: unpoly
+          fetch-depth: 0
 
       - name: Install Ruby from .ruby-version
         uses: ruby/setup-ruby@v1
@@ -139,11 +143,13 @@ jobs:
         with:
           path: unpoly-site
 
+      # With every tag: the changelog reads its release dates and commit counts from them.
       - name: Check out unpoly
         uses: actions/checkout@v4
         with:
           repository: unpoly/unpoly
           path: unpoly
+          fetch-depth: 0
 
       - name: Install Ruby from .ruby-version
         uses: ruby/setup-ruby@v1

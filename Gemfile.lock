@@ -248,6 +248,7 @@ DEPENDENCIES
   nokogiri
   puma
   rack
+  rake
   rspec
   sass
   selenium-webdriver (>= 4)

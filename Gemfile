@@ -19,10 +19,16 @@ gem 'byebug'
 gem 'rack'
 
 
+# The build's link check and the rake tasks (search index, skill, URL checks). CI
+# installs these, but not the deploy group below, which pulls a gem from git.
+group :build do
+  gem 'rake'
+  gem 'html-proofer', '<4'
+end
+
 group :deploy do
   gem "capistrano", '<4'
   gem 'capistrano-middleman', require: false, git: 'https://github.com/makandra/capistrano-middleman.git'
-  gem 'html-proofer', '<4'
 end
 
 group :test do
