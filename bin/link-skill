@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+#
+# Links the unpoly-docs skill of the last build into your Claude Code skills, so
+# that your agent uses the docs as you are writing them.
+#
+#     bin/link-skill
+#
+# Creates ~/.claude/skills/unpoly-docs as a symlink to build/skills/unpoly-docs.
+# The link follows every later build, so you run this once. Build the skill with
+# `bundle exec middleman build` (or `bundle exec rake search:index`).
+#
+# Replaces an existing symlink, but never a real folder: an installed copy of the
+# skill (e.g. from `npx skills add`) must be removed by hand first.
+
+require 'fileutils'
+
+source = File.expand_path('../build/skills/unpoly-docs', __dir__)
+target = File.expand_path('~/.claude/skills/unpoly-docs')
+
+unless File.exist?(File.join(source, 'SKILL.md'))
+  abort "No skill in #{source}. Build it first: bundle exec middleman build"
+end
+
+if File.symlink?(target)
+  File.delete(target)
+elsif File.exist?(target)
+  abort "#{target} exists and is not a symlink. Remove it first, then run this again."
+end
+
+FileUtils.mkdir_p(File.dirname(target))
+File.symlink(source, target)
+puts "Linked #{target} -> #{source}"

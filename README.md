@@ -170,7 +170,9 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
   `build/skills/unpoly-docs/`, then checks it and packs the archives that unpoly.com
   serves for `npx skills add https://unpoly.com` and the Claude Code marketplace
   (`Unpoly::Site::SkillPackage`). The deploy ships only the archives. `SKIP_SKILL=1` leaves
-  the skill out of a quick local build.
+  the skill out of a quick local build. To let your own Claude Code use the skill of your
+  last build, run `bin/link-skill` once: it symlinks `build/skills/unpoly-docs` into
+  `~/.claude/skills`.
 - **Search tests** need Python 3.8+. `bundle exec rspec` runs them; so does
   `bundle exec rake skill:test`. The ranking queries run against the skill of the last
   build and are skipped without one.
