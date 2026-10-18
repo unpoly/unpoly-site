@@ -75,9 +75,11 @@ const SEARCH = {
   // A title match on a signature page, on top of titleWeight. 0 turns it off.
   tierTitleWeight: 10,
   // A match in a page's @keywords, the words a reader may type that its prose doesn't
-  // use. As much as one word of body text: a keyword fills a gap, so few pages compete
-  // for it, and a low weight leaves the ranking of words the prose does use alone.
-  keywordsWeight: 1,
+  // use. Below titleWeight: a keyword fills a gap, so few pages compete for it. Where
+  // other pages' prose does use the word, it lifts the page without overruling them.
+  // (Measured: for "preserve element", /keeping-elements ranks 5th at 1, 4th at 1.5,
+  // 2nd at 2.)
+  keywordsWeight: 1.5,
   // What a signature page's score is multiplied with. 1 turns it off. Only the first
   // mergeWindow results are reordered.
   signatureBoost: 1.4,

@@ -517,8 +517,7 @@ helpers do
     end
 
     # Words the prose doesn't use (@keywords), for recall only: the result row never
-    # shows them, and the search weights them like a single word of body text
-    # (keywordsWeight).
+    # shows them, and the search weights them below a title (keywordsWeight).
     if documentable.keywords.any?
       tags << %(<span data-pagefind-meta="keywords:#{h documentable.keywords.join(', ')}" hidden></span>)
     end
