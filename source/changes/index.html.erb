@@ -26,7 +26,7 @@
       <th>Release date</th>
       <th align="right">Commits</th>
     </tr>
-    <% guide.releases.each do |release| %>
+    <% guide.releases_by_version.reverse_each do |release| %>
       <tr>
         <td>
           <b><a href="/changes/<%= release.version %>">Version <%= release.version %></a></b>

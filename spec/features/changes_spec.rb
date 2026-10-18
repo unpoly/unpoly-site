@@ -15,4 +15,16 @@ describe 'changes', type: :feature, js: true do
     expect(page).to have_css("a[href='/changes/#{version}']")
   end
 
+  # By version, not by date: a late patch of an old major (1.0.3) would otherwise sit
+  # between two 2.x releases and look like a sorting bug.
+  it 'lists the releases newest version first, in the index and in its menu' do
+    visit '/changes'
+
+    expected = Unpoly::Site.current.releases_by_version.reverse.map { |release| "/changes/#{release.version}" }
+    index = page.all('.prose a[href^="/changes/"]', visible: :all).map { |link| link[:href].delete_prefix(page.server_url) }.grep(%r{\A/changes/\d})
+    menu = page.all('.menu a[href^="/changes/"]', visible: :all).map { |link| link[:href].delete_prefix(page.server_url) }.grep(%r{\A/changes/\d})
+    expect(index.uniq).to eq(expected)
+    expect(menu.uniq).to eq(expected)
+  end
+
 end

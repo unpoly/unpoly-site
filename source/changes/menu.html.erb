@@ -10,7 +10,7 @@
       <%= node_link "Upgrading", "/changes/upgrading" %>
     </div>
 
-    <% guide.releases.each do |release| %>
+    <% guide.releases_by_version.reverse_each do |release| %>
       <div class="node">
         <% node_link "/changes/#{release.version}" do %>
           <span class="node--title">
