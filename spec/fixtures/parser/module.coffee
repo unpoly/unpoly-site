@@ -169,4 +169,5 @@
   @function test.module.signatureFunction
   @stable
   @signature
+  @keywords spinner
   ###

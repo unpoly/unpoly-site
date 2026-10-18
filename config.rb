@@ -210,6 +210,8 @@ else
   proxy "/#{Unpoly::Site::Skill::ROOT}/SKILL.md", "/#{Unpoly::Site::Skill::ROOT}/skill.txt", ignore: true
   # Every release in version order, for scripts/releases.py.
   proxy "/#{Unpoly::Site::Skill::ROOT}/references/changes/releases.json", "/#{Unpoly::Site::Skill::ROOT}/releases.json", ignore: true
+  # The @keywords of each reference file, for scripts/search.py.
+  proxy "/#{Unpoly::Site::Skill::ROOT}/scripts/keywords.json", "/#{Unpoly::Site::Skill::ROOT}/keywords.json", ignore: true
   # The search script's tests stay in the repository (rake skill:test).
   ignore %r{\A#{Unpoly::Site::Skill::ROOT}/scripts/(test_|__pycache__)}
 end
@@ -478,6 +480,8 @@ helpers do
   #   (tierTitleWeight). The title must be in the index: a client-side boost only
   #   reaches the first results Pagefind returns, and a feature that matches mostly by
   #   its name ([up-layer=new] for "layer", #79 by text alone) is not among them.
+  # - A page with @keywords gets them in a hidden `keywords` field, weighted low
+  #   (keywordsWeight): a keyword fills a gap in the prose, so few pages compete for it.
   # - Compound names get no split parts appended: Pagefind already indexes "up-defer"
   #   as the word and as its parts, in metadata as in text (measured, see search_dialog.js).
   #
@@ -510,6 +514,13 @@ helpers do
       title = documentable.kind?(:feature) ? documentable.signature : documentable.title
       tags << %(<span data-pagefind-meta="tier:signature" hidden></span>)
       tags << %(<span data-pagefind-meta="tier_title:#{h title}" hidden></span>)
+    end
+
+    # Words the prose doesn't use (@keywords), for recall only: the result row never
+    # shows them, and the search weights them like a single word of body text
+    # (keywordsWeight).
+    if documentable.keywords.any?
+      tags << %(<span data-pagefind-meta="keywords:#{h documentable.keywords.join(', ')}" hidden></span>)
     end
 
     # What only the result row shows goes into filters, not metadata: Pagefind searches

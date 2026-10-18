@@ -223,6 +223,18 @@ module Unpoly
         (\n|\z)
       }x
 
+      # Words a reader may search for that the page's prose doesn't use: other names for
+      # our terms, and concepts the page answers in other words. They only help the
+      # search find the page, and are never shown.
+      KEYWORDS_PATTERN = %r{
+        ^[ \t]*
+        \@keywords
+        [ \t]+
+        (.+?)      # comma-separated keywords ($1)
+        [ \t]*
+        (\n|\z)
+      }x
+
       def initialize(repository)
         @repository = repository
         @last_interface = nil
@@ -322,6 +334,8 @@ module Unpoly
 
           parse_signature!(block, interface)
 
+          parse_keywords!(block, interface)
+
           parse_explicit_parent!(block, interface)
 
           # All the remaining text is guide prose
@@ -365,6 +379,8 @@ module Unpoly
           parse_learn_refs!(text, feature)
 
           parse_signature!(text, feature)
+
+          parse_keywords!(text, feature)
 
           feature.params_note = parse_params_note!(text)
 
@@ -532,6 +548,12 @@ module Unpoly
 
       def parse_signature!(block, documentable)
         documentable.signature_tier = true if block.sub!(SIGNATURE_PATTERN, '')
+      end
+
+      def parse_keywords!(block, documentable)
+        while block.sub!(KEYWORDS_PATTERN, '')
+          documentable.keywords.concat($1.split(',').map(&:strip).reject(&:empty?))
+        end
       end
 
       def parse_explicit_parent!(block, documentable)

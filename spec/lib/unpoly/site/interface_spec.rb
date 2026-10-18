@@ -73,6 +73,17 @@ describe Unpoly::Site::Interface do
       expect(interface).to be_signature_tier
     end
 
+    it 'keeps the keywords of both declarations' do
+      interface = described_class.new('module', 'test.merged')
+      interface.keywords << 'modal'
+      repeated = described_class.new('module', 'test.merged')
+      repeated.keywords << 'dialog'
+
+      interface.merge!(repeated)
+
+      expect(interface.keywords).to eq(['modal', 'dialog'])
+    end
+
   end
 
 end

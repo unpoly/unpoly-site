@@ -70,6 +70,28 @@ module Unpoly
 
       end
 
+      describe '@keywords' do
+
+        it 'gives a page its keywords and removes the directive from the prose' do
+          page = Site.current.find_by_name!('test.signature-page')
+
+          expect(page.keywords).to eq(['modal', 'dialog box'])
+          expect(page.guide_markdown).not_to include('@keywords')
+        end
+
+        it 'gives a feature its keywords and removes the directive from the prose' do
+          feature = Site.current.find_by_name!('test.module.signatureFunction')
+
+          expect(feature.keywords).to eq(['spinner'])
+          expect(feature.guide_markdown).not_to include('@keywords')
+        end
+
+        it 'leaves a page without the directive without keywords' do
+          expect(Site.current.find_by_name!('test.page').keywords).to eq([])
+        end
+
+      end
+
       describe 'dynamic tokens' do
 
         it 'substitutes [[=version]] in doc comment prose' do

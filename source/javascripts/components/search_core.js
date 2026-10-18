@@ -74,6 +74,10 @@ const SEARCH = {
   titleWeight: 2,
   // A title match on a signature page, on top of titleWeight. 0 turns it off.
   tierTitleWeight: 10,
+  // A match in a page's @keywords, the words a reader may type that its prose doesn't
+  // use. As much as one word of body text: a keyword fills a gap, so few pages compete
+  // for it, and a low weight leaves the ranking of words the prose does use alone.
+  keywordsWeight: 1,
   // What a signature page's score is multiplied with. 1 turns it off. Only the first
   // mergeWindow results are reordered.
   signatureBoost: 1.4,
@@ -143,7 +147,7 @@ async function loadPagefind() {
 
   try {
     const pagefind = await import(SEARCH.pagefindUrl)
-    await pagefind.options?.({ excerptLength: 25, ranking: { pageLength: SEARCH.pageLength, metaWeights: { title: SEARCH.titleWeight, tier_title: SEARCH.tierTitleWeight } } })
+    await pagefind.options?.({ excerptLength: 25, ranking: { pageLength: SEARCH.pageLength, metaWeights: { title: SEARCH.titleWeight, tier_title: SEARCH.tierTitleWeight, keywords: SEARCH.keywordsWeight } } })
     return pagefind
   } catch (error) {
     // In the preview server this is the normal state until `rake search:index` runs.

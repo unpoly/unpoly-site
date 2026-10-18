@@ -288,6 +288,35 @@ class RankingTest(CorpusTestCase):
         self.assertEqual(self.paths("fragments"), ["references/learn/start/links.md"])
 
 
+class KeywordsTest(CorpusTestCase):
+    """A page's @keywords, which the site writes to scripts/keywords.json."""
+
+    def setUp(self):
+        super().setUp()
+        self.write({
+            "references/learn/overlays.md": page("Overlays", "An overlay opens above the page. " * 10),
+            "references/learn/dialogs-elsewhere.md": page("Other page", "A native dialog element. " * 5),
+            "references/learn/unrelated.md": page("Unrelated", "Nothing about it."),
+            "scripts/keywords.json": '{"references/learn/overlays.md": ["modal", "dialog"]}',
+        })
+
+    def test_a_keyword_finds_a_page_whose_prose_lacks_the_word(self):
+        self.assertEqual(self.paths("modal"), ["references/learn/overlays.md"])
+
+    def test_a_keyword_counts_less_than_prose_that_discusses_the_word(self):
+        self.assertEqual(self.paths("dialog")[0], "references/learn/dialogs-elsewhere.md")
+        self.assertIn("references/learn/overlays.md", self.paths("dialog"))
+
+    def test_keywords_are_not_shown(self):
+        _status, output = self.run_cli("modal")
+        self.assertIn("references/learn/overlays.md", output)
+        self.assertNotIn("modal", output)
+
+    def test_no_keywords_file(self):
+        os.remove(os.path.join(self.root, "scripts", "keywords.json"))
+        self.assertEqual(self.paths("modal"), [])
+
+
 class PhraseTest(CorpusTestCase):
     def setUp(self):
         super().setUp()

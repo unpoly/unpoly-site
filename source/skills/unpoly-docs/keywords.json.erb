@@ -1,0 +1,13 @@
+<%#
+  The skill's scripts/keywords.json: the @keywords of each reference file, for
+  scripts/search.py. Next to the script rather than among the references, since only
+  the search reads them; they are never shown.
+%>
+<%
+  twins = config[:markdown_twins]
+  keywords = config[:skill].files.filter_map { |path, file|
+    words = twins.fetch(path).documentable&.keywords
+    [file, words] if words.present?
+  }.to_h
+%>
+<%= JSON.pretty_generate(keywords) %>

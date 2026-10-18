@@ -20,4 +20,5 @@
 
   @page test.signature-page
   @signature
+  @keywords modal, dialog box
   ###

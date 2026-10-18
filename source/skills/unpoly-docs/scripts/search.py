@@ -15,6 +15,8 @@ Ranking is BM25F over field-weighted tokens (name and title above headings above
   `up` occur on every page and get an IDF near zero instead of matching everything.
 - A heading's id counts as heading words when it names the section in other words
   (`What is updated {#history-state}`).
+- A page's keywords (scripts/keywords.json): words a reader may use that its prose doesn't. They
+  count like one word of body text and are never shown.
 - Down-weights for deprecated pages, hub pages (`index.md`) and changelog pages.
 - A bonus for pages containing a query argument of several words as a phrase. This only
   re-ranks: the words still match with OR semantics.
@@ -39,7 +41,13 @@ FIELD_WEIGHTS = {
     "title": 4.0,     # first `# ` heading, chip stripped
     "headings": 2.0,  # `##`..`######` headings
     "body": 1.0,      # everything else, code blocks included (agents search for code)
+    "keywords": 1.0,  # words the prose doesn't use (scripts/keywords.json), never shown
 }
+
+# Fields not normalized by their length. Most pages have no keywords, so the average length
+# is near zero and would make one keyword count next to nothing. A keyword counts like one
+# word of body text on a page of average length.
+UNNORMALIZED_FIELDS = {"keywords"}
 
 PART_WEIGHT = 0.3   # `up` and `follow` from `up-follow`
 STEM_WEIGHT = 0.5   # `validat` from `validation`
@@ -218,7 +226,7 @@ def page_factor(path, meta):
     return factor
 
 
-def load_document(root, path):
+def load_document(root, path, keywords=()):
     with open(path, encoding="utf-8") as handle:
         meta, body = parse_front_matter(handle.read())
     relative = os.path.relpath(path, root).replace(os.sep, "/")
@@ -238,6 +246,7 @@ def load_document(root, path):
             "title": title or "",
             "headings": "\n".join(headings),
             "body": "\n".join(lines),
+            "keywords": "\n".join(keywords),
         },
     }
 
@@ -252,14 +261,27 @@ def heading_names(headings):
     return names
 
 
+def load_keywords(root):
+    """{relative path: [keyword, ...]} from scripts/keywords.json, which the site writes from
+    the pages' @keywords. Empty without one."""
+    path = os.path.join(root, "scripts", "keywords.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
 def load_documents(root):
     documents = []
+    keywords = load_keywords(root)
     references = os.path.join(root, "references")
     for directory, subdirectories, files in os.walk(references):
         subdirectories.sort()
         for file in sorted(files):
             if file.endswith(".md"):
-                documents.append(load_document(root, os.path.join(directory, file)))
+                path = os.path.join(directory, file)
+                relative = os.path.relpath(path, root).replace(os.sep, "/")
+                documents.append(load_document(root, path, keywords.get(relative, ())))
     return documents
 
 
@@ -294,7 +316,10 @@ class Index:
                     for field, values in lengths.items()}
         for doc_id, per_field in enumerate(counts):
             for field, tf in per_field.items():
-                norm = 1 - B + B * lengths[field][doc_id] / averages[field]
+                if field in UNNORMALIZED_FIELDS:
+                    norm = 1.0
+                else:
+                    norm = 1 - B + B * lengths[field][doc_id] / averages[field]
                 factor = FIELD_WEIGHTS[field] / norm
                 for term, frequency in tf.items():
                     postings = self.postings.setdefault(term, {})

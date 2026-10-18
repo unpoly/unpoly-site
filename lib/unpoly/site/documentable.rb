@@ -53,6 +53,12 @@ module Unpoly
         !!@signature_tier
       end
 
+      # Search terms the prose doesn't use (@keywords). Only the search reads them; they
+      # are never shown. See search_meta_tags in config.rb.
+      def keywords
+        @keywords ||= []
+      end
+
       def long_kind
         kind.capitalize
       end
