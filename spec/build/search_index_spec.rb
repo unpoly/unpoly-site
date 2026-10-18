@@ -67,6 +67,18 @@ describe 'the built search index' do
     expect(meta_of('/caching')).to include('tier' => 'signature', 'tier_title' => 'Caching')
   end
 
+  # @keywords help the search find a page, and are never shown (config.rb, search_meta_tags).
+  it 'indexes the keywords of a page, but shows them nowhere' do
+    expect(meta_of('/flashes')['keywords']).to eq('toast, snackbar')
+
+    build = File.expand_path('../../build', __dir__)
+    html = File.read(File.join(build, 'flashes/index.html')).gsub(/<span data-pagefind-meta="keywords:[^"]*" hidden><\/span>/, '')
+    [html, File.read(File.join(build, 'flashes.md')), File.read(File.join(build, 'skills/unpoly-docs/references/learn/flashes.md'))].each do |text|
+      expect(text).not_to include('snackbar')
+    end
+    expect(JSON.parse(File.read(File.join(build, 'skills/unpoly-docs/scripts/keywords.json')))).to include('references/learn/flashes.md' => ['toast', 'snackbar'])
+  end
+
   it 'leaves an unmarked page out of the tier' do
     expect(meta_of('/up.layer.get').keys).not_to include('tier', 'tier_title')
   end
