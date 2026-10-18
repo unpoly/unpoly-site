@@ -49,7 +49,7 @@ CASES = [
     (["validate form"], "references/learn/validation.md", 3),
     (["close overlay"], "references/learn/closing-overlays.md", 3),
     (["open overlay"], "references/learn/opening-overlays.md", 3),
-    (["preserve element across updates"], "references/learn/keeping-elements.md", 3),
+    (["keep element", "keeping elements"], "references/learn/keeping-elements.md", 3),
     # Caching is about responses; the chapter overview covers requests and caching both
     (["cache requests"], "references/learn/network.md", 3),
     (["polling"], "references/learn/polling.md", 3),

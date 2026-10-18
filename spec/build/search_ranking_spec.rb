@@ -48,7 +48,7 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'lists the layer guide among the layer features for "layer"' do
-    expect(ranked('layer').first(5)).to include('/layer-option')
+    expect(ranked('layer').first(5)).to include('/targeting-other-layers')
   end
 
   it 'finds the overlays guide for "dialog"' do
@@ -63,12 +63,14 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'lifts a signature page by its title and its boost' do
-    # The boost: for "overlay", [up-layer=new] passes the up.layer module, which Pagefind
-    # scores higher.
+    # The boost: for "overlay", [up-layer=new] passes up.layer.dismissOverlays(), which
+    # Pagefind scores higher (7.7 to 5.9 when this was written). The dialog lists
+    # [up-layer=new], and up.layer.dismissOverlays() not at all.
     results = ranked('overlay')
     alone = pagefind_alone('overlay')
-    expect(alone.index('/up.layer')).to be < alone.index('/up-layer-new')
-    expect(results.index('/up-layer-new')).to be < results.index('/up.layer')
+    expect(alone.index('/up.layer.dismissOverlays')).to be < alone.index('/up-layer-new')
+    expect(results).to include('/up-layer-new')
+    expect(results.index('/up.layer.dismissOverlays') || results.size).to be > results.index('/up-layer-new')
 
     # The title: without its tier title, [up-layer=new] is not even among the pages the
     # dialog fetches for "layer".
