@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#
+# Serves build/ with the official Apache 2.4 image, so that `rake docs:check_redirects`
+# can test our .htaccess the way production runs it. Used by CI and locally:
+#
+#     script/serve_build_with_apache start [PORT]   # default port 8089
+#     bundle exec rake docs:check_redirects BASE_URL=http://localhost:8089
+#     script/serve_build_with_apache stop
+#
+# The image's httpd.conf only needs mod_rewrite (and the modules our .htaccess uses)
+# switched on, and AllowOverride All for the DocumentRoot that the build is mounted as.
+
+set -euo pipefail
+
+NAME=unpoly-site-apache
+IMAGE=httpd:2.4
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+
+case "${1:-}" in
+  start)
+    PORT=${2:-8089}
+    [ -f "$ROOT/build/index.html" ] || { echo "No build in $ROOT/build. Run: bundle exec middleman build" >&2; exit 1; }
+    docker rm -f "$NAME" >/dev/null 2>&1 || true
+    docker run -d --rm --name "$NAME" -p "$PORT:80" \
+      -v "$ROOT/build:/usr/local/apache2/htdocs:ro" \
+      "$IMAGE" sh -c "sed -i \
+        -e 's/^#LoadModule rewrite_module/LoadModule rewrite_module/' \
+        -e 's/^#LoadModule expires_module/LoadModule expires_module/' \
+        -e 's/^#LoadModule deflate_module/LoadModule deflate_module/' \
+        -e 's/AllowOverride None/AllowOverride All/I' \
+        conf/httpd.conf && exec httpd-foreground" >/dev/null
+    for _ in $(seq 1 50); do
+      curl -s -o /dev/null "http://localhost:$PORT/" && { echo "Apache serves build/ on http://localhost:$PORT"; exit 0; }
+      sleep 0.2
+    done
+    docker logs "$NAME" >&2
+    echo "Apache did not start" >&2
+    exit 1
+    ;;
+  stop)
+    docker rm -f "$NAME" >/dev/null 2>&1 || true
+    ;;
+  *)
+    echo "Usage: $0 start [PORT] | stop" >&2
+    exit 2
+    ;;
+esac

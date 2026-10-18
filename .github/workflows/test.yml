@@ -117,3 +117,66 @@ jobs:
 
       - name: Build the skill and run its tests
         run: bundle exec rake skill:test
+
+  # The redirects of the built site, against a real Apache: every document's short path
+  # (/up.render → /api/up.render), every hand-written rename, and links in our sources
+  # that still use an old path (the build's legacy link check). A spec can only read
+  # .htaccess as text; the order and file tests of its rules need Apache to show.
+  redirects:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    name: Redirects
+    env:
+      BUNDLE_WITHOUT: deploy
+      SKIP_SEARCH_INDEX: 1
+      SKIP_SKILL: 1
+    defaults:
+      run:
+        working-directory: unpoly-site
+    steps:
+      - name: Check out unpoly-site
+        uses: actions/checkout@v4
+        with:
+          path: unpoly-site
+
+      - name: Check out unpoly
+        uses: actions/checkout@v4
+        with:
+          repository: unpoly/unpoly
+          path: unpoly
+
+      - name: Install Ruby from .ruby-version
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: unpoly-site
+          ruby-version: ".ruby-version"
+          bundler-cache: true
+
+      - name: Install Node.js from unpoly's .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: unpoly/.nvmrc
+          cache: npm
+          cache-dependency-path: unpoly/package-lock.json
+
+      - name: Install npm dependencies of unpoly
+        run: npm ci
+        working-directory: unpoly
+
+      - name: Build unpoly
+        run: npm run build
+        working-directory: unpoly
+
+      # Also runs the link check and the legacy link check.
+      - name: Build the site
+        run: bundle exec middleman build
+
+      - name: Serve the build with Apache
+        run: script/serve_build_with_apache start 8089
+
+      - name: Check the redirects
+        run: bundle exec rake docs:check_redirects BASE_URL=http://localhost:8089
+
+      - name: Stop Apache
+        if: always()
+        run: script/serve_build_with_apache stop
