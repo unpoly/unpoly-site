@@ -160,8 +160,15 @@ module Unpoly
         { version: stable_version, label: stable_version }
       end
 
+      # The newest version users can install as stable. While a pre-release is out
+      # (3.15.0-rc1), that is the newest release in the changelog (3.14.3): the
+      # pre-release's own version has no release notes yet.
       def stable_version
-        version.sub(/-.+$/, '')
+        if pre_release?
+          releases_by_version.reverse.map(&:version).find { |release_version| !release_version.include?('-') }
+        else
+          version
+        end
       end
 
       def short_version

@@ -66,8 +66,17 @@ describe Unpoly::Site::Repository do
       expect(subject.version).to match(/^\d+\.\d+\.\d+/)
     end
 
-    it 'strips a pre-release suffix for the stable version' do
-      expect(subject.stable_version).to eq(subject.version.sub(/-.+$/, ''))
+    it 'uses a stable version as the stable version' do
+      allow(subject).to receive(:version).and_return('3.14.3')
+      expect(subject.stable_version).to eq('3.14.3')
+    end
+
+    it 'uses the newest stable release from the changelog while a pre-release is out, since the pre-release has no release notes yet' do
+      newest_stable = subject.releases_by_version.map(&:version).reject { |version| version.include?('-') }.last
+      allow(subject).to receive(:version).and_return('99.0.0-rc1')
+
+      expect(subject.stable_version).to eq(newest_stable)
+      expect(subject.versions).to include(subject.stable_version)
     end
 
     it 'shortens the version to its feature version' do
