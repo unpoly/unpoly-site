@@ -77,9 +77,10 @@ const SEARCH = {
   // What a signature page's score is multiplied with. 1 turns it off. Only the first
   // mergeWindow results are reordered.
   signatureBoost: 1.4,
-  // What a page's score is multiplied with, by its badge. A badge not listed counts 1
-  // (headers, cookies, CSS, modules, classes).
-  kindLadder: { Learn: 1.05, HTML: 1.04, CONFIG: 1.03, EVENT: 1.02, JS: 1.01 },
+  // What a page's score is multiplied with, by its badge. A selector has one of three
+  // badges, by what it selects by. A badge not listed counts 1 (headers, cookies,
+  // modules, classes).
+  kindLadder: { Learn: 1.05, ATTR: 1.04, CSS: 1.04, TARGET: 1.04, CONFIG: 1.03, EVENT: 1.02, JS: 1.01 },
   // How much a long page pays for its length (Pagefind's ranking.pageLength, 0 to 1;
   // its default is 0.75). Lower favors long pages.
   pageLength: 0.6,
