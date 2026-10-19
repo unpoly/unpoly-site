@@ -64,8 +64,8 @@
       </li>
       <li>
         <b>Fix every deprecation warning.</b>
-        Use your app and run its tests. Every call to an old API logs a warning that names the new API.
-        With good test coverage, you can <a href="#with-tests">turn the warnings into test failures</a>.
+        Use your app and run its tests. Every call to an old API logs an error that names the new API.
+        With good test coverage, you can <a href="#with-tests">let these errors fail your tests</a>.
       </li>
       <li>
         <b>Remove <code>unpoly-migrate.js</code></b>
@@ -127,22 +127,21 @@ import './your-scripts.js'
 
 
     <p>
-      If your app has good test coverage you can configure <code>unpoly-migrate.js</code>
-      to log an <em>error</em> (instead of a warning) whenever a deprecated API is called:
+      <code>unpoly-migrate.js</code> logs every call to a deprecated API to the browser's error console.
+      If your end-to-end tests fail when the browser console shows an error, you can find the code that needs to be upgraded by following test failures.
+      Most test runners can do this, e.g. with Playwright's <code>page.on('console')</code> or the browser logs in Selenium.
     </p>
-
-    <pre><code>up.migrate.config.logLevel = 'error' // log to the error console
-up.log.config.format = false         // log unformatted text for easier extraction</code></pre>
 
     <p>
-      You can now detect which code needs to be upgraded by following test failures.
+      To make the messages easier to read in your test logs, you can turn off their formatting:
     </p>
 
-    <% admonition(:tip) do %>
+    <pre><code>up.log.config.format = false // log unformatted text for easier extraction</code></pre>
+
+    <% admonition(:note) do %>
       <p>
-        Your E2E tests can
-        <a href="https://makandracards.com/makandra/55056-raising-javascript-errors-in-cucumber-scenarios-and-how-to-silence-them-for-particular-scenarios">check if the browser console shows an error</a>
-        using the Selenium API.
+        Before Unpoly 3.15, <code>unpoly-migrate.js</code> logged warnings.
+        To log errors with an older version, set <code>up.migrate.config.logLevel = 'error'</code>.
       </p>
     <% end %>
 
@@ -155,10 +154,15 @@ up.log.config.format = false         // log unformatted text for easier extracti
     </p>
 
     <p>
-      You can remove the deprecation warnings from the browser log like so:
+      You can remove the deprecation messages from the browser log like so:
     </p>
 
     <pre><code>up.migrate.config.logLevel = 'none'</code></pre>
+
+    <p>
+      In an ES module bundle, set this in a module that you import right after <code>unpoly-migrate.js</code>.
+      Imports run before other code in the same file, so the setting would otherwise come too late for deprecated configuration in your imported modules.
+    </p>
 
     <% admonition(:note) do %>
       <p>
