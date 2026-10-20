@@ -55,8 +55,10 @@
       <li>
         <b>Read the release notes of every version after yours,</b>
         up to the version you're upgrading to, in the <a href="/changes">list of all releases</a>.
-        Changes marked with ⚠️ may require changes to your code, but <code>unpoly-migrate.js</code> polyfills them while you migrate.
-        Changes marked with ❌ have no polyfill: update your code before you upgrade.
+        Changes marked with 🧩 are polyfilled by <code>unpoly-migrate.js</code>, which logs where you use the old API.
+        Changes marked with ⚠️ are not polyfilled, but rare or minor.
+        Changes marked with ❌ are not polyfilled, and you should check your code in any case.
+        Unmarked changes may still affect your app, so read every entry.
       </li>
       <li>
         <b>Upgrade Unpoly and load the polyfills</b>
@@ -81,8 +83,10 @@
       <pre><code>python3 scripts/releases.py --from 2.7.2 --to 3.12.0</code></pre>
 
       <p>
-        Add <code>--breaking</code> to also list each change marked with ⚠️ or ❌, with its line number.
         Leave out <code>--to</code> to upgrade to the latest version.
+        Read all listed release notes first.
+        Then run the script again with <code>--breaking</code>: it also lists each change marked with 🧩, ⚠️ or ❌, with its line number.
+        Use that list as a checklist while you upgrade, never instead of reading the release notes.
       </p>
     <% end %>
 

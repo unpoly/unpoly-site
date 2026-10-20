@@ -15,7 +15,7 @@ RELEASES = [
 ]
 
 NOTES = {
-    "references/changes/3-0-0.md": "# Version 3.0.0\n\n- New feature\n- ⚠️ Renamed up.foo to up.bar\n",
+    "references/changes/3-0-0.md": "# Version 3.0.0\n\n- New feature\n- ⚠️ Renamed up.foo to up.bar\n- 🧩 Renamed up.qux to up.quux\n",
     "references/changes/3-10-0.md": (
         "# Version 3.10.0\n\n- ⚠️ Removed [up-baz]\n- Fixed a bug\n- ❌ Dropped IE 11\n\n"
         "| Old | New |\n| --- | --- |\n| ❌ foo | bar |\n\n```js\n- ⚠️ not a change\n```\n"
@@ -65,9 +65,11 @@ class ReleasesTest(unittest.TestCase):
 
     def test_breaking_lists_marked_lines_with_numbers_and_the_legend(self):
         _, lines = self.run_script("--from", "2.7.2", "--breaking")
-        self.assertEqual("\n".join(lines[:2]), releases.LEGEND)
+        legend = releases.LEGEND.splitlines()
+        self.assertEqual(lines[:len(legend)], legend)
         self.assertIn("references/changes/3-0-0.md", lines)
         self.assertIn("  L4: - ⚠️ Renamed up.foo to up.bar", lines)
+        self.assertIn("  L5: - 🧩 Renamed up.qux to up.quux", lines)
         self.assertIn("  L3: - ⚠️ Removed [up-baz]", lines)
         self.assertIn("  L5: - ❌ Dropped IE 11", lines)
 

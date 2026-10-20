@@ -9,7 +9,8 @@ parent of this script's `scripts/` folder.
 
 Prints the path of every release note after --from, up to and including --to (default: the
 latest version), oldest first. With --breaking, each path is followed by the lines of the
-changes that may require changes to your code (⚠️ or ❌), with their line numbers.
+changes that may need your attention (🧩, ⚠️ or ❌), with their line numbers. Read all release
+notes first, then use --breaking as a checklist, never instead of reading.
 
 The order comes from references/changes/releases.json, which the site build writes in the
 same order as https://unpoly.com/changes. This script compares no versions of its own.
@@ -25,11 +26,13 @@ SKILL_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MANIFEST = os.path.join("references", "changes", "releases.json")
 # A marker counts at the start of a list item or paragraph only: ❌ also appears in tables and
 # code examples. Code fences are skipped.
-MARKED_LINE = re.compile(r"^\s*(?:[-*+]\s+|\d+\.\s+)?(⚠️|❌)")
+MARKED_LINE = re.compile(r"^\s*(?:[-*+]\s+|\d+\.\s+)?(🧩|⚠️|❌)")
 FENCE = re.compile(r"^\s*(```|~~~)")
 LEGEND = (
-    "⚠️ may require changes to your code. unpoly-migrate.js polyfills the old usage while you migrate.\n"
-    "❌ breaks code without a polyfill. Update your code before you upgrade."
+    "🧩 unpoly-migrate.js polyfills the change and logs where you use the old API.\n"
+    "⚠️ not polyfilled, but rare or minor.\n"
+    "❌ not polyfilled. Check your code in any case.\n"
+    "Read all release notes first. Use this list as a checklist, never instead of reading."
 )
 
 
@@ -110,7 +113,8 @@ def main(argv, root=SKILL_ROOT, out=sys.stdout):
     parser.add_argument("--to", dest="to_version",
                         help="the version to upgrade to (listed; default: the latest)")
     parser.add_argument("--breaking", action="store_true",
-                        help="also list each change marked with ⚠️ or ❌, with its line number")
+                        help="also list each change marked with 🧩, ⚠️ or ❌, with its line number, "
+                             "as a checklist after reading all release notes")
     args = parser.parse_args(argv)
     if out is sys.stdout and hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # ⚠️ on a Windows console
