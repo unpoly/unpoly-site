@@ -29,6 +29,10 @@ The `unpoly/unpoly-site` repo only holds content for a few pages, all implemente
 (`/install` used to live here too, but is now a guide page in `unpoly/unpoly`;
 `/tutorial` was retired and redirects into the Learn section.)
 
+What maintainers need to know to write documentation *content* lives in unpoly's
+[documentation guide](https://github.com/unpoly/unpoly/blob/master/docs/contributing/documentation.md).
+This README explains how `unpoly-site` is implemented.
+
 
 ## Project overview
 
@@ -156,8 +160,8 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
 - **The converter** is generic HTML → Markdown. It knows the site only through semantics
   in the templates: headings, `role="heading"`, `aria-label`, `<nav>`, and
   `data-markdown="ignore"` / `data-markdown="chip"`. Prefer adding semantics to a template
-  over adding a rule. The marker map is in unpoly's
-  [documentation guide](https://github.com/unpoly/unpoly/blob/master/docs/contributing/documentation.md#markers-in-the-templates).
+  over adding a rule. The markers are listed under
+  [Markers in the templates](#markers-in-the-templates).
 - **Links** come from a resolver (`Unpoly::Site::MarkdownLinks`): absolute URLs on the
   web, relative file paths in the skill. A link goes to a `.md` URL only when its target
   has a twin. A build links to `https://unpoly.com` (override with `BASE_URL`); the
@@ -179,6 +183,32 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
 - **Serving**: `source/.htaccess.erb` serves `.md` as `text/markdown`, hands the twin to
   agents whose `Accept` names `text/markdown` first, and redirects a `.md` URL without a
   file to its page.
+
+### Markers in the templates
+
+The templates in this repository say what an element means with standard semantics
+(headings, `<nav>`, ARIA), which screen readers and the converter both understand. Where
+that is not enough, a `data-*` attribute takes over. Each `data-*` attribute serves one
+consumer:
+
+| Marker | Screen readers | Search (Pagefind) | Contents list | Markdown |
+|---|---|---|---|---|
+| `data-pagefind-body` | – | indexes these pages | – | – |
+| `data-pagefind-ignore` | – | skips the element | – | keeps it (agents want those blocks) |
+| `data-toc-ignore` | – | – | skips the heading | – |
+| `data-toc-include` | – | – | lists a lower heading | – |
+| `h2`–`h4` with `id` | headings | sub-results | lists them | a heading of that level with `{#id}` |
+| `role="heading" aria-level` | headings | – | – | heading of that level |
+| `aria-label` on a link | the link's name | – | – | the link's text |
+| `aria-hidden="true"` | hidden | indexed | – | dropped |
+| `data-markdown="ignore"` | read | indexed | – | dropped |
+| `data-markdown="chip"` | read | indexed | – | `(title or text)` |
+| `<svg role="img">` with `<title>`/`<desc>` | reads them | – | – | `[Diagram: title](…)` and the description |
+| `<nav aria-label="…">` | a landmark | – | – | a literal `<nav>` block of links |
+
+`data-markdown="ignore"` drops chrome that only humans use, like the copy buttons or a
+breadcrumb. `data-markdown="chip"` writes a badge as a word in parentheses, preferring its
+`title`. Add a value only for a case these two can't express.
 
 
 ## Local development
