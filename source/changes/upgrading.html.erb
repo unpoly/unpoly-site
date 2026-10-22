@@ -75,6 +75,14 @@
       </li>
     </ol>
 
+    <p>
+      After the upgrade, look through the release notes of the versions you skipped for new features.
+      Some of your own compilers may now have a built-in replacement, like
+      <a href="<%= doc_path('up-defer') %>"><code>[up-defer]</code></a> for lazy loading or
+      <a href="<%= doc_path('up-poll') %>"><code>[up-poll]</code></a> for polling.
+      Do this in a separate change from the upgrade itself.
+    </p>
+
     <% if locals[:skill] %>
       <h3 id="releases-script">Listing the release notes for your upgrade</h3>
 
