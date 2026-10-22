@@ -74,6 +74,10 @@ up-modal.search-dialog
 .search-dialog--results
   max-height: calc(100vh - 150px)
   overflow-y: auto
+  // The containing block of the hidden labels in its rows (.search-dialog--context), so
+  // that they scroll with the list. Otherwise they are placed against the modal's box,
+  // stick out of its bottom and give the box a second scrollbar.
+  position: relative
   +pretty-scrollbars(9px)
 
   +on_narrow
