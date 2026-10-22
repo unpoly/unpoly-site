@@ -41,13 +41,6 @@ describe Unpoly::Site::MarkdownLinks do
       expect(links.media_url('/images/api/a.png')).to eq('http://localhost:4568/images/api/a.png')
       expect(links.page_url).to eq('http://localhost:4568/learn/start/links')
     end
-
-    it 'links media by the path it is published under, which a build fingerprints' do
-      media_path = ->(path) { path.sub('a.png', 'a-1234abcd.png') }
-      links = described_class.new(base_url: 'http://localhost:4568', twin_paths: twin_paths, page_path: '/learn/start/links', media_path: media_path)
-      expect(links.media_url('/images/api/a.png')).to eq('http://localhost:4568/images/api/a-1234abcd.png')
-      expect(links.media_url('../../images/api/a.png')).to eq('http://localhost:4568/images/api/a-1234abcd.png')
-    end
   end
 
   describe Unpoly::Site::MarkdownLinks::Skill do
@@ -74,12 +67,6 @@ describe Unpoly::Site::MarkdownLinks do
     it 'links media and the HTML page on unpoly.com, since the skill ships neither' do
       expect(links.media_url('/images/api/a.png')).to eq('https://unpoly.com/images/api/a.png')
       expect(links.page_url).to eq('https://unpoly.com/learn/start/links')
-    end
-
-    it 'links media by the path it is published under, which a build fingerprints' do
-      media_path = ->(path) { path.sub('a.png', 'a-1234abcd.png') }
-      links = described_class.new(files: files, file: 'references/learn/start-links.md', twin_paths: twin_paths, page_path: '/learn/start/links', media_path: media_path)
-      expect(links.media_url('/images/api/a.png')).to eq('https://unpoly.com/images/api/a-1234abcd.png')
     end
 
     it 'makes a skill path relative to the file being written' do

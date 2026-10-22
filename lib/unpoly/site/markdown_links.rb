@@ -16,13 +16,10 @@ module Unpoly
 
         # twin_paths: the paths ("/api/up.render") that have a .md twin.
         # page_path: the path of the page being converted.
-        # media_path: maps the path of an image or video to the path it is published
-        #   under, which a build fingerprints (published_media_path in config.rb).
-        def initialize(base_url:, twin_paths:, page_path:, media_path: ->(path) { path })
+        def initialize(base_url:, twin_paths:, page_path:)
           @base_url = base_url
           @twin_paths = twin_paths
           @page_path = page_path
-          @media_path = media_path
         end
 
         def href(url)
@@ -36,7 +33,7 @@ module Unpoly
         # Images and videos are never copied, so they always point to the site.
         def media_url(src)
           return src if src =~ /\A[a-z][a-z0-9+.-]*:/i
-          "#{@base_url}#{@media_path.call(absolute_path(src))}"
+          "#{@base_url}#{absolute_path(src)}"
         end
 
         # The HTML version of the page being converted.

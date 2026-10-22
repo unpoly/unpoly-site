@@ -353,20 +353,12 @@ helpers do
   # Where the links in a Markdown page point (Unpoly::Site::MarkdownLinks): to the
   # site on the web, to the skill's own files inside the skill.
   def markdown_links(page_path:, skill_file: nil)
-    options = { twin_paths: markdown_twins.paths, page_path: page_path, media_path: method(:published_media_path) }
+    options = { twin_paths: markdown_twins.paths, page_path: page_path }
     if skill_file
       Unpoly::Site::MarkdownLinks::Skill.new(files: config[:skill].files, file: skill_file, **options)
     else
       Unpoly::Site::MarkdownLinks::Web.new(base_url: base_url, **options)
     end
-  end
-
-  # The path an image or video is published under. A build fingerprints images
-  # (/images/api/a.png becomes /images/api/a-1234abcd.png, see :asset_hash), but only
-  # rewrites HTML, CSS and JS to the new names. Its sitemap already knows them when the
-  # Markdown renders. The preview has no fingerprints and returns the path as it is.
-  def published_media_path(path)
-    sitemap.find_resource_by_path(path)&.url || path
   end
 
   # A page as Markdown: front matter, one line of navigation, the converted page.

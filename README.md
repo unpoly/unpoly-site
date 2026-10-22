@@ -165,9 +165,7 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
 - **Links** come from a resolver (`Unpoly::Site::MarkdownLinks`): absolute URLs on the
   web, relative file paths in the skill. A link goes to a `.md` URL only when its target
   has a twin. A build links to `https://unpoly.com` (override with `BASE_URL`); the
-  preview links to itself, so you can click through `.md` pages there. Images always
-  link the site, under the fingerprinted name a build gives them (`:asset_hash`), which
-  the resolver looks up in the sitemap.
+  preview links to itself, so you can click through `.md` pages there.
 - **Golden files** in `spec/fixtures/markdown` pin the twins of the parser fixtures. A
   change to a template or the converter shows up as a failing spec with a diff; accept it
   with `UPDATE_GOLDEN=1 bundle exec rspec spec/features/markdown_twins_spec.rb`.
