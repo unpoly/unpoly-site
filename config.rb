@@ -35,8 +35,14 @@ configure :build do
     Terser.new
   }
 
-  # Enable cache buster
-  activate :asset_hash
+  # Enable cache buster.
+  #
+  # Documentation images keep their names: the Markdown twins and the unpoly-docs skill
+  # link them too, and an installed skill stays offline, so a fingerprinted name would
+  # break at the next deploy that changes the image. .htaccess caches them for a day.
+  # The pattern sees "images/api/a.png" (renaming) as well as "/images/api/a.png"
+  # (rewriting URLs in HTML).
+  activate :asset_hash, ignore: [%r{\A/?images/(api|changes)/}]
 
   # after_build do
   #   puts 'Copying .htaccess file ...'

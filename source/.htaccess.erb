@@ -110,6 +110,13 @@ Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"
   Header set Cache-Control "max-age=2628000, public"
 </FilesMatch>
 
+# Documentation images and videos keep their names across deploys (no :asset_hash, see
+# config.rb), so a changed screenshot must not stay cached for a month. Apache merges
+# <If> after <FilesMatch>, so this wins over the rule above for these paths only.
+<If "%{REQUEST_URI} =~ m#^/images/(api|changes)/#">
+  Header set Cache-Control "max-age=86400, public"
+</If>
+
 # Exclude crawlers from hostnames like:
 # - v1.unpoly.com
 # - v2.unpoly.com
