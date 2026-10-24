@@ -46,6 +46,16 @@
       They work the same whether a person or a coding agent does the upgrade.
     </p>
 
+    <% unless locals[:skill] %>
+      <% admonition(:tip) do %>
+        <p>
+          Coding agents can upgrade Unpoly for you.
+          Give your agent the <a href="<%= doc_path('skill') %>">Unpoly skill</a>.
+          It contains this guide and the release notes of every version, so your agent has everything it needs.
+        </p>
+      <% end %>
+    <% end %>
+
     <ol>
       <li>
         <b>Find the version you're on.</b>
