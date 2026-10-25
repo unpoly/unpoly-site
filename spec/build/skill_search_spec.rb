@@ -5,6 +5,7 @@ require 'open3'
 # them too; `rake skill:test` runs them on their own.
 #
 # - test_search.py: unit tests on a corpus of their own. Need python3.
+# - test_outline.py: the fixtures of unpoly/bin/outline, read from vendor/unpoly-local.
 # - test_ranking.py: a fixed set of queries with the page each must find, against the
 #   skill of the last build. Skipped without one. `rake skill:test` builds the skill
 #   first, which is how CI runs it.
@@ -29,6 +30,10 @@ describe 'the skill search script' do
 
   it 'passes the unit tests of the release notes script (releases.py)' do
     unittest('test_releases')
+  end
+
+  it 'prints the outline that the fixtures of unpoly/bin/outline expect (outline.py)' do
+    unittest('test_outline')
   end
 
   it 'lists the release notes of an upgrade from the built skill, in version order' do

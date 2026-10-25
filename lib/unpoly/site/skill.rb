@@ -5,7 +5,7 @@ module Unpoly
     # pages) and packed for distribution after the build (SkillPackage).
     #
     #   SKILL.md                   source/skills/unpoly-docs/skill.txt.erb
-    #   scripts/search.py          source/skills/unpoly-docs/scripts/ (also releases.py)
+    #   scripts/search.py          source/skills/unpoly-docs/scripts/ (also releases.py, outline.py)
     #   scripts/keywords.json      the @keywords of each reference file, for search.py
     #   references/api/*.md        the API reference, the /api hub as index.md
     #   references/learn/*.md      the guides, the /learn hub as index.md

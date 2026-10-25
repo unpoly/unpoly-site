@@ -57,6 +57,8 @@ Exact names rank their own page first, in any spelling: `up.render`, `up.render(
 
 Each result is a `<result>` block with a `score`, a `path` relative to this skill, and where the page sits: its `area` (Learn or API), its `kind` on API pages, and its `parent` (a feature's module, a Learn page's chapter). Inside are the page's `<title>` and a snippet around the match. Read the file at `path` for the whole page. The top 10 results are shown; pass `--limit 30` to see more. Release notes and deprecated features rank lower.
 
+To see a page's sections with line ranges, run `python3 scripts/outline.py <path>`.
+
 Without Python, grep the reference files for any of your terms, ranked by matching lines per file:
 
 ```

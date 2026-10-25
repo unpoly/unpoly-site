@@ -170,7 +170,9 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
   change to a template or the converter shows up as a failing spec with a diff; accept it
   with `UPDATE_GOLDEN=1 bundle exec rspec spec/features/markdown_twins_spec.rb`.
 - **The skill** lives in `source/skills/unpoly-docs/`: the SKILL.md template, and the search
-  script `scripts/search.py` with its Python tests. `middleman build` writes it to
+  script `scripts/search.py` with its Python tests. `scripts/outline.py` is the twin of
+  unpoly's `bin/outline`: change both together, and both must pass the fixtures in
+  `unpoly/tooling/test/fixtures/outline/`. `middleman build` writes it to
   `build/skills/unpoly-docs/`, then checks it and packs the archives that unpoly.com
   serves for `npx skills add https://unpoly.com` and the Claude Code marketplace
   (`Unpoly::Site::SkillPackage`). The deploy ships only the archives. `SKIP_SKILL=1` leaves

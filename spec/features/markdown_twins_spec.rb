@@ -147,8 +147,10 @@ describe 'Markdown twins', type: :feature do
     it 'serves the search script but not its tests' do
       expect(get('/skills/unpoly-docs/scripts/search.py').status).to eq(200)
       expect(get('/skills/unpoly-docs/scripts/releases.py').status).to eq(200)
+      expect(get('/skills/unpoly-docs/scripts/outline.py').status).to eq(200)
       expect(get('/skills/unpoly-docs/scripts/test_search.py').status).to eq(404)
       expect(get('/skills/unpoly-docs/scripts/test_releases.py').status).to eq(404)
+      expect(get('/skills/unpoly-docs/scripts/test_outline.py').status).to eq(404)
     end
   end
 
