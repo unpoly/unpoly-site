@@ -18,8 +18,9 @@ Ranking is BM25F over field-weighted tokens (name and title above headings above
 - A page's keywords (scripts/keywords.json): words a reader may use that its prose doesn't. They
   count like one word of body text and are never shown.
 - Down-weights for deprecated pages, hub pages (`index.md`) and changelog pages.
-- A bonus for pages containing a query argument of several words as a phrase. This only
-  re-ranks: the words still match with OR semantics.
+- A bonus for pages containing a query argument of several words as a phrase, or titled with
+  it in other inflections ("open overlay" for "Opening overlays"). This only re-ranks: the words
+  still match with OR semantics.
 - Exclusions: a word with a leading `-` (`-modal`) removes every page containing it.
 """
 
@@ -54,7 +55,7 @@ STEM_WEIGHT = 0.5   # `validat` from `validation`
 
 NAME_BOOST = 3.0           # query token equals the page's `name`
 HEADING_NAME_BONUS = 1.5   # query identifier heads a section, e.g. a parameter `[up-accept-location]`
-PHRASE_BONUS = 1.5         # page contains a multi-word query argument word for word
+PHRASE_BONUS = 1.5         # page contains a multi-word query argument word for word (its title: in any inflection)
 DEPRECATED_FACTOR = 0.6
 HUB_FACTOR = 0.5           # references/*/index.md: link lists that mention everything
 RELEASE_FACTOR = 0.5       # release notes (references/changes/3-11-0.md etc.)
@@ -362,8 +363,9 @@ class Index:
             score *= document["factor"]
             if phrases:
                 text = phrase_text(document)
+                title = stem_phrase(" ".join(tokenize(document["fields"]["title"])))
                 for phrase in phrases:
-                    if phrase in text:
+                    if phrase in text or stem_phrase(phrase) in title:
                         score *= PHRASE_BONUS
             if document["name"] and document["name"] in names:
                 score *= NAME_BOOST
@@ -396,6 +398,12 @@ def query_phrases(queries):
         if len(tokens) > 1:
             phrases.append(" " + " ".join(tokens) + " ")
     return phrases
+
+
+def stem_phrase(phrase):
+    """A space-joined phrase with each word stemmed and spaces around it, so it can be looked for
+    in another stemmed phrase: `opening overlays` -> ` open overlay `."""
+    return " " + " ".join(stem(word) for word in phrase.split()) + " "
 
 
 def phrase_text(document):

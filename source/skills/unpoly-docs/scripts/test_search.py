@@ -342,6 +342,24 @@ class PhraseTest(CorpusTestCase):
     def test_query_phrases(self):
         self.assertEqual(search.query_phrases(["Close  the overlay", "up.render"]), [" close the overlay "])
 
+    def test_phrase_matches_the_title_in_other_inflections(self):
+        self.write({
+            "references/learn/c.md": page("Closing overlays", "Overlay close the."),
+            "references/learn/d.md": page("Three", "Overlays close the closing."),
+        })
+        self.assertEqual(self.paths("close overlay")[0], "references/learn/c.md")
+
+    def test_phrase_matches_only_the_body_word_for_word(self):
+        self.write({
+            "references/learn/c.md": page("One", "Closing overlays. Overlay close the."),
+            "references/learn/d.md": page("Two", "Overlays closing. Overlay close the."),
+        })
+        scores = dict((d["path"], score) for score, d in self.results("close overlay"))
+        self.assertAlmostEqual(scores["references/learn/c.md"], scores["references/learn/d.md"])
+
+    def test_stem_phrase(self):
+        self.assertEqual(search.stem_phrase("opening overlays"), " open overlay ")
+
 
 class ExclusionTest(CorpusTestCase):
     def setUp(self):
