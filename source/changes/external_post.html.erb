@@ -14,7 +14,12 @@ layout: false
 <%= release.version %>
 <%= '=' * release.version.size %>
 
-<%= h urlify_paths_in_markdown(autolink_code_in_markdown(release.markdown.gsub(/^###/, '##'))) %>
+<%-
+  markdown = autolink_code_in_markdown(release.markdown.gsub(/^###/, '##'))
+  markdown = urlify_paths_in_markdown(markdown, page_path: "/changes/#{release.version}")
+  markdown = github_alerts_in_markdown(markdown)
+-%>
+<%= h markdown %>
 
 <%- end -%>
 </pre>

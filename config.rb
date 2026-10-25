@@ -314,18 +314,38 @@ helpers do
     end
   end
 
-  def urlify_paths_in_markdown(markdown)
-    markdown = markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) { fully_qualify_url($1) }
-    markdown = markdown.gsub(/(?<=<video src=")([^"]+)(?=")/) { fully_qualify_url($1) }
+  # `page_path` is the page the Markdown comes from, e.g. `/changes/3.15.0`.
+  def urlify_paths_in_markdown(markdown, page_path:)
+    markdown = markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) { fully_qualify_url($1, page_path: page_path) }
+    markdown = markdown.gsub(/(?<=<video src=")([^"]+)(?=")/) { fully_qualify_url($1, page_path: page_path) }
     markdown
   end
 
-  def fully_qualify_url(url)
+  def fully_qualify_url(url, page_path:)
     if url.include?('://')
       url
+    elsif url.start_with?('#')
+      # A section of the same page, e.g. `[Forms](#forms)` in a release.
+      "#{base_url}#{page_path}#{url}"
     else
       absolute_path = markdown_renderer.fix_relative_image_path(url)
       "#{base_url}#{absolute_path}"
+    end
+  end
+
+  # GitHub shows our admonitions (`> [note]`) literally, but renders its own alerts
+  # (`> [!NOTE]`). GitHub has no alert for info, hint or attention, so they get the
+  # closest one.
+  def github_alerts_in_markdown(markdown)
+    alerts = {
+      'note' => 'NOTE', 'info' => 'NOTE',
+      'tip' => 'TIP', 'hint' => 'TIP',
+      'important' => 'IMPORTANT',
+      'warning' => 'WARNING', 'attention' => 'WARNING',
+      'caution' => 'CAUTION',
+    }
+    markdown.gsub(/^([ \t]*(?:>[ \t]*)+)\[!?(#{alerts.keys.join('|')})\][ \t]*$/i) do
+      "#{$1}[!#{alerts.fetch($2.downcase)}]"
     end
   end
 
