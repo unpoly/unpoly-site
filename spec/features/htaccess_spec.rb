@@ -29,6 +29,14 @@ describe 'the .htaccess', type: :feature do
     expect(host).to be < index
   end
 
+  it 'redirects www.unpoly.com permanently, and v3.unpoly.com only until it serves the v3 docs again' do
+    lines = htaccess.lines.map(&:strip)
+    rule_for = ->(host) { lines[lines.index("RewriteCond %{HTTP_HOST} ^#{host}\\.unpoly\\.com$") + 1] }
+
+    expect(rule_for.('www')).to eq('RewriteRule ^(.*)$ https://unpoly.com/$1 [R=301,L]')
+    expect(rule_for.('v3')).to eq('RewriteRule ^(.*)$ https://unpoly.com/$1 [R=307,L]')
+  end
+
   describe 'Markdown for agents' do
     # The condition a request's Accept header must meet to get a page's .md twin.
     # Apache's PCRE and Ruby agree on everything this pattern uses.
@@ -76,7 +84,8 @@ describe 'the .htaccess', type: :feature do
 
     it 'serves .md as Markdown, varies on Accept, and keeps twins out of search engines' do
       expect(htaccess).to include('AddType "text/markdown; charset=utf-8" .md')
-      expect(htaccess).to include('Header merge Vary Accept')
+      # Both variants of a page's URL, so caches keep them apart.
+      expect(htaccess).to include('Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"')
       expect(htaccess).to match(%r{<FilesMatch "\\\.md\$">\s*Header set X-Robots-Tag "noindex"})
     end
   end

@@ -3,11 +3,18 @@ Options -Indexes
 
 RewriteEngine On
 
-# v3 is the current version, so let's redirect
-# v3.unpoly.com/foo to unpoly.com/foo.
-# This comes first: below, /foo is rewritten to /foo/index.html, which a later rule
+# www.unpoly.com/foo to unpoly.com/foo, for good.
+#
+# v3 is the current version, so v3.unpoly.com/foo also goes to unpoly.com/foo, but
+# only temporarily (307): once Unpoly 4 is out, v3.unpoly.com serves the v3 docs again,
+# and browsers would keep following a cached 301.
+#
+# These come first: below, /foo is rewritten to /foo/index.html, which a later rule
 # would put into the redirect (www.unpoly.com/up.render went to /up.render/index.html).
-RewriteCond %{HTTP_HOST} ^(v3|www)\.unpoly\.com$
+RewriteCond %{HTTP_HOST} ^www\.unpoly\.com$
+RewriteRule ^(.*)$ https://unpoly.com/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^v3\.unpoly\.com$
 RewriteRule ^(.*)$ https://unpoly.com/$1 [R=307,L]
 
 # /foo/ to /foo. The target names its scheme: Apache sits behind a proxy that ends
