@@ -8,7 +8,7 @@ Object.assign up.layer.config.cover,
   openDuration: 500
   closeDuration: 500
 
-up.fragment.config.runScripts = false
+up.script.config.scriptElementPolicy = 'block'
 
 up.viewport.config.revealPadding = 10
 
