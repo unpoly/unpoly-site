@@ -1,29 +1,33 @@
 @import ../../environment
 
-// The heading and its links share a row while they fit and wrap onto their own
-// lines when they do not, which needs no breakpoint.
+// The heading on its own line, the param groups below it as a wrapping row of
+// small outlined chips, which needs no breakpoint.
 .minitoc
   margin-bottom: $space-5
-  display: flex
-  flex-wrap: wrap
-  align-items: baseline
-  gap: $space-2 $space-6
 
 .minitoc--heading
   +hide-margins-y
-  flex: 0 0 auto
+  margin-bottom: $space-3
 
 .minitoc--items
-  flex: 1 1 320px
   display: flex
   flex-wrap: wrap
-  gap: $space-1 $space-3
+  gap: $space-2
 
-// In-page navigation, so it looks like the page's contents (toc.sass): gray links
-// that turn red under the pointer, not the prose's underlined links.
+// In-page navigation, so the chips are gray and quiet, not the prose's underlined
+// links. Even padding centers the uppercase text: Roboto's caps already sit low.
 .minitoc--link
+  font-size: $text-2xs
+  line-height: 1.2
+  +uppercase
+  letter-spacing: 0.03em
+  padding: 3px 8px
+  border: 1.5px solid $gray-700
+  border-radius: 1px
   color: $gray-700
   text-decoration: none
+  transition: background-color .12s, color .12s
 
   +hover
-    color: $color-link
+    background-color: $gray-700
+    color: $white

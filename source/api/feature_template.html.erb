@@ -74,18 +74,16 @@
         show_param_section_titles = param_sections.size > 1 || (param_sections.one? && param_sections.first.title != 'General')
       %>
 
-      <% if show_param_section_titles %>
+      <% if param_sections.size > 1 %>
         <div class="minitoc">
           <div class="minitoc--heading">
             <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>
           </div>
           <div class="minitoc--items" data-markdown="ignore">
             <% param_sections.each do |param_section| %>
-              <div class="minitoc--item">
-                <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="minitoc--link">
-                  <%= param_section.title %>
-                </a>
-              </div>
+              <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="minitoc--link">
+                <%= param_section.title %>
+              </a>
             <% end %>
           </div>
         </div>
