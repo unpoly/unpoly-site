@@ -1,3 +1,5 @@
+require 'rack/mock'
+
 describe 'changes', type: :feature, js: true do
 
   let(:version) { Unpoly::Site.current.stable_version }
@@ -25,6 +27,17 @@ describe 'changes', type: :feature, js: true do
     menu = page.all('.menu a[href^="/changes/"]', visible: :all).map { |link| link[:href].delete_prefix(page.server_url) }.grep(%r{\A/changes/\d})
     expect(index.uniq).to eq(expected)
     expect(menu.uniq).to eq(expected)
+  end
+
+  # The release notes are copied from here into GitHub Discussions and makandracards,
+  # so they must link to unpoly.com even when copied from the preview.
+  it 'links unpoly.com from the external post, also in the preview' do
+    response = Rack::MockRequest.new(Capybara.app).get('/changes/external_post', 'HTTP_HOST' => 'unpoly.test')
+    body = response.body.force_encoding('UTF-8')
+
+    expect(response.status).to eq(200)
+    expect(body).to include('](https://unpoly.com/')
+    expect(body).not_to include('unpoly.test')
   end
 
 end

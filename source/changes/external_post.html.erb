@@ -16,7 +16,8 @@ layout: false
 
 <%-
   markdown = autolink_code_in_markdown(release.markdown.gsub(/^###/, '##'))
-  markdown = urlify_paths_in_markdown(markdown, page_path: "/changes/#{release.version}")
+  # The Markdown is posted elsewhere, so it links to unpoly.com, even when copied from the preview.
+  markdown = urlify_paths_in_markdown(markdown, page_path: "/changes/#{release.version}", origin: Unpoly::Site.base_url)
   markdown = github_alerts_in_markdown(markdown)
 -%>
 <%= h markdown %>

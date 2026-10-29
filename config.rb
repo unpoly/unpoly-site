@@ -315,21 +315,22 @@ helpers do
   end
 
   # `page_path` is the page the Markdown comes from, e.g. `/changes/3.15.0`.
-  def urlify_paths_in_markdown(markdown, page_path:)
-    markdown = markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) { fully_qualify_url($1, page_path: page_path) }
-    markdown = markdown.gsub(/(?<=<video src=")([^"]+)(?=")/) { fully_qualify_url($1, page_path: page_path) }
+  # `origin` is where the URLs point to, by default the site's own (see `base_url`).
+  def urlify_paths_in_markdown(markdown, page_path:, origin: base_url)
+    markdown = markdown.gsub(/(?<=\]\()([^)]+)(?=\))/) { fully_qualify_url($1, page_path: page_path, origin: origin) }
+    markdown = markdown.gsub(/(?<=<video src=")([^"]+)(?=")/) { fully_qualify_url($1, page_path: page_path, origin: origin) }
     markdown
   end
 
-  def fully_qualify_url(url, page_path:)
+  def fully_qualify_url(url, page_path:, origin:)
     if url.include?('://')
       url
     elsif url.start_with?('#')
       # A section of the same page, e.g. `[Forms](#forms)` in a release.
-      "#{base_url}#{page_path}#{url}"
+      "#{origin}#{page_path}#{url}"
     else
       absolute_path = markdown_renderer.fix_relative_image_path(url)
-      "#{base_url}#{absolute_path}"
+      "#{origin}#{absolute_path}"
     end
   end
 
