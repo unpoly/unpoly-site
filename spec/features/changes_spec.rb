@@ -40,4 +40,35 @@ describe 'changes', type: :feature, js: true do
     expect(body).not_to include('unpoly.test')
   end
 
+  it 'posts the newest releases externally' do
+    body = Rack::MockRequest.new(Capybara.app).get('/changes/external_post').body.force_encoding('UTF-8')
+    posted = body.scan(/^(\d+\.\d+\.\d+\S*)\n=+$/).flatten
+
+    expect(posted).to eq(Unpoly::Site.current.versions.first(5))
+  end
+
+  # The site is deployed independently of Unpoly releases, so the changelog in the Unpoly
+  # checkout often documents a version that has no git tag yet (see Changelog#released?).
+  it 'leaves out documented versions that are not released yet' do
+    changelog_paths = Dir[File.join(Unpoly::Site.current.path, 'docs', 'changes', 'CHANGELOG_*.md')]
+    documented = changelog_paths.flat_map { |path| File.read(path).scan(/^(\d+\.\d+\.\d+(?:-[a-z\d]+)?)\n-+$/).flatten }
+    tags = `git -C #{Shellwords.escape(Unpoly::Site.current.path)} tag --list 'v*'`.split("\n")
+    unreleased = documented.reject { |version| tags.include?("v#{version}") }
+    skip 'the Unpoly checkout documents no unreleased version' if unreleased.empty?
+
+    request = Rack::MockRequest.new(Capybara.app)
+    index = request.get('/changes').body
+    external_post = request.get('/changes/external_post').body
+    releases_json = request.get('/skills/unpoly-docs/references/changes/releases.json').body
+
+    unreleased.each do |version|
+      expect(request.get("/changes/#{version}").status).to eq(404)
+      expect(request.get("/changes/#{version}.md").status).to eq(404)
+      expect(request.get("/skills/unpoly-docs/references/changes/#{version.tr('.', '-')}.md").status).to eq(404)
+      expect(index).not_to include("/changes/#{version}\"")
+      expect(external_post).not_to match(/^#{Regexp.escape(version)}$/)
+      expect(releases_json).not_to include(%("#{version}"))
+    end
+  end
+
 end

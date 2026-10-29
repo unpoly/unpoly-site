@@ -151,6 +151,8 @@ module Unpoly
         sections = all_markdown.split(/^(\d+\.\d+\.\d+(?:-[a-z\d]+)?)\n-+\n+/)
         sections.shift # remove text before the first version heading, like the "Unreleased" section
         sections.each_slice(2) do |version, release_markdown|
+          next unless released?(version)
+
           # Files are sorted by major version (descending), so the first release we see
           # belongs to the current major.
           @current_major ||= extract_major(version)
@@ -166,6 +168,22 @@ module Unpoly
         file_releases
       end
 
+      # A version is released once its git tag exists. Unpoly's master often documents the
+      # next version before that, and the site is deployed independently of releases.
+      # Every consumer (pages, index, menu, external post, skill, Markdown twins) reads
+      # the releases from here, so an unreleased version appears nowhere.
+      def released?(version)
+        released_tags.include?("v#{version}")
+      end
+
+      def released_tags
+        @released_tags ||= begin
+          tags = `git -C #{Shellwords.escape(repository_path)} tag --list 'v*'`.split("\n").to_set
+          # A checkout without tags (a shallow clone) would silently drop every release.
+          tags.presence or raise Error, "No v* tags in #{repository_path}. Fetch them with `git fetch --tags`."
+        end
+      end
+
       # Merges per-major release lists into a single list ordered by release time
       # (newest first), like the single CHANGELOG.md we used to have. We cannot simply
       # concatenate the files, since a maintenance release for an older major may have
@@ -175,10 +193,8 @@ module Unpoly
         lists = releases_by_file.reject(&:empty?)
         merged = []
         while lists.any?
-          # A release without a git tag (e.g. an upcoming version that is already
-          # documented) has no time and is considered the newest. Ties keep the
-          # release with the higher major version first.
-          newest_list = lists.max_by { |list| list.first.time&.to_f || Float::INFINITY }
+          # Ties keep the release with the higher major version first.
+          newest_list = lists.max_by { |list| list.first.time.to_f }
           merged << newest_list.shift
           lists.reject!(&:empty?)
         end

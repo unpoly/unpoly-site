@@ -44,6 +44,50 @@ describe Unpoly::Site::Changelog do
 
   end
 
+  # The site is deployed independently of Unpoly releases, so the changelog often documents
+  # a version that has no git tag yet.
+  describe 'an unreleased version' do
+
+    def changelog_with(files, tags:)
+      dir = Dir.mktmpdir
+      (@dirs ||= []) << dir
+      FileUtils.mkdir_p(File.join(dir, 'docs', 'changes'))
+      files.each { |name, content| File.write(File.join(dir, 'docs', 'changes', name), content) }
+      git = "git -C #{Shellwords.escape(dir)} -c user.name=Spec -c user.email=spec@example.com"
+      system("#{git} init -q && #{git} add . && #{git} commit -q -m Init", exception: true)
+      tags.each { |tag| system("#{git} tag #{tag}", exception: true) }
+      described_class.new(dir)
+    end
+
+    after do
+      @dirs&.each { |dir| FileUtils.rm_rf(dir) }
+    end
+
+    let(:changelog) do
+      changelog_with({
+        'CHANGELOG_3.x.md' => "3.0.0\n-----\n\nThe next major.\n",
+        'CHANGELOG_2.x.md' => "2.1.0\n-----\n\nUpcoming.\n\n2.0.0\n-----\n\nReleased.\n\n2.0.0-rc1\n---------\n\nPre-release.\n",
+        'CHANGELOG_1.x.md' => "1.0.1\n-----\n\nUpcoming backport.\n\n1.0.0\n-----\n\nReleased.\n",
+      }, tags: %w[v2.0.0 v2.0.0-rc1 v1.0.0])
+    end
+
+    it 'is left out of the releases, so it gets no page and no listing' do
+      expect(changelog.versions).to match_array(%w[2.0.0 2.0.0-rc1 1.0.0])
+      expect(changelog.releases_by_version.map(&:version)).to eq(%w[1.0.0 2.0.0-rc1 2.0.0])
+      expect(changelog.release_for_version('2.1.0')).to be_nil
+      expect(changelog.release_for_version('1.0.1')).to be_nil
+    end
+
+    it 'does not count as the current major' do
+      expect(changelog.current_major).to eq('2')
+    end
+
+    it 'fails when the checkout has no tags, instead of dropping every release' do
+      expect { changelog_with({ 'CHANGELOG_1.x.md' => "1.0.0\n-----\n\nReleased.\n" }, tags: []) }.to raise_error(Unpoly::Site::Error, /git fetch --tags/)
+    end
+
+  end
+
   describe 'a release' do
 
     let(:release) { subject.releases.first }
