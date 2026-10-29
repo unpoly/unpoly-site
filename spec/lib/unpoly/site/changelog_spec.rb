@@ -86,6 +86,64 @@ describe Unpoly::Site::Changelog do
       expect { changelog_with({ 'CHANGELOG_1.x.md' => "1.0.0\n-----\n\nReleased.\n" }, tags: []) }.to raise_error(Unpoly::Site::Error, /git fetch --tags/)
     end
 
+    # Unpoly collects the notes for the next release under an "Unreleased" heading at the
+    # top of the changelog, until it knows the version number.
+    describe 'under an Unreleased heading' do
+
+      let(:changelog) do
+        changelog_with({
+          'CHANGELOG_2.x.md' => <<~MARKDOWN,
+            Unreleased
+            ----------
+
+            - Unreleased fix that mentions 2.0.0 in prose.
+            - Unreleased fix for a regression in
+            2.0.0
+            - Unreleased fix with a version number in a [link](/changes/2.0.0).
+
+            ### Forms
+
+            - Unreleased form feature.
+
+
+            2.0.0
+            -----
+
+            Released major.
+
+            ### Forms
+
+            - Released form feature.
+
+
+            2.0.0-rc1
+            ---------
+
+            Pre-release.
+          MARKDOWN
+          'CHANGELOG_1.x.md' => "1.0.0\n-----\n\nReleased.\n",
+        }, tags: %w[v2.0.0 v2.0.0-rc1 v1.0.0])
+      end
+
+      it 'creates no release' do
+        expect(changelog.versions).to match_array(%w[2.0.0 2.0.0-rc1 1.0.0])
+        expect(changelog.release_for_version('Unreleased')).to be_nil
+      end
+
+      it 'leaves the first tagged version as the newest release' do
+        expect(changelog.releases.first.version).to eq('2.0.0')
+        expect(changelog.current_major).to eq('2')
+      end
+
+      it 'leaks none of its entries into a release' do
+        expect(changelog.release_for_version('2.0.0').markdown).to eq("Released major.\n\n### Forms\n\n- Released form feature.")
+        changelog.releases.each do |release|
+          expect(release.markdown).not_to include('Unreleased')
+        end
+      end
+
+    end
+
   end
 
   describe 'a release' do

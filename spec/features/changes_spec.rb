@@ -71,4 +71,36 @@ describe 'changes', type: :feature, js: true do
     end
   end
 
+  # Unpoly collects the notes for the next release under an "Unreleased" heading until it
+  # knows the version number. The changelog spec constructs this case; this checks the
+  # pages against the real checkout, when it has such a section.
+  it 'shows none of the Unreleased section' do
+    changelog_path = File.join(Unpoly::Site.current.path, 'docs', 'changes', "CHANGELOG_#{Unpoly::Site.current.changelog.current_major}.x.md")
+    unreleased = File.read(changelog_path)[/^Unreleased\n-+\n(.*?)(?=^\d+\.\d+\.\d+\S*\n-+$)/m, 1]
+    skip 'the Unpoly changelog has no Unreleased section' if unreleased.blank?
+
+    # The pages render the Markdown, so we look for the longest run of plain words in each entry.
+    phrases = unreleased.split(/\n\s*\n|^\s*- /).filter_map { |entry|
+      plain = entry.gsub(/\[([^\]]*)\]\([^)]*\)/, '\1').gsub(/[`*_]/, '')
+      plain.scan(/[A-Za-z]+(?:[ ,]+[A-Za-z]+){4,}/).max_by(&:length)
+    }
+    expect(phrases).to be_present
+
+    request = Rack::MockRequest.new(Capybara.app)
+    newest = Unpoly::Site.current.versions.first
+    texts = {
+      '/changes' => Nokogiri::HTML(request.get('/changes').body).text,
+      "/changes/#{newest}" => Nokogiri::HTML(request.get("/changes/#{newest}").body).text,
+      '/changes/external_post' => Nokogiri::HTML(request.get('/changes/external_post').body).text,
+      'releases.json' => request.get('/skills/unpoly-docs/references/changes/releases.json').body,
+    }
+
+    texts.each do |path, text|
+      text = text.dup.force_encoding('UTF-8').squish
+      phrases.each do |phrase|
+        expect(text).not_to include(phrase), "#{path} shows #{phrase.inspect} from the Unreleased section"
+      end
+    end
+  end
+
 end
