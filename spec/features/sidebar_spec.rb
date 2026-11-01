@@ -276,9 +276,9 @@ describe 'the sidebar menu', type: :feature, js: true do
 
 
   describe 'a long label' do
-    # Labels used to be cut off with an ellipsis; "Clicking non-interactive elements"
-    # was cut at most window widths. They wrap now, tighter within a label than between
-    # two rows, and the icon stays beside the first line.
+    # Labels used to be cut off with an ellipsis; long ones like "Enhancing elements with
+    # JavaScript" were cut at most window widths. They wrap now, tighter within a label
+    # than between two rows, and the icon stays beside the first line.
     it 'wraps instead of being cut off, with its icon centred on the first line' do
       visit '/learn/targeting-fragments'
       find('.guide--menu .node', text: 'Advanced rendering', match: :first)
@@ -287,7 +287,7 @@ describe 'the sidebar menu', type: :feature, js: true do
       label = page.evaluate_script(<<~JS)
         (function() {
           let rows = [...document.querySelectorAll('.guide--menu .node--self')]
-          let row = rows.find((row) => row.textContent.trim() === 'Clicking non-interactive elements')
+          let row = rows.find((row) => row.textContent.trim() === 'Enhancing elements with JavaScript')
           let title = row.querySelector('.node--title')
           let range = document.createRange()
           range.selectNodeContents(title)
