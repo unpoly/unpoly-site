@@ -8,8 +8,9 @@ module Unpoly
     #
     # The conversion is generic HTML → Markdown. What it needs to know about the site,
     # the templates say with semantics: real headings or [role=heading][aria-level],
-    # aria-label on links, <nav> for navigation, [data-markdown] for the rest. See the
-    # marker map in the contributing docs (docs/contributing/documentation.md in unpoly).
+    # aria-label on links, <nav> or [data-markdown-nav] for navigation, [data-markdown]
+    # for the rest. See the marker map in the contributing docs
+    # (docs/contributing/documentation.md in unpoly).
     #
     # The bar is "key information stays understandable for agents", not perfection.
     # Golden files in spec/fixtures/markdown make every change of the output reviewable.
@@ -38,7 +39,9 @@ module Unpoly
         'figure' => :figure,
         '[role="img"][aria-label]' => :labelled_image,
         'h1, h2, h3, h4, h5, h6, [role="heading"][aria-level]' => :heading,
-        'nav, [role="navigation"]' => :nav,
+        # Navigation that is no landmark for screen readers (a box of links inside the
+        # prose) says so with [data-markdown-nav="label"].
+        'nav, [role="navigation"], [data-markdown-nav]' => :nav,
         'pre' => :code_block,
         'blockquote' => :blockquote,
         'ul, ol' => :list,
@@ -179,7 +182,7 @@ module Unpoly
       # A <nav> stays a <nav> block, so readers and the skill's search can tell
       # navigation from content. Its links become a bullet list; headings inside stay.
       def nav(element)
-        label = element['aria-label'].presence || labelled_by(element)
+        label = element['aria-label'].presence || labelled_by(element) || element['data-markdown-nav'].presence
         items = nav_items(element)
         return '' if items.empty?
 

@@ -161,7 +161,7 @@ describe 'presentation', type: :feature, js: true do
     it 'is an outlined button like the Next link, unlike the links in the text' do
       visit '/learn/links'
 
-      expect(page).to have_css('nav.learn-refs.-more[data-pagefind-ignore] a.learn-ref[href="/learn/following-links"]', text: /\AMore:\s+Following links\z/)
+      expect(page).to have_css('div.learn-refs.-more[data-pagefind-ignore] a.learn-ref[href="/learn/following-links"]', text: /\AMore:\s+Following links\z/)
       expect(page).to have_css('.learn-ref > svg.learn-ref--icon.icon.-book', visible: :all)
 
       box = page.evaluate_script(BUTTON_JS, '.learn-refs.-more .learn-ref')
@@ -201,7 +201,7 @@ describe 'presentation', type: :feature, js: true do
     it 'is an outlined button per guide, labelled with its title, without the old stripe' do
       visit '/api/up-follow'
 
-      expect(page).to have_css('nav.learn-refs.-learn[aria-label="Guides"] a.learn-ref[href="/learn/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
+      expect(page).to have_css('div.learn-refs.-learn[data-markdown-nav="Guides"] a.learn-ref[href="/learn/following-links"]', text: /\ALearn:\s+Following links\z/, count: 1)
       expect(page).to have_css('a.learn-ref > .learn-ref--destination', text: 'Following links')
       expect(page.evaluate_script(BUTTON_JS, '.learn-ref').first).to eq('solid')
       expect(page.evaluate_script("getComputedStyle(document.querySelector('.learn-refs')).borderLeftStyle")).to eq('none')

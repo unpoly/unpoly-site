@@ -159,8 +159,8 @@ chapters and API modules. The `unpoly-docs` agent skill bundles the same pages a
   with `Unpoly::Site::HtmlToMarkdown`.
 - **The converter** is generic HTML → Markdown. It knows the site only through semantics
   in the templates: headings, `role="heading"`, `aria-label`, `<nav>`, and
-  `data-markdown="ignore"` / `data-markdown="chip"`. Prefer adding semantics to a template
-  over adding a rule. The markers are listed under
+  `data-markdown="ignore"` / `data-markdown="chip"` / `data-markdown-nav`. Prefer adding
+  semantics to a template over adding a rule. The markers are listed under
   [Markers in the templates](#markers-in-the-templates).
 - **Links** come from a resolver (`Unpoly::Site::MarkdownLinks`): absolute URLs on the
   web, relative file paths in the skill. A link goes to a `.md` URL only when its target
@@ -207,10 +207,12 @@ consumer:
 | `data-markdown="chip"` | read | indexed | – | `(title or text)` |
 | `<svg role="img">` with `<title>`/`<desc>` | reads them | – | – | `[Diagram: title](…)` and the description |
 | `<nav aria-label="…">` | a landmark | – | – | a literal `<nav>` block of links |
+| `data-markdown-nav="…"` | read | indexed | – | a literal `<nav aria-label="…">` block of links |
 
 `data-markdown="ignore"` drops chrome that only humans use, like the copy buttons or a
 breadcrumb. `data-markdown="chip"` writes a badge as a word in parentheses, preferring its
-`title`. Add a value only for a case these two can't express.
+`title`. `data-markdown-nav` names navigation that is no landmark, like the Learn boxes
+inside the prose. Add a value only for a case these can't express.
 
 
 ## Local development

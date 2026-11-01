@@ -74,7 +74,7 @@ describe Unpoly::Site::MarkdownRenderer do
     it 'renders a [[more: slug]] paragraph as a learn-ref box that Pagefind ignores' do
       title = Unpoly::Site.current.find_by_guide_id('polling').title
       html = render("Text.\n\n[[more: polling]]\n\nMore text.")
-      nav = Nokogiri::HTML.fragment(html).at_css('nav.learn-refs.-more')
+      nav = Nokogiri::HTML.fragment(html).at_css('div.learn-refs.-more')
 
       expect(nav).to have_attribute('data-pagefind-ignore')
       expect(nav.parent.name).not_to eq('p')

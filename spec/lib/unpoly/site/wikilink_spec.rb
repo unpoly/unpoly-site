@@ -50,9 +50,9 @@ describe Unpoly::Site::Wikilink do
         title = repository.find_by_guide_id('polling').title
 
         markdown = expand("Text.\n\n[[more: polling]]\n\nMore text.")
-        nav = Nokogiri::HTML.fragment(markdown).at_css('nav.learn-refs.-more[aria-label="Read more"][data-pagefind-ignore]')
+        nav = Nokogiri::HTML.fragment(markdown).at_css('div.learn-refs.-more[data-markdown-nav="Read more"][data-pagefind-ignore]')
 
-        expect(markdown).to start_with("Text.\n\n\n<nav ").and end_with("</nav>\n\n\nMore text.")
+        expect(markdown).to start_with("Text.\n\n\n<div ").and end_with("</div>\n\n\nMore text.")
         expect(nav.css('a.learn-ref').size).to eq(1)
         expect(nav.at_css('a.learn-ref')['href']).to eq('/learn/polling')
         expect(nav.css('a.learn-ref > *').map { |child| child[:class] })

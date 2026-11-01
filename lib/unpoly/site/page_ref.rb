@@ -31,33 +31,35 @@ module Unpoly
 
       # The boxes that lead to Learn pages, in two kinds: the learn-refs of a reference
       # page (`@learn-ref`, config.rb) and the box that closes a section of a chapter
-      # overview (`[[more: slug]]`, Wikilink). One nav holds one box per link:
+      # overview (`[[more: slug]]`, Wikilink). One div holds one box per link:
       #
-      #     <nav class="learn-refs -learn" aria-label="Guides" data-pagefind-ignore>
+      #     <div class="learn-refs -learn" data-markdown-nav="Guides" data-pagefind-ignore>
       #       <a class="learn-ref" href="/learn/forms">
       #         <svg class="icon -book learn-ref--icon" ...></svg>
       #         <span class="learn-ref--prefix">Learn:</span>
       #         <span class="learn-ref--destination">Forms</span>
       #       </a>
-      #     </nav>
+      #     </div>
       #
-      # Pagefind skips the nav: it only names other pages and would clutter search
-      # snippets. Styled by learn-refs.sass and learn-ref.sass.
+      # It is no <nav>: a landmark for a link or two inside the prose would only crowd a
+      # page's landmark list. The boxes only name other pages, though, so Pagefind skips
+      # them, and the Markdown twins still print them as a <nav> block (data-markdown-nav),
+      # which the skill's search skips. Styled by learn-refs.sass and learn-ref.sass.
       LEARN_REFS_KINDS = {
-        learn: { prefix: 'Learn:', aria_label: 'Guides' },
-        more: { prefix: 'More:', aria_label: 'Read more' },
+        learn: { prefix: 'Learn:', label: 'Guides' },
+        more: { prefix: 'More:', label: 'Read more' },
       }.freeze
 
       # links: pairs of path and destination label.
       def self.learn_refs_html(kind, links)
-        prefix, aria_label = LEARN_REFS_KINDS.fetch(kind).values_at(:prefix, :aria_label)
+        prefix, label = LEARN_REFS_KINDS.fetch(kind).values_at(:prefix, :label)
         refs = links.map do |path, destination|
           %(<a class="learn-ref" href="#{CGI.escapeHTML(path)}">) +
             Icon.html('book', class: 'learn-ref--icon') +
             %( <span class="learn-ref--prefix">#{prefix}</span>) +
             %( <span class="learn-ref--destination">#{CGI.escapeHTML(destination)}</span></a>)
         end
-        %(<nav class="learn-refs -#{kind}" aria-label="#{aria_label}" data-pagefind-ignore>#{refs.join}</nav>)
+        %(<div class="learn-refs -#{kind}" data-markdown-nav="#{label}" data-pagefind-ignore>#{refs.join}</div>)
       end
 
       def self.in_source(source)

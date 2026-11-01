@@ -214,6 +214,13 @@ describe Unpoly::Site::HtmlToMarkdown do
     end
   end
 
+  describe 'navigation that is no landmark' do
+    it 'prints a [data-markdown-nav] box as a <nav> block named by the attribute' do
+      html = '<p>Text.</p><div class="learn-refs" data-markdown-nav="Guides"><a href="/learn/a"><span>Learn:</span> <span>A</span></a><a href="/learn/b"><span>Learn:</span> <span>B</span></a></div>'
+      expect(convert(html)).to eq("Text.\n\n<nav aria-label=\"Guides\">\n\n- [Learn: A](https://unpoly.com/learn/a)\n- [Learn: B](https://unpoly.com/learn/b)\n\n</nav>\n")
+    end
+  end
+
   describe 'blockquotes' do
     it 'quotes the blocks of a blockquote (an admonition keeps its title as a paragraph)' do
       html = '<blockquote class="admonition -tip" role="note"><p class="admonition--title"><i class="fa fa-x" aria-hidden="true"></i>Tip</p><p>Do it.</p></blockquote>'
