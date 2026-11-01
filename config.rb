@@ -630,7 +630,7 @@ helpers do
     return @window_title if @window_title
 
     page_title = @page_title || current_page.data.title
-    return 'Unpoly - The missing application layer for HTML' if page_title.blank?
+    return 'Unpoly - Build a complete frontend in HTML' if page_title.blank?
 
     area = @documentable ? guide.toc.area_for(@documentable) : @area
     case area&.key

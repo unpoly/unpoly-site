@@ -45,7 +45,7 @@ describe 'window title', type: :feature do
   end
 
   it 'tells what Unpoly is on the landing page' do
-    expect(title_of('/')).to eq('Unpoly - The missing application layer for HTML')
+    expect(title_of('/')).to eq('Unpoly - Build a complete frontend in HTML')
   end
 
 end

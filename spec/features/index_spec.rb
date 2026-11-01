@@ -4,7 +4,7 @@ describe 'index', type: :feature, js: true do
   end
 
   it 'shows our claim' do
-    expect(page).to have_css('h1', text: 'The missing application layer for HTML')
+    expect(page).to have_css('h1', text: 'Build a complete frontend in HTML')
   end
 
   it 'marks the Unpoly attributes in the hero code, without stray empty marks' do
