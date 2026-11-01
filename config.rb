@@ -950,7 +950,7 @@ helpers do
   def kind_subtitle(documentable)
     label = h(documentable.long_kind)
     if documentable.kind?(:feature)
-      label = icon("kind-#{documentable.short_kind.downcase}", class: 'subtitle--icon') + label
+      label = icon(documentable.glyph, class: 'subtitle--icon') + label
       modifier = ' -kind'
     end
     %(<p class="subtitle#{modifier}" data-pagefind-ignore data-markdown="ignore">#{label}</p>)

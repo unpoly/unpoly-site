@@ -147,6 +147,12 @@ module Unpoly
         end
       end
 
+      # The glyph of the kind (Icon::SVG): on the kind's tile in a namespace's feature list,
+      # beside the page's subtitle, on its preview image.
+      def glyph
+        "kind-#{short_kind.downcase}"
+      end
+
       def long_kind
         case kind
         when 'selector'

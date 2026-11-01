@@ -13,6 +13,13 @@ describe Unpoly::Site::Icon do
     expect(described_class.html('markdown', label: 'Markdown')).to include('role="img" aria-label="Markdown" title="Markdown"')
   end
 
+  it 'draws the glyphs of the Learn, API and Changes areas in the stroke of the kind glyphs' do
+    stroke = '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+    %w[book package tag].each do |name|
+      expect(described_class::SVG.fetch(name)).to include(view_box: '0 0 24 24', body: start_with(stroke))
+    end
+  end
+
   it 'escapes the label' do
     expect(described_class.html('x', label: '"<b>"')).to include('aria-label="&quot;&lt;b&gt;&quot;"')
   end

@@ -31,9 +31,10 @@ module Unpoly
         # would not match the outlines. Some are scaled down so they look as large as
         # the rest, with a thicker stroke so they keep its weight.
         #
-        # "book" and "package" are drawn the same way and sit beside the kinds: a guide
-        # page and a namespace or class in the search results (_search_dialog.html.erb), a
-        # guide page in the sidebar (menu.coffee), a namespace on the /api hub.
+        # "book", "package" and "tag" are drawn the same way and sit beside the kinds: a
+        # guide page and a namespace or class in the search results (_search_dialog.html.erb),
+        # a guide page in the sidebar (menu.coffee), a namespace on the /api hub. They also
+        # stand for the Learn, API and Changes areas on a page's preview image (OgImage).
         {
           'html' => '<polyline points="17.5 17 22.5 12 17.5 7"/><polyline points="6.5 7 1.5 12 6.5 17"/><line x1="14.5" y1="4" x2="9.5" y2="20"/>',
           'attr' => '<polyline points="17.5 17 22.5 12 17.5 7"/><polyline points="6.5 7 1.5 12 6.5 17"/><line x1="14.5" y1="4" x2="9.5" y2="20"/>',
@@ -46,8 +47,9 @@ module Unpoly
           'cookie' => '<g transform="translate(12 12) scale(0.88) translate(-12 -12)" stroke-width="2.27"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></g>',
           'package' => '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/>',
           'book' => '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+          'tag' => '<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1"/>',
         }.to_h { |kind, paths|
-          [%w[package book].include?(kind) ? kind : "kind-#{kind}", {
+          [%w[package book tag].include?(kind) ? kind : "kind-#{kind}", {
             view_box: '0 0 24 24',
             body: %(<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">#{paths}</g>),
           }]

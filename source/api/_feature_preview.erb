@@ -5,7 +5,7 @@
     <a href="<%= feature.guide_path %>" class="documentable-preview--signature"><%= h(feature.signature) %></a>
     <%# A screen reader says the long kind, as does the Markdown twin (from the title). %>
     <span class="documentable-preview--kind -<%= feature.short_kind.downcase %>" role="img" aria-label="<%= feature.long_kind %>" title="<%= feature.long_kind %>" data-markdown="chip">
-      <%= icon("kind-#{feature.short_kind.downcase}") %>
+      <%= icon(feature.glyph) %>
       <span class="documentable-preview--kind-label"><%= feature.short_kind %></span>
     </span>
     <% unless feature.stable? %>
