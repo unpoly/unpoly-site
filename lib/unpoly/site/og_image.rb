@@ -23,6 +23,7 @@ module Unpoly
     # - An API symbol shows its kind's glyph and name ("JavaScript function").
     # - Any other page shows its area's glyph and name ("Learn Unpoly"), if it has one
     #   (AREAS). The landing page and /support have none.
+    # - A name that the title already says is left out, the glyph is not (the hubs).
     # - The URL is the page's breadcrumb parent: the last step of its trail (Trail), else
     #   the page itself. A parent's name is short, so the URL never runs out of room.
     #
@@ -74,7 +75,8 @@ module Unpoly
             code: !!symbol,
             text: @text,
             glyph: glyph && Icon.html(glyph),
-            label: label,
+            # Not twice: a hub's title is its area's name ("Learn Unpoly").
+            label: (label unless label == @title),
             url: "#{Site.base_url.sub(%r{\A\w+://}, '')}#{footer_path}".chomp('/'),
           }
         end

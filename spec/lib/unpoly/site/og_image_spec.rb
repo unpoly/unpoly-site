@@ -36,6 +36,12 @@ describe Unpoly::Site::OgImage do
       expect(image('/changes/upgrading', page: :upgrading).data).to include(glyph: glyph('tag'), label: 'Changes')
     end
 
+    it 'leaves out a name that the title already says, but keeps the glyph' do
+      expect(image('/learn', title: 'Learn Unpoly', page: :learn).data).to include(glyph: glyph('book'), label: nil)
+      expect(image('/api', title: 'API reference', page: :api).data).to include(glyph: glyph('package'), label: nil)
+      expect(image('/changes', title: 'Changes', page: :changes).data).to include(glyph: glyph('tag'), label: nil)
+    end
+
     it 'shows no glyph and no name for a page outside the three areas' do
       expect(image('/support', page: :support).data).to include(glyph: nil, label: nil)
       expect(image('/').data).to include(glyph: nil, label: nil)
