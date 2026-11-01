@@ -128,6 +128,13 @@ Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"
   Header set Cache-Control "max-age=86400, public"
 </If>
 
+# Pagefind's scripts and styles keep their names across Pagefind upgrades, so they get a
+# short cache. Only these: its index files must stay at max-age=0, or a browser could
+# request index chunks that the next deploy has removed.
+<If "%{REQUEST_URI} =~ m#^/pagefind/.*\.(css|js)$#">
+  Header set Cache-Control "max-age=14400, public"
+</If>
+
 # Exclude crawlers from hostnames like:
 # - v1.unpoly.com
 # - v2.unpoly.com
