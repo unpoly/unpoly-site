@@ -2,8 +2,9 @@
 <!--
   The preview image of a page (OgImage), the "c2" design: the Unpoly logo, the page's
   title and the second line, and a footer with the glyph and label of the page's kind or
-  area and a URL. OgImage::Renderer loads this page once into a 1200×630 window, inserts
-  the logo, then calls fill() and takes a screenshot for every image.
+  area and a URL. OgImage::Renderer loads this page once into a window of the image's size
+  (OgImage::WIDTH and HEIGHT), inserts the logo, then calls fill() and takes a screenshot
+  for every image.
 
   The fonts live next to this file, so that an image does not depend on the fonts installed
   on the machine that builds the site. Changing any file in this directory or below it
@@ -21,9 +22,11 @@
 
   body { margin: 0 }
 
+  /* As large as the window, which has the image's size. The background is the header
+     bar's $indigo-800 (source/stylesheets/_tokens.sass). */
   .card {
-    width: 1200px;
-    height: 630px;
+    width: 100vw;
+    height: 100vh;
     box-sizing: border-box;
     padding: 64px 88px 56px;
     background: hsl(233, 24%, 33%);
