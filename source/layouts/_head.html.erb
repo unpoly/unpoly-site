@@ -5,9 +5,11 @@
       in Chrome's origin-trial console with the next Chrome release. %>
   <meta http-equiv="origin-trial" content="AnnBDPgWwhd/+SgXXmezJTK7A78NKa4S/saPZ3tpDMRRfGAcuKB5TRi4ThrZm+UUMCbK2UiN5V9LJMgr4FshUwkAAABKeyJvcmlnaW4iOiJodHRwczovL3VucG9seS5jb206NDQzIiwiZmVhdHVyZSI6IldlYk1DUCIsImV4cGlyeSI6MTgwNjM2NDgwMH0=">
   <title><%= window_title %></title>
-  <%# A request to search engines to not list this page (indexable? in config.rb).
-      Unpoly swaps it on navigation, like every meta tag. %>
-  <% unless indexable? %>
+  <%# The one URL search engines should list this page under, or a request to not list it
+      at all (indexable? in config.rb). Unpoly swaps both on navigation. %>
+  <% if indexable? %>
+    <% head_link(rel: 'canonical', href: canonical_url) %>
+  <% else %>
     <meta name="robots" content="noindex, follow">
   <% end %>
   <%= head_links_html %>

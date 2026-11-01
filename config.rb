@@ -427,8 +427,9 @@ helpers do
 
   # ---------- Search engines ----------
 
-  # Whether search engines may list a page. A page that may not gets
-  # <meta name="robots" content="noindex, follow"> (layouts/_head).
+  # Whether search engines may list a page. A page that may gets a canonical link
+  # (layouts/_head); a page that may not gets
+  # <meta name="robots" content="noindex, follow"> instead.
   #
   # A page is listed when it is an HTML template in the site's layout and does not say
   # `noindex: true` in its data: in its front matter (the menus that the sidebar and
@@ -441,6 +442,15 @@ helpers do
       resource.template? && # Middleman lays out templates only
       resource.options[:layout] == 'guide' &&
       !resource.data[:noindex]
+  end
+
+  # The one URL a search engine should list a page under: on the production origin
+  # (Unpoly::Site.base_url, also in the preview), and without the trailing slash of a
+  # directory index (the .htaccess redirects /foo/ to /foo). The landing page's is
+  # "https://unpoly.com/".
+  def canonical_url(resource = current_page)
+    path = resource.url.chomp('/').presence || '/'
+    "#{Unpoly::Site.base_url}#{path}"
   end
 
   # The links of the reading nav (_reading_nav), which also become the head's
