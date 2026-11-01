@@ -143,6 +143,12 @@ page '/*.html', layout: 'guide'
 sprockets.append_path File.expand_path('vendor/asset-libs')
 sprockets.append_path File.expand_path('vendor/unpoly-local/dist')
 
+# Sprockets bundles all scripts into guide.js and all stylesheets into guide/all.css.
+# Without these, Middleman would also build every source file on its own
+# (javascripts/components/menu, stylesheets/guide/blocks/title), which nothing links.
+ignore %r{\Ajavascripts/(?!guide\.js\z)}
+ignore %r{\Astylesheets/(?!guide/all\.css\z)}
+
 page '/.htaccess', directory_index: false
 
 # The Markdown twins (/api/up.render.md) and the skill's files. The preview serves them
