@@ -40,6 +40,7 @@ require_relative 'site/markdown_twins'
 require_relative 'site/agent_index'
 require_relative 'site/skill'
 require_relative 'site/skill_package'
+require_relative 'site/chromedriver'
 require_relative 'site/og_image'
 
 module Unpoly

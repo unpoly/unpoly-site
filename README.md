@@ -228,6 +228,15 @@ That's because the symlink `vendor/unpoly-local` — committed in this repo — 
 `../unpoly`, and everything is read through it: the documentation content, and the Unpoly
 build in `unpoly/dist` that the site uses for its own frontend.
 
+The feature specs and the build's preview images drive Chrome, so install **Chrome and a
+chromedriver of the same major version**. Nothing downloads them for you:
+
+- Get the driver for your Chrome version from
+  [Chrome for Testing](https://googlechromelabs.github.io/chrome-for-testing/) and put it
+  into `~/bin/chromedriver`, which is used before any `chromedriver` on the `PATH`.
+- When Chrome updates, update the driver too. A missing or mismatched driver fails with a
+  message that names both versions (`Unpoly::Site::Chromedriver`).
+
 ### Recommended: boot the dev environment in `unpoly`
 
 Best when you are writing documentation, and still fine when you are working on the site.
@@ -334,9 +343,9 @@ with fonts vendored next to the template.
 - Rendered images are cached in `tmp/og-cache`. A build renders only new or changed images
   (all of them, about a minute, after a template change or on a new machine), and does not
   start Chrome when nothing changed. Images no build used for 30 days are deleted.
-- A build needs Chrome and a matching chromedriver on the `PATH`, and fails without
-  them rather than download them. `SKIP_OG_IMAGES=1` builds without images and leaves
-  out the `og:image` tags, so no page names a missing image.
+- A build needs Chrome and a matching chromedriver (see *Local development*), and fails
+  without them rather than download them. `SKIP_OG_IMAGES=1` builds without images and
+  leaves out the `og:image` tags, so no page names a missing image.
 - The preview server serves the images of the last build.
 
 ## Deployment

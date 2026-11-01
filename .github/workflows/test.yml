@@ -62,7 +62,8 @@ jobs:
         working-directory: unpoly
 
       # Chrome and chromedriver for the `js: true` feature specs are preinstalled
-      # on the runner image.
+      # on the runner image, which links the driver into /usr/bin. The specs find it
+      # through the PATH (Unpoly::Site::Chromedriver) and never download one.
       - name: Run tests
         run: bundle exec rspec
 

@@ -4,13 +4,15 @@ require 'capybara/rspec'
 # In the Gemfile's build group, which renders the preview images with it.
 require 'selenium-webdriver'
 
+# Every driver below starts the chromedriver that Unpoly::Site::Chromedriver finds, so
+# that Selenium Manager never downloads a Chrome or chromedriver.
 def register_chrome_driver(name, width:, height:)
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless=new') unless ENV.key?('NO_HEADLESS')
     options.add_argument('--disable-infobars')
     options.add_emulation(device_metrics: { width: width, height: height, touch: false })
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options, service: Unpoly::Site::Chromedriver.service)
   end
 end
 
@@ -46,7 +48,7 @@ Capybara.register_driver :selenium_scrollbars do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--headless=new') unless ENV.key?('NO_HEADLESS')
   options.add_argument('--window-size=1300,960')
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options, service: Unpoly::Site::Chromedriver.service)
 end
 
 Selenium::WebDriver.logger.level = :error

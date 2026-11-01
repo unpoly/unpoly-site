@@ -29,6 +29,7 @@ require 'optparse'
 require 'json'
 require 'fileutils'
 require 'selenium-webdriver'
+require_relative '../lib/unpoly/site/chromedriver'
 
 module Shoot
 
@@ -130,7 +131,7 @@ module Shoot
       options.add_argument('--hide-scrollbars')
       height = width < 600 ? 800 : 900
       options.add_emulation(device_metrics: { width: width, height: height, touch: false, deviceScaleFactor: 1 })
-      @driver = Selenium::WebDriver.for(:chrome, options: options)
+      @driver = Selenium::WebDriver.for(:chrome, options: options, service: Unpoly::Site::Chromedriver.service)
       @driver.manage.timeouts.script_timeout = 30
       @probes = {}
     end

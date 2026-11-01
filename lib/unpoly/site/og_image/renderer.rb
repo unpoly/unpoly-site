@@ -5,7 +5,7 @@ module Unpoly
     class OgImage
       # Renders preview images in one headless Chrome: loads the template once, then fills
       # it with each image's data and takes a screenshot. The specs' Chrome and
-      # chromedriver do the work (selenium-webdriver).
+      # chromedriver do the work (selenium-webdriver, Chromedriver).
       #
       #   OgImage::Renderer.open { |renderer| File.binwrite('a.png', renderer.render(image.data)) }
       class Renderer
@@ -24,17 +24,13 @@ module Unpoly
           options.add_argument('--force-color-profile=srgb')
           # The template loads its fonts from next to itself.
           options.add_argument('--allow-file-access-from-files')
+          # Raises a Chromedriver::Error that says what to install.
+          service = Chromedriver.service
           begin
-            # Without a path, Selenium Manager would download a Chrome or chromedriver it does
-            # not find, or that does not match. A build installs nothing: it starts the
-            # chromedriver on the PATH, which starts the installed Chrome.
-            path = ENV['PATH'].split(File::PATH_SEPARATOR).map { |dir| File.join(dir, 'chromedriver') }.find { |file| File.executable?(file) } or
-              raise 'no chromedriver on the PATH'
-            service = Selenium::WebDriver::Service.chrome(path: path)
             @driver = Selenium::WebDriver.for(:chrome, options: options, service: service)
           rescue StandardError => e
-            raise Error, "Rendering preview images needs Chrome and chromedriver (#{e.class}: #{e.message.lines.first&.strip}). " \
-              'Install them, or build without preview images: SKIP_OG_IMAGES=1.'
+            raise Error, "Chrome did not start for the preview images (#{e.class}: #{e.message.lines.first&.strip}). " \
+              'Build without preview images: SKIP_OG_IMAGES=1.'
           end
           @driver.execute_cdp('Emulation.setDeviceMetricsOverride', width: WIDTH, height: HEIGHT, deviceScaleFactor: 1, mobile: false)
           @driver.navigate.to("file://#{TEMPLATE}")
