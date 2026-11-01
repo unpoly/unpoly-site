@@ -1,11 +1,15 @@
 @import ../../environment
 
-// A quotation set off from the band's text, its attribution below.
+// A quotation set off from the band's text: a <figure> with the <blockquote> and,
+// outside the quotation, its attribution as the <figcaption>.
 .landing-quote
   border-left: 3px solid $indigo-800
   margin: $space-6 0
   padding-left: $space-4
   max-width: 34em
+
+  blockquote
+    margin: 0
 
   p
     +type($text-lg, $leading-ui)
@@ -13,7 +17,9 @@
     color: $indigo-800
     margin-bottom: $space-2
 
-  cite
-    font-style: normal
+  // Inline, like the <cite> it replaces: its line keeps the figure's taller line
+  // height, and with it the space under the quotation.
+  figcaption
+    display: inline
     font-size: $text-sm
     color: $gray-600

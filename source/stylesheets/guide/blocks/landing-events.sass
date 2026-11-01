@@ -1,7 +1,8 @@
 @import ../../environment
 
-// Events, grouped by what they are about. Each category is a solid label; its events
-// are words that link to the reference and show the event's name as a tooltip.
+// Events, grouped by what they are about: a <dl> with a group per category. Each
+// category is a solid label (<dt>); its events (<dd>) are words that link to the
+// reference and show the event's name as a tooltip.
 $events-stack-below: 500px
 
 .landing-events
@@ -13,6 +14,10 @@ $events-stack-below: 500px
 
   +narrower_than($events-stack-below)
     grid-template-columns: 1fr
+
+// A category and its events. Each is a cell of the shared grid.
+.landing-events--group
+  display: contents
 
 .landing-events--category
   padding: 5px $space-3

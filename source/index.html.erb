@@ -149,7 +149,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <p>Along the way, Unpoly emits the <b>events</b> you wish the platform had:</p>
 
       <%# Each word links to its event, whose name shows as a tooltip. %>
-      <div class="landing-events">
+      <dl class="landing-events">
         <% [
           ['link', 'Link', 'clicked' => 'up:click', 'following' => 'up:link:follow', 'preloading' => 'up:link:preload', 'lazy-loading' => 'up:deferred:load'],
           ['form', 'Form', 'submitting' => 'up:form:submit', 'validating' => 'up:form:validate', 'switching fields' => 'up:form:switch'],
@@ -158,14 +158,16 @@ up.submit('#invite-form', { params: { email } })</code></pre>
           ['request', 'Request', 'slow' => 'up:network:late', 'aborted' => 'up:request:aborted', 'offline' => 'up:request:offline', 'recovered' => 'up:network:recover'],
           ['history', 'History', 'URL changed' => 'up:location:changed', 'going back' => 'up:location:restore'],
         ].each do |modifier, category, events| %>
-          <span class="landing-events--category -<%= modifier %>"><%= category %></span>
-          <div class="landing-events--tags">
-            <% events.each do |label, event| %>
-              <a href="<%= doc_path(event) %>" data-event="<%= event %>" aria-label="<%= label %> (<%= event %>)"><%= label %></a>
-            <% end %>
+          <div class="landing-events--group">
+            <dt class="landing-events--category -<%= modifier %>"><%= category %></dt>
+            <dd class="landing-events--tags">
+              <% events.each do |label, event| %>
+                <a href="<%= doc_path(event) %>" data-event="<%= event %>" aria-label="<%= label %> (<%= event %>)"><%= label %></a>
+              <% end %>
+            </dd>
           </div>
         <% end %>
-      </div>
+      </dl>
 
       <p>And your own JavaScript plugs in through <b>compilers</b>. Here a Google Map gets its center from the server:</p>
 
@@ -191,10 +193,12 @@ up.submit('#invite-form', { params: { email } })</code></pre>
          A link still navigates and a form still submits.
          Unpoly works like a polyfill for the application features HTML never got.</p>
 
-      <blockquote class="landing-quote">
-        <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
-        <cite>— Carson Gross, creator of <%= hyperlink 'htmx', 'https://htmx.org/', target: '_blank', class: '-gray' %></cite>
-      </blockquote>
+      <figure class="landing-quote">
+        <blockquote>
+          <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
+        </blockquote>
+        <figcaption>— Carson Gross, creator of <%= hyperlink 'htmx', 'https://htmx.org/', target: '_blank', class: '-gray' %></figcaption>
+      </figure>
 
       <p>Everything that already understands HTML keeps understanding your app:
          search engines index the HTML your server sends, agents read your content without executing JavaScript,
@@ -232,11 +236,13 @@ up.submit('#invite-form', { params: { email } })</code></pre>
 
       <p>There are two philosophies for building hypermedia-driven applications. htmx states its own beautifully:</p>
 
-      <blockquote class="landing-quote">
-        <p>“Why should only <code>&lt;a&gt;</code> &amp; <code>&lt;form&gt;</code> be able to make HTTP requests?
-           Why should only <code>click</code> &amp; <code>submit</code> events trigger them?”</p>
-        <cite>— <%= hyperlink 'htmx.org', 'https://htmx.org/', target: '_blank', class: '-gray' %>, on its motivation</cite>
-      </blockquote>
+      <figure class="landing-quote">
+        <blockquote>
+          <p>“Why should only <code>&lt;a&gt;</code> &amp; <code>&lt;form&gt;</code> be able to make HTTP requests?
+             Why should only <code>click</code> &amp; <code>submit</code> events trigger them?”</p>
+        </blockquote>
+        <figcaption>— <%= hyperlink 'htmx.org', 'https://htmx.org/', target: '_blank', class: '-gray' %>, on its motivation</figcaption>
+      </figure>
 
       <p>Unpoly makes the opposite bet: the elements HTML already gave us are the right ones to make requests,
          because the whole web already knows what they mean. So instead of generalizing requests to any element,

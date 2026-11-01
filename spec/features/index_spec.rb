@@ -30,6 +30,33 @@ describe 'index', type: :feature, js: true do
     end
   end
 
+  it 'lists the events as a description list, each category a term with its events' do
+    groups = page.evaluate_script(<<~JS)
+      [...document.querySelectorAll('dl.landing-events > div')].map((group) => [
+        [...group.children].map((child) => child.tagName),
+        group.querySelector('dt').textContent.trim(),
+        [...group.querySelectorAll('dd a')].map((link) => link.textContent.trim()),
+      ])
+    JS
+
+    expect(groups.size).to eq(6)
+    groups.each { |tags, _, _| expect(tags).to eq(%w[DT DD]) }
+    expect(groups.first).to eq([%w[DT DD], 'Link', %w[clicked following preloading lazy-loading]])
+    expect(groups.last).to eq([%w[DT DD], 'History', ['URL changed', 'going back']])
+  end
+
+  it 'sets each quotation in a figure, with the attribution outside the blockquote' do
+    quotes = all('figure.landing-quote')
+
+    expect(quotes.size).to eq(2)
+    expect(quotes.first).to have_css('blockquote', text: 'best-in-class progressive enhancement')
+    expect(quotes.first).to have_css('blockquote + figcaption', text: 'Carson Gross, creator of htmx')
+    quotes.each do |quote|
+      expect(quote).to have_no_css('blockquote figcaption, blockquote cite, cite')
+    end
+    expect(quotes.last).to have_css('figcaption', text: 'htmx.org, on its motivation')
+  end
+
   it 'turns the chip comment in the compiler example into a chip' do
     expect(page).to have_css('.landing--pair .code-chip', text: 'Map will appear here')
   end
