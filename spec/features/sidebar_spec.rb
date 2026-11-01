@@ -188,13 +188,33 @@ describe 'the sidebar menu', type: :feature, js: true do
     visit '/api/up.render'
     wait_for_menu('/api/menu')
 
-    toggle = find('.guide--menu button.node--toggle[aria-label="Expand up.form"]')
+    toggle = find('.guide--menu button.node--toggle[aria-label="Contents of up.form"]')
     expect(toggle[:'aria-expanded']).to eq('false')
 
     toggle.send_keys(:enter)
 
-    expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Expand up.form"][aria-expanded="true"]')
+    expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Contents of up.form"][aria-expanded="true"]')
     within('.guide--menu') { expect(page).to have_link('up.submit()') }
+  end
+
+  it 'is a navigation of nested lists, so screen readers can tell a node’s depth and siblings' do
+    visit '/api/up-submit'
+    wait_for_menu('/api/menu')
+
+    expect(page).to have_css('.guide--menu nav.menu[aria-label="API reference"] > ul.menu--nodes > li.node')
+    expect(page).to have_css('.guide--menu .menu--nodes > li.node.-expanded > ul.node--children > li.node.-group > ul.node--children > li.node > a.node--self', text: '[up-submit]')
+    # A group (HTML, Events, JavaScript) is a list item of its module, with its features
+    # in a list of its own, but its features are not indented below it.
+    lefts = page.evaluate_script(<<~JS)
+      (function() {
+        let group = document.querySelector('.guide--menu .node.-expanded > .node--children > .node.-group')
+        let feature = group.querySelector(':scope > .node--children > .node > .node--self')
+        return [group.getBoundingClientRect().left, feature.getBoundingClientRect().left]
+      })()
+    JS
+    expect(lefts[0]).to eq(lefts[1])
+    # A node without children has no empty list.
+    expect(page).to have_no_css('.guide--menu ul.node--children:empty', visible: :all)
   end
 
   describe 'clicking a node’s icon' do
@@ -234,7 +254,7 @@ describe 'the sidebar menu', type: :feature, js: true do
 
       click_icon_corner(find('.guide--menu a.node--self[href="/learn/links"] .node--collapser'))
 
-      expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Expand Links"][aria-expanded="true"]')
+      expect(page).to have_css('.guide--menu button.node--toggle[aria-label="Contents of Links"][aria-expanded="true"]')
       expect(page).to have_current_path('/learn/targeting-fragments')
     end
 
@@ -251,7 +271,7 @@ describe 'the sidebar menu', type: :feature, js: true do
 
       click_icon_corner(find('up-drawer a.node--self[href="/learn"] .node--collapser'))
 
-      expect(page).to have_css('up-drawer button.node--toggle[aria-label="Expand Learn"][aria-expanded="true"]')
+      expect(page).to have_css('up-drawer button.node--toggle[aria-label="Contents of Learn"][aria-expanded="true"]')
       expect(page).to have_current_path('/support')
     end
 
@@ -402,7 +422,7 @@ describe 'the sidebar menu', type: :feature, js: true do
   # lists it as the chapter's first row, so the reader sees where they are on it.
   describe 'the overview row of a chapter' do
     def current_rows
-      page.evaluate_script("[...document.querySelectorAll('.guide--menu .node > .node > a.node--self.up-current')].map((link) => link.textContent.trim())")
+      page.evaluate_script("[...document.querySelectorAll('.guide--menu .node--children > .node > a.node--self.up-current')].map((link) => link.textContent.trim())")
     end
 
     it 'leads every chapter of Learn, named by the overview’s menu title' do
@@ -414,7 +434,7 @@ describe 'the sidebar menu', type: :feature, js: true do
         first = page.evaluate_script(<<~JS, topic.menu_path)
           (function(path) {
             let chapter = [...document.querySelectorAll('.guide--menu .menu--nodes > .node')].find((node) => node.querySelector(':scope > a.node--self').getAttribute('href') === path)
-            let link = chapter.querySelector(':scope > .node > a.node--self')
+            let link = chapter.querySelector(':scope > .node--children > .node > a.node--self')
             return [link.getAttribute('href'), link.textContent.trim()]
           })(arguments[0])
         JS
@@ -430,12 +450,12 @@ describe 'the sidebar menu', type: :feature, js: true do
 
       find('.guide--menu a[href="/learn/following-links"]').click
       expect(page).to have_current_path('/learn/following-links')
-      expect(page).to have_css('.guide--menu .node > .node > a.up-current', text: 'Following links')
+      expect(page).to have_css('.guide--menu .node--children > .node > a.up-current', text: 'Following links')
       expect(current_rows).to eq(['Following links'])
 
-      find('.guide--menu .node > .node > a.node--self', text: 'Overview').click
+      find('.guide--menu .node--children > .node > a.node--self', text: 'Overview').click
       expect(page).to have_current_path('/learn/links')
-      expect(page).to have_css('.guide--menu .node > .node > a.up-current', text: 'Overview')
+      expect(page).to have_css('.guide--menu .node--children > .node > a.up-current', text: 'Overview')
       expect(current_rows).to eq(['Overview'])
     end
   end

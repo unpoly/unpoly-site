@@ -20,31 +20,35 @@ noindex: true
   uses.
 %>
 <% menu(label: 'Sections', nav_layer: 'root') do %>
-  <div class="menu--nodes">
+  <ul class="menu--nodes">
     <% site_sections.each do |section| %>
       <% area = { '/learn' => guide.toc.learn, '/api' => guide.toc.api }[section[:href]] %>
 
-      <div class="node">
+      <li class="node">
         <%= node_link section[:label], section[:href], target: section[:target], 'up-alias': section[:alias] %>
 
         <% if area %>
-          <% area.topics.each do |topic| %>
-            <div class="node <%= topic.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
-              <%= node_link topic.menu_title, topic.menu_path, 'up-alias': topic.pages.map(&:guide_path).join(' ').presence %>
-            </div>
-          <% end %>
+          <ul class="node--children">
+            <% area.topics.each do |topic| %>
+              <li class="node <%= topic.menu_modifiers.map { |modifier| "-#{modifier}" }.join(' ') %>">
+                <%= node_link topic.menu_title, topic.menu_path, 'up-alias': topic.pages.map(&:guide_path).join(' ').presence %>
+              </li>
+            <% end %>
+          </ul>
         <% end %>
-      </div>
+      </li>
     <% end %>
 
-    <div class="node">
+    <li class="node">
       <button type="button" class="node--self"><span class="node--title">Older versions</span></button>
 
-      <% older_versions.each do |label, href| %>
-        <div class="node">
-          <%= node_link label, href, 'up-follow': 'false' %>
-        </div>
-      <% end %>
-    </div>
-  </div>
+      <ul class="node--children">
+        <% older_versions.each do |label, href| %>
+          <li class="node">
+            <%= node_link label, href, 'up-follow': 'false' %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
 <% end %>

@@ -24,7 +24,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
         title: node.querySelector(':scope > .node--self .node--title').textContent.trim(),
         href: node.querySelector(':scope > .node--self').getAttribute('href'),
         expanded: node.matches('.-expanded'),
-        children: [...node.querySelectorAll(':scope > .node')].map((child) => ({
+        children: [...node.querySelectorAll(':scope > .node--children > .node')].map((child) => ({
           title: child.querySelector('.node--title').textContent.trim(),
           href: child.querySelector('.node--self').getAttribute('href'),
           grandchildren: child.querySelectorAll('.node').length,
@@ -126,7 +126,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     it 'opens Learn and reaches its first chapter' do
       open_drawer_on '/support'
 
-      tab_to { |tag, label| tag == 'BUTTON' && label == 'Expand Learn' }
+      tab_to { |tag, label| tag == 'BUTTON' && label == 'Contents of Learn' }
       page.send_keys(:space)
 
       expect(row('Learn')['expanded']).to be(true)

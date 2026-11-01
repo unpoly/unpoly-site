@@ -15,13 +15,21 @@ $label-leading: 1.2
   +font-size($text-md + 1px, 4px)
   font-weight: bold
 
-.node > .node
+// A node's children are a list of their own (<ul class="node--children">), hidden
+// until the node is expanded. A group's children are not indented: the group only
+// puts a heading among its parent's children.
+.node--children
   display: none
+
+.node.-expanded > .node--children
+  display: block
+
+.node--children > .node
   +font-size($text-md, 3.5px)
   font-weight: normal
   margin-bottom: 0
 
-.node:not(.-group) > .node
+.node:not(.-group) > .node--children
   margin-left: 20px
 
 .node.-group
@@ -60,9 +68,6 @@ $label-leading: 1.2
   //  margin-top: 4px
 
 
-.node.-expanded > .node
-  display: block
-
 .node--self
   color: $gray-600
   display: flex
@@ -98,7 +103,7 @@ a.node--self
   +hover
     color: $color-hover
 
-  .node > .node &,
+  .node--children &,
   .node:not(:has(.node)) &
     +highlighted
       background-color: var(--node-color)

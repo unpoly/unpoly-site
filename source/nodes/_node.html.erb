@@ -4,7 +4,7 @@
   what every node can answer.
 %>
 <%# overview: whether this node is its chapter's overview (Topic#menu_overview). %>
-<div class="node <%= (node.menu_modifiers + (defined?(overview) && overview ? ['overview'] : [])).map { |modifier| "-#{modifier}" }.join(' ') %>">
+<li class="node <%= (node.menu_modifiers + (defined?(overview) && overview ? ['overview'] : [])).map { |modifier| "-#{modifier}" }.join(' ') %>">
   <% if node.menu_path %>
     <% node_link node.menu_path do %>
       <span class="node--title"><%= breakable_signature(node.menu_title) %></span>
@@ -25,11 +25,16 @@
     </span>
   <% end %>
 
-  <% if node.try(:menu_overview) %>
-    <%= partial 'nodes/node', locals: { node: node.menu_overview, overview: true } %>
-  <% end %>
+  <% overview_node = node.try(:menu_overview) %>
+  <% if overview_node || node.menu_children.any? %>
+    <ul class="node--children">
+      <% if overview_node %>
+        <%= partial 'nodes/node', locals: { node: overview_node, overview: true } %>
+      <% end %>
 
-  <% node.menu_children.each do |child| %>
-    <%= partial 'nodes/node', locals: { node: child } %>
+      <% node.menu_children.each do |child| %>
+        <%= partial 'nodes/node', locals: { node: child } %>
+      <% end %>
+    </ul>
   <% end %>
-</div>
+</li>

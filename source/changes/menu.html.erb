@@ -6,17 +6,17 @@ noindex: true
 <% menu(label: 'Changes') do %>
   <div class="menu--title">Changes</div>
 
-  <div class="menu--nodes">
-    <div class="node">
+  <ul class="menu--nodes">
+    <li class="node">
       <%= node_link "Overview", "/changes" %>
-    </div>
+    </li>
 
-    <div class="node">
+    <li class="node">
       <%= node_link "Upgrading", "/changes/upgrading" %>
-    </div>
+    </li>
 
     <% guide.releases_by_version.reverse_each do |release| %>
-      <div class="node">
+      <li class="node">
         <% node_link "/changes/#{release.version}" do %>
           <span class="node--title">
             Version <%= release.version %>
@@ -32,7 +32,7 @@ noindex: true
           <% end %>
 
         <% end %>
-      </div>
+      </li>
     <% end %>
-  </div>
+  </ul>
 <% end %>

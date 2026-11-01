@@ -42,7 +42,7 @@ describe 'a loose Learn page', type: :feature, js: true do
 
     expect(page).to have_css('up-drawer .menu--nodes > .node > .node--self.up-current', text: 'Learn')
     expect(page).to have_css('up-drawer .node .node--self', text: 'Links')
-    expect(page).to have_no_css('up-drawer .menu--nodes > .node > .node .node--self.up-current')
+    expect(page).to have_no_css('up-drawer .menu--nodes > .node > .node--children .node--self.up-current')
   end
 
 end

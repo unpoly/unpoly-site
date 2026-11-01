@@ -11,7 +11,9 @@ class Node
 
   constructor: (@element, @parentNode) ->
     @self = findChildren(@element, '.node--self')[0]
-    childElements = findChildren(@element, '.node')
+    # A node's children are the items of its own list (<ul class="node--children">).
+    childList = findChildren(@element, '.node--children')[0]
+    childElements = if childList then findChildren(childList, '.node') else []
     @childNodes = Node.newAll(childElements, this)
     @createCollapser()
     @toggleExpanded(false)
@@ -27,8 +29,9 @@ class Node
     if @self.matches('a')
       # The label leads to the node's page, so a button of its own, laid over the icon,
       # opens the node. It is a real button: focusable, and Enter and Space work.
+      # The label names what the button shows; aria-expanded says whether it is open.
       title = @self.querySelector('.node--title')?.textContent.trim()
-      @toggle = up.element.createFromSelector('button.node--toggle', type: 'button', 'aria-label': "Expand #{title}")
+      @toggle = up.element.createFromSelector('button.node--toggle', type: 'button', 'aria-label': "Contents of #{title}")
       @element.insertBefore(@toggle, @self)
     else
       # A label that leads nowhere (the drawer's "Older versions") is the button itself.
