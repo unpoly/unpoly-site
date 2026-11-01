@@ -8,7 +8,7 @@ describe 'index', type: :feature, js: true do
   end
 
   it 'marks the Unpoly attributes in the hero code, without stray empty marks' do
-    within '.landing--annotated' do
+    within '.landing-annotated' do
       expect(page).to have_css('mark', text: 'up-target')
       expect(page).to have_css('mark', text: 'up-poll')
       expect(page).to have_no_css('mark:empty')
@@ -16,13 +16,13 @@ describe 'index', type: :feature, js: true do
   end
 
   it 'links the hero code to the guides for more attributes' do
-    within '.landing--annotated' do
+    within '.landing-annotated' do
       expect(page).to have_link('+ many more', href: '/learn')
     end
   end
 
   it 'links each event word to its event' do
-    within '.landing--event-groups' do
+    within '.landing-events' do
       expect(page).to have_link('following', href: '/api/up:link:follow')
       expect(page).to have_link('going back', href: '/api/up:location:restore')
       expect(page).to have_link('aborted', href: '/api/up:request:aborted')
@@ -47,15 +47,15 @@ describe 'index', type: :feature, js: true do
   end
 
   it 'names the companies running Unpoly in production' do
-    expect(page).to have_css('.landing--logos .landing--caption', text: /in production at/i)
-    expect(page).to have_css('.landing--logo', count: 10)
-    expect(page).to have_css('.landing--logo[alt="Volkswagen"]')
+    expect(page).to have_css('.landing-logos .landing--caption', text: /in production at/i)
+    expect(page).to have_css('.landing-logos--logo', count: 10)
+    expect(page).to have_css('.landing-logos--logo[alt="Volkswagen"]')
   end
 
   it 'closes the "Is Unpoly right for you?" band with the logo wall, rather than giving it a band of its own' do
     band = find('.landing--section', text: 'Is Unpoly right for you?')
 
-    expect(band).to have_css('.landing--inner > .landing--logos:last-child .landing--logo', count: 10)
+    expect(band).to have_css('.landing--inner > .landing-logos:last-child .landing-logos--logo', count: 10)
   end
 
   it 'fits every code example into its box at 1280px, without scrolling' do
@@ -88,7 +88,7 @@ describe 'index', type: :feature, js: true do
 
     it 'keeps every event tooltip on the screen, without widening the page' do
       facts = page.evaluate_script(<<~JS)
-        [...document.querySelectorAll('.landing--event-tags a')].map((link) => {
+        [...document.querySelectorAll('.landing-events--tags a')].map((link) => {
           link.focus()
           let tip = getComputedStyle(link, '::after')
           let width = parseFloat(tip.width) + parseFloat(tip.paddingLeft) + parseFloat(tip.paddingRight)

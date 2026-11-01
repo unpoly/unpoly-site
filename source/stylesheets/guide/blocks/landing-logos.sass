@@ -1,0 +1,30 @@
+@import ../../environment
+
+// The companies running Unpoly in production, under a .landing--caption.
+.landing-logos
+  margin-top: $space-6
+
+.landing-logos--wall
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  gap: $space-5 $space-6
+
+// The wall mixes roundels with wordmarks, so one shared height would make the
+// wide marks tower over the round ones. Both axes are capped instead, and each
+// logo settles at whichever limit it meets first.
+.landing-logos--logo
+  width: auto
+  height: auto
+  max-height: 30px
+  max-width: 120px
+  opacity: 0.6
+
+  &[src*="vw"],
+  &[src*="audi"],
+  &[src*="bosch"]
+    max-height: 34px
+
+  &[src*="siemens"],
+  &[src*="steady"]
+    max-height: 22px

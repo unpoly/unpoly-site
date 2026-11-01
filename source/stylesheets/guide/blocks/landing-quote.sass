@@ -1,0 +1,19 @@
+@import ../../environment
+
+// A quotation set off from the band's text, its attribution below.
+.landing-quote
+  border-left: 3px solid $indigo-800
+  margin: $space-6 0
+  padding-left: $space-4
+  max-width: 34em
+
+  p
+    +type($text-lg, $leading-ui)
+    font-style: italic
+    color: $indigo-800
+    margin-bottom: $space-2
+
+  cite
+    font-style: normal
+    font-size: $text-sm
+    color: $gray-600

@@ -1,0 +1,30 @@
+@import ../../environment
+
+// "Built for tough requirements": a row of cards, each leading to a guide.
+.landing-cards
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+  gap: $space-4
+  margin-bottom: $space-5
+
+.landing-cards--card
+  border: $card-border
+  border-radius: $radius-md
+  padding: $space-4
+  background: $white
+  // The "Learn more" links of a row share one baseline, at the bottom of the cards.
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  +hide-first-margins
+
+  > a
+    margin-top: auto
+
+  p
+    font-size: $text-sm
+    color: $gray-700
+    margin-bottom: $space-2
+
+  a
+    font-size: $text-sm

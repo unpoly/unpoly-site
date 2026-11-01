@@ -13,7 +13,7 @@ Shoot.suite 'landing-probe', widths: [1280, 390], description: 'landing computed
       out.pre = [cs.color, cs.backgroundColor, cs.fontWeight, cs.fontSize, cs.overflowX]
       out.preSpans = [...new Set([...pre.querySelectorAll('span, mark')].map(s => s.className + ':' + getComputedStyle(s).color))]
     }
-    const card = document.querySelector('.landing--card')
+    const card = document.querySelector('.landing-cards--card')
     if (card) out.card = [card.className, getComputedStyle(card).paddingTop, getComputedStyle(card).paddingLeft]
     const fig = document.querySelector('figure.diagram')
     if (fig) out.diagram = [fig.clientWidth, fig.scrollWidth, getComputedStyle(fig).overflowX]

@@ -276,6 +276,23 @@
   box-shadow: $subtle-shadow
   +vertical_margin($space-4)
 
+// The box around the landing's code (.landing--code), also around the hero's
+// annotated rows (.landing-annotated).
+=landing-code-box
+  padding: $space-4
+  background: $background-light
+  border-radius: $radius-md
+
+=landing-code-text
+  +monospace-font
+  font-size: $text-sm
+  line-height: $leading-ui
+
+  mark
+    background: $color-mark
+    border-radius: $radius-sm
+    padding: 1px 2px
+
 =when-stable
   .-stable &
     @content

@@ -14,45 +14,45 @@
 
 <div class="landing">
 
-  <section class="landing--section">
+  <section class="landing--section landing-hero">
     <div class="landing--inner">
-      <h1 class="landing--claim">Build a complete frontend in&nbsp;HTML</h1>
+      <h1 class="landing-hero--claim">Build a complete frontend in&nbsp;HTML</h1>
 
-      <p class="landing--byline">Unpoly expands what links, forms and server-rendered pages can do:</p>
+      <p class="landing-hero--byline">Unpoly expands what links, forms and server-rendered pages can do:</p>
 
-      <div class="landing--annotated">
-        <div class="landing--annotated-row">
-          <div class="landing--annotated-line">
-            <pre class="landing--annotated-code"><code class="language-html">&lt;a href="/tasks/123" up-target="#pane"&gt;Details&lt;/a&gt; &lt;!-- mark: up-target --&gt;</code></pre>
-            <span class="landing--annotated-lead" aria-hidden="true"></span>
+      <div class="landing-annotated">
+        <div class="landing-annotated--row">
+          <div class="landing-annotated--line">
+            <pre class="landing-annotated--code"><code class="language-html">&lt;a href="/tasks/123" up-target="#pane"&gt;Details&lt;/a&gt; &lt;!-- mark: up-target --&gt;</code></pre>
+            <span class="landing-annotated--lead" aria-hidden="true"></span>
           </div>
-          <span class="landing--annotated-note">updates a fragment</span>
+          <span class="landing-annotated--note">updates a fragment</span>
         </div>
-        <div class="landing--annotated-row">
-          <div class="landing--annotated-line">
-            <pre class="landing--annotated-code"><code class="language-html">&lt;a href="/users/new" up-layer="new"&gt;Add user&lt;/a&gt; &lt;!-- mark: up-layer --&gt;</code></pre>
-            <span class="landing--annotated-lead" aria-hidden="true"></span>
+        <div class="landing-annotated--row">
+          <div class="landing-annotated--line">
+            <pre class="landing-annotated--code"><code class="language-html">&lt;a href="/users/new" up-layer="new"&gt;Add user&lt;/a&gt; &lt;!-- mark: up-layer --&gt;</code></pre>
+            <span class="landing-annotated--lead" aria-hidden="true"></span>
           </div>
-          <span class="landing--annotated-note">opens in a modal overlay</span>
+          <span class="landing-annotated--note">opens in a modal overlay</span>
         </div>
-        <div class="landing--annotated-row">
-          <div class="landing--annotated-line">
-            <pre class="landing--annotated-code"><code class="language-html">&lt;form up-validate&gt;…&lt;/form&gt; &lt;!-- mark: up-validate --&gt;</code></pre>
-            <span class="landing--annotated-lead" aria-hidden="true"></span>
+        <div class="landing-annotated--row">
+          <div class="landing-annotated--line">
+            <pre class="landing-annotated--code"><code class="language-html">&lt;form up-validate&gt;…&lt;/form&gt; &lt;!-- mark: up-validate --&gt;</code></pre>
+            <span class="landing-annotated--lead" aria-hidden="true"></span>
           </div>
-          <span class="landing--annotated-note">validates against your server</span>
+          <span class="landing-annotated--note">validates against your server</span>
         </div>
-        <div class="landing--annotated-row">
-          <div class="landing--annotated-line">
-            <pre class="landing--annotated-code"><code class="language-html">&lt;main up-poll&gt;…&lt;/main&gt; &lt;!-- mark: up-poll --&gt;</code></pre>
-            <span class="landing--annotated-lead" aria-hidden="true"></span>
+        <div class="landing-annotated--row">
+          <div class="landing-annotated--line">
+            <pre class="landing-annotated--code"><code class="language-html">&lt;main up-poll&gt;…&lt;/main&gt; &lt;!-- mark: up-poll --&gt;</code></pre>
+            <span class="landing-annotated--lead" aria-hidden="true"></span>
           </div>
-          <span class="landing--annotated-note">keeps itself fresh</span>
+          <span class="landing-annotated--note">keeps itself fresh</span>
         </div>
-        <a class="landing--annotated-more" href="/learn">+ many more</a>
+        <a class="landing-annotated--more" href="/learn">+ many more</a>
       </div>
 
-      <p class="landing--trailer">
+      <p class="landing-hero--trailer">
         The application stays on your server, in any language and any framework.
         The browser learns just enough to feel like an app.
         Your HTML keeps its meaning. Agents and crawlers can read your app without running JavaScript.
@@ -61,7 +61,7 @@
       <div class="actions landing--actions">
         <a class="action -large" href="/learn">Learn Unpoly</a>
         <a class="action -large -secondary" href="/api">API Reference</a>
-        <span class="landing--aside">or <%= hyperlink 'see it running in the demo', 'https://demo.unpoly.com', target: '_blank' %></span>
+        <span class="landing-hero--aside">or <%= hyperlink 'see it running in the demo', 'https://demo.unpoly.com', target: '_blank' %></span>
       </div>
     </div>
   </section>
@@ -97,7 +97,7 @@
 
       <p>When it's clicked, Unpoly:</p>
 
-      <ul class="landing--checklist">
+      <ul class="landing-checklist">
         <li>updates the main fragment and the browser URL</li>
         <li>preserves scroll positions, focus and half-typed input outside the fragment</li>
         <li>aborts an earlier request racing for the same fragment</li>
@@ -115,20 +115,20 @@
       <p>These are the screens that usually get an app rewritten in React.
          With Unpoly they stay on your server. You render them as HTML and enhance them with a few attributes:</p>
 
-      <div class="landing--cards">
-        <div class="landing--card">
+      <div class="landing-cards">
+        <div class="landing-cards--card">
           <h3 class="landing--heading -minor">Reactive server forms</h3>
           <p>Fields that depend on other fields, like selects loading their options or previews updating as you type.
              Rendered by your server, wired with one attribute.</p>
           <%= hyperlink 'Learn more →', doc_path('reactive-server-forms') %>
         </div>
-        <div class="landing--card">
+        <div class="landing-cards--card">
           <h3 class="landing--heading -minor">Optimistic rendering</h3>
           <p>Update the screen before the server answers, then reconcile with the real response.
              Previews revert cleanly when anything fails.</p>
           <%= hyperlink 'Learn more →', doc_path('optimistic-rendering') %>
         </div>
-        <div class="landing--card">
+        <div class="landing-cards--card">
           <h3 class="landing--heading -minor">Complex overlay flows</h3>
           <p>Branch off into an overlay, complete a multi-page flow there, and return the result
              to the parent screen, which stayed open behind the overlay.</p>
@@ -149,7 +149,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <p>Along the way, Unpoly emits the <b>events</b> you wish the platform had:</p>
 
       <%# Each word links to its event, whose name shows as a tooltip. %>
-      <div class="landing--event-groups">
+      <div class="landing-events">
         <% [
           ['link', 'Link', 'clicked' => 'up:click', 'following' => 'up:link:follow', 'preloading' => 'up:link:preload', 'lazy-loading' => 'up:deferred:load'],
           ['form', 'Form', 'submitting' => 'up:form:submit', 'validating' => 'up:form:validate', 'switching fields' => 'up:form:switch'],
@@ -158,8 +158,8 @@ up.submit('#invite-form', { params: { email } })</code></pre>
           ['request', 'Request', 'slow' => 'up:network:late', 'aborted' => 'up:request:aborted', 'offline' => 'up:request:offline', 'recovered' => 'up:network:recover'],
           ['history', 'History', 'URL changed' => 'up:location:changed', 'going back' => 'up:location:restore'],
         ].each do |modifier, category, events| %>
-          <span class="landing--event-category -<%= modifier %>"><%= category %></span>
-          <div class="landing--event-tags">
+          <span class="landing-events--category -<%= modifier %>"><%= category %></span>
+          <div class="landing-events--tags">
             <% events.each do |label, event| %>
               <a href="<%= doc_path(event) %>" data-event="<%= event %>" aria-label="<%= label %> (<%= event %>)"><%= label %></a>
             <% end %>
@@ -191,7 +191,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
          A link still navigates and a form still submits.
          Unpoly works like a polyfill for the application features HTML never got.</p>
 
-      <blockquote class="landing--quote">
+      <blockquote class="landing-quote">
         <p>“A wonderful JavaScript library with best-in-class progressive enhancement.”</p>
         <cite>— Carson Gross, creator of <%= hyperlink 'htmx', 'https://htmx.org/', target: '_blank', class: '-gray' %></cite>
       </blockquote>
@@ -209,18 +209,18 @@ up.submit('#invite-form', { params: { email } })</code></pre>
 <pre class="landing--code"><code class="language-html">&lt;a href="/menu" up-defer&gt;Load menu&lt;/a&gt; &lt;!-- mark: up-defer --&gt;</code></pre>
 
       <%# The same markup, two outcomes. %>
-      <div class="landing--degrade">
-        <figure class="landing--degrade-panel">
+      <div class="landing-degrade">
+        <figure class="landing-degrade--panel">
           <figcaption class="landing--caption -small">With JavaScript</figcaption>
-          <ul class="landing--degrade-menu" aria-label="Example: the loaded menu">
+          <ul class="landing-degrade--menu" aria-label="Example: the loaded menu">
             <li>Projects</li>
             <li>Tasks</li>
             <li>Reports</li>
           </ul>
         </figure>
-        <figure class="landing--degrade-panel">
+        <figure class="landing-degrade--panel">
           <figcaption class="landing--caption -small">Without JavaScript</figcaption>
-          <span class="landing--degrade-link">Load menu</span>
+          <span class="landing-degrade--link">Load menu</span>
         </figure>
       </div>
     </div>
@@ -232,7 +232,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
 
       <p>There are two philosophies for building hypermedia-driven applications. htmx states its own beautifully:</p>
 
-      <blockquote class="landing--quote">
+      <blockquote class="landing-quote">
         <p>“Why should only <code>&lt;a&gt;</code> &amp; <code>&lt;form&gt;</code> be able to make HTTP requests?
            Why should only <code>click</code> &amp; <code>submit</code> events trigger them?”</p>
         <cite>— <%= hyperlink 'htmx.org', 'https://htmx.org/', target: '_blank', class: '-gray' %>, on its motivation</cite>
@@ -245,7 +245,7 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       <p>Both approaches make sense. Small primitives give you maximum control and a minimal footprint.
          A higher-level layer gives you fewer attributes for common cases, with the edge cases already handled.</p>
 
-      <div class="landing--fits">
+      <div class="landing-fits">
         <div>
           <h3 class="landing--heading -minor">Unpoly is for you if…</h3>
           <ul class="bullets">
@@ -268,14 +268,14 @@ up.submit('#invite-form', { params: { email } })</code></pre>
       </div>
 
       <%# After when Unpoly is right for you, the companies it was right for. %>
-      <div class="landing--logos">
+      <div class="landing-logos">
         <p class="landing--caption">In production at</p>
-        <div class="landing--logo-wall">
+        <div class="landing-logos--wall">
           <% {
             'vw' => 'Volkswagen', 'audi' => 'Audi', 'siemens' => 'Siemens', 'bosch' => 'Bosch', 'arm' => 'Arm',
             'zendesk' => 'Zendesk', 'steady' => 'Steady', 'urban-dictionary' => 'Urban Dictionary', 'tuifly' => 'TUIfly', 'adonisjs' => 'AdonisJS',
           }.each do |logo, name| %>
-            <%= image_tag "logos/#{logo}.svg", class: 'landing--logo', alt: name %>
+            <%= image_tag "logos/#{logo}.svg", class: 'landing-logos--logo', alt: name %>
           <% end %>
         </div>
       </div>

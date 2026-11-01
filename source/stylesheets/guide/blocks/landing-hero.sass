@@ -1,0 +1,21 @@
+@import ../../environment
+
+// The landing's first band: the claim, the line that leads into the annotated code
+// (.landing-annotated), the paragraph after it, and the buttons' aside.
+.landing-hero--claim
+  +type(clamp(#{$text-2xl}, 4.4vw, #{$text-4xl}), $leading-display)
+  font-weight: bold
+  color: $gray-900
+  text-wrap: balance
+  margin-bottom: $space-4
+
+.landing-hero--byline
+  +type($text-lg, $leading-heading)
+  color: $gray-800
+
+.landing-hero--trailer
+  +type($text-md, $leading-body)
+
+.landing-hero--aside
+  color: $gray-600
+  font-size: $text-sm

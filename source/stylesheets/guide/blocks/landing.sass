@@ -4,6 +4,9 @@
 // The landing page. It is the one page that runs without the sidebar, so it sets
 // its own rhythm: full-bleed sections, a measure for running text, and type a step
 // or two above what the docs use.
+//
+// This block holds the bands and what they share. The parts that only one band
+// uses are blocks of their own (.landing-hero, .landing-annotated, .landing-events, …).
 
 .landing
   +hide-margins-y
@@ -35,36 +38,20 @@
   // the last line alike; the global heading and paragraph margins would add to it.
   +hide-margins-y
 
-  p
+  // The text's own elements weigh no more than one class (:where), so that the
+  // landing's other blocks restyle them whatever their file's place in the cascade.
+  & :where(p)
     margin-bottom: $space-4
 
-  code
+  & :where(code)
     +inline-code
 
-  a
+  & :where(a)
     @extend .hyperlink
-
-.landing--claim
-  +type(clamp(#{$text-2xl}, 4.4vw, #{$text-4xl}), $leading-display)
-  font-weight: bold
-  color: $gray-900
-  text-wrap: balance
-  margin-bottom: $space-4
-
-.landing--byline
-  +type($text-lg, $leading-heading)
-  color: $gray-800
-
-.landing--trailer
-  +type($text-md, $leading-body)
 
 .landing--actions
   margin-top: $space-5
   gap: $space-3
-
-.landing--aside
-  color: $gray-600
-  font-size: $text-sm
 
 // A band's heading. A subsection within the band takes -sub, a card or a column -minor.
 .landing--heading
@@ -82,22 +69,6 @@
     font-size: $text-lg
     margin-bottom: $space-2
 
-// The box around landing code, also around the hero's annotated rows.
-=landing-code-box
-  padding: $space-4
-  background: $background-light
-  border-radius: $radius-md
-
-=landing-code-text
-  +monospace-font
-  font-size: $text-sm
-  line-height: $leading-ui
-
-  mark
-    background: $color-mark
-    border-radius: $radius-sm
-    padding: 1px 2px
-
 // The `pre code` compiler highlights the code. The theme gives code.hljs a padding and
 // a white ground of its own, which the box replaces.
 .landing--code
@@ -112,113 +83,6 @@
     padding: 0
     background: none
     overflow: visible
-
-// The hero's code: one line per row, each with a note at the end of a dotted leader.
-// The notes share a left-aligned column that starts after the longest line; each
-// leader fills the gap from its line to that column.
-// Below $annotated-stack-below the longest line and its note no longer fit side by
-// side, so each note goes above its line.
-$annotated-stack-below: 816px
-
-.landing--annotated
-  +vertical-margin($space-5)
-  +landing-code-box
-  display: grid
-  grid-template-columns: max-content max-content
-  gap: 6px $space-3
-  align-items: baseline
-
-  +narrower_than($annotated-stack-below)
-    display: flex
-    flex-direction: column
-    gap: $space-3
-
-// Side by side, a row's line and note are cells of the shared grid.
-.landing--annotated-row
-  display: contents
-
-  +narrower_than($annotated-stack-below)
-    display: flex
-    flex-direction: column
-    align-items: flex-start
-    gap: 2px
-    min-width: 0
-    max-width: 100%
-
-// The code and its leader, in the grid's first column.
-.landing--annotated-line
-  display: flex
-  align-items: baseline
-  min-width: 0
-
-  +narrower_than($annotated-stack-below)
-    max-width: 100%
-
-.landing--annotated-code
-  +landing-code-text
-  margin: 0
-  max-width: 100%
-  // Nothing may scroll: a scroll container per row would grow scroll bars around the
-  // marks' padding. Side by side, every row fits. Stacked on a phone, a long line wraps.
-  overflow: visible
-
-  +narrower_than($annotated-stack-below)
-    white-space: pre-wrap
-    overflow-wrap: break-word
-
-    // Break at the space before an attribute, not at the hyphen in its name.
-    mark
-      white-space: nowrap
-
-  // highlight.js makes `pre code.hljs` a scroll container of its own, which would grow
-  // scroll bars around the marks' padding.
-  code, code.hljs
-    padding: 0
-    background: none
-    overflow: visible
-
-.landing--annotated-lead
-  flex: 1
-  min-width: 32px
-  margin-left: $space-3
-  border-bottom: 2px dotted $gray-300
-  transform: translateY(-4px)
-
-  +narrower_than($annotated-stack-below)
-    display: none
-
-.landing--annotated-note
-  +type($text-md, $leading-ui)
-  color: $gray-800
-  white-space: nowrap
-
-  // Stacked, the note heads its line.
-  +narrower_than($annotated-stack-below)
-    order: -1
-    font-size: $text-sm
-    white-space: normal
-
-// A dashed chip under the code that links to the guides. More specific than the
-// landing's link styles (.landing--inner a), hover included.
-a.landing--annotated-more
-  grid-column: 1 / -1
-  justify-self: start
-  align-self: flex-start
-  margin-top: $space-1
-  padding: 1px 10px
-  +type($text-xs, $leading-ui)
-  font-weight: 500
-  color: $gray-900
-  text-decoration: none
-  background: darken($gray-100, 2%)
-  border: 1px dashed $gray-500
-  border-radius: 999px
-
-  &:hover, &:focus-visible
-    color: $gray-900
-    text-decoration: none
-    background: darken($gray-100, 7%)
-    border-color: $gray-600
 
 // The compiler example: HTML and JavaScript side by side. Flex rather than equal grid
 // columns, so each block starts at its content width and the wider HTML gets the room
@@ -235,86 +99,6 @@ a.landing--annotated-more
     min-width: 0
     font-size: $text-xs
 
-.landing--checklist
-  list-style: none
-  padding: 0
-  margin: 0 0 $space-5
-  max-width: $measure-prose
-
-  li
-    position: relative
-    padding-left: $space-5
-    margin-bottom: $space-2
-
-    &::before
-      content: "\f00c" // fa-check
-      font-family: FontAwesome
-      position: absolute
-      left: 0
-      top: 1px
-      color: $red-600
-      font-size: 0.85em
-
-.landing--cards
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
-  gap: $space-4
-  margin-bottom: $space-5
-
-.landing--card
-  border: $card-border
-  border-radius: $radius-md
-  padding: $space-4
-  background: $white
-  // The "Learn more" links of a row share one baseline, at the bottom of the cards.
-  display: flex
-  flex-direction: column
-  align-items: flex-start
-  +hide-first-margins
-
-  > a
-    margin-top: auto
-
-  p
-    font-size: $text-sm
-    color: $gray-700
-    margin-bottom: $space-2
-
-  a
-    font-size: $text-sm
-
-.landing--quote
-  border-left: 3px solid $indigo-800
-  margin: $space-6 0
-  padding-left: $space-4
-  max-width: 34em
-
-  p
-    +type($text-lg, $leading-ui)
-    font-style: italic
-    color: $indigo-800
-    margin-bottom: $space-2
-
-  cite
-    font-style: normal
-    font-size: $text-sm
-    color: $gray-600
-
-.landing--fits
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr))
-  gap: $space-6
-  margin-top: $space-5
-
-  ul
-    margin-bottom: 0
-
-  li
-    font-size: $text-sm
-
-.landing--logos
-  margin-top: $space-6
-
 // A caption in capitals over a group: the logo wall, and as -small, a degrade panel.
 .landing--caption
   +type($text-sm, $leading-ui)
@@ -328,156 +112,3 @@ a.landing--annotated-more
     font-weight: bold
     letter-spacing: 0.06em
     margin-bottom: $space-3
-
-.landing--logo-wall
-  display: flex
-  flex-wrap: wrap
-  align-items: center
-  gap: $space-5 $space-6
-
-// The wall mixes roundels with wordmarks, so one shared height would make the
-// wide marks tower over the round ones. Both axes are capped instead, and each
-// logo settles at whichever limit it meets first.
-.landing--logo
-  width: auto
-  height: auto
-  max-height: 30px
-  max-width: 120px
-  opacity: 0.6
-
-  &[src*="vw"],
-  &[src*="audi"],
-  &[src*="bosch"]
-    max-height: 34px
-
-  &[src*="siemens"],
-  &[src*="steady"]
-    max-height: 22px
-
-// Events, grouped by what they are about. Each category is a solid label; its events
-// are words that link to the reference and show the event's name as a tooltip.
-$event-groups-stack-below: 500px
-
-.landing--event-groups
-  display: grid
-  grid-template-columns: 120px 1fr
-  gap: 6px $space-3
-  align-items: center
-  margin: $space-5 0
-
-  +narrower_than($event-groups-stack-below)
-    grid-template-columns: 1fr
-
-.landing--event-category
-  padding: 5px $space-3
-  border-radius: $radius-sm
-  +type($text-sm, $leading-ui)
-  font-weight: bold
-  color: $white
-
-  &.-link
-    background: $red-600
-  &.-form
-    background: $red-700
-  &.-overlay
-    background: $indigo-800
-  &.-fragment
-    background: $blue-700
-  &.-request
-    background: $gray-900
-  &.-history
-    background: $gray-700
-
-  +narrower_than($event-groups-stack-below)
-    justify-self: start
-    margin-top: $space-2
-
-.landing--event-tags
-  display: flex
-  flex-wrap: wrap
-  gap: 6px
-
-  // Stacked on a phone, a tooltip centered on a word at the window's edge would run
-  // off the screen. It takes the row's left edge instead, over the category label.
-  +narrower_than($event-groups-stack-below)
-    position: relative
-
-  // More specific than the landing's link styles (.landing--inner a).
-  a
-    position: relative
-    display: inline-flex
-    align-items: center
-    background: $white
-    border: 1px solid $gray-300
-    border-radius: $radius-sm
-    padding: $space-1 10px
-    +type($text-sm, $leading-ui)
-    color: $gray-900
-    text-decoration: none
-
-    &:hover, &:focus
-      background: $white
-      color: $gray-900
-      border-color: $gray-500
-
-    &::after
-      content: attr(data-event)
-      position: absolute
-      left: 50%
-      bottom: calc(100% + 6px)
-      transform: translateX(-50%)
-      white-space: nowrap
-      background: $gray-900
-      color: $white
-      +monospace-font
-      +type($text-2xs, $leading-ui)
-      padding: 3px $space-2
-      border-radius: $radius-sm
-      pointer-events: none
-      z-index: 1
-      // Hidden by display rather than opacity, so a tooltip at the window's edge
-      // does not widen the page while nobody looks at it.
-      display: none
-
-    &:hover::after, &:focus-visible::after
-      display: block
-
-    +narrower_than($event-groups-stack-below)
-      position: static
-
-      &::after
-        left: 0
-        transform: none
-
-// "Your HTML keeps its meaning": the same up-defer link, with and without JavaScript.
-.landing--degrade
-  display: grid
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
-  gap: $space-4
-  margin-top: $space-5
-
-.landing--degrade-panel
-  margin: 0
-  background: $white
-  border-radius: $radius-md
-  padding: $space-4 $space-5 $space-5
-
-.landing--degrade-menu
-  list-style: none
-  margin: 0
-  padding: 0
-  border: 1px solid $gray-300
-  border-radius: $radius-md
-
-  li
-    padding: 6px $space-3
-    +type($text-sm, $leading-ui)
-    color: $gray-900
-
-    & + li
-      border-top: 1px solid $gray-200
-
-// Looks like the link it would be, but is not one: the panel shows the outcome.
-.landing--degrade-link
-  +hyperlink
-  font-size: $text-sm

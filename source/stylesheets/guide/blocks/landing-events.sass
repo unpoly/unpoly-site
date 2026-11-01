@@ -1,0 +1,96 @@
+@import ../../environment
+
+// Events, grouped by what they are about. Each category is a solid label; its events
+// are words that link to the reference and show the event's name as a tooltip.
+$events-stack-below: 500px
+
+.landing-events
+  display: grid
+  grid-template-columns: 120px 1fr
+  gap: 6px $space-3
+  align-items: center
+  margin: $space-5 0
+
+  +narrower_than($events-stack-below)
+    grid-template-columns: 1fr
+
+.landing-events--category
+  padding: 5px $space-3
+  border-radius: $radius-sm
+  +type($text-sm, $leading-ui)
+  font-weight: bold
+  color: $white
+
+  &.-link
+    background: $red-600
+  &.-form
+    background: $red-700
+  &.-overlay
+    background: $indigo-800
+  &.-fragment
+    background: $blue-700
+  &.-request
+    background: $gray-900
+  &.-history
+    background: $gray-700
+
+  +narrower_than($events-stack-below)
+    justify-self: start
+    margin-top: $space-2
+
+.landing-events--tags
+  display: flex
+  flex-wrap: wrap
+  gap: 6px
+
+  // Stacked on a phone, a tooltip centered on a word at the window's edge would run
+  // off the screen. It takes the row's left edge instead, over the category label.
+  +narrower_than($events-stack-below)
+    position: relative
+
+  // More specific than the landing's link styles (.landing--inner a).
+  a
+    position: relative
+    display: inline-flex
+    align-items: center
+    background: $white
+    border: 1px solid $gray-300
+    border-radius: $radius-sm
+    padding: $space-1 10px
+    +type($text-sm, $leading-ui)
+    color: $gray-900
+    text-decoration: none
+
+    &:hover, &:focus
+      background: $white
+      color: $gray-900
+      border-color: $gray-500
+
+    &::after
+      content: attr(data-event)
+      position: absolute
+      left: 50%
+      bottom: calc(100% + 6px)
+      transform: translateX(-50%)
+      white-space: nowrap
+      background: $gray-900
+      color: $white
+      +monospace-font
+      +type($text-2xs, $leading-ui)
+      padding: 3px $space-2
+      border-radius: $radius-sm
+      pointer-events: none
+      z-index: 1
+      // Hidden by display rather than opacity, so a tooltip at the window's edge
+      // does not widen the page while nobody looks at it.
+      display: none
+
+    &:hover::after, &:focus-visible::after
+      display: block
+
+    +narrower_than($events-stack-below)
+      position: static
+
+      &::after
+        left: 0
+        transform: none
