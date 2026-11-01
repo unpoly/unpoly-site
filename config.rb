@@ -428,7 +428,7 @@ helpers do
   # ---------- Search engines ----------
 
   # Whether search engines may list a page. A page that may gets a canonical link
-  # (layouts/_head); a page that may not gets
+  # (layouts/_head) and an entry in /sitemap.xml; a page that may not gets
   # <meta name="robots" content="noindex, follow"> instead.
   #
   # A page is listed when it is an HTML template in the site's layout and does not say

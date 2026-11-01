@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<%#
+  Every page search engines may list (indexable? in config.rb), by its canonical URL.
+  Crawlers find the same pages by following links from the landing page, even without
+  the menus, so this list is a backstop.
+
+  It has no <lastmod>: a documentation page is assembled from many source files and
+  partials, so no cheap date would be accurate. Crawlers ignore <priority> and
+  <changefreq>.
+%>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<% sitemap.resources.select { |resource| indexable?(resource) }.map { |resource| canonical_url(resource) }.sort.each do |url| %>
+  <url><loc><%= h url %></loc></url>
+<% end %>
+</urlset>
