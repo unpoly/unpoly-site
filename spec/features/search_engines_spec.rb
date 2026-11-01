@@ -131,7 +131,7 @@ describe 'search engines', type: :feature do
     end
 
     it 'describes the landing page and the hubs with their own intro text' do
-      # The landing page's byline ends in a colon, leading into the code samples. Its
+      # The landing page's lead-in ends in a colon, leading into the code samples. Its
       # trailer says what Unpoly does.
       expect(meta_of('/')[:description].first).to start_with('The application stays on your server')
       expect(meta_of('/learn')[:description]).to eq([find('.hub-intro').text.squish])

@@ -481,7 +481,7 @@ helpers do
     paragraphs = Nokogiri::HTML5.fragment(html.to_s).css('p').reject { |paragraph| paragraph.ancestors(skip).any? }
     texts = paragraphs.map { |paragraph| paragraph.text.squish }.reject(&:blank?)
     # A paragraph that ends in a colon leads into what follows it (the landing page's
-    # byline into its code samples) and says little on its own.
+    # lead-in into its code samples) and says little on its own.
     texts.find { |text| !text.end_with?(':') }
   end
 
