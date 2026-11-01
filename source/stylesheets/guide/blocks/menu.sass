@@ -1,5 +1,10 @@
 @import ../../environment
 
+// The drawer's name for screen readers (menu/narrow.html.erb). On screen, the burger
+// that opened it said "Menu" already.
+.menu--heading
+  +visually-hidden
+
 .menu--title
   text-transform: uppercase
   font-weight: bold

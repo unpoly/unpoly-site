@@ -36,6 +36,14 @@ describe 'the page frame', type: :feature, js: true do
       top = page.evaluate_script("document.querySelector('.guide--head').getBoundingClientRect().top")
       expect(top).to eq(0)
     end
+
+    it 'names the version switch "Version 3.15" for screen readers, but shows only the number' do
+      visit '/learn/loading-state'
+
+      link = find('.version-nav')
+      expect(link.native.accessible_name.strip).to eq("Version #{Unpoly::Site.current.short_version}")
+      expect(page.evaluate_script("document.querySelector('.version-nav--prefix').getBoundingClientRect().width")).to be <= 1
+    end
   end
 
   # Screen readers list a page's landmarks and jump between them; reader modes and

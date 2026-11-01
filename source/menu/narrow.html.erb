@@ -20,6 +20,9 @@ noindex: true
   uses.
 %>
 <% menu(label: 'Sections', nav_layer: 'root') do %>
+  <%# Names the drawer's dialog (dialog_names.js). %>
+  <h2 class="menu--heading">Menu</h2>
+
   <ul class="menu--nodes">
     <% site_sections.each do |section| %>
       <% area = { '/learn' => guide.toc.learn, '/api' => guide.toc.api }[section[:href]] %>

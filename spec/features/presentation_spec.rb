@@ -256,6 +256,36 @@ describe 'presentation', type: :feature, js: true do
       expect(page).to have_css('up-popup .choice')
       expect(page).to have_css('up-popup a', text: /\d+\.\d+/)
     end
+
+    # Unpoly makes an overlay a dialog; dialog_names.js names it after its first heading.
+    it 'names the version popup "Versions"' do
+      visit '/learn/loading-state'
+
+      find('.version-nav').click
+
+      expect(page).to have_css('up-popup .choice')
+      expect(find('up-popup').native.accessible_name).to eq('Versions')
+    end
+
+    it 'names a page in a modal after its title' do
+      visit '/learn/loading-state'
+
+      page.execute_script("up.layer.open({ url: '/learn/lazy-loading', mode: 'modal' })")
+
+      expect(page).to have_css('up-modal main.guide--content h1')
+      expect(find('up-modal-box').native.accessible_name).to eq(find('up-modal h1').text)
+    end
+
+    it 'keeps the name the search dialog gives itself' do
+      visit '/learn/loading-state'
+
+      find('.search-pill').click
+
+      expect(page).to have_css('up-modal.search-dialog')
+      box = find('up-modal-box')
+      expect(box.native.accessible_name).to eq('Search the documentation')
+      expect(box[:'aria-labelledby']).to be_nil
+    end
   end
 
   describe 'the sidebar tree' do

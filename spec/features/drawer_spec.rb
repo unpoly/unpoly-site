@@ -47,6 +47,14 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     page.evaluate_script("[...document.querySelectorAll('up-drawer .node--self.up-current')].map((link) => link.textContent.trim())")
   end
 
+  it 'is a dialog named "Menu", with the sections as a navigation of nested lists' do
+    open_drawer_on '/support'
+
+    box = find('up-drawer-box')
+    expect(box.native.accessible_name).to eq('Menu')
+    expect(page).to have_css('up-drawer nav.menu[aria-label="Sections"] > ul.menu--nodes > li.node > ul.node--children > li.node', visible: :all)
+  end
+
   it 'has the header’s sections as its rows, in the same words and order, and the older versions last' do
     open_drawer_on '/support'
 
