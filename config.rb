@@ -411,7 +411,7 @@ helpers do
   # A page is listed when it is an HTML template in the site's layout and does not say
   # `noindex: true` in its data: in its front matter (the menus that the sidebar and
   # the drawer load, the version popup), or through its proxy (the parser's fixtures).
-  # Pages without the layout are tools, the example apps' frames and static HTML files
+  # Pages without the layout are tools (/changes/external_post) and static HTML files
   # (a screenshot's source), which no documentation page links. Markdown twins are not
   # HTML and get a noindex header from the .htaccess.
   def indexable?(resource = current_page)
@@ -512,7 +512,7 @@ helpers do
   #
   # A page is indexed when its template rendered a documentable — a guide page, a namespace,
   # a class or a feature. That rule needs no list to maintain: the landing page, the
-  # imprint, the version switcher, the changelog and the example apps render none, so they
+  # imprint, the version switcher and the changelog render none, so they
   # stay out by construction, and everything that is in can name the area it belongs to.
   # The parser's fixtures (spec/fixtures/parser) become pages in every build, but they are
   # test data and stay out of the index.
@@ -645,12 +645,11 @@ helpers do
   # The <title>, which search engines show as a result's headline. It says what the page
   # is: an API symbol names its kind ("[up-defer] (HTML attribute) - Unpoly API"), a
   # documentation page its area ("Following links - Learn Unpoly"). Pages outside the Learn
-  # and API areas, and the hubs of these areas, are just "- Unpoly".
+  # and API areas are just "- Unpoly". A page may set its whole window title
+  # (@window_title), as the hubs do: their titles already name the area.
   #
   # The site search does not read it: Pagefind titles a result by the page's <h1>, or by
   # the title in search_meta_tags.
-  # A page may set its whole window title (@window_title), as the hubs do: their
-  # titles already name the area.
   def window_title
     return @window_title if @window_title
 

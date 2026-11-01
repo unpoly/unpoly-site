@@ -9,8 +9,7 @@ module Unpoly
     # The conversion is generic HTML → Markdown. What it needs to know about the site,
     # the templates say with semantics: real headings or [role=heading][aria-level],
     # aria-label on links, <nav> or [data-markdown-nav] for navigation, [data-markdown]
-    # for the rest. See the marker map in the contributing docs
-    # (docs/contributing/documentation.md in unpoly).
+    # for the rest. See "Markers in the templates" in the README.
     #
     # The bar is "key information stays understandable for agents", not perfection.
     # Golden files in spec/fixtures/markdown make every change of the output reviewable.
