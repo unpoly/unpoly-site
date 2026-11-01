@@ -126,8 +126,8 @@ function isOverview(page) {
 }
 
 // The closest hub above a page (config.rb, search_hub), which a result row names below
-// its title: a guide page's chapter, a feature's namespace, "API" for a namespace. An overview
-// has none.
+// its title: a guide page's chapter, a feature's namespace or class, a class's namespace,
+// "API" for a namespace. An overview has none.
 function pageHub(page) {
   return page.filters?.hub?.[0] || null
 }

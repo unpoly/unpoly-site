@@ -85,12 +85,15 @@ describe 'the built search index' do
 
   # Filters, not metadata: Pagefind searches metadata, and a hub's name must not make a
   # page match or rank (config.rb, search_meta_tags).
-  it 'names the hub of a guide page, a feature and a namespace, and stores it as a filter' do
+  it 'names the hub of a guide page, a feature, a namespace and a class, and stores it as a filter' do
     expect(fragment_of('/learn/start/links')['filters']).to include('hub' => ['Getting started'])
     expect(fragment_of('/learn/following-links')['filters']).to include('hub' => ['Links'])
     expect(fragment_of('/api/up.follow')['filters']).to include('hub' => ['up.link'])
     expect(fragment_of('/api/up-follow')['filters']).to include('hub' => ['up.link'])
     expect(fragment_of('/api/up.link')['filters']).to include('hub' => ['API'])
+    # A class names its namespace, as its breadcrumb does.
+    expect(fragment_of('/api/up.Layer')['filters']).to include('hub' => ['up.layer'])
+    expect(fragment_of('/api/up.RenderJob')['filters']).to include('hub' => ['up.fragment'])
     expect(meta_of('/learn/following-links')).not_to have_key('hub')
   end
 

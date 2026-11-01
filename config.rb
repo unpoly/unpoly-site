@@ -604,12 +604,10 @@ helpers do
   # The hub a search result names below its title, so that namesakes from different
   # places can be told apart ("link to" finds a Getting started page, a Links page and a
   # feature of up.link). It is the last step of the page's trail (Unpoly::Site::Trail): a
-  # feature's namespace or class, a guide page's chapter, or else its area. A namespace or
-  # class names its area, also a class that sits below a namespace (up.Layer).
+  # feature's namespace or class, a class's namespace, a guide page's chapter, or else
+  # its area.
   def search_hub(documentable)
-    trail = Unpoly::Site::Trail.of(documentable: documentable)
-    step = documentable.kind?(:interface) && !documentable.page? ? trail.first : trail.last
-    step.first
+    Unpoly::Site::Trail.of(documentable: documentable).last.first
   end
 
   # The first page of a chapter ("Links", "How Unpoly works"). Its result says
