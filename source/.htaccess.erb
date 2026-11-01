@@ -117,7 +117,7 @@ Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"
   Header set X-Robots-Tag "noindex"
 </FilesMatch>
 
-<FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico)$">
+<FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico|woff2)$">
   Header set Cache-Control "max-age=2628000, public"
 </FilesMatch>
 
