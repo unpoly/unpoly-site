@@ -67,10 +67,9 @@ $search-width: 480px
     flex: 0 0 auto
 
 // The search is a button that never holds text, so it shrinks with the window and leaves
-// room around the brand and the sections; it reaches $search-width at 1500px. (unquote,
-// so that Sass leaves CSS's min() alone instead of failing to compare px with vw.)
+// room around the brand and the sections; it reaches $search-width at 1500px.
 .guide--search
-  flex: 0 1 unquote("min(#{$search-width}, 32vw)")
+  flex: 0 1 clamp(0px, 32vw, #{$search-width})
   min-width: 0
   display: flex
 
