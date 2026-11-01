@@ -383,6 +383,19 @@ helpers do
       "<nav aria-label=\"Unpoly docs\">#{nav.join(' · ')}</nav>\n\n#{body}"
   end
 
+  # What Unpoly is, in one paragraph of facts, for an agent that has never heard of it.
+  # It leads the agent index (/llms.txt, root_index.txt.erb) and the skill's SKILL.md
+  # (skills/unpoly-docs/skill.txt.erb).
+  def agent_lead
+    'Unpoly is a JavaScript library for server-rendered web applications. ' \
+      'It runs in the browser and is used mostly through HTML attributes (`up-*`) on links and forms. ' \
+      'When the user follows an Unpoly link or submits a form, Unpoly requests the URL, takes the targeted fragment from the HTML response and swaps it into the current page. ' \
+      'The rest of the page keeps its state. ' \
+      'The server renders HTML in any language or framework, needs no JSON API, and can optionally optimize its responses through custom HTTP headers. ' \
+      'Beyond fragment updates, Unpoly provides overlays (modals, drawers, popups), form validation against the server, polling, caching and preloading. ' \
+      'Its JavaScript API has a function for every attribute, and your own JavaScript attaches to elements through compilers.'
+  end
+
   def agent_index_markdown(page_path:, skill_file: nil, **options)
     links = markdown_links(page_path: page_path, skill_file: skill_file)
     Unpoly::Site::AgentIndex.new(links: links, **options).to_markdown

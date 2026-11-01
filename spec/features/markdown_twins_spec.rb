@@ -113,6 +113,13 @@ describe 'Markdown twins', type: :feature do
     it 'is also /llms.txt' do
       expect(markdown('/llms.txt')).to eq(markdown('/index.md'))
     end
+
+    it 'leads with what Unpoly is, in the same words as the skill' do
+      lead = markdown('/index.md')[/\A# Unpoly\n\n> (.+)\n/, 1]
+      expect(lead).to start_with('Unpoly is a JavaScript library for server-rendered web applications. ')
+      expect(lead).to end_with('your own JavaScript attaches to elements through compilers.')
+      expect(markdown('/skills/unpoly-docs/SKILL.md')).to include("# Unpoly docs\n\n#{lead}\n\n")
+    end
   end
 
   describe 'the skill' do
