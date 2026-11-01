@@ -188,9 +188,10 @@ describe 'search engines', type: :feature do
         expect(meta_of('/changes/3.0.0')[:og_image_alt]).to eq("Version 3.0.0: Released on #{release.date.strftime('%B %d, %Y')} with #{release.commit_count} commits")
       end
 
-      it 'gives every page an image of its own, and the same page the same image' do
-        expect(meta_of('/api/up-defer')[:og_image]).not_to eq(meta_of('/api/up.render')[:og_image])
-        expect(meta_of('/api/up-defer')[:og_image]).to eq(meta_of('/api/up-defer')[:og_image])
+      # That the same page keeps its image is up to the digest (spec/lib).
+      it 'gives every page an image of its own' do
+        images = ['/', '/learn', '/api', '/api/up-defer', '/api/up.render', '/learn/lazy-loading', release_path].map { |path| meta_of(path)[:og_image] }
+        expect(images.uniq.size).to eq(images.size)
       end
 
       it 'leaves the image out where search engines may not list a page' do
