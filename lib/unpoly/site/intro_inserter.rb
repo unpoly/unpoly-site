@@ -10,7 +10,7 @@ module Unpoly
       def self.insert(html, intro_html)
         return html if intro_html.blank?
 
-        doc = Nokogiri::HTML.fragment(html)
+        doc = Nokogiri::HTML5.fragment(html)
         position = doc.css(POSITION_SELECTOR).first
 
         if position

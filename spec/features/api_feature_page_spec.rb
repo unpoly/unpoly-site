@@ -78,3 +78,16 @@ describe 'a feature page title', type: :feature, js: true do
   end
 
 end
+
+describe 'the HTML of a feature page' do
+
+  # <wbr> is a void element. libxml2's HTML4 parser doesn't know that and wrapped what
+  # followed it, so the page carried stray </wbr> end tags.
+  it 'writes no end tag for a <wbr>' do
+    body = Rack::MockRequest.new(Capybara.app).get('/api/up-submit', 'HTTP_HOST' => 'unpoly.test').body
+
+    expect(body).to include('<wbr>')
+    expect(body).not_to include('</wbr>')
+  end
+
+end

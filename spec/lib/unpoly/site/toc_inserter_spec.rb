@@ -24,3 +24,17 @@ describe Unpoly::Site::TOCInserter do
   end
 
 end
+
+describe Unpoly::Site::TOCInserter, '#auto_insert' do
+
+  it 'keeps a <wbr> a void element' do
+    html = "<p>#{'Text. ' * 400}</p>" + %w[a b c].map { |id| %(<h2 id="#{id}">#{id}</h2><p>up<wbr>.foo</p>) }.join
+
+    result = described_class.new.auto_insert(html)
+
+    expect(result).to include('<nav class="toc"')
+    expect(result).to include('up<wbr>.foo')
+    expect(result).not_to include('</wbr>')
+  end
+
+end

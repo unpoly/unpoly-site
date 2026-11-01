@@ -16,7 +16,7 @@ module Unpoly
 
       def auto_insert(html)
         @toc_html = nil
-        nokogiri_doc = Nokogiri::HTML.fragment(html)
+        nokogiri_doc = Nokogiri::HTML5.fragment(html)
         headings = find_top_level_headings_with_id(nokogiri_doc)
 
         return html if headings.blank?

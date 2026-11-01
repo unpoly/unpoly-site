@@ -58,7 +58,7 @@ module Unpoly
         def render(markdown)
           markdown, attributes_by_line = extract_heading_attributes(markdown)
           html = Commonmarker.to_html(markdown, options: OPTIONS, plugins: PLUGINS)
-          doc = Nokogiri::HTML.fragment(html)
+          doc = Nokogiri::HTML5.fragment(html)
           assign_heading_attributes(doc, attributes_by_line)
           doc.css('[data-sourcepos]').each { |element| element.remove_attribute('data-sourcepos') }
           doc
