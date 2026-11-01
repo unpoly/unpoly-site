@@ -5,12 +5,20 @@ describe 'feature page', type: :feature, js: true do
   end
 
   it 'shows the signature, kind and visibility of the feature' do
-    expect(page).to have_css('h1', text: 'up.render([target], [options])')
-    expect(page).to have_css('h1 .subtitle', text: 'JavaScript function')
+    expect(page).to have_css('h1', exact_text: 'up.render([target], [options])')
+    expect(page).to have_css('hgroup.page-title > h1 + p.subtitle', text: 'JavaScript function')
     expect(page).to have_css('.feature.-stable')
+  end
 
-    # The breadcrumb is only shown on narrow screens, where there is no menu.
-    expect(page).to have_css('h1 .breadcrumb[href="/api/up.fragment"]', text: 'up.fragment', visible: :all)
+  # Search engines take a page's title from its <h1>, so it holds nothing else.
+  it 'has nothing but the title in its <h1>, with the kind in a subtitle beside it' do
+    visit '/api/up-submit'
+
+    expect(page).to have_css('.guide--content h1', exact_text: '[up-submit]')
+    subtitle = page.find('hgroup.page-title > p.subtitle', text: 'HTML attribute')
+    expect(subtitle).to have_css('svg.subtitle--icon', visible: :all)
+    expect(subtitle['data-pagefind-ignore']).not_to be_nil
+    expect(subtitle['data-markdown']).to eq('ignore')
   end
 
   it 'documents the parameters of the feature' do
@@ -36,7 +44,6 @@ describe 'a feature page title', type: :feature, js: true do
   TITLE_JS = <<~JS.freeze
     (function() {
       let h1 = document.querySelector('.guide--content h1').cloneNode(true)
-      h1.querySelectorAll('.breadcrumb, .subtitle').forEach((e) => e.remove())
       h1.querySelectorAll('wbr').forEach((e) => e.replaceWith('|'))
       return h1.textContent.trim()
     })()

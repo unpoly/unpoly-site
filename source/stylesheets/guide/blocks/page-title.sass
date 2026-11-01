@@ -1,0 +1,22 @@
+@import ../../environment
+
+// A title with a subtitle (page_title in config.rb), e.g. a feature's signature and kind.
+// The <h1> holds the title alone, the subtitle sits below it in the same <hgroup>, and
+// the group takes the title's margins (h1 in _typography.sass).
+.page-title
+  margin-top: $title-gap
+  margin-bottom: $space-5
+
+  up-modal &
+    margin-top: 0
+
+  h1
+    margin: 0
+
+  // The subtitle keeps its own margin against the title's reset of its next sibling.
+  .subtitle
+    margin-top: 7px !important
+
+  &+*
+    margin-top: 0 !important
+    +hide-first-margins

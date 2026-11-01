@@ -395,12 +395,10 @@ helpers do
     locals = skill_file ? { skill: true } : { rack: @locs[:rack] }.compact
     body = Unpoly::Site::HtmlToMarkdown.new(links: links).convert(html_page.render({ layout: false }, locals))
 
-    # The way up: to the index, and to the closest hub. In a feature this is the only
-    # place that names its module. A <nav>, so the skill's search skips it.
+    # The way up: to the index, then down the page's trail (Unpoly::Site::Trail), as the
+    # HTML page's breadcrumb does. A <nav>, so the skill's search skips it.
     nav = ["[All docs](#{skill_file ? links.relative('SKILL.md') : links.href('/')})"]
-    if (hub = twin.hub)
-      nav << "[#{hub.first}](#{links.href(hub.last)})"
-    end
+    twin.trail.each { |label, path| nav << "[#{label}](#{links.href(path)})" }
 
     "---\n#{twin.front_matter(url: links.page_url)}\n---\n" \
       "<nav aria-label=\"Unpoly docs\">#{nav.join(' · ')}</nav>\n\n#{body}"
@@ -564,22 +562,15 @@ helpers do
     tags.join.presence
   end
 
-  # The closest hub above a page, which its search result names below its title, so that
-  # namesakes from different places can be told apart ("link to" finds a Getting started
-  # page, a Links page and a feature of up.link). The same way up as the Markdown twin's
-  # nav line (MarkdownTwins::Twin#hub), one step closer for a guide page: its topic
-  # rather than its area, because the area is what the badge already says.
+  # The hub a search result names below its title, so that namesakes from different
+  # places can be told apart ("link to" finds a Getting started page, a Links page and a
+  # feature of up.link). It is the last step of the page's trail (Unpoly::Site::Trail): a
+  # feature's module or class, a guide page's chapter, or else its area. A module or
+  # class names its area, also a class that sits below a module (up.Layer).
   def search_hub(documentable)
-    toc = guide.toc
-    if documentable.kind?(:feature)
-      documentable.interface.name
-    elsif documentable.kind?(:interface) && !documentable.page?
-      'API'
-    elsif (topic = toc.topic_of(documentable))
-      topic.title
-    else
-      search_area_label(toc.area_for(documentable))
-    end
+    trail = Unpoly::Site::Trail.of(documentable: documentable)
+    step = documentable.kind?(:interface) && !documentable.page? ? trail.first : trail.last
+    step.first
   end
 
   # The first page of a chapter ("Links", "How Unpoly works"). Its result says
@@ -679,13 +670,6 @@ helpers do
       meta = content_tag(:span, meta, class: 'node--meta')
       concat_content(meta)
     end
-  end
-
-  def breadcrumb_link(label, href)
-    # The breadcrumb sits inside the <h1>, from which the search index takes a page's
-    # title. Without this, every API page would be titled "API reference up.render".
-    # The Markdown twin names the module in its nav line instead.
-    link_to label, href, class: 'breadcrumb', 'up-restore-scroll': true, 'data-pagefind-ignore': true, 'data-markdown': 'ignore'
   end
 
   # A feature's signature for a page title or menu label, with a line break allowed
@@ -852,22 +836,62 @@ helpers do
     concat_content @menu_html
   end
 
-  # A page's title row: the <h1>, and the ai-tools corner when the page has a Markdown
-  # twin. The title also goes into the window title (window_title). The search takes the
-  # <h1> as a result's title unless search_meta_tags names another.
+  # A page's title row: the ai-tools corner and the breadcrumb when the page has a
+  # Markdown twin, and the <h1>. The title also goes into the window title
+  # (window_title). The search takes the <h1> as a result's title unless
+  # search_meta_tags names another, and so may a search engine.
   #
   #   <%= page_title 'Changes' %>
   #
-  # A page whose heading is more than its title (a breadcrumb, a subtitle) passes the
-  # heading's content as a block:
+  # A page whose heading is more than its title's text (a signature with line breaks)
+  # passes the heading's content as a block:
   #
   #   <% page_title feature.title do %>…<% end %>
-  def page_title(title, &block)
+  #
+  # The <h1> holds the title alone. A subtitle (kind_subtitle) goes below it, in an
+  # <hgroup> with the <h1>:
+  #
+  #   <% page_title feature.title, subtitle: kind_subtitle(feature) do %>…<% end %>
+  def page_title(title, subtitle: nil, &block)
     @page_title = title
-    heading = block ? capture_html(&block) : h(title)
-    corner = markdown_twins.paths.include?(normalized_current_path) ? ai_tools : ''
-    row = corner.html_safe + content_tag(:h1, heading.html_safe)
+    heading = content_tag(:h1, (block ? capture_html(&block) : h(title)).html_safe)
+    heading = content_tag(:hgroup, heading + subtitle.html_safe, class: 'page-title') if subtitle
+    path = normalized_current_path
+    row = markdown_twins.paths.include?(path) ? ai_tools + breadcrumb(markdown_twins.fetch(path).trail) + heading : heading
     block ? concat_content(row) : row
+  end
+
+  # The way up from a page (Unpoly::Site::Trail), shown on narrow screens above its title.
+  # It names a search engine the same steps, in microdata (schema.org/BreadcrumbList).
+  # The search and the Markdown twin skip it: the twin has a nav line of its own.
+  def breadcrumb(trail)
+    return '' if trail.empty?
+
+    steps = trail.each_with_index.map do |(label, path), index|
+      %(<li class="breadcrumb--step" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">) +
+        %(<a class="breadcrumb--link" href="#{h path}" itemprop="item" up-restore-scroll><span itemprop="name">#{h label}</span></a>) +
+        %(<meta itemprop="position" content="#{index + 1}"></li>)
+    end
+
+    <<~HTML.html_safe
+      <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore data-markdown="ignore">
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      #{steps.join("\n")}
+      </ol>
+      </nav>
+    HTML
+  end
+
+  # A feature's, module's or class's kind ("HTML attribute"), for the subtitle below its
+  # title. A feature's comes with the glyph of its tile in the module's feature list.
+  # The Markdown twin carries the kind in its front matter instead (MarkdownTwins).
+  def kind_subtitle(documentable)
+    label = h(documentable.long_kind)
+    if documentable.kind?(:feature)
+      label = icon("kind-#{documentable.short_kind.downcase}", class: 'subtitle--icon') + label
+      modifier = ' -kind'
+    end
+    %(<p class="subtitle#{modifier}" data-pagefind-ignore data-markdown="ignore">#{label}</p>)
   end
 
   def slugify(text)

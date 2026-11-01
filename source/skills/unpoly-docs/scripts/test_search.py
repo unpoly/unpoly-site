@@ -411,7 +411,7 @@ class OutputTest(CorpusTestCase):
                 "up.render([target], [options]) (JavaScript function)",
                 "Replaces elements on the page.\n\n" + "Filler text.\n\n" * 30 +
                 "## Targets\n\nUse a [target selector](../learn/targeting.md) like `.zebra` here.\n",
-                name="up.render", area="API", kind="JavaScript function", parent="up.fragment module"),
+                name="up.render", area="API", kind="JavaScript function", parent="up.fragment"),
             "references/learn/other.md": page("Other zebra", "zebra"),
         })
 
@@ -420,7 +420,7 @@ class OutputTest(CorpusTestCase):
         self.assertEqual(status, 0)
         lines = output.strip().split("\n")
         self.assertRegex(lines[0], r'^<result score="\d+\.\d" path="references/api/up-render-function.md" '
-                                   r'area="API" kind="JavaScript function" parent="up.fragment module">$')
+                                   r'area="API" kind="JavaScript function" parent="up.fragment">$')
         self.assertEqual(lines[1], "<title>up.render([target], [options])</title>")
         self.assertTrue(lines[2].startswith("<snippet>") and lines[2].endswith("</snippet>"))
         self.assertEqual(lines[3], "</result>")

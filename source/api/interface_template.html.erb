@@ -7,17 +7,15 @@
   @documentable = interface
 %>
 
-<% page_title interface.title do %>
-  <%= breadcrumb_link area.title, area.path %>
-
+<%# A guide page's title goes through the block as well. Its surrounding whitespace keeps
+    Pagefind from putting a period after the title in its excerpts, which it does for a
+    bare <h1>Title</h1> ("Aborting requests. When two…"). %>
+<% page_title interface.title, subtitle: (kind_subtitle(interface) unless interface.page?) do %>
   <% if interface.page? %>
     <%= interface.title %>
   <% else %>
     <%# A module or class is titled by its JavaScript name, like a feature by its signature. %>
     <code class="-name"><%= breakable_signature(interface.name) %></code>
-    <div class="subtitle" data-pagefind-ignore data-markdown="ignore">
-      <%= interface.long_kind %>
-    </div>
   <% end %>
 <% end %>
 

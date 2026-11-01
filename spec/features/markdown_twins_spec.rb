@@ -64,23 +64,26 @@ describe 'Markdown twins', type: :feature do
       expect(markdown('/learn/start/links.md')).to include('](http://unpoly.test/api/up-follow.md)')
     end
 
-    it 'names the kind and module of a feature in its front matter, the module in its nav line, and neither in its title' do
+    it 'names the kind and module of a feature in its front matter, its trail in its nav line, and neither in its title' do
       text = markdown('/api/up.render.md')
-      expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nkind: "JavaScript function"\nparent: "up.fragment module"\nurl: "http://unpoly.test/api/up.render"\n---\n))
-      expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [up.fragment module](http://unpoly.test/api/up.fragment.md)</nav>\n\n# up.render([target], [options])\n))
+      expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nkind: "JavaScript function"\nparent: "up.fragment"\nurl: "http://unpoly.test/api/up.render"\n---\n))
+      expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API](http://unpoly.test/api.md) · [up.fragment](http://unpoly.test/api/up.fragment.md)</nav>\n\n# up.render([target], [options])\n))
     end
 
-    it 'places each page in the hierarchy: area, kind and parent in the front matter, the parent in the nav line' do
+    it 'places each page in the hierarchy: area, kind and parent in the front matter, the trail in the nav line' do
       feature = markdown('/api/up-follow.md')
-      expect(feature).to include(%(kind: "HTML attribute"\nparent: "up.link module"))
+      expect(feature).to include(%(kind: "HTML attribute"\nparent: "up.link"))
       expect(feature).to include('# [up-follow]' + "\n")
-      expect(markdown('/api/up.Layer.md')).to include(%(kind: "JavaScript class"\nparent: "up.layer module"))
-      expect(markdown('/api/up.layer.md')).to include(%(kind: "JavaScript namespace"\nparent: "API reference"))
+      expect(markdown('/api/up.Layer.md')).to include(%(kind: "JavaScript class"\nparent: "up.layer"))
+      expect(markdown('/api/up.layer.md')).to include(%(kind: "JavaScript namespace"\nparent: "API"))
       learn = markdown('/learn/following-links.md')
       expect(learn).not_to include('kind:')
-      expect(learn).to include(%(parent: "Links chapter"))
-      expect(learn).to match(%r{<nav aria-label="Unpoly docs">.*\[Links chapter\]\(.*/links\.md\)</nav>})
+      expect(learn).to include(%(parent: "Links"))
+      expect(learn).to match(%r{<nav aria-label="Unpoly docs">.* · \[Learn\]\(.*/learn\.md\) · \[Links\]\(.*/links\.md\)</nav>})
       expect(markdown('/learn/links.md')).to include(%(parent: "Learn"))
+      expect(markdown('/changes/3.0.0.md')).to include(%(parent: "Changes"))
+      expect(markdown('/learn.md')).not_to include('parent:')
+      expect(markdown('/learn.md')).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md)</nav>))
     end
 
     it 'exists for the hubs, the changelog and /support' do
@@ -122,7 +125,7 @@ describe 'Markdown twins', type: :feature do
     it 'has reference files that link each other by relative paths and the site by unpoly.com' do
       text = markdown('/skills/unpoly-docs/references/learn/start-links.md')
       expect(text).to include(%(url: "https://unpoly.com/learn/start/links"))
-      expect(text).to include('<nav aria-label="Unpoly docs">[All docs](../../SKILL.md) · [Getting started chapter](start-overview.md)</nav>')
+      expect(text).to include('<nav aria-label="Unpoly docs">[All docs](../../SKILL.md) · [Learn](index.md) · [Getting started](start-overview.md)</nav>')
       expect(text).to include('](../api/up-follow-selector.md)')
     end
 

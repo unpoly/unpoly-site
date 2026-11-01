@@ -17,8 +17,9 @@ describe 'vertical rhythm', type: :feature, js: true do
       expect(page).to have_css('.guide--content h1')
 
       expect(title_gap).to eq(40)
+      # The title with its subtitle, if it has one.
       below = page.evaluate_script(<<~JS)
-        (function(title) { return Math.round(title.nextElementSibling.getBoundingClientRect().top - title.getBoundingClientRect().bottom) })(document.querySelector('.guide--content h1'))
+        (function(title) { return Math.round(title.nextElementSibling.getBoundingClientRect().top - title.getBoundingClientRect().bottom) })(document.querySelector('.guide--content .page-title, .guide--content h1'))
       JS
       expect(below).to eq(25)
     end

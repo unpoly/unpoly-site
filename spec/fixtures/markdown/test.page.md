@@ -1,9 +1,9 @@
 ---
 area: "API"
-parent: "API reference"
+parent: "API"
 url: "http://unpoly.test/learn/test.page"
 ---
-<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API reference](http://unpoly.test/api.md)</nav>
+<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API](http://unpoly.test/api.md)</nav>
 
 # Test Page
 

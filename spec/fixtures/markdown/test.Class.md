@@ -2,10 +2,10 @@
 name: "test.Class"
 area: "API"
 kind: "JavaScript class"
-parent: "test.module module"
+parent: "test.module"
 url: "http://unpoly.test/api/test.Class"
 ---
-<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [test.module module](http://unpoly.test/api/test.module.md)</nav>
+<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API](http://unpoly.test/api.md) · [test.module](http://unpoly.test/api/test.module.md)</nav>
 
 # `test.Class`
 

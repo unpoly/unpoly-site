@@ -1,18 +1,39 @@
 @import ../../environment
 
+// The way up from a page, above its title (breadcrumb in config.rb):
+//
+//   API / up.form /
+//   [up-submit]
+//
+// The slashes are drawn here, with empty alt text, so that a screen reader reads the
+// steps without them.
 .breadcrumb
-  display: block
-  +type($text-md, $leading-ui)
   +type($text-sm, $leading-ui)
-  //font-weight: bold
-  color: $gray-600
+  // As bold as the title it used to sit in
+  font-weight: bold
+  // The title's gap to the header moves up to the breadcrumb (see below)
+  margin-top: $title-gap
   margin-bottom: 2px
-  +hover
-    color: $color-hover
-  &:after
-    content: ' /'
-    color: $gray-500
+
+  up-modal &
+    margin-top: 0
 
   +on-wide
     // On wide screens there is enough context in the left sidebar
     display: none
+
+  +on-narrow
+    &+h1, &+.page-title
+      margin-top: 0
+
+.breadcrumb--step
+  display: inline
+
+  &::after
+    content: unquote('" /" / ""')
+    color: $gray-500
+
+.breadcrumb--link
+  color: $gray-600
+  +hover
+    color: $color-hover

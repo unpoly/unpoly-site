@@ -81,8 +81,8 @@ module Unpoly
           data['name'] = symbol.name if symbol
           data['area'] = area
           data['kind'] = kind_label if symbol
-          if (hub = self.hub)
-            data['parent'] = hub.first
+          if (parent = trail.last)
+            data['parent'] = parent.first
           end
           if documentable && %w[deprecated experimental].include?(documentable.visibility)
             data['visibility'] = documentable.visibility
@@ -92,24 +92,9 @@ module Unpoly
           data.map { |key, value| "#{key}: #{JSON.generate(value)}" }.join("\n")
         end
 
-        # The closest page above this one, as [label, path], or nil when that is the
-        # root index: a feature's module or class, a class's module, a Learn page's
-        # chapter, and otherwise the area's hub (for a module, a chapter's first page).
-        def hub
-          documentable = self.documentable
-          if documentable&.kind?(:feature)
-            interface = documentable.interface
-            ["#{interface.name} #{interface.kind}", interface.guide_path]
-          elsif documentable&.class? && (module_name = documentable.explicit_parent_name)
-            mod = Site.current.find_module!(module_name)
-            ["#{mod.name} module", mod.guide_path]
-          elsif (chapter = self.chapter)
-            chapter
-          elsif (toc_area = self.toc_area)
-            [toc_area.title, toc_area.path]
-          elsif subject[:release] || subject[:page] == :upgrading
-            ['Changes', '/changes']
-          end
+        # The pages above this one, from its area down (Trail).
+        def trail
+          Trail.of(**subject, documentable: documentable)
         end
 
         # The kind as the skill's filenames spell it, nil for pages.
@@ -124,20 +109,6 @@ module Unpoly
         end
 
         private
-
-        # The page group a page belongs to, as [label, path] of its first page, unless the
-        # page is that first page itself. A Learn chapter is labelled as one ("Forms chapter").
-        def chapter
-          documentable = self.documentable or return
-          topic = Site.current.toc.topic_of(documentable)
-          return unless topic.is_a?(Toc::PageGroup)
-
-          start = topic.start_page
-          return if start.nil? || start == documentable
-
-          label = topic.area.key == 'learn' ? "#{topic.title} chapter" : topic.title
-          [label, start.guide_path]
-        end
 
         # The documentable, when it is an API symbol rather than a guide page.
         def symbol
