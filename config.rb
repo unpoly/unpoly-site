@@ -435,8 +435,13 @@ helpers do
   # paragraph as plain text, in full.
   #
   # A documentation page has it as its summary (summary_markdown). Every other page (the
-  # landing page, the hubs, a release, /support) takes it from its own content.
+  # landing page, the hubs, /support) takes it from its own content. A release has none
+  # (@no_description): its notes mostly start with a heading or a list, so their first
+  # paragraph is an arbitrary one, and a missing description is better than a misleading
+  # or duplicate one.
   def page_description(content_html)
+    return if @no_description
+
     summary = @documentable&.summary_markdown
     text = plain_text(markdown(summary, strip_links: true)) if summary.present?
     text.presence || first_paragraph_text(content_html)

@@ -133,14 +133,24 @@ describe 'search engines', type: :feature do
       expect(meta_of('/api')[:description]).to eq(['Technical reference for every attribute, function, event and HTTP header in Unpoly. For concepts and walkthroughs, see Learn.'])
     end
 
-    it 'describes a release by the first paragraph of its notes, not by its subtitle' do
-      description = meta_of('/changes/3.10.0')[:description].first
+    # Most release notes start with a heading or a list, so their first paragraph would
+    # be an arbitrary one, or the upgrading teaser's on every list-only release.
+    it 'gives a release no description, but titles and links its unfurl' do
+      ['/changes/3.10.0', '/changes/3.14.1', release_path].each do |path|
+        meta = meta_of(path)
+        expect(meta[:description]).to be_empty, "#{path} should have no description"
+        expect(meta[:og_description]).to be_empty, "#{path} should have no og:description"
+        expect(meta[:og_title]).to eq(meta[:title]), "og:title of #{path}"
+        expect(meta[:og_url]).to eq(canonical_of(path)), "og:url of #{path}"
+      end
+    end
 
-      expect(description).to start_with('Unpoly 3.10 is a major feature release')
+    it 'describes the upgrading page by its first paragraph' do
+      expect(meta_of('/changes/upgrading')[:description].first).to start_with('New Unpoly releases will occasionally rename')
     end
 
     it 'titles and links an unfurl like the window title and the canonical link' do
-      ['/', '/learn', '/api/up-defer', '/learn/lazy-loading', release_path, '/support'].each do |path|
+      ['/', '/learn', '/api/up-defer', '/learn/lazy-loading', '/support'].each do |path|
         meta = meta_of(path)
         expect(meta[:og_title]).to eq(meta[:title]), "og:title of #{path}"
         expect(meta[:og_url]).to eq(canonical_of(path)), "og:url of #{path}"

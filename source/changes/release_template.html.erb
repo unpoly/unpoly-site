@@ -2,6 +2,7 @@
   guide.reload if development?
   release = guide.release_for_version(release_version)
   @menu_path = '/changes/menu'
+  @no_description = true # see page_description
 %>
 
 <%= page_title "Version #{release.version}", subtitle: release_subtitle(release) %>
