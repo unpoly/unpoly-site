@@ -624,7 +624,11 @@ helpers do
   #
   # The site search does not read it: Pagefind titles a result by the page's <h1>, or by
   # the title in search_meta_tags.
+  # A page may set its whole window title (@window_title), as the hubs do: their
+  # titles already name the area.
   def window_title
+    return @window_title if @window_title
+
     page_title = @page_title || current_page.data.title
     return 'Unpoly - The missing application layer for HTML' if page_title.blank?
 

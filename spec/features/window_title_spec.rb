@@ -34,9 +34,12 @@ describe 'window title', type: :feature do
     expect(title_of('/learn/start/links')).to match(/\A[^()]+ - Learn Unpoly\z/)
   end
 
-  it 'names only the site on the hubs and on pages outside the documentation' do
-    expect(title_of('/learn')).to eq('Learn Unpoly - Unpoly')
-    expect(title_of('/api')).to eq('API reference - Unpoly')
+  it 'gives the hubs their own titles, without a suffix' do
+    expect(title_of('/learn')).to eq('Learn Unpoly')
+    expect(title_of('/api')).to eq('Unpoly API reference')
+  end
+
+  it 'names only the site on pages outside the documentation' do
     expect(title_of('/changes')).to eq('Changes - Unpoly')
     expect(title_of('/privacy')).to eq('Privacy policy - Unpoly')
   end
