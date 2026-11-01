@@ -247,7 +247,7 @@ describe 'presentation', type: :feature, js: true do
       expect(page).to have_css('up-popup a', text: /\d+\.\d+/)
     end
 
-    # Unpoly makes an overlay a dialog; dialog_names.js names it after its first heading.
+    # Unpoly makes an overlay a dialog; dialog_names.js names it after its first <h1>.
     it 'names the version popup "Versions"' do
       visit '/learn/loading-state'
 
@@ -264,6 +264,21 @@ describe 'presentation', type: :feature, js: true do
 
       expect(page).to have_css('up-modal main.guide--content h1')
       expect(find('up-modal-box').native.accessible_name).to eq(find('up-modal h1').text)
+    end
+
+    it 'names a modal after the new title when it navigates to another page' do
+      visit '/learn/loading-state'
+
+      page.execute_script("up.layer.open({ url: '/support', mode: 'modal' })")
+      expect(page).to have_css('up-modal main.guide--content h1')
+      first_name = find('up-modal-box').native.accessible_name
+
+      page.execute_script("up.navigate({ url: '/support/discussions', layer: 'current' })")
+      expect(page).to have_css('up-modal main.guide--content h1', text: 'GitHub Discussions')
+
+      expect(page).to have_css('up-modal-box', count: 1)
+      expect(find('up-modal-box').native.accessible_name).to eq(find('up-modal h1').text)
+      expect(find('up-modal-box').native.accessible_name).not_to eq(first_name)
     end
 
     it 'keeps the name the search dialog gives itself' do
