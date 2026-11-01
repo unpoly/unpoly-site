@@ -68,4 +68,20 @@ describe 'figures', type: :feature, js: true do
     end
   end
 
+  describe 'a video’s Play button' do
+    it 'names the video it plays, and leaves the focus on the video once it is gone' do
+      visit '/learn/previews'
+
+      player = find('.video-player', match: :first)
+      button = player.find('.video-player--play-button')
+      expect(button[:'aria-label']).to start_with('Play video: ')
+      expect(button[:'aria-label']).not_to include('Video:')
+
+      button.click
+
+      expect(player).to have_no_css('.video-player--play-button')
+      expect(page.evaluate_script('document.activeElement.matches(".video-player--video")')).to be(true)
+    end
+  end
+
 end

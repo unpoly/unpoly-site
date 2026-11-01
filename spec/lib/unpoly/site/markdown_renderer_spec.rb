@@ -273,6 +273,17 @@ describe Unpoly::Site::MarkdownRenderer do
       expect(fragment.at_css('.video-player > .video-player--inner > video')).to be_present
     end
 
+    it 'names the Play button after its video, so two videos on a page have different buttons' do
+      html = render(<<~MARKDOWN)
+        <video src="images/demo.mp4" controls width="350" aria-label="Video: A button showing a spinner"></video>
+
+        <video src="images/other.mp4" controls width="350"></video>
+      MARKDOWN
+      buttons = Nokogiri::HTML.fragment(html).css('.video-player--play-button')
+
+      expect(buttons.map { |button| button['aria-label'] }).to eq(['Play video: A button showing a spinner', 'Play video'])
+    end
+
   end
 
   describe 'heading levels' do

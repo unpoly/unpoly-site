@@ -106,8 +106,11 @@ module Unpoly
 
             inner =video.wrap('<div class="video-player--inner"></div>').parent
             player = inner.wrap('<div class="video-player"></div>').parent
+            # Every video on a page has a Play button, so each one says which video it plays.
+            label = video['aria-label'].to_s.strip.delete_prefix('Video:').strip
+            play_label = label.empty? ? 'Play video' : "Play video: #{label}"
             inner.add_child(<<~HTML)
-              <button class="video-player--play-button" aria-label="Play">
+              <button class="video-player--play-button" aria-label="#{CGI.escapeHTML(play_label)}">
                 #{Icon.html('play')}
               </button>
             HTML
