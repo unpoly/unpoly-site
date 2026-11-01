@@ -38,15 +38,19 @@
   // the last line alike; the global heading and paragraph margins would add to it.
   +hide-margins-y
 
-  // The text's own elements weigh no more than one class (:where), so that the
-  // landing's other blocks restyle them whatever their file's place in the cascade.
-  & :where(p)
+// The text's own elements weigh no more than their element name, so that every
+// other landing block restyles them, whatever its file's place in the cascade.
+// Only .landing--inner sits in :where: the element name must stay outside, to
+// tie the reset's `p { margin: 0 }` and the base `a { color: inherit }` and win
+// by coming later. (The backslash keeps Sass from reading the line as a property.)
+\:where(.landing--inner)
+  p
     margin-bottom: $space-4
 
-  & :where(code)
+  code
     +inline-code
 
-  & :where(a)
+  a
     @extend .hyperlink
 
 .landing--actions
