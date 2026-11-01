@@ -216,6 +216,12 @@ module Unpoly
           "/#{key}"
         end
 
+        # The area's name where a word must do: a search result's area and badge, the first
+        # step of a breadcrumb, the Markdown twin's `area:`. The header nav also says "API".
+        def short_title
+          key == 'api' ? 'API' : title
+        end
+
         # Pages in this area, in manifest order, loose pages last.
         def pages
           topic_pages + loose_pages

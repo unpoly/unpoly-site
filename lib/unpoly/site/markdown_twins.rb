@@ -65,7 +65,7 @@ module Unpoly
         # Learn, API, Changes or Support.
         def area
           if (toc_area = self.toc_area)
-            toc_area.key == 'api' ? 'API' : toc_area.title
+            toc_area.short_title
           elsif subject[:release]
             'Changes'
           else

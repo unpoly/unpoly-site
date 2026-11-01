@@ -35,7 +35,7 @@ module Unpoly
       end
 
       def self.area_step(area)
-        [area.key == 'api' ? 'API' : area.title, area.path]
+        [area.short_title, area.path]
       end
 
       # The step between a documentable and its area, if there is one: a feature's namespace

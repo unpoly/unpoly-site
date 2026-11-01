@@ -11,6 +11,11 @@ describe Unpoly::Site::Toc do
       expect(toc.api).not_to be_linear
     end
 
+    it 'shortens the API area to "API" where a word must do, and keeps Learn' do
+      expect(toc.api.short_title).to eq('API')
+      expect(toc.learn.short_title).to eq(toc.learn.title)
+    end
+
     it 'lists every documented page exactly once' do
       listed = toc.areas.flat_map(&:page_slugs)
 

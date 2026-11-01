@@ -523,7 +523,7 @@ helpers do
   def search_body_attrs
     documentable = search_documentable or return nil
 
-    area = search_area_label(guide.toc.area_for(documentable))
+    area = guide.toc.area_for(documentable).short_title
     badge = search_badge(documentable, area)
 
     %(data-pagefind-body data-pagefind-filter="area:#{h area}" data-pagefind-meta="badge:#{h badge}")
@@ -612,12 +612,6 @@ helpers do
   def search_overview?(documentable)
     topic = guide.toc.topic_of(documentable)
     !!topic && topic.menu_overview == documentable
-  end
-
-  # The area a result belongs to. "API reference" is too long to sit at the end of a
-  # result row; the header nav already calls it "API".
-  def search_area_label(area)
-    area.key == 'api' ? 'API' : area.title
   end
 
   # One badge per result, always the most informative one there is. A feature wears its
