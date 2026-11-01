@@ -146,12 +146,13 @@ module Unpoly
         "#{registered.size} preview images in #{build_dir}/og, #{missing.size} of them newly rendered."
       end
 
-      # Everything besides an image's data that decides its pixels, so that changing the
-      # template, a font or the logo renders every image again. Not the Chrome version, or
-      # every browser update would render every image again.
+      # Everything besides an image's data that decides its pixels: every file in og_image/
+      # (the template, the fonts, the renderer's Chrome settings) and the logo. Changing any
+      # of them renders every image again, even if the change is a comment. Not the Chrome
+      # version, or every browser update would render every image again.
       def self.template_digest
         @template_digest ||= begin
-          files = [TEMPLATE, *Dir[File.join(TEMPLATE_DIR, 'fonts', '*')].sort, LOGO]
+          files = [*Dir[File.join(TEMPLATE_DIR, '**', '*')].select { |file| File.file?(file) }.sort, LOGO]
           Digest::SHA256.hexdigest(files.map { |file| Digest::SHA256.file(file).hexdigest }.join)
         end
       end
