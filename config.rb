@@ -151,7 +151,8 @@ Unpoly::Site.current.interfaces.select(&:guide_page?).each do |interface|
   path = "#{interface.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Interface #{interface.name}: #{path}" if DEBUG
   # Pass the name instead of the interface instance, since reloading will build a new instance.
-  proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, ignore: true
+  # The parser's fixtures are test data and stay out of search engines (indexable?).
+  proxy path, "/api/interface_template.html", locals: { interface_id: interface.guide_id }, data: { noindex: interface.fixture? }, ignore: true
   markdown_twins.add(interface.guide_path, documentable: interface.guide_id)
 end
 
@@ -159,7 +160,8 @@ Unpoly::Site.current.features.select(&:guide_page?).each do |feature|
   path = "#{feature.guide_path}.html" # the .html will be removed by Middleman's pretty directory indexes
   puts "Feature #{feature.name}: #{path}" if DEBUG
   # Pass the name instead of the feature instance, since reloading will build a new instance.
-  proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, ignore: true
+  # The parser's fixtures are test data and stay out of search engines (indexable?).
+  proxy path, "/api/feature_template.html", locals: { feature_id: feature.guide_id }, data: { noindex: feature.fixture? }, ignore: true
   markdown_twins.add(feature.guide_path, documentable: feature.guide_id)
 end
 
@@ -421,6 +423,24 @@ helpers do
     (@head_links || []).map { |link|
       tag(:link, rel: link[:rel], href: link[:href], type: link[:type], 'up-meta': true)
     }.join("\n").html_safe
+  end
+
+  # ---------- Search engines ----------
+
+  # Whether search engines may list a page. A page that may not gets
+  # <meta name="robots" content="noindex, follow"> (layouts/_head).
+  #
+  # A page is listed when it is an HTML template in the site's layout and does not say
+  # `noindex: true` in its data: in its front matter (the menus that the sidebar and
+  # the drawer load, the version popup), or through its proxy (the parser's fixtures).
+  # Pages without the layout are tools, the example apps' frames and static HTML files
+  # (a screenshot's source), which no documentation page links. Markdown twins are not
+  # HTML and get a noindex header from the .htaccess.
+  def indexable?(resource = current_page)
+    resource.destination_path.end_with?('.html') &&
+      resource.template? && # Middleman lays out templates only
+      resource.options[:layout] == 'guide' &&
+      !resource.data[:noindex]
   end
 
   # The links of the reading nav (_reading_nav), which also become the head's
