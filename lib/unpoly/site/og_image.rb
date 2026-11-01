@@ -124,8 +124,11 @@ module Unpoly
         if missing.any?
           Renderer.open do |renderer|
             missing.each do |file|
-              png = renderer.render(JSON.parse(File.read(file)))
-              File.binwrite(file.sub(/\.json\z/, '.png'), png)
+              # Through a temporary file, so that an interrupted build cannot leave a
+              # truncated image that later builds take from the cache.
+              png = file.sub(/\.json\z/, '.png')
+              File.binwrite("#{png}.tmp", renderer.render(JSON.parse(File.read(file))))
+              File.rename("#{png}.tmp", png)
             end
           end
         end
