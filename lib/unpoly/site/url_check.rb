@@ -169,6 +169,9 @@ module Unpoly
 
           path = $1.sub(%r{(\A|/)index\z}, '')
           next if path.start_with?('api/', 'examples/', 'layouts/', 'nodes/', 'menu/')
+          # The retired examples' index template rendered each example, never a page of its
+          # own at /examples. (The .htaccess sends /examples/… to /learn.)
+          next if path == 'examples'
           next if File.basename(path).start_with?('_') || File.basename(path) == 'menu'
           next if path.end_with?('_template')
 

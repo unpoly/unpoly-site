@@ -100,6 +100,10 @@ RedirectPermanent /discussions https://github.com/unpoly/unpoly/discussions
 RedirectPermanent /talk https://github.com/unpoly/unpoly/discussions
 RedirectPermanent /forum https://github.com/unpoly/unpoly/discussions
 
+# The runnable examples (/examples/modal, …) are gone. The Learn section shows the same
+# things in context.
+RedirectMatch permanent ^/examples(/.*)?$ /learn
+
 <%= guide.migrate_redirects %>
 
 Header set Cache-Control "max-age=0, private"

@@ -112,9 +112,9 @@ module Unpoly
         end
       end
 
-      # Templates, scripts and examples of the site itself (this repository).
+      # Templates and scripts of the site itself (this repository).
       def site_files
-        %w[source/**/*.{erb,js,md,yml,rb} examples/**/*.{erb,html,md,yml,js} config.rb].flat_map { |pattern|
+        %w[source/**/*.{erb,js,md,yml,rb} config.rb].flat_map { |pattern|
           Dir[pattern]
         }.uniq.sort - ['source/.htaccess.erb']
       end

@@ -237,16 +237,6 @@ describe 'presentation', type: :feature, js: true do
     end
   end
 
-  describe 'a runnable example' do
-    before { visit '/examples/modal' }
-
-    it 'shows its source files beside the running demo' do
-      expect(page).to have_css('.example--file', minimum: 2)
-      expect(page).to have_css('.example--demo')
-      expect(page).to have_css('.example .action', text: 'Back')
-    end
-  end
-
   describe 'an overlay' do
     it 'renders the version switcher in a popup with the site chrome' do
       visit '/learn/loading-state'

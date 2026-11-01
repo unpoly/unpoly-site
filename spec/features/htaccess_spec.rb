@@ -90,6 +90,13 @@ describe 'the .htaccess', type: :feature do
     end
   end
 
+  it 'sends the retired runnable examples to Learn, as the site serves none of them' do
+    expect(htaccess).to include('RedirectMatch permanent ^/examples(/.*)?$ /learn')
+
+    request = Rack::MockRequest.new(Capybara.app)
+    expect(request.get('/examples/modal').status).to eq(404)
+  end
+
   describe 'short paths' do
     # The rules are tried against a real Apache in the URL move runbook. Here we only
     # pin their order, which no build would notice going wrong.

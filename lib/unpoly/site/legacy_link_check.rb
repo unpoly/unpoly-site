@@ -7,7 +7,7 @@ module Unpoly
     # links.
     #
     # Checks the Unpoly sources (doc comments, guide pages, release notes, READMEs,
-    # contributing docs) and the site's own templates, scripts and examples. Runs with
+    # contributing docs) and the site's own templates and scripts. Runs with
     # the build's link check and with `rake docs:check_urls`.
     class LegacyLinkCheck
       def initialize(repository = Site.current, links: LegacyLinks.new(repository))

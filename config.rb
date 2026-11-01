@@ -8,7 +8,6 @@ require 'ext/uri/silence_escape_warning'
 require 'ext/rack/support_colons_in_path'
 # require 'unpoly/tasks'
 require 'unpoly/site'
-require 'unpoly/example'
 require 'fileutils'
 
 ##
@@ -226,28 +225,6 @@ else
   # The search script's tests stay in the repository (rake skill:test).
   ignore %r{\A#{Unpoly::Site::Skill::ROOT}/scripts/(test_|__pycache__)}
 end
-
-Unpoly::Example.all.each do |example|
-
-  proxy example.index_path, "examples/index.html", locals: { example: example }, layout: false, ignore: true, directory_index: false
-
-  example.stylesheets.each do |asset|
-    puts "Example stylesheet: #{asset.path}" if DEBUG
-    proxy asset.path, "/examples/stylesheet", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
-  end
-
-  example.javascripts.each do |asset|
-    puts "Example javascripts: #{asset.path}" if DEBUG
-    proxy asset.path, "/examples/javascript", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
-  end
-
-  example.pages.each do |asset|
-    puts "Example pages: #{asset.path}" if DEBUG
-    proxy asset.path, "/examples/page.html", locals: { asset: asset }, layout: false, ignore: true, directory_index: false
-  end
-
-end
-
 
 ###
 # Helpers

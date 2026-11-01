@@ -4,10 +4,6 @@ Object.assign up.layer.config.modal,
   openDuration: 300
   closeDuration: 300
 
-Object.assign up.layer.config.cover,
-  openDuration: 500
-  closeDuration: 500
-
 up.script.config.scriptElementPolicy = 'block'
 
 up.viewport.config.revealPadding = 10
@@ -23,9 +19,6 @@ up.layer.config.modal.size = 'large'
 
 up.layer.config.popup.align = 'right'
 up.layer.config.popup.size = 'grow'
-
-up.layer.config.cover.openAnimation = false
-up.layer.config.cover.closeAnimation = false
 
 up.on 'up:link:follow', 'up-drawer .menu a', (event) ->
   event.renderOptions.layer = 'root'
