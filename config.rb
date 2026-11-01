@@ -61,6 +61,19 @@ configure :build do
     end
   end
 
+  # Renders the preview image of every page that registered one while it rendered (og_image
+  # below), into build/og. Only images the cache in tmp/og-cache does not have yet are
+  # rendered, in a headless Chrome; when there are none, Chrome does not start
+  # (Unpoly::Site::OgImage). A build without Chrome fails here, unless SKIP_OG_IMAGES=1
+  # leaves the images out, and with them the pages' og:image tags.
+  og_images_since = Time.now
+  after_build do
+    unless ENV['SKIP_OG_IMAGES']
+      puts "Rendering preview images. Disable with SKIP_OG_IMAGES=1."
+      puts Unpoly::Site::OgImage.build!(build_dir: './build', since: og_images_since)
+    end
+  end
+
   # Checks the unpoly-docs skill that the build wrote to build/skills/unpoly-docs/ and
   # packs its archives and install indexes (Unpoly::Site::SkillPackage). A broken skill
   # fails the build.
@@ -113,7 +126,8 @@ configure :development do
   # build instead, so that search works in the preview. `rake search:index` refreshes it;
   # until it has run once, the popup says so rather than failing.
   # ::Rack, because inside this block `Rack` resolves to Middleman::Rack.
-  use ::Rack::Static, urls: ['/pagefind'], root: 'build'
+  # The same goes for the preview images (og_image).
+  use ::Rack::Static, urls: ['/pagefind', '/og'], root: 'build'
 end
 
 DEBUG = false
@@ -475,6 +489,26 @@ helpers do
     Nokogiri::HTML5.fragment(html.to_s).text.squish
   end
 
+  # The page's preview image for link unfurlers (layouts/_head), or nil when the build
+  # leaves them out (SKIP_OG_IMAGES=1). Its title is the page's, its text the page's
+  # description (page_description), else its subtitle: a release has no description, but
+  # says when it was released. The image takes the rest from the page's Markdown twin
+  # (Unpoly::Site::OgImage).
+  #
+  # A build renders the image after all pages have rendered (after_build above).
+  def og_image(description)
+    return if ENV['SKIP_OG_IMAGES']
+
+    image = Unpoly::Site::OgImage.new(
+      title: plain_page_title || claim,
+      text: description || plain_text(@page_subtitle).presence,
+      page_path: canonical_url.delete_prefix(Unpoly::Site.base_url),
+      twin: markdown_twins[normalized_current_path],
+    )
+    image.register! if build?
+    image
+  end
+
   # The links of the reading nav (_reading_nav), which also become the head's
   # <link rel="prev"> and <link rel="next">.
   def prev_link(page)
@@ -663,8 +697,8 @@ helpers do
   def window_title
     return @window_title if @window_title
 
-    page_title = @page_title || current_page.data.title
-    return 'Unpoly - Build a complete frontend in HTML' if page_title.blank?
+    page_title = plain_page_title
+    return "Unpoly - #{claim}" if page_title.blank?
 
     area = @documentable ? guide.toc.area_for(@documentable) : @area
     case area&.key
@@ -676,6 +710,18 @@ helpers do
     else
       "#{page_title} - Unpoly"
     end
+  end
+
+  # The page's title as its <h1> says it (page_title), without the area or kind that
+  # window_title adds. The landing page has none.
+  def plain_page_title
+    @page_title.presence || current_page.data.title.presence
+  end
+
+  # What Unpoly does, in the landing page's words. Pages without a title of their own
+  # (the landing page) go by it.
+  def claim
+    'Build a complete frontend in HTML'
   end
 
   def unpoly_library_size(files = nil)
@@ -899,10 +945,11 @@ helpers do
   #   <% page_title feature.title, subtitle: kind_subtitle(feature) do %>…<% end %>
   def page_title(title, subtitle: nil, &block)
     @page_title = title
+    @page_subtitle = subtitle # for og_image
     heading = content_tag(:h1, (block ? capture_html(&block) : h(title)).html_safe)
     heading = content_tag(:hgroup, heading + subtitle.html_safe, class: 'page-title') if subtitle
-    path = normalized_current_path
-    row = markdown_twins.paths.include?(path) ? ai_tools + breadcrumb(markdown_twins.fetch(path).trail) + heading : heading
+    twin = markdown_twins[normalized_current_path]
+    row = twin ? ai_tools + breadcrumb(twin.trail) + heading : heading
     block ? concat_content(row) : row
   end
 

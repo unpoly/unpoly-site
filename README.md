@@ -322,6 +322,22 @@ Two rake tasks check the documentation beyond the test suite:
   guide page explains yet (no `@learn-ref`).
 
 
+## Preview images
+
+Every page that search engines may list has a preview image for link unfurlers (Slack,
+LinkedIn, X), named in its `og:image` tag. `Unpoly::Site::OgImage` decides what an image
+shows and renders it from `lib/unpoly/site/og_image/template.html` in a headless Chrome,
+with fonts vendored next to the template.
+
+- `middleman build` renders the images after the pages, into `build/og/<digest>.png`. The
+  digest covers the image's content and the template, so an unchanged image keeps its URL.
+- Rendered images are cached in `tmp/og-cache`. A build renders only new or changed images
+  (all of them, about a minute, after a template change or on a new machine), and does not
+  start Chrome when nothing changed. Images no build used for 30 days are deleted.
+- A build needs Chrome and chromedriver, as the specs do. `SKIP_OG_IMAGES=1` builds
+  without images and leaves out the `og:image` tags, so no page names a missing image.
+- The preview server serves the images of the last build.
+
 ## Deployment
 
 1. Commit and push changes in `unpoly-site`.
@@ -329,4 +345,4 @@ Two rake tasks check the documentation beyond the test suite:
    documentation output.
 3. Run `bundle exec cap v3 deploy` to push the changes to <https://unpoly.com>. Static
    files will be built during deployment, including a broken-link check over the whole
-   site and the full-text search index.
+   site, the full-text search index and the [preview images](#preview-images).

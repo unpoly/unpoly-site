@@ -1,0 +1,135 @@
+<!doctype html>
+<!--
+  The preview image of a page (OgImage), the "c2" design: the Unpoly logo, the page's
+  title and the second line, and a footer with the glyph and label of the page's kind or
+  area and a URL. OgImage::Renderer loads this page once into a 1200×630 window, inserts
+  the logo, then calls fill() and takes a screenshot for every image.
+
+  The fonts live next to this file, so that an image does not depend on the fonts installed
+  on the machine that builds the site. Changing any file in this directory (or the logo)
+  renders every image again (OgImage.template_digest).
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: Roboto; font-weight: 400; src: url(fonts/Roboto-Regular.ttf) }
+  @font-face { font-family: Roboto; font-weight: 500; src: url(fonts/Roboto-Medium.ttf) }
+  @font-face { font-family: Roboto; font-weight: 700; src: url(fonts/Roboto-Bold.ttf) }
+  @font-face { font-family: Roboto Mono; font-weight: 500; src: url(fonts/RobotoMono-Medium.ttf) }
+
+  body { margin: 0 }
+
+  .card {
+    width: 1200px;
+    height: 630px;
+    box-sizing: border-box;
+    padding: 64px 88px 56px;
+    background: hsl(233, 24%, 33%);
+    color: #fff;
+    font-family: Roboto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .logo svg { display: block; width: 250px; height: 40px }
+
+  .middle { display: flex; flex-direction: column; gap: 20px }
+
+  .title { margin: 0; font-weight: 700; line-height: 1.05; text-wrap: balance }
+  .title.-code { font-family: Roboto Mono; font-weight: 500 }
+
+  .text {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.36;
+    color: hsl(233, 30%, 90%);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* As high as the tile even without one, so that the divider stays put. */
+  .foot {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 64px;
+    padding-top: 24px;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .tile {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile:empty { display: none }
+  .tile svg { width: 32px; height: 32px }
+
+  .label { flex: 1 1 auto; font-size: 28px; font-weight: 500; white-space: nowrap }
+
+  .url {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font: 500 24px/1 Roboto Mono;
+    color: hsl(233, 30%, 80%);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo"></div>
+    <div class="middle">
+      <h1 class="title"></h1>
+      <p class="text"></p>
+    </div>
+    <div class="foot">
+      <div class="tile"></div>
+      <span class="label"></span>
+      <span class="url"></span>
+    </div>
+  </div>
+
+  <script>
+    const card = document.querySelector('.card')
+    const $ = (selector) => card.querySelector(selector)
+
+    // data: OgImage#data
+    function fill(data) {
+      const title = $('.title')
+      title.classList.toggle('-code', data.code)
+      // An API symbol may break after a dot or colon (up.Preview.prototype.|showPlaceholder()),
+      // which it does not by itself.
+      const parts = data.code ? data.title.split(/(?<=[.:#])/) : [data.title]
+      title.replaceChildren(...parts.flatMap((part, i) => i ? [document.createElement('wbr'), part] : [part]))
+
+      $('.text').textContent = data.text || ''
+      $('.tile').innerHTML = data.glyph || ''
+      $('.label').textContent = data.label || ''
+      $('.url').textContent = data.url
+
+      // The largest size at which the title fits in two lines, and leaves some room
+      // above and below the text (a long title above a long text gets smaller).
+      for (let size = 88; size >= 60; size -= 2) {
+        title.style.fontSize = `${size}px`
+        const lines = Math.round(title.offsetHeight / (size * 1.05))
+        const room = $('.middle').getBoundingClientRect().top - $('.logo').getBoundingClientRect().bottom
+        if (lines <= 2 && title.scrollWidth <= title.clientWidth && room >= 32) break
+      }
+    }
+  </script>
+</body>
+</html>

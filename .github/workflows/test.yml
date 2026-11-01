@@ -134,6 +134,7 @@ jobs:
       BUNDLE_WITHOUT: deploy
       SKIP_SEARCH_INDEX: 1
       SKIP_SKILL: 1
+      SKIP_OG_IMAGES: 1
     defaults:
       run:
         working-directory: unpoly-site

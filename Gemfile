@@ -24,6 +24,9 @@ gem 'rack'
 group :build do
   gem 'rake'
   gem 'html-proofer', '<4'
+  # Renders the preview images in Chrome (Unpoly::Site::OgImage), and drives the
+  # browser of the `js: true` specs.
+  gem 'selenium-webdriver', '>= 4'
 end
 
 group :deploy do
@@ -34,7 +37,6 @@ end
 group :test do
   gem 'rspec'
   gem 'capybara'
-  gem 'selenium-webdriver', '>= 4'
   gem 'puma'
   # gem 'webrick'
 end

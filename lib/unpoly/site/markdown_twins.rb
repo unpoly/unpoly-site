@@ -33,6 +33,11 @@ module Unpoly
         @twins.fetch(path)
       end
 
+      # The twin of the page at `path`, or nil if it has none.
+      def [](path)
+        @twins[path]
+      end
+
       def paths
         @paths ||= Set.new(@twins.keys)
       end
@@ -108,13 +113,13 @@ module Unpoly
           symbol&.long_kind
         end
 
-        private
-
         # The documentable, when it is an API symbol rather than a guide page.
         def symbol
           documentable = self.documentable
           documentable unless documentable.nil? || documentable.page?
         end
+
+        private
 
         # The Learn or API area of a documentation page or topic index.
         def toc_area

@@ -1,6 +1,8 @@
 # Must be loaded before the first example, so that Capybara's own `before` hook
 # is registered in time to switch the driver for examples tagged `js: true`.
 require 'capybara/rspec'
+# In the Gemfile's build group, which renders the preview images with it.
+require 'selenium-webdriver'
 
 def register_chrome_driver(name, width:, height:)
   Capybara.register_driver name do |app|

@@ -105,6 +105,11 @@ describe 'search engines', type: :feature do
         og_description: head.css('meta[property="og:description"]').map { |meta| meta['content'] },
         og_title: head.at('meta[property="og:title"]')&.[]('content'),
         og_url: head.at('meta[property="og:url"]')&.[]('content'),
+        og_image: head.at('meta[property="og:image"]')&.[]('content'),
+        og_image_width: head.at('meta[property="og:image:width"]')&.[]('content'),
+        og_image_height: head.at('meta[property="og:image:height"]')&.[]('content'),
+        og_image_alt: head.at('meta[property="og:image:alt"]')&.[]('content'),
+        twitter_card: head.at('meta[name="twitter:card"]')&.[]('content'),
         title: head.at('title').text,
       }
     end
@@ -158,6 +163,51 @@ describe 'search engines', type: :feature do
       end
     end
 
+    # The image itself is rendered by the build (Unpoly::Site::OgImage, spec/lib).
+    describe 'the preview image' do
+      it 'names an image of the page, with its size and what it says' do
+        ['/', '/learn', '/api/up-defer', '/learn/lazy-loading', release_path, '/support'].each do |path|
+          meta = meta_of(path)
+          expect(meta[:og_image]).to match(%r{\Ahttps://unpoly\.com/og/\h{16}\.png\z}), "og:image of #{path}"
+          expect(meta.values_at(:og_image_width, :og_image_height)).to eq(%w[1200 630]), "og:image size of #{path}"
+          expect(meta[:twitter_card]).to eq('summary_large_image'), "twitter:card of #{path}"
+        end
+      end
+
+      it "describes a page's image by its title and description" do
+        expect(meta_of('/api/up.render')[:og_image_alt]).to start_with('up.render(): Replaces elements on the current page')
+        expect(meta_of('/learn')[:og_image_alt]).to eq("Learn Unpoly: #{meta_of('/learn')[:description].first}")
+      end
+
+      it "describes the landing page's image by the claim" do
+        expect(meta_of('/')[:og_image_alt]).to start_with('Build a complete frontend in HTML: The application stays on your server')
+      end
+
+      it "describes a release's image by its date and commits, as it has no description" do
+        release = Unpoly::Site.current.release_for_version('3.0.0')
+        expect(meta_of('/changes/3.0.0')[:og_image_alt]).to eq("Version 3.0.0: Released on #{release.date.strftime('%B %d, %Y')} with #{release.commit_count} commits")
+      end
+
+      it 'gives every page an image of its own, and the same page the same image' do
+        expect(meta_of('/api/up-defer')[:og_image]).not_to eq(meta_of('/api/up.render')[:og_image])
+        expect(meta_of('/api/up-defer')[:og_image]).to eq(meta_of('/api/up-defer')[:og_image])
+      end
+
+      it 'leaves the image out where search engines may not list a page' do
+        meta = meta_of('/learn/menu')
+        expect(meta.values_at(:og_image, :og_image_width, :og_image_height, :og_image_alt, :twitter_card)).to all(be_nil)
+      end
+
+      it 'leaves the image out when the build does not render images (SKIP_OG_IMAGES=1)' do
+        ENV['SKIP_OG_IMAGES'] = '1'
+        meta = meta_of('/api/up-defer')
+        expect(meta.values_at(:og_image, :og_image_width, :og_image_height, :og_image_alt, :twitter_card)).to all(be_nil)
+        expect(meta[:og_title]).to be_present
+      ensure
+        ENV.delete('SKIP_OG_IMAGES')
+      end
+    end
+
     it 'swaps them when Unpoly navigates to another page', js: true do
       expected = meta_of('/api/up.link')
       visit '/api'
@@ -175,6 +225,8 @@ describe 'search engines', type: :feature do
             ogDescription: content('meta[property="og:description"]'),
             ogTitle: content('meta[property="og:title"]'),
             ogUrl: content('meta[property="og:url"]'),
+            ogImage: content('meta[property="og:image"]'),
+            ogImageAlt: content('meta[property="og:image:alt"]'),
             title: document.title,
           }
         })()
@@ -185,6 +237,8 @@ describe 'search engines', type: :feature do
       expect(head['ogDescription']).to eq(expected[:og_description])
       expect(head['ogTitle']).to eq([expected[:og_title]])
       expect(head['ogUrl']).to eq(['https://unpoly.com/api/up.link'])
+      expect(head['ogImage']).to eq([expected[:og_image]])
+      expect(head['ogImageAlt']).to eq([expected[:og_image_alt]])
     end
 
     it 'leaves them out where search engines may not list a page' do
