@@ -95,6 +95,96 @@ describe 'search engines', type: :feature do
     end
   end
 
+  # What a search result shows below its headline, and a link unfurler (Slack, GitHub)
+  # below its title.
+  describe 'the description and Open Graph tags' do
+    def meta_of(path)
+      head = head_of(path)
+      {
+        description: head.css('meta[name=description]').map { |meta| meta['content'] },
+        og_description: head.css('meta[property="og:description"]').map { |meta| meta['content'] },
+        og_title: head.at('meta[property="og:title"]')&.[]('content'),
+        og_url: head.at('meta[property="og:url"]')&.[]('content'),
+        title: head.at('title').text,
+      }
+    end
+
+    it 'describes a documentation page with its summary, the first paragraph of its text' do
+      meta = meta_of('/api/up.render')
+
+      expect(meta[:description].size).to eq(1)
+      expect(meta[:description].first).to start_with('Replaces elements on the current page')
+      expect(meta[:og_description]).to eq(meta[:description])
+    end
+
+    it 'describes a Learn page by its first paragraph as plain text' do
+      meta = meta_of('/learn/following-links')
+
+      expect(meta[:description].size).to eq(1)
+      expect(meta[:description].first).to start_with('Any link can update a fragment of the current page')
+      expect(meta[:description].first).not_to match(/[<>`\[\]]/)
+    end
+
+    it 'describes the landing page and the hubs with their own intro text' do
+      # The landing page's byline ends in a colon, leading into the code samples. Its
+      # trailer says what Unpoly does.
+      expect(meta_of('/')[:description].first).to start_with('The application stays on your server')
+      expect(meta_of('/learn')[:description]).to eq([find('.hub-intro').text.squish])
+      expect(meta_of('/api')[:description]).to eq(['Technical reference for every attribute, function, event and HTTP header in Unpoly. For concepts and walkthroughs, see Learn.'])
+    end
+
+    it 'describes a release by the first paragraph of its notes, not by its subtitle' do
+      description = meta_of('/changes/3.10.0')[:description].first
+
+      expect(description).to start_with('Unpoly 3.10 is a major feature release')
+    end
+
+    it 'titles and links an unfurl like the window title and the canonical link' do
+      ['/', '/learn', '/api/up-defer', '/learn/lazy-loading', release_path, '/support'].each do |path|
+        meta = meta_of(path)
+        expect(meta[:og_title]).to eq(meta[:title]), "og:title of #{path}"
+        expect(meta[:og_url]).to eq(canonical_of(path)), "og:url of #{path}"
+        expect(meta[:description].size).to eq(1), "#{path} should have one description"
+      end
+    end
+
+    it 'swaps them when Unpoly navigates to another page', js: true do
+      expected = meta_of('/api/up.link')
+      visit '/api'
+      page.execute_script('window.notReloaded = true')
+
+      find('.api-row--name[href$="/api/up.link"]').click
+      expect(page).to have_css('.guide--content h1', text: 'up.link')
+
+      head = page.evaluate_script(<<~JS)
+        (() => {
+          let content = (selector) => [...document.head.querySelectorAll(selector)].map((meta) => meta.content)
+          return {
+            notReloaded: window.notReloaded,
+            description: content('meta[name=description]'),
+            ogDescription: content('meta[property="og:description"]'),
+            ogTitle: content('meta[property="og:title"]'),
+            ogUrl: content('meta[property="og:url"]'),
+            title: document.title,
+          }
+        })()
+      JS
+      expect(head['notReloaded']).to eq(true)
+      expect(head['description']).to eq(expected[:description])
+      expect(head['description'].first).to be_present
+      expect(head['ogDescription']).to eq(expected[:og_description])
+      expect(head['ogTitle']).to eq([expected[:og_title]])
+      expect(head['ogUrl']).to eq(['https://unpoly.com/api/up.link'])
+    end
+
+    it 'leaves them out where search engines may not list a page' do
+      meta = meta_of('/learn/menu')
+      expect(meta[:description]).to be_empty
+      expect(meta[:og_title]).to be_nil
+      expect(meta[:og_url]).to be_nil
+    end
+  end
+
   it 'names the sitemap in robots.txt' do
     visit '/robots.txt'
     expect(page.body).to include('Sitemap: https://unpoly.com/sitemap.xml')

@@ -430,6 +430,33 @@ helpers do
     "#{Unpoly::Site.base_url}#{path}"
   end
 
+  # The description that search engines show below a result's headline, and link
+  # unfurlers (Slack, GitHub) below its title (layouts/_head): the page's first visible
+  # paragraph as plain text, in full.
+  #
+  # A documentation page has it as its summary (summary_markdown). Every other page (the
+  # landing page, the hubs, a release, /support) takes it from its own content.
+  def page_description(content_html)
+    summary = @documentable&.summary_markdown
+    text = plain_text(markdown(summary, strip_links: true)) if summary.present?
+    text.presence || first_paragraph_text(content_html)
+  end
+
+  def first_paragraph_text(html)
+    # Paragraphs that are not the page's own text: a title's subtitle, navigation, chrome
+    # that search and the Markdown twins skip, a note in a box.
+    skip = 'hgroup, nav, aside, blockquote, figure, [hidden], [aria-hidden="true"], [data-pagefind-ignore], [data-markdown="ignore"]'
+    paragraphs = Nokogiri::HTML5.fragment(html.to_s).css('p').reject { |paragraph| paragraph.ancestors(skip).any? }
+    texts = paragraphs.map { |paragraph| paragraph.text.squish }.reject(&:blank?)
+    # A paragraph that ends in a colon leads into what follows it (the landing page's
+    # byline into its code samples) and says little on its own.
+    texts.find { |text| !text.end_with?(':') }
+  end
+
+  def plain_text(html)
+    Nokogiri::HTML5.fragment(html.to_s).text.squish
+  end
+
   # The links of the reading nav (_reading_nav), which also become the head's
   # <link rel="prev"> and <link rel="next">.
   def prev_link(page)

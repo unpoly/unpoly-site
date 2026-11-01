@@ -9,6 +9,15 @@
       at all (indexable? in config.rb). Unpoly swaps both on navigation. %>
   <% if indexable? %>
     <% head_link(rel: 'canonical', href: canonical_url) %>
+    <%# What search engines and link unfurlers show for the page. No og:image and no
+        og:type: an unfurl shows the title and the description. Unpoly swaps all of
+        these on navigation (up.history.config.metaTagSelectors). %>
+    <% if (description = page_description(content)) %>
+      <%= tag(:meta, name: 'description', content: description) %>
+      <%= tag(:meta, property: 'og:description', content: description) %>
+    <% end %>
+    <%= tag(:meta, property: 'og:title', content: window_title) %>
+    <%= tag(:meta, property: 'og:url', content: canonical_url) %>
   <% else %>
     <meta name="robots" content="noindex, follow">
   <% end %>
