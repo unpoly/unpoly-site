@@ -3,7 +3,7 @@ require 'nokogiri'
 module Unpoly
   module Site
     class TOCInserter
-      CONTENT_HEADING_SELECTOR = 'h1, h2, h3:not(.pearl-title), h4, h5, h6'
+      CONTENT_HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6'
 
       # The contents inserted by the last #auto_insert, or nil.
       attr_reader :toc_html

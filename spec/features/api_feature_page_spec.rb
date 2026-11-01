@@ -29,6 +29,18 @@ describe 'feature page', type: :feature, js: true do
     expect(chips.first.text).to match(/\Atargeting\z/i)
   end
 
+  # The groups are <h3>s below the parameters' <h2>, which the contents list already
+  # names. The chips above lead to them.
+  it 'leaves the parameter groups out of the contents' do
+    visit '/api/up-submit'
+
+    group_ids = all('h3.pearl-title', visible: :all).map { |heading| heading[:id] }
+    toc_hrefs = all('.toc.-rail .toc--item a', visible: :all).map { |link| link[:href].split('#').last }
+    expect(group_ids.size).to be > 1
+    expect(toc_hrefs).to include('attributes')
+    expect(toc_hrefs & group_ids).to be_empty
+  end
+
   it 'documents the parameters of the feature' do
     expect(page).to have_css('.feature--param', text: 'target')
     expect(page).to have_css('.feature--param .tag', text: /optional/i)
