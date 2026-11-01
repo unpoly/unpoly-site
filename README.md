@@ -334,8 +334,9 @@ with fonts vendored next to the template.
 - Rendered images are cached in `tmp/og-cache`. A build renders only new or changed images
   (all of them, about a minute, after a template change or on a new machine), and does not
   start Chrome when nothing changed. Images no build used for 30 days are deleted.
-- A build needs Chrome and chromedriver, as the specs do. `SKIP_OG_IMAGES=1` builds
-  without images and leaves out the `og:image` tags, so no page names a missing image.
+- A build needs Chrome and a matching chromedriver on the `PATH`, and fails without
+  them rather than download them. `SKIP_OG_IMAGES=1` builds without images and leaves
+  out the `og:image` tags, so no page names a missing image.
 - The preview server serves the images of the last build.
 
 ## Deployment

@@ -25,7 +25,13 @@ module Unpoly
           # The template loads its fonts from next to itself.
           options.add_argument('--allow-file-access-from-files')
           begin
-            @driver = Selenium::WebDriver.for(:chrome, options: options)
+            # Without a path, Selenium Manager would download a Chrome or chromedriver it does
+            # not find, or that does not match. A build installs nothing: it starts the
+            # chromedriver on the PATH, which starts the installed Chrome.
+            path = ENV['PATH'].split(File::PATH_SEPARATOR).map { |dir| File.join(dir, 'chromedriver') }.find { |file| File.executable?(file) } or
+              raise 'no chromedriver on the PATH'
+            service = Selenium::WebDriver::Service.chrome(path: path)
+            @driver = Selenium::WebDriver.for(:chrome, options: options, service: service)
           rescue StandardError => e
             raise Error, "Rendering preview images needs Chrome and chromedriver (#{e.class}: #{e.message.lines.first&.strip}). " \
               'Install them, or build without preview images: SKIP_OG_IMAGES=1.'
