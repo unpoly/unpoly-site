@@ -4,7 +4,7 @@
   @page_title = interface.title
   area = guide.toc.area_for(interface)
   @menu_path = area.menu_path
-  @search_documentable = interface
+  @documentable = interface
 %>
 
 <% page_title interface.title do %>
@@ -16,7 +16,7 @@
     <%# A module or class is titled by its JavaScript name, like a feature by its signature. %>
     <code class="-name"><%= breakable_signature(interface.name) %></code>
     <div class="subtitle" data-pagefind-ignore data-markdown="ignore">
-      <%= interface.kind %>
+      <%= interface.long_kind %>
     </div>
   <% end %>
 <% end %>

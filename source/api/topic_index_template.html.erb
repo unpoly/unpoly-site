@@ -8,6 +8,7 @@
   area = guide.toc.area(area_key)
   topic = area.topics.find { |candidate| candidate.index&.slug == index_slug }
   @menu_path = area.menu_path
+  @area = area
 %>
 
 <%= page_title topic.title %>

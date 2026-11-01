@@ -485,7 +485,7 @@ helpers do
   # The parser's fixtures (spec/fixtures/parser) become pages in every build, but they are
   # test data and stay out of the index.
   def search_documentable
-    @search_documentable unless @search_documentable&.fixture?
+    @documentable unless @documentable&.fixture?
   end
 
   def search_body_attrs
@@ -617,13 +617,26 @@ helpers do
     'data-pagefind-ignore'
   end
 
+  # The <title>, which search engines show as a result's headline. It says what the page
+  # is: an API symbol names its kind ("[up-defer] (HTML attribute) - Unpoly API"), a
+  # documentation page its area ("Following links - Learn Unpoly"). Pages outside the Learn
+  # and API areas, and the hubs of these areas, are just "- Unpoly".
+  #
+  # The site search does not read it: Pagefind titles a result by the page's <h1>, or by
+  # the title in search_meta_tags.
   def window_title
     page_title = @page_title || current_page.data.title
+    return 'Unpoly - The missing application layer for HTML' if page_title.blank?
 
-    if page_title.present?
-      "#{page_title} - Unpoly"
+    area = @documentable ? guide.toc.area_for(@documentable) : @area
+    case area&.key
+    when 'learn'
+      "#{page_title} - Learn Unpoly"
+    when 'api'
+      kind = @documentable&.long_kind
+      kind ? "#{page_title} (#{kind}) - Unpoly API" : "#{page_title} - Unpoly API"
     else
-      "Unpoly - The missing application layer for HTML"
+      "#{page_title} - Unpoly"
     end
   end
 
@@ -836,7 +849,8 @@ helpers do
   end
 
   # A page's title row: the <h1>, and the ai-tools corner when the page has a Markdown
-  # twin. The title also becomes the window title and the search's (window_title).
+  # twin. The title also goes into the window title (window_title). The search takes the
+  # <h1> as a result's title unless search_meta_tags names another.
   #
   #   <%= page_title 'Changes' %>
   #

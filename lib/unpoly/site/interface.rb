@@ -49,6 +49,15 @@ module Unpoly
         kind != 'page'
       end
 
+      # The kind as the page's subtitle and window title name it, nil for a page.
+      # A @module is a namespace object (up.link), not an ES module.
+      def long_kind
+        case kind
+        when 'class' then 'JavaScript class'
+        when 'module' then 'JavaScript namespace'
+        end
+      end
+
       # Internal interfaces (e.g. up.browser) render no page and no menu node,
       # and mentions of them are left unlinked.
       def guide_page?

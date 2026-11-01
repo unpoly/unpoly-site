@@ -1,7 +1,7 @@
 ---
 name: "test.module"
 area: "API"
-kind: "module"
+kind: "JavaScript namespace"
 parent: "API reference"
 url: "http://unpoly.test/api/test.module"
 ---

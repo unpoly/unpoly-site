@@ -117,11 +117,10 @@ module Unpoly
           symbol&.kind
         end
 
-        # The kind as the page's title shows it on the web ("JavaScript function", "class"),
-        # nil for pages.
+        # The kind as the page's subtitle shows it on the web ("JavaScript function",
+        # "JavaScript class"), nil for pages.
         def kind_label
-          symbol = self.symbol or return
-          symbol.kind?(:feature) ? symbol.long_kind : symbol.kind.to_s
+          symbol&.long_kind
         end
 
         private

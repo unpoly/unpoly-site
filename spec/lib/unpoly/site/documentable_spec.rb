@@ -75,8 +75,19 @@ describe Unpoly::Site::Documentable do
 
   end
 
-  # Shown as a subtitle on every feature page, and in the menu.
+  # Shown as a subtitle on every feature, module and class page, in the window title and
+  # in the Markdown twin's front matter.
   describe '#long_kind' do
+
+    it 'calls a module a JavaScript namespace and a class a JavaScript class' do
+      expect(find_by_name!('up.link').long_kind).to eq('JavaScript namespace')
+      expect(find_by_name!('up.RenderJob').long_kind).to eq('JavaScript class')
+    end
+
+    it 'is nil for a guide page' do
+      page = subject.interfaces.find(&:page?)
+      expect(page.long_kind).to be_nil
+    end
 
     it 'describes the language a feature belongs to' do
       expect(find_by_name!('up.render').long_kind).to eq('JavaScript function')

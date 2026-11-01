@@ -1,7 +1,7 @@
 ---
 name: "test.Class"
 area: "API"
-kind: "class"
+kind: "JavaScript class"
 parent: "test.module module"
 url: "http://unpoly.test/api/test.Class"
 ---
