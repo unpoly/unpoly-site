@@ -62,7 +62,7 @@ describe 'navigation', type: :feature, js: true do
         (function() {
           let element = document.activeElement
           return {
-            column: element.matches('.guide--main'),
+            column: element.matches('.guide--column'),
             inContent: !!element.closest('.guide--content'),
             inSidebar: !!element.closest('.guide--left'),
           }
@@ -71,7 +71,7 @@ describe 'navigation', type: :feature, js: true do
     end
 
     def expect_focus_on_column_then_content
-      expect(page).to have_css('.guide--main:focus')
+      expect(page).to have_css('.guide--column:focus')
       expect(focused['column']).to be(true)
 
       page.send_keys(:tab)

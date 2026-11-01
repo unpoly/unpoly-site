@@ -19,7 +19,7 @@ noindex: true
   chapter is current on any of its pages, through the same [up-alias] lists the header
   uses.
 %>
-<% menu(nav_layer: 'root') do %>
+<% menu(label: 'Sections', nav_layer: 'root') do %>
   <div class="menu--nodes">
     <% site_sections.each do |section| %>
       <% area = { '/learn' => guide.toc.learn, '/api' => guide.toc.api }[section[:href]] %>

@@ -19,11 +19,15 @@
 
   <body>
 
+    <%# The first stop for the Tab key: past the header and the sidebar, straight to the
+        text. Out of sight until it has the focus. %>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
     <div class="screen" up-main="cover">
 
       <div class="guide">
 
-        <div class="guide--head" up-fixed="top">
+        <header class="guide--head" up-fixed="top">
 
           <%# One bar in one color, arranged like react.dev's: the brand on the left, the
               search in the middle, every section on the right. Below $bp-sidebar the
@@ -51,7 +55,7 @@
 
           </div>
 
-        </div>
+        </header>
 
         <%# A row of three: the sidebar, the text and the contents rail. The two flanks
             are as wide as each other, so the text is centred in the window. An article
@@ -78,12 +82,16 @@
             <div class="guide--flank -left"></div>
           <% end %>
 
-          <div class="guide--main">
+          <div class="guide--column">
 
-            <div class="guide--content" up-main="modal" <%= search_body_attrs %>>
+            <%# The page's own content, and an overlay's main target. A page opened in a modal
+                brings its <main> along, which is fine: the overlay is a dialog of its own.
+                The id is the skip link's target. It is not #content, which three Learn
+                pages already use for a section. %>
+            <main class="guide--content" id="main-content" up-main="modal" <%= search_body_attrs %>>
               <%= search_meta_tags %>
               <%= yield %>
-            </div>
+            </main>
 
             <%# One footer on every page, landing included (the mock's centered line). %>
             <footer class="guide--footer">

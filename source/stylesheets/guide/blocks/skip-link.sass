@@ -1,0 +1,26 @@
+@import ../../environment
+
+// "Skip to content", the first thing in the <body> (layouts/guide.erb). Out of sight
+// until the Tab key reaches it, then a small white button over the header's left
+// edge.
+.skip-link
+  position: fixed
+  // Centred on the header's height.
+  top: $head-height / 2
+  transform: translateY(-50%)
+  left: $frame-edge
+  z-index: $head-stratum + 1
+  padding: $space-1 $space-3
+  border-radius: $radius-sm
+  background: white
+  color: $indigo-800
+  +type($text-sm, $leading-ui)
+  font-weight: bold
+  box-shadow: $subtle-shadow
+
+  &:focus-visible
+    outline: 2px solid white
+    outline-offset: 2px
+
+  &:not(:focus)
+    +visually-hidden

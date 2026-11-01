@@ -134,10 +134,10 @@ describe 'the header', type: :feature, js: true do
     expect(page).to have_css('.guide--head .top-nav--section.up-current', count: 1)
   end
 
-  it 'shows a focus ring on the logo, the version switch and the search' do
+  it 'shows a focus ring on the skip link, the logo, the version switch and the search' do
     visit '/'
 
-    rings = 3.times.map do
+    rings = 4.times.map do
       page.send_keys(:tab)
       page.evaluate_script(<<~JS)
         (function() {
@@ -148,7 +148,7 @@ describe 'the header', type: :feature, js: true do
       JS
     end
 
-    expect(rings.map(&:first)).to eq(%w[logo version-nav search-pill])
+    expect(rings.map(&:first)).to eq(%w[skip-link logo version-nav search-pill])
     rings.each do |name, style, width|
       expect(style).to eq('solid'), "#{name} has no visible focus ring"
       expect(width).to eq('2px')

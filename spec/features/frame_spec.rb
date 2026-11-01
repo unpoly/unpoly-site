@@ -38,6 +38,74 @@ describe 'the page frame', type: :feature, js: true do
     end
   end
 
+  # Screen readers list a page's landmarks and jump between them; reader modes and
+  # agents look for <main>.
+  describe 'landmarks' do
+    def landmarks
+      # The navs within the text, and the contents rail beside it, are the page's own.
+      page.evaluate_script(<<~JS)
+        [...document.querySelectorAll('header, main, nav, footer')]
+          .filter((element) => element.matches('main') || !element.closest('main, .guide--right'))
+          .map((element) => element.tagName.toLowerCase() + (element.getAttribute('aria-label') ? ' ' + element.getAttribute('aria-label') : ''))
+      JS
+    end
+
+    {
+      '/learn/loading-state' => 'Learn',
+      '/api/up.render' => 'API reference',
+      '/changes' => 'Changes',
+    }.each do |path, menu|
+      it "has a header, a main, a footer and the #{menu} menu as a navigation on #{path}" do
+        visit path
+        expect(page).to have_css('.guide--menu .menu')
+
+        expect(landmarks).to eq(['header', 'nav Sections', "nav #{menu}", 'main', 'footer'])
+        expect(page).to have_css('header.guide--head')
+        expect(page).to have_css('main.guide--content#main-content')
+      end
+    end
+
+    it 'has one main on the landing page too' do
+      visit '/'
+      expect(page).to have_css('main.guide--content', count: 1)
+    end
+  end
+
+  describe 'the skip link' do
+    it 'is the first stop for the Tab key, out of sight until it has the focus' do
+      visit '/learn/loading-state'
+
+      link = find('.skip-link', visible: :all)
+      expect(link[:href]).to end_with('#main-content')
+      expect(link.text(:all)).to eq('Skip to content')
+      width = -> { page.evaluate_script("document.querySelector('.skip-link').getBoundingClientRect().width") }
+      expect(width.()).to be <= 1
+
+      page.send_keys(:tab)
+
+      expect(page.evaluate_script('document.activeElement.className')).to eq('skip-link')
+      expect(width.()).to be > 50
+    end
+
+    it 'moves the next Tab into the text, past the header and the sidebar' do
+      visit '/learn/loading-state'
+      expect(page).to have_css('.guide--menu .menu')
+
+      page.send_keys(:tab)
+      page.send_keys(:enter)
+      page.send_keys(:tab)
+
+      expect(page.evaluate_script("!!document.activeElement.closest('main')")).to be(true)
+    end
+  end
+
+  # Readers may zoom in, e.g. on the code samples (WCAG 1.4.4).
+  it 'lets readers zoom' do
+    visit '/learn/loading-state'
+
+    expect(find('meta[name="viewport"]', visible: :all)[:content]).to eq('width=device-width, initial-scale=1')
+  end
+
   describe 'the sidebar' do
     it 'stands at the left edge of the window, on the frame\'s inset, in line with the logo' do
       visit '/learn/loading-state'

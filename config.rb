@@ -853,16 +853,18 @@ helpers do
     ]
   end
 
+  # label: the name of the menu's navigation landmark, for screen readers (the area it
+  # covers, like "Learn").
   # nav_layer: the layer whose location marks the menu's current links (see [up-nav]'s
   # [up-layer]). The default is the menu's own layer.
-  def menu(nav_layer: nil, &block)
+  def menu(label:, nav_layer: nil, &block)
     nodes = capture_html(&block)
     # The glyphs before a page's title, once per menu: menu.coffee copies them into the
     # page nodes. A guide page wears the book of the Learn search results, a chapter's
     # overview the tiles of the Learn hub.
     glyphs = content_tag(:template, icon('book', class: '-page') + icon('overview', class: '-overview'), class: 'menu--glyphs')
     # [up-id] lets the sidebar's [up-defer] placeholder find this element in the response.
-    @menu_html = content_tag(:div, glyphs + nodes, class: 'menu', 'up-nav': '', 'up-layer': nav_layer, 'up-id': 'menu')
+    @menu_html = content_tag(:nav, glyphs + nodes, class: 'menu', 'aria-label': label, 'up-nav': '', 'up-layer': nav_layer, 'up-id': 'menu')
     concat_content @menu_html
   end
 

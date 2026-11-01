@@ -140,7 +140,7 @@ $search-width: 480px
 // The text and the footer below it. It grows three times as fast as a flank, until its
 // max-width stops it. It has no gutters of its own: the flanks keep their gap to it,
 // and the frame insets it from the window where no flank stands beside it.
-.guide--main
+.guide--column
   flex: 3 1 auto
   min-width: 0
 
@@ -166,7 +166,7 @@ $search-width: 480px
 
 // The mock's footer: one centered, muted line. Its top spacing is a margin, so it
 // collapses with the bottom margin of the page's last element instead of adding to
-// it (.guide--main and .guide--content are plain blocks, so the two margins meet).
+// it (.guide--column and .guide--content are plain blocks, so the two margins meet).
 .guide--footer
   margin-top: $space-7
   padding-bottom: $space-7 / 2 // 32px; no step of the scale sits there
@@ -180,7 +180,7 @@ $search-width: 480px
   max-width: none
   +horizontal-padding(0)
 
-  .guide--main
+  .guide--column
     flex: 1 1 auto
     max-width: none
     +horizontal-padding(0)
