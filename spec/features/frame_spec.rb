@@ -69,7 +69,7 @@ describe 'the page frame', type: :feature, js: true do
 
         expect(landmarks).to eq(['header', 'nav Sections', "nav #{menu}", 'main', 'footer'])
         expect(page).to have_css('header.guide--head')
-        expect(page).to have_css('main.guide--content#main-content')
+        expect(page).to have_css('.guide--column#main-content > main.guide--content')
       end
     end
 
@@ -104,6 +104,18 @@ describe 'the page frame', type: :feature, js: true do
       page.send_keys(:tab)
 
       expect(page.evaluate_script("!!document.activeElement.closest('main')")).to be(true)
+    end
+
+    # The modal takes the page's <main>, but not the column around it with the id.
+    it 'has its target once while a page is open in a modal' do
+      visit '/learn/loading-state'
+
+      page.execute_script("up.layer.open({ url: '/learn/lazy-loading', mode: 'modal' })")
+      expect(page).to have_css('up-modal main.guide--content h1')
+
+      expect(page.evaluate_script("document.querySelectorAll('#main-content').length")).to eq(1)
+      expect(page).to have_no_css('up-modal #main-content')
+      expect(page.evaluate_script("up.fragment.toTarget(document.querySelector('up-modal main'))")).not_to include('#main-content')
     end
   end
 

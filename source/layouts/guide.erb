@@ -82,13 +82,15 @@
             <div class="guide--flank -left"></div>
           <% end %>
 
-          <div class="guide--column">
+          <%# The id is the skip link's target. It is not #content, which three Learn pages
+              already use for a section. It sits on the column rather than on <main>, so that
+              a page opened in a modal brings no second #main-content along, and Unpoly
+              does not derive #main-content as the target of the modal's content. %>
+          <div class="guide--column" id="main-content">
 
             <%# The page's own content, and an overlay's main target. A page opened in a modal
-                brings its <main> along, which is fine: the overlay is a dialog of its own.
-                The id is the skip link's target. It is not #content, which three Learn
-                pages already use for a section. %>
-            <main class="guide--content" id="main-content" up-main="modal" <%= search_body_attrs %>>
+                brings its <main> along, which is fine: the overlay is a dialog of its own. %>
+            <main class="guide--content" up-main="modal" <%= search_body_attrs %>>
               <%= search_meta_tags %>
               <%= yield %>
             </main>
