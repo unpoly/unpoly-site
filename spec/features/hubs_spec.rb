@@ -106,6 +106,34 @@ describe 'the hubs', type: :feature, js: true do
       expect(names.map { |name| name[:href].sub(%r{\Ahttps?://[^/]+}, '') }).to eq(toc.api.topics.map(&:menu_path))
     end
 
+    # Like the chapters on /learn, so that the hub can be skimmed by headings. The heading
+    # still looks like the name link it holds.
+    it 'heads each row with an <h2> that holds the name link' do
+      visit '/api'
+
+      headings = all('.api-row > h2.api-row--heading')
+      expect(headings.map { |heading| heading.find('.api-row--title').text }).to eq(toc.api.topics.map(&:title))
+      expect(headings).to all(have_css('a.api-row--name'))
+      box = page.evaluate_script(<<~JS)
+        (() => {
+          let heading = document.querySelector('.api-row--heading')
+          let style = getComputedStyle(heading)
+          return { margins: [style.marginTop, style.marginBottom, style.borderTopWidth], height: heading.offsetHeight, link: heading.querySelector('a').offsetHeight }
+        })()
+      JS
+      expect(box['margins']).to eq(['0px', '0px', '0px'])
+      expect(box['height']).to eq(box['link'])
+    end
+
+    it 'names the module after "+ N more" for screen readers' do
+      visit '/api'
+
+      more = row_for('/api/up.link').find('.api-row--more')
+      expect(more).to have_css('.api-row--more-context', text: 'in up.link', visible: :all)
+      expect(page.evaluate_script("document.querySelector('.api-row--more').textContent")).to match(/\A\+ \d+ more in up\.link\z/)
+      expect(page.evaluate_script("document.querySelector('.api-row--more-context').getBoundingClientRect().width")).to be <= 1
+    end
+
     it 'underlines the module name lightly as the row link, with no separate overview link' do
       visit '/api'
 
@@ -117,7 +145,7 @@ describe 'the hubs', type: :feature, js: true do
     end
 
     def row_for(path)
-      find(".api-row--name[href='#{path}']").find(:xpath, '..')
+      find(".api-row--name[href='#{path}']").ancestor('.api-row')
     end
 
     it 'lists up to six signature features in red, in model order' do
@@ -154,14 +182,16 @@ describe 'the hubs', type: :feature, js: true do
         row = row_for(path)
         more = row.find('.api-row--more')
         expect(more[:href]).to end_with("#{path}#features")
+        # What the link shows, without the module name that only screen readers get.
+        more_text = more.evaluate_script('this.firstChild.textContent')
 
         if has_signature
           shown = row.all('.api-row--feature').size
-          expect(more.text).to eq("+ #{listed - shown} more")
+          expect(more_text).to eq("+ #{listed - shown} more")
         else
           # Nothing shown, so the whole count, without a plus.
           expect(row).to have_no_css('.api-row--feature')
-          expect(more.text).to eq("#{listed} features")
+          expect(more_text).to eq("#{listed} features")
         end
       end
     end
@@ -169,7 +199,7 @@ describe 'the hubs', type: :feature, js: true do
     it 'lists the formats by their pages, under the intro of the generated /api/formats page' do
       visit '/api'
 
-      row = find('.api-row--name', text: 'Formats').find(:xpath, '..')
+      row = find('.api-row--name', text: 'Formats').ancestor('.api-row')
       expect(row).to have_css('.api-row--summary', text: 'Mini-languages used throughout the API.')
       expect(row.all('.api-row--feature').map(&:text)).to eq(['URL patterns', 'Relaxed JSON'])
 

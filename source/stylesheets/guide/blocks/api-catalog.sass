@@ -16,10 +16,21 @@
   padding: 18px 0
   border-top: 1px solid $gray-200
 
+// The row's name is its heading (an <h2>, so the hub can be skimmed by headings like
+// /learn), but looks like the name link it holds, not like a heading.
+.api-row--heading
+  flex: 0 0 200px
+  margin: 0
+  padding: 0
+  border: none
+  position: static
+  font: inherit
+  color: inherit
+  text-wrap: inherit
+
 // The name is the row's link, so it is underlined like one: lightly, in its own
 // indigo, solid on hover.
 .api-row--name
-  flex: 0 0 200px
   display: flex
   align-items: center
   gap: 10px
@@ -103,3 +114,7 @@ svg.api-row--icon
 
   +hover
     color: $indigo-800
+
+// "in up.link" after "+ 14 more", for screen readers and the Markdown twin.
+.api-row--more-context
+  +visually-hidden

@@ -39,14 +39,16 @@
     %>
 
     <div class="api-row<%= ' -module' if interface %>">
-      <a href="<%= topic.menu_path %>" class="api-row--name">
-        <% if interface %>
-          <%= icon('package', class: 'api-row--icon') %>
-        <% else %>
-          <svg class="api-row--icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg>
-        <% end %>
-        <span class="api-row--title"><%= topic.title %></span><span class="hub-topic--chevron" aria-hidden="true">›</span>
-      </a>
+      <h2 class="api-row--heading">
+        <a href="<%= topic.menu_path %>" class="api-row--name">
+          <% if interface %>
+            <%= icon('package', class: 'api-row--icon') %>
+          <% else %>
+            <svg class="api-row--icon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg>
+          <% end %>
+          <span class="api-row--title"><%= topic.title %></span><span class="hub-topic--chevron" aria-hidden="true">›</span>
+        </a>
+      </h2>
 
       <div class="api-row--body">
         <% if topic.summary_markdown.present? %>
@@ -59,7 +61,8 @@
               <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
             <% end %>
             <% if more > 0 %>
-              <li><a href="<%= topic.menu_path %>#features" class="api-row--more"><%= links.any? ? "+ #{more} more" : pluralize(more, 'feature', 'features') %></a></li>
+              <%# In a list of links, "+ 14 more" alone would not say which module it belongs to. %>
+              <li><a href="<%= topic.menu_path %>#features" class="api-row--more"><%= links.any? ? "+ #{more} more" : pluralize(more, 'feature', 'features') %><span class="api-row--more-context"> in <%= topic.title %></span></a></li>
             <% end %>
           </ul>
         <% end %>
