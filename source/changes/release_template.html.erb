@@ -4,20 +4,7 @@
   @menu_path = '/changes/menu'
 %>
 
-<% page_title "Version #{release.version}" do %>
-  Version <%= release.version %>
-
-  <% if release.date %>
-    <div class="subtitle" data-markdown="chip">
-      <span class="dimmed">Released on</span>
-      <%= release.date.strftime("%B %d, %Y") %>
-      <% if (commit_count = release.commit_count) %>
-        <span class="dimmed">with</span>
-        <%= link_to pluralize(commit_count, 'commit', 'commits'), release.github_commits_url %>
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
+<%= page_title "Version #{release.version}", subtitle: release_subtitle(release) %>
 
 <% auto_toc do %>
 

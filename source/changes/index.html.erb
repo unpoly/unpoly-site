@@ -33,7 +33,7 @@
         </td>
         <td>
           <% if release.date %>
-            <%= release.date.strftime("%B %d, %Y") %>
+            <%= release_date_tag(release.date) %>
           <% end %>
         </td>
         <td align="right">

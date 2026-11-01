@@ -11,6 +11,26 @@ describe 'changes', type: :feature, js: true do
     expect(page).to have_css('.prose')
   end
 
+  # Search engines take a page's title from its <h1>, so it holds nothing else.
+  it 'titles a release with its version alone, its date and commits in a subtitle beside it' do
+    release = Unpoly::Site.current.release_for_version(version)
+    visit "/changes/#{version}"
+
+    expect(page).to have_css('.guide--content h1', exact_text: "Version #{version}")
+    subtitle = find('hgroup.page-title > h1 + p.subtitle')
+    expect(subtitle).to have_text("Released on #{release.date.strftime('%B %d, %Y')}")
+    expect(subtitle).to have_css("time[datetime='#{release.date.iso8601}']", exact_text: release.date.strftime('%B %d, %Y'))
+    expect(subtitle).to have_link(href: release.github_commits_url)
+  end
+
+  it 'dates the releases in the changes index with a machine-readable <time>' do
+    release = Unpoly::Site.current.release_for_version(version)
+    visit '/changes'
+
+    row = find("td a[href='/changes/#{version}']").ancestor('tr')
+    expect(row).to have_css("time[datetime='#{release.date.iso8601}']", exact_text: release.date.strftime('%B %d, %Y'))
+  end
+
   it 'links from the changes index to the release of the current version' do
     visit '/changes'
 

@@ -86,6 +86,11 @@ describe 'Markdown twins', type: :feature do
       expect(markdown('/learn.md')).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md)</nav>))
     end
 
+    it 'titles a release with its version alone, its date and commits in a paragraph below' do
+      release = Unpoly::Site.current.release_for_version('3.0.0')
+      expect(markdown('/changes/3.0.0.md')).to include("\n# Version 3.0.0\n\nReleased on #{release.date.strftime('%B %d, %Y')} with [")
+    end
+
     it 'exists for the hubs, the changelog and /support' do
       %w[/learn.md /api.md /changes.md /changes/upgrading.md /support.md /api/formats.md].each { |path| markdown(path) }
       expect(markdown('/changes/3.0.0.md')).to include(%(released: "))

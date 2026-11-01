@@ -891,6 +891,23 @@ helpers do
     HTML
   end
 
+  # A release's date and commit count, below its title (page_title's subtitle). The
+  # Markdown twin prints it as a paragraph below the "# Version …" heading.
+  def release_subtitle(release)
+    return unless release.date
+
+    html = %(<span class="dimmed">Released on</span> #{release_date_tag(release.date)})
+    if (commit_count = release.commit_count)
+      html << %( <span class="dimmed">with</span> #{link_to pluralize(commit_count, 'commit', 'commits'), release.github_commits_url})
+    end
+    %(<p class="subtitle">#{html}</p>)
+  end
+
+  # A release date as people read it, with the date for machines in [datetime].
+  def release_date_tag(date)
+    %(<time datetime="#{date.iso8601}">#{date.strftime('%B %d, %Y')}</time>)
+  end
+
   # A feature's, module's or class's kind ("HTML attribute"), for the subtitle below its
   # title. A feature's comes with the glyph of its tile in the module's feature list.
   # The Markdown twin carries the kind in its front matter instead (MarkdownTwins).
