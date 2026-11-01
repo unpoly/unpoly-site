@@ -263,27 +263,6 @@ framework. You are responsible for `unpoly/dist` yourself: if it's missing or st
 - Start a development server with `bundle exec middleman server`.
 - Test your changes on <http://localhost:4567>.
 
-### Alternative: a DevContainer
-
-Same scope as above — the site alone, with `unpoly/dist` your responsibility — but without
-installing Ruby. If you're using an editor such as VSCode and have Docker available, you
-can use the DevContainer configuration provided.
-
-1. Open the project in VSCode.
-2. When prompted, choose to Reopen in Devcontainer.
-
-Once inside the DevContainer, use `bundle exec middleman server` and `bundle exec rspec` as
-you normally would.
-
-### Alternative: Docker Compose
-
-The same container without VSCode. From inside the `unpoly-site` folder:
-
-    docker compose -p unpoly-site -f .devcontainer/docker-compose.yml run --service-ports app
-
-Once the container is running, you can browse documentation from the outside at
-<http://localhost:4567>.
-
 
 ## Tests
 
