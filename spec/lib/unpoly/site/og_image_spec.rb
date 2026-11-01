@@ -146,6 +146,18 @@ describe Unpoly::Site::OgImage do
       build!(since: Time.now - 1)
       expect(Dir[File.join(@cache_dir, '*')]).to be_empty
     end
+
+    it 'keeps a cached image that the build uses, however long ago it was rendered' do
+      allow(described_class::Renderer).to receive(:open).and_yield(renderer)
+      image('/a').register!(cache_dir: @cache_dir)
+      build!(since: Time.now - 1)
+      FileUtils.touch(Dir[File.join(@cache_dir, '*')], mtime: Time.now - 31 * 24 * 60 * 60)
+
+      expect(described_class::Renderer).not_to receive(:open)
+      image('/a').register!(cache_dir: @cache_dir)
+      build!(since: Time.now - 1)
+      expect(Dir[File.join(@cache_dir, '*')].map { |file| File.basename(file) }).to contain_exactly("#{image('/a').digest}.json", "#{image('/a').digest}.png")
+    end
   end
 
   describe described_class::Renderer do
