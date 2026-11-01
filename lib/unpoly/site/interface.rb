@@ -57,10 +57,9 @@ module Unpoly
         end
       end
 
-      # The glyph (Icon::SVG) that stands for a guide page or a namespace or class, as in the
-      # search results.
+      # The glyph (Icon::SVG) that stands for a namespace or class.
       def glyph
-        page? ? 'book' : 'package'
+        'package'
       end
 
       # Internal interfaces (e.g. up.browser) render no page and no menu node,
