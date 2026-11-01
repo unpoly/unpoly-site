@@ -1,13 +1,13 @@
 <%#
   The API hub: a catalog to look things up in. One row per topic of the API sidebar, in
-  the sidebar's order. A module row names the module (the link to its page), its
+  the sidebar's order. A namespace row names the namespace (the link to its page), its
   summary, and up to six of its signature features (the ones marked @signature, which
   search also ranks first) with a count of the rest. A page group (Formats) lists its
   pages instead.
 
-  The count is of what the module page lists under Features: its features with a
+  The count is of what the namespace page lists under Features: its features with a
   page of their own. Classes like up.Layer have sidebar rows but are not counted. A
-  module with no signature features shows its whole count, without a plus.
+  namespace with no signature features shows its whole count, without a plus.
 
   Names, summaries and features come from the model. The intro below the title is the
   hub's own copy.
@@ -38,7 +38,7 @@
       end
     %>
 
-    <div class="api-row<%= ' -module' if interface %>">
+    <div class="api-row<%= ' -namespace' if interface %>">
       <h2 class="api-row--heading">
         <a href="<%= topic.menu_path %>" class="api-row--name">
           <% if interface %>
@@ -61,7 +61,7 @@
               <li><%= link_to breakable_signature(documentable.menu_title), documentable.guide_path, class: 'api-row--feature' %></li>
             <% end %>
             <% if more > 0 %>
-              <%# In a list of links, "+ 14 more" alone would not say which module it belongs to. %>
+              <%# In a list of links, "+ 14 more" alone would not say which namespace it belongs to. %>
               <li><a href="<%= topic.menu_path %>#features" class="api-row--more"><%= links.any? ? "+ #{more} more" : pluralize(more, 'feature', 'features') %><span class="api-row--more-context"> in <%= topic.title %></span></a></li>
             <% end %>
           </ul>

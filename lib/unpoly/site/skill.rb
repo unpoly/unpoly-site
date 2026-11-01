@@ -31,7 +31,7 @@ module Unpoly
       attr_reader :files
 
       # A file name that survives every file system and shell: lowercase, [a-z0-9-] only,
-      # "$" spelled out, plus the kind of an API symbol (up.layer the module and
+      # "$" spelled out, plus the kind of an API symbol (up.layer the namespace and
       # up.Layer the class only differ in case). The real name is in the front matter.
       def self.filename(twin)
         return 'index' if %i[learn api changes].include?(twin.subject[:page])

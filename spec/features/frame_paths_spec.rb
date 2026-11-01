@@ -476,14 +476,14 @@ describe 'the frame on every way into a page', type: :feature, js: true do
       expect_fragment_update
     end
 
-    it 'renders the API frame when the drawer leads from an article page to a module' do
+    it 'renders the API frame when the drawer leads from an article page to a namespace' do
       prepare_references('/api/up.link')
       visit '/support'
       mark_document
 
       open_drawer
       within('up-drawer') do
-        # Modules sit one level down, behind the API row's collapser.
+        # Namespaces sit one level down, behind the API row's collapser.
         find('.menu--nodes > .node > button.node--toggle[aria-label="Contents of API"]').click
         find('a[href="/api/up.link"]', match: :first).click
       end

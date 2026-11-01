@@ -58,7 +58,7 @@ module Unpoly
       end
 
       # The site structure, parsed from toc.yml. Building it validates the manifest
-      # against what we parsed, so a page or module that nobody listed fails the build.
+      # against what we parsed, so a page or namespace that nobody listed fails the build.
       def toc
         synchronize do
           @toc ||= Toc.load(self)
@@ -69,8 +69,8 @@ module Unpoly
         interfaces.select(&:page?)
       end
 
-      def modules
-        interfaces.select(&:module?)
+      def namespaces
+        interfaces.select(&:namespace?)
       end
 
       def find_page(slug)
@@ -81,9 +81,9 @@ module Unpoly
         find_page(slug) or raise Unknown, "No @page with slug '#{slug}'"
       end
 
-      def find_module!(name)
+      def find_namespace!(name)
         interface = find_by_name!(name)
-        interface.module? or raise Unknown, "'#{name}' is not a @module"
+        interface.namespace? or raise Unknown, "'#{name}' is not a @namespace"
         interface
       end
 
@@ -97,10 +97,10 @@ module Unpoly
         documented_pages.map(&:guide_id)
       end
 
-      # Modules that toc.yml must account for: visibility is the signal. An @internal
-      # module (up.browser, up.migrate, up.tooltip) has no page and is not listed.
-      def documented_module_names
-        modules.reject(&:fixture?).select(&:guide_page?).map(&:name)
+      # Namespaces that toc.yml must account for: visibility is the signal. An @internal
+      # namespace (up.browser, up.migrate, up.tooltip) has no page and is not listed.
+      def documented_namespace_names
+        namespaces.reject(&:fixture?).select(&:guide_page?).map(&:name)
       end
 
       # Every @learn-ref and [[wikilink]] must resolve to a document and, where given,
@@ -280,7 +280,7 @@ module Unpoly
 
         name = code
 
-        # # Turn `up.module.config.foo = bar` to just `up.module.config.foo`
+        # # Turn `up.namespace.config.foo = bar` to just `up.namespace.config.foo`
         # if guide_id =~ /^(.+?)\s*=(.+?)$/
         #   guide_id = $1
         # end

@@ -17,8 +17,8 @@ describe Unpoly::Site::Skill do
       expect(described_class.filename(twin('/api/X-Up-Target', documentable: 'X-Up-Target'))).to eq('x-up-target-header')
     end
 
-    it 'tells a module from the class of the same name' do
-      expect(described_class.filename(twin('/api/up.layer', documentable: 'up.layer'))).to eq('up-layer-module')
+    it 'tells a namespace from the class of the same name' do
+      expect(described_class.filename(twin('/api/up.layer', documentable: 'up.layer'))).to eq('up-layer-namespace')
       expect(described_class.filename(twin('/api/up.Layer', documentable: 'up.Layer'))).to eq('up-layer-class')
     end
 

@@ -39,7 +39,7 @@ This README explains how `unpoly-site` is implemented.
 - [unpoly.com](https://unpoly.com) is a static site. It uses Unpoly for its frontend.
 - We use [Middleman](https://middlemanapp.com/), a static site generator based on Ruby.
 - Page sources can be found in `source`. We mostly use ERB templates.
-- API references and module overviews are not Middleman pages. They are parsed live from
+- API references and namespace overviews are not Middleman pages. They are parsed live from
   the Unpoly source code. See *How API documentation is parsed*.
 - There is a symlink pointing to a local copy of the Unpoly source code in
   `vendor/unpoly-local`. This code is used both to parse the documentation *and* to
@@ -68,7 +68,7 @@ Middleman proxies set up in `config.rb` then create one page per parsed symbol, 
 through `source/api/feature_template.html.erb` and
 `source/api/interface_template.html.erb`.
 
-The navigation is split into a Learn and an API section. Which pages and modules belong
+The navigation is split into a Learn and an API section. Which pages and namespaces belong
 where — and in which order — comes from a manifest in the Unpoly repo,
 `src/unpoly/pages/toc.yml`, parsed by `lib/unpoly/site/toc.rb`. The build fails when
 the manifest and the parsed documentation disagree.
@@ -151,7 +151,7 @@ in all four places: stylesheets, ERB templates, Ruby and JavaScript.
 
 Every documentation page has a Markdown twin at its URL plus `.md` (`/up.render.md`), for
 coding agents and LLMs. `/index.md` and `/llms.txt` are a generated index of all guide
-chapters and API modules. The `unpoly-docs` agent skill bundles the same pages as files.
+chapters and API namespaces. The `unpoly-docs` agent skill bundles the same pages as files.
 
 - **Twins** are registered in `config.rb`, next to each page's own proxy, plus a short
   list of plain pages (`/learn`, `/api`, `/changes`, …). The template

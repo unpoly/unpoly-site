@@ -1,5 +1,5 @@
   ###-
-  @module test.module
+  @namespace test.module
   ###
 
   ###-

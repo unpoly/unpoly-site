@@ -17,7 +17,7 @@ module Unpoly
 
       # path: the HTML page's path, e.g. "/api/up.render".
       # subject: what the page shows, one of
-      #   documentable: guide_id   a feature, module, class or guide page
+      #   documentable: guide_id   a feature, namespace, class or guide page
       #   topic_index: [area_key, slug]
       #   release: version
       #   page: :learn | :api | :changes | :upgrading | :support

@@ -5,7 +5,7 @@ describe Unpoly::Site::Interface do
   end
 
   # The menu and the interface pages are built from these collections.
-  describe 'a module (e.g. up.fragment)' do
+  describe 'a namespace (e.g. up.fragment)' do
 
     let(:interface) { subject.find_by_name!('up.fragment') }
 
@@ -36,7 +36,7 @@ describe Unpoly::Site::Interface do
 
     describe '#learn_refs' do
 
-      it 'points at the Learn pages that explain the module' do
+      it 'points at the Learn pages that explain the namespace' do
         expect(interface.learn_refs).to be_present
         expect(interface.learn_refs.map(&:path)).to all(start_with('/'))
       end
@@ -49,9 +49,9 @@ describe Unpoly::Site::Interface do
 
     let(:interface) { subject.find_by_name!('up.Response') }
 
-    it 'is a class, not a module' do
+    it 'is a class, not a namespace' do
       expect(interface).to be_class
-      expect(interface).not_to be_module
+      expect(interface).not_to be_namespace
     end
 
     it 'lists its instance methods and properties as features' do
@@ -64,8 +64,8 @@ describe Unpoly::Site::Interface do
   describe '#merge!' do
 
     it 'keeps the signature tier of a repeated declaration' do
-      interface = described_class.new('module', 'test.merged')
-      repeated = described_class.new('module', 'test.merged')
+      interface = described_class.new('namespace', 'test.merged')
+      repeated = described_class.new('namespace', 'test.merged')
       repeated.signature_tier = true
 
       interface.merge!(repeated)
@@ -74,9 +74,9 @@ describe Unpoly::Site::Interface do
     end
 
     it 'keeps the keywords of both declarations' do
-      interface = described_class.new('module', 'test.merged')
+      interface = described_class.new('namespace', 'test.merged')
       interface.keywords << 'modal'
-      repeated = described_class.new('module', 'test.merged')
+      repeated = described_class.new('namespace', 'test.merged')
       repeated.keywords << 'dialog'
 
       interface.merge!(repeated)

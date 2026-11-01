@@ -49,7 +49,7 @@ module Unpoly
       end
 
       # The area a documentable belongs to, or nil when it is not part of the manifest
-      # (e.g. a feature of a module, which is reached through its module).
+      # (e.g. a feature of a namespace, which is reached through its namespace).
       def area_of(documentable)
         area_index[documentable]
       end
@@ -59,7 +59,7 @@ module Unpoly
       end
 
       # The area a document is presented in. Everything the manifest does not list
-      # explicitly (a module's features, a class, a class's methods) is reference material.
+      # explicitly (a namespace's features, a class, a class's methods) is reference material.
       def area_for(documentable)
         area_of(documentable) || api
       end
@@ -134,7 +134,7 @@ module Unpoly
       # Everything that is wrong is reported at once, so a stale manifest takes one
       # run to fix rather than one run per mistake.
       def validate!
-        problems = page_problems + module_problems + page_location_problems
+        problems = page_problems + namespace_problems + page_location_problems
         return if problems.empty?
 
         raise Invalid, ([path] + problems).join("\n  ")
@@ -150,13 +150,13 @@ module Unpoly
         )
       end
 
-      def module_problems
+      def namespace_problems
         compare(
-          listed: api.module_names,
-          documented: repository.documented_module_names,
-          noun: 'module(s)',
+          listed: api.namespace_names,
+          documented: repository.documented_namespace_names,
+          noun: 'namespace(s)',
           missing_hint: "not listed in 'api'",
-          unknown_hint: 'without a published @module'
+          unknown_hint: 'without a published @namespace'
         )
       end
 
@@ -238,8 +238,8 @@ module Unpoly
           loose_slugs.map { |slug| repository.find_page!(slug) }
         end
 
-        def module_names
-          topics.filter_map { |topic| topic.module_name if topic.respond_to?(:module_name) }
+        def namespace_names
+          topics.filter_map { |topic| topic.namespace_name if topic.respond_to?(:namespace_name) }
         end
 
         # Everything presented in this area: its topics' members and its loose pages.
@@ -380,13 +380,13 @@ module Unpoly
 
       end
 
-      # A module of the Unpoly source, with its features grouped by kind.
-      class ModuleTopic < Topic
-        KEYS = %w[type module].freeze
+      # A namespace of the Unpoly source, with its features grouped by kind.
+      class NamespaceTopic < Topic
+        KEYS = %w[type namespace].freeze
 
-        TYPES['module'] = self
+        TYPES['namespace'] = self
 
-        # Features of a module, grouped for the reference tree. Order matters.
+        # Features of a namespace, grouped for the reference tree. Order matters.
         FEATURE_GROUPS = [
           ['HTML',       [:selector]],
           ['Events',     [:event]],
@@ -396,17 +396,17 @@ module Unpoly
 
         def initialize(data, area)
           super
-          Toc.check_keys!(data, KEYS, KEYS, "#{area.toc.path}: module topic")
-          @module_name = data['module']
+          Toc.check_keys!(data, KEYS, KEYS, "#{area.toc.path}: namespace topic")
+          @namespace_name = data['namespace']
         end
 
-        attr_reader :module_name
+        attr_reader :namespace_name
 
         def interface
-          repository.find_module!(module_name)
+          repository.find_namespace!(namespace_name)
         end
 
-        # A module is titled by its JavaScript name (`up.link`) everywhere.
+        # A namespace is titled by its JavaScript name (`up.link`) everywhere.
         def title
           interface.name
         end

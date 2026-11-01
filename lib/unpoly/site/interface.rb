@@ -38,7 +38,7 @@ module Unpoly
         case kind
         when 'page'
           'DOC'
-        when 'class', 'module'
+        when 'class', 'namespace'
           'JS'
         else
           throw "Unhandled kind: #{kind}"
@@ -50,11 +50,10 @@ module Unpoly
       end
 
       # The kind as the page's subtitle and window title name it, nil for a page.
-      # A @module is a namespace object (up.link), not an ES module.
       def long_kind
         case kind
         when 'class' then 'JavaScript class'
-        when 'module' then 'JavaScript namespace'
+        when 'namespace' then 'JavaScript namespace'
         end
       end
 
@@ -121,7 +120,7 @@ module Unpoly
         self.explicit_parent_name ||= new_interface.explicit_parent_name
         self.signature_tier = true if new_interface.signature_tier?
         self.keywords.concat(new_interface.keywords)
-        # A repeated declaration may carry the visibility tag (e.g. @module up.browser
+        # A repeated declaration may carry the visibility tag (e.g. @namespace up.browser
         # is declared in both unpoly and unpoly-migrate, and both say @internal).
         self.visibility = new_interface.declared_visibility if declared_visibility.nil?
       end

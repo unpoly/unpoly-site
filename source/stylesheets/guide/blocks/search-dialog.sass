@@ -11,17 +11,17 @@ $search-dialog-width: 640px
 
 // The column at the start of every row that holds its badge, so that the titles start
 // at one edge whatever the badge says. Wide enough for the longest badge with its
-// glyph (MODULE, 70px) and a little room for a wider fallback font.
-$search-dialog-gutter: 76px
+// glyph (NAMESPACE, 90px) and a little room for a wider fallback font.
+$search-dialog-gutter: 96px
 
 $search-dialog-row-padding-x: $space-4
 
 // Every badge has an ink, for its outlined chip and for the stripe that marks its row
 // under the pointer or the arrow keys. A feature's badge takes its kind's ink
-// ($feature-kinds), as its tile in a module's feature list does. A guide page is blue, a
-// hue no kind takes; a module or class gray, as is any other API page. (The tints go
+// ($feature-kinds), as its tile in a namespace's feature list does. A guide page is blue, a
+// hue no kind takes; a namespace or class gray, as is any other API page. (The tints go
 // unused here.)
-$search-dialog-badges: map-merge($feature-kinds, ('learn': ($blue-800, null), 'module': ($gray-800, null), 'class': ($gray-800, null), 'api': ($gray-800, null)))
+$search-dialog-badges: map-merge($feature-kinds, ('learn': ($blue-800, null), 'namespace': ($gray-800, null), 'class': ($gray-800, null), 'api': ($gray-800, null)))
 $search-dialog-separator: 1px solid $gray-300
 
 up-modal.search-dialog

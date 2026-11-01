@@ -6,7 +6,7 @@ describe Unpoly::Site::Trail do
     described_class.of(documentable: repository.find_by_guide_id!(guide_id))
   end
 
-  it "leads from a feature through the API to the feature's module" do
+  it "leads from a feature through the API to the feature's namespace" do
     expect(trail_of('up-submit')).to eq([['API', '/api'], ['up.form', '/api/up.form']])
   end
 
@@ -14,12 +14,12 @@ describe Unpoly::Site::Trail do
     expect(trail_of('up.Layer.prototype.accept')).to eq([['API', '/api'], ['up.Layer', '/api/up.Layer']])
   end
 
-  it 'leads from a module or class to the API' do
+  it 'leads from a namespace or class to the API' do
     expect(trail_of('up.form')).to eq([['API', '/api']])
     expect(trail_of('List')).to eq([['API', '/api']])
   end
 
-  it 'leads from a class with an explicit parent module to that module' do
+  it 'leads from a class with an explicit parent namespace to that namespace' do
     expect(trail_of('up.Layer')).to eq([['API', '/api'], ['up.layer', '/api/up.layer']])
     expect(trail_of('up.RenderJob')).to eq([['API', '/api'], ['up.fragment', '/api/up.fragment']])
   end

@@ -203,7 +203,7 @@ describe 'the sidebar menu', type: :feature, js: true do
 
     expect(page).to have_css('.guide--menu nav.menu[aria-label="API reference"] > ul.menu--nodes > li.node')
     expect(page).to have_css('.guide--menu .menu--nodes > li.node.-expanded > ul.node--children > li.node.-group > ul.node--children > li.node > a.node--self', text: '[up-submit]')
-    # A group (HTML, Events, JavaScript) is a list item of its module, with its features
+    # A group (HTML, Events, JavaScript) is a list item of its namespace, with its features
     # in a list of its own, but its features are not indented below it.
     lefts = page.evaluate_script(<<~JS)
       (function() {

@@ -39,8 +39,8 @@ describe 'the built search index' do
     fragment_of(path)['meta']
   end
 
-  it 'titles a module page with the module name and badges it MODULE' do
-    expect(meta_of('/api/up.link')).to include('title' => 'up.link', 'badge' => 'MODULE')
+  it 'titles a namespace page with the namespace name and badges it NAMESPACE' do
+    expect(meta_of('/api/up.link')).to include('title' => 'up.link', 'badge' => 'NAMESPACE')
   end
 
   it 'titles a class page with the class name and badges it CLASS' do
@@ -85,7 +85,7 @@ describe 'the built search index' do
 
   # Filters, not metadata: Pagefind searches metadata, and a hub's name must not make a
   # page match or rank (config.rb, search_meta_tags).
-  it 'names the hub of a guide page, a feature and a module, and stores it as a filter' do
+  it 'names the hub of a guide page, a feature and a namespace, and stores it as a filter' do
     expect(fragment_of('/learn/start/links')['filters']).to include('hub' => ['Getting started'])
     expect(fragment_of('/learn/following-links')['filters']).to include('hub' => ['Links'])
     expect(fragment_of('/api/up.follow')['filters']).to include('hub' => ['up.link'])

@@ -25,9 +25,9 @@ module Unpoly
       '
 
       INTERFACE_PATTERN = %r{
-        \@(class|module|page)  # kind ($1)
-        \                      # space
-        (.+)                   # class name ($2)
+        \@(class|namespace|page)  # kind ($1)
+        \                         # space
+        (.+)                      # class name ($2)
       }x
 
       EXPLICIT_PARENT_PATTERN = %r{
@@ -314,7 +314,7 @@ module Unpoly
           block = Util.unindent(block)
 
           if (explicit_title = parse_title!(block))
-            # A module or class is titled by its name (`up.form`), never by prose.
+            # A namespace or class is titled by its name (`up.form`), never by prose.
             unless interface.page?
               raise CannotParse, "Only a @page takes a title, not @#{interface_kind} #{interface_name}: #{doc_comment.path_with_lines}"
             end

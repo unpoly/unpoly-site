@@ -8,21 +8,21 @@ describe Unpoly::Site do
 
     delegate :find_by_name!, :find_by_guide_id!, to: :subject
 
-    describe 'modules (e.g. up.fragment)' do
+    describe 'namespaces (e.g. up.fragment)' do
 
-      it 'parses a module' do
+      it 'parses a namespace' do
         interface = find_by_name!('test.module')
-        expect(interface.kind).to eq('module')
+        expect(interface.kind).to eq('namespace')
       end
 
-      it 'titles a module by its name' do
+      it 'titles a namespace by its name' do
         interface = find_by_name!('test.module')
         expect(interface.title).to eq('test.module')
       end
 
       describe 'functions' do
 
-        it 'associates them with the last declared module' do
+        it 'associates them with the last declared namespace' do
           interface = find_by_name!('test.module')
           function = find_by_name!('test.module.function')
           expect(interface.functions).to include(function)
@@ -209,9 +209,9 @@ describe Unpoly::Site do
 
       end
 
-      it 'remembers the file and line range from which a module was loaded' do
+      it 'remembers the file and line range from which a namespace was loaded' do
         interface = find_by_name!('test.module')
-        expect(interface.text_source.path).to end_with('spec/fixtures/parser/module.coffee')
+        expect(interface.text_source.path).to end_with('spec/fixtures/parser/namespace.coffee')
         expect(interface.text_source.start_line).to eq(1)
         expect(interface.text_source.end_line).to eq(3)
       end

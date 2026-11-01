@@ -104,20 +104,20 @@ module Unpoly
 
       describe 'interface visibility' do
 
-        it 'parses @internal on a module, removing its page and menu node' do
+        it 'parses @internal on a namespace, removing its page and menu node' do
           interface = Site.current.find_by_name!('up.browser')
 
           expect(interface).to be_internal
           expect(interface).not_to be_guide_page
         end
 
-        it 'keeps pages for public modules' do
+        it 'keeps pages for public namespaces' do
           interface = Site.current.find_by_name!('up.form')
 
           expect(interface).to be_guide_page
         end
 
-        it 'parents up.Layer methods from unpoly-migrate under up.Layer, not the module parsed before' do
+        it 'parents up.Layer methods from unpoly-migrate under up.Layer, not the namespace parsed before' do
           feature = Site.current.find_by_name!('up.Layer.prototype.isOpen')
 
           expect(feature.interface.name).to eq('up.Layer')
@@ -127,10 +127,10 @@ module Unpoly
 
       describe 'a title' do
 
-        it 'fails the parse on a module, which is titled by its name' do
+        it 'fails the parse on a namespace, which is titled by its name' do
           Dir.mktmpdir do |dir|
             path = File.join(dir, 'titled.js')
-            File.write(path, "/*-\nTitled module\n=============\n\n@module test.titled\n*/\n")
+            File.write(path, "/*-\nTitled namespace\n=============\n\n@namespace test.titled\n*/\n")
 
             expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Only a @page takes a title/)
           end

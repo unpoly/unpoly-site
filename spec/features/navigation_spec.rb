@@ -41,7 +41,7 @@ describe 'navigation', type: :feature, js: true do
     expect(page).to have_css('.menu .up-current', text: 'up.render()')
   end
 
-  it 'expands the current module one level, as an accordion' do
+  it 'expands the current namespace one level, as an accordion' do
     visit '/api/up.fragment'
 
     within '.menu' do

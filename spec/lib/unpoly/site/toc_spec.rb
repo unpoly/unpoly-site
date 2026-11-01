@@ -18,12 +18,12 @@ describe Unpoly::Site::Toc do
       expect(listed.tally.values).to all(eq(1))
     end
 
-    it 'lists every module with a guide page exactly once' do
-      expect(toc.api.module_names.sort).to eq(repository.documented_module_names.sort)
+    it 'lists every namespace with a guide page exactly once' do
+      expect(toc.api.namespace_names.sort).to eq(repository.documented_namespace_names.sort)
     end
 
-    it 'does not list internal modules' do
-      expect(toc.api.module_names).not_to include('up.browser', 'up.migrate', 'up.tooltip')
+    it 'does not list internal namespaces' do
+      expect(toc.api.namespace_names).not_to include('up.browser', 'up.migrate', 'up.tooltip')
     end
 
     it 'starts a chapter at its first page, which drops out of the children' do
@@ -61,13 +61,13 @@ describe Unpoly::Site::Toc do
       expect(toc.topic_of(loading_state).title).to eq('Loading state')
     end
 
-    it 'places a module and its features in the module topic' do
+    it 'places a namespace and its features in the namespace topic' do
       interface = repository.find_by_guide_id!('up.link')
       feature = repository.find_by_guide_id!('up.follow')
 
       [interface, feature].each do |documentable|
         expect(toc.area_of(documentable)).to eq(toc.api)
-        expect(toc.topic_of(documentable).module_name).to eq('up.link')
+        expect(toc.topic_of(documentable).namespace_name).to eq('up.link')
       end
     end
 
@@ -79,10 +79,10 @@ describe Unpoly::Site::Toc do
       expect(toc.topic_of(method)).to be_nil
     end
 
-    it 'groups a module topic by feature kind' do
-      module_topic = toc.api.topics.detect { |topic| topic.respond_to?(:module_name) && topic.module_name == 'up.link' }
+    it 'groups a namespace topic by feature kind' do
+      namespace_topic = toc.api.topics.detect { |topic| topic.respond_to?(:namespace_name) && topic.namespace_name == 'up.link' }
 
-      expect(module_topic.children.map(&:menu_title)).to include('HTML', 'JavaScript')
+      expect(namespace_topic.children.map(&:menu_title)).to include('HTML', 'JavaScript')
     end
 
   end
@@ -98,7 +98,7 @@ describe Unpoly::Site::Toc do
         'learn' => { 'title' => 'Learn', 'reading' => 'linear', 'topics' => [
           { 'type' => 'page-group', 'title' => 'All pages', 'pages' => repository.documented_page_slugs },
         ] },
-        'api' => { 'title' => 'API', 'reading' => 'lookup', 'topics' => repository.documented_module_names.map { |name| { 'type' => 'module', 'module' => name } } },
+        'api' => { 'title' => 'API', 'reading' => 'lookup', 'topics' => repository.documented_namespace_names.map { |name| { 'type' => 'namespace', 'namespace' => name } } },
       }
     end
 
@@ -141,7 +141,7 @@ describe Unpoly::Site::Toc do
       expect { build(data) }.to raise_error(described_class::Invalid, /without an @page directive: a-page-we-never-wrote/)
     end
 
-    it 'rejects a missing module' do
+    it 'rejects a missing namespace' do
       data = minimal
       data['api']['topics'].shift
 

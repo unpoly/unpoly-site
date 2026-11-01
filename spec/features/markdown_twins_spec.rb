@@ -5,7 +5,7 @@ require 'yaml'
 # from (/index.md, /llms.txt) and the agent skill's files, as the preview serves them.
 #
 # Golden files in spec/fixtures/markdown pin the twins of the parser fixtures (one page
-# with one of everything the converter handles, a module, features), so that every
+# with one of everything the converter handles, a namespace, features), so that every
 # change in the output shows up as a diff. After a deliberate change, rewrite them with
 #
 #     UPDATE_GOLDEN=1 bundle exec rspec spec/features/markdown_twins_spec.rb
@@ -64,7 +64,7 @@ describe 'Markdown twins', type: :feature do
       expect(markdown('/learn/start/links.md')).to include('](http://unpoly.test/api/up-follow.md)')
     end
 
-    it 'names the kind and module of a feature in its front matter, its trail in its nav line, and neither in its title' do
+    it 'names the kind and namespace of a feature in its front matter, its trail in its nav line, and neither in its title' do
       text = markdown('/api/up.render.md')
       expect(text).to start_with(%(---\nname: "up.render"\narea: "API"\nkind: "JavaScript function"\nparent: "up.fragment"\nurl: "http://unpoly.test/api/up.render"\n---\n))
       expect(text).to include(%(<nav aria-label="Unpoly docs">[All docs](http://unpoly.test/index.md) · [API](http://unpoly.test/api.md) · [up.fragment](http://unpoly.test/api/up.fragment.md)</nav>\n\n# up.render([target], [options])\n))
@@ -98,7 +98,7 @@ describe 'Markdown twins', type: :feature do
   end
 
   describe 'the agent index' do
-    it 'lists the Learn chapters and API modules, in the llms.txt shape' do
+    it 'lists the Learn chapters and API namespaces, in the llms.txt shape' do
       text = markdown('/index.md')
       expect(text).to start_with("# Unpoly\n\n> ")
       expect(text).to include("## Learn\n", "## API\n", "## Changes\n", "## Support\n")
@@ -123,7 +123,7 @@ describe 'Markdown twins', type: :feature do
       expect(front_matter['description']).to start_with("Unpoly's guides, API reference and release notes")
       expect(front_matter['metadata']['unpoly_version']).to eq(Unpoly::Site.current.version)
       expect(front_matter['metadata']['build']).to match(/\A\d{4}\.\d+\.\d+\z/)
-      expect(text).to include('- [`up.link`](references/api/up-link-module.md): ')
+      expect(text).to include('- [`up.link`](references/api/up-link-namespace.md): ')
       expect(text).to include('point the user to https://unpoly.com/support.')
     end
 

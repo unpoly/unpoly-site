@@ -53,12 +53,12 @@ Shoot.suite 'search', widths: [1280, 390], description: 'search dialog: hits, ro
     b.js('up.layer.dismiss()') rescue nil
   end
 
-  # The row layout and the ranked list: a mixed query, names typed exactly, a module,
+  # The row layout and the ranked list: a mixed query, names typed exactly, a namespace,
   # a param name.
   b.visit('/up.render'); open_search.()
   type.('follow'); puts '  [follow]'; list.(); b.shot('search-11-mixed-follow')
   type.('up.follow'); puts '  [up.follow]'; list.(); b.shot('search-12-dedup-up-follow')
-  type.('up.link'); puts '  [up.link]'; list.(); b.shot('search-13-module-up-link')
+  type.('up.link'); puts '  [up.link]'; list.(); b.shot('search-13-namespace-up-link')
   type.('up-watch-delay'); puts '  [up-watch-delay]'; list.(); b.shot('search-14-param')
   type.('render'); puts '  [render]'; list.(); b.shot('search-19-render')
   type.('watch'); puts '  [watch]'; list.(); b.shot('search-20-watch')

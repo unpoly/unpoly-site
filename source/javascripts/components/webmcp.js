@@ -62,7 +62,7 @@ const webmcpTools = [
         return {
           title: pageTitle(page),
           kind: page.meta?.badge || null,
-          // Where the page belongs: a guide's chapter, a feature's module. Tells namesakes
+          // Where the page belongs: a guide's chapter, a feature's namespace. Tells namesakes
           // apart. None for a chapter's overview, which says so in its title.
           hub: pageHub(page),
           url: new URL(path, location.origin).href,

@@ -178,7 +178,7 @@ def heading_id_words(text):
 
 def clean_title(text):
     """`up.render([target]) (JavaScript function)` -> `up.render([target])`.
-    A module's name is code: `` `up.link` (module) `` -> `up.link`."""
+    A namespace's name is code: `` `up.link` (namespace) `` -> `up.link`."""
     title = CHIP_RE.sub("", clean_heading(text)).strip()
     return title[1:-1] if re.fullmatch(r"`[^`]+`", title) else title
 

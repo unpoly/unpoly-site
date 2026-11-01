@@ -30,8 +30,8 @@ CASES = [
     (["up.$compiler"], "references/api/up-dollar-compiler-function.md", 1),
     (["X-Up-Target"], "references/api/x-up-target-header.md", 1),
     (["up.Layer"], "references/api/up-layer-class.md", 1),
-    (["up.link"], "references/api/up-link-module.md", 1),
-    (["up.fragment"], "references/api/up-fragment-module.md", 1),
+    (["up.link"], "references/api/up-link-namespace.md", 1),
+    (["up.fragment"], "references/api/up-fragment-namespace.md", 1),
     (["up.Layer.prototype.accept"], "references/api/up-layer-prototype-accept-function.md", 1),
     (["[up-keep]"], "references/api/up-keep-selector.md", 1),
     (["up:fragment:loaded"], "references/api/up-fragment-loaded-event.md", 1),
@@ -70,7 +70,7 @@ CASES = [
 # broad queries. It must not outrank the pages it links. Without HUB_FACTOR, these
 # queries put a hub first.
 HUB_QUERIES = [
-    ["api reference modules"],
+    ["api reference namespaces"],
     ["overlays forms links"],
 ]
 

@@ -510,7 +510,7 @@ helpers do
 
   # Search indexes documentation, and only documentation.
   #
-  # A page is indexed when its template rendered a documentable — a guide page, a module,
+  # A page is indexed when its template rendered a documentable — a guide page, a namespace,
   # a class or a feature. That rule needs no list to maintain: the landing page, the
   # imprint, the version switcher, the changelog and the example apps render none, so they
   # stay out by construction, and everything that is in can name the area it belongs to.
@@ -557,7 +557,7 @@ helpers do
   # Search metadata that needs an element of its own: Pagefind takes one key per
   # data-pagefind-meta attribute (it does not split "badge:API, title:up.link").
   #
-  # A module or class is listed under its bare name (up.link), which is also its page's
+  # A namespace or class is listed under its bare name (up.link), which is also its page's
   # headline. A deprecated page
   # says so, and the search strikes it and lists it below the others.
   def search_meta_tags
@@ -599,8 +599,8 @@ helpers do
   # The hub a search result names below its title, so that namesakes from different
   # places can be told apart ("link to" finds a Getting started page, a Links page and a
   # feature of up.link). It is the last step of the page's trail (Unpoly::Site::Trail): a
-  # feature's module or class, a guide page's chapter, or else its area. A module or
-  # class names its area, also a class that sits below a module (up.Layer).
+  # feature's namespace or class, a guide page's chapter, or else its area. A namespace or
+  # class names its area, also a class that sits below a namespace (up.Layer).
   def search_hub(documentable)
     trail = Unpoly::Site::Trail.of(documentable: documentable)
     step = documentable.kind?(:interface) && !documentable.page? ? trail.first : trail.last
@@ -622,13 +622,13 @@ helpers do
 
   # One badge per result, always the most informative one there is. A feature wears its
   # kind, because the reference is full of near-namesakes — [up-follow], up.follow() and
-  # up:link:follow are three different things sharing one name. A module or class says
+  # up:link:follow are three different things sharing one name. A namespace or class says
   # which it is (up.layer, up.Layer). Everything else wears its area.
   def search_badge(documentable, area)
     if documentable.kind?(:feature)
       documentable.short_kind
-    elsif documentable.module?
-      'MODULE'
+    elsif documentable.namespace?
+      'NAMESPACE'
     elsif documentable.class?
       'CLASS'
     else
@@ -935,8 +935,8 @@ helpers do
     %(<time datetime="#{date.iso8601}">#{date.strftime('%B %d, %Y')}</time>)
   end
 
-  # A feature's, module's or class's kind ("HTML attribute"), for the subtitle below its
-  # title. A feature's comes with the glyph of its tile in the module's feature list.
+  # A feature's, namespace's or class's kind ("HTML attribute"), for the subtitle below its
+  # title. A feature's comes with the glyph of its tile in the namespace's feature list.
   # The Markdown twin carries the kind in its front matter instead (MarkdownTwins).
   def kind_subtitle(documentable)
     label = h(documentable.long_kind)

@@ -83,7 +83,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
     expect(page).to have_css('up-drawer a', text: 'Getting started')
   end
 
-  it 'opens API to its modules and Formats, each one plain row' do
+  it 'opens API to its namespaces and Formats, each one plain row' do
     open_drawer_on '/support'
     expand('API')
 
@@ -174,7 +174,7 @@ describe 'the drawer', type: :feature, js: true, driver: :selenium_phone do
 
   describe 'marking where the reader is' do
 
-    it 'opens API and marks the module on a module page' do
+    it 'opens API and marks the namespace on a namespace page' do
       open_drawer_on '/api/up.link'
 
       expect(current_in_drawer).to eq(['API', 'up.link'])

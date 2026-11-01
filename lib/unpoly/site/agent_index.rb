@@ -19,7 +19,7 @@ module Unpoly
         toc = Site.current.toc
         sections = [
           area_section('Learn', toc.learn, 'Every guide, chapter by chapter, in reading order.'),
-          area_section('API', toc.api, 'Every module, with its most important features.'),
+          area_section('API', toc.api, 'Every namespace, with its most important features.'),
           changes,
         ]
         sections << support if @support
@@ -28,16 +28,16 @@ module Unpoly
 
       private
 
-      # The area's hub, then its topics: Learn's chapters, API's modules.
+      # The area's hub, then its topics: Learn's chapters, API's namespaces.
       def area_section(title, area, hub_description)
         items = [item(area.title, area.path, hub_description)]
         items += area.topics.map { |topic| item(topic_title(topic), topic.menu_path, sentence(topic.summary_markdown)) }
         section(title, items)
       end
 
-      # A module is titled by its name, which is code (`up.link`).
+      # A namespace is titled by its name, which is code (`up.link`).
       def topic_title(topic)
-        topic.is_a?(Toc::ModuleTopic) ? "`#{topic.title}`" : topic.title
+        topic.is_a?(Toc::NamespaceTopic) ? "`#{topic.title}`" : topic.title
       end
 
       def changes

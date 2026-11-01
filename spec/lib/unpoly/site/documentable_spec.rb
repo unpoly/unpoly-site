@@ -14,7 +14,7 @@ describe Unpoly::Site::Documentable do
       expect(find_by_name!('up.render').guide_path).to eq('/api/up.render')
     end
 
-    it 'builds the path of a module from its name' do
+    it 'builds the path of a namespace from its name' do
       expect(find_by_name!('up.fragment').guide_path).to eq('/api/up.fragment')
     end
 
@@ -58,7 +58,7 @@ describe Unpoly::Site::Documentable do
 
     it 'knows the kind of each documentable' do
       expect(find_by_name!('up.render').kind).to eq('function')
-      expect(find_by_name!('up.fragment').kind).to eq('module')
+      expect(find_by_name!('up.fragment').kind).to eq('namespace')
       expect(find_by_name!('up.Response').kind).to eq('class')
       expect(find_by_name!('up.fragment.config').kind).to eq('property')
       expect(find_by_name!('[up-follow]').kind).to eq('selector')
@@ -75,11 +75,11 @@ describe Unpoly::Site::Documentable do
 
   end
 
-  # Shown as a subtitle on every feature, module and class page, in the window title and
+  # Shown as a subtitle on every feature, namespace and class page, in the window title and
   # in the Markdown twin's front matter.
   describe '#long_kind' do
 
-    it 'calls a module a JavaScript namespace and a class a JavaScript class' do
+    it 'calls a namespace a JavaScript namespace and a class a JavaScript class' do
       expect(find_by_name!('up.link').long_kind).to eq('JavaScript namespace')
       expect(find_by_name!('up.RenderJob').long_kind).to eq('JavaScript class')
     end

@@ -25,15 +25,15 @@ module Unpoly
                 '<path fill="currentColor" d="M30 98V30h20l20 25 20-25h20v68H90V59L70 84 50 59v39zm125 0l-30-33h20V30h20v35h20z"/>',
         },
       }.merge(
-        # The glyph of each feature kind (Feature#short_kind) in a module's feature
+        # The glyph of each feature kind (Feature#short_kind) in a namespace's feature
         # list, as "kind-js" etc. Outlines after Lucide (ISC, lucide.dev), all in one
         # stroke weight: Font Awesome 4 has no braces or cookie, and its solid glyphs
         # would not match the outlines. Some are scaled down so they look as large as
         # the rest, with a thicker stroke so they keep its weight.
         #
         # "book" and "package" are drawn the same way and sit beside the kinds: a guide
-        # page and a module or class in the search results (_search_dialog.html.erb), a
-        # guide page in the sidebar (menu.coffee), a module on the /api hub.
+        # page and a namespace or class in the search results (_search_dialog.html.erb), a
+        # guide page in the sidebar (menu.coffee), a namespace on the /api hub.
         {
           'html' => '<polyline points="17.5 17 22.5 12 17.5 7"/><polyline points="6.5 7 1.5 12 6.5 17"/><line x1="14.5" y1="4" x2="9.5" y2="20"/>',
           'attr' => '<polyline points="17.5 17 22.5 12 17.5 7"/><polyline points="6.5 7 1.5 12 6.5 17"/><line x1="14.5" y1="4" x2="9.5" y2="20"/>',

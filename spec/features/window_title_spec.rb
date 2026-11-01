@@ -13,7 +13,7 @@ describe 'window title', type: :feature do
     expect(title_of('/api/up.render')).to eq('up.render() (JavaScript function) - Unpoly API')
   end
 
-  it 'names a module a JavaScript namespace' do
+  it 'names a namespace a JavaScript namespace' do
     expect(title_of('/api/up.link')).to eq('up.link (JavaScript namespace) - Unpoly API')
   end
 

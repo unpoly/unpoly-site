@@ -1,7 +1,7 @@
 # The two area hubs, per "HUB DESIGN SETTLED" in docs/rework-2026/plan.md. /learn is a
 # path into the course: Getting started on a tinted block, then the chapters as a
 # numbered path, each with its overview and all of its pages. /api is a catalog: one
-# row per sidebar topic, the module name as the row's link, and its signature features.
+# row per sidebar topic, the namespace name as the row's link, and its signature features.
 describe 'the hubs', type: :feature, js: true do
 
   let(:toc) { Unpoly::Site.current.toc }
@@ -125,7 +125,7 @@ describe 'the hubs', type: :feature, js: true do
       expect(box['height']).to eq(box['link'])
     end
 
-    it 'names the module after "+ N more" for screen readers' do
+    it 'names the namespace after "+ N more" for screen readers' do
       visit '/api'
 
       more = row_for('/api/up.link').find('.api-row--more')
@@ -134,7 +134,7 @@ describe 'the hubs', type: :feature, js: true do
       expect(page.evaluate_script("document.querySelector('.api-row--more-context').getBoundingClientRect().width")).to be <= 1
     end
 
-    it 'underlines the module name lightly as the row link, with no separate overview link' do
+    it 'underlines the namespace name lightly as the row link, with no separate overview link' do
       visit '/api'
 
       titles = light_underline('.api-row--title')
@@ -161,9 +161,9 @@ describe 'the hubs', type: :feature, js: true do
       expect(features).to all(include('line' => 'underline', 'color' => red))
     end
 
-    # The count is of what the module page lists under Features, not of the
-    # module's sidebar rows, which also hold classes (up.Layer).
-    it "counts the features the module page lists under Features, beyond the ones shown" do
+    # The count is of what the namespace page lists under Features, not of the
+    # namespace's sidebar rows, which also hold classes (up.Layer).
+    it "counts the features the namespace page lists under Features, beyond the ones shown" do
       { '/api/up.layer' => true, '/api/up.form' => true, '/api/up.fragment' => true, '/api/up.util' => true }.each do |path, has_signature|
         visit path
         listed = page.evaluate_script(<<~JS)
@@ -182,7 +182,7 @@ describe 'the hubs', type: :feature, js: true do
         row = row_for(path)
         more = row.find('.api-row--more')
         expect(more[:href]).to end_with("#{path}#features")
-        # What the link shows, without the module name that only screen readers get.
+        # What the link shows, without the namespace name that only screen readers get.
         more_text = more.evaluate_script('this.firstChild.textContent')
 
         if has_signature

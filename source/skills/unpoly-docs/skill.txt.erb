@@ -26,7 +26,7 @@ This skill holds the documentation of Unpoly, the same text as https://unpoly.co
 
 **Learn pages** are tutorials, how-tos and best practices. They explain Unpoly's concepts, such as fragments, targeting, layers and navigation. They show established patterns that solve common tasks by combining several features, and they recommend one approach where several would work, including the trade-offs and pitfalls. A Learn page covers the options you need in the common case, not every option.
 
-**API pages** document one feature each: an HTML attribute, a JavaScript function, an event, an HTTP header, or a module with its features. They list the exact specs: every parameter and option with its type, default and allowed values, and every return value and event property, including the rarely needed ones. An API page says what a feature does, not how it fits together with others to solve a task.
+**API pages** document one feature each: an HTML attribute, a JavaScript function, an event, an HTTP header, or a namespace with its features. They list the exact specs: every parameter and option with its type, default and allowed values, and every return value and event property, including the rarely needed ones. An API page says what a feature does, not how it fits together with others to solve a task.
 
 Each answers questions the other doesn't, so most work needs both:
 
@@ -55,7 +55,7 @@ Words inside one quoted argument also count as a phrase: pages containing it wor
 
 Exact names rank their own page first, in any spelling: `up.render`, `up.render()`, `[up-follow]`, `up-follow`, `up:link:follow`, `X-Up-Target`.
 
-Each result is a `<result>` block with a `score`, a `path` relative to this skill, and where the page sits: its `area` (Learn or API), its `kind` on API pages, and its `parent` (a feature's module, a Learn page's chapter). Inside are the page's `<title>` and a snippet around the match. Read the file at `path` for the whole page. The top 10 results are shown; pass `--limit 30` to see more. Release notes and deprecated features rank lower.
+Each result is a `<result>` block with a `score`, a `path` relative to this skill, and where the page sits: its `area` (Learn or API), its `kind` on API pages, and its `parent` (a feature's namespace, a Learn page's chapter). Inside are the page's `<title>` and a snippet around the match. Read the file at `path` for the whole page. The top 10 results are shown; pass `--limit 30` to see more. Release notes and deprecated features rank lower.
 
 To see a page's sections with line ranges, run `python3 scripts/outline.py <path>`.
 
@@ -65,7 +65,7 @@ Without Python, grep the reference files for any of your terms, ranked by matchi
 grep -rEic "up-dismiss|up.layer.dismiss|close overlay" references/ | grep -v ':0$' | sort -t: -k2 -rn | head -n 20
 ```
 
-Or walk the index below: it lists every Learn chapter and every API module. A chapter's first page links to all pages of the chapter, and a module's page lists every feature of the module with a one-line summary.
+Or walk the index below: it lists every Learn chapter and every API namespace. A chapter's first page links to all pages of the chapter, and a namespace's page lists every feature of the namespace with a one-line summary.
 
 ## Conventions
 

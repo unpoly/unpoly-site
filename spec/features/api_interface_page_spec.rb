@@ -4,7 +4,7 @@ describe 'interface page', type: :feature, js: true do
     visit '/api/up.fragment'
   end
 
-  it 'is titled by the module name in monospace' do
+  it 'is titled by the namespace name in monospace' do
     expect(page).to have_css('h1', exact_text: 'up.fragment')
     expect(page).to have_css('h1 code', text: 'up.fragment')
     expect(page).to have_css('hgroup.page-title > h1 + p.subtitle', text: 'JavaScript namespace')
@@ -26,11 +26,11 @@ describe 'interface page', type: :feature, js: true do
     expect(page).to have_no_css('hgroup')
   end
 
-  it 'links to the guide pages that explain the module in context' do
+  it 'links to the guide pages that explain the namespace in context' do
     expect(page).to have_css('.learn-refs a[href="/learn/advanced-rendering"]')
   end
 
-  it 'lists all features of the module' do
+  it 'lists all features of the namespace' do
     expect(page).to have_css('#features')
     expect(page).to have_css('#features + ul a[href="/api/up.render"]')
   end

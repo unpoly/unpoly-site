@@ -11,12 +11,12 @@ describe 'breadcrumb', type: :feature do
     end
   end
 
-  it "leads from a feature to its module" do
+  it "leads from a feature to its namespace" do
     visit '/api/up-submit'
     expect(breadcrumb_steps).to eq([['API', '/api', '1'], ['up.form', '/api/up.form', '2']])
   end
 
-  it 'leads from a module to the API' do
+  it 'leads from a namespace to the API' do
     visit '/api/up.form'
     expect(breadcrumb_steps).to eq([['API', '/api', '1']])
   end

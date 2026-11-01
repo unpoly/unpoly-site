@@ -44,18 +44,18 @@ describe Unpoly::Site::Repository do
 
   end
 
-  describe '#documented_module_names' do
+  describe '#documented_namespace_names' do
 
-    it 'returns the modules that make up the API reference' do
-      expect(subject.documented_module_names).to include('up.link', 'up.form', 'up.fragment')
+    it 'returns the namespaces that make up the API reference' do
+      expect(subject.documented_namespace_names).to include('up.link', 'up.form', 'up.fragment')
     end
 
-    it 'omits internal modules' do
-      expect(subject.documented_module_names).not_to include('up.browser', 'up.migrate', 'up.tooltip')
+    it 'omits internal namespaces' do
+      expect(subject.documented_namespace_names).not_to include('up.browser', 'up.migrate', 'up.tooltip')
     end
 
-    it 'omits modules parsed from spec fixtures' do
-      expect(subject.documented_module_names).not_to include('test.module')
+    it 'omits namespaces parsed from spec fixtures' do
+      expect(subject.documented_namespace_names).not_to include('test.module')
     end
 
   end

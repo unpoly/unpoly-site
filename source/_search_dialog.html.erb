@@ -37,11 +37,11 @@
   </p>
 
   <%# The glyph on a result's badge, by badge (config.rb, search_badge): the glyphs of
-      the kind tiles in a feature list, a book for a guide page, a package for a module
+      the kind tiles in a feature list, a book for a guide page, a package for a namespace
       or class (Icon::SVG). search_dialog.js copies them from here. %>
   <%
     badge_glyphs = Unpoly::Site::Icon::SVG.each_key.grep(/\Akind-/).to_h { |name| [name.delete_prefix('kind-'), name] }
-    badge_glyphs.merge!('learn' => 'book', 'module' => 'package', 'class' => 'package', 'api' => 'package')
+    badge_glyphs.merge!('learn' => 'book', 'namespace' => 'package', 'class' => 'package', 'api' => 'package')
   %>
   <div class="search-dialog--glyphs" hidden>
     <% badge_glyphs.each do |badge, name| %>

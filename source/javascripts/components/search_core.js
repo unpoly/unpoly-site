@@ -85,7 +85,7 @@ const SEARCH = {
   signatureBoost: 1.4,
   // What a page's score is multiplied with, by its badge. A selector has one of three
   // badges, by what it selects by. A badge not listed counts 1 (headers, cookies,
-  // modules, classes).
+  // namespaces, classes).
   kindLadder: { Learn: 1.05, ATTR: 1.04, CSS: 1.04, TARGET: 1.04, CONFIG: 1.03, EVENT: 1.02, JS: 1.01 },
   // How much a long page pays for its length (Pagefind's ranking.pageLength, 0 to 1;
   // its default is 0.75). Lower favors long pages.
@@ -126,7 +126,7 @@ function isOverview(page) {
 }
 
 // The closest hub above a page (config.rb, search_hub), which a result row names below
-// its title: a guide page's chapter, a feature's module, "API" for a module. An overview
+// its title: a guide page's chapter, a feature's namespace, "API" for a namespace. An overview
 // has none.
 function pageHub(page) {
   return page.filters?.hub?.[0] || null

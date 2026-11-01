@@ -5,7 +5,7 @@ Shoot.suite 'docs', widths: [1280], description: 'tricky documentation pages' do
   b.visit('/up.RenderJob.prototype.then'); b.shot('docs-03-long-title')
   b.visit('/install'); b.scroll_to('table'); b.shot('docs-04-install-table')
   b.visit('/'); b.try_click('a', text: 'install in ten minutes') and (b.scroll_to('table'); b.shot('docs-05-install-table-via-landing'))
-  b.visit('/up.fragment'); b.shot('docs-06-module')
+  b.visit('/up.fragment'); b.shot('docs-06-namespace')
   b.visit('/changes/3.11.0'); b.shot('docs-07-release')
   b.visit('/up-follow'); b.shot('docs-08-selector')
   b.visit('/up.render'); b.scroll_to('pre'); b.shot('docs-09-code')

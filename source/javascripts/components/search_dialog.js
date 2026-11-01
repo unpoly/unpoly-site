@@ -17,10 +17,10 @@ const MESSAGES = {
   status: (count, query) => count ? `${count} ${count === 1 ? 'result' : 'results'} for '${query}'` : 'No results',
 }
 
-// The badges that name an area, a module or a class rather than a kind of code. Rows
+// The badges that name an area, a namespace or a class rather than a kind of code. Rows
 // wearing one have a prose title; every other row is named after an identifier and set
 // as code.
-const AREA_BADGES = ['Learn', 'API', 'MODULE', 'CLASS']
+const AREA_BADGES = ['Learn', 'API', 'NAMESPACE', 'CLASS']
 
 function normalize(text) {
   // A reader types "up-follow", the title is "[up-follow]" — highlighting ignores the

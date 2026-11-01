@@ -116,7 +116,7 @@ module Unpoly
       end
 
       # The short label for what kind of thing this feature is: the badge on a search
-      # result, the kind column in a module's feature list, the tag on a preview card.
+      # result, the kind column in a namespace's feature list, the tag on a preview card.
       #
       # This is the canonical kind vocabulary. It separates the kinds a reader searches
       # for separately — an event, a configuration object and a function are all reached

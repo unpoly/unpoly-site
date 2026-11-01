@@ -178,7 +178,7 @@ module Unpoly
       end
 
       # An interface can explicitly set a parent using the @parent directive
-      # to move itself under another module in the menu tree.
+      # to move itself under another namespace in the menu tree.
       #
       # E.g. the up.Params class sets @parent up.form.
       def explicit_children
@@ -202,8 +202,8 @@ module Unpoly
         kind == 'class'
       end
 
-      def module?
-        kind == 'module'
+      def namespace?
+        kind == 'namespace'
       end
 
       def page?

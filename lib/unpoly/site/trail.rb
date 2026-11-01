@@ -38,15 +38,15 @@ module Unpoly
         [area.key == 'api' ? 'API' : area.title, area.path]
       end
 
-      # The step between a documentable and its area, if there is one: a feature's module
-      # or class, a class's module, or a page's chapter (unless the page starts it).
+      # The step between a documentable and its area, if there is one: a feature's namespace
+      # or class, a class's namespace, or a page's chapter (unless the page starts it).
       def self.documentable_step(documentable, toc)
         if documentable.kind?(:feature)
           interface = documentable.interface
           [interface.name, interface.guide_path]
-        elsif documentable.class? && (module_name = documentable.explicit_parent_name)
-          mod = Site.current.find_module!(module_name)
-          [mod.name, mod.guide_path]
+        elsif documentable.class? && (namespace_name = documentable.explicit_parent_name)
+          namespace = Site.current.find_namespace!(namespace_name)
+          [namespace.name, namespace.guide_path]
         elsif (topic = toc.topic_of(documentable)).is_a?(Toc::PageGroup)
           start = topic.start_page
           [topic.title, start.guide_path] unless start.nil? || start == documentable
