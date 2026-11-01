@@ -17,6 +17,8 @@
 // In-page navigation, so the chips are gray and quiet, not the prose's underlined
 // links. Even padding centers the uppercase text: Roboto's caps already sit low.
 .minitoc--link
+  // Its <li> is the flex item now; the chip is still a box of its own.
+  display: block
   font-size: $text-2xs
   line-height: 1.2
   +uppercase

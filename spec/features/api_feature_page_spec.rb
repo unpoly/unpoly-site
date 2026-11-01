@@ -21,6 +21,14 @@ describe 'feature page', type: :feature, js: true do
     expect(subtitle['data-markdown']).to eq('ignore')
   end
 
+  it 'lists the parameter groups as chips in a list' do
+    visit '/api/up-submit'
+
+    chips = all('.minitoc ul.minitoc--items > li > a.minitoc--link')
+    expect(chips.size).to be > 1
+    expect(chips.first.text).to match(/\Atargeting\z/i)
+  end
+
   it 'documents the parameters of the feature' do
     expect(page).to have_css('.feature--param', text: 'target')
     expect(page).to have_css('.feature--param .tag', text: /optional/i)

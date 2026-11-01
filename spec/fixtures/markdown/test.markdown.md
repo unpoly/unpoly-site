@@ -19,8 +19,6 @@ It links to [`up.render()`](http://unpoly.test/api/up.render.md), to [an anchor]
 
 <nav aria-label="Contents">
 
-#### Contents
-
 - [Code blocks](#code-blocks)
 - [Lists and tables](#lists-and-tables)
 - [Admonitions and media](#media)

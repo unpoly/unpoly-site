@@ -102,11 +102,15 @@ module Unpoly
 
         html = ''
         html << '<nav class="toc" aria-label="Contents" data-pagefind-ignore>'
-        html << '<h4 class="toc--title">Contents</h4>'
+        # The nav's label already says "Contents" to assistive tech; the visible title is
+        # no heading, so it adds no h4 to the outline.
+        html << '<div class="toc--title" aria-hidden="true">Contents</div>'
+        html << '<ul class="toc--items">'
         headings.each do |heading|
           textualize_heading(heading)
-          html << "<div class='toc--item'><a href='##{heading[:id]}'>#{Icon.html('bookmark-o')} #{heading.inner_html}</a></div>"
+          html << "<li class='toc--item'><a href='##{heading[:id]}'>#{Icon.html('bookmark-o')} #{heading.inner_html}</a></li>"
         end
+        html << '</ul>'
         html << '</nav>'
         @toc_html = html
 

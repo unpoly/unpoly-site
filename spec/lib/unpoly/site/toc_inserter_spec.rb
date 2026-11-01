@@ -27,6 +27,18 @@ end
 
 describe Unpoly::Site::TOCInserter, '#auto_insert' do
 
+  # The nav's label names it; a visible "Contents" heading would only add an h4 to the
+  # outline before the first h2.
+  it 'lists the contents in a <ul> below a title that is no heading' do
+    html = "<p>#{'Text. ' * 400}</p>" + %w[a b c].map { |id| %(<h2 id="#{id}">#{id.upcase}</h2><p>Text.</p>) }.join
+
+    nav = Nokogiri::HTML5.fragment(described_class.new.auto_insert(html)).at_css('nav.toc[aria-label="Contents"]')
+
+    expect(nav.css('h1, h2, h3, h4, h5, h6')).to be_empty
+    expect(nav.at_css('.toc--title')[:'aria-hidden']).to eq('true')
+    expect(nav.css('ul.toc--items > li.toc--item > a').map { |link| [link.text.strip, link[:href]] }).to eq([['A', '#a'], ['B', '#b'], ['C', '#c']])
+  end
+
   it 'keeps a <wbr> a void element' do
     html = "<p>#{'Text. ' * 400}</p>" + %w[a b c].map { |id| %(<h2 id="#{id}">#{id}</h2><p>up<wbr>.foo</p>) }.join
 

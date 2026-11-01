@@ -70,13 +70,15 @@
           <div class="minitoc--heading">
             <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>
           </div>
-          <div class="minitoc--items" data-markdown="ignore">
+          <ul class="minitoc--items" data-markdown="ignore">
             <% param_sections.each do |param_section| %>
-              <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="minitoc--link">
-                <%= param_section.title %>
-              </a>
+              <li>
+                <a href="#<%= param_section.guide_anchor(params_segment_id) %>" class="minitoc--link">
+                  <%= param_section.title %>
+                </a>
+              </li>
             <% end %>
-          </div>
+          </ul>
         </div>
       <% else %>
         <h2 id="<%= slugify(params_segment_id) %>"><%= params_section_title %></h2>

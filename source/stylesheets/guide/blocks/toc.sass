@@ -39,9 +39,15 @@
   text-decoration: none !important
   +uppercase
   font-size: $text-3xs
+  line-height: $leading-ui // the leading of the <h4> it used to be
   font-weight: bold
   letter-spacing: 0.08em
   color: $gray-600
+
+.toc--items
+  // Specific enough to beat the margins of .prose ul.
+  .toc &
+    margin: 0
 
 .toc--item
   font-size: $text-sm
