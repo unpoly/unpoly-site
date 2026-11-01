@@ -7,11 +7,16 @@
   font-weight: bold
   color: $gray-900
   text-wrap: balance
-  margin-bottom: $space-4
+  margin-bottom: $space-5
 
-.landing-hero--byline
+// More specific than the landing's paragraph margin (.landing--inner p).
+p.landing-hero--byline
   +type($text-lg, $leading-heading)
   color: $gray-800
+  // The byline leads into the code, so it sits closer to the code than to the claim.
+  // The code's margin-top alone sets that gap: a larger paragraph margin would
+  // collapse with it and win.
+  margin-bottom: 0
 
 .landing-hero--trailer
   +type($text-md, $leading-body)

@@ -8,7 +8,9 @@
 $annotated-stack-below: 816px
 
 .landing-annotated
-  +vertical-margin($space-5)
+  // Close to the byline that leads into it, further from the trailer.
+  margin-top: $space-3
+  margin-bottom: $space-5
   +landing-code-box
   display: grid
   grid-template-columns: max-content max-content
