@@ -65,14 +65,15 @@ describe 'the search ranking', type: :feature, js: true do
   end
 
   it 'lifts a signature page by its title and its boost' do
-    # The boost: for "overlay", [up-layer=new] passes up.layer.dismissOverlays(), which
-    # Pagefind scores higher (7.7 to 5.9 when this was written). The dialog lists
-    # [up-layer=new], and up.layer.dismissOverlays() not at all.
+    # The boost: for "overlay", up.layer.ask() passes up.layer.overlays(), which Pagefind
+    # scores higher (10.5 to 9.1 when this was written). Both are functions, so the kind
+    # ladder plays no part. The dialog lists up.layer.ask(), and up.layer.overlays() not
+    # at all.
     results = ranked('overlay')
     alone = pagefind_alone('overlay')
-    expect(alone.index('/api/up.layer.dismissOverlays')).to be < alone.index('/api/up-layer-new')
-    expect(results).to include('/api/up-layer-new')
-    expect(results.index('/api/up.layer.dismissOverlays') || results.size).to be > results.index('/api/up-layer-new')
+    expect(alone.index('/api/up.layer.overlays')).to be < alone.index('/api/up.layer.ask')
+    expect(results).to include('/api/up.layer.ask')
+    expect(results.index('/api/up.layer.overlays') || results.size).to be > results.index('/api/up.layer.ask')
 
     # The title: without its tier title, [up-layer=new] is not even among the pages the
     # dialog fetches for "layer".
