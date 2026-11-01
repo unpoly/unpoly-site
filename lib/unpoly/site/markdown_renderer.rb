@@ -51,11 +51,13 @@ module Unpoly
         icon = ADMONITION_ICONS.fetch(type)
 
         html = ''.html_safe
-        html << "<blockquote class='admonition -#{type.downcase}'>".html_safe
-        html <<  "<h4 class='admonition--title'>".html_safe
+        # The title is no heading: it names no topic and would fill the heading list with
+        # "Note"s. role=note needs no name, a screen reader reads the visible title first.
+        html << "<blockquote class='admonition -#{type.downcase}' role='note'>".html_safe
+        html <<  "<p class='admonition--title'>".html_safe
         html << Icon.html(icon).html_safe
         html << title
-        html << "</h4>".html_safe
+        html << "</p>".html_safe
         html << text
         html << "</blockquote>".html_safe unless text_closes_blockquote
         html
@@ -200,7 +202,7 @@ module Unpoly
       # end
 
       def do_normalize_heading_level(nokogiri_doc, min: 2, max: 4)
-        headings = nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup
+        headings = nokogiri_doc.css('h1, h2, h3, h4, h5, h6').to_a.dup
 
         min_level_in_prose = headings.map { |heading| heading_level(heading) }.min
         headings.each do |heading|
@@ -214,7 +216,7 @@ module Unpoly
       end
 
       def find_headings(nokogiri_doc)
-        nokogiri_doc.css('h1, h2, h3, h4:not(.admonition--title), h5, h6').to_a.dup
+        nokogiri_doc.css('h1, h2, h3, h4, h5, h6').to_a.dup
       end
 
       def heading_level(heading)
@@ -295,7 +297,7 @@ module Unpoly
       }xi
 
       # Convert admonition markdown in the style of docs.microsoft.com to a
-      # BEM block <div class="admonition">.
+      # BEM block <blockquote class="admonition">.
       def parse_msdoc_admonitions(html)
         html.gsub(RENDERED_MSDOC_ADMONITION_PATTERN) do
           content_start = $1

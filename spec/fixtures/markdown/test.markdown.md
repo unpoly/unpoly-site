@@ -57,7 +57,7 @@ let result = up.render('.foo') // result: up.RenderJob
 
 ## Admonitions and media {#media}
 
-> #### Tip
+> Tip
 >
 > A tip with **bold** and _emphasis_.
 

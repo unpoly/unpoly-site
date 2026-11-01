@@ -9,6 +9,8 @@ layout: false
       markdown(release.markdown)
         .gsub(/<h\d[^>]*>/, '<p><u><b>')
         .gsub(/<\/h\d>/, '</b></u></p>')
+        # An admonition's title, set like a heading.
+        .gsub(%r{<p class='admonition--title'>(.*?)</p>}, '<p><u><b>\1</b></u></p>')
         .gsub('href="/', 'href="https://unpoly.com/')
     %>
   <% end %>

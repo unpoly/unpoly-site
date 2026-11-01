@@ -215,9 +215,9 @@ describe Unpoly::Site::HtmlToMarkdown do
   end
 
   describe 'blockquotes' do
-    it 'quotes the blocks of a blockquote (an admonition keeps its title as a heading)' do
-      html = '<blockquote class="admonition -tip"><h4 class="admonition--title"><i class="fa fa-x" aria-hidden="true"></i>Tip</h4><p>Do it.</p></blockquote>'
-      expect(convert(html)).to eq("> #### Tip\n>\n> Do it.\n")
+    it 'quotes the blocks of a blockquote (an admonition keeps its title as a paragraph)' do
+      html = '<blockquote class="admonition -tip" role="note"><p class="admonition--title"><i class="fa fa-x" aria-hidden="true"></i>Tip</p><p>Do it.</p></blockquote>'
+      expect(convert(html)).to eq("> Tip\n>\n> Do it.\n")
     end
   end
 

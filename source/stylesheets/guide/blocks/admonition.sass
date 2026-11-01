@@ -27,10 +27,16 @@ blockquote.admonition
 
 .admonition--title
   font-weight: bold
-  margin-bottom: 0.5em
-  margin-top: 0
+  // The leading and wrapping of the <h4> the title used to be.
+  line-height: $leading-ui
+  text-wrap: pretty
   text-decoration: none !important
   font-size: inherit
+
+  // Specific enough to beat the margins of .prose p.
+  .admonition &
+    margin-bottom: 0.5em
+    margin-top: 0
 
   .fa
     margin-right: 0.3em

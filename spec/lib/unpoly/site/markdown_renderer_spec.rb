@@ -99,6 +99,30 @@ describe Unpoly::Site::MarkdownRenderer do
       expect(blockquote.text).to include('Be careful here.')
     end
 
+    # The title names no topic, so it stays out of the heading outline. role=note gets
+    # no name: a screen reader reads the visible title first.
+    it 'marks the box as a note, titled by a paragraph instead of a heading' do
+      html = render("> [!NOTE]\n> Some note.\n\n## Section")
+      fragment = Nokogiri::HTML5.fragment(html)
+      blockquote = fragment.at_css('blockquote')
+
+      expect(blockquote[:role]).to eq('note')
+      expect(blockquote[:'aria-label']).to be_nil
+      expect(blockquote[:'aria-labelledby']).to be_nil
+      expect(blockquote.element_children.first.name).to eq('p')
+      expect(blockquote.element_children.first[:class]).to eq('admonition--title')
+      expect(fragment.css('h1, h2, h3, h4, h5, h6').map(&:text)).to eq(['Section'])
+    end
+
+    it 'renders the admonition helper with the same markup' do
+      html = described_class.new(current_path: '/current-page').render_admonition(type: :info, text: '<p>Text.</p>'.html_safe)
+      blockquote = Nokogiri::HTML5.fragment(html).at_css('blockquote')
+
+      expect(blockquote[:class]).to eq('admonition -info')
+      expect(blockquote[:role]).to eq('note')
+      expect(blockquote.at_css('p.admonition--title').text).to eq('Info')
+    end
+
     it 'uses an explicit admonition title' do
       html = render("> [!NOTE \"Custom title\"]\n> Some note.")
       blockquote = Nokogiri::HTML.fragment(html).at_css('blockquote')

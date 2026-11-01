@@ -3,9 +3,9 @@ require 'nokogiri'
 module Unpoly
   module Site
     # Places a block of HTML in a document's intro slot: after the lead paragraphs, but
-    # before the first heading, separator and auto-generated table of contents.
+    # before the first heading, separator, admonition and auto-generated table of contents.
     class IntroInserter
-      POSITION_SELECTOR = 'h1, h2, h3, h4, h5, h6, hr'.freeze
+      POSITION_SELECTOR = 'h1, h2, h3, h4, h5, h6, hr, .admonition'.freeze
 
       def self.insert(html, intro_html)
         return html if intro_html.blank?
