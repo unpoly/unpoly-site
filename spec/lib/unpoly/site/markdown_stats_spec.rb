@@ -23,8 +23,8 @@ describe Unpoly::Site::MarkdownStats do
   end
 
   # A synthetic line in the combined format.
-  def line(path, size, status: 200, method: 'GET', day: '02/Nov/2026', agent: chrome)
-    %(192.0.2.1 - - [#{day}:10:00:00 +0100] "#{method} #{path} HTTP/1.1" #{status} #{size} "-" "#{agent}"\n)
+  def line(path, size, status: 200, method: 'GET', day: '02/Nov/2026', agent: chrome, referer: '-')
+    %(192.0.2.1 - - [#{day}:10:00:00 +0100] "#{method} #{path} HTTP/1.1" #{status} #{size} "#{referer}" "#{agent}"\n)
   end
 
   def stats(*lines, **options)
@@ -158,6 +158,19 @@ describe Unpoly::Site::MarkdownStats do
     expect(report).to include('Markdown via Accept           1   25.0%')
     expect(report).to include('Skipped 1 lines: 1 not a page')
     expect(report).to match(/^Chrome +2 +1 +1$/)
+  end
+
+  it 'tells who asked for a .md URL: an agent for a user, a click on a page here, or a crawler' do
+    report = stats(
+      line('/api/up.render.md', 200, agent: 'Mozilla/5.0 (compatible; Claude-User/1.0)'),
+      line('/api/up.render.md', 200, referer: 'https://unpoly.com/api/up.render'),
+      line('/api/up.render.md', 200, referer: 'https://unpoly.com.evil.example/'),
+      line('/api/up.render.md', 200, agent: claude),
+      line('/api/up.render.md', 200, agent: claude, referer: 'https://unpoly.com/api/up.render'),
+    ).report
+    expect(report).to include('  agent for a user            1   20.0%')
+    expect(report).to include('  from a page here            1   20.0%')
+    expect(report).to include('  other (crawlers)            3   60.0%')
   end
 
 end

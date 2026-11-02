@@ -28,8 +28,20 @@ module Unpoly
         negotiated: 'Markdown via Accept',
       }
 
-      QUOTED = /"(?:[^"\\]|\\.)*"/
-      LINE = %r{\A\S+ \S+ \S+ \[(?<day>[^:]+)\S* \S+\] "(?<method>\S+) (?<path>\S+)[^"]*" (?<status>\d+) (?<size>\d+|-) #{QUOTED} "(?<agent>(?:[^"\\]|\\.)*)"}
+      # Who asked for a .md URL. Crawlers fetch every link they find, so the other two
+      # are the requests that wanted Markdown on purpose.
+      ORIGINS = {
+        for_user: 'agent for a user',
+        clicked: 'from a page here',
+        crawler: 'other (crawlers)',
+      }
+
+      # A click on a page's Markdown button sends the page as referer. Some crawlers send
+      # one too (GPTBot, Applebot), so a referer only counts from a browser.
+      OWN_PAGE = %r{\Ahttps?://unpoly\.com(/|\z)}
+      CRAWLER = /bot|spider|crawler/i
+
+      LINE = %r{\A\S+ \S+ \S+ \[(?<day>[^:]+)\S* \S+\] "(?<method>\S+) (?<path>\S+)[^"]*" (?<status>\d+) (?<size>\d+|-) "(?<referer>(?:[^"\\]|\\.)*)" "(?<agent>(?:[^"\\]|\\.)*)"}
 
       # Lines we don't count, by reason.
       attr_reader :skipped
@@ -38,6 +50,7 @@ module Unpoly
         @build = build
         @dates = (from || Date.new(0))..(to || Date.new(9999))
         @requests = [] # [agent, page, size, explicit]
+        @origins = ORIGINS.keys.to_h { |origin| [origin, 0] } # Of the .md URL requests
         @markdown_sizes = Hash.new { |hash, page| hash[page] = Set[build_markdown_size(page)] }
         @html_sizes = Hash.new { |hash, page| hash[page] = build_html_sizes(page) }
         @skipped = Hash.new(0)
@@ -67,8 +80,12 @@ module Unpoly
         return @skipped[:not_a_page] += 1 unless page && File.file?(page_file(page, explicit))
 
         size = match[:size].to_i
-        @markdown_sizes[page] << size if explicit
-        @requests << [agent_name(match[:agent]), page, size, explicit]
+        agent = agent_name(match[:agent])
+        if explicit
+          @markdown_sizes[page] << size
+          @origins[origin(agent, match[:referer])] += 1
+        end
+        @requests << [agent, page, size, explicit]
       end
 
       # { 'ClaudeBot' => { html: 3, explicit: 2, negotiated: 1 }, ... }, busiest agent first.
@@ -89,8 +106,11 @@ module Unpoly
       def report(by_agent: false)
         totals = self.totals
         total = totals.values.sum
-        lines = totals.map do |bucket, count|
-          format('%-22s %8d  %5.1f%%', BUCKETS[bucket], count, 100.0 * count / [total, 1].max)
+        percent = ->(count) { 100.0 * count / [total, 1].max }
+        lines = totals.flat_map do |bucket, count|
+          line = format('%-22s %8d  %5.1f%%', BUCKETS[bucket], count, percent.(count))
+          next [line] unless bucket == :explicit
+          [line, *@origins.map { |origin, count| format('  %-20s %8d  %5.1f%%', ORIGINS[origin], count, percent.(count)) }]
         end
         lines << format('%-22s %8d', 'Total', total)
         lines << '' << "Skipped #{@skipped.values.sum} lines: " +
@@ -141,6 +161,15 @@ module Unpoly
       def build_markdown_size(page)
         file = page_file(page, true)
         File.size(file) if File.file?(file)
+      end
+
+      # Agents that fetch while answering a user name themselves Claude-User, ChatGPT-User,
+      # ExaUser.
+      def origin(agent, referer)
+        if agent.end_with?('User') then :for_user
+        elsif referer.match?(OWN_PAGE) && !agent.match?(CRAWLER) then :clicked
+        else :crawler
+        end
       end
 
       # The user agent's product, without version: GPTBot, Chrome, curl.
