@@ -26,6 +26,11 @@ RewriteRule ^(.+?)/$ https://%{HTTP_HOST}/$1 [R=301,L]
 # (/up.render.md), and /index.md (= /llms.txt) stands in for the landing page.
 AddType "text/markdown; charset=utf-8" .md
 
+# Apache's default list of types to gzip doesn't include Markdown.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/markdown
+</IfModule>
+
 # The skill index for `npx skills add https://unpoly.com`. The deploy archives the build
 # without dot-directories, so its files are built into /agent-skills.
 RewriteRule ^\.well-known/agent-skills/(.*)$ /agent-skills/$1 [L]
