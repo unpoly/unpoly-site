@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+#
+# Counts how often the site delivered pages as HTML or as Markdown, from Apache logs.
+#
+#     bin/markdown-stats [options] LOG_FOLDER
+#
+# Reads every *access.log* file below LOG_FOLDER (plain or .gz) and counts the
+# successful GET requests for pages in three buckets: HTML, Markdown requested with
+# a .md URL, and Markdown served for the page's own URL through the Accept header.
+# The log doesn't show which format a request got, so we guess from the response
+# size, comparing it with the files in build/. Build the site first.
+#
+# Options:
+#     --from DATE     Only count requests from this day on (e.g. 2026-11-01)
+#     --to DATE       Only count requests up to this day, inclusive
+#     --by-agent      Also break the counts down by user agent (GPTBot, Chrome, curl)
+
+require 'optparse'
+require_relative '../lib/unpoly/site/markdown_stats'
+
+options = {}
+OptionParser.new do |parser|
+  parser.banner = 'Usage: bin/markdown-stats [--from DATE] [--to DATE] [--by-agent] LOG_FOLDER'
+  parser.on('--from DATE') { |date| options[:from] = Date.iso8601(date) }
+  parser.on('--to DATE') { |date| options[:to] = Date.iso8601(date) }
+  parser.on('--by-agent') { options[:by_agent] = true }
+end.parse!
+
+folder = ARGV.first or abort 'Usage: bin/markdown-stats [--from DATE] [--to DATE] [--by-agent] LOG_FOLDER'
+build = File.expand_path('../build', __dir__)
+
+unless File.file?(File.join(build, 'index.html'))
+  abort "No build in #{build}. Build the site first, e.g. quickly with\n" \
+    'SKIP_CHECK_LINKS=1 SKIP_OG_IMAGES=1 SKIP_SEARCH_INDEX=1 SKIP_SKILL=1 bundle exec middleman build'
+end
+
+stats = Unpoly::Site::MarkdownStats.new(build: build, from: options[:from], to: options[:to])
+puts stats.read(folder).report(by_agent: options[:by_agent])
