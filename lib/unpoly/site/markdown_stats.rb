@@ -10,13 +10,17 @@ module Unpoly
     #
     # The log doesn't show whether a request for /api/up.render got the twin through
     # content negotiation (see "Markdown for agents" in .htaccess). We tell from the
-    # response size: a twin has exactly the size that a request for /api/up.render.md
-    # got (on any day in the logs), or the size of the .md file in the build.
+    # response size: a twin has the size that a request for /api/up.render.md got (on
+    # any day in the logs), or the size of the .md file in the build.
     #
-    # The size must match exactly. A twin is often within a few percent of its gzipped
-    # HTML, and site edits change sizes by more than that, so the closest size would
-    # count HTML as Markdown.
+    # A typo fixed between two deploys moves a twin's size by a few bytes, so a size up
+    # to TOLERANCE bytes off also counts. But only when the page's HTML, raw or gzipped,
+    # is clearly farther away: a twin is often within a few percent of its gzipped HTML,
+    # so the closest size alone would count HTML as Markdown.
     class MarkdownStats
+
+      TOLERANCE = 32 # bytes
+      HTML_MARGIN = 0.05 # of the response size
 
       BUCKETS = {
         html: 'HTML',
@@ -35,6 +39,7 @@ module Unpoly
         @dates = (from || Date.new(0))..(to || Date.new(9999))
         @requests = [] # [agent, page, size, explicit]
         @markdown_sizes = Hash.new { |hash, page| hash[page] = Set[build_markdown_size(page)] }
+        @html_sizes = Hash.new { |hash, page| hash[page] = build_html_sizes(page) }
         @skipped = Hash.new(0)
       end
 
@@ -70,7 +75,7 @@ module Unpoly
       def by_agent
         counts = Hash.new { |hash, agent| hash[agent] = BUCKETS.keys.to_h { |bucket| [bucket, 0] } }
         @requests.each do |agent, page, size, explicit|
-          bucket = explicit ? :explicit : (@markdown_sizes[page].include?(size) ? :negotiated : :html)
+          bucket = explicit ? :explicit : (markdown?(page, size) ? :negotiated : :html)
           counts[agent][bucket] += 1
         end
         counts.sort_by { |agent, agent_counts| [-agent_counts.values.sum, agent] }.to_h
@@ -116,6 +121,21 @@ module Unpoly
         else
           File.join(@build, page, 'index.html')
         end
+      end
+
+      def markdown?(page, size)
+        distance = distance(@markdown_sizes[page], size) or return false
+        distance.zero? || (distance <= TOLERANCE && distance(@html_sizes[page], size) > distance + HTML_MARGIN * size)
+      end
+
+      def distance(sizes, size)
+        sizes.filter_map { |known| (known - size).abs if known }.min
+      end
+
+      # Raw and gzipped.
+      def build_html_sizes(page)
+        html = File.binread(page_file(page, false))
+        [html.bytesize, Zlib.gzip(html).bytesize]
       end
 
       def build_markdown_size(page)

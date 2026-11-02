@@ -43,14 +43,30 @@ describe Unpoly::Site::MarkdownStats do
     write(File.join(build, 'assets/app.js'), 'js')
   end
 
-  it 'counts requests for a page as HTML, unless their size is exactly that of its Markdown twin' do
+  it 'counts requests for a page as HTML, unless their size is that of its Markdown twin' do
     result = stats(
-      line('/api/up.render', 2000),          # Raw HTML
-      line('/api/up.render', 250),           # Gzipped HTML
-      line('/api/up.render', 201),           # Almost the twin's size
+      line('/api/up.render', 2000), # Raw HTML
+      line('/api/up.render', Zlib.gzip(File.read(File.join(build, 'api/up.render/index.html'))).bytesize),
       line('/api/up.render', 200, agent: claude),
     )
-    expect(result.totals).to eq(html: 3, explicit: 0, negotiated: 1)
+    expect(result.totals).to eq(html: 2, explicit: 0, negotiated: 1)
+  end
+
+  it 'counts a size a few bytes off the twin as Markdown, as after a typo fix' do
+    result = stats(
+      line('/api/up.render', 210, agent: claude),
+      line('/api/up.render', 240, agent: claude), # Too far off
+    )
+    expect(result.totals).to eq(html: 1, explicit: 0, negotiated: 1)
+  end
+
+  it 'counts a size near both the twin and the gzipped HTML as HTML' do
+    html = Random.new(1).bytes(300) # Random bytes don't compress, so gzipped it stays near 300
+    gzipped = Zlib.gzip(html).bytesize
+    write(File.join(build, 'api/up.close/index.html'), html)
+    write(File.join(build, 'api/up.close.md'), 'm' * (gzipped + 10))
+    result = stats(line('/api/up.close', gzipped + 5))
+    expect(result.totals).to eq(html: 1, explicit: 0, negotiated: 0)
   end
 
   it 'counts .md URLs as Markdown, and learns their sizes for negotiated requests' do
