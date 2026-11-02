@@ -871,7 +871,7 @@ helpers do
         'aria-current': ('page' if normalized_current_path == doc_path('skill'))),
       # Unpoly can't render Markdown, so the browser loads it (also for all .md links,
       # unpoly_config.coffee).
-      item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', href: md_path, type: 'text/markdown', 'up-follow': 'false'),
+      item.(:a, icon('markdown'), 'markdown', 'This page as Markdown — for agents and LLMs', rel: 'alternate', href: md_path, type: 'text/markdown', 'up-follow': 'false'),
       item.(:button, icon('clone', class: 'ai-tools--copy-icon') + icon('check', class: 'ai-tools--done-icon'), 'copy',
         'Copy this page as Markdown — paste it into any AI chat', type: 'button', hidden: true, 'data-markdown-url': md_path),
     ]
