@@ -82,6 +82,19 @@ RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/api/$1.md [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/$1 [R=301,L]
 
+# A twin requested at its .md URL names its page as the canonical one (Link header
+# below), so search engines list the page and not the twin. /index.md names /llms.txt
+# instead (the second rule overwrites the first): it is a copy of that link list, not of
+# the landing page.
+# Markdown that an agent got at the page's own URL (see above) needs no canonical: that
+# URL is the page's. Its rewrite to the .md file comes back through these rules as an
+# internal redirect, which sets REDIRECT_STATUS.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^(.+)\.md$ - [E=MARKDOWN_CANONICAL:/$1]
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^index\.md$ - [E=MARKDOWN_CANONICAL:/llms.txt]
+
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)$  /$1/index.html [L]
 
@@ -117,10 +130,8 @@ Header set Cache-Control "max-age=0, private"
 # merge keeps an existing Vary: Accept-Encoding.
 Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"
 
-# The Markdown twins should not compete with their pages in search engines.
-<FilesMatch "\.md$">
-  Header set X-Robots-Tag "noindex"
-</FilesMatch>
+# The canonical URL of a twin requested at its .md URL (see the twins above).
+Header set Link "<<%= Unpoly::Site.base_url %>%{MARKDOWN_CANONICAL}e>; rel=\"canonical\"" env=MARKDOWN_CANONICAL
 
 <FilesMatch "\.(css|jpg|jpeg|png|svg|gif|js|ico|woff2)$">
   Header set Cache-Control "max-age=2628000, public"

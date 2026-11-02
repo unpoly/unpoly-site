@@ -82,11 +82,24 @@ describe 'the .htaccess', type: :feature do
       expect(rewrite_rules).to include('RewriteRule ^(.+)\.md$ https://%{HTTP_HOST}/$1 [R=301,L]')
     end
 
-    it 'serves .md as Markdown, varies on Accept, and keeps twins out of search engines' do
+    it 'serves .md as Markdown and varies on Accept' do
       expect(htaccess).to include('AddType "text/markdown; charset=utf-8" .md')
       # Both variants of a page's URL, so caches keep them apart.
       expect(htaccess).to include('Header merge Vary Accept "expr=%{CONTENT_TYPE} =~ m#^text/(html|markdown)#"')
-      expect(htaccess).to match(%r{<FilesMatch "\\\.md\$">\s*Header set X-Robots-Tag "noindex"})
+    end
+
+    # Markdown that an agent got at a page's own URL comes back through the rules as an
+    # internal redirect. The REDIRECT_STATUS condition skips it: that URL is the page's.
+    it 'names the page as the canonical URL of a twin requested at its .md URL, and /llms.txt for /index.md' do
+      lines = htaccess.lines.map(&:strip)
+      rules = lines.each_index.select { |i| lines[i].include?('E=MARKDOWN_CANONICAL:') }.map { |i| lines[i - 1..i] }
+
+      expect(rules).to eq([
+        ['RewriteCond %{ENV:REDIRECT_STATUS} ^$', 'RewriteRule ^(.+)\.md$ - [E=MARKDOWN_CANONICAL:/$1]'],
+        ['RewriteCond %{ENV:REDIRECT_STATUS} ^$', 'RewriteRule ^index\.md$ - [E=MARKDOWN_CANONICAL:/llms.txt]'],
+      ])
+      expect(htaccess).to include('Header set Link "<https://unpoly.com%{MARKDOWN_CANONICAL}e>; rel=\\"canonical\\"" env=MARKDOWN_CANONICAL')
+      expect(htaccess).not_to include('X-Robots-Tag')
     end
   end
 
