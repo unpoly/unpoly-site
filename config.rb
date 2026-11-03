@@ -50,6 +50,15 @@ configure :build do
   #   FileUtils.copy(from, to)
   # end
 
+  # So that we can extend ParamRedirects::PRIORITY when a new shared param shows up.
+  after_build do
+    unprioritized = Unpoly::Site::ParamRedirects.new.unprioritized
+    if unprioritized.any?
+      puts 'These attribute params redirect to the alphabetically first attribute that takes them (ParamRedirects::PRIORITY has none of them):'
+      unprioritized.each { |name, attributes| puts "  #{name}: #{attributes.join(', ')}" }
+    end
+  end
+
   # Pagefind reads the HTML we just wrote and emits its own runtime and index into
   # build/pagefind. It runs after everything else, so that :asset_hash and the minifiers
   # cannot rewrite pages behind the index — or rename Pagefind's own output — and before

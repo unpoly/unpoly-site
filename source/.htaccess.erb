@@ -129,6 +129,10 @@ RedirectMatch permanent ^/examples(/.*)?$ /learn
 
 <%= guide.migrate_redirects %>
 
+# An attribute that modifies another one has no page of its own, so /up-target and
+# /api/up-target go to its section, /api/up-follow#up-target (ParamRedirects).
+<%= guide.param_redirects %>
+
 Header set Cache-Control "max-age=0, private"
 
 # A page's URL serves HTML or Markdown depending on Accept (see the twins above).

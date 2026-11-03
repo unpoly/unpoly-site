@@ -354,6 +354,11 @@ module Unpoly
         File.read(htaccess_path)
       end
 
+      # The .htaccess rules for attribute params like /up-target (ParamRedirects).
+      def param_redirects
+        ParamRedirects.new(self).htaccess
+      end
+
       # Public selectors and events that no guide page explains yet. These only warn:
       # functions, properties and headers are exempt for now.
       def features_without_learn_ref

@@ -53,7 +53,7 @@ module Unpoly
           puts "No lost URL: all #{old_paths.size} published addresses and #{moved_paths.size} old document paths still resolve."
         end
         if chains.empty? && pending.empty? && shadowed.empty?
-          puts "No redirect chain: all #{redirects.size} hand-written redirects lead to a page in one hop."
+          puts "No redirect chain: all #{redirects.size} redirects (hand-written, and for attribute params) lead to a page in one hop."
         end
 
         legacy_links_ok = LegacyLinkCheck.new(repository).run
@@ -96,8 +96,14 @@ module Unpoly
         @old_paths ||= (old_page_paths + site_paths(revision)).uniq.sort
       end
 
+      # The hand-written redirects and the generated ones for attribute params
+      # (ParamRedirects), which come after them in the .htaccess.
       def redirects
-        @redirects ||= [
+        @redirects ||= ParamRedirects.new(repository, url_check: self).paths.merge(hand_written_redirects)
+      end
+
+      def hand_written_redirects
+        @hand_written_redirects ||= [
           File.read('source/.htaccess.erb'),
           repository.migrate_redirects,
         ].flat_map { |text|
@@ -143,8 +149,10 @@ module Unpoly
         return true unless anchor
 
         documentable = repository.find_by_guide_path(path)
-        # Site-side pages are not parsed, so we cannot index their headings.
-        documentable.nil? || !documentable.heading(anchor).nil?
+        # Site-side pages are not parsed, so we cannot index their headings. A param is a
+        # section of its feature's page, but no heading in its Markdown.
+        documentable.nil? || !documentable.heading(anchor).nil? ||
+          (documentable.is_a?(Feature) && documentable.params.any? { |param| param.guide_anchor == anchor })
       end
 
       def external?(target)

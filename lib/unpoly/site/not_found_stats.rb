@@ -1,5 +1,6 @@
 require 'set'
 require_relative 'access_log'
+require_relative 'migrate_renames'
 
 module Unpoly
   module Site
@@ -31,8 +32,7 @@ module Unpoly
       # We cut at the first character that our URLs don't use, and drop trailing punctuation.
       JUNK = /[)(\]\[*`"'|\s].*|[.,:;_]+\z/
 
-      # up.render, up:layer:open, up-follow, X-Up-Target
-      API_NAME = /\A(up[.:-]|x-up-)/i
+      API_NAME = MigrateRenames::API_NAME
 
       # The lowest score of a Similar match. One shared word of two scores 0.5, and is
       # mostly a coincidence (/tasks and up.util.task), so we want more than half.
@@ -47,7 +47,7 @@ module Unpoly
         @build = build
         @dates = (from || Date.new(0))..(to || Date.new(9999))
         @redirects = read_redirects(File.join(build, '.htaccess'))
-        @renamed_namespaces, @successors = read_successors(migrate)
+        @renamed_namespaces, @successors = MigrateRenames.read(migrate)
         @pages = Dir.glob('**/index.html', base: build).map { |file| "/#{File.dirname(file)}".chomp('/.') }
         @documents_by_name = (@pages + Dir.glob('**/*.md', base: build).map { |file| "/#{file}" })
           .to_h { |document| [clean(document).downcase, document] }
@@ -221,50 +221,6 @@ module Unpoly
       def page_for(name)
         path = "/#{name}"
         resolve(path) || cleanup(path) || anchor(path)
-      end
-
-      # Old names and their successors, from the calls in unpoly-migrate:
-      #
-      #     renamedNamespace('layout', 'viewport')
-      #     renamedEvent('up:modal:open', 'up:layer:open')
-      #     renamedProperty(config, 'fields', 'fieldSelectors', { label: 'up.form.config' })
-      #     deprecated('up.util.any()', 'up.util.some()')
-      #
-      # A renamed namespace also renames everything in it (up.layout.revealHash). An old
-      # namespace without a rename of its own (up.modal) goes where most of its recorded
-      # members went (up.layer). Returns [renamed namespaces, successors].
-      def read_successors(dir)
-        namespaces = {}
-        successors = {}
-        Dir.glob(File.join(dir, '**/*.js')).sort.each do |file|
-          File.foreach(file) do |line|
-            call = line.match(/up\.migrate\.(renamed\w+|deprecated)\((.*)\)/) or next
-            function, args = call.captures
-            old, new = args.scan(/'([^']*)'|"([^"]*)"|`([^`]*)`/).flatten.compact
-            case function
-            when 'renamedNamespace'
-              old, new = "up.#{old}", "up.#{new}"
-              namespaces[old] = new
-            when 'renamedProperty'
-              owner = args[/\A(up\.[\w.]+)/, 1] || args[/label: '([^']+)'/, 1] or next
-              old, new = "#{owner}.#{old}", "#{owner}.#{new}"
-            else
-              old, new = api_name(old), api_name(new)
-            end
-            successors[old] ||= new if old&.match?(API_NAME) && new
-          end
-        end
-        successors.keys.group_by { |old| old[/\Aup\.\w+(?=\.)/] }.each do |namespace, members|
-          new, count = members.map { |member| successors[member][/\A[^.]+\.[^.]+/] }.tally.max_by(&:last)
-          successors[namespace] ||= new if namespace && new != namespace && count > members.size / 2
-        end
-        [namespaces, successors]
-      end
-
-      # 'up.util.pick(object, keys)' => 'up.util.pick'. 'up.Request#loadPage()' =>
-      # 'up.Request.prototype.loadPage'. nil for prose like "a `for` loop".
-      def api_name(code)
-        code&.delete_prefix('!')&.[](/\A[\w.:#-]+(?=\(|\s*=|\s*\{|\z)/)&.sub('#', '.prototype.')
       end
 
       # [page, score] for the page whose words overlap most with the path's, from 0 to 1.

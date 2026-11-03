@@ -110,6 +110,48 @@ describe 'the .htaccess', type: :feature do
     expect(request.get('/examples/modal').status).to eq(404)
   end
 
+  # `rake docs:check_redirects` follows every one of these rules on a real Apache.
+  describe 'attribute params' do
+    # { 'up-target' => '/api/up-follow#up-target' }
+    def targets
+      @targets ||= htaccess.scan(/^RedirectMatch permanent \^\/\(api\/\)\?(\S+)\$ (\S+)$/)
+        .to_h { |pattern, target| [pattern.delete('\\'), target] }
+    end
+
+    it 'redirects /up-target and /api/up-target with one rule' do
+      expect(htaccess).to include('RedirectMatch permanent ^/(api/)?up\-target$ /api/up-follow#up-target')
+    end
+
+    it 'redirects a param to the first of [up-follow], [up-submit] and [up-watch] that takes it' do
+      expect(targets['up-target']).to eq('/api/up-follow#up-target')
+      # [up-autosubmit] and [up-validate] take it too, and come first alphabetically.
+      expect(targets['up-watch-delay']).to eq('/api/up-watch#up-watch-delay')
+    end
+
+    it 'redirects a param that only one attribute takes to that attribute' do
+      expect(targets['up-size']).to eq('/api/up-layer-new#up-size')
+    end
+
+    it 'redirects a param that the prioritized attributes lack to the alphabetically first attribute that takes it' do
+      unprioritized = Unpoly::Site::ParamRedirects.new.unprioritized
+      expect(unprioritized).not_to be_empty
+      unprioritized.each do |name, attributes|
+        page = Unpoly::Site.current.features.detect { |feature| feature.name == attributes.first }.guide_path
+        expect(targets[name]).to eq("#{page}##{name}")
+      end
+    end
+
+    it 'redirects the old name of a renamed attribute to the section of its successor' do
+      expect(targets['up-flavor']).to eq('/api/up-layer-new#up-mode')
+    end
+
+    it 'leaves a name to the page with that slug, and leaves out plain HTML attributes' do
+      expect(targets).to include('up-target')
+      expect(targets).not_to include('up-transition') # /api/up-transition
+      expect(targets).not_to include('href')
+    end
+  end
+
   describe 'short paths' do
     # The rules are tried against a real Apache in the URL move runbook. Here we only
     # pin their order, which no build would notice going wrong.

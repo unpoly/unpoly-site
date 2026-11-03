@@ -10,8 +10,8 @@
 #
 # - Every document's old root path, as /foo, /foo/ and /foo.md, answers 301 with an
 #   https Location of its final page (/learn/foo, /api/foo, plus .md), which answers 200.
-# - Every hand-written redirect source answers 301 to its target, which answers 200
-#   (one hop). External targets are not requested.
+# - Every redirect source (hand-written, or of an attribute param) answers 301 to its
+#   target, which answers 200 (one hop). External targets are not requested.
 # - /install and /skill (permanent short URLs) redirect to their pages.
 # - The hubs and other root pages answer 200, an unknown path 404.
 #
@@ -123,7 +123,7 @@ class CheckRedirects
     puts "Checked redirects on #{@base}:"
     puts "  #{@counts[:moved]} old document paths (/foo, /foo/, /foo.md) redirect to their page in one hop"
     puts "  #{@counts[:short]} permanent short URLs redirect to their page"
-    puts "  #{@counts[:rename]} hand-written redirects lead to their target in one hop"
+    puts "  #{@counts[:rename]} redirects (hand-written, and for attribute params) lead to their target in one hop"
     puts "  #{@counts[:root]} root pages answer 200, #{@counts[:unknown]} unknown path answers 404"
     if @problems.empty?
       puts 'All redirects OK.'
