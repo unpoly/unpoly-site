@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+#
+# Lists the paths that got a 404, from Apache logs, with a page we could redirect them to.
+#
+#     bin/not-found-stats [options] LOG_FOLDER
+#
+# Reads every *access.log* file below LOG_FOLDER (plain or .gz), drops the clients that
+# scanned for attack targets (/wp-admin, /.env), and groups the other GET 404s by path.
+# Each path gets the first match of these, in order: the current build serves or
+# redirects it by now; it does after removing junk; its last segment is an anchor on a
+# page; it is an asset with an old fingerprint; it is an old API name with a successor;
+# a page has a similar name. Build the site first: the pages, assets and redirects come
+# from build/, the successors of old API names from unpoly-migrate.
+#
+# Options:
+#     --from DATE     Only count requests from this day on (e.g. 2026-11-01)
+#     --to DATE       Only count requests up to this day, inclusive
+#     --top N         Print only the N paths with the most clients of each kind (default 30)
+
+require 'optparse'
+require_relative '../lib/unpoly/site/not_found_stats'
+
+options = { top: 30 }
+usage = 'Usage: bin/not-found-stats [--from DATE] [--to DATE] [--top N] LOG_FOLDER'
+OptionParser.new do |parser|
+  parser.banner = usage
+  parser.on('--from DATE') { |date| options[:from] = Date.iso8601(date) }
+  parser.on('--to DATE') { |date| options[:to] = Date.iso8601(date) }
+  parser.on('--top N', Integer) { |top| options[:top] = top }
+end.parse!
+
+folder = ARGV.first or abort usage
+build = File.expand_path('../build', __dir__)
+migrate = File.expand_path('../vendor/unpoly-local/src/unpoly-migrate', __dir__)
+
+unless File.file?(File.join(build, '.htaccess'))
+  abort "No build in #{build}. Build the site first, e.g. quickly with\n" \
+    'SKIP_CHECK_LINKS=1 SKIP_OG_IMAGES=1 SKIP_SEARCH_INDEX=1 SKIP_SKILL=1 bundle exec middleman build'
+end
+
+stats = Unpoly::Site::NotFoundStats.new(build: build, migrate: migrate, from: options[:from], to: options[:to])
+puts stats.read(folder).report(top: options[:top])

@@ -1,7 +1,6 @@
-require 'date'
 require 'set'
-require 'uri'
 require 'zlib'
+require_relative 'access_log'
 
 module Unpoly
   module Site
@@ -41,8 +40,6 @@ module Unpoly
       OWN_PAGE = %r{\Ahttps?://unpoly\.com(/|\z)}
       CRAWLER = /bot|spider|crawler/i
 
-      LINE = %r{\A\S+ \S+ \S+ \[(?<day>[^:]+)\S* \S+\] "(?<method>\S+) (?<path>\S+)[^"]*" (?<status>\d+) (?<size>\d+|-) "(?<referer>(?:[^"\\]|\\.)*)" "(?<agent>(?:[^"\\]|\\.)*)"}
-
       # Lines we don't count, by reason.
       attr_reader :skipped
 
@@ -58,32 +55,27 @@ module Unpoly
 
       # Reads all access logs below the given folder, plain or gzipped.
       def read(folder)
-        Dir.glob(File.join(folder, '**/*access.log*')).sort.each do |file|
-          if file.end_with?('.gz')
-            Zlib::GzipReader.open(file) { |gz| gz.each_line { |line| add(line) } }
-          else
-            File.foreach(file) { |line| add(line) }
-          end
-        end
+        AccessLog.new(folder).each { |request| add(request) }
         self
       end
 
-      def add(line)
-        match = LINE.match(line.scrub) or return @skipped[:unparsable] += 1
-        return @skipped[:outside_dates] += 1 unless @dates.cover?(Date.strptime(match[:day], '%d/%b/%Y'))
+      # Takes an AccessLog::Request, or nil for an unparsable line.
+      def add(request)
+        request or return @skipped[:unparsable] += 1
+        return @skipped[:outside_dates] += 1 unless @dates.cover?(request.date)
         # HEAD responses have no body to measure, and other statuses deliver no page.
-        return @skipped[:not_a_GET_200] += 1 unless match[:method] == 'GET' && match[:status] == '200'
+        return @skipped[:not_a_GET_200] += 1 unless request.method == 'GET' && request.status == 200
 
-        path = page_path(match[:path])
+        path = request.page
         explicit = path&.end_with?('.md')
         page = explicit ? path.delete_suffix('.md').delete_suffix('/index') : path
         return @skipped[:not_a_page] += 1 unless page && File.file?(page_file(page, explicit))
 
-        size = match[:size].to_i
-        agent = agent_name(match[:agent])
+        size = request.size
+        agent = request.agent_name
         if explicit
           @markdown_sizes[page] << size
-          @origins[origin(agent, match[:referer])] += 1
+          @origins[origin(agent, request.referer)] += 1
         end
         @requests << [agent, page, size, explicit]
       end
@@ -126,15 +118,6 @@ module Unpoly
 
       private
 
-      # /api/up%3Arender/?foo=bar => /api/up:render. The landing page is ''.
-      # nil for paths that are not in the site.
-      def page_path(path)
-        path = URI.decode_uri_component(path.sub(/\?.*/, '')).chomp('/')
-        path unless path.match?(/\.\.|\0/) # Probes for files outside the site
-      rescue ArgumentError # Broken percent-encoding
-        nil
-      end
-
       def page_file(page, markdown)
         if markdown
           File.join(@build, page.empty? ? 'index.md' : "#{page}.md")
@@ -170,16 +153,6 @@ module Unpoly
         elsif referer.match?(OWN_PAGE) && !agent.match?(CRAWLER) then :clicked
         else :crawler
         end
-      end
-
-      # The user agent's product, without version: GPTBot, Chrome, curl.
-      def agent_name(agent)
-        agent[/compatible; ([^;)\/]+)/, 1]&.strip ||
-          agent[/[a-z][\w-]*(bot|spider|crawler|agent)[\w-]*/i] ||
-          { 'Edg/' => 'Edge', 'OPR/' => 'Opera', 'Firefox/' => 'Firefox', 'Chrome/' => 'Chrome', 'Safari/' => 'Safari' }
-            .find { |token, _| agent.include?(token) }&.last ||
-          agent[/\A[^\/\s(;]+/] ||
-          '-'
       end
 
     end
