@@ -31,7 +31,7 @@ module Unpoly
               start_marker: /###-/,
               end_marker: /###/
             )
-          elsif extension.include?('.js')
+          elsif extension.include?('.js') || extension.end_with?('.ts')
             find_fenced(
               code: code,
               path: path,

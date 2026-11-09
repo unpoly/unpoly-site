@@ -432,7 +432,7 @@ module Unpoly
 
       def source_paths_for_root(root)
         File.directory?(root) or raise "Input path is not a directory: #{root}"
-        pattern = File.join(root, "**/*{.coffee,.coffee.erb,.js,.js.erb,.md}")
+        pattern = File.join(root, "**/*{.coffee,.coffee.erb,.js,.js.erb,.ts,.md}")
         log("Input pattern", pattern)
         Dir[pattern]
       end
