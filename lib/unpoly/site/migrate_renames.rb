@@ -25,7 +25,7 @@ module Unpoly
       def read(dir)
         namespaces = {}
         successors = {}
-        Dir.glob(File.join(dir, '**/*.js')).sort.each do |file|
+        Dir.glob(File.join(dir, '**/*.{js,ts}')).sort.each do |file|
           File.foreach(file) do |line|
             call = line.match(/up\.migrate\.(renamed\w+|deprecated)\((.*)\)/) or next
             function, args = call.captures

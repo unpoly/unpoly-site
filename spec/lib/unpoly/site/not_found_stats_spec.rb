@@ -150,6 +150,14 @@ describe Unpoly::Site::NotFoundStats do
     expect(row(result, '/up.util.times')).to eq(kind: :api_name, target: nil, note: nil) # The successor is prose
   end
 
+  it 'reads unpoly-migrate from TypeScript sources' do
+    write(File.join(migrate, 'link.ts'), <<~TS)
+      up.migrate.renamedEvent('up:link:preload', 'up:link:prefetch')
+    TS
+    result = stats(line('/up:link:preload'))
+    expect(row(result, '/up:link:preload')).to eq(kind: :api_name, target: nil, note: 'successor up:link:prefetch has no page')
+  end
+
   it 'guesses a Learn page for an old API name without a successor' do
     result = stats(line('/up.tooltip'), line('/up.util.trim'))
     expect(row(result, '/up.tooltip')).to eq(kind: :api_name, target: '/learn/tooltips', note: 'guess, score 1.00')
