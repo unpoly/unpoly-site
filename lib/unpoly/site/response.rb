@@ -21,6 +21,12 @@ module Unpoly
         raise "A Response has no name"
       end
 
+      # The parser indexes every documentable by this name and postprocesses what it
+      # indexed. Without a name of its own, every response would share one entry.
+      def index_name
+        "#{feature.index_name}/return"
+      end
+
       delegate :should_document_types?, to: :feature
 
       def guide_page?
