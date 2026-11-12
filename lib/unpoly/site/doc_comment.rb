@@ -135,7 +135,9 @@ module Unpoly
             raise Parser::CannotParse, "A second H1 in one entry (a missing ----- separator?): #{path}:#{stray + 1}"
           end
 
-          comment = new(lines[(first + 1)..last].join("\n").sub(/\A\n+/, '') + "\n")
+          # A blank line may hold spaces. Left in, it would set the indent that Util.unindent
+          # takes from every line, and the bodies of @params would become prose.
+          comment = new(lines[(first + 1)..last].drop_while(&:blank?).join("\n") + "\n")
           comment.heading = heading
           comment.text_source = TextSource.new(
             lines[first..last].join("\n") + "\n",

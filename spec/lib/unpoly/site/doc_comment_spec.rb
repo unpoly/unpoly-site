@@ -95,6 +95,12 @@ describe Unpoly::Site::DocComment do
         ])
       end
 
+      it 'keeps the bodies of @params when the blank line after the H1 holds spaces' do
+        comments = find_in_doc_file("# test.one()\n  \nProse\n@param foo\n  Desc\n")
+
+        expect(comments[0].text).to eq("Prose\n@param foo\n  Desc\n")
+      end
+
       it "points an entry's lines from its H1 to its last line" do
         comments = find_in_doc_file("# test.one()\n\nFirst entry\n\n-----\n\n# test.two()\n\nSecond entry\nLast line\n")
 
