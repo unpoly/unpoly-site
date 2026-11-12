@@ -263,6 +263,7 @@ module Unpoly
           doc_comment.text = including_partials(doc_comment.text)
 
           documentables_from_comment = parse_interface(doc_comment) || parse_feature(doc_comment) || parse_partial(doc_comment) || cannot_parse!(doc_comment)
+          verify_heading!(doc_comment, documentables_from_comment.first)
           documentables_from_comment.each do |documentable|
             documentable.text_source = doc_comment.text_source
             index_documentable(documentable)
@@ -753,6 +754,18 @@ module Unpoly
       def reject_retired_directives!(doc_comment)
         if doc_comment.text =~ RETIRED_DIRECTIVE_PATTERN
           raise CannotParse, "Retired directive @#{$1} (name related features in the prose instead): #{doc_comment.path_with_lines}"
+        end
+      end
+
+      # An entry in a doc file starts with an H1 that names it, for authors and Markdown
+      # previews. The site titles the entry from its directives, so the H1 must agree.
+      def verify_heading!(doc_comment, documentable)
+        return unless doc_comment.heading
+
+        titles = [(documentable.title if documentable.respond_to?(:title)), documentable.menu_title].compact.uniq
+        unless titles.include?(doc_comment.heading)
+          expected = titles.map { |title| "'# #{title}'" }.join(' or ')
+          raise CannotParse, "H1 '# #{doc_comment.heading}' does not match the entry it heads, expected #{expected}: #{doc_comment.path_with_lines}"
         end
       end
 

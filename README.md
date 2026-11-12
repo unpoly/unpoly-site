@@ -59,10 +59,52 @@ This README explains how `unpoly-site` is implemented.
 Ruby code in `lib/unpoly/site` parses documentation comments into an AST-like structure
 (the `Unpoly::Site` namespace).
 
-It scans every `.js` and `.md` file under `vendor/unpoly-local/src`. In a `.js` file it
-picks up comments opening with `/*-`; a `.md` file is one documentation block in its
-entirety. Each block declares what it documents (`@function`, `@selector`, `@page`, …),
+It scans every `.js`, `.ts` and `.md` file under `vendor/unpoly-local/src`, and reads
+documentation blocks from them in three forms:
+
+- In a `.js` or `.ts` file, every comment opening with `/*-` is a block.
+- A `.md` file in a `pages/` directory is one block in its entirety: a guide page.
+- Any other `.md` file is a **doc file** holding the blocks for the source file next to it,
+  with the same base name (`src/unpoly/fragment.md` for `src/unpoly/fragment.ts`). See below.
+
+Each block declares what it documents (`@function`, `@selector`, `@page`, …),
 and the parser resolves cross-references, partials and inherited params between them.
+
+### Doc files
+
+A doc file holds several entries. Each entry is an H1 naming it, followed by exactly what
+would otherwise stand between `/*-` and `*/`:
+
+````md
+# up.render()
+
+Replaces elements on the current page with matching elements from a server response.
+
+@function up.render
+@param {string|Element} [target]
+@stable
+
+-----
+
+# [up-target]
+
+@selector [up-target]
+@stable
+````
+
+- Entries are separated by a line of five or more dashes, with a blank line above and below.
+  There is no separator before the first entry or after the last.
+- A shorter rule (`---`), a line of dashes under a line of text (a setext heading), an
+  indented line of dashes and anything in a code block belong to the entry.
+- The H1 is for authors and Markdown previews. The site still titles the entry from its
+  directives, so the H1 must match that title: `up.render()`, `[up-target]`,
+  `up:fragment:loaded`, `new up.Request()`, or `up.Request#abort()` for an instance method.
+- An empty entry, an entry without an H1, a second H1 in an entry (a missing separator), an
+  unclosed code fence and an H1 that does not match fail the parse, like other doc errors.
+- Doc files take no YAML front matter.
+
+The parser feeds each entry into the same pipeline as a `/*-` comment, and remembers its
+lines in the `.md` file (from the H1 to the last line) as its source.
 
 Middleman proxies set up in `config.rb` then create one page per parsed symbol, rendered
 through `source/api/feature_template.html.erb` and

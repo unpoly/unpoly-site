@@ -138,6 +138,52 @@ module Unpoly
 
       end
 
+      describe 'a doc file beside a source file' do
+
+        # From spec/fixtures/parser/sibling.md
+        it 'parses its entries like doc comments' do
+          function = Site.current.find_by_name!('test.sibling.function')
+
+          expect(function.interface.name).to eq('test.sibling')
+          expect(function.params.map(&:name)).to eq(['target'])
+          expect(function.params.first.types).to eq(['string'])
+          expect(function.response.types).to eq(['boolean'])
+          expect(function).to be_stable
+          expect(function.guide_markdown).to start_with('A function documented in a doc file.')
+          expect(function.guide_markdown).not_to include('# test.sibling.function()')
+          expect(function.guide_markdown).to include("Setext heading\n--------------")
+        end
+
+        it "remembers the file and the entry's line range, from its H1 to its last line" do
+          function = Site.current.find_by_name!('test.sibling.function')
+
+          expect(function.text_source.path).to end_with('spec/fixtures/parser/sibling.md')
+          expect(function.text_source.start_line).to eq(9)
+          expect(function.text_source.end_line).to eq(38)
+        end
+
+        it 'accepts the title of an instance method in the menu (up.Class#method())' do
+          expect(Site.current.find_by_name!('test.sibling.Thing.prototype.method')).to be_present
+        end
+
+        it "fails the parse when an entry's H1 does not match its title" do
+          repository = double('repository')
+          allow(repository).to receive(:merge_interface) { |interface| interface }
+          parser = described_class.new(repository)
+
+          Dir.mktmpdir do |dir|
+            path = File.join(dir, 'mismatch.md')
+            File.write(path, "# test.mismatch\n\n@namespace test.mismatch\n\n-----\n\n# test.mismatch.other()\n\n@function test.mismatch.function\n@stable\n")
+
+            expect { parser.parse_all([path]) }.to raise_error(
+              Parser::CannotParse,
+              /H1 '# test.mismatch.other\(\)' does not match .* expected '# test.mismatch.function\(\)': .*mismatch\.md:7:10/
+            )
+          end
+        end
+
+      end
+
       describe '@see' do
 
         it 'is retired and fails the parse' do

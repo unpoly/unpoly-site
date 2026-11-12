@@ -44,14 +44,137 @@ describe Unpoly::Site::DocComment do
       expect(comments[1].text).to eq("Second, indented doc comment")
     end
 
-    it 'considers a Markdown file as a single doc comment' do
-      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.md')
+    it 'considers a Markdown file in a pages directory as a single doc comment' do
+      comments = described_class.find_in_path('spec/fixtures/doc_comment/pages/file.md')
 
       expect(comments.size).to eq(1)
 
       expect(comments[0].start_line).to eq(1)
       expect(comments[0].end_line).to eq(2)
       expect(comments[0].text).to eq("Doc comment\nSecond line\n")
+
+    end
+
+    describe 'a Markdown doc file beside a source file' do
+
+      def find_in_doc_file(markdown)
+        Dir.mktmpdir do |dir|
+          path = File.join(dir, 'file.md')
+          File.write(path, markdown)
+          described_class.find_in_path(path)
+        end
+      end
+
+      it 'splits entries at a line of five or more dashes, with a blank line above and below' do
+        comments = find_in_doc_file(<<~MARKDOWN)
+          # test.one()
+
+          First entry
+          @function test.one
+
+          -----
+
+          # test.two()
+
+          Second entry
+          @function test.two
+
+          ----------
+
+          # test.three()
+
+          Third entry
+          @function test.three
+        MARKDOWN
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.two()', 'test.three()'])
+        expect(comments.map(&:text)).to eq([
+          "First entry\n@function test.one\n",
+          "Second entry\n@function test.two\n",
+          "Third entry\n@function test.three\n",
+        ])
+      end
+
+      it "points an entry's lines from its H1 to its last line" do
+        comments = find_in_doc_file("# test.one()\n\nFirst entry\n\n-----\n\n# test.two()\n\nSecond entry\nLast line\n")
+
+        expect([comments[0].start_line, comments[0].end_line]).to eq([1, 3])
+        expect([comments[1].start_line, comments[1].end_line]).to eq([7, 10])
+        expect(comments[1].path_with_lines).to end_with('file.md:7:10')
+      end
+
+      it 'keeps a thematic break of three or four dashes in the entry' do
+        comments = find_in_doc_file("# test.one()\n\nBefore\n\n---\n\n----\n\nAfter\n")
+
+        expect(comments.size).to eq(1)
+        expect(comments[0].text).to eq("Before\n\n---\n\n----\n\nAfter\n")
+      end
+
+      it 'keeps a line of dashes without a blank line above or below in the entry' do
+        comments = find_in_doc_file("# test.one()\n\nSetext heading\n--------------\n\nBefore\n\n-----\nAfter\n")
+
+        expect(comments.size).to eq(1)
+        expect(comments[0].text).to include("--------------")
+        expect(comments[0].text).to include("-----\nAfter")
+      end
+
+      it 'keeps an indented line of dashes in the entry' do
+        comments = find_in_doc_file("# test.one()\n\nBefore\n\n  -----\n\nAfter\n")
+
+        expect(comments.size).to eq(1)
+      end
+
+      it 'keeps lines of dashes and H1s in code blocks in the entry, also when the fence is indented' do
+        comments = find_in_doc_file(<<~MARKDOWN)
+          # test.one()
+
+          ```text
+
+          -----
+
+          # Not a heading
+          ```
+
+          @param foo
+            ~~~~
+            ```
+
+            -----
+
+            ~~~~
+
+          -----
+
+          # test.two()
+        MARKDOWN
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.two()'])
+        expect(comments[0].text).to include("# Not a heading")
+      end
+
+      it 'fails on a separator before the first entry' do
+        expect { find_in_doc_file("-----\n\n# test.one()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Empty entry.*file\.md:1/)
+      end
+
+      it 'fails on a separator after the last entry' do
+        expect { find_in_doc_file("# test.one()\n\n-----\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Empty entry.*file\.md:3/)
+      end
+
+      it 'fails on an entry that does not start with an H1' do
+        expect { find_in_doc_file("# test.one()\n\n-----\n\n## test.two()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /must start with an H1.*file\.md:5/)
+      end
+
+      it 'fails on a second H1 in an entry, which hints at a missing separator' do
+        expect { find_in_doc_file("# test.one()\n\n---\n\n# test.two()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /second H1.*file\.md:5/)
+      end
+
+      it 'fails on a code block that is never closed' do
+        expect { find_in_doc_file("# test.one()\n\n```js\n\n-----\n\n# test.two()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Unclosed code fence.*file\.md:3/)
+      end
+
+      it 'finds no entries in an empty file' do
+        expect(find_in_doc_file("\n")).to eq([])
+      end
 
     end
 

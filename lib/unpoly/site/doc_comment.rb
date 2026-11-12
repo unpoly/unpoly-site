@@ -2,12 +2,21 @@ module Unpoly
   module Site
     class DocComment
 
+      SEPARATOR = /\A-{5,}[ \t]*\z/
+      HEADING = /\A#[ \t]+(.+?)[ \t]*\z/
+      OPENING_FENCE = /\A[ \t]*(`{3,}(?=[^`]*\z)|~{3,})/
+      CLOSING_FENCE = /\A[ \t]*(`{3,}|~{3,})[ \t]*\z/
+
       def initialize(text)
         @text = text
       end
 
       attr_accessor :text
       attr_accessor :text_source
+
+      # The H1 that heads an entry in a doc file (`up.render()` for `# up.render()`),
+      # nil for a doc comment in a source file. Parser checks it against the entry's title.
+      attr_accessor :heading
 
       delegate :path, :start_line, :end_line, :local_position, to: :text_source
 
@@ -39,10 +48,21 @@ module Unpoly
               end_marker: /\*\//
             )
           elsif extension.include?('.md')
-            [build_for_whole_file(path)]
+            if guide_page_path?(path)
+              [build_for_whole_file(path)]
+            else
+              find_in_doc_file(path)
+            end
           else
             raise "Unsupported extension: #{extension}"
           end
+        end
+
+        # A Markdown file in a pages/ directory is a guide page, one doc comment in its
+        # entirety. Any other Markdown file is a doc file with many entries, holding the
+        # API docs for the source file beside it (fragment.md for fragment.ts).
+        def guide_page_path?(path)
+          path.split('/').include?('pages')
         end
 
         def build_for_whole_file(path)
@@ -54,6 +74,74 @@ module Unpoly
             path: path,
             start_line: 1,
             end_line: last_line_number
+          )
+          comment
+        end
+
+        # A doc file holds the doc comments that would otherwise sit in its source file.
+        # Each entry is an H1 (`# up.render()`), followed by what used to be between
+        # `/*-` and `*/`. Entries are separated by a line of five or more dashes with a
+        # blank line above and below. Shorter rules, and dashes in code blocks or under a
+        # line of text (a setext heading), belong to the entry.
+        def find_in_doc_file(path)
+          lines = File.read(path).lines.map(&:chomp)
+          return [] if lines.all?(&:blank?)
+
+          code = code_block_lines(lines, path)
+
+          # A separator at the start or end of the file counts, so that it fails as an empty entry.
+          separators = lines.each_index.select do |index|
+            lines[index] =~ SEPARATOR && !code.include?(index) &&
+              (index.zero? || lines[index - 1].blank?) && lines[index + 1].to_s.blank?
+          end
+
+          [-1, *separators, lines.size].each_cons(2).map do |separator, next_separator|
+            build_for_doc_file_entry(path, lines, code, (separator + 1)...next_separator)
+          end
+        end
+
+        # The indexes of lines in fenced code blocks, fences included. A fence may be
+        # indented, like one in the body of a @param.
+        def code_block_lines(lines, path)
+          code = Set.new
+          fence = nil
+          fence_index = nil
+
+          lines.each_with_index do |line, index|
+            if fence
+              code << index
+              fence = nil if line =~ CLOSING_FENCE && $1[0] == fence[0] && $1.size >= fence.size
+            elsif line =~ OPENING_FENCE
+              code << index
+              fence = $1
+              fence_index = index
+            end
+          end
+
+          fence and raise Parser::CannotParse, "Unclosed code fence: #{path}:#{fence_index + 1}"
+          code
+        end
+
+        def build_for_doc_file_entry(path, lines, code, range)
+          first = range.detect { |index| lines[index].present? } or
+            raise Parser::CannotParse, "Empty entry (a stray ----- separator?): #{path}:#{[range.first, 1].max}"
+          last = range.reverse_each.detect { |index| lines[index].present? }
+
+          heading = lines[first][HEADING, 1] or
+            raise Parser::CannotParse, "An entry must start with an H1 like '# up.render()': #{path}:#{first + 1}"
+
+          # A second H1 most likely means a missing separator, which merges two entries into one.
+          if (stray = (first + 1..last).detect { |index| lines[index] =~ HEADING && !code.include?(index) })
+            raise Parser::CannotParse, "A second H1 in one entry (a missing ----- separator?): #{path}:#{stray + 1}"
+          end
+
+          comment = new(lines[(first + 1)..last].join("\n").sub(/\A\n+/, '') + "\n")
+          comment.heading = heading
+          comment.text_source = TextSource.new(
+            lines[first..last].join("\n") + "\n",
+            path: path,
+            start_line: first + 1, # one-based
+            end_line: last + 1
           )
           comment
         end
