@@ -184,6 +184,46 @@ module Unpoly
 
       end
 
+      describe '@return' do
+
+        it 'strips the prose of every response, not only of the last one parsed' do
+          interfaces = []
+          repository = double('repository')
+          allow(repository).to receive(:merge_interface) { |interface| interfaces << interface; interface }
+          parser = described_class.new(repository)
+
+          Dir.mktmpdir do |dir|
+            path = File.join(dir, 'returns.js')
+            File.write(path, <<~JS)
+              /*-
+              @namespace test.returns
+              */
+
+              /*-
+              @function test.returns.one
+              @return {boolean}
+                The first response.
+
+              @stable
+              */
+
+              /*-
+              @function test.returns.two
+              @return {boolean}
+                The second response.
+
+              @stable
+              */
+            JS
+            parser.parse_all(dir => [path])
+          end
+
+          proses = interfaces.first.features.map { |feature| feature.response.guide_markdown }
+          expect(proses).to eq(["The first response.\n", "The second response.\n"])
+        end
+
+      end
+
       describe '@see' do
 
         it 'is retired and fails the parse' do
