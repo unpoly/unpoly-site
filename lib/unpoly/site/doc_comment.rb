@@ -3,8 +3,15 @@ module Unpoly
     class DocComment
 
       SEPARATOR = /\A-{5,}[ \t]*\z/
-      HEADING = /\A#[ \t]+(.+?)[ \t]*\z/
-      OPENING_FENCE = /\A[ \t]*(`{3,}(?=[^`]*\z)|~{3,})/
+
+      # An optional closing sequence (`# up.render() #`) is not part of the heading.
+      HEADING = /\A#[ \t]+(.+?)(?:[ \t]+#+)?[ \t]*\z/
+
+      # A backslash escape that a Markdown formatter may add to an H1 (`# \[up-target]`).
+      ESCAPED_PUNCTUATION = /\\([!-\/:-@\[-`{-~])/
+
+      # A fence may open a list item (`1. ```js`).
+      OPENING_FENCE = /\A[ \t]*(?:(?:[-+*]|\d{1,9}[.)])[ \t]+)*(`{3,}(?=[^`]*\z)|~{3,})/
       CLOSING_FENCE = /\A[ \t]*(`{3,}|~{3,})[ \t]*\z/
 
       def initialize(text)
@@ -32,7 +39,8 @@ module Unpoly
           log "Parsing #{path}"
 
           extension = path.match(/\.[^\/]+$/)[0] or raise "Cannot extract extension from path: #{path}"
-          code = File.read(path)
+          # Without a BOM, the first line of a doc file starts with its H1.
+          code = File.read(path, mode: 'r:BOM|UTF-8')
 
           if extension.include?('.coffee')
             find_fenced(
@@ -119,7 +127,10 @@ module Unpoly
             end
           end
 
-          fence and raise Parser::CannotParse, "Unclosed code fence: #{path}:#{fence_index + 1}"
+          if fence
+            raise Parser::CannotParse, "Unclosed code fence (a fence marker in an indented code block opens one too): #{path}:#{fence_index + 1}"
+          end
+
           code
         end
 
@@ -139,7 +150,7 @@ module Unpoly
           # A blank line may hold spaces. Left in, it would set the indent that Util.unindent
           # takes from every line, and the bodies of @params would become prose.
           comment = new(lines[(first + 1)..last].drop_while(&:blank?).join("\n") + "\n")
-          comment.heading = heading
+          comment.heading = heading.gsub(ESCAPED_PUNCTUATION, '\1')
           comment.text_source = TextSource.new(
             lines[first..last].join("\n") + "\n",
             path: path,

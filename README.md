@@ -99,6 +99,7 @@ Replaces elements on the current page with matching elements from a server respo
 - The H1 is for authors and Markdown previews. The site still titles the entry from its
   directives, so the H1 must match that title: `up.render()`, `[up-target]`,
   `up:fragment:loaded`, `new up.Request()`, or `up.Request#abort()` for an instance method.
+  A closing sequence of `#`s and backslash escapes (`# \[up-target]`) are ignored.
 - An empty entry, an entry without an H1, a second H1 in an entry (a missing separator), an
   unclosed code fence and an H1 that does not match fail the parse, like other doc errors.
 - Doc files take no YAML front matter.

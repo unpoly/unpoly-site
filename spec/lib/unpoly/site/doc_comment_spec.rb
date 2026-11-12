@@ -170,6 +170,43 @@ describe Unpoly::Site::DocComment do
         expect(comments[0].text).to include("# Not a heading")
       end
 
+      it 'finds a fence that opens a list item, so that its closing fence does not open another one' do
+        comments = find_in_doc_file(<<~MARKDOWN)
+          # test.one()
+
+          1. ```js
+             up.render()
+             ```
+          - ~~~
+            up.render()
+            ~~~
+
+          -----
+
+          # test.two()
+        MARKDOWN
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.two()'])
+      end
+
+      it 'removes a closing sequence of #s from the H1' do
+        comments = find_in_doc_file("# test.one() ##\n\n-----\n\n# test.Class#method()\n")
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.Class#method()'])
+      end
+
+      it 'removes backslash escapes from the H1' do
+        comments = find_in_doc_file("# \\[test-one]\n\n-----\n\n# \\_test_two\n")
+
+        expect(comments.map(&:heading)).to eq(['[test-one]', '_test_two'])
+      end
+
+      it 'ignores a byte order mark before the first H1' do
+        comments = find_in_doc_file("\uFEFF# test.one()\n\nFirst entry\n")
+
+        expect(comments.map(&:heading)).to eq(['test.one()'])
+      end
+
       it 'fails on a separator before the first entry' do
         expect { find_in_doc_file("-----\n\n# test.one()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Empty entry.*file\.md:1/)
       end
@@ -188,6 +225,10 @@ describe Unpoly::Site::DocComment do
 
       it 'fails on a code block that is never closed' do
         expect { find_in_doc_file("# test.one()\n\n```js\n\n-----\n\n# test.two()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Unclosed code fence.*file\.md:3/)
+      end
+
+      it 'fails on a fence marker in an indented code block, naming that as a cause' do
+        expect { find_in_doc_file("# test.one()\n\n    ```\n\n-----\n\n# test.two()\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Unclosed code fence \(a fence marker in an indented code block opens one too\): .*file\.md:3/)
       end
 
       it 'finds no entries in an empty file' do
