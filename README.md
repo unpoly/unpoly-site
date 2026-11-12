@@ -59,8 +59,8 @@ This README explains how `unpoly-site` is implemented.
 Ruby code in `lib/unpoly/site` parses documentation comments into an AST-like structure
 (the `Unpoly::Site` namespace).
 
-It scans every `.js`, `.ts` and `.md` file under `vendor/unpoly-local/src`, and reads
-documentation blocks from them in three forms:
+It scans every `.js`, `.ts` and `.md` file under `vendor/unpoly-local/src` (also `.coffee`,
+`.coffee.erb` and `.js.erb`), and reads documentation blocks from them in three forms:
 
 - In a `.js` or `.ts` file, every comment opening with `/*-` is a block.
 - A `.md` file in a `pages/` directory below `src` is one block in its entirety: a guide page.
@@ -105,7 +105,7 @@ Replaces elements on the current page with matching elements from a server respo
 - Doc files take no YAML front matter.
 
 The parser feeds each entry into the same pipeline as a `/*-` comment, and remembers its
-lines in the `.md` file (from the H1 to the last line) as its source.
+lines in the `.md` file (from the H1 to the entry's last non-blank line) as its source.
 
 Middleman proxies set up in `config.rb` then create one page per parsed symbol, rendered
 through `source/api/feature_template.html.erb` and
