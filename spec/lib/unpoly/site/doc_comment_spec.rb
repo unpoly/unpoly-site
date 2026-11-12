@@ -107,6 +107,19 @@ describe Unpoly::Site::DocComment do
         ])
       end
 
+      it 'splits entries in a file with CRLF line endings' do
+        comments = find_in_doc_file("# test.one()\r\n\r\nFirst entry\r\n\r\n-----\r\n\r\n# test.two()\r\n\r\nSecond entry\r\n")
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.two()'])
+        expect(comments.map(&:text)).to eq(["First entry\n", "Second entry\n"])
+      end
+
+      it 'splits entries at a separator with trailing whitespace, between lines that hold only whitespace' do
+        comments = find_in_doc_file("# test.one()\n\nFirst entry\n  \n----- \t\n\t\n# test.two()\n")
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.two()'])
+      end
+
       it 'keeps the bodies of @params when the blank line after the H1 holds spaces' do
         comments = find_in_doc_file("# test.one()\n  \nProse\n@param foo\n  Desc\n")
 
@@ -170,6 +183,42 @@ describe Unpoly::Site::DocComment do
         expect(comments[0].text).to include("# Not a heading")
       end
 
+      it 'keeps lines of dashes and H1s in a ~~~ fence or a longer backtick fence, which a ``` does not close' do
+        comments = find_in_doc_file(<<~MARKDOWN)
+          # test.one()
+
+          ~~~
+          ```
+
+          -----
+
+          # Not a heading
+          ~~~
+
+          ````md
+          ```
+
+          -----
+
+          # Not a heading
+          ```
+          ````
+
+          ```
+
+          -----
+
+          # Not a heading
+          `````
+
+          -----
+
+          # test.two()
+        MARKDOWN
+
+        expect(comments.map(&:heading)).to eq(['test.one()', 'test.two()'])
+      end
+
       it 'finds a fence that opens a list item, so that its closing fence does not open another one' do
         comments = find_in_doc_file(<<~MARKDOWN)
           # test.one()
@@ -213,6 +262,10 @@ describe Unpoly::Site::DocComment do
 
       it 'fails on a separator after the last entry' do
         expect { find_in_doc_file("# test.one()\n\n-----\n") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Empty entry.*file\.md:3/)
+      end
+
+      it 'fails on a separator after the last entry, also without a trailing line feed' do
+        expect { find_in_doc_file("# test.one()\n\n-----") }.to raise_error(Unpoly::Site::Parser::CannotParse, /Empty entry.*file\.md:3/)
       end
 
       it 'fails on an entry that does not start with an H1' do

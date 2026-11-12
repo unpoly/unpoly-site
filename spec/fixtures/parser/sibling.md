@@ -56,3 +56,49 @@ A selector.
 @param {string} [test-sibling-option]
   An option.
 @stable
+
+-----
+
+# new test.sibling.Thing()
+
+A constructor.
+
+@constructor test.sibling.Thing
+@stable
+
+-----
+
+# test.sibling.Thing#element
+
+A property, headed by its menu title.
+
+@property test.sibling.Thing#element
+@stable
+
+-----
+
+# test.sibling.Thing.prototype.other
+
+A property, headed by its full name.
+
+@property test.sibling.Thing.prototype.other
+@stable
+
+-----
+
+# test:sibling:event
+
+An event.
+
+@include test.sibling.partial
+
+@event test:sibling:event
+@stable
+
+-----
+
+# test.sibling.partial
+
+Text from a partial.
+
+@partial test.sibling.partial

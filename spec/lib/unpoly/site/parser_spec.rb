@@ -156,14 +156,35 @@ module Unpoly
 
         it "remembers the file and the entry's line range, from its H1 to its last line" do
           function = Site.current.find_by_name!('test.sibling.function')
+          lines = File.readlines('spec/fixtures/parser/sibling.md', chomp: true)
+          start_line = lines.index('# test.sibling.function()') + 1
+          end_line = lines.index('# test.sibling.Thing#method()') - 3 # above the blank line, the separator and the blank line
 
           expect(function.text_source.path).to end_with('spec/fixtures/parser/sibling.md')
-          expect(function.text_source.start_line).to eq(9)
-          expect(function.text_source.end_line).to eq(38)
+          expect(function.text_source.start_line).to eq(start_line)
+          expect(function.text_source.end_line).to eq(end_line)
+          expect(lines[end_line - 1]).to eq('@stable')
         end
 
         it 'accepts the title of an instance method in the menu (up.Class#method())' do
           expect(Site.current.find_by_name!('test.sibling.Thing.prototype.method')).to be_present
+        end
+
+        it 'accepts the H1 of a constructor (new up.Class())' do
+          expect(Site.current.find_by_guide_id!('test.sibling.Thing.new')).to be_constructor
+        end
+
+        it 'accepts the H1 of a property, by its title in the menu (up.Class#property) or its full name' do
+          expect(Site.current.find_by_name!('test.sibling.Thing.prototype.element')).to be_property
+          expect(Site.current.find_by_name!('test.sibling.Thing.prototype.other')).to be_property
+        end
+
+        it 'accepts the H1 of an event' do
+          expect(Site.current.find_by_name!('test:sibling:event')).to be_event
+        end
+
+        it 'accepts the H1 of a partial, which other entries can include' do
+          expect(Site.current.find_by_name!('test:sibling:event').guide_markdown).to include('Text from a partial.')
         end
 
         it "fails the parse when an entry's H1 does not match its title" do
