@@ -3,7 +3,7 @@ describe Unpoly::Site::DocComment do
   describe '.find_in_path' do
 
     it 'finds doc comments in a CoffeeScript file' do
-      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.coffee')
+      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.coffee', root: 'spec/fixtures/doc_comment')
 
       expect(comments.size).to eq(2)
 
@@ -17,7 +17,7 @@ describe Unpoly::Site::DocComment do
     end
 
     it 'finds doc comments in a JavaScript file' do
-      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.js')
+      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.js', root: 'spec/fixtures/doc_comment')
 
       expect(comments.size).to eq(2)
 
@@ -31,7 +31,7 @@ describe Unpoly::Site::DocComment do
     end
 
     it 'finds doc comments in a TypeScript file' do
-      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.ts')
+      comments = described_class.find_in_path('spec/fixtures/doc_comment/file.ts', root: 'spec/fixtures/doc_comment')
 
       expect(comments.size).to eq(2)
 
@@ -45,14 +45,26 @@ describe Unpoly::Site::DocComment do
     end
 
     it 'considers a Markdown file in a pages directory as a single doc comment' do
-      comments = described_class.find_in_path('spec/fixtures/doc_comment/pages/file.md')
+      comments = described_class.find_in_path('spec/fixtures/doc_comment/pages/file.md', root: 'spec/fixtures/doc_comment')
 
       expect(comments.size).to eq(1)
 
       expect(comments[0].start_line).to eq(1)
       expect(comments[0].end_line).to eq(2)
       expect(comments[0].text).to eq("Doc comment\nSecond line\n")
+    end
 
+    it 'only considers a pages directory below the root, not one above it' do
+      Dir.mktmpdir do |dir|
+        root = File.join(dir, 'pages', 'unpoly', 'src')
+        FileUtils.mkdir_p(File.join(root, 'pages'))
+        markdown = "# test.one()\n\n-----\n\n# test.two()\n"
+        File.write(File.join(root, 'doc.md'), markdown)
+        File.write(File.join(root, 'pages', 'guide.md'), markdown)
+
+        expect(described_class.find_in_path(File.join(root, 'doc.md'), root: root).size).to eq(2)
+        expect(described_class.find_in_path(File.join(root, 'pages', 'guide.md'), root: root).size).to eq(1)
+      end
     end
 
     describe 'a Markdown doc file beside a source file' do
@@ -61,7 +73,7 @@ describe Unpoly::Site::DocComment do
         Dir.mktmpdir do |dir|
           path = File.join(dir, 'file.md')
           File.write(path, markdown)
-          described_class.find_in_path(path)
+          described_class.find_in_path(path, root: dir)
         end
       end
 

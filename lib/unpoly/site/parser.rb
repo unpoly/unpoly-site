@@ -242,8 +242,11 @@ module Unpoly
         @documentables_by_index_name = {}
       end
 
-      def parse_all(paths)
-        doc_comments = paths.flat_map { |path| DocComment.find_in_path(path) }
+      # Takes the paths to parse, grouped by the directory that they were found in.
+      def parse_all(paths_by_root)
+        doc_comments = paths_by_root.flat_map do |root, paths|
+          paths.flat_map { |path| DocComment.find_in_path(path, root: root) }
+        end
 
         total_size = doc_comments.sum { |dc| dc.text.size }
         puts "TOTAL SIZE OF COMMENTS: #{total_size} characters"

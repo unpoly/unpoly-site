@@ -421,13 +421,13 @@ module Unpoly
       def parse
         log "parse()"
         parser = Parser.new(self)
-        paths = source_paths
-        log("Source paths", paths)
-        parser.parse_all(source_paths)
+        paths_by_root = source_paths_by_root
+        log("Source paths", paths_by_root)
+        parser.parse_all(paths_by_root)
       end
 
-      def source_paths
-        source_paths_for_root(File.join(path, "src")) + source_paths_for_root('spec/fixtures/parser')
+      def source_paths_by_root
+        [File.join(path, "src"), 'spec/fixtures/parser'].index_with { |root| source_paths_for_root(root) }
       end
 
       def source_paths_for_root(root)

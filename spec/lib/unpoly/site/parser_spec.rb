@@ -132,7 +132,7 @@ module Unpoly
             path = File.join(dir, 'titled.js')
             File.write(path, "/*-\nTitled namespace\n=============\n\n@namespace test.titled\n*/\n")
 
-            expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Only a @page takes a title/)
+            expect { subject.parse_all(dir => [path]) }.to raise_error(Parser::CannotParse, /Only a @page takes a title/)
           end
         end
 
@@ -175,7 +175,7 @@ module Unpoly
             path = File.join(dir, 'mismatch.md')
             File.write(path, "# test.mismatch\n\n@namespace test.mismatch\n\n-----\n\n# test.mismatch.other()\n\n@function test.mismatch.function\n@stable\n")
 
-            expect { parser.parse_all([path]) }.to raise_error(
+            expect { parser.parse_all(dir => [path]) }.to raise_error(
               Parser::CannotParse,
               /H1 '# test.mismatch.other\(\)' does not match .* expected '# test.mismatch.function\(\)': .*mismatch\.md:7:10/
             )
@@ -191,7 +191,7 @@ module Unpoly
             path = File.join(dir, 'retired.js')
             File.write(path, "/*-\n@function test.retired\n@see test.module.function\n@stable\n*/\n")
 
-            expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Retired directive @see/)
+            expect { subject.parse_all(dir => [path]) }.to raise_error(Parser::CannotParse, /Retired directive @see/)
           end
         end
 

@@ -27,7 +27,8 @@ module Unpoly
       class << self
         include Logger
 
-        def find_in_path(path)
+        # The root is the directory that the path was found in.
+        def find_in_path(path, root:)
           log "Parsing #{path}"
 
           extension = path.match(/\.[^\/]+$/)[0] or raise "Cannot extract extension from path: #{path}"
@@ -48,10 +49,10 @@ module Unpoly
               end_marker: /\*\//
             )
           elsif extension.include?('.md')
-            if guide_page_path?(path)
-              [build_for_whole_file(path)]
+            if guide_page_path?(path, root)
+              [build_for_whole_file(path, code)]
             else
-              find_in_doc_file(path)
+              find_in_doc_file(path, code)
             end
           else
             raise "Unsupported extension: #{extension}"
@@ -61,12 +62,12 @@ module Unpoly
         # A Markdown file in a pages/ directory is a guide page, one doc comment in its
         # entirety. Any other Markdown file is a doc file with many entries, holding the
         # API docs for the source file beside it (fragment.md for fragment.ts).
-        def guide_page_path?(path)
-          path.split('/').include?('pages')
+        # Only directories below the root count, not those above it (a checkout in ~/pages/).
+        def guide_page_path?(path, root)
+          Pathname.new(path).relative_path_from(Pathname.new(root)).each_filename.include?('pages')
         end
 
-        def build_for_whole_file(path)
-          text = File.read(path)
+        def build_for_whole_file(path, text)
           last_line_number = Util.count_linefeeds(text) # line after last line feed does not appear in GitHub
           comment = new(text)
           comment.text_source = TextSource.new(
@@ -83,8 +84,8 @@ module Unpoly
         # `/*-` and `*/`. Entries are separated by a line of five or more dashes with a
         # blank line above and below. Shorter rules, and dashes in code blocks or under a
         # line of text (a setext heading), belong to the entry.
-        def find_in_doc_file(path)
-          lines = File.read(path).lines.map(&:chomp)
+        def find_in_doc_file(path, text)
+          lines = text.lines.map(&:chomp)
           return [] if lines.all?(&:blank?)
 
           code = code_block_lines(lines, path)

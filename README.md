@@ -63,7 +63,7 @@ It scans every `.js`, `.ts` and `.md` file under `vendor/unpoly-local/src`, and 
 documentation blocks from them in three forms:
 
 - In a `.js` or `.ts` file, every comment opening with `/*-` is a block.
-- A `.md` file in a `pages/` directory is one block in its entirety: a guide page.
+- A `.md` file in a `pages/` directory below `src` is one block in its entirety: a guide page.
 - Any other `.md` file is a **doc file** holding the blocks for the source file next to it,
   with the same base name (`src/unpoly/fragment.md` for `src/unpoly/fragment.ts`). See below.
 
