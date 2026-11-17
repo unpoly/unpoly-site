@@ -132,8 +132,115 @@ module Unpoly
             path = File.join(dir, 'titled.js')
             File.write(path, "/*-\nTitled namespace\n=============\n\n@namespace test.titled\n*/\n")
 
-            expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Only a @page takes a title/)
+            expect { subject.parse_all(dir => [path]) }.to raise_error(Parser::CannotParse, /Only a @page takes a title/)
           end
+        end
+
+      end
+
+      describe 'a doc file beside a source file' do
+
+        # From spec/fixtures/parser/sibling.md
+        it 'parses its entries like doc comments' do
+          function = Site.current.find_by_name!('test.sibling.function')
+
+          expect(function.interface.name).to eq('test.sibling')
+          expect(function.params.map(&:name)).to eq(['target'])
+          expect(function.params.first.types).to eq(['string'])
+          expect(function.response.types).to eq(['boolean'])
+          expect(function).to be_stable
+          expect(function.guide_markdown).to start_with('A function documented in a doc file.')
+          expect(function.guide_markdown).not_to include('# test.sibling.function()')
+          expect(function.guide_markdown).to include("Setext heading\n--------------")
+        end
+
+        it "remembers the file and the entry's line range, from its H1 to its last line" do
+          function = Site.current.find_by_name!('test.sibling.function')
+          lines = File.readlines('spec/fixtures/parser/sibling.md', chomp: true)
+          start_line = lines.index('# test.sibling.function()') + 1
+          end_line = lines.index('# test.sibling.Thing#method()') - 3 # above the blank line, the separator and the blank line
+
+          expect(function.text_source.path).to end_with('spec/fixtures/parser/sibling.md')
+          expect(function.text_source.start_line).to eq(start_line)
+          expect(function.text_source.end_line).to eq(end_line)
+          expect(lines[end_line - 1]).to eq('@stable')
+        end
+
+        it 'accepts the title of an instance method in the menu (up.Class#method())' do
+          expect(Site.current.find_by_name!('test.sibling.Thing.prototype.method')).to be_present
+        end
+
+        it 'accepts the H1 of a constructor (new up.Class())' do
+          expect(Site.current.find_by_guide_id!('test.sibling.Thing.new')).to be_constructor
+        end
+
+        it 'accepts the H1 of a property, by its title in the menu (up.Class#property) or its full name' do
+          expect(Site.current.find_by_name!('test.sibling.Thing.prototype.element')).to be_property
+          expect(Site.current.find_by_name!('test.sibling.Thing.prototype.other')).to be_property
+        end
+
+        it 'accepts the H1 of an event' do
+          expect(Site.current.find_by_name!('test:sibling:event')).to be_event
+        end
+
+        it 'accepts the H1 of a partial, which other entries can include' do
+          expect(Site.current.find_by_name!('test:sibling:event').guide_markdown).to include('Text from a partial.')
+        end
+
+        it "fails the parse when an entry's H1 does not match its title" do
+          repository = double('repository')
+          allow(repository).to receive(:merge_interface) { |interface| interface }
+          parser = described_class.new(repository)
+
+          Dir.mktmpdir do |dir|
+            path = File.join(dir, 'mismatch.md')
+            File.write(path, "# test.mismatch\n\n@namespace test.mismatch\n\n-----\n\n# test.mismatch.other()\n\n@function test.mismatch.function\n@stable\n")
+
+            expect { parser.parse_all(dir => [path]) }.to raise_error(
+              Parser::CannotParse,
+              /H1 '# test.mismatch.other\(\)' does not match .* expected '# test.mismatch.function\(\)': .*mismatch\.md:7:10/
+            )
+          end
+        end
+
+      end
+
+      describe '@return' do
+
+        it 'strips the prose of every response, not only of the last one parsed' do
+          interfaces = []
+          repository = double('repository')
+          allow(repository).to receive(:merge_interface) { |interface| interfaces << interface; interface }
+          parser = described_class.new(repository)
+
+          Dir.mktmpdir do |dir|
+            path = File.join(dir, 'returns.js')
+            File.write(path, <<~JS)
+              /*-
+              @namespace test.returns
+              */
+
+              /*-
+              @function test.returns.one
+              @return {boolean}
+                The first response.
+
+              @stable
+              */
+
+              /*-
+              @function test.returns.two
+              @return {boolean}
+                The second response.
+
+              @stable
+              */
+            JS
+            parser.parse_all(dir => [path])
+          end
+
+          proses = interfaces.first.features.map { |feature| feature.response.guide_markdown }
+          expect(proses).to eq(["The first response.\n", "The second response.\n"])
         end
 
       end
@@ -145,7 +252,7 @@ module Unpoly
             path = File.join(dir, 'retired.js')
             File.write(path, "/*-\n@function test.retired\n@see test.module.function\n@stable\n*/\n")
 
-            expect { subject.parse_all([path]) }.to raise_error(Parser::CannotParse, /Retired directive @see/)
+            expect { subject.parse_all(dir => [path]) }.to raise_error(Parser::CannotParse, /Retired directive @see/)
           end
         end
 
