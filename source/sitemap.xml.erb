@@ -7,9 +7,24 @@
   It has no <lastmod>: a documentation page is assembled from many source files and
   partials, so no cheap date would be accurate. Crawlers ignore <priority> and
   <changefreq>.
+
+  The pages come in order of importance: the landing page, Learn, API, the other pages,
+  and the release notes last. Each group is sorted by URL.
+%>
+<%
+  urls = sitemap.resources.select { |resource| indexable?(resource) }.map { |resource| canonical_url(resource) }
+  rank = ->(url) {
+    case URI(url).path
+    when '/' then 0
+    when %r{\A/learn(/|\z)} then 1
+    when %r{\A/api(/|\z)} then 2
+    when %r{\A/changes(/|\z)} then 4
+    else 3
+    end
+  }
 %>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<% sitemap.resources.select { |resource| indexable?(resource) }.map { |resource| canonical_url(resource) }.sort.each do |url| %>
+<% urls.sort_by { |url| [rank.(url), url] }.each do |url| %>
   <url><loc><%= h url %></loc></url>
 <% end %>
 </urlset>

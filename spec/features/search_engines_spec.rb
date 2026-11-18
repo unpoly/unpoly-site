@@ -89,6 +89,15 @@ describe 'search engines', type: :feature do
       expect(paths).not_to include('/changes/external_post', '/changes/google_groups')
     end
 
+    it 'lists the landing page, then Learn, API, the other pages, and the release notes last, each by URL' do
+      paths = sitemap_urls.map { |url| url.delete_prefix('https://unpoly.com') }
+      area = ->(path) { path[%r{\A/(learn|api|changes)(?=/|\z)}, 1] || (path == '/' ? 'landing' : 'other') }
+      areas = paths.map(&area)
+
+      expect(areas.chunk_while { |a, b| a == b }.map(&:first)).to eq(%w[landing learn api other changes])
+      paths.group_by(&area).each_value { |group| expect(group).to eq(group.sort_by { |path| "https://unpoly.com#{path}" }) }
+    end
+
     it 'has no <lastmod>, <priority> or <changefreq>' do
       visit '/sitemap.xml'
       expect(page.body).not_to match(/<(lastmod|priority|changefreq)>/)
