@@ -373,6 +373,20 @@ helpers do
     end
   end
 
+  # Gives the mod_alias redirects in the block (Redirect, RedirectPermanent,
+  # RedirectMatch, ...) the site's origin in front of a target that is a bare path.
+  # Apache sits behind a proxy that ends TLS, so it would build an http:// Location
+  # from a bare path, and a crawler would need a second hop to the https page. The
+  # sources keep bare paths (UrlCheck and script/url_move.rb read them), and the origin
+  # follows ENV['BASE_URL'], so a build for another host redirects to that host.
+  def absolute_redirects(&block)
+    origin = Unpoly::Site.base_url
+    directives = capture_html(&block).gsub(%r{^(\s*Redirect\w*(?:\s+(?:permanent|temp|seeother|\d{3}))?\s+[/^]\S*\s+)(/\S*)}) do
+      "#{$1}#{origin}#{$2}"
+    end
+    concat_content(directives)
+  end
+
   # ---------- Markdown for agents ----------
 
   def markdown_twins

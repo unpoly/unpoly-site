@@ -22,6 +22,19 @@ describe 'the .htaccess', type: :feature do
     end
   end
 
+  it 'names the https scheme in every redirect of mod_alias, with the site origin for its own pages' do
+    redirects = htaccess.lines.map(&:strip).grep(/\ARedirect\w*\s/)
+
+    expect(redirects.size).to be > 100
+    redirects.each do |redirect|
+      target = redirect.split(/\s+/).last
+      expect(target).to start_with('https://'), "#{redirect} redirects without a scheme"
+    end
+    expect(redirects).to include('RedirectPermanent /community https://unpoly.com/support')
+    expect(redirects).to include('RedirectMatch permanent ^/examples(/.*)?$ https://unpoly.com/learn')
+    expect(redirects).to include('RedirectPermanent /discuss https://github.com/unpoly/unpoly/discussions')
+  end
+
   it 'sends other hosts to unpoly.com before it maps paths to their index.html' do
     host = rewrite_rules.index { |rule| rule.include?('https://unpoly.com/') }
     index = rewrite_rules.index { |rule| rule.include?('/index.html [L]') }
@@ -104,7 +117,7 @@ describe 'the .htaccess', type: :feature do
   end
 
   it 'sends the retired runnable examples to Learn, as the site serves none of them' do
-    expect(htaccess).to include('RedirectMatch permanent ^/examples(/.*)?$ /learn')
+    expect(htaccess).to include('RedirectMatch permanent ^/examples(/.*)?$ https://unpoly.com/learn')
 
     request = Rack::MockRequest.new(Capybara.app)
     expect(request.get('/examples/modal').status).to eq(404)
@@ -112,14 +125,14 @@ describe 'the .htaccess', type: :feature do
 
   # `rake docs:check_redirects` follows every one of these rules on a real Apache.
   describe 'attribute params' do
-    # { 'up-target' => '/api/up-follow#up-target' }
+    # { 'up-target' => '/api/up-follow#up-target' }, without the origin that the build adds
     def targets
-      @targets ||= htaccess.scan(/^RedirectMatch permanent \^\/\(api\/\)\?(\S+)\$ (\S+)$/)
+      @targets ||= htaccess.scan(/^RedirectMatch permanent \^\/\(api\/\)\?(\S+)\$ https:\/\/unpoly\.com(\S+)$/)
         .to_h { |pattern, target| [pattern.delete('\\'), target] }
     end
 
     it 'redirects /up-target and /api/up-target with one rule' do
-      expect(htaccess).to include('RedirectMatch permanent ^/(api/)?up\-target$ /api/up-follow#up-target')
+      expect(htaccess).to include('RedirectMatch permanent ^/(api/)?up\-target$ https://unpoly.com/api/up-follow#up-target')
     end
 
     it 'redirects a param to the first of [up-follow], [up-submit] and [up-watch] that takes it' do

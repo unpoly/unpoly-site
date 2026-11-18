@@ -103,6 +103,9 @@ RewriteRule ^index\.md$ - [E=MARKDOWN_CANONICAL:/llms.txt]
 RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
 RewriteRule ^(.+?)$  /$1/index.html [L]
 
+# The redirects below name bare paths, but the build puts the site's origin in front of
+# them (absolute_redirects in config.rb), like the RewriteRules above name https://.
+<% absolute_redirects do %>
 RedirectPermanent /install/rails /learn/server-protocol
 RedirectPermanent /install/ruby /learn/server-protocol
 RedirectPermanent /install/php /learn/server-protocol
@@ -132,6 +135,7 @@ RedirectMatch permanent ^/examples(/.*)?$ /learn
 # An attribute that modifies another one has no page of its own, so /up-target and
 # /api/up-target go to its section, /api/up-follow#up-target (ParamRedirects).
 <%= guide.param_redirects %>
+<% end %>
 
 Header set Cache-Control "max-age=0, private"
 

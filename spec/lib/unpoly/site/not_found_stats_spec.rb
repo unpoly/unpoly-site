@@ -54,9 +54,10 @@ describe Unpoly::Site::NotFoundStats do
     page('learn/tooltips')
     write(File.join(build, 'images/favicon-690c22d3.png'), '')
     write(File.join(build, '.htaccess'), <<~HTACCESS)
-      RedirectPermanent /community /support
-      RedirectMatch permanent ^/examples(/.*)?$ /learn
-      RedirectPermanent /up.proxy /api/up.network
+      RedirectPermanent /community https://unpoly.com/support
+      RedirectMatch permanent ^/examples(/.*)?$ https://unpoly.com/learn
+      RedirectPermanent /up.proxy https://unpoly.com/api/up.network
+      RedirectPermanent /discuss https://github.com/unpoly/unpoly/discussions
     HTACCESS
     page('support')
     write(File.join(migrate, 'modal.js'), <<~JS)
@@ -100,13 +101,14 @@ describe Unpoly::Site::NotFoundStats do
   end
 
   it 'counts a path as fixed when the build serves it, or .htaccess redirects it by now' do
-    result = stats(*%w[/api/up.render /up.render /up.render.md /community/thread /examples/modal /up.proxy /up.proxy.config].map { |path| line(path) })
+    result = stats(*%w[/api/up.render /up.render /up.render.md /community/thread /examples/modal /up.proxy /up.proxy.config /discuss].map { |path| line(path) })
     expect(row(result, '/api/up.render')).to eq(kind: :fixed, target: '/api/up.render', note: nil)
     expect(row(result, '/up.render')).to eq(kind: :fixed, target: '/api/up.render', note: nil)
     expect(row(result, '/up.render.md')).to eq(kind: :fixed, target: '/api/up.render.md', note: nil)
     expect(row(result, '/community/thread')).to eq(kind: :fixed, target: '/support/thread', note: nil)
     expect(row(result, '/examples/modal')).to eq(kind: :fixed, target: '/learn', note: nil)
     expect(row(result, '/up.proxy')).to eq(kind: :fixed, target: '/api/up.network', note: nil)
+    expect(row(result, '/discuss')).to eq(kind: :fixed, target: 'https://github.com/unpoly/unpoly/discussions', note: nil)
     # Like Apache, a redirect from /up.proxy only covers the paths below it.
     expect(row(result, '/up.proxy.config')[:kind]).not_to eq(:fixed)
   end

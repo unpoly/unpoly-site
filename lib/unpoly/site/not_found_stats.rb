@@ -152,15 +152,21 @@ module Unpoly
         File.file?(File.join(@build, path.end_with?('.md') ? path : File.join(path, 'index.html')))
       end
 
-      # [pattern, target] for each RedirectPermanent and RedirectMatch.
+      # [pattern, target] for each RedirectPermanent and RedirectMatch. The build names our
+      # own pages with the site's origin (absolute_redirects in config.rb): we keep their path.
       def read_redirects(file)
         File.foreach(file).filter_map do |line|
           case line
           # A prefix: /from also redirects /from/foo, to /to/foo.
-          when /^\s*RedirectPermanent\s+(\S+)\s+(\S+)/ then [%r{\A#{Regexp.escape($1)}(/.*)?\z}, "#{$2}$1"]
-          when /^\s*RedirectMatch\s+(?:permanent\s+)?(\S+)\s+(\S+)/ then [Regexp.new($1), $2]
+          when /^\s*RedirectPermanent\s+(\S+)\s+(\S+)/ then [%r{\A#{Regexp.escape($1)}(/.*)?\z}, "#{own_path($2)}$1"]
+          when /^\s*RedirectMatch\s+(?:permanent\s+)?(\S+)\s+(\S+)/ then [Regexp.new($1), own_path($2)]
           end
         end
+      end
+
+      # 'https://unpoly.com/support' => '/support'. Other URLs stay as they are.
+      def own_path(target)
+        target.start_with?("#{Site.base_url}/") ? target.delete_prefix(Site.base_url) : target
       end
 
       # '/api/up.util.isNumber()' => '/up.util.isNumber'. '/[up-target]' => '/up-target'.

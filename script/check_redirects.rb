@@ -10,8 +10,9 @@
 #
 # - Every document's old root path, as /foo, /foo/ and /foo.md, answers 301 with an
 #   https Location of its final page (/learn/foo, /api/foo, plus .md), which answers 200.
-# - Every redirect source (hand-written, or of an attribute param) answers 301 to its
-#   target, which answers 200 (one hop). External targets are not requested.
+# - Every redirect source (hand-written, or of an attribute param) answers 301 with an
+#   https Location of its target, which answers 200 (one hop). External targets are not
+#   requested.
 # - /install and /skill (permanent short URLs) redirect to their pages.
 # - The hubs and other root pages answer 200, an unknown path 404.
 #
@@ -64,17 +65,16 @@ class CheckRedirects
     PERMANENT_SHORT_URLS.each do |path|
       target = @links.moves[path] || @url_check.redirects[path]
       if target
-        expect_redirect(path, target, kind: :short)
+        expect_redirect(path, target, https: true, kind: :short)
       else
         problem(path, 'is a permanent short URL, but neither a document nor a redirect')
       end
     end
   end
 
-  # mod_alias builds an http:// Location behind the TLS proxy, so we don't demand https.
   def check_renames
     @url_check.redirects.sort.each do |from, to|
-      expect_redirect(from, to, kind: :rename)
+      expect_redirect(from, to, https: true, kind: :rename)
     end
   end
 
