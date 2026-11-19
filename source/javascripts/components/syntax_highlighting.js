@@ -38,9 +38,16 @@ function maskTags(html) {
   return { masked, restore }
 }
 
+// Unpoly keeps its own escapeRegExp() and uid() internal, so we bring ours.
+function escapeRegExp(string) {
+  return string.replace(/[\\^$.*+?()[\]{}|-]/g, '\\$&')
+}
+
+let lastLabelID = 0
+
 function markInHighlightedHTML(html, phrase) {
   let { masked, restore } = maskTags(html)
-  let interruptedPhrasePattern = phrase.replaceAll(/([a-z]+|[0-9]+|.)/gi, (match) => up.util.escapeRegExp(match) + '([\\uE000-\\uF8FF])?')
+  let interruptedPhrasePattern = phrase.replaceAll(/([a-z]+|[0-9]+|.)/gi, (match) => escapeRegExp(match) + '([\\uE000-\\uF8FF])?')
   let interruptedPhraseRegExp = new RegExp(interruptedPhrasePattern)
   let marked = masked.replace(interruptedPhraseRegExp, markOutsideMask)
   return restore(marked)
@@ -87,7 +94,7 @@ up.compiler('pre code', function(codeElement) {
     /^<span class="hljs-comment">.{0,10}\blabel:\s+([^\n]+?)<\/span>\n/,
     function(match, labelText) {
       labelText = removeCommentCloser(labelText)
-      const labelUID = "code-block-label-" + up.util.uid()
+      const labelUID = "code-block-label-" + (++lastLabelID)
       const labelElement = up.element.createFromSelector('.code-block-label', {text: labelText, id: labelUID})
       preElement.prepend(labelElement)
       preElement.setAttribute('aria-describedby', labelUID)
